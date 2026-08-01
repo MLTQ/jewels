@@ -57,9 +57,14 @@ classifier-free guidance. Each pair: **[real fitted window | generated sample]**
 Scene layout, palette, and per-dimension feature marginals match the corpus within a few
 percent; fine detail is v0-grade fever dream. Note what is *already* free: the samples are
 temporally stable — no flicker — because coherence lives in the representation, not the model.
-A 58M-parameter run with EMA, bf16, cosine schedule, and mirror augmentation is training now.
 
 ![four samples, frames 0/21/42/63](assets/prior_samples_sheet.png)
+
+**v1** (58M params, 50k steps / 2.7 h, EMA, bf16, mirror-augmented corpus) sharpens the story
+considerably — pillars, notice board, ceiling beams, floor geometry, and pedestrian figures
+all present and temporally stable:
+
+![v1 prior sample: real fit | generated](assets/prior_sample_v1.gif)
 
 ### Numbers so far
 
