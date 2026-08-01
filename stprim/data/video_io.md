@@ -13,6 +13,14 @@ Decode a clip to (T,H,W,3) float in [0,1], plus the synthetic falsification volu
 - `resize` as an int means "short side, aspect preserved" and is what CLIs pass — the source
   aspect isn't known before decode, so callers can't compute (H, W) themselves. The tuple form
   remains for explicit control (and will distort if it disagrees with the source aspect).
+- `start_frame` skips sequentially rather than codec-seeking: exact, decoder-agnostic, and
+  O(start) cost is irrelevant next to fitting. Added for corpus windowing (`cli/fit_corpus.py`).
+
+### `count_frames(path)`
+- **Does**: total frames via container metadata, falling back to a counting decode
+- **Rationale**: window enumeration needs counts without loading pixels; AVI/MP4 metadata is
+  usually right, and the fallback catches the liars (fit_corpus also drops partial tail
+  windows at load time as a second guard).
 
 ### `synthetic_tube(T, H, W)`
 - **Does**: a blob translating linearly — literally a sheared tube in (u,v,t)

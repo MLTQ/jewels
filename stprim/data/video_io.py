@@ -19,49 +19,81 @@ import numpy as np
 import torch
 
 
-def _decode_pyav(path: str, max_frames: int | None):
+def _decode_pyav(path: str, max_frames: int | None, start_frame: int):
     import av  # noqa
 
     frames = []
     with av.open(path) as container:
         for i, frame in enumerate(container.decode(video=0)):
-            if max_frames is not None and i >= max_frames:
+            if i < start_frame:
+                continue
+            if max_frames is not None and len(frames) >= max_frames:
                 break
             frames.append(frame.to_ndarray(format="rgb24"))
     return np.stack(frames)
 
 
-def _decode_cv2(path: str, max_frames: int | None):
+def _decode_cv2(path: str, max_frames: int | None, start_frame: int):
     import cv2  # noqa
 
     cap = cv2.VideoCapture(path)
     frames = []
+    i = 0
     while True:
         if max_frames is not None and len(frames) >= max_frames:
             break
         ok, f = cap.read()
         if not ok:
             break
-        frames.append(cv2.cvtColor(f, cv2.COLOR_BGR2RGB))
+        if i >= start_frame:
+            frames.append(cv2.cvtColor(f, cv2.COLOR_BGR2RGB))
+        i += 1
     cap.release()
     return np.stack(frames)
 
 
-def _decode_imageio(path: str, max_frames: int | None):
+def _decode_imageio(path: str, max_frames: int | None, start_frame: int):
     import imageio.v3 as iio  # noqa
 
     frames = []
     for i, f in enumerate(iio.imiter(path)):
-        if max_frames is not None and i >= max_frames:
+        if i < start_frame:
+            continue
+        if max_frames is not None and len(frames) >= max_frames:
             break
         frames.append(f[..., :3])
     return np.stack(frames)
+
+
+def count_frames(path: str | Path) -> int:
+    """Total frame count, by metadata when trustworthy, else by decoding.
+
+    Sequential-skip windowing (`start_frame`) needs this to enumerate windows
+    without loading pixels.
+    """
+    path = str(path)
+    try:
+        import av  # noqa
+
+        with av.open(path) as container:
+            n = container.streams.video[0].frames
+            if n and n > 0:
+                return int(n)
+            return sum(1 for _ in container.decode(video=0))
+    except ImportError:
+        import cv2  # noqa
+
+        cap = cv2.VideoCapture(path)
+        n = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+        cap.release()
+        return n
 
 
 def load_video(
     path: str | Path,
     *,
     max_frames: int | None = 32,
+    start_frame: int = 0,
     resize: int | tuple[int, int] | None = None,
     device: str | torch.device = "cpu",
 ) -> torch.Tensor:
@@ -71,12 +103,16 @@ def load_video(
     aspect isn't known until decode, so it can't be the caller's job) — or an
     explicit (H, W). Downscaling here rather than after loading keeps peak host
     memory bounded for long clips.
+
+    `start_frame` skips sequentially (no codec seeking — exact and simple).
+    Windowing a long clip is O(start) decode per window; fine at corpus scale
+    because fitting dominates decode by orders of magnitude.
     """
     path = str(path)
     errors = []
     for fn in (_decode_pyav, _decode_cv2, _decode_imageio):
         try:
-            arr = fn(path, max_frames)
+            arr = fn(path, max_frames, start_frame)
             break
         except Exception as e:  # noqa: BLE001
             errors.append(f"{fn.__name__}: {e}")

@@ -90,6 +90,7 @@ def main() -> None:
     ap.add_argument("--num-init", type=int, default=1500)
     ap.add_argument("--max-primitives", type=int, default=6000)
     ap.add_argument("--voxels", type=int, default=65536)
+    ap.add_argument("--t-scale", type=float, default=1.0)
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--device", type=str, default="cuda")
     ap.add_argument("--upscale", type=int, default=2)
@@ -112,7 +113,7 @@ def main() -> None:
     cfg = FitConfig(
         steps=args.steps, num_init=args.num_init,
         max_primitives=args.max_primitives, voxels_per_step=args.voxels,
-        seed=args.seed,
+        t_scale=args.t_scale, seed=args.seed,
     )
     field, info = fit_volume(gt, cfg, device=device, verbose=False)
     rec = reconstruct(field, info, cfg, device=device)
