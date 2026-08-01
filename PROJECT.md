@@ -71,8 +71,16 @@ gives a bit-identical init on every device.
   (one truncated checkpoint caught by size check and refit).
 - Corpora staged on Aine (`~/jewels/data/corpora/`): Avenue + UCSD + BAIR (extracted) +
   Sky Timelapse (extracted) + UCF-101 (extracted). ~200 GB disk free.
-- Stage 2 (amortized encoder / set prior): not started — corpus and conditioning data ready;
-  next is featurization (covariances, not quats) and the v0 set prior
+- **Stage 2 v0 EXISTS and generates video (2026-07-31 late):** `prior/` module (log-covariance
+  featurization, round-trip verified to 1e-6; SetDiT — permutation-invariant DiT velocity
+  field, no positional encodings, CLIP-conditioned via adaLN with dropout) + train/sample
+  CLIs. Trained 6000 steps / 37.5 min on the 231-set Avenue corpus (loss ~1.14 vs 2.0
+  do-nothing baseline). Samples from noise decode and render into recognizably-Avenue video:
+  correct scene layout, palette, and per-dim marginals within a few percent — but
+  fever-dream detail quality (streaky phantoms, no readable pedestrians). Mechanics fully
+  proven; quality is v1's problem (longer training, bigger model, EMA, CFG tuning, more flow
+  steps). Checkpoint: `~/jewels/prior/avenue_v0/prior.pt`, samples in
+  `~/jewels/prior/samples_v0/` on Aine.
 
 Smoke result, synthetic tube, 24px/6frames/32 prims/120 steps: additive 29.16 dB, voronoi
 23.86 dB on CPU/torch 2.10 (originally logged 26.30/22.77 on an older env); GPU matches.
