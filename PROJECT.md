@@ -97,6 +97,31 @@ Smoke result, synthetic tube, 24px/6frames/32 prims/120 steps: additive 29.16 dB
 
 ## Active Work
 
+**Priority order (2026-08-02, Max):**
+
+1. **Jewel tokenizer** — NOW. Set autoencoder: linear-cost grid-pool encoder over jewels →
+   ~256 latent tokens → latent-conditioned flow decoder (cross-attention only, linear in N).
+   Mandatory before any prior trains on the dense (45k-jewel) corpus; also the vocabulary
+   thesis and the compression entropy-model in one artifact. VQ variant after continuous v0.
+2. **Dense corpus** — running (231 windows @ 45k prims ≈ 5k active/frame, ~18 min/window).
+3. **Dense prior** (tokenizer latent space) → remake triptych at convincing sharpness.
+4. **Drag-and-heal edit demo** (after a dense model exists — DO NOT FORGET): object = jewel
+   cluster; drag = mu shift (velocity edit = per-t shear); infill = RePaint-style clamped
+   sampling with fresh noise tokens in the vacated region; risk = additive overlap at the
+   destination (test prior reconciliation; fall back to depth-proxy/alpha ordering).
+   Script version first (select/drag/heal → before-after GIF), volume-slider UI later.
+5. **Codec angle** (after a model — DO NOT FORGET): jewels + VQ codebook + prior-as-entropy-
+   model (arithmetic-code tokens under the prior) = learned video codec. Raw fp32 sets are
+   ~30-50x worse than x264; quantization+entropy coding buys ~10x; the prior buys more.
+   Never the headline (GSVC lane is crowded); pitch as a property: editable, streamable,
+   random-access, LOD-decodable format. Decode-side wins are real regardless of R-D.
+6. **Sky refit at dense spec** → generalization test + data-axis curve point.
+7. UCF-101 (class-text conditioning, FVD flag) → OpenVid → synthetic data from Apache-2.0
+   open-weight video models (NOT Flux — ToS forbids output-training, verified 2026-08-01).
+8. Windowed autoregression (unbounded length) / amortized encoder / hybrid pixel refiner.
+
+Original corpus-generation notes:
+
 1. **Corpus generation.** Freeze the checkpoint schema (state/cfg/info as of 2026-07-31),
    collect fixed-camera clips, batch-fit on the 4090 (~3 min/clip at 64f/160px — hundreds per
    night as-is; adopt a GSVC-family CUDA rasterizer only when this becomes the bottleneck).
