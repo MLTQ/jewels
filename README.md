@@ -66,6 +66,24 @@ all present and temporally stable:
 
 ![v1 prior sample: real fit | generated](assets/prior_sample_v1.gif)
 
+### 4. The scaling curve — three models, one frozen protocol
+
+v0 (5.8M) → v1 (58M) → v2 (173M), identical corpus and recipe, scored by CLIP-Fréchet
+distance between generated renders and fitted renders under a fixed sampling protocol:
+
+![scaling curve](assets/scaling_curve.png)
+
+![v0/v1/v2 sample progression vs real fit](assets/v012_triptych.png)
+
+Monotone on both metrics (CFD 0.31 → 0.20 → 0.16; loss 1.148 → 1.066 → 0.993), with a
+visibly flattening slope — **model scaling saturates against a 231-window single-scene
+corpus**, which makes data the measured next axis (a 2,392-scene Sky Timelapse corpus is
+fitting now). A second measured constraint: current fits carry ~1.3k active splats per frame
+(~2.2k parameters/frame) — the "low splat count" regime of the image-splatting literature,
+which is exactly the softness visible above. Raising fit density toward 5–10k active
+splats/frame (24k–45k per window) is the current stage-1 priority; the prior-side cost of
+those larger sets is what the jewel tokenizer exists to absorb.
+
 ### Numbers so far
 
 | measurement | result |

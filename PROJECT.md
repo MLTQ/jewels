@@ -71,6 +71,16 @@ gives a bit-identical init on every device.
   (one truncated checkpoint caught by size check and refit).
 - Corpora staged on Aine (`~/jewels/data/corpora/`): Avenue + UCSD + BAIR (extracted) +
   Sky Timelapse (extracted) + UCF-101 (extracted). ~200 GB disk free.
+- **Scaling curve complete (2026-08-02):** v0 (5.8M/6k) → v1 (58M/50k, EMA+bf16+flip-u) →
+  v2 (173M/100k, +torch.compile, verified lossless). Frozen CFD protocol (cli/eval_prior.py,
+  cached reference): **0.31 → 0.20 → 0.16**; final loss 1.148 → 1.066 → 0.993. Monotone,
+  decelerating → model axis saturates vs the 231-window corpus; DATA is the next axis.
+  Second finding: fits carry ~1.3k active splats/frame (≈2.2k params/frame) — the literature's
+  low-splat regime, quantifying the visible softness. **Priority (Max): raise density to
+  ~5-10k active/frame (24k-45k per window).** Density sweep calibrating cost/quality; jewel
+  tokenizer becomes mandatory for the prior at those set sizes. Samples exhibit clean global
+  chirality flips from the mirror augmentation (same CLIP embedding for both) — evidence of
+  scene-level joint structure, not per-token marginals.
 - **Stage 2 v0 EXISTS and generates video (2026-07-31 late):** `prior/` module (log-covariance
   featurization, round-trip verified to 1e-6; SetDiT — permutation-invariant DiT velocity
   field, no positional encodings, CLIP-conditioned via adaLN with dropout) + train/sample
