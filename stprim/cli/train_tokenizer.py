@@ -42,6 +42,10 @@ def main() -> None:
     ap.add_argument("--dec-depth", type=int, default=6)
     ap.add_argument("--warmup", type=int, default=500)
     ap.add_argument("--flip-u", action="store_true")
+    ap.add_argument("--no-bf16", action="store_true",
+                    help="fp32 training — required on pre-Ampere GPUs, where "
+                         "autocast steers SDPA into the FlashAttention kernel "
+                         "(Ampere+) and crashes")
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--device", type=str, default="cuda")
     ap.add_argument("--log-every", type=int, default=200)
@@ -50,6 +54,12 @@ def main() -> None:
 
     torch.manual_seed(args.seed)
     device = torch.device(args.device)
+    if (device.type == "cuda"
+            and torch.cuda.get_device_capability(device) < (8, 0)):
+        # Turing and older have no FlashAttention kernels, and this torch
+        # build's SDPA dispatcher selects flash before the arch check.
+        torch.backends.cuda.enable_flash_sdp(False)
+        print("pre-Ampere GPU: flash SDP disabled", flush=True)
     outdir = Path(args.out)
     outdir.mkdir(parents=True, exist_ok=True)
 
@@ -79,7 +89,7 @@ def main() -> None:
           f"{tok.encoder.n_cells} latents x {args.latent_dim} = {n_lat} numbers "
           f"({N * FEAT_DIM / n_lat:.0f}x compression at N={N})", flush=True)
     opt = torch.optim.AdamW(tok.parameters(), lr=args.lr, weight_decay=0.01)
-    use_amp = device.type == "cuda"
+    use_amp = (not args.no_bf16) and device.type == "cuda"
 
     meta = {
         "feat_mean": mean, "feat_std": std, "shape": corpus["shape"],
