@@ -41,6 +41,8 @@ def main() -> None:
     ap.add_argument("--ema-decay", type=float, default=0.999)
     ap.add_argument("--warmup", type=int, default=500)
     ap.add_argument("--no-bf16", action="store_true")
+    ap.add_argument("--compile", action="store_true",
+                    help="torch.compile the model (same math, fused kernels)")
     ap.add_argument("--flip-u", action="store_true",
                     help="mirror augmentation in u (doubles the corpus)")
     ap.add_argument("--seed", type=int, default=0)
@@ -88,7 +90,13 @@ def main() -> None:
     print(f"model: {n_params / 1e6:.2f}M params", flush=True)
     opt = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=0.01)
 
-    ema = {k: v.detach().clone() for k, v in model.state_dict().items()}
+    # EMA and checkpoints always use the raw module's state dict — a compiled
+    # wrapper prefixes keys with _orig_mod. and would poison the sampler.
+    raw = model
+    if args.compile:
+        model = torch.compile(model)
+
+    ema = {k: v.detach().clone() for k, v in raw.state_dict().items()}
     use_amp = (not args.no_bf16) and device.type == "cuda"
 
     def lr_at(step: int) -> float:
@@ -108,6 +116,7 @@ def main() -> None:
     }
 
     t0 = time.time()
+    t_last = t0
     losses = []
     for step in range(1, args.steps + 1):
         idx = torch.randint(0, S, (args.batch,), device=device)
@@ -135,7 +144,7 @@ def main() -> None:
 
         with torch.no_grad():
             d = args.ema_decay
-            for k, v in model.state_dict().items():
+            for k, v in raw.state_dict().items():
                 if v.dtype.is_floating_point:
                     ema[k].mul_(d).add_(v, alpha=1 - d)
                 else:
@@ -143,12 +152,14 @@ def main() -> None:
 
         if step % args.log_every == 0:
             avg = sum(losses[-args.log_every:]) / args.log_every
-            rate = (time.time() - t0) / step
+            now = time.time()
+            rate = (now - t_last) / args.log_every  # interval, not cumulative:
+            t_last = now                            # compile warmup would skew it
             print(f"step {step:6d}  loss {avg:.4f}  "
                   f"({rate:.2f}s/step, ~{rate * (args.steps - step) / 60:.0f}m left)",
                   flush=True)
         if step % args.save_every == 0 or step == args.steps:
-            torch.save({"model": model.state_dict(), "ema": ema,
+            torch.save({"model": raw.state_dict(), "ema": ema,
                         "meta": meta, "step": step}, outdir / "prior.pt")
 
     (outdir / "train_log.json").write_text(json.dumps(

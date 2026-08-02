@@ -65,12 +65,31 @@ def _decode_imageio(path: str, max_frames: int | None, start_frame: int):
     return np.stack(frames)
 
 
+_IMG_EXTS = (".jpg", ".jpeg", ".png")
+
+
+def _frame_files(path: Path) -> list[Path]:
+    return sorted(p for p in path.iterdir() if p.suffix.lower() in _IMG_EXTS)
+
+
+def _decode_dir(path: str, max_frames: int | None, start_frame: int):
+    """Frame-folder clips (e.g. Sky Timelapse: <clip>/<frame>.jpg)."""
+    from PIL import Image
+
+    files = _frame_files(Path(path))[start_frame:]
+    if max_frames is not None:
+        files = files[:max_frames]
+    return np.stack([np.asarray(Image.open(f).convert("RGB")) for f in files])
+
+
 def count_frames(path: str | Path) -> int:
     """Total frame count, by metadata when trustworthy, else by decoding.
 
     Sequential-skip windowing (`start_frame`) needs this to enumerate windows
     without loading pixels.
     """
+    if Path(path).is_dir():
+        return len(_frame_files(Path(path)))
     path = str(path)
     try:
         import av  # noqa
@@ -108,16 +127,21 @@ def load_video(
     Windowing a long clip is O(start) decode per window; fine at corpus scale
     because fitting dominates decode by orders of magnitude.
     """
-    path = str(path)
-    errors = []
-    for fn in (_decode_pyav, _decode_cv2, _decode_imageio):
-        try:
-            arr = fn(path, max_frames, start_frame)
-            break
-        except Exception as e:  # noqa: BLE001
-            errors.append(f"{fn.__name__}: {e}")
+    if Path(path).is_dir():
+        arr = _decode_dir(str(path), max_frames, start_frame)
     else:
-        raise RuntimeError("no video decoder available:\n  " + "\n  ".join(errors))
+        path = str(path)
+        errors = []
+        for fn in (_decode_pyav, _decode_cv2, _decode_imageio):
+            try:
+                arr = fn(path, max_frames, start_frame)
+                break
+            except Exception as e:  # noqa: BLE001
+                errors.append(f"{fn.__name__}: {e}")
+        else:
+            raise RuntimeError(
+                "no video decoder available:\n  " + "\n  ".join(errors)
+            )
 
     vid = torch.from_numpy(arr).float().div_(255.0)  # (T, H, W, 3)
 

@@ -69,6 +69,12 @@ def main() -> None:
     ap.add_argument("--cond-index", type=int, default=0,
                     help="corpus window whose CLIP embedding conditions "
                          "samples; -1 for unconditional")
+    ap.add_argument("--prompt", type=str, default=None,
+                    help="text prompt, encoded with the CLIP text tower "
+                         "(overrides --cond-index). NB: the prior trains on "
+                         "IMAGE embeddings; CLIP's text-image modality gap "
+                         "means prompts steer weakly until a corpus is "
+                         "trained with caption embeddings in the mix")
     ap.add_argument("--raw-weights", action="store_true",
                     help="sample the raw weights instead of EMA")
     ap.add_argument("--seed", type=int, default=0)
@@ -97,7 +103,21 @@ def main() -> None:
     ref_frames = render_field(ref_field, shape, ref_bg, device=device)
 
     cond = None
-    if args.cond_index >= 0:
+    if args.prompt:
+        import open_clip
+
+        cm, _, _ = open_clip.create_model_and_transforms(
+            "ViT-B-32", pretrained="laion2b_s34b_b79k", device=device
+        )
+        cm.eval()
+        tok = open_clip.get_tokenizer("ViT-B-32")
+        with torch.no_grad():
+            te = cm.encode_text(tok([args.prompt]).to(device))
+            te = te / te.norm(dim=-1, keepdim=True)
+        cond = te.float().expand(args.n_samples, -1)
+        del cm
+        print(f"conditioning on prompt: {args.prompt!r}", flush=True)
+    elif args.cond_index >= 0:
         cond = corpus["clip"][args.cond_index][None].to(device) \
             .expand(args.n_samples, -1)
 

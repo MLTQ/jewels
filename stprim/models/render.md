@@ -6,11 +6,14 @@ over a learned constant background.
 
 ## Components
 
-### `cull_knn(points, mu, k)`
+### `cull_knn(points, mu, k, chunk)`
 - **Does**: k nearest primitives per query point by Euclidean center distance -> (M,k)
 - **Rationale**: Euclidean, not Mahalanobis, on purpose. Culling needs a safe superset only, and
   computing the true metric against all N is the cost we're trying to avoid. Far primitives have
   astronomically negative logits so dropping them is numerically free.
+- Chunked over query points (2026-08-01): bit-identical indices, peak memory chunk×N instead of
+  M×N. The unchunked 65536×10000 matrix was the fitter's 13 GB spike; now ~2-3 GB total, so
+  fits can share a GPU.
 
 ### `render_points(field, points, knn, background)`
 - **Does**: (M,3) points -> (M,3) RGB

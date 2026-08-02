@@ -43,9 +43,17 @@ def main() -> None:
     ap.add_argument("--device", type=str, default="cuda")
     ap.add_argument("--limit", type=int, default=0,
                     help="stop after N windows (0 = all); for smoke runs")
+    ap.add_argument("--windows-per-video", type=int, default=0,
+                    help="cap windows taken from each source (0 = all). "
+                         "One window per clip maximizes corpus diversity when "
+                         "clips outnumber the fitting budget")
     args = ap.parse_args()
 
-    videos = sorted(glob.glob(args.videos))
+    _VIDEO_EXTS = (".mp4", ".avi", ".mov", ".mkv", ".webm")
+    videos = sorted(
+        v for v in glob.glob(args.videos)
+        if Path(v).is_dir() or v.lower().endswith(_VIDEO_EXTS)
+    )
     if not videos:
         sys.exit(f"no videos match {args.videos!r}")
 
@@ -57,7 +65,10 @@ def main() -> None:
     windows: list[tuple[str, int]] = []
     for v in videos:
         n = count_frames(v)
-        windows += [(v, s) for s in range(0, n - args.frames + 1, args.frames)]
+        w = [(v, s) for s in range(0, n - args.frames + 1, args.frames)]
+        if args.windows_per_video:
+            w = w[: args.windows_per_video]
+        windows += w
     print(f"{len(videos)} videos -> {len(windows)} windows of {args.frames} frames",
           flush=True)
 

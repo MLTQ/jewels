@@ -22,7 +22,9 @@ import torch
 from core.params import PrimitiveField
 
 
-def cull_knn(points: torch.Tensor, mu: torch.Tensor, k: int) -> torch.Tensor:
+def cull_knn(
+    points: torch.Tensor, mu: torch.Tensor, k: int, *, chunk: int = 16384
+) -> torch.Tensor:
     """Select the k nearest primitives (by Euclidean center distance).
 
     points (M, 3), mu (N, 3) -> (M, k) long.
@@ -31,10 +33,19 @@ def cull_knn(points: torch.Tensor, mu: torch.Tensor, k: int) -> torch.Tensor:
     superset, and computing the full metric for all N would defeat the point.
     Far primitives have astronomically negative logits, so excluding them is
     numerically free.
+
+    Chunked over points: identical indices, but peak memory is chunk x N
+    instead of M x N — the full 65536 x 10000 distance matrix was the
+    fitter's entire 13 GB VRAM spike.
     """
     k = min(k, mu.shape[0])
-    d2 = torch.cdist(points, mu)
-    return d2.topk(k, dim=1, largest=False).indices
+    if points.shape[0] <= chunk:
+        return torch.cdist(points, mu).topk(k, dim=1, largest=False).indices
+    outs = []
+    for i in range(0, points.shape[0], chunk):
+        d2 = torch.cdist(points[i : i + chunk], mu)
+        outs.append(d2.topk(k, dim=1, largest=False).indices)
+    return torch.cat(outs, 0)
 
 
 def render_points(

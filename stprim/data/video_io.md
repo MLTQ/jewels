@@ -16,6 +16,9 @@ Decode a clip to (T,H,W,3) float in [0,1], plus the synthetic falsification volu
 - `start_frame` skips sequentially rather than codec-seeking: exact, decoder-agnostic, and
   O(start) cost is irrelevant next to fitting. Added for corpus windowing (`cli/fit_corpus.py`).
 
+- A directory path is treated as a frame-folder clip (sorted jpg/png files) — Sky Timelapse
+  ships this way. Same `start_frame`/`max_frames`/`resize` semantics.
+
 ### `count_frames(path)`
 - **Does**: total frames via container metadata, falling back to a counting decode
 - **Rationale**: window enumeration needs counts without loading pixels; AVI/MP4 metadata is

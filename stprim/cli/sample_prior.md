@@ -22,6 +22,11 @@ The moment of truth: sample sets from the prior, decode to PrimitiveFields, rend
 - Conditioning comes from a corpus window's CLIP sidecar (`--cond-index`), because on a
   single-scene corpus there is no meaningful text prompt yet; `--cond-index -1` samples
   unconditionally. Text prompts arrive with a diverse corpus, through the same interface.
+- `--prompt "text"` encodes through the CLIP text tower into the same conditioning slot.
+  Honest caveat: the prior trains on IMAGE embeddings, and CLIP's text and image embeddings
+  occupy offset regions of the shared space (the modality gap), so prompt steering is weak
+  until training mixes caption embeddings in (planned with the UCF class-caption corpus).
+  DALL-E 2 solved this with a text->image-embedding prior; ours can too if needed.
 
 ## Notes
 - Samples EMA weights when the checkpoint has them (`--raw-weights` to override).
