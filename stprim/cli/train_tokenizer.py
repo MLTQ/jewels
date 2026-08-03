@@ -25,7 +25,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from core.volume import make_grid  # noqa: E402
 from models.render import render_volume  # noqa: E402
 from prior.featurize import FEAT_DIM, features_to_field, load_corpus  # noqa: E402
-from prior.tokenizer import JewelTokenizer  # noqa: E402
+from prior.tokenizer import DetrTokenizer, JewelTokenizer  # noqa: E402
 
 
 def main() -> None:
@@ -41,6 +41,10 @@ def main() -> None:
     ap.add_argument("--enc-depth", type=int, default=4)
     ap.add_argument("--dec-depth", type=int, default=6)
     ap.add_argument("--warmup", type=int, default=500)
+    ap.add_argument("--detr", action="store_true",
+                    help="deterministic slot decoder + per-cell Hungarian "
+                         "matching instead of the flow decoder")
+    ap.add_argument("--slots", type=int, default=64)
     ap.add_argument("--flip-u", action="store_true")
     ap.add_argument("--no-bf16", action="store_true",
                     help="fp32 training — required on pre-Ampere GPUs, where "
@@ -76,10 +80,11 @@ def main() -> None:
     x_data = ((feats - mean) / std).to(device)
     print(f"corpus: {S} sets x {N} jewels", flush=True)
 
-    tok = JewelTokenizer(
+    cls = DetrTokenizer if args.detr else JewelTokenizer
+    tok = cls(
         feat_dim=FEAT_DIM, dim=args.dim, latent_dim=args.latent_dim,
         grid=tuple(args.grid), enc_depth=args.enc_depth,
-        dec_depth=args.dec_depth,
+        dec_depth=args.dec_depth, slots=args.slots,
     ).to(device)
     tok.encoder.mu_mean.copy_(mean[:3].to(device))
     tok.encoder.mu_std.copy_(std[:3].to(device))
@@ -113,7 +118,10 @@ def main() -> None:
         for g in opt.param_groups:
             g["lr"] = lr
         with torch.autocast("cuda", torch.bfloat16, enabled=use_amp):
-            loss = tok.flow_loss(x_data[idx])
+            if args.detr:
+                loss, _ = tok.loss(x_data[idx])
+            else:
+                loss = tok.flow_loss(x_data[idx])
         opt.zero_grad(set_to_none=True)
         loss.backward()
         opt.step()
@@ -132,12 +140,18 @@ def main() -> None:
 
     # --- round-trip check ------------------------------------------------- #
     tok.eval()
-    g = torch.Generator(device=device).manual_seed(0)
     x1 = x_data[0:1]
     with torch.no_grad():
-        xr = tok.reconstruct(x1, steps=100, generator=g)
+        if args.detr:
+            xr = tok.reconstruct(x1)
+        else:
+            g = torch.Generator(device=device).manual_seed(0)
+            xr = tok.reconstruct(x1, steps=100, generator=g)
     orig = (x1[0].cpu() * std + mean)
     recon = (xr[0].float().cpu() * std + mean)
+    if args.detr:
+        print(f"recon set size: {recon.shape[0]} (orig {orig.shape[0]})",
+              flush=True)
     T, H, W = corpus["shape"]
     grid_pts = make_grid((T, H, W), device=device)
     bg = corpus["bg"][0].to(device)

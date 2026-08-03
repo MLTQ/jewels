@@ -119,6 +119,15 @@ Smoke result, synthetic tube, 24px/6frames/32 prims/120 steps: additive 29.16 dB
 7. UCF-101 (class-text conditioning, FVD flag) → OpenVid → synthetic data from Apache-2.0
    open-weight video models (NOT Flux — ToS forbids output-training, verified 2026-08-01).
 8. Windowed autoregression (unbounded length) / amortized encoder / hybrid pixel refiner.
+9. **LLM integration (Max, 2026-08-02 — DO NOT FORGET):** grid-cell latents have a canonical
+   raster order, so post-VQ a video window is a fixed-length discrete code sequence — LLM-
+   shaped, dissolving the set-ordering gauge at the token level. Two rungs: (a) cheap probe —
+   LLaVA-style adapter + LoRA on a small open LLM for jewel-token video UNDERSTANDING;
+   (b) the real prize — early-fusion joint training: jewels tokenize video at ~100-800
+   tokens/sec (text/audio rates, vs 10-100x that for patch tokenizers), making video a
+   first-class LLM modality; t2v = prompting, continuation = LM decoding, editing =
+   span infill. Gated on tokenizer reconstruction quality; CLIP-alignment auxiliary loss on
+   cell latents would help understanding.
 
 Original corpus-generation notes:
 

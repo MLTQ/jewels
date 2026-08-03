@@ -188,3 +188,113 @@ class JewelTokenizer(nn.Module):
             t = ts[i].expand(x1.shape[0])
             x = x + (ts[i + 1] - ts[i]) * self.decoder(x, t, z)
         return x
+
+
+# --------------------------------------------------------------------------- #
+# v1: deterministic DETR-style decode (2026-08-02).
+# The flow decoder's factorized velocity field sampled each jewel
+# independently from its marginal given the latents — scene-shaped mush,
+# ~16 dB, capacity-invariant (measured: 8x latents bought +0.28 dB).
+# Reconstruction is not a sampling problem; make it deterministic and put
+# ALL sampling in the prior over latents, where it belongs.
+# --------------------------------------------------------------------------- #
+
+
+class SlotCellDecoder(nn.Module):
+    """Each cell latent emits up to `slots` jewels via learned query slots."""
+
+    def __init__(self, feat_dim=22, dim=256, latent_dim=32, n_cells=256,
+                 slots=64, depth=3, heads=8):
+        super().__init__()
+        self.slots = slots
+        self.slot_embed = nn.Parameter(torch.randn(slots, dim) * 0.02)
+        self.cell_embed = nn.Parameter(torch.randn(n_cells, dim) * 0.02)
+        self.z_proj = nn.Linear(latent_dim, dim)
+        layer = nn.TransformerEncoderLayer(
+            dim, heads, dim * 4, batch_first=True, norm_first=True,
+            dropout=0.0, activation="gelu")
+        self.blocks = nn.TransformerEncoder(layer, depth)
+        self.head_feat = nn.Linear(dim, feat_dim)
+        self.head_exist = nn.Linear(dim, 1)
+
+    def forward(self, z):
+        """z (B, C, latent) -> feats (B, C, K, feat_dim), exist (B, C, K)."""
+        b, c, _ = z.shape
+        x = (self.slot_embed[None, None] + self.cell_embed[None, :, None]
+             + self.z_proj(z)[:, :, None, :])
+        x = self.blocks(x.reshape(b * c, self.slots, -1))
+        feats = self.head_feat(x).reshape(b, c, self.slots, -1)
+        exist = self.head_exist(x).reshape(b, c, self.slots)
+        return feats, exist
+
+
+class DetrTokenizer(nn.Module):
+    def __init__(self, **kw):
+        super().__init__()
+        enc_kw = {k: v for k, v in kw.items() if k in
+                  ("feat_dim", "dim", "latent_dim", "grid", "heads")}
+        self.encoder = GridPoolEncoder(depth=kw.get("enc_depth", 4), **enc_kw)
+        self.decoder = SlotCellDecoder(
+            feat_dim=kw.get("feat_dim", 22), dim=kw.get("dim", 256),
+            latent_dim=kw.get("latent_dim", 32),
+            n_cells=self.encoder.n_cells, slots=kw.get("slots", 64),
+            depth=kw.get("dec_depth", 3), heads=kw.get("heads", 8))
+
+    def _cell_targets(self, x1):
+        """Bucket jewels by cell -> padded (B, C, K, F) targets + mask."""
+        b, n, f = x1.shape
+        k, c = self.decoder.slots, self.encoder.n_cells
+        idx = self.encoder.cell_index(x1[..., :3])
+        tgt = x1.new_zeros(b, c, k, f)
+        mask = torch.zeros(b, c, k, dtype=torch.bool, device=x1.device)
+        for bi in range(b):
+            order = torch.argsort(idx[bi])
+            s_idx = idx[bi][order]
+            counts = torch.bincount(s_idx, minlength=c)
+            starts = torch.cumsum(counts, 0) - counts
+            pos = torch.arange(n, device=x1.device) - starts[s_idx]
+            keep = pos < k  # cells over slot capacity drop the tail
+            tgt[bi, s_idx[keep], pos[keep]] = x1[bi][order[keep]]
+            mask[bi, s_idx[keep], pos[keep]] = True
+        return tgt, mask
+
+    def loss(self, x1):
+        from scipy.optimize import linear_sum_assignment
+
+        z = self.encoder(x1)
+        pred, exist = self.decoder(z)
+        tgt, mask = self._cell_targets(x1)
+        b, c, k, f = pred.shape
+
+        exist_target = torch.zeros_like(exist)
+        feat_terms = []
+        with torch.no_grad():
+            cost_all = torch.cdist(pred.reshape(b * c, k, f).float(),
+                                   tgt.reshape(b * c, k, f).float())
+        counts = mask.sum(-1)
+        for bi in range(b):
+            for ci in torch.nonzero(counts[bi]).flatten().tolist():
+                nc = int(counts[bi, ci])
+                cost = cost_all[bi * c + ci, :, :nc].cpu().numpy()
+                rows, cols = linear_sum_assignment(cost)
+                rows_t = torch.as_tensor(rows, device=x1.device)
+                cols_t = torch.as_tensor(cols, device=x1.device)
+                feat_terms.append(F.smooth_l1_loss(
+                    pred[bi, ci, rows_t], tgt[bi, ci, cols_t],
+                    reduction="sum"))
+                exist_target[bi, ci, rows_t] = 1.0
+        feat_loss = torch.stack(feat_terms).sum() / mask.sum().clamp_min(1)
+        exist_loss = F.binary_cross_entropy_with_logits(exist, exist_target)
+        return feat_loss + exist_loss, {"feat": float(feat_loss),
+                                        "exist": float(exist_loss)}
+
+    @torch.no_grad()
+    def reconstruct(self, x1):
+        """Deterministic round-trip; returns list of (N_i, F) per batch item."""
+        z = self.encoder(x1)
+        pred, exist = self.decoder(z)
+        out = []
+        for bi in range(pred.shape[0]):
+            keep = exist[bi].sigmoid() > 0.5
+            out.append(pred[bi][keep])
+        return out
