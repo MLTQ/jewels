@@ -39,6 +39,15 @@ def cull_knn(
     fitter's entire 13 GB VRAM spike.
     """
     k = min(k, mu.shape[0])
+    # `torch.cdist` materializes roughly chunk×N distances. The original fixed
+    # 16k chunk is safe at 10k primitives but requests ~3 GB at 45k, which can
+    # fail late in densification on an 8 GB card. Preserve the caller's upper
+    # bound while capping the distance workspace. A 100M-pair cap is the measured
+    # throughput knee on the 2070S: the distance workspace stays below 0.5 GB
+    # and the complete culler below 0.9 GB, while larger chunks do not improve
+    # latency.
+    max_distance_pairs = 100_000_000
+    chunk = min(chunk, max(1024, max_distance_pairs // max(mu.shape[0], 1)))
     if points.shape[0] <= chunk:
         return torch.cdist(points, mu).topk(k, dim=1, largest=False).indices
     outs = []

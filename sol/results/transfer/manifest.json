@@ -1,0 +1,29 @@
+[
+  {
+    "name": "v_Basketball_g01_c01_w000000.pt",
+    "source_id": "v_Basketball_g01_c01",
+    "target_jewels": 45000,
+    "decoded_jewels": 38727,
+    "trained_slots_per_cell": 64,
+    "rendered_slots_per_cell": 80,
+    "frames": [
+      0,
+      4,
+      8,
+      13,
+      17,
+      21,
+      25,
+      29,
+      34,
+      38,
+      42,
+      46,
+      50,
+      55,
+      59,
+      63
+    ],
+    "artifact": "v_Basketball_g01_c01_w000000_dense_roundtrip.gif"
+  }
+]

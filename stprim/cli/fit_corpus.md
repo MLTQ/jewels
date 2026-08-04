@@ -14,8 +14,14 @@ training set for the generative prior.
   `fit/fitter.py`
 
 ## Decisions
-- **Resumable by checkpoint existence**, not by a state file — the filesystem is the state.
-  A killed overnight run continues with no bookkeeping to corrupt.
+- **Two-level recovery**: completed windows are skipped by final-checkpoint existence; an active
+  window is atomically snapshotted to `<stem>_w<start>.recovery.pt` every 100 optimizer steps by
+  default. A killed run therefore resumes within the window, including optimizer moments,
+  densification tracker, history, background, and RNG position.
+- Recovery files carry the full fit config and source identity. A mismatch fails loudly rather
+  than combining optimizer state with different hyperparameters or pixels.
+- Final corpus checkpoints are also written atomically. Only after that succeeds is the exact
+  corresponding recovery file removed.
 - **Windowing at decode time** (`start_frame` sequential skip) rather than pre-splitting with
   ffmpeg: no re-encode artifacts, no intermediate files, one less tool in the loop. O(start)
   decode per window is noise next to a 3-minute fit.
@@ -23,14 +29,23 @@ training set for the generative prior.
   future train/val split.
 - Checkpoints carry a `source` key (video path + start frame) so a set can always be traced
   back to its pixels.
+- `--split-mode spatial` opts into temporal-preserving spatial densification. The mode is stored in
+  `FitConfig`, so recovery rejects attempts to resume under a different split policy.
 
 ## Contracts
 
 | Dependent | Expects | Breaking changes |
 |-----------|---------|------------------|
-| stage 2 (future) | `<out>/<stem>_w<start>.pt` with keys state/cfg/info/source | Checkpoint schema — this plus fitter's info IS the frozen corpus format |
+| stage 2 (future) | `<out>/<stem>_w<start>.pt` with keys state/cfg/info/source | Final checkpoint schema — this plus fitter's info IS the frozen corpus format |
+| corpus recovery | `<out>/<stem>_w<start>.recovery.pt` with schema/cfg/source/fit_state | Recovery envelope or fitter recovery-state schema |
 
 ## Notes
 - Defaults match the real-footage budget validated on the amplify clip (64f @ 160px short
   side, 3000→10000 prims, 3000 steps ≈ 3 min/window on the 4090).
 - `--limit N` exists for smoke-testing a corpus before committing a night of GPU to it.
+- `--recovery-every N` controls in-window durability; `0` disables it. At the validated 45k fit
+  rate, the default 100-step interval limits typical lost GPU work to roughly two minutes.
+- **[2026-08-04 process probe]** The CUDA CLI was terminated after an atomic step checkpoint,
+  restarted against that file, and run to step 220. Its final field tensors, history, and background
+  were bit-identical to an uninterrupted control; the recovery file disappeared only after final
+  checkpoint replacement succeeded.

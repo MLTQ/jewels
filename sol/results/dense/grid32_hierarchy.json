@@ -1,0 +1,47 @@
+{
+  "samples": 86,
+  "grid_shape": [
+    32,
+    32,
+    32
+  ],
+  "latent_dim": 24,
+  "axis_neighbor_correlation": {
+    "u": 0.005672334227710962,
+    "v": 0.00566653860732913,
+    "t": -0.006516679190099239
+  },
+  "pooling": {
+    "2": {
+      "coarse_grid": [
+        16,
+        16,
+        16
+      ],
+      "blocks": 352256,
+      "repeat_mean_mse": 0.8585001826286316
+    },
+    "4": {
+      "coarse_grid": [
+        8,
+        8,
+        8
+      ],
+      "blocks": 44032,
+      "repeat_mean_mse": 0.9599854350090027
+    }
+  },
+  "pca": {
+    "block_size": 2,
+    "raw_block_dim": 192,
+    "sampled_blocks": 100000,
+    "explained_variance": {
+      "24": 0.585875391960144,
+      "48": 0.761228084564209,
+      "64": 0.8444685935974121,
+      "96": 0.9474901556968689
+    }
+  },
+  "cache": "latent/sol_dense_grid32.pt",
+  "tokenizer_sha256": "294a21a54fc4ef678a6774b701075b68b867b326e3fe98872177bbac55a337f1"
+}

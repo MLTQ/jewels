@@ -103,7 +103,9 @@ Smoke result, synthetic tube, 24px/6frames/32 prims/120 steps: additive 29.16 dB
    ~256 latent tokens → latent-conditioned flow decoder (cross-attention only, linear in N).
    Mandatory before any prior trains on the dense (45k-jewel) corpus; also the vocabulary
    thesis and the compression entropy-model in one artifact. VQ variant after continuous v0.
-2. **Dense corpus** — running (231 windows @ 45k prims ≈ 5k active/frame, ~18 min/window).
+2. **Dense corpus** — 45k windows are under-dense; doubling UCF to 90k under isotropic splitting
+   reaches only 3.8k effective contributors and loses 1.07 dB. Validate temporal-preserving spatial
+   splitting before expanding the corpus.
 3. **Dense prior** (tokenizer latent space) → remake triptych at convincing sharpness.
 4. **Drag-and-heal edit demo** (after a dense model exists — DO NOT FORGET): object = jewel
    cluster; drag = mu shift (velocity edit = per-t shear); infill = RePaint-style clamped
@@ -225,6 +227,16 @@ experiments/canonicalization.py   two-seed chamfer/marginals measurement
   mechanics only — they cannot teach text→content. For the diverse corpus later: the fitter
   itself is a static-camera filter (global motion makes every primitive shear and PSNR
   collapse).
+- **[2026-08-04] Persistent streaming is a representation contract, not a later overlap knob.**
+  Supersedes the independent-window fallback in the 2026-07-31 unbounded-generation decision.
+  Quality is governed by effective active jewels/frame, generator cost by births/frame, and the
+  two are linked by lifespan. A matched UCF audit found 45k mean/median 3σ lifespans of 8.41/5
+  frames, but isotropic 90k shortened them to 5.58/3 while nearly doubling observed births/frame
+  (659→1,290). Rolling 16-frame commits retain stable row IDs, clamp a 16-frame prefix, carry
+  boundary-crossing jewels, and own only new births. Subset rendering matches the monolithic
+  finite-support field within 1.2e-7. Corpus scale-up now waits for one longer joint fit cropped
+  into prefix/future training views; independently fitted adjacent windows are not valid
+  continuation targets.
 
 ## Sharp Edges
 

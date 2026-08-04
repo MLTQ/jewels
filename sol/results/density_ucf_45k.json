@@ -1,0 +1,73 @@
+{
+  "corpora": [
+    "corpus/ucf_dense_transfer_100m_retime"
+  ],
+  "support_sigma": 3.0,
+  "peak_alpha_thresholds": [
+    0.01,
+    0.05
+  ],
+  "examples": [
+    {
+      "name": "v_Basketball_g01_c01_w000000.pt",
+      "source_id": "v_Basketball_g01_c01",
+      "domain_id": "ucf_dense_transfer_100m_retime",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 5546.03125,
+        "median": 5830.0,
+        "min": 4236.0,
+        "max": 6165.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 4893.5625,
+          "median": 5141.0,
+          "min": 3641.0,
+          "max": 5397.0
+        },
+        "0.05": {
+          "mean": 3594.9375,
+          "median": 3750.0,
+          "min": 2571.0,
+          "max": 3940.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 2932.5107421875,
+        "median": 3043.718505859375,
+        "min": 2168.729736328125,
+        "max": 3208.277099609375
+      }
+    }
+  ],
+  "aggregate": {
+    "support_counts": {
+      "mean": 5546.03125,
+      "median": 5830.0,
+      "min": 4236.0,
+      "max": 6165.0
+    },
+    "peak_alpha_counts": {
+      "0.01": {
+        "mean": 4893.5625,
+        "median": 5141.0,
+        "min": 3641.0,
+        "max": 5397.0
+      },
+      "0.05": {
+        "mean": 3594.9375,
+        "median": 3750.0,
+        "min": 2571.0,
+        "max": 3940.0
+      }
+    },
+    "effective_peak_alpha_counts": {
+      "mean": 2932.5107421875,
+      "median": 3043.718505859375,
+      "min": 2168.729736328125,
+      "max": 3208.277099609375
+    }
+  }
+}

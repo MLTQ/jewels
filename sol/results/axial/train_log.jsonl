@@ -1,0 +1,66 @@
+{"step": 0, "evaluation": {"conditional_flow_mse": 4.457461120968773, "shuffled_flow_mse": 4.457461120968773, "unconditional_flow_mse": 4.457461120968773, "conditional_gain": 0.0, "scene_mean_latent_mse": 3.456597089767456, "clip_retrieval_latent_mse": 4.3919525146484375, "sampled_latent_mse": 2.702035903930664, "scene_mean_energy": 1.6575958728790283, "clip_retrieval_energy": 1.6321401596069336, "sampled_energy": 1.6444509029388428, "sampled_examples": 2}}
+{"step": 100, "loss": 1.9936015319824218, "gradient_norm": 0.0848974883556366, "lr": 3.3333333333333335e-05, "seconds_per_step": 0.018915164470672607}
+{"step": 200, "loss": 1.9972578036785125, "gradient_norm": 0.22817756235599518, "lr": 6.666666666666667e-05, "seconds_per_step": 0.015867655277252198}
+{"step": 300, "loss": 1.986462595462799, "gradient_norm": 0.19456617534160614, "lr": 0.0001, "seconds_per_step": 0.015928556919097902}
+{"step": 400, "loss": 1.91530699968338, "gradient_norm": 0.17992691695690155, "lr": 9.969572609838744e-05, "seconds_per_step": 0.016161923408508302}
+{"step": 500, "loss": 1.7797410917282104, "gradient_norm": 0.17718659341335297, "lr": 9.878701917609207e-05, "seconds_per_step": 0.01620922803878784}
+{"step": 600, "loss": 1.729174553155899, "gradient_norm": 0.25852611660957336, "lr": 9.728616793536588e-05, "seconds_per_step": 0.0158517861366272}
+{"step": 700, "loss": 1.6710106325149536, "gradient_norm": 0.32164856791496277, "lr": 9.521346881455356e-05, "seconds_per_step": 0.01567230701446533}
+{"step": 800, "loss": 1.6586000895500184, "gradient_norm": 0.40719732642173767, "lr": 9.259695151358214e-05, "seconds_per_step": 0.01577228546142578}
+{"step": 900, "loss": 1.6150755286216736, "gradient_norm": 0.25486522912979126, "lr": 8.947199994035401e-05, "seconds_per_step": 0.016044440269470214}
+{"step": 1000, "loss": 1.6147736024856567, "gradient_norm": 0.2980809211730957, "lr": 8.588087370409303e-05, "seconds_per_step": 0.016122548580169677}
+{"step": 1000, "evaluation": {"conditional_flow_mse": 4.437732496715728, "shuffled_flow_mse": 4.437760852632069, "unconditional_flow_mse": 4.439551444280715, "conditional_gain": 0.001818947564987461, "scene_mean_latent_mse": 3.456597089767456, "clip_retrieval_latent_mse": 4.3919525146484375, "sampled_latent_mse": 2.658951997756958, "scene_mean_energy": 1.6575958728790283, "clip_retrieval_energy": 1.6321401596069336, "sampled_energy": 1.6332781314849854, "sampled_examples": 2}}
+{"step": 1100, "loss": 1.5893152666091919, "gradient_norm": 0.28581100702285767, "lr": 8.187213662662538e-05, "seconds_per_step": 0.026689326763153075}
+{"step": 1200, "loss": 1.5606886637210846, "gradient_norm": 0.5596006512641907, "lr": 7.75e-05, "seconds_per_step": 0.0165948748588562}
+{"step": 1300, "loss": 1.5488469696044922, "gradient_norm": 0.8604668974876404, "lr": 7.282358947176207e-05, "seconds_per_step": 0.01634814739227295}
+{"step": 1400, "loss": 1.5717494344711305, "gradient_norm": 0.5007877349853516, "lr": 6.790614547199907e-05, "seconds_per_step": 0.016137328147888184}
+{"step": 1500, "loss": 1.5955704975128173, "gradient_norm": 0.3645390570163727, "lr": 6.281416799501188e-05, "seconds_per_step": 0.016233465671539306}
+{"step": 1600, "loss": 1.5332214510440827, "gradient_norm": 0.24766266345977783, "lr": 5.761651730097142e-05, "seconds_per_step": 0.01629878282546997}
+{"step": 1700, "loss": 1.5426506459712983, "gradient_norm": 0.3509889245033264, "lr": 5.23834826990286e-05, "seconds_per_step": 0.01591336965560913}
+{"step": 1800, "loss": 1.5820445454120635, "gradient_norm": 0.5310048460960388, "lr": 4.718583200498814e-05, "seconds_per_step": 0.015890779495239257}
+{"step": 1900, "loss": 1.5272149968147277, "gradient_norm": 0.20074838399887085, "lr": 4.209385452800095e-05, "seconds_per_step": 0.016209642887115478}
+{"step": 2000, "loss": 1.5409671449661255, "gradient_norm": 0.3747768700122833, "lr": 3.717641052823795e-05, "seconds_per_step": 0.016246237754821778}
+{"step": 2000, "evaluation": {"conditional_flow_mse": 4.187866129193988, "shuffled_flow_mse": 4.1874838692801335, "unconditional_flow_mse": 4.1872952234177365, "conditional_gain": -0.0005709057762510739, "scene_mean_latent_mse": 3.456597089767456, "clip_retrieval_latent_mse": 4.3919525146484375, "sampled_latent_mse": 2.629204750061035, "scene_mean_energy": 1.6575958728790283, "clip_retrieval_energy": 1.6321401596069336, "sampled_energy": 1.6257548332214355, "sampled_examples": 2}}
+{"step": 2100, "loss": 1.5683728599548339, "gradient_norm": 0.5134392380714417, "lr": 3.250000000000001e-05, "seconds_per_step": 0.02696554660797119}
+{"step": 2200, "loss": 1.5311469197273255, "gradient_norm": 0.18541914224624634, "lr": 2.8127863373374635e-05, "seconds_per_step": 0.016099123954772948}
+{"step": 2300, "loss": 1.5107520604133606, "gradient_norm": 0.2690174877643585, "lr": 2.4119126295906998e-05, "seconds_per_step": 0.016178214550018312}
+{"step": 2400, "loss": 1.5598097479343414, "gradient_norm": 0.6436672806739807, "lr": 2.0528000059645997e-05, "seconds_per_step": 0.01612698793411255}
+{"step": 2500, "loss": 1.5264327013492585, "gradient_norm": 0.30600786209106445, "lr": 1.740304848641787e-05, "seconds_per_step": 0.016195359230041503}
+{"step": 2600, "loss": 1.5441623663902282, "gradient_norm": 0.23947866261005402, "lr": 1.4786531185446454e-05, "seconds_per_step": 0.016308743953704834}
+{"step": 2700, "loss": 1.5296817314624787, "gradient_norm": 0.29575666785240173, "lr": 1.2713832064634126e-05, "seconds_per_step": 0.01622068405151367}
+{"step": 2800, "loss": 1.5255280804634095, "gradient_norm": 0.19449791312217712, "lr": 1.1212980823907931e-05, "seconds_per_step": 0.01595773458480835}
+{"step": 2900, "loss": 1.5601939594745635, "gradient_norm": 0.1523549109697342, "lr": 1.0304273901612566e-05, "seconds_per_step": 0.01607189416885376}
+{"step": 3000, "loss": 1.5231773519515992, "gradient_norm": 0.27768778800964355, "lr": 1e-05, "seconds_per_step": 0.016131794452667235}
+{"step": 3000, "evaluation": {"conditional_flow_mse": 4.019932170141311, "shuffled_flow_mse": 4.019741998400007, "unconditional_flow_mse": 4.019144675845191, "conditional_gain": -0.000787494296119462, "scene_mean_latent_mse": 3.456597089767456, "clip_retrieval_latent_mse": 4.3919525146484375, "sampled_latent_mse": 2.5923047065734863, "scene_mean_energy": 1.6575958728790283, "clip_retrieval_energy": 1.6321401596069336, "sampled_energy": 1.6161766052246094, "sampled_examples": 2}}
+{"step": 3250, "loss": 1.5531982207298278, "gradient_norm": 0.7950329780578613, "lr": 8.097649250675588e-05, "seconds_per_step": 0.01932118797302246}
+{"step": 3500, "loss": 1.55884064078331, "gradient_norm": 0.4286699593067169, "lr": 7.791940730479434e-05, "seconds_per_step": 0.01738936424255371}
+{"step": 3750, "loss": 1.5459999866485596, "gradient_norm": 0.49844875931739807, "lr": 7.471214545855071e-05, "seconds_per_step": 0.01751759338378906}
+{"step": 4000, "loss": 1.5341860361099242, "gradient_norm": 0.6857779622077942, "lr": 7.137572216335695e-05, "seconds_per_step": 0.017609078407287596}
+{"step": 4000, "evaluation": {"conditional_flow_mse": 3.974150693984259, "shuffled_flow_mse": 3.9741096905299593, "unconditional_flow_mse": 3.973263749622163, "conditional_gain": -0.0008869443620955764, "scene_mean_latent_mse": 3.456597089767456, "clip_retrieval_latent_mse": 4.3919525146484375, "sampled_latent_mse": 2.3307487964630127, "scene_mean_energy": 1.1086219549179077, "clip_retrieval_energy": 0.7799979448318481, "sampled_energy": 0.7777112722396851, "sampled_examples": 4}}
+{"step": 4250, "loss": 1.520469573020935, "gradient_norm": 0.5194726586341858, "lr": 6.793199892931727e-05, "seconds_per_step": 0.024930152893066406}
+{"step": 4500, "loss": 1.5370348577499389, "gradient_norm": 0.5223082304000854, "lr": 6.440354033640739e-05, "seconds_per_step": 0.01743965721130371}
+{"step": 4750, "loss": 1.5144403734207152, "gradient_norm": 0.3299535810947418, "lr": 6.081346618279329e-05, "seconds_per_step": 0.017503438949584962}
+{"step": 5000, "loss": 1.52943798494339, "gradient_norm": 0.624785840511322, "lr": 5.718529999515018e-05, "seconds_per_step": 0.018398825645446776}
+{"step": 5250, "loss": 1.5289833693504333, "gradient_norm": 0.5916604995727539, "lr": 5.3542814893599e-05, "seconds_per_step": 0.0176103515625}
+{"step": 5500, "loss": 1.5160982875823974, "gradient_norm": 0.2135748267173767, "lr": 4.990987782121222e-05, "seconds_per_step": 0.017481956481933594}
+{"step": 5750, "loss": 1.5231369853019714, "gradient_norm": 0.3676922023296356, "lr": 4.631029315875605e-05, "seconds_per_step": 0.017718331336975097}
+{"step": 6000, "loss": 1.5171682119369507, "gradient_norm": 0.24150440096855164, "lr": 4.276764674936458e-05, "seconds_per_step": 0.01757181167602539}
+{"step": 6000, "evaluation": {"conditional_flow_mse": 3.943952732994443, "shuffled_flow_mse": 3.943614623660133, "unconditional_flow_mse": 3.942353294009254, "conditional_gain": -0.0015994389851887725, "scene_mean_latent_mse": 3.456597089767456, "clip_retrieval_latent_mse": 4.3919525146484375, "sampled_latent_mse": 2.2639551162719727, "scene_mean_energy": 1.1086219549179077, "clip_retrieval_energy": 0.7799979448318481, "sampled_energy": 0.7709575891494751, "sampled_examples": 4}}
+{"step": 6250, "loss": 1.5145584290027618, "gradient_norm": 0.16182352602481842, "lr": 3.93051513551553e-05, "seconds_per_step": 0.02487869930267334}
+{"step": 6500, "loss": 1.525385133266449, "gradient_norm": 0.21058803796768188, "lr": 3.594549455841296e-05, "seconds_per_step": 0.017802701950073243}
+{"step": 6750, "loss": 1.5265794768333436, "gradient_norm": 1.314673900604248, "lr": 3.271069010395058e-05, "seconds_per_step": 0.017597869873046876}
+{"step": 7000, "loss": 1.5087062091827392, "gradient_norm": 0.5586563348770142, "lr": 2.962193365670921e-05, "seconds_per_step": 0.01762905406951904}
+{"step": 7250, "loss": 1.5175653376579286, "gradient_norm": 0.3471854031085968, "lr": 2.6699463919726998e-05, "seconds_per_step": 0.01767768955230713}
+{"step": 7500, "loss": 1.5088143229484559, "gradient_norm": 0.1762685626745224, "lr": 2.3962430022485308e-05, "seconds_per_step": 0.0177518949508667}
+{"step": 7750, "loss": 1.5457622776031494, "gradient_norm": 0.32704198360443115, "lr": 2.142876604855393e-05, "seconds_per_step": 0.017709044456481932}
+{"step": 8000, "loss": 1.5251053314208984, "gradient_norm": 0.28054654598236084, "lr": 1.9115073524677573e-05, "seconds_per_step": 0.017576659202575683}
+{"step": 8000, "evaluation": {"conditional_flow_mse": 3.9329541115533737, "shuffled_flow_mse": 3.9327934537615095, "unconditional_flow_mse": 3.931286294119699, "conditional_gain": -0.0016678174336748341, "scene_mean_latent_mse": 3.456597089767456, "clip_retrieval_latent_mse": 4.3919525146484375, "sampled_latent_mse": 2.2421348094940186, "scene_mean_energy": 1.1086219549179077, "clip_retrieval_energy": 0.7799979448318481, "sampled_energy": 0.7690619230270386, "sampled_examples": 4}}
+{"step": 8250, "loss": 1.5011515169143677, "gradient_norm": 0.6881526112556458, "lr": 1.7036512641279806e-05, "seconds_per_step": 0.025760624885559084}
+{"step": 8500, "loss": 1.5167219958305358, "gradient_norm": 0.27221617102622986, "lr": 1.5206702917148946e-05, "seconds_per_step": 0.01756699275970459}
+{"step": 8750, "loss": 1.5271117720603944, "gradient_norm": 0.2192319631576538, "lr": 1.3637633959188456e-05, "seconds_per_step": 0.017502429008483887}
+{"step": 9000, "loss": 1.5194459228515624, "gradient_norm": 0.19510433077812195, "lr": 1.2339586901967831e-05, "seconds_per_step": 0.01770172595977783}
+{"step": 9250, "loss": 1.5221549320220946, "gradient_norm": 0.22610211372375488, "lr": 1.1321067041831839e-05, "seconds_per_step": 0.017849691390991212}
+{"step": 9500, "loss": 1.526665054321289, "gradient_norm": 0.23405668139457703, "lr": 1.0588748106974919e-05, "seconds_per_step": 0.017470502853393556}
+{"step": 9750, "loss": 1.5111287226676942, "gradient_norm": 0.17209216952323914, "lr": 1.014742852864438e-05, "seconds_per_step": 0.01763254261016846}
+{"step": 10000, "loss": 1.500285581588745, "gradient_norm": 0.29037243127822876, "lr": 1e-05, "seconds_per_step": 0.017813658714294432}
+{"step": 10000, "evaluation": {"conditional_flow_mse": 3.926978706178211, "shuffled_flow_mse": 3.926747040521531, "unconditional_flow_mse": 3.925267541976202, "conditional_gain": -0.001711164202009119, "scene_mean_latent_mse": 3.456597089767456, "clip_retrieval_latent_mse": 4.3919525146484375, "sampled_latent_mse": 2.239917278289795, "scene_mean_energy": 1.1086219549179077, "clip_retrieval_energy": 0.7799979448318481, "sampled_energy": 0.7689021825790405, "sampled_examples": 4}}

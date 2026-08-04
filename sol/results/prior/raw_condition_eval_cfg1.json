@@ -1,0 +1,39 @@
+{
+  "checkpoint": "prior/sol_flow_10k/prior.pt",
+  "step": 10000,
+  "cache": "prior/sol_latent_cache.pt",
+  "sample_steps": 50,
+  "cfg_scale": 1.0,
+  "validation_names": [
+    "11_w000000.pt",
+    "11_w000064.pt",
+    "11_w000128.pt",
+    "11_w000192.pt",
+    "11_w000256.pt",
+    "11_w000320.pt",
+    "11_w000384.pt",
+    "11_w000448.pt",
+    "11_w000512.pt",
+    "11_w000576.pt",
+    "11_w000640.pt",
+    "11_w000704.pt",
+    "15_w000000.pt",
+    "15_w000064.pt",
+    "15_w000128.pt",
+    "15_w000192.pt",
+    "15_w000256.pt"
+  ],
+  "evaluation": {
+    "conditional_flow_mse": 0.8669314872725078,
+    "shuffled_flow_mse": 0.8667189072419875,
+    "unconditional_flow_mse": 0.8684547357829308,
+    "conditional_gain": 0.0015232485104229587,
+    "scene_mean_latent_mse": 1.149457335472107,
+    "clip_retrieval_latent_mse": 1.7608166933059692,
+    "sampled_latent_mse": 1.9557602405548096,
+    "scene_mean_energy": 0.789050817489624,
+    "clip_retrieval_energy": 0.34046685695648193,
+    "sampled_energy": 0.23842310905456543,
+    "sampled_examples": 17
+  }
+}

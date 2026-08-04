@@ -1,0 +1,13 @@
+{
+  "checkpoint": "/home/m/jewels/corpus/ucf_dense_transfer_100m_retime/v_Basketball_g01_c01_w000000.pt",
+  "shape": [
+    64,
+    160,
+    213
+  ],
+  "jewels": 45000,
+  "full_volume_mse": 0.0003858108539134264,
+  "full_volume_psnr_db": 34.136253356933594,
+  "gif": "v_Basketball_g01_c01_w000000_45k_fit_compare_100m.gif",
+  "contact_sheet": "v_Basketball_g01_c01_w000000_45k_fit_contact_100m.png"
+}

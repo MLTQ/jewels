@@ -1,0 +1,4033 @@
+{
+  "corpora": [
+    "corpus/avenue_dense"
+  ],
+  "support_sigma": 3.0,
+  "peak_alpha_thresholds": [
+    0.01,
+    0.05
+  ],
+  "examples": [
+    {
+      "name": "01_w000000.pt",
+      "source_id": "01",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6200.34375,
+        "median": 6473.0,
+        "min": 4560.0,
+        "max": 6981.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5431.046875,
+          "median": 5658.0,
+          "min": 3884.0,
+          "max": 6108.0
+        },
+        "0.05": {
+          "mean": 3964.640625,
+          "median": 4127.0,
+          "min": 2795.0,
+          "max": 4504.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3315.485107421875,
+        "median": 3448.16357421875,
+        "min": 2362.19091796875,
+        "max": 3724.256103515625
+      }
+    },
+    {
+      "name": "01_w000064.pt",
+      "source_id": "01",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6159.1875,
+        "median": 6476.0,
+        "min": 4658.0,
+        "max": 6851.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5394.6875,
+          "median": 5685.0,
+          "min": 3959.0,
+          "max": 5969.0
+        },
+        "0.05": {
+          "mean": 3932.828125,
+          "median": 4116.0,
+          "min": 2753.0,
+          "max": 4360.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3273.17431640625,
+        "median": 3437.274658203125,
+        "min": 2397.0546875,
+        "max": 3606.081787109375
+      }
+    },
+    {
+      "name": "01_w000128.pt",
+      "source_id": "01",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6056.53125,
+        "median": 6242.0,
+        "min": 4543.0,
+        "max": 6882.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5304.140625,
+          "median": 5467.0,
+          "min": 3869.0,
+          "max": 5977.0
+        },
+        "0.05": {
+          "mean": 3867.734375,
+          "median": 4012.0,
+          "min": 2684.0,
+          "max": 4332.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3221.39111328125,
+        "median": 3334.187255859375,
+        "min": 2336.188232421875,
+        "max": 3584.988037109375
+      }
+    },
+    {
+      "name": "01_w000192.pt",
+      "source_id": "01",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6201.5,
+        "median": 6473.0,
+        "min": 4633.0,
+        "max": 6986.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5422.171875,
+          "median": 5667.0,
+          "min": 3950.0,
+          "max": 6087.0
+        },
+        "0.05": {
+          "mean": 3948.6875,
+          "median": 4099.0,
+          "min": 2767.0,
+          "max": 4444.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3297.711669921875,
+        "median": 3458.27001953125,
+        "min": 2370.292236328125,
+        "max": 3700.3291015625
+      }
+    },
+    {
+      "name": "01_w000256.pt",
+      "source_id": "01",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6215.703125,
+        "median": 6594.0,
+        "min": 4622.0,
+        "max": 6821.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5447.734375,
+          "median": 5788.0,
+          "min": 3915.0,
+          "max": 5951.0
+        },
+        "0.05": {
+          "mean": 3976.234375,
+          "median": 4194.0,
+          "min": 2725.0,
+          "max": 4344.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3310.7880859375,
+        "median": 3460.44482421875,
+        "min": 2377.8349609375,
+        "max": 3609.888916015625
+      }
+    },
+    {
+      "name": "01_w000320.pt",
+      "source_id": "01",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6191.546875,
+        "median": 6552.0,
+        "min": 4680.0,
+        "max": 6873.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5422.34375,
+          "median": 5738.0,
+          "min": 3988.0,
+          "max": 6000.0
+        },
+        "0.05": {
+          "mean": 3960.0625,
+          "median": 4169.0,
+          "min": 2766.0,
+          "max": 4343.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3301.28955078125,
+        "median": 3465.937255859375,
+        "min": 2411.8095703125,
+        "max": 3645.01220703125
+      }
+    },
+    {
+      "name": "01_w000384.pt",
+      "source_id": "01",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6117.078125,
+        "median": 6397.0,
+        "min": 4561.0,
+        "max": 6942.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5356.25,
+          "median": 5565.0,
+          "min": 3912.0,
+          "max": 6015.0
+        },
+        "0.05": {
+          "mean": 3907.96875,
+          "median": 4045.0,
+          "min": 2730.0,
+          "max": 4376.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3258.634521484375,
+        "median": 3358.31640625,
+        "min": 2353.089111328125,
+        "max": 3628.256103515625
+      }
+    },
+    {
+      "name": "01_w000448.pt",
+      "source_id": "01",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6174.609375,
+        "median": 6509.0,
+        "min": 4601.0,
+        "max": 6871.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5405.140625,
+          "median": 5678.0,
+          "min": 3941.0,
+          "max": 6024.0
+        },
+        "0.05": {
+          "mean": 3939.1875,
+          "median": 4067.0,
+          "min": 2744.0,
+          "max": 4405.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3289.227294921875,
+        "median": 3396.716552734375,
+        "min": 2390.98095703125,
+        "max": 3645.99462890625
+      }
+    },
+    {
+      "name": "01_w000512.pt",
+      "source_id": "01",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6166.921875,
+        "median": 6528.0,
+        "min": 4594.0,
+        "max": 6887.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5391.515625,
+          "median": 5698.0,
+          "min": 3913.0,
+          "max": 5988.0
+        },
+        "0.05": {
+          "mean": 3925.5,
+          "median": 4132.0,
+          "min": 2731.0,
+          "max": 4396.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3277.963134765625,
+        "median": 3459.496337890625,
+        "min": 2356.73681640625,
+        "max": 3640.36669921875
+      }
+    },
+    {
+      "name": "01_w000576.pt",
+      "source_id": "01",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6144.640625,
+        "median": 6456.0,
+        "min": 4626.0,
+        "max": 6802.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5378.21875,
+          "median": 5651.0,
+          "min": 4003.0,
+          "max": 5913.0
+        },
+        "0.05": {
+          "mean": 3913.78125,
+          "median": 4084.0,
+          "min": 2781.0,
+          "max": 4313.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3261.596923828125,
+        "median": 3406.091064453125,
+        "min": 2389.11328125,
+        "max": 3555.52587890625
+      }
+    },
+    {
+      "name": "01_w000640.pt",
+      "source_id": "01",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6134.765625,
+        "median": 6429.0,
+        "min": 4663.0,
+        "max": 6837.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5365.1875,
+          "median": 5557.0,
+          "min": 3974.0,
+          "max": 5949.0
+        },
+        "0.05": {
+          "mean": 3906.140625,
+          "median": 4050.0,
+          "min": 2781.0,
+          "max": 4325.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3256.720947265625,
+        "median": 3385.65771484375,
+        "min": 2411.12744140625,
+        "max": 3600.059326171875
+      }
+    },
+    {
+      "name": "01_w000704.pt",
+      "source_id": "01",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6216.078125,
+        "median": 6570.0,
+        "min": 4637.0,
+        "max": 6909.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5433.75,
+          "median": 5744.0,
+          "min": 3975.0,
+          "max": 6029.0
+        },
+        "0.05": {
+          "mean": 3953.078125,
+          "median": 4136.0,
+          "min": 2779.0,
+          "max": 4384.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3296.221435546875,
+        "median": 3450.372802734375,
+        "min": 2399.0068359375,
+        "max": 3652.082763671875
+      }
+    },
+    {
+      "name": "01_w000768.pt",
+      "source_id": "01",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6173.578125,
+        "median": 6483.0,
+        "min": 4593.0,
+        "max": 6914.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5396.6875,
+          "median": 5680.0,
+          "min": 3910.0,
+          "max": 6052.0
+        },
+        "0.05": {
+          "mean": 3926.234375,
+          "median": 4115.0,
+          "min": 2755.0,
+          "max": 4360.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3268.4560546875,
+        "median": 3412.510498046875,
+        "min": 2342.8955078125,
+        "max": 3621.48583984375
+      }
+    },
+    {
+      "name": "01_w000832.pt",
+      "source_id": "01",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6134.296875,
+        "median": 6411.0,
+        "min": 4571.0,
+        "max": 6952.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5366.046875,
+          "median": 5594.0,
+          "min": 3893.0,
+          "max": 6013.0
+        },
+        "0.05": {
+          "mean": 3904.265625,
+          "median": 4085.0,
+          "min": 2721.0,
+          "max": 4368.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3245.143798828125,
+        "median": 3370.322021484375,
+        "min": 2331.69873046875,
+        "max": 3626.351806640625
+      }
+    },
+    {
+      "name": "01_w000896.pt",
+      "source_id": "01",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6147.453125,
+        "median": 6508.0,
+        "min": 4587.0,
+        "max": 6767.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5378.90625,
+          "median": 5714.0,
+          "min": 3928.0,
+          "max": 5892.0
+        },
+        "0.05": {
+          "mean": 3920.015625,
+          "median": 4129.0,
+          "min": 2752.0,
+          "max": 4286.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3261.77001953125,
+        "median": 3435.292724609375,
+        "min": 2404.879150390625,
+        "max": 3548.020751953125
+      }
+    },
+    {
+      "name": "01_w000960.pt",
+      "source_id": "01",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6138.28125,
+        "median": 6384.0,
+        "min": 4589.0,
+        "max": 6918.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5368.015625,
+          "median": 5619.0,
+          "min": 3947.0,
+          "max": 6018.0
+        },
+        "0.05": {
+          "mean": 3905.265625,
+          "median": 4056.0,
+          "min": 2740.0,
+          "max": 4340.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3247.16943359375,
+        "median": 3360.221923828125,
+        "min": 2385.081298828125,
+        "max": 3631.656494140625
+      }
+    },
+    {
+      "name": "01_w001024.pt",
+      "source_id": "01",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6138.78125,
+        "median": 6454.0,
+        "min": 4635.0,
+        "max": 6883.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5364.78125,
+          "median": 5624.0,
+          "min": 3993.0,
+          "max": 6046.0
+        },
+        "0.05": {
+          "mean": 3909.28125,
+          "median": 4088.0,
+          "min": 2784.0,
+          "max": 4400.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3276.712646484375,
+        "median": 3419.3466796875,
+        "min": 2426.54443359375,
+        "max": 3684.295166015625
+      }
+    },
+    {
+      "name": "01_w001088.pt",
+      "source_id": "01",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6176.15625,
+        "median": 6493.0,
+        "min": 4598.0,
+        "max": 6897.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5402.171875,
+          "median": 5725.0,
+          "min": 3884.0,
+          "max": 6031.0
+        },
+        "0.05": {
+          "mean": 3931.9375,
+          "median": 4118.0,
+          "min": 2753.0,
+          "max": 4380.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3303.0185546875,
+        "median": 3460.4501953125,
+        "min": 2363.9970703125,
+        "max": 3653.312744140625
+      }
+    },
+    {
+      "name": "01_w001152.pt",
+      "source_id": "01",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6180.390625,
+        "median": 6516.0,
+        "min": 4674.0,
+        "max": 6832.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5401.5625,
+          "median": 5699.0,
+          "min": 4011.0,
+          "max": 5951.0
+        },
+        "0.05": {
+          "mean": 3927.140625,
+          "median": 4128.0,
+          "min": 2784.0,
+          "max": 4296.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3266.720947265625,
+        "median": 3447.15576171875,
+        "min": 2371.494140625,
+        "max": 3555.1142578125
+      }
+    },
+    {
+      "name": "01_w001216.pt",
+      "source_id": "01",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6187.5,
+        "median": 6518.0,
+        "min": 4745.0,
+        "max": 6866.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5411.0625,
+          "median": 5701.0,
+          "min": 4027.0,
+          "max": 5993.0
+        },
+        "0.05": {
+          "mean": 3939.65625,
+          "median": 4123.0,
+          "min": 2752.0,
+          "max": 4329.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3286.319580078125,
+        "median": 3434.784423828125,
+        "min": 2366.84814453125,
+        "max": 3612.888671875
+      }
+    },
+    {
+      "name": "01_w001280.pt",
+      "source_id": "01",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6161.546875,
+        "median": 6477.0,
+        "min": 4642.0,
+        "max": 6917.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5390.71875,
+          "median": 5657.0,
+          "min": 3935.0,
+          "max": 6038.0
+        },
+        "0.05": {
+          "mean": 3918.59375,
+          "median": 4099.0,
+          "min": 2722.0,
+          "max": 4390.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3276.44775390625,
+        "median": 3408.978759765625,
+        "min": 2416.73095703125,
+        "max": 3648.478515625
+      }
+    },
+    {
+      "name": "02_w000000.pt",
+      "source_id": "02",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6099.6875,
+        "median": 6331.0,
+        "min": 4476.0,
+        "max": 6893.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5331.875,
+          "median": 5550.0,
+          "min": 3856.0,
+          "max": 6004.0
+        },
+        "0.05": {
+          "mean": 3882.4375,
+          "median": 4083.0,
+          "min": 2669.0,
+          "max": 4356.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3251.087890625,
+        "median": 3405.6298828125,
+        "min": 2333.8974609375,
+        "max": 3633.564208984375
+      }
+    },
+    {
+      "name": "02_w000064.pt",
+      "source_id": "02",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6090.109375,
+        "median": 6399.0,
+        "min": 4581.0,
+        "max": 6787.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5328.890625,
+          "median": 5613.0,
+          "min": 3912.0,
+          "max": 5902.0
+        },
+        "0.05": {
+          "mean": 3880.375,
+          "median": 4067.0,
+          "min": 2731.0,
+          "max": 4342.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3241.661376953125,
+        "median": 3415.757568359375,
+        "min": 2356.530517578125,
+        "max": 3579.817626953125
+      }
+    },
+    {
+      "name": "02_w000128.pt",
+      "source_id": "02",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6080.296875,
+        "median": 6401.0,
+        "min": 4567.0,
+        "max": 6705.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5317.125,
+          "median": 5599.0,
+          "min": 3894.0,
+          "max": 5852.0
+        },
+        "0.05": {
+          "mean": 3871.984375,
+          "median": 4052.0,
+          "min": 2740.0,
+          "max": 4231.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3236.885986328125,
+        "median": 3414.39599609375,
+        "min": 2402.7353515625,
+        "max": 3521.534912109375
+      }
+    },
+    {
+      "name": "02_w000192.pt",
+      "source_id": "02",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6164.296875,
+        "median": 6474.0,
+        "min": 4680.0,
+        "max": 6895.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5390.71875,
+          "median": 5661.0,
+          "min": 3975.0,
+          "max": 5998.0
+        },
+        "0.05": {
+          "mean": 3927.15625,
+          "median": 4130.0,
+          "min": 2809.0,
+          "max": 4359.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3295.83349609375,
+        "median": 3426.8056640625,
+        "min": 2419.9375,
+        "max": 3649.779541015625
+      }
+    },
+    {
+      "name": "02_w000256.pt",
+      "source_id": "02",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6160.421875,
+        "median": 6475.0,
+        "min": 4528.0,
+        "max": 6911.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5386.765625,
+          "median": 5667.0,
+          "min": 3827.0,
+          "max": 6044.0
+        },
+        "0.05": {
+          "mean": 3921.859375,
+          "median": 4111.0,
+          "min": 2663.0,
+          "max": 4364.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3272.732421875,
+        "median": 3421.316162109375,
+        "min": 2328.057861328125,
+        "max": 3660.829345703125
+      }
+    },
+    {
+      "name": "02_w000320.pt",
+      "source_id": "02",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 5862.984375,
+        "median": 6190.0,
+        "min": 3713.0,
+        "max": 6848.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5130.234375,
+          "median": 5379.0,
+          "min": 3158.0,
+          "max": 6019.0
+        },
+        "0.05": {
+          "mean": 3744.4375,
+          "median": 3931.0,
+          "min": 2189.0,
+          "max": 4366.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3131.774658203125,
+        "median": 3293.16748046875,
+        "min": 1898.279296875,
+        "max": 3658.95947265625
+      }
+    },
+    {
+      "name": "02_w000384.pt",
+      "source_id": "02",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6176.75,
+        "median": 6471.0,
+        "min": 4552.0,
+        "max": 6918.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5399.40625,
+          "median": 5658.0,
+          "min": 3840.0,
+          "max": 6013.0
+        },
+        "0.05": {
+          "mean": 3937.21875,
+          "median": 4115.0,
+          "min": 2675.0,
+          "max": 4382.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3285.324951171875,
+        "median": 3449.199951171875,
+        "min": 2331.108154296875,
+        "max": 3666.061767578125
+      }
+    },
+    {
+      "name": "02_w000448.pt",
+      "source_id": "02",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6135.578125,
+        "median": 6461.0,
+        "min": 4577.0,
+        "max": 6821.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5370.71875,
+          "median": 5625.0,
+          "min": 3899.0,
+          "max": 5953.0
+        },
+        "0.05": {
+          "mean": 3912.703125,
+          "median": 4060.0,
+          "min": 2693.0,
+          "max": 4288.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3265.77294921875,
+        "median": 3378.196533203125,
+        "min": 2341.83935546875,
+        "max": 3558.23583984375
+      }
+    },
+    {
+      "name": "02_w000512.pt",
+      "source_id": "02",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6122.609375,
+        "median": 6410.0,
+        "min": 4646.0,
+        "max": 6786.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5356.84375,
+          "median": 5608.0,
+          "min": 3959.0,
+          "max": 5948.0
+        },
+        "0.05": {
+          "mean": 3905.34375,
+          "median": 4093.0,
+          "min": 2731.0,
+          "max": 4316.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3266.432861328125,
+        "median": 3399.31591796875,
+        "min": 2413.337158203125,
+        "max": 3596.739501953125
+      }
+    },
+    {
+      "name": "02_w000576.pt",
+      "source_id": "02",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6182.8125,
+        "median": 6509.0,
+        "min": 4640.0,
+        "max": 6869.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5410.34375,
+          "median": 5677.0,
+          "min": 3939.0,
+          "max": 5983.0
+        },
+        "0.05": {
+          "mean": 3945.3125,
+          "median": 4111.0,
+          "min": 2788.0,
+          "max": 4348.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3305.89208984375,
+        "median": 3457.52392578125,
+        "min": 2405.517822265625,
+        "max": 3649.56982421875
+      }
+    },
+    {
+      "name": "02_w000640.pt",
+      "source_id": "02",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6135.40625,
+        "median": 6411.0,
+        "min": 4636.0,
+        "max": 6857.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5370.484375,
+          "median": 5602.0,
+          "min": 3972.0,
+          "max": 5987.0
+        },
+        "0.05": {
+          "mean": 3913.34375,
+          "median": 4047.0,
+          "min": 2755.0,
+          "max": 4372.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3271.1201171875,
+        "median": 3389.988037109375,
+        "min": 2375.058349609375,
+        "max": 3633.743408203125
+      }
+    },
+    {
+      "name": "02_w000704.pt",
+      "source_id": "02",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6118.984375,
+        "median": 6460.0,
+        "min": 4539.0,
+        "max": 6866.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5345.96875,
+          "median": 5675.0,
+          "min": 3867.0,
+          "max": 5965.0
+        },
+        "0.05": {
+          "mean": 3896.71875,
+          "median": 4097.0,
+          "min": 2697.0,
+          "max": 4329.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3274.93505859375,
+        "median": 3439.191162109375,
+        "min": 2373.3212890625,
+        "max": 3621.380126953125
+      }
+    },
+    {
+      "name": "02_w000768.pt",
+      "source_id": "02",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6144.9375,
+        "median": 6484.0,
+        "min": 4639.0,
+        "max": 6866.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5371.40625,
+          "median": 5675.0,
+          "min": 3951.0,
+          "max": 5993.0
+        },
+        "0.05": {
+          "mean": 3910.515625,
+          "median": 4089.0,
+          "min": 2758.0,
+          "max": 4309.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3278.035888671875,
+        "median": 3432.1875,
+        "min": 2404.280517578125,
+        "max": 3602.244873046875
+      }
+    },
+    {
+      "name": "02_w000832.pt",
+      "source_id": "02",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6162.265625,
+        "median": 6525.0,
+        "min": 4649.0,
+        "max": 6851.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5380.796875,
+          "median": 5660.0,
+          "min": 3948.0,
+          "max": 5967.0
+        },
+        "0.05": {
+          "mean": 3914.234375,
+          "median": 4089.0,
+          "min": 2779.0,
+          "max": 4354.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3278.685791015625,
+        "median": 3415.6123046875,
+        "min": 2398.990478515625,
+        "max": 3634.512939453125
+      }
+    },
+    {
+      "name": "02_w000896.pt",
+      "source_id": "02",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6096.421875,
+        "median": 6383.0,
+        "min": 4643.0,
+        "max": 6807.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5341.0,
+          "median": 5612.0,
+          "min": 3908.0,
+          "max": 5912.0
+        },
+        "0.05": {
+          "mean": 3898.703125,
+          "median": 4055.0,
+          "min": 2711.0,
+          "max": 4300.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3261.31201171875,
+        "median": 3370.06787109375,
+        "min": 2341.6787109375,
+        "max": 3599.8349609375
+      }
+    },
+    {
+      "name": "02_w000960.pt",
+      "source_id": "02",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6153.34375,
+        "median": 6403.0,
+        "min": 4622.0,
+        "max": 6891.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5384.421875,
+          "median": 5605.0,
+          "min": 3990.0,
+          "max": 5993.0
+        },
+        "0.05": {
+          "mean": 3927.59375,
+          "median": 4075.0,
+          "min": 2773.0,
+          "max": 4348.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3284.6376953125,
+        "median": 3390.68359375,
+        "min": 2441.3076171875,
+        "max": 3641.6845703125
+      }
+    },
+    {
+      "name": "02_w001024.pt",
+      "source_id": "02",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6150.75,
+        "median": 6410.0,
+        "min": 4637.0,
+        "max": 6923.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5380.59375,
+          "median": 5632.0,
+          "min": 3908.0,
+          "max": 6014.0
+        },
+        "0.05": {
+          "mean": 3923.734375,
+          "median": 4067.0,
+          "min": 2740.0,
+          "max": 4363.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3287.5810546875,
+        "median": 3402.4501953125,
+        "min": 2396.495361328125,
+        "max": 3651.454345703125
+      }
+    },
+    {
+      "name": "02_w001088.pt",
+      "source_id": "02",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6118.15625,
+        "median": 6415.0,
+        "min": 4574.0,
+        "max": 6895.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5350.828125,
+          "median": 5641.0,
+          "min": 3911.0,
+          "max": 5983.0
+        },
+        "0.05": {
+          "mean": 3895.53125,
+          "median": 4063.0,
+          "min": 2771.0,
+          "max": 4353.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3264.373291015625,
+        "median": 3406.905029296875,
+        "min": 2381.002197265625,
+        "max": 3603.225341796875
+      }
+    },
+    {
+      "name": "02_w001152.pt",
+      "source_id": "02",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6216.65625,
+        "median": 6513.0,
+        "min": 4654.0,
+        "max": 6978.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5428.96875,
+          "median": 5684.0,
+          "min": 3942.0,
+          "max": 6071.0
+        },
+        "0.05": {
+          "mean": 3950.671875,
+          "median": 4076.0,
+          "min": 2744.0,
+          "max": 4434.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3319.66943359375,
+        "median": 3422.297607421875,
+        "min": 2415.194580078125,
+        "max": 3701.091064453125
+      }
+    },
+    {
+      "name": "02_w001216.pt",
+      "source_id": "02",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6174.84375,
+        "median": 6446.0,
+        "min": 4669.0,
+        "max": 6908.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5392.125,
+          "median": 5633.0,
+          "min": 3954.0,
+          "max": 6013.0
+        },
+        "0.05": {
+          "mean": 3920.171875,
+          "median": 4085.0,
+          "min": 2795.0,
+          "max": 4400.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3289.688232421875,
+        "median": 3437.139404296875,
+        "min": 2398.20166015625,
+        "max": 3650.9599609375
+      }
+    },
+    {
+      "name": "02_w001280.pt",
+      "source_id": "02",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6162.6875,
+        "median": 6500.0,
+        "min": 4639.0,
+        "max": 6846.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5382.015625,
+          "median": 5671.0,
+          "min": 3915.0,
+          "max": 5973.0
+        },
+        "0.05": {
+          "mean": 3918.96875,
+          "median": 4108.0,
+          "min": 2748.0,
+          "max": 4354.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3288.882080078125,
+        "median": 3431.747802734375,
+        "min": 2394.00439453125,
+        "max": 3616.256103515625
+      }
+    },
+    {
+      "name": "02_w001344.pt",
+      "source_id": "02",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6163.125,
+        "median": 6496.0,
+        "min": 4643.0,
+        "max": 6826.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5386.75,
+          "median": 5695.0,
+          "min": 3972.0,
+          "max": 5933.0
+        },
+        "0.05": {
+          "mean": 3917.125,
+          "median": 4095.0,
+          "min": 2752.0,
+          "max": 4334.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3279.25244140625,
+        "median": 3420.885498046875,
+        "min": 2429.0146484375,
+        "max": 3629.495361328125
+      }
+    },
+    {
+      "name": "02_w001408.pt",
+      "source_id": "02",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6155.46875,
+        "median": 6472.0,
+        "min": 4670.0,
+        "max": 6832.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5377.546875,
+          "median": 5661.0,
+          "min": 3975.0,
+          "max": 5949.0
+        },
+        "0.05": {
+          "mean": 3908.625,
+          "median": 4077.0,
+          "min": 2778.0,
+          "max": 4368.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3290.361083984375,
+        "median": 3418.0546875,
+        "min": 2419.59326171875,
+        "max": 3615.91943359375
+      }
+    },
+    {
+      "name": "03_w000000.pt",
+      "source_id": "03",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6128.46875,
+        "median": 6446.0,
+        "min": 4525.0,
+        "max": 6928.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5369.375,
+          "median": 5647.0,
+          "min": 3910.0,
+          "max": 6063.0
+        },
+        "0.05": {
+          "mean": 3921.21875,
+          "median": 4082.0,
+          "min": 2697.0,
+          "max": 4389.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3251.677490234375,
+        "median": 3402.60546875,
+        "min": 2328.482666015625,
+        "max": 3648.40869140625
+      }
+    },
+    {
+      "name": "03_w000064.pt",
+      "source_id": "03",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6183.4375,
+        "median": 6427.0,
+        "min": 4633.0,
+        "max": 6965.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5408.546875,
+          "median": 5618.0,
+          "min": 3913.0,
+          "max": 6066.0
+        },
+        "0.05": {
+          "mean": 3943.640625,
+          "median": 4065.0,
+          "min": 2750.0,
+          "max": 4380.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3301.06103515625,
+        "median": 3389.56005859375,
+        "min": 2381.057861328125,
+        "max": 3649.310302734375
+      }
+    },
+    {
+      "name": "03_w000128.pt",
+      "source_id": "03",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6213.984375,
+        "median": 6579.0,
+        "min": 4711.0,
+        "max": 6915.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5434.78125,
+          "median": 5754.0,
+          "min": 4073.0,
+          "max": 6051.0
+        },
+        "0.05": {
+          "mean": 3958.453125,
+          "median": 4158.0,
+          "min": 2858.0,
+          "max": 4446.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3318.5595703125,
+        "median": 3485.148681640625,
+        "min": 2449.370849609375,
+        "max": 3705.39453125
+      }
+    },
+    {
+      "name": "03_w000192.pt",
+      "source_id": "03",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6191.828125,
+        "median": 6535.0,
+        "min": 4723.0,
+        "max": 6849.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5414.484375,
+          "median": 5707.0,
+          "min": 4019.0,
+          "max": 5998.0
+        },
+        "0.05": {
+          "mean": 3943.90625,
+          "median": 4129.0,
+          "min": 2836.0,
+          "max": 4327.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3296.825927734375,
+        "median": 3447.47021484375,
+        "min": 2463.583984375,
+        "max": 3597.01025390625
+      }
+    },
+    {
+      "name": "03_w000256.pt",
+      "source_id": "03",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6155.375,
+        "median": 6487.0,
+        "min": 4690.0,
+        "max": 6805.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5386.0,
+          "median": 5670.0,
+          "min": 3981.0,
+          "max": 5938.0
+        },
+        "0.05": {
+          "mean": 3925.34375,
+          "median": 4118.0,
+          "min": 2794.0,
+          "max": 4307.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3285.727783203125,
+        "median": 3446.8515625,
+        "min": 2382.27197265625,
+        "max": 3611.291259765625
+      }
+    },
+    {
+      "name": "03_w000320.pt",
+      "source_id": "03",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6212.1875,
+        "median": 6505.0,
+        "min": 4724.0,
+        "max": 6911.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5430.625,
+          "median": 5698.0,
+          "min": 4019.0,
+          "max": 6028.0
+        },
+        "0.05": {
+          "mean": 3952.609375,
+          "median": 4126.0,
+          "min": 2785.0,
+          "max": 4383.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3307.32373046875,
+        "median": 3437.355224609375,
+        "min": 2445.508056640625,
+        "max": 3644.052001953125
+      }
+    },
+    {
+      "name": "03_w000384.pt",
+      "source_id": "03",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6003.875,
+        "median": 6436.0,
+        "min": 4233.0,
+        "max": 6800.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5244.40625,
+          "median": 5601.0,
+          "min": 3605.0,
+          "max": 5937.0
+        },
+        "0.05": {
+          "mean": 3817.21875,
+          "median": 4022.0,
+          "min": 2509.0,
+          "max": 4334.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3189.482177734375,
+        "median": 3360.741455078125,
+        "min": 2202.567626953125,
+        "max": 3597.88232421875
+      }
+    },
+    {
+      "name": "03_w000448.pt",
+      "source_id": "03",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6141.1875,
+        "median": 6434.0,
+        "min": 4615.0,
+        "max": 6867.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5371.015625,
+          "median": 5610.0,
+          "min": 3922.0,
+          "max": 5963.0
+        },
+        "0.05": {
+          "mean": 3911.09375,
+          "median": 4099.0,
+          "min": 2727.0,
+          "max": 4317.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3273.86865234375,
+        "median": 3404.588134765625,
+        "min": 2380.298583984375,
+        "max": 3614.54052734375
+      }
+    },
+    {
+      "name": "03_w000512.pt",
+      "source_id": "03",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6138.296875,
+        "median": 6408.0,
+        "min": 4608.0,
+        "max": 6931.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5374.390625,
+          "median": 5604.0,
+          "min": 3939.0,
+          "max": 6034.0
+        },
+        "0.05": {
+          "mean": 3915.765625,
+          "median": 4065.0,
+          "min": 2759.0,
+          "max": 4398.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3274.61865234375,
+        "median": 3412.31494140625,
+        "min": 2397.83154296875,
+        "max": 3666.378662109375
+      }
+    },
+    {
+      "name": "03_w000576.pt",
+      "source_id": "03",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6143.953125,
+        "median": 6423.0,
+        "min": 4683.0,
+        "max": 6935.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5372.984375,
+          "median": 5646.0,
+          "min": 4014.0,
+          "max": 6083.0
+        },
+        "0.05": {
+          "mean": 3912.8125,
+          "median": 4072.0,
+          "min": 2747.0,
+          "max": 4404.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3275.2470703125,
+        "median": 3407.107666015625,
+        "min": 2405.09228515625,
+        "max": 3666.47900390625
+      }
+    },
+    {
+      "name": "03_w000640.pt",
+      "source_id": "03",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6176.4375,
+        "median": 6483.0,
+        "min": 4651.0,
+        "max": 6983.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5405.984375,
+          "median": 5626.0,
+          "min": 3969.0,
+          "max": 6137.0
+        },
+        "0.05": {
+          "mean": 3942.890625,
+          "median": 4093.0,
+          "min": 2753.0,
+          "max": 4454.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3283.365478515625,
+        "median": 3411.80517578125,
+        "min": 2381.657958984375,
+        "max": 3670.269775390625
+      }
+    },
+    {
+      "name": "03_w000704.pt",
+      "source_id": "03",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6183.046875,
+        "median": 6438.0,
+        "min": 4641.0,
+        "max": 6973.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5411.671875,
+          "median": 5638.0,
+          "min": 3957.0,
+          "max": 6081.0
+        },
+        "0.05": {
+          "mean": 3945.53125,
+          "median": 4100.0,
+          "min": 2790.0,
+          "max": 4431.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3283.87939453125,
+        "median": 3401.96630859375,
+        "min": 2411.491943359375,
+        "max": 3665.7333984375
+      }
+    },
+    {
+      "name": "03_w000768.pt",
+      "source_id": "03",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6164.046875,
+        "median": 6549.0,
+        "min": 4550.0,
+        "max": 6926.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5395.125,
+          "median": 5731.0,
+          "min": 3933.0,
+          "max": 6060.0
+        },
+        "0.05": {
+          "mean": 3933.203125,
+          "median": 4146.0,
+          "min": 2716.0,
+          "max": 4382.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3296.19140625,
+        "median": 3449.64794921875,
+        "min": 2371.3798828125,
+        "max": 3685.7119140625
+      }
+    },
+    {
+      "name": "03_w000832.pt",
+      "source_id": "03",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6216.90625,
+        "median": 6510.0,
+        "min": 4703.0,
+        "max": 6961.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5432.609375,
+          "median": 5700.0,
+          "min": 4008.0,
+          "max": 6048.0
+        },
+        "0.05": {
+          "mean": 3958.796875,
+          "median": 4127.0,
+          "min": 2783.0,
+          "max": 4398.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3306.26904296875,
+        "median": 3422.166748046875,
+        "min": 2433.89892578125,
+        "max": 3665.2861328125
+      }
+    },
+    {
+      "name": "03_w000896.pt",
+      "source_id": "03",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6159.78125,
+        "median": 6443.0,
+        "min": 4692.0,
+        "max": 6799.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5395.421875,
+          "median": 5655.0,
+          "min": 4022.0,
+          "max": 5950.0
+        },
+        "0.05": {
+          "mean": 3933.328125,
+          "median": 4079.0,
+          "min": 2800.0,
+          "max": 4374.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3269.78515625,
+        "median": 3382.473388671875,
+        "min": 2419.899658203125,
+        "max": 3625.768310546875
+      }
+    },
+    {
+      "name": "03_w000960.pt",
+      "source_id": "03",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6199.28125,
+        "median": 6483.0,
+        "min": 4616.0,
+        "max": 7039.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5426.265625,
+          "median": 5677.0,
+          "min": 3954.0,
+          "max": 6116.0
+        },
+        "0.05": {
+          "mean": 3954.4375,
+          "median": 4102.0,
+          "min": 2777.0,
+          "max": 4475.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3296.32421875,
+        "median": 3432.42724609375,
+        "min": 2425.94970703125,
+        "max": 3711.649658203125
+      }
+    },
+    {
+      "name": "03_w001024.pt",
+      "source_id": "03",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6204.90625,
+        "median": 6509.0,
+        "min": 4601.0,
+        "max": 6972.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5426.84375,
+          "median": 5668.0,
+          "min": 3927.0,
+          "max": 6100.0
+        },
+        "0.05": {
+          "mean": 3956.5625,
+          "median": 4124.0,
+          "min": 2710.0,
+          "max": 4423.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3293.55810546875,
+        "median": 3435.896728515625,
+        "min": 2361.097900390625,
+        "max": 3661.3544921875
+      }
+    },
+    {
+      "name": "03_w001088.pt",
+      "source_id": "03",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6189.875,
+        "median": 6465.0,
+        "min": 4689.0,
+        "max": 6890.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5416.578125,
+          "median": 5680.0,
+          "min": 4058.0,
+          "max": 6042.0
+        },
+        "0.05": {
+          "mean": 3946.953125,
+          "median": 4140.0,
+          "min": 2808.0,
+          "max": 4390.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3287.05859375,
+        "median": 3426.625244140625,
+        "min": 2449.142822265625,
+        "max": 3644.246337890625
+      }
+    },
+    {
+      "name": "03_w001152.pt",
+      "source_id": "03",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6202.375,
+        "median": 6444.0,
+        "min": 4721.0,
+        "max": 6937.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5425.90625,
+          "median": 5624.0,
+          "min": 4052.0,
+          "max": 6054.0
+        },
+        "0.05": {
+          "mean": 3952.453125,
+          "median": 4086.0,
+          "min": 2790.0,
+          "max": 4435.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3295.337890625,
+        "median": 3394.661376953125,
+        "min": 2427.51318359375,
+        "max": 3660.4951171875
+      }
+    },
+    {
+      "name": "03_w001216.pt",
+      "source_id": "03",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6195.84375,
+        "median": 6440.0,
+        "min": 4688.0,
+        "max": 6939.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5420.328125,
+          "median": 5658.0,
+          "min": 4069.0,
+          "max": 6040.0
+        },
+        "0.05": {
+          "mean": 3948.328125,
+          "median": 4082.0,
+          "min": 2847.0,
+          "max": 4387.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3300.510986328125,
+        "median": 3424.4462890625,
+        "min": 2444.34814453125,
+        "max": 3666.315185546875
+      }
+    },
+    {
+      "name": "03_w001280.pt",
+      "source_id": "03",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6163.046875,
+        "median": 6479.0,
+        "min": 4564.0,
+        "max": 6848.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5394.0625,
+          "median": 5660.0,
+          "min": 3931.0,
+          "max": 5992.0
+        },
+        "0.05": {
+          "mean": 3932.3125,
+          "median": 4123.0,
+          "min": 2766.0,
+          "max": 4323.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3291.847900390625,
+        "median": 3428.525146484375,
+        "min": 2393.829833984375,
+        "max": 3641.158935546875
+      }
+    },
+    {
+      "name": "03_w001344.pt",
+      "source_id": "03",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6198.0,
+        "median": 6445.0,
+        "min": 4645.0,
+        "max": 6981.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5433.734375,
+          "median": 5626.0,
+          "min": 3951.0,
+          "max": 6108.0
+        },
+        "0.05": {
+          "mean": 3969.46875,
+          "median": 4097.0,
+          "min": 2763.0,
+          "max": 4442.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3308.178466796875,
+        "median": 3412.921142578125,
+        "min": 2429.5498046875,
+        "max": 3666.6533203125
+      }
+    },
+    {
+      "name": "03_w001408.pt",
+      "source_id": "03",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6128.140625,
+        "median": 6387.0,
+        "min": 4621.0,
+        "max": 6979.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5371.484375,
+          "median": 5572.0,
+          "min": 3970.0,
+          "max": 6110.0
+        },
+        "0.05": {
+          "mean": 3921.0625,
+          "median": 4052.0,
+          "min": 2791.0,
+          "max": 4475.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3261.01953125,
+        "median": 3374.27978515625,
+        "min": 2387.173095703125,
+        "max": 3699.621826171875
+      }
+    },
+    {
+      "name": "04_w000000.pt",
+      "source_id": "04",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6153.171875,
+        "median": 6493.0,
+        "min": 4479.0,
+        "max": 6920.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5374.125,
+          "median": 5675.0,
+          "min": 3857.0,
+          "max": 6022.0
+        },
+        "0.05": {
+          "mean": 3904.796875,
+          "median": 4062.0,
+          "min": 2709.0,
+          "max": 4368.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3274.435791015625,
+        "median": 3394.272705078125,
+        "min": 2335.4833984375,
+        "max": 3650.068603515625
+      }
+    },
+    {
+      "name": "04_w000064.pt",
+      "source_id": "04",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6174.078125,
+        "median": 6444.0,
+        "min": 4670.0,
+        "max": 6922.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5389.515625,
+          "median": 5611.0,
+          "min": 4051.0,
+          "max": 5995.0
+        },
+        "0.05": {
+          "mean": 3915.5,
+          "median": 4054.0,
+          "min": 2811.0,
+          "max": 4357.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3297.016357421875,
+        "median": 3414.0869140625,
+        "min": 2453.15673828125,
+        "max": 3653.020751953125
+      }
+    },
+    {
+      "name": "04_w000128.pt",
+      "source_id": "04",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6203.328125,
+        "median": 6605.0,
+        "min": 4658.0,
+        "max": 6867.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5413.84375,
+          "median": 5785.0,
+          "min": 4028.0,
+          "max": 5999.0
+        },
+        "0.05": {
+          "mean": 3936.828125,
+          "median": 4180.0,
+          "min": 2787.0,
+          "max": 4338.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3312.843017578125,
+        "median": 3503.92138671875,
+        "min": 2444.028564453125,
+        "max": 3639.20849609375
+      }
+    },
+    {
+      "name": "04_w000192.pt",
+      "source_id": "04",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6208.875,
+        "median": 6502.0,
+        "min": 4690.0,
+        "max": 6989.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5421.46875,
+          "median": 5661.0,
+          "min": 4009.0,
+          "max": 6058.0
+        },
+        "0.05": {
+          "mean": 3943.9375,
+          "median": 4121.0,
+          "min": 2815.0,
+          "max": 4394.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3310.330810546875,
+        "median": 3460.57275390625,
+        "min": 2449.643798828125,
+        "max": 3651.826171875
+      }
+    },
+    {
+      "name": "04_w000256.pt",
+      "source_id": "04",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6163.359375,
+        "median": 6467.0,
+        "min": 4693.0,
+        "max": 6867.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5383.25,
+          "median": 5650.0,
+          "min": 3990.0,
+          "max": 5977.0
+        },
+        "0.05": {
+          "mean": 3915.90625,
+          "median": 4084.0,
+          "min": 2779.0,
+          "max": 4350.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3293.1826171875,
+        "median": 3424.701904296875,
+        "min": 2470.08837890625,
+        "max": 3636.39892578125
+      }
+    },
+    {
+      "name": "04_w000320.pt",
+      "source_id": "04",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6088.359375,
+        "median": 6448.0,
+        "min": 4521.0,
+        "max": 6799.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5316.234375,
+          "median": 5651.0,
+          "min": 3846.0,
+          "max": 5888.0
+        },
+        "0.05": {
+          "mean": 3863.90625,
+          "median": 4097.0,
+          "min": 2692.0,
+          "max": 4265.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3239.73046875,
+        "median": 3408.982421875,
+        "min": 2330.179931640625,
+        "max": 3564.645263671875
+      }
+    },
+    {
+      "name": "04_w000384.pt",
+      "source_id": "04",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6106.546875,
+        "median": 6321.0,
+        "min": 4448.0,
+        "max": 6891.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5340.53125,
+          "median": 5528.0,
+          "min": 3821.0,
+          "max": 6034.0
+        },
+        "0.05": {
+          "mean": 3891.78125,
+          "median": 4006.0,
+          "min": 2680.0,
+          "max": 4371.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3247.90673828125,
+        "median": 3348.73583984375,
+        "min": 2337.4287109375,
+        "max": 3631.197021484375
+      }
+    },
+    {
+      "name": "04_w000448.pt",
+      "source_id": "04",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6166.15625,
+        "median": 6559.0,
+        "min": 4725.0,
+        "max": 6763.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5380.53125,
+          "median": 5702.0,
+          "min": 4006.0,
+          "max": 5893.0
+        },
+        "0.05": {
+          "mean": 3909.859375,
+          "median": 4123.0,
+          "min": 2776.0,
+          "max": 4281.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3272.906494140625,
+        "median": 3447.02001953125,
+        "min": 2415.99755859375,
+        "max": 3562.5244140625
+      }
+    },
+    {
+      "name": "04_w000512.pt",
+      "source_id": "04",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6271.875,
+        "median": 6619.0,
+        "min": 4656.0,
+        "max": 6958.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5486.203125,
+          "median": 5802.0,
+          "min": 3986.0,
+          "max": 6029.0
+        },
+        "0.05": {
+          "mean": 3994.484375,
+          "median": 4201.0,
+          "min": 2776.0,
+          "max": 4401.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3344.295166015625,
+        "median": 3492.375732421875,
+        "min": 2416.679443359375,
+        "max": 3698.21630859375
+      }
+    },
+    {
+      "name": "04_w000576.pt",
+      "source_id": "04",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6220.53125,
+        "median": 6540.0,
+        "min": 4707.0,
+        "max": 6947.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5434.890625,
+          "median": 5713.0,
+          "min": 4012.0,
+          "max": 6031.0
+        },
+        "0.05": {
+          "mean": 3955.6875,
+          "median": 4141.0,
+          "min": 2788.0,
+          "max": 4344.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3319.218017578125,
+        "median": 3469.270263671875,
+        "min": 2459.72705078125,
+        "max": 3662.286376953125
+      }
+    },
+    {
+      "name": "04_w000640.pt",
+      "source_id": "04",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6189.015625,
+        "median": 6511.0,
+        "min": 4675.0,
+        "max": 6918.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5413.171875,
+          "median": 5704.0,
+          "min": 3962.0,
+          "max": 6014.0
+        },
+        "0.05": {
+          "mean": 3939.65625,
+          "median": 4148.0,
+          "min": 2778.0,
+          "max": 4366.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3298.478759765625,
+        "median": 3464.9482421875,
+        "min": 2408.29443359375,
+        "max": 3647.203857421875
+      }
+    },
+    {
+      "name": "04_w000704.pt",
+      "source_id": "04",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6204.8125,
+        "median": 6482.0,
+        "min": 4678.0,
+        "max": 6936.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5419.71875,
+          "median": 5662.0,
+          "min": 3979.0,
+          "max": 6055.0
+        },
+        "0.05": {
+          "mean": 3944.859375,
+          "median": 4081.0,
+          "min": 2793.0,
+          "max": 4386.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3311.7060546875,
+        "median": 3444.306396484375,
+        "min": 2431.99560546875,
+        "max": 3716.63916015625
+      }
+    },
+    {
+      "name": "04_w000768.pt",
+      "source_id": "04",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6203.5625,
+        "median": 6514.0,
+        "min": 4631.0,
+        "max": 6988.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5423.140625,
+          "median": 5673.0,
+          "min": 3960.0,
+          "max": 6079.0
+        },
+        "0.05": {
+          "mean": 3946.1875,
+          "median": 4086.0,
+          "min": 2769.0,
+          "max": 4396.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3288.11572265625,
+        "median": 3411.695068359375,
+        "min": 2431.744873046875,
+        "max": 3636.48486328125
+      }
+    },
+    {
+      "name": "04_w000832.pt",
+      "source_id": "04",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6201.921875,
+        "median": 6492.0,
+        "min": 4678.0,
+        "max": 6941.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5419.140625,
+          "median": 5645.0,
+          "min": 3960.0,
+          "max": 6052.0
+        },
+        "0.05": {
+          "mean": 3940.453125,
+          "median": 4094.0,
+          "min": 2771.0,
+          "max": 4358.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3290.177734375,
+        "median": 3428.107421875,
+        "min": 2417.94384765625,
+        "max": 3626.263671875
+      }
+    },
+    {
+      "name": "04_w000896.pt",
+      "source_id": "04",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6191.84375,
+        "median": 6425.0,
+        "min": 4725.0,
+        "max": 6978.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5412.71875,
+          "median": 5616.0,
+          "min": 4053.0,
+          "max": 6073.0
+        },
+        "0.05": {
+          "mean": 3943.625,
+          "median": 4092.0,
+          "min": 2848.0,
+          "max": 4388.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3303.21484375,
+        "median": 3414.447998046875,
+        "min": 2461.8701171875,
+        "max": 3699.166748046875
+      }
+    },
+    {
+      "name": "04_w000960.pt",
+      "source_id": "04",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6196.390625,
+        "median": 6563.0,
+        "min": 4557.0,
+        "max": 6970.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5418.921875,
+          "median": 5736.0,
+          "min": 3925.0,
+          "max": 6087.0
+        },
+        "0.05": {
+          "mean": 3942.5625,
+          "median": 4178.0,
+          "min": 2727.0,
+          "max": 4432.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3297.143310546875,
+        "median": 3473.4462890625,
+        "min": 2370.951416015625,
+        "max": 3683.568115234375
+      }
+    },
+    {
+      "name": "04_w001024.pt",
+      "source_id": "04",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6176.65625,
+        "median": 6527.0,
+        "min": 4643.0,
+        "max": 6903.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5402.5,
+          "median": 5713.0,
+          "min": 3970.0,
+          "max": 6018.0
+        },
+        "0.05": {
+          "mean": 3939.71875,
+          "median": 4094.0,
+          "min": 2808.0,
+          "max": 4384.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3284.0419921875,
+        "median": 3430.117431640625,
+        "min": 2432.744140625,
+        "max": 3615.2021484375
+      }
+    },
+    {
+      "name": "04_w001088.pt",
+      "source_id": "04",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6177.234375,
+        "median": 6440.0,
+        "min": 4572.0,
+        "max": 7039.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5403.859375,
+          "median": 5627.0,
+          "min": 3909.0,
+          "max": 6132.0
+        },
+        "0.05": {
+          "mean": 3936.15625,
+          "median": 4083.0,
+          "min": 2736.0,
+          "max": 4472.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3280.8681640625,
+        "median": 3416.10595703125,
+        "min": 2394.322509765625,
+        "max": 3698.611572265625
+      }
+    },
+    {
+      "name": "04_w001152.pt",
+      "source_id": "04",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6241.375,
+        "median": 6564.0,
+        "min": 4721.0,
+        "max": 6980.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5459.5,
+          "median": 5750.0,
+          "min": 4039.0,
+          "max": 6064.0
+        },
+        "0.05": {
+          "mean": 3973.84375,
+          "median": 4167.0,
+          "min": 2818.0,
+          "max": 4417.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3319.341796875,
+        "median": 3451.654296875,
+        "min": 2417.801513671875,
+        "max": 3678.05712890625
+      }
+    },
+    {
+      "name": "04_w001216.pt",
+      "source_id": "04",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6230.765625,
+        "median": 6588.0,
+        "min": 4646.0,
+        "max": 7073.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5447.40625,
+          "median": 5722.0,
+          "min": 3974.0,
+          "max": 6163.0
+        },
+        "0.05": {
+          "mean": 3967.578125,
+          "median": 4128.0,
+          "min": 2769.0,
+          "max": 4450.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3340.9873046875,
+        "median": 3456.505859375,
+        "min": 2446.353515625,
+        "max": 3703.43701171875
+      }
+    },
+    {
+      "name": "04_w001280.pt",
+      "source_id": "04",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6213.828125,
+        "median": 6480.0,
+        "min": 4726.0,
+        "max": 6891.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5436.171875,
+          "median": 5699.0,
+          "min": 4054.0,
+          "max": 6016.0
+        },
+        "0.05": {
+          "mean": 3958.96875,
+          "median": 4118.0,
+          "min": 2799.0,
+          "max": 4385.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3316.41552734375,
+        "median": 3473.293212890625,
+        "min": 2419.481689453125,
+        "max": 3654.14892578125
+      }
+    },
+    {
+      "name": "04_w001344.pt",
+      "source_id": "04",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6063.453125,
+        "median": 6440.0,
+        "min": 4331.0,
+        "max": 6781.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5290.359375,
+          "median": 5612.0,
+          "min": 3733.0,
+          "max": 5894.0
+        },
+        "0.05": {
+          "mean": 3843.578125,
+          "median": 4004.0,
+          "min": 2658.0,
+          "max": 4276.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3228.902587890625,
+        "median": 3382.475341796875,
+        "min": 2294.8359375,
+        "max": 3575.906494140625
+      }
+    },
+    {
+      "name": "04_w001408.pt",
+      "source_id": "04",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6035.609375,
+        "median": 6356.0,
+        "min": 4451.0,
+        "max": 6787.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5271.8125,
+          "median": 5521.0,
+          "min": 3775.0,
+          "max": 5930.0
+        },
+        "0.05": {
+          "mean": 3831.484375,
+          "median": 4018.0,
+          "min": 2573.0,
+          "max": 4301.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3204.591796875,
+        "median": 3318.757080078125,
+        "min": 2237.317626953125,
+        "max": 3585.687255859375
+      }
+    },
+    {
+      "name": "05_w000000.pt",
+      "source_id": "05",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6136.34375,
+        "median": 6489.0,
+        "min": 4302.0,
+        "max": 6991.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5360.5625,
+          "median": 5677.0,
+          "min": 3668.0,
+          "max": 6097.0
+        },
+        "0.05": {
+          "mean": 3903.96875,
+          "median": 4078.0,
+          "min": 2603.0,
+          "max": 4449.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3272.1689453125,
+        "median": 3424.892578125,
+        "min": 2269.792724609375,
+        "max": 3753.597900390625
+      }
+    },
+    {
+      "name": "05_w000064.pt",
+      "source_id": "05",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6143.109375,
+        "median": 6516.0,
+        "min": 4598.0,
+        "max": 6798.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5371.1875,
+          "median": 5677.0,
+          "min": 3912.0,
+          "max": 5933.0
+        },
+        "0.05": {
+          "mean": 3912.34375,
+          "median": 4083.0,
+          "min": 2735.0,
+          "max": 4341.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3272.291748046875,
+        "median": 3417.35009765625,
+        "min": 2347.713623046875,
+        "max": 3611.5869140625
+      }
+    },
+    {
+      "name": "05_w000128.pt",
+      "source_id": "05",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6169.046875,
+        "median": 6484.0,
+        "min": 4573.0,
+        "max": 6832.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5399.3125,
+          "median": 5696.0,
+          "min": 3913.0,
+          "max": 5959.0
+        },
+        "0.05": {
+          "mean": 3940.71875,
+          "median": 4114.0,
+          "min": 2786.0,
+          "max": 4342.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3299.468994140625,
+        "median": 3447.964599609375,
+        "min": 2430.94140625,
+        "max": 3620.42724609375
+      }
+    },
+    {
+      "name": "05_w000192.pt",
+      "source_id": "05",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6155.625,
+        "median": 6448.0,
+        "min": 4626.0,
+        "max": 6864.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5390.890625,
+          "median": 5640.0,
+          "min": 3960.0,
+          "max": 6011.0
+        },
+        "0.05": {
+          "mean": 3931.328125,
+          "median": 4084.0,
+          "min": 2782.0,
+          "max": 4387.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3268.891357421875,
+        "median": 3378.557861328125,
+        "min": 2407.223876953125,
+        "max": 3648.4951171875
+      }
+    },
+    {
+      "name": "05_w000256.pt",
+      "source_id": "05",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6117.765625,
+        "median": 6357.0,
+        "min": 4584.0,
+        "max": 6902.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5350.359375,
+          "median": 5526.0,
+          "min": 3904.0,
+          "max": 6009.0
+        },
+        "0.05": {
+          "mean": 3898.953125,
+          "median": 4027.0,
+          "min": 2739.0,
+          "max": 4351.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3247.132080078125,
+        "median": 3340.547607421875,
+        "min": 2392.1337890625,
+        "max": 3634.40478515625
+      }
+    },
+    {
+      "name": "05_w000320.pt",
+      "source_id": "05",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6181.75,
+        "median": 6465.0,
+        "min": 4581.0,
+        "max": 7033.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5406.046875,
+          "median": 5658.0,
+          "min": 3894.0,
+          "max": 6125.0
+        },
+        "0.05": {
+          "mean": 3941.0625,
+          "median": 4099.0,
+          "min": 2712.0,
+          "max": 4439.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3286.916015625,
+        "median": 3408.729736328125,
+        "min": 2324.395263671875,
+        "max": 3693.478271484375
+      }
+    },
+    {
+      "name": "05_w000384.pt",
+      "source_id": "05",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6177.203125,
+        "median": 6546.0,
+        "min": 4685.0,
+        "max": 6884.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5400.953125,
+          "median": 5708.0,
+          "min": 4000.0,
+          "max": 6024.0
+        },
+        "0.05": {
+          "mean": 3933.703125,
+          "median": 4121.0,
+          "min": 2787.0,
+          "max": 4399.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3302.76953125,
+        "median": 3466.372802734375,
+        "min": 2424.16162109375,
+        "max": 3655.610107421875
+      }
+    },
+    {
+      "name": "05_w000448.pt",
+      "source_id": "05",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6121.5625,
+        "median": 6429.0,
+        "min": 4556.0,
+        "max": 6876.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5347.953125,
+          "median": 5637.0,
+          "min": 3895.0,
+          "max": 5976.0
+        },
+        "0.05": {
+          "mean": 3893.140625,
+          "median": 4067.0,
+          "min": 2668.0,
+          "max": 4318.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3250.8798828125,
+        "median": 3396.588623046875,
+        "min": 2314.397216796875,
+        "max": 3610.86669921875
+      }
+    },
+    {
+      "name": "05_w000512.pt",
+      "source_id": "05",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6207.734375,
+        "median": 6452.0,
+        "min": 4729.0,
+        "max": 6978.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5420.953125,
+          "median": 5648.0,
+          "min": 3993.0,
+          "max": 6096.0
+        },
+        "0.05": {
+          "mean": 3942.65625,
+          "median": 4083.0,
+          "min": 2770.0,
+          "max": 4434.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3304.82373046875,
+        "median": 3422.445068359375,
+        "min": 2434.090087890625,
+        "max": 3678.709716796875
+      }
+    },
+    {
+      "name": "05_w000576.pt",
+      "source_id": "05",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6245.03125,
+        "median": 6553.0,
+        "min": 4755.0,
+        "max": 6970.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5456.59375,
+          "median": 5735.0,
+          "min": 4028.0,
+          "max": 6067.0
+        },
+        "0.05": {
+          "mean": 3970.03125,
+          "median": 4127.0,
+          "min": 2789.0,
+          "max": 4360.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3337.81689453125,
+        "median": 3434.3955078125,
+        "min": 2436.31640625,
+        "max": 3663.494140625
+      }
+    },
+    {
+      "name": "05_w000640.pt",
+      "source_id": "05",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6227.59375,
+        "median": 6570.0,
+        "min": 4784.0,
+        "max": 6991.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5444.28125,
+          "median": 5710.0,
+          "min": 4112.0,
+          "max": 6070.0
+        },
+        "0.05": {
+          "mean": 3967.625,
+          "median": 4117.0,
+          "min": 2872.0,
+          "max": 4430.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3314.312255859375,
+        "median": 3433.42724609375,
+        "min": 2498.5498046875,
+        "max": 3713.712646484375
+      }
+    },
+    {
+      "name": "05_w000704.pt",
+      "source_id": "05",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6185.34375,
+        "median": 6512.0,
+        "min": 4737.0,
+        "max": 6912.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5404.9375,
+          "median": 5683.0,
+          "min": 4052.0,
+          "max": 6013.0
+        },
+        "0.05": {
+          "mean": 3932.453125,
+          "median": 4089.0,
+          "min": 2802.0,
+          "max": 4388.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3292.940185546875,
+        "median": 3419.138916015625,
+        "min": 2427.2236328125,
+        "max": 3663.16162109375
+      }
+    },
+    {
+      "name": "06_w000000.pt",
+      "source_id": "06",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6189.703125,
+        "median": 6495.0,
+        "min": 4645.0,
+        "max": 7065.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5403.0625,
+          "median": 5655.0,
+          "min": 3955.0,
+          "max": 6136.0
+        },
+        "0.05": {
+          "mean": 3929.0,
+          "median": 4104.0,
+          "min": 2762.0,
+          "max": 4475.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3311.827880859375,
+        "median": 3445.581787109375,
+        "min": 2455.343994140625,
+        "max": 3770.0595703125
+      }
+    },
+    {
+      "name": "06_w000064.pt",
+      "source_id": "06",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6129.921875,
+        "median": 6474.0,
+        "min": 4590.0,
+        "max": 6841.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5361.171875,
+          "median": 5691.0,
+          "min": 3916.0,
+          "max": 5950.0
+        },
+        "0.05": {
+          "mean": 3899.5625,
+          "median": 4095.0,
+          "min": 2691.0,
+          "max": 4332.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3262.63525390625,
+        "median": 3421.557373046875,
+        "min": 2369.900390625,
+        "max": 3600.04248046875
+      }
+    },
+    {
+      "name": "06_w000128.pt",
+      "source_id": "06",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6123.359375,
+        "median": 6441.0,
+        "min": 4621.0,
+        "max": 6801.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5352.03125,
+          "median": 5616.0,
+          "min": 3979.0,
+          "max": 5928.0
+        },
+        "0.05": {
+          "mean": 3894.8125,
+          "median": 4071.0,
+          "min": 2764.0,
+          "max": 4275.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3278.370849609375,
+        "median": 3414.882080078125,
+        "min": 2423.24072265625,
+        "max": 3601.0107421875
+      }
+    },
+    {
+      "name": "06_w000192.pt",
+      "source_id": "06",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6165.15625,
+        "median": 6464.0,
+        "min": 4684.0,
+        "max": 6833.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5385.53125,
+          "median": 5696.0,
+          "min": 3976.0,
+          "max": 5939.0
+        },
+        "0.05": {
+          "mean": 3923.59375,
+          "median": 4115.0,
+          "min": 2814.0,
+          "max": 4353.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3288.52783203125,
+        "median": 3457.42578125,
+        "min": 2445.410888671875,
+        "max": 3607.30859375
+      }
+    },
+    {
+      "name": "06_w000256.pt",
+      "source_id": "06",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6105.796875,
+        "median": 6468.0,
+        "min": 4597.0,
+        "max": 6854.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5329.40625,
+          "median": 5633.0,
+          "min": 3959.0,
+          "max": 5928.0
+        },
+        "0.05": {
+          "mean": 3876.09375,
+          "median": 4055.0,
+          "min": 2717.0,
+          "max": 4296.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3240.548583984375,
+        "median": 3348.1806640625,
+        "min": 2384.035888671875,
+        "max": 3590.183349609375
+      }
+    },
+    {
+      "name": "06_w000320.pt",
+      "source_id": "06",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6092.765625,
+        "median": 6411.0,
+        "min": 4593.0,
+        "max": 6838.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5324.375,
+          "median": 5613.0,
+          "min": 3908.0,
+          "max": 5927.0
+        },
+        "0.05": {
+          "mean": 3876.078125,
+          "median": 4054.0,
+          "min": 2693.0,
+          "max": 4283.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3250.6103515625,
+        "median": 3393.478271484375,
+        "min": 2338.407958984375,
+        "max": 3600.06201171875
+      }
+    },
+    {
+      "name": "06_w000384.pt",
+      "source_id": "06",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6161.25,
+        "median": 6446.0,
+        "min": 4645.0,
+        "max": 6822.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5380.390625,
+          "median": 5644.0,
+          "min": 3926.0,
+          "max": 5923.0
+        },
+        "0.05": {
+          "mean": 3920.875,
+          "median": 4068.0,
+          "min": 2770.0,
+          "max": 4317.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3301.324462890625,
+        "median": 3445.213134765625,
+        "min": 2445.9072265625,
+        "max": 3607.193115234375
+      }
+    },
+    {
+      "name": "06_w000448.pt",
+      "source_id": "06",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6162.28125,
+        "median": 6520.0,
+        "min": 4619.0,
+        "max": 6862.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5389.28125,
+          "median": 5712.0,
+          "min": 3945.0,
+          "max": 5991.0
+        },
+        "0.05": {
+          "mean": 3926.734375,
+          "median": 4101.0,
+          "min": 2732.0,
+          "max": 4372.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3293.58203125,
+        "median": 3446.930908203125,
+        "min": 2417.889404296875,
+        "max": 3639.5712890625
+      }
+    },
+    {
+      "name": "06_w000512.pt",
+      "source_id": "06",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6086.4375,
+        "median": 6412.0,
+        "min": 4623.0,
+        "max": 6761.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5323.03125,
+          "median": 5605.0,
+          "min": 3948.0,
+          "max": 5900.0
+        },
+        "0.05": {
+          "mean": 3881.078125,
+          "median": 4046.0,
+          "min": 2757.0,
+          "max": 4282.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3248.18798828125,
+        "median": 3378.84130859375,
+        "min": 2424.105712890625,
+        "max": 3570.913818359375
+      }
+    },
+    {
+      "name": "06_w000576.pt",
+      "source_id": "06",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6118.890625,
+        "median": 6322.0,
+        "min": 4670.0,
+        "max": 6853.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5343.578125,
+          "median": 5554.0,
+          "min": 3950.0,
+          "max": 5981.0
+        },
+        "0.05": {
+          "mean": 3885.15625,
+          "median": 4025.0,
+          "min": 2722.0,
+          "max": 4302.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3253.52099609375,
+        "median": 3378.020263671875,
+        "min": 2389.663818359375,
+        "max": 3595.748779296875
+      }
+    },
+    {
+      "name": "06_w000640.pt",
+      "source_id": "06",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6101.71875,
+        "median": 6475.0,
+        "min": 4580.0,
+        "max": 6781.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5332.453125,
+          "median": 5679.0,
+          "min": 3915.0,
+          "max": 5894.0
+        },
+        "0.05": {
+          "mean": 3879.453125,
+          "median": 4068.0,
+          "min": 2769.0,
+          "max": 4248.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3258.544677734375,
+        "median": 3402.65673828125,
+        "min": 2406.901123046875,
+        "max": 3560.84521484375
+      }
+    },
+    {
+      "name": "06_w000704.pt",
+      "source_id": "06",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6152.5,
+        "median": 6529.0,
+        "min": 4677.0,
+        "max": 6767.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5373.265625,
+          "median": 5710.0,
+          "min": 3988.0,
+          "max": 5881.0
+        },
+        "0.05": {
+          "mean": 3905.828125,
+          "median": 4129.0,
+          "min": 2769.0,
+          "max": 4289.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3275.93115234375,
+        "median": 3433.5830078125,
+        "min": 2398.14404296875,
+        "max": 3571.87841796875
+      }
+    },
+    {
+      "name": "06_w000768.pt",
+      "source_id": "06",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6180.84375,
+        "median": 6483.0,
+        "min": 4762.0,
+        "max": 6857.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5399.296875,
+          "median": 5654.0,
+          "min": 4057.0,
+          "max": 5965.0
+        },
+        "0.05": {
+          "mean": 3930.0,
+          "median": 4098.0,
+          "min": 2843.0,
+          "max": 4368.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3286.361083984375,
+        "median": 3421.747802734375,
+        "min": 2448.959716796875,
+        "max": 3610.53857421875
+      }
+    },
+    {
+      "name": "06_w000832.pt",
+      "source_id": "06",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6113.859375,
+        "median": 6464.0,
+        "min": 4700.0,
+        "max": 6773.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5346.078125,
+          "median": 5623.0,
+          "min": 4013.0,
+          "max": 5905.0
+        },
+        "0.05": {
+          "mean": 3887.953125,
+          "median": 4080.0,
+          "min": 2772.0,
+          "max": 4283.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3249.892578125,
+        "median": 3428.769775390625,
+        "min": 2423.133056640625,
+        "max": 3599.947998046875
+      }
+    },
+    {
+      "name": "06_w000896.pt",
+      "source_id": "06",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6140.65625,
+        "median": 6468.0,
+        "min": 4713.0,
+        "max": 6795.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5370.0625,
+          "median": 5652.0,
+          "min": 4035.0,
+          "max": 5935.0
+        },
+        "0.05": {
+          "mean": 3909.953125,
+          "median": 4118.0,
+          "min": 2817.0,
+          "max": 4262.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3256.810546875,
+        "median": 3394.0029296875,
+        "min": 2419.061279296875,
+        "max": 3568.421875
+      }
+    },
+    {
+      "name": "06_w000960.pt",
+      "source_id": "06",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6190.6875,
+        "median": 6571.0,
+        "min": 4551.0,
+        "max": 6948.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5416.421875,
+          "median": 5742.0,
+          "min": 3909.0,
+          "max": 6071.0
+        },
+        "0.05": {
+          "mean": 3945.796875,
+          "median": 4153.0,
+          "min": 2676.0,
+          "max": 4390.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3303.903076171875,
+        "median": 3486.674072265625,
+        "min": 2319.828857421875,
+        "max": 3682.937255859375
+      }
+    },
+    {
+      "name": "06_w001024.pt",
+      "source_id": "06",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6163.3125,
+        "median": 6500.0,
+        "min": 4751.0,
+        "max": 6857.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5395.703125,
+          "median": 5690.0,
+          "min": 4066.0,
+          "max": 5988.0
+        },
+        "0.05": {
+          "mean": 3932.59375,
+          "median": 4135.0,
+          "min": 2833.0,
+          "max": 4371.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3272.884033203125,
+        "median": 3418.412109375,
+        "min": 2443.385009765625,
+        "max": 3588.734619140625
+      }
+    },
+    {
+      "name": "06_w001088.pt",
+      "source_id": "06",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6060.1875,
+        "median": 6401.0,
+        "min": 4598.0,
+        "max": 6694.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5288.171875,
+          "median": 5561.0,
+          "min": 3956.0,
+          "max": 5826.0
+        },
+        "0.05": {
+          "mean": 3844.3125,
+          "median": 3983.0,
+          "min": 2751.0,
+          "max": 4230.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3218.508544921875,
+        "median": 3357.45361328125,
+        "min": 2359.331298828125,
+        "max": 3564.805908203125
+      }
+    },
+    {
+      "name": "06_w001152.pt",
+      "source_id": "06",
+      "domain_id": "avenue_dense",
+      "jewels": 45000,
+      "frames": 64,
+      "support_counts": {
+        "mean": 6246.984375,
+        "median": 6589.0,
+        "min": 4812.0,
+        "max": 7014.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 5463.578125,
+          "median": 5745.0,
+          "min": 4091.0,
+          "max": 6104.0
+        },
+        "0.05": {
+          "mean": 3979.34375,
+          "median": 4149.0,
+          "min": 2867.0,
+          "max": 4432.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 3335.661865234375,
+        "median": 3482.65283203125,
+        "min": 2485.3388671875,
+        "max": 3695.2880859375
+      }
+    }
+  ],
+  "aggregate": {
+    "support_counts": {
+      "mean": 6158.486328125,
+      "median": 6480.0,
+      "min": 3713.0,
+      "max": 7073.0
+    },
+    "peak_alpha_counts": {
+      "0.01": {
+        "mean": 5385.1279296875,
+        "median": 5662.0,
+        "min": 3158.0,
+        "max": 6163.0
+      },
+      "0.05": {
+        "mean": 3921.801025390625,
+        "median": 4098.0,
+        "min": 2189.0,
+        "max": 4504.0
+      }
+    },
+    "effective_peak_alpha_counts": {
+      "mean": 3279.962646484375,
+      "median": 3424.138916015625,
+      "min": 1898.279296875,
+      "max": 3770.0595703125
+    }
+  }
+}

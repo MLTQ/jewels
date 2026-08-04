@@ -13,7 +13,20 @@ over a learned constant background.
   astronomically negative logits so dropping them is numerically free.
 - Chunked over query points (2026-08-01): bit-identical indices, peak memory chunk×N instead of
   M×N. The unchunked 65536×10000 matrix was the fitter's 13 GB spike; now ~2-3 GB total, so
-  fits can share a GPU.
+  fits can share a GPU. Since 2026-08-04, the effective chunk is also capped at 100M
+  point/primitive distance pairs. It automatically shrinks the chunk as primitive count grows,
+  preventing the 2.5 GB
+  contiguous allocation and subsequent large-kernel launch failure observed during two 45k UCF
+  transfer attempts on the 8 GB 2070S. After a device restart, an 8,192×45,000 stress test used
+  394 MB peak PyTorch allocation and a full 8,000-step/45k UCF fit completed with ~1.36 GB reported
+  GPU use. A subsequent benchmark over 65,536 queries and 45k centers measured 0.513/0.408/0.387/
+  0.387 seconds at 50M/75M/100M/125M caps. The 100M result used 492 MB peak and returned identical
+  neighbors; 64 consecutive repetitions completed in 25.0 seconds with 404 MB peak reserved. The
+  100M cap is therefore the selected throughput/stability knee. The original 50M recovery run took
+  57 minutes, so corpus throughput still needs a full-fit remeasurement. An end-to-end call through
+  `cull_knn` on 65,536 queries and 45k centers measured 0.522 s / 423 MiB at the old 50M chunk and
+  0.390 s / 837 MiB at 100M, with identical `(65536,64)` indices. The additional workspace is safe
+  on the 8 GB card and buys about 25% lower culling latency.
 
 ### `render_points(field, points, knn, background)`
 - **Does**: (M,3) points -> (M,3) RGB

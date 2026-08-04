@@ -51,7 +51,9 @@ def adapt(
     densify_frac: float = 0.05,
     prune_weight: float = 0.01,
     split_shrink: float = 1.6,
+    split_mode: str = "isotropic",
     jitter: float = 0.5,
+    generator: torch.Generator | None = None,
 ) -> dict[str, int]:
     """Prune low-weight primitives, then split the highest-gradient survivors.
 
@@ -59,6 +61,8 @@ def adapt(
     optimizer afterwards — parameter tensors are replaced, so existing Adam
     moment buffers no longer correspond to them.
     """
+    if split_mode not in {"isotropic", "spatial"}:
+        raise ValueError(f"unsupported split mode: {split_mode}")
     stats = {"pruned": 0, "split": 0, "n": len(field)}
 
     # --- prune -------------------------------------------------------- #
@@ -83,13 +87,39 @@ def adapt(
         sel = grad_mean.topk(min(n_split, n)).indices
 
         scale = field.scales()[sel]
-        offset = torch.randn_like(scale) * scale * jitter
+        if generator is None:
+            noise = torch.randn_like(scale)
+        else:
+            # One CPU random stream makes exact recovery independent of the
+            # accelerator's RNG implementation.
+            noise = torch.randn(
+                scale.shape,
+                dtype=scale.dtype,
+                device=generator.device,
+                generator=generator,
+            ).to(scale.device)
+        if split_mode == "spatial":
+            rotations = field.rotations()[sel]
+            temporal_axis = rotations[:, 2].abs().argmax(dim=-1)
+            spatial_axes = torch.ones_like(scale, dtype=torch.bool)
+            spatial_axes.scatter_(1, temporal_axis[:, None], False)
+            local_offset = noise * scale * jitter * spatial_axes
+            offset = torch.einsum("nij,nj->ni", rotations, local_offset)
+            shrink = torch.where(
+                spatial_axes,
+                torch.full_like(scale, 2.0**0.5),
+                torch.ones_like(scale),
+            )
+            log_shrink = shrink.log()
+        else:
+            offset = noise * scale * jitter
+            log_shrink = torch.log(
+                torch.tensor(split_shrink, device=field.device)
+            )
 
         new = {
             "mu": (field.mu[sel] + offset).clone(),
-            "log_scale": (field.log_scale[sel] - torch.log(
-                torch.tensor(split_shrink, device=field.device)
-            )).clone(),
+            "log_scale": (field.log_scale[sel] - log_shrink).clone(),
             "quat": field.quat[sel].clone(),
             "color": field.color[sel].clone(),
             "logit_w": field.logit_w[sel].clone(),
@@ -98,9 +128,7 @@ def adapt(
             new["color_grad"] = field.color_grad[sel].clone()
 
         # shrink the parents too, so total energy is roughly conserved
-        field.log_scale[sel] -= torch.log(
-            torch.tensor(split_shrink, device=field.device)
-        )
+        field.log_scale[sel] -= log_shrink
         field.append_(new)
         stats["split"] = int(sel.shape[0])
 

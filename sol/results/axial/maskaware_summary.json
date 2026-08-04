@@ -1,0 +1,18 @@
+{
+  "steps": 5000,
+  "seconds": 160.7718677520752,
+  "base_repair_evaluation": {
+    "dirty_latent_mse": 1.8893839120864868,
+    "zero_fill_latent_mse": 1.0846933126449585,
+    "clean_max_abs_error": 0.0,
+    "mean_dirty_fraction": 0.057708740234375,
+    "examples": 8
+  },
+  "latest_repair_evaluation": {
+    "dirty_latent_mse": 1.8848214149475098,
+    "zero_fill_latent_mse": 1.0846933126449585,
+    "clean_max_abs_error": 0.0,
+    "mean_dirty_fraction": 0.057708740234375,
+    "examples": 8
+  }
+}

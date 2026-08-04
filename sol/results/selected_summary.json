@@ -1,0 +1,44 @@
+{
+  "steps": 5000,
+  "seconds": 154.6333086490631,
+  "latest_evaluation": {
+    "mean_psnr": 17.405468940734863,
+    "median_psnr": 17.52771759033203,
+    "mean_count_ratio": 0.9974501622624015,
+    "examples": [
+      {
+        "name": "11_w000000.pt",
+        "source_id": "11",
+        "psnr": 17.81661605834961,
+        "target_jewels": 6471,
+        "decoded_jewels": 6481
+      },
+      {
+        "name": "15_w000000.pt",
+        "source_id": "15",
+        "psnr": 16.08778190612793,
+        "target_jewels": 6471,
+        "decoded_jewels": 6480
+      },
+      {
+        "name": "11_w000064.pt",
+        "source_id": "11",
+        "psnr": 18.47865867614746,
+        "target_jewels": 6471,
+        "decoded_jewels": 6405
+      },
+      {
+        "name": "15_w000064.pt",
+        "source_id": "15",
+        "psnr": 17.238819122314453,
+        "target_jewels": 6471,
+        "decoded_jewels": 6452
+      }
+    ]
+  },
+  "max_cell_occupancy": 67,
+  "validation_sources": [
+    "11",
+    "15"
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "steps": 3000,
+  "seconds": 223.38490867614746,
+  "latest_evaluation": {
+    "mean_psnr": 22.1450138092041,
+    "median_psnr": 22.1450138092041,
+    "macro_source_psnr": 22.1450138092041,
+    "source_mean_psnr": {
+      "v_Basketball_g01_c01": 22.1450138092041
+    },
+    "mean_count_ratio": 0.9712666666666666,
+    "examples": [
+      {
+        "name": "v_Basketball_g01_c01_w000000.pt",
+        "source_id": "v_Basketball_g01_c01",
+        "psnr": 22.1450138092041,
+        "target_jewels": 45000,
+        "decoded_jewels": 43707
+      }
+    ]
+  },
+  "max_cell_occupancy": 71,
+  "validation_sources": [
+    "v_Basketball_g01_c01"
+  ]
+}

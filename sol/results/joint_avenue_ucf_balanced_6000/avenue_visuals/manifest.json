@@ -1,0 +1,56 @@
+[
+  {
+    "name": "03_w000000.pt",
+    "source_id": "03",
+    "target_jewels": 45000,
+    "decoded_jewels": 45499,
+    "trained_slots_per_cell": 80,
+    "rendered_slots_per_cell": 80,
+    "frames": [
+      0,
+      4,
+      8,
+      13,
+      17,
+      21,
+      25,
+      29,
+      34,
+      38,
+      42,
+      46,
+      50,
+      55,
+      59,
+      63
+    ],
+    "artifact": "03_w000000_dense_roundtrip.gif"
+  },
+  {
+    "name": "05_w000000.pt",
+    "source_id": "05",
+    "target_jewels": 45000,
+    "decoded_jewels": 45461,
+    "trained_slots_per_cell": 80,
+    "rendered_slots_per_cell": 80,
+    "frames": [
+      0,
+      4,
+      8,
+      13,
+      17,
+      21,
+      25,
+      29,
+      34,
+      38,
+      42,
+      46,
+      50,
+      55,
+      59,
+      63
+    ],
+    "artifact": "05_w000000_dense_roundtrip.gif"
+  }
+]

@@ -1,0 +1,23 @@
+{
+  "checkpoint": "corpus/ucf_dense_transfer_90k/v_Basketball_g01_c01_w000000.pt",
+  "source": {
+    "video": "/home/m/jewels/data/corpora/ucf101/UCF-101/Basketball/v_Basketball_g01_c01.avi",
+    "start_frame": 0
+  },
+  "shape": [
+    64,
+    160,
+    213
+  ],
+  "jewels": 90000,
+  "knn": 64,
+  "mse": 0.0004941099905408919,
+  "psnr": 33.061763763427734,
+  "frames": [
+    0,
+    16,
+    32,
+    48,
+    63
+  ]
+}

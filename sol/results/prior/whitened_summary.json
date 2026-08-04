@@ -1,0 +1,14 @@
+{
+  "steps": 5000,
+  "seconds": 80.7189269065857,
+  "latest_evaluation": {
+    "conditional_flow_mse": 0.9248601959162028,
+    "shuffled_flow_mse": 0.9301014320523131,
+    "unconditional_flow_mse": 0.934625421993613,
+    "conditional_gain": 0.00976522607741015,
+    "scene_mean_latent_mse": 1.149457335472107,
+    "clip_retrieval_latent_mse": 1.8352316617965698,
+    "sampled_latent_mse": 2.0399513244628906,
+    "sampled_examples": 4
+  }
+}

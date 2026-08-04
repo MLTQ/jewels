@@ -1,0 +1,34 @@
+{
+  "experiment": "matched 45k UCF basketball full-fit retime",
+  "source": "v_Basketball_g01_c01.avi",
+  "window_start": 0,
+  "shape": [64, 160, 213],
+  "gpu": "NVIDIA GeForce RTX 2070 SUPER (torch cuda:1 on allocated host)",
+  "config": {
+    "steps": 8000,
+    "num_init": 12000,
+    "max_primitives": 45000,
+    "voxels_per_step": 65536,
+    "knn": 64,
+    "recovery_every": 100
+  },
+  "prior_50m_run": {
+    "seconds": 3420.4644351005554,
+    "minutes": 57.00774058500926,
+    "final_sampled_psnr_db": 33.96965408325195,
+    "n_final": 45000
+  },
+  "selected_100m_run": {
+    "seconds": 3406.649230480194,
+    "minutes": 56.7774871746699,
+    "final_sampled_psnr_db": 34.013511657714844,
+    "n_final": 45000,
+    "recovery_removed_after_final_save": true
+  },
+  "difference": {
+    "seconds_saved": 13.815204620361328,
+    "end_to_end_speedup_percent": 0.4055364578411158,
+    "sampled_psnr_delta_db": 0.043857574462890625
+  },
+  "interpretation": "The isolated 45k culler is 25% faster, but the complete recoverable fit is only 0.4% faster. Profile the full training step before further culling optimization; render/gather/backward and recovery costs remain in the measured path."
+}

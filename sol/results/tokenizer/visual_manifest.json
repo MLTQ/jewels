@@ -1,0 +1,52 @@
+[
+  {
+    "name": "11_w000000.pt",
+    "target_jewels": 6471,
+    "baseline_jewels": 6481,
+    "candidate_jewels": 6445,
+    "frames": [
+      0,
+      4,
+      8,
+      13,
+      17,
+      21,
+      25,
+      29,
+      34,
+      38,
+      42,
+      46,
+      50,
+      55,
+      59,
+      63
+    ],
+    "artifact": "11_w000000_tokenizers.gif"
+  },
+  {
+    "name": "15_w000000.pt",
+    "target_jewels": 6471,
+    "baseline_jewels": 6480,
+    "candidate_jewels": 6402,
+    "frames": [
+      0,
+      4,
+      8,
+      13,
+      17,
+      21,
+      25,
+      29,
+      34,
+      38,
+      42,
+      46,
+      50,
+      55,
+      59,
+      63
+    ],
+    "artifact": "15_w000000_tokenizers.gif"
+  }
+]

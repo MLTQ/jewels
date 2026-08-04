@@ -1,0 +1,26 @@
+{
+  "steps": 3000,
+  "seconds": 320.0131435394287,
+  "latest_evaluation": {
+    "mean_psnr": 23.136428833007812,
+    "median_psnr": 23.136428833007812,
+    "macro_source_psnr": 23.136428833007812,
+    "source_mean_psnr": {
+      "03": 23.136428833007812
+    },
+    "mean_count_ratio": 0.9905777777777778,
+    "examples": [
+      {
+        "name": "03_w000000.pt",
+        "source_id": "03",
+        "psnr": 23.136428833007812,
+        "target_jewels": 45000,
+        "decoded_jewels": 44576
+      }
+    ]
+  },
+  "max_cell_occupancy": 92,
+  "validation_sources": [
+    "03"
+  ]
+}

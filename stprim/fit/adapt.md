@@ -13,7 +13,7 @@ moving limb wants hundreds of small ones.
   in several places at once should become several primitives.
 - Self-heals if primitive count changes underneath it.
 
-### `adapt(field, tracker, ...)`
+### `adapt(field, tracker, ..., generator)`
 - **Does**: prune low-weight primitives, then split the highest-gradient survivors
 - **Interacts with**: `PrimitiveField.subset_`/`append_`, called by `fit/fitter.fit_volume`
 - **Rationale**: prune-then-densify so the gradient ranking is computed over survivors. Parents
@@ -26,6 +26,14 @@ moving limb wants hundreds of small ones.
   source of silent bugs in 3DGS implementations and the momentum loss is tolerable at these
   adaptation intervals.
 - Never prunes below 8 primitives.
+- `split_mode="isotropic"` preserves the historical three-axis shrink and exact checkpoint
+  behavior. `split_mode="spatial"` retains the principal axis most aligned with time, shrinks the
+  other axes by √2, and rotates local split jitter into world coordinates. Two children therefore
+  conserve spatial footprint without shortening their temporal lifespan.
+- When the fitter supplies its CPU generator, split jitter is drawn on CPU and transferred to the
+  field device. This puts sampling and adaptation on one serializable random stream for exact
+  restart behavior across accelerators. Callers omitting `generator` retain device-local random
+  jitter.
 
 ## Contracts
 
@@ -35,3 +43,5 @@ moving limb wants hundreds of small ones.
 
 ## Notes
 - Densification stops at `adapt_until_frac` of training so the final stretch is pure refinement.
+- The spatial mode is the research path for spacetime fields. The legacy default remains isotropic
+  until its density/quality control fit passes.

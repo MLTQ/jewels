@@ -1,0 +1,607 @@
+[
+  {
+    "name": "01_w000000",
+    "points": 8192,
+    "artifact": "01_w000000.motion.pt"
+  },
+  {
+    "name": "01_w000064",
+    "points": 8192,
+    "artifact": "01_w000064.motion.pt"
+  },
+  {
+    "name": "01_w000128",
+    "points": 8192,
+    "artifact": "01_w000128.motion.pt"
+  },
+  {
+    "name": "01_w000192",
+    "points": 8192,
+    "artifact": "01_w000192.motion.pt"
+  },
+  {
+    "name": "01_w000256",
+    "points": 8192,
+    "artifact": "01_w000256.motion.pt"
+  },
+  {
+    "name": "01_w000320",
+    "points": 8192,
+    "artifact": "01_w000320.motion.pt"
+  },
+  {
+    "name": "01_w000384",
+    "points": 8192,
+    "artifact": "01_w000384.motion.pt"
+  },
+  {
+    "name": "01_w000448",
+    "points": 8192,
+    "artifact": "01_w000448.motion.pt"
+  },
+  {
+    "name": "01_w000512",
+    "points": 8192,
+    "artifact": "01_w000512.motion.pt"
+  },
+  {
+    "name": "01_w000576",
+    "points": 8192,
+    "artifact": "01_w000576.motion.pt"
+  },
+  {
+    "name": "01_w000640",
+    "points": 8192,
+    "artifact": "01_w000640.motion.pt"
+  },
+  {
+    "name": "01_w000704",
+    "points": 8192,
+    "artifact": "01_w000704.motion.pt"
+  },
+  {
+    "name": "01_w000768",
+    "points": 8192,
+    "artifact": "01_w000768.motion.pt"
+  },
+  {
+    "name": "01_w000832",
+    "points": 8192,
+    "artifact": "01_w000832.motion.pt"
+  },
+  {
+    "name": "01_w000896",
+    "points": 8192,
+    "artifact": "01_w000896.motion.pt"
+  },
+  {
+    "name": "01_w000960",
+    "points": 8192,
+    "artifact": "01_w000960.motion.pt"
+  },
+  {
+    "name": "01_w001024",
+    "points": 8192,
+    "artifact": "01_w001024.motion.pt"
+  },
+  {
+    "name": "01_w001088",
+    "points": 8192,
+    "artifact": "01_w001088.motion.pt"
+  },
+  {
+    "name": "01_w001152",
+    "points": 8192,
+    "artifact": "01_w001152.motion.pt"
+  },
+  {
+    "name": "01_w001216",
+    "points": 8192,
+    "artifact": "01_w001216.motion.pt"
+  },
+  {
+    "name": "01_w001280",
+    "points": 8192,
+    "artifact": "01_w001280.motion.pt"
+  },
+  {
+    "name": "02_w000000",
+    "points": 8192,
+    "artifact": "02_w000000.motion.pt"
+  },
+  {
+    "name": "02_w000064",
+    "points": 8192,
+    "artifact": "02_w000064.motion.pt"
+  },
+  {
+    "name": "02_w000128",
+    "points": 8192,
+    "artifact": "02_w000128.motion.pt"
+  },
+  {
+    "name": "02_w000192",
+    "points": 8192,
+    "artifact": "02_w000192.motion.pt"
+  },
+  {
+    "name": "02_w000256",
+    "points": 8192,
+    "artifact": "02_w000256.motion.pt"
+  },
+  {
+    "name": "02_w000320",
+    "points": 8192,
+    "artifact": "02_w000320.motion.pt"
+  },
+  {
+    "name": "02_w000384",
+    "points": 8192,
+    "artifact": "02_w000384.motion.pt"
+  },
+  {
+    "name": "02_w000448",
+    "points": 8192,
+    "artifact": "02_w000448.motion.pt"
+  },
+  {
+    "name": "02_w000512",
+    "points": 8192,
+    "artifact": "02_w000512.motion.pt"
+  },
+  {
+    "name": "02_w000576",
+    "points": 8192,
+    "artifact": "02_w000576.motion.pt"
+  },
+  {
+    "name": "02_w000640",
+    "points": 8192,
+    "artifact": "02_w000640.motion.pt"
+  },
+  {
+    "name": "02_w000704",
+    "points": 8192,
+    "artifact": "02_w000704.motion.pt"
+  },
+  {
+    "name": "02_w000768",
+    "points": 8192,
+    "artifact": "02_w000768.motion.pt"
+  },
+  {
+    "name": "02_w000832",
+    "points": 8192,
+    "artifact": "02_w000832.motion.pt"
+  },
+  {
+    "name": "02_w000896",
+    "points": 8192,
+    "artifact": "02_w000896.motion.pt"
+  },
+  {
+    "name": "02_w000960",
+    "points": 8192,
+    "artifact": "02_w000960.motion.pt"
+  },
+  {
+    "name": "02_w001024",
+    "points": 8192,
+    "artifact": "02_w001024.motion.pt"
+  },
+  {
+    "name": "02_w001088",
+    "points": 8192,
+    "artifact": "02_w001088.motion.pt"
+  },
+  {
+    "name": "02_w001152",
+    "points": 8192,
+    "artifact": "02_w001152.motion.pt"
+  },
+  {
+    "name": "02_w001216",
+    "points": 8192,
+    "artifact": "02_w001216.motion.pt"
+  },
+  {
+    "name": "02_w001280",
+    "points": 8192,
+    "artifact": "02_w001280.motion.pt"
+  },
+  {
+    "name": "02_w001344",
+    "points": 8192,
+    "artifact": "02_w001344.motion.pt"
+  },
+  {
+    "name": "02_w001408",
+    "points": 8192,
+    "artifact": "02_w001408.motion.pt"
+  },
+  {
+    "name": "03_w000000",
+    "points": 8192,
+    "artifact": "03_w000000.motion.pt"
+  },
+  {
+    "name": "03_w000064",
+    "points": 8192,
+    "artifact": "03_w000064.motion.pt"
+  },
+  {
+    "name": "03_w000128",
+    "points": 8192,
+    "artifact": "03_w000128.motion.pt"
+  },
+  {
+    "name": "03_w000192",
+    "points": 8192,
+    "artifact": "03_w000192.motion.pt"
+  },
+  {
+    "name": "03_w000256",
+    "points": 8192,
+    "artifact": "03_w000256.motion.pt"
+  },
+  {
+    "name": "03_w000320",
+    "points": 8192,
+    "artifact": "03_w000320.motion.pt"
+  },
+  {
+    "name": "03_w000384",
+    "points": 8192,
+    "artifact": "03_w000384.motion.pt"
+  },
+  {
+    "name": "03_w000448",
+    "points": 8192,
+    "artifact": "03_w000448.motion.pt"
+  },
+  {
+    "name": "03_w000512",
+    "points": 8192,
+    "artifact": "03_w000512.motion.pt"
+  },
+  {
+    "name": "03_w000576",
+    "points": 8192,
+    "artifact": "03_w000576.motion.pt"
+  },
+  {
+    "name": "03_w000640",
+    "points": 8192,
+    "artifact": "03_w000640.motion.pt"
+  },
+  {
+    "name": "03_w000704",
+    "points": 8192,
+    "artifact": "03_w000704.motion.pt"
+  },
+  {
+    "name": "03_w000768",
+    "points": 8192,
+    "artifact": "03_w000768.motion.pt"
+  },
+  {
+    "name": "03_w000832",
+    "points": 8192,
+    "artifact": "03_w000832.motion.pt"
+  },
+  {
+    "name": "03_w000896",
+    "points": 8192,
+    "artifact": "03_w000896.motion.pt"
+  },
+  {
+    "name": "03_w000960",
+    "points": 8192,
+    "artifact": "03_w000960.motion.pt"
+  },
+  {
+    "name": "03_w001024",
+    "points": 8192,
+    "artifact": "03_w001024.motion.pt"
+  },
+  {
+    "name": "03_w001088",
+    "points": 8192,
+    "artifact": "03_w001088.motion.pt"
+  },
+  {
+    "name": "03_w001152",
+    "points": 8192,
+    "artifact": "03_w001152.motion.pt"
+  },
+  {
+    "name": "03_w001216",
+    "points": 8192,
+    "artifact": "03_w001216.motion.pt"
+  },
+  {
+    "name": "03_w001280",
+    "points": 8192,
+    "artifact": "03_w001280.motion.pt"
+  },
+  {
+    "name": "03_w001344",
+    "points": 8192,
+    "artifact": "03_w001344.motion.pt"
+  },
+  {
+    "name": "03_w001408",
+    "points": 8192,
+    "artifact": "03_w001408.motion.pt"
+  },
+  {
+    "name": "04_w000000",
+    "points": 8192,
+    "artifact": "04_w000000.motion.pt"
+  },
+  {
+    "name": "04_w000064",
+    "points": 8192,
+    "artifact": "04_w000064.motion.pt"
+  },
+  {
+    "name": "04_w000128",
+    "points": 8192,
+    "artifact": "04_w000128.motion.pt"
+  },
+  {
+    "name": "04_w000192",
+    "points": 8192,
+    "artifact": "04_w000192.motion.pt"
+  },
+  {
+    "name": "04_w000256",
+    "points": 8192,
+    "artifact": "04_w000256.motion.pt"
+  },
+  {
+    "name": "04_w000320",
+    "points": 8192,
+    "artifact": "04_w000320.motion.pt"
+  },
+  {
+    "name": "04_w000384",
+    "points": 8192,
+    "artifact": "04_w000384.motion.pt"
+  },
+  {
+    "name": "04_w000448",
+    "points": 8192,
+    "artifact": "04_w000448.motion.pt"
+  },
+  {
+    "name": "04_w000512",
+    "points": 8192,
+    "artifact": "04_w000512.motion.pt"
+  },
+  {
+    "name": "04_w000576",
+    "points": 8192,
+    "artifact": "04_w000576.motion.pt"
+  },
+  {
+    "name": "04_w000640",
+    "points": 8192,
+    "artifact": "04_w000640.motion.pt"
+  },
+  {
+    "name": "04_w000704",
+    "points": 8192,
+    "artifact": "04_w000704.motion.pt"
+  },
+  {
+    "name": "04_w000768",
+    "points": 8192,
+    "artifact": "04_w000768.motion.pt"
+  },
+  {
+    "name": "04_w000832",
+    "points": 8192,
+    "artifact": "04_w000832.motion.pt"
+  },
+  {
+    "name": "04_w000896",
+    "points": 8192,
+    "artifact": "04_w000896.motion.pt"
+  },
+  {
+    "name": "04_w000960",
+    "points": 8192,
+    "artifact": "04_w000960.motion.pt"
+  },
+  {
+    "name": "04_w001024",
+    "points": 8192,
+    "artifact": "04_w001024.motion.pt"
+  },
+  {
+    "name": "04_w001088",
+    "points": 8192,
+    "artifact": "04_w001088.motion.pt"
+  },
+  {
+    "name": "04_w001152",
+    "points": 8192,
+    "artifact": "04_w001152.motion.pt"
+  },
+  {
+    "name": "04_w001216",
+    "points": 8192,
+    "artifact": "04_w001216.motion.pt"
+  },
+  {
+    "name": "04_w001280",
+    "points": 8192,
+    "artifact": "04_w001280.motion.pt"
+  },
+  {
+    "name": "04_w001344",
+    "points": 8192,
+    "artifact": "04_w001344.motion.pt"
+  },
+  {
+    "name": "04_w001408",
+    "points": 8192,
+    "artifact": "04_w001408.motion.pt"
+  },
+  {
+    "name": "05_w000000",
+    "points": 8192,
+    "artifact": "05_w000000.motion.pt"
+  },
+  {
+    "name": "05_w000064",
+    "points": 8192,
+    "artifact": "05_w000064.motion.pt"
+  },
+  {
+    "name": "05_w000128",
+    "points": 8192,
+    "artifact": "05_w000128.motion.pt"
+  },
+  {
+    "name": "05_w000192",
+    "points": 8192,
+    "artifact": "05_w000192.motion.pt"
+  },
+  {
+    "name": "05_w000256",
+    "points": 8192,
+    "artifact": "05_w000256.motion.pt"
+  },
+  {
+    "name": "05_w000320",
+    "points": 8192,
+    "artifact": "05_w000320.motion.pt"
+  },
+  {
+    "name": "05_w000384",
+    "points": 8192,
+    "artifact": "05_w000384.motion.pt"
+  },
+  {
+    "name": "05_w000448",
+    "points": 8192,
+    "artifact": "05_w000448.motion.pt"
+  },
+  {
+    "name": "05_w000512",
+    "points": 8192,
+    "artifact": "05_w000512.motion.pt"
+  },
+  {
+    "name": "05_w000576",
+    "points": 8192,
+    "artifact": "05_w000576.motion.pt"
+  },
+  {
+    "name": "05_w000640",
+    "points": 8192,
+    "artifact": "05_w000640.motion.pt"
+  },
+  {
+    "name": "05_w000704",
+    "points": 8192,
+    "artifact": "05_w000704.motion.pt"
+  },
+  {
+    "name": "06_w000000",
+    "points": 8192,
+    "artifact": "06_w000000.motion.pt"
+  },
+  {
+    "name": "06_w000064",
+    "points": 8192,
+    "artifact": "06_w000064.motion.pt"
+  },
+  {
+    "name": "06_w000128",
+    "points": 8192,
+    "artifact": "06_w000128.motion.pt"
+  },
+  {
+    "name": "06_w000192",
+    "points": 8192,
+    "artifact": "06_w000192.motion.pt"
+  },
+  {
+    "name": "06_w000256",
+    "points": 8192,
+    "artifact": "06_w000256.motion.pt"
+  },
+  {
+    "name": "06_w000320",
+    "points": 8192,
+    "artifact": "06_w000320.motion.pt"
+  },
+  {
+    "name": "06_w000384",
+    "points": 8192,
+    "artifact": "06_w000384.motion.pt"
+  },
+  {
+    "name": "06_w000448",
+    "points": 8192,
+    "artifact": "06_w000448.motion.pt"
+  },
+  {
+    "name": "06_w000512",
+    "points": 8192,
+    "artifact": "06_w000512.motion.pt"
+  },
+  {
+    "name": "06_w000576",
+    "points": 8192,
+    "artifact": "06_w000576.motion.pt"
+  },
+  {
+    "name": "06_w000640",
+    "points": 8192,
+    "artifact": "06_w000640.motion.pt"
+  },
+  {
+    "name": "06_w000704",
+    "points": 8192,
+    "artifact": "06_w000704.motion.pt"
+  },
+  {
+    "name": "06_w000768",
+    "points": 8192,
+    "artifact": "06_w000768.motion.pt"
+  },
+  {
+    "name": "06_w000832",
+    "points": 8192,
+    "artifact": "06_w000832.motion.pt"
+  },
+  {
+    "name": "06_w000896",
+    "points": 8192,
+    "artifact": "06_w000896.motion.pt"
+  },
+  {
+    "name": "06_w000960",
+    "points": 8192,
+    "artifact": "06_w000960.motion.pt"
+  },
+  {
+    "name": "06_w001024",
+    "points": 8192,
+    "artifact": "06_w001024.motion.pt"
+  },
+  {
+    "name": "06_w001088",
+    "points": 8192,
+    "artifact": "06_w001088.motion.pt"
+  },
+  {
+    "name": "06_w001152",
+    "points": 8192,
+    "artifact": "06_w001152.motion.pt"
+  }
+]

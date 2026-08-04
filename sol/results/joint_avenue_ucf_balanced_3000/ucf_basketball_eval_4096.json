@@ -1,0 +1,32 @@
+{
+  "checkpoint": "tokenizer/sol_joint_avenue_ucf_balanced_3000/autoencoder.pt",
+  "step": 3000,
+  "corpus": "corpus/ucf_dense_transfer_100m_retime",
+  "validation_sources": [
+    "03",
+    "05"
+  ],
+  "selection": "all_corpus_sources",
+  "trained_slots_per_cell": 80,
+  "evaluated_slots_per_cell": 80,
+  "points_per_example": 4096,
+  "requested_max_examples": 1,
+  "evaluation": {
+    "mean_psnr": 20.287952423095703,
+    "median_psnr": 20.287952423095703,
+    "macro_source_psnr": 20.287952423095703,
+    "source_mean_psnr": {
+      "v_Basketball_g01_c01": 20.287952423095703
+    },
+    "mean_count_ratio": 0.9312666666666667,
+    "examples": [
+      {
+        "name": "v_Basketball_g01_c01_w000000.pt",
+        "source_id": "v_Basketball_g01_c01",
+        "psnr": 20.287952423095703,
+        "target_jewels": 45000,
+        "decoded_jewels": 41907
+      }
+    ]
+  }
+}

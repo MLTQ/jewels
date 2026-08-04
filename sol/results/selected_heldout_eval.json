@@ -1,0 +1,142 @@
+{
+  "checkpoint": "tokenizer/sol_render_w05_5000/autoencoder.pt",
+  "step": 5000,
+  "corpus": "corpus/avenue_train",
+  "validation_sources": [
+    "11",
+    "15"
+  ],
+  "points_per_example": 2048,
+  "requested_max_examples": 32,
+  "evaluation": {
+    "mean_psnr": 17.430555680218866,
+    "median_psnr": 17.684480667114258,
+    "macro_source_psnr": 17.192362435658772,
+    "source_mean_psnr": {
+      "11": 17.77083174387614,
+      "15": 16.613893127441408
+    },
+    "mean_count_ratio": 0.9947639695655731,
+    "examples": [
+      {
+        "name": "11_w000000.pt",
+        "source_id": "11",
+        "psnr": 17.30874252319336,
+        "target_jewels": 6471,
+        "decoded_jewels": 6481
+      },
+      {
+        "name": "15_w000000.pt",
+        "source_id": "15",
+        "psnr": 16.844396591186523,
+        "target_jewels": 6471,
+        "decoded_jewels": 6480
+      },
+      {
+        "name": "11_w000064.pt",
+        "source_id": "11",
+        "psnr": 17.90736961364746,
+        "target_jewels": 6471,
+        "decoded_jewels": 6405
+      },
+      {
+        "name": "15_w000064.pt",
+        "source_id": "15",
+        "psnr": 16.63322639465332,
+        "target_jewels": 6471,
+        "decoded_jewels": 6452
+      },
+      {
+        "name": "11_w000128.pt",
+        "source_id": "11",
+        "psnr": 17.25653839111328,
+        "target_jewels": 6471,
+        "decoded_jewels": 6430
+      },
+      {
+        "name": "15_w000128.pt",
+        "source_id": "15",
+        "psnr": 16.646764755249023,
+        "target_jewels": 6471,
+        "decoded_jewels": 6455
+      },
+      {
+        "name": "11_w000192.pt",
+        "source_id": "11",
+        "psnr": 17.684480667114258,
+        "target_jewels": 6471,
+        "decoded_jewels": 6462
+      },
+      {
+        "name": "15_w000192.pt",
+        "source_id": "15",
+        "psnr": 16.248533248901367,
+        "target_jewels": 6471,
+        "decoded_jewels": 6425
+      },
+      {
+        "name": "11_w000256.pt",
+        "source_id": "11",
+        "psnr": 17.70878791809082,
+        "target_jewels": 6471,
+        "decoded_jewels": 6418
+      },
+      {
+        "name": "15_w000256.pt",
+        "source_id": "15",
+        "psnr": 16.696544647216797,
+        "target_jewels": 6471,
+        "decoded_jewels": 6441
+      },
+      {
+        "name": "11_w000320.pt",
+        "source_id": "11",
+        "psnr": 18.17913246154785,
+        "target_jewels": 6471,
+        "decoded_jewels": 6396
+      },
+      {
+        "name": "11_w000384.pt",
+        "source_id": "11",
+        "psnr": 17.626625061035156,
+        "target_jewels": 6471,
+        "decoded_jewels": 6433
+      },
+      {
+        "name": "11_w000448.pt",
+        "source_id": "11",
+        "psnr": 17.985240936279297,
+        "target_jewels": 6471,
+        "decoded_jewels": 6444
+      },
+      {
+        "name": "11_w000512.pt",
+        "source_id": "11",
+        "psnr": 17.813644409179688,
+        "target_jewels": 6471,
+        "decoded_jewels": 6448
+      },
+      {
+        "name": "11_w000576.pt",
+        "source_id": "11",
+        "psnr": 17.692033767700195,
+        "target_jewels": 6471,
+        "decoded_jewels": 6441
+      },
+      {
+        "name": "11_w000640.pt",
+        "source_id": "11",
+        "psnr": 18.098928451538086,
+        "target_jewels": 6471,
+        "decoded_jewels": 6387
+      },
+      {
+        "name": "11_w000704.pt",
+        "source_id": "11",
+        "psnr": 17.98845672607422,
+        "target_jewels": 6471,
+        "decoded_jewels": 6433
+      }
+    ]
+  }
+}

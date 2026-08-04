@@ -1,0 +1,50 @@
+[
+  {
+    "name": "03_w000000.pt",
+    "source_id": "03",
+    "decoded_jewels": 44557,
+    "frames": [
+      0,
+      4,
+      8,
+      13,
+      17,
+      21,
+      25,
+      29,
+      34,
+      38,
+      42,
+      46,
+      50,
+      55,
+      59,
+      63
+    ],
+    "artifact": "03_w000000_block_roundtrip.gif"
+  },
+  {
+    "name": "05_w000000.pt",
+    "source_id": "05",
+    "decoded_jewels": 45052,
+    "frames": [
+      0,
+      4,
+      8,
+      13,
+      17,
+      21,
+      25,
+      29,
+      34,
+      38,
+      42,
+      46,
+      50,
+      55,
+      59,
+      63
+    ],
+    "artifact": "05_w000000_block_roundtrip.gif"
+  }
+]

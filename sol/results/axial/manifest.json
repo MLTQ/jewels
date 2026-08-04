@@ -1,0 +1,54 @@
+[
+  {
+    "name": "03_w000000.pt",
+    "source_id": "03",
+    "target_jewels": 45000,
+    "roundtrip_jewels": 44557,
+    "generated_jewels": 43202,
+    "frames": [
+      0,
+      4,
+      8,
+      13,
+      17,
+      21,
+      25,
+      29,
+      34,
+      38,
+      42,
+      46,
+      50,
+      55,
+      59,
+      63
+    ],
+    "artifact": "03_w000000_axial_comparison.gif"
+  },
+  {
+    "name": "05_w000000.pt",
+    "source_id": "05",
+    "target_jewels": 45000,
+    "roundtrip_jewels": 45052,
+    "generated_jewels": 41392,
+    "frames": [
+      0,
+      4,
+      8,
+      13,
+      17,
+      21,
+      25,
+      29,
+      34,
+      38,
+      42,
+      46,
+      50,
+      55,
+      59,
+      63
+    ],
+    "artifact": "05_w000000_axial_comparison.gif"
+  }
+]

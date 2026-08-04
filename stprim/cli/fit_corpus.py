@@ -24,6 +24,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from data.video_io import count_frames, load_video  # noqa: E402
 from fit.fitter import FitConfig, fit_volume  # noqa: E402
+from fit.recovery import RECOVERY_SCHEMA, atomic_torch_save  # noqa: E402
 
 
 def main() -> None:
@@ -39,6 +40,12 @@ def main() -> None:
     ap.add_argument("--max-primitives", type=int, default=10000)
     ap.add_argument("--voxels", type=int, default=65536)
     ap.add_argument("--t-scale", type=float, default=1.0)
+    ap.add_argument(
+        "--split-mode",
+        choices=("isotropic", "spatial"),
+        default="isotropic",
+        help="spatial preserves the most time-aligned principal scale",
+    )
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--device", type=str, default="cuda")
     ap.add_argument("--limit", type=int, default=0,
@@ -47,7 +54,15 @@ def main() -> None:
                     help="cap windows taken from each source (0 = all). "
                          "One window per clip maximizes corpus diversity when "
                          "clips outnumber the fitting budget")
+    ap.add_argument(
+        "--recovery-every",
+        type=int,
+        default=100,
+        help="atomically save in-window recovery every N steps (0 = disable)",
+    )
     args = ap.parse_args()
+    if args.recovery_every < 0:
+        raise ValueError("recovery-every must be non-negative")
 
     _VIDEO_EXTS = (".mp4", ".avi", ".mov", ".mkv", ".webm")
     videos = sorted(
@@ -78,6 +93,7 @@ def main() -> None:
         if args.limit and done >= args.limit:
             break
         ckpt = outdir / f"{Path(v).stem}_w{start:06d}.pt"
+        recovery_path = ckpt.with_suffix(".recovery.pt")
         if ckpt.exists():
             skipped += 1
             continue
@@ -91,14 +107,55 @@ def main() -> None:
         cfg = FitConfig(
             num_init=args.num_init, max_primitives=args.max_primitives,
             steps=args.steps, voxels_per_step=args.voxels,
-            t_scale=args.t_scale, seed=args.seed,
+            t_scale=args.t_scale, seed=args.seed, split_mode=args.split_mode,
         )
-        field, info = fit_volume(vid, cfg, device=args.device, verbose=False)
-        torch.save(
-            {"state": field.state_dict(), "cfg": vars(cfg), "info": info,
-             "source": {"video": v, "start_frame": start}},
+        source = {"video": v, "start_frame": start}
+        resume_state = None
+        if recovery_path.exists():
+            recovery = torch.load(recovery_path, map_location="cpu", weights_only=True)
+            if recovery.get("schema") != RECOVERY_SCHEMA:
+                raise ValueError(f"unsupported recovery file: {recovery_path}")
+            if recovery.get("cfg") != vars(cfg) or recovery.get("source") != source:
+                raise ValueError(
+                    f"recovery configuration/source mismatch: {recovery_path}"
+                )
+            resume_state = recovery["fit_state"]
+            print(
+                f"[{i + 1}/{len(windows)}] resuming {ckpt.name} at step "
+                f"{resume_state['next_step']}",
+                flush=True,
+            )
+
+        def save_recovery(fit_state: dict) -> None:
+            atomic_torch_save(
+                {
+                    "schema": RECOVERY_SCHEMA,
+                    "cfg": vars(cfg),
+                    "source": source,
+                    "fit_state": fit_state,
+                },
+                recovery_path,
+            )
+
+        field, info = fit_volume(
+            vid,
+            cfg,
+            device=args.device,
+            verbose=False,
+            resume_state=resume_state,
+            checkpoint_every=args.recovery_every,
+            checkpoint_callback=save_recovery,
+        )
+        atomic_torch_save(
+            {
+                "state": field.state_dict(),
+                "cfg": vars(cfg),
+                "info": info,
+                "source": source,
+            },
             ckpt,
         )
+        recovery_path.unlink(missing_ok=True)
         done += 1
 
         rec = {

@@ -1,3 +1,6 @@
 .DS_Store
+__pycache__/
+*.py[cod]
+.pytest_cache/
 # stale pre-git transfer artifact
 jewels.tar.gz

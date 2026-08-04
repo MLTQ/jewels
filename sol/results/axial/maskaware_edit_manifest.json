@@ -1,0 +1,48 @@
+{
+  "name": "03_w000000.pt",
+  "source_id": "03",
+  "selection_center": [
+    0.25,
+    0.0,
+    0.0
+  ],
+  "selection_half_extent": [
+    0.1599999964237213,
+    0.3499999940395355,
+    0.3499999940395355
+  ],
+  "delta": [
+    -0.30000001192092896,
+    0.0,
+    0.0
+  ],
+  "selected_jewels": 281,
+  "fine_dirty_cells": 2548,
+  "coarse_dirty_codes": 448,
+  "affected_fine_cells": 3584,
+  "coarse_dirty_fraction": 0.109375,
+  "clean_coarse_max_abs_error": 0.0,
+  "clean_fine_max_abs_error": 0.0,
+  "hierarchy_jewels": 44557,
+  "generated_dirty_jewels": 2536,
+  "merged_jewels": 45244,
+  "frames": [
+    0,
+    4,
+    8,
+    13,
+    17,
+    21,
+    25,
+    29,
+    34,
+    38,
+    42,
+    46,
+    50,
+    55,
+    59,
+    63
+  ],
+  "artifact": "03_w000000_hierarchical_edit.gif"
+}

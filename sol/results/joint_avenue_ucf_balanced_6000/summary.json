@@ -1,0 +1,35 @@
+{
+  "steps": 6000,
+  "seconds": 439.6381857395172,
+  "latest_evaluation": {
+    "mean_psnr": 21.55551052093506,
+    "median_psnr": 21.55551052093506,
+    "macro_source_psnr": 21.55551052093506,
+    "source_mean_psnr": {
+      "03": 21.962785720825195,
+      "05": 21.148235321044922
+    },
+    "mean_count_ratio": 1.0106666666666668,
+    "examples": [
+      {
+        "name": "03_w000000.pt",
+        "source_id": "03",
+        "psnr": 21.962785720825195,
+        "target_jewels": 45000,
+        "decoded_jewels": 45499
+      },
+      {
+        "name": "05_w000000.pt",
+        "source_id": "05",
+        "psnr": 21.148235321044922,
+        "target_jewels": 45000,
+        "decoded_jewels": 45461
+      }
+    ]
+  },
+  "max_cell_occupancy": 66,
+  "validation_sources": [
+    "03",
+    "05"
+  ]
+}
