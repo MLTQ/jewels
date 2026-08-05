@@ -1,0 +1,58 @@
+# `main.tex`
+
+## Purpose
+
+Maintains the project research paper and the exact distinction between completed evidence,
+negative results, and future claims. The compiled PDF is a technical progress report rather than a
+submission-ready benchmark paper.
+
+## Components
+
+### Literature and claim scope
+
+- **Does**: Positions Jewels against Gaussian video reconstruction, video codecs, dynamic 3D
+  Gaussian scenes, and generative 3D Gaussian models.
+- **Interacts with**: `references.bib` and the repository's August 2026 literature audit.
+- **Rationale**: Video reconstruction with Gaussian splats predates this project; only the narrower
+  persistent, generative, locally repairable `(u,v,t)` field direction is provisionally open.
+
+### Method
+
+- **Does**: Defines the additive P1 jewel renderer, gauge-free log-covariance features, dense
+  tokenizer hierarchy, rectified-flow prior, stable-ID continuation, and exact edit clamping.
+- **Interacts with**: Production contracts documented in `stprim/` and experimental contracts in
+  `sol/`.
+
+### Experiments and discoveries
+
+- **Does**: Consolidates reconstruction, density, tokenizer, generation, continuation, editing, and
+  prompt-preflight results, including failed controls.
+- **Interacts with**: Figures and metric reports under `assets/` and `sol/results/`.
+
+### Limitations and path forward
+
+- **Does**: Prevents unfinished prompt generation or repair quality from being described as solved
+  and specifies the gates required for a future novelty claim.
+
+## Contracts
+
+| Dependent | Expects | Breaking changes |
+|---|---|---|
+| Compiled report | Figure paths remain valid relative to `paper/` | Moving result artifacts |
+| Novelty claims | Broad first-reconstruction claim remains explicitly rejected | New prior art or completed comparison |
+| Result tables | Values match tracked JSON/README evidence | Reruns with superseding protocols |
+| PDF QA | ASCII source text and compilable bibliography | Unsupported TeX packages or Unicode |
+
+## Notes
+
+- Update the report date and literature cutoff whenever results or claims change.
+- Author names are intentionally represented as “The Jewels Project” until the human authorship
+  and affiliation block is finalized.
+- The final PDF is built as `output/pdf/jewels_progress_report.pdf` and visually inspected page by
+  page before delivery.
+- The compact related-work table uses footnote-sized type so long method distinctions remain inside
+  the text block without abbreviating the substantive comparison.
+- Figures and tables use fixed in-order placement because deferred research figures can otherwise
+  migrate behind the bibliography and detach evidence from the claims it supports.
+- Quantitative scaling and qualitative samples are separate figures so the evidence remains
+  legible while filling pages naturally.

@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 .pytest_cache/
+tmp/
 # stale pre-git transfer artifact
 jewels.tar.gz
 

@@ -1,0 +1,650 @@
+\documentclass[10pt]{article}
+
+\usepackage[margin=0.82in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{siunitx}
+\usepackage{enumitem}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage[hidelinks]{hyperref}
+
+\definecolor{jewelblue}{HTML}{2457A6}
+\definecolor{jewelgold}{HTML}{B87B16}
+\definecolor{softgray}{HTML}{F3F5F7}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=jewelblue,
+  citecolor=jewelblue,
+  urlcolor=jewelblue,
+  pdftitle={Jewels: Toward Text-Conditioned, Streamable, and Locally Editable Video as Space-Time Gaussian Fields},
+  pdfauthor={The Jewels Project}
+}
+\sisetup{detect-all,table-number-alignment=center}
+\captionsetup{font=small,labelfont=bf}
+\setlist{nosep,leftmargin=*}
+\setlength{\parskip}{0.35em}
+\setlength{\parindent}{0pt}
+\setlength{\tabcolsep}{5pt}
+\emergencystretch=2em
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Jewels technical report}
+\rhead{August 2026}
+\cfoot{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\newcommand{\jewels}{\textsc{Jewels}}
+\newcommand{\uvt}{(u,v,t)}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\todoresult}{\textcolor{jewelgold}{\textbf{open}}}
+
+\title{\vspace{-1.5em}\textbf{Jewels: Toward Text-Conditioned, Streamable, and\\Locally Editable Video as Space-Time Gaussian Fields}}
+\author{The Jewels Project}
+\date{Technical report -- August 5, 2026}
+
+\begin{document}
+\maketitle
+\vspace{-1.2em}
+\begin{center}
+\fcolorbox{jewelblue}{softgray}{\parbox{0.92\linewidth}{\small
+\textbf{Status.} This is a progress report, not a benchmark or a claim of completed text-to-video generation.
+It separates established results, failed controls, and hypotheses still under test.}}
+\end{center}
+
+\begin{abstract}
+We investigate whether ordinary RGB video can be generated and edited as an explicit field of
+anisotropic Gaussian primitives in normalized image-time coordinates rather than as a sequence of
+pixel frames. Each primitive, or \emph{jewel}, occupies a volume in \uvt, carries opacity and a
+linear color field, and may tilt through time so that motion is represented by oriented space-time
+support. A deterministic additive renderer turns the set into frames. The longer-term model emits
+new jewels in overlapping time windows, retains persistent jewels by stable identity, and repairs
+only dirty latent cells after a user moves selected primitives.
+
+This report consolidates the feasibility evidence to date. Synthetic tubes reconstruct at about
+\SI{55}{dB}; four finalized 96-frame UCF-101 fields with 120k jewels replay at a mean
+\SI{32.28}{dB}. A density audit shows that raw jewel count is misleading: doubling a UCF field from
+45k to 90k isotropically increases effective per-frame contributors by only 30.3\% and lowers
+full-volume PSNR by \SI{1.07}{dB}, motivating temporal-preserving spatial densification. A local
+$32^3\!\times\!24$ tokenizer is the first held-out configuration to preserve small pedestrians;
+a train-only $2^3$ PCA hierarchy reduces it to $16^3\!\times\!96$ with a \SI{0.224}{dB} penalty.
+An axial rectified-flow prior beats retrieval and mean-collapse distribution baselines but does not
+yet use its semantic condition. Conversely, a cell-local prefix model reduces future-birth feature
+error by 62.7\% against a disjoint shuffled-prefix control and renders at \SI{19.87}{dB} versus
+\SI{7.30}{dB}. Edit planning and masked sampling preserve every clean latent exactly, although the
+repaired region remains blurry. A four-class prompt corpus passes its text-geometry preflight, while
+the prompt-conditioned generative experiment remains in progress.
+
+Gaussian reconstruction of video is not new: VeGaS, GSVC, GaussianVideo, GaRV, and related work
+predate this project. The research opportunity evaluated here is narrower: a corpus-level
+generative distribution that directly emits persistent, editable 2D-video space-time Gaussian
+fields. We state this as a provisional positioning claim, not a priority claim.
+\end{abstract}
+
+\section{Introduction}
+
+Pixel video models repeatedly synthesize dense frames and must learn temporal coherence through
+architecture, loss, or data. \jewels{} asks whether coherence can instead be partly structural. We
+treat a video as a continuous three-dimensional signal over horizontal position, vertical position,
+and time. A moving visual element can then be represented by a Gaussian tube whose principal axis
+leans through time. The model is explicit: primitives can be selected, moved, recolored, carried
+between generation windows, culled at multiple levels of detail, and rendered at arbitrary times.
+
+The intended system is not merely a codec. It is a text-to-video model whose native output is an
+editable space-time field. After generation, a viewer sees the video as a parallelepiped, drags a
+cursor through it, moves one or many jewels, and asks the model to resample only the vacated and
+destination neighborhoods. Untouched regions are hard constraints rather than soft conditioning.
+
+The project has progressed through a sequence of falsifiable gates:
+
+\begin{enumerate}
+  \item demonstrate that anisotropic space-time primitives can fit motion and ordinary video;
+  \item measure whether fitted sets are canonical enough for a shared generative model;
+  \item raise effective splat density without destroying temporal persistence;
+  \item learn a deterministic, count-aware local bottleneck for dense fields;
+  \item generate hierarchical latents with tractable attention;
+  \item prove exact edit locality and overlap-conditioned continuation; and
+  \item introduce text only after a leakage-safe prompt corpus exists.
+\end{enumerate}
+
+Our contributions are therefore empirical and architectural rather than a completed generative
+benchmark. We report (i) an additive \uvt{} Gaussian representation and gauge-free field features,
+(ii) density and tokenizer experiments that identify what preserves small moving subjects,
+(iii) controlled evidence that spatially aligned prefix context is essential for continuation,
+(iv) an edit/inpaint formulation with exact clean-region preservation, and (v) explicit negative
+results that bound what remains unproved.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  node distance=5mm and 6mm,
+  box/.style={draw=jewelblue,rounded corners,fill=softgray,align=center,minimum height=9mm,text width=27mm,font=\small},
+  action/.style={draw=jewelgold,rounded corners,fill=jewelgold!8,align=center,minimum height=9mm,text width=27mm,font=\small},
+  arr/.style={-{Latex[length=2mm]},thick,jewelblue}
+]
+\node[box] (text) {text prompt};
+\node[box,right=of text] (prior) {conditional latent flow};
+\node[box,right=of prior] (field) {persistent \uvt{} jewel field};
+\node[box,right=of field] (video) {deterministic render};
+\draw[arr] (text) -- (prior);
+\draw[arr] (prior) -- (field);
+\draw[arr] (field) -- (video);
+
+\node[action,below=8mm of field] (drag) {cursor selection and jewel transform};
+\node[action,left=of drag] (mask) {dirty swept cells};
+\node[action,left=of mask] (repair) {clamped local inpainting};
+\draw[arr] (field) -- (drag);
+\draw[arr] (drag) -- (mask);
+\draw[arr] (mask) -- (repair);
+\draw[arr] (repair.west) -| ([xshift=-4mm]prior.south) -- (prior.south);
+\end{tikzpicture}
+\caption{Target system. Generation emits an explicit field rather than pixels. Editing moves
+protected primitives, marks source, destination, and swept cells dirty, and resamples only those
+cells while the rest of the latent remains exact.}
+\label{fig:system}
+\end{figure}
+
+\section{Relationship to Prior Work and Claim Scope}
+
+Modern Gaussian splatting was popularized for explicit 3D radiance fields by Kerbl et
+al.~\cite{kerbl2023gaussians}. Dynamic-view methods subsequently added deformation, time, or native
+higher-dimensional primitives~\cite{wu2024four,li2024spacetime}. Those systems reconstruct a
+view-dependent 3D scene; our target is the displayed 2D RGB video itself, without recovering
+physical depth or novel views.
+
+That narrower video-representation lane is also established. Splatter a Video embeds monocular
+video into canonical 3D Gaussians with motion~\cite{sun2024splatter}. VeGaS uses folded Gaussian
+distributions to obtain time-conditioned 2D Gaussians and supports editing~\cite{smolak2024vegas}.
+GSVC predicts frame-level 2D Gaussian sets from previous frames for compression~\cite{wang2025gsvc}.
+GaussianVideo learns time-varying deformations of 2D Gaussians~\cite{lee2025gaussianvideo}.
+Most directly, GaRV encodes videos as 3D Gaussians in a space-time volume~\cite{shah2026garv}.
+HyperGS amortizes reconstruction by predicting per-frame Gaussian representations feed-forward from
+input video~\cite{zohra2026hypergs}. Therefore, \textbf{we do not claim to be first to reconstruct
+2D video with Gaussian splats, nor first to use a Gaussian space-time volume.}
+
+Generative Gaussian work is substantial but usually targets 3D objects, rooms, or dynamic 3D
+scenes. GaussianCube and L3DG learn structured or latent generative models of 3D
+Gaussians~\cite{zhang2024gaussiancube,roessle2024l3dg}. VideoRFSplat generates text-conditioned 3D
+scenes with a video model~\cite{go2025videorfsplat}; Diff4Splat predicts a deformable 3D Gaussian
+scene from an image, camera path, and optional text~\cite{pan2026diff4splat}.
+
+Our provisional distinction is the combination of: (1) direct generation of the displayed 2D
+video as an anisotropic \uvt{} Gaussian field, (2) persistent stable-ID carry and birth emission
+across overlapping time windows, and (3) hard-local jewel manipulation followed by constrained
+latent repair. Our August 2026 search found no published system with this exact combination.
+However, absence from a search is not proof of priority, and the current project has not yet shown
+generalizing text-to-video generation. We therefore use ``toward'' in the title and reserve any
+first-of-kind claim for a completed, externally benchmarked model and a broader review.
+
+\begin{table}[H]
+\centering
+\footnotesize
+\caption{Positioning against the closest video-Gaussian families. ``Amortized'' means a shared
+encoder predicts a representation from input video; it is not the same as unconditional or
+text-conditioned generation from noise.}
+\label{tab:related}
+\begin{tabularx}{\linewidth}{@{}lXXXX@{}}
+\toprule
+Method & Native target & Temporal form & Shared prediction & Primary goal \\
+\midrule
+VeGaS & 2D video & folded 3D Gaussians, conditional slices & no & representation/editing \\
+GSVC & 2D video & linked per-frame 2D splats & no & compression \\
+GaussianVideo & 2D video & time-deformed 2D splats & no & representation; codec \\
+GaRV & 2D video & 3D space-time Gaussians & encoder/decoder scheme & random-access decoding \\
+HyperGS & 2D video & predicted per-frame 2D splats & yes, from video & amortized encoding \\
+\jewels{} (target) & 2D video & persistent anisotropic \uvt{} field & from noise and text & generation/editing \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Method}
+
+\subsection{Video as an additive space-time field}
+
+Let the normalized video domain be $\Omega=[-1,1]^3$, with a query
+$\mathbf{x}=(u,v,t)\in\Omega$. Jewel $i$ has center $\boldsymbol\mu_i\in\R^3$, symmetric positive
+definite covariance $\boldsymbol\Sigma_i\in\R^{3\times3}$, weight logit $\ell_i$, base color
+$\mathbf{c}_i\in\R^3$, and a first-order color matrix
+$\mathbf{G}_i\in\R^{3\times3}$. Its contribution is
+\begin{align}
+q_i(\mathbf{x}) &= (\mathbf{x}-\boldsymbol\mu_i)^\top
+\boldsymbol\Sigma_i^{-1}(\mathbf{x}-\boldsymbol\mu_i),\\
+a_i(\mathbf{x}) &= \sigma(\ell_i)\exp[-q_i(\mathbf{x})/2],\\
+\widehat{\mathbf{I}}(\mathbf{x}) &= \mathbf{b}+\sum_i a_i(\mathbf{x})
+\left[\mathbf{c}_i+\mathbf{G}_i(\mathbf{x}-\boldsymbol\mu_i)\right],
+\label{eq:renderer}
+\end{align}
+where $\mathbf{b}$ is a learned constant background. This is additive accumulation, not ordered
+alpha compositing. The P1 color term avoids requiring many constant-color primitives to approximate
+smooth gradients.
+
+Writing $\boldsymbol\Sigma_i=\mathbf{R}_i\operatorname{diag}(\mathbf{s}_i^2)\mathbf{R}_i^\top$
+makes the motion interpretation explicit. If a principal axis of $\mathbf{R}_i$ tilts into time,
+the support is a sheared tube through the volume. Rendering a frame means querying the plane at its
+$t$ coordinate. The representation therefore has continuous random access in space and time.
+
+Training samples arbitrary voxels, minimizes RGB MSE, and periodically splits high-gradient
+primitives while pruning low-weight ones. Euclidean-center kNN supplies candidate splats; exact
+Mahalanobis weights are then evaluated for those candidates. Distance work is chunked to at most
+100M point-center pairs, allowing 45k--120k-field experiments on an 8 GB RTX 2070 Super. Atomic
+checkpoints include optimizer and random-generator state, giving exact continuation across process
+failure and CPU/CUDA densification boundaries.
+
+\subsection{Gauge-free features and deterministic tokenization}
+
+Raw scale/quaternion parameters are unsuitable learning targets: quaternions double-cover rotation
+and covariance axes may permute. We instead use the unique log-Euclidean coordinate
+\begin{equation}
+\log\boldsymbol\Sigma_i=\mathbf{R}_i\operatorname{diag}(2\log\mathbf{s}_i)\mathbf{R}_i^\top.
+\end{equation}
+The upper triangle contributes six values to a 22-D feature:
+$[\boldsymbol\mu,\operatorname{triu}(\log\boldsymbol\Sigma),\mathbf{c},
+\operatorname{vec}(\mathbf{G}),\ell]$. Decoding by eigendecomposition reconstructs a render-equivalent
+field with approximately $10^{-6}$ maximum feature round-trip error.
+
+Dense fields are packed into a fixed $32^3$ cell raster. The count-aware local encoder pools means,
+variances, counts, occupancy, and canonical rank features; the sparse decoder emits only the
+predicted variable number of jewels rather than allocating worst-case slots for every cell. A
+train-only PCA over non-overlapping $2^3$ blocks maps eight $24$-D fine cells into one $96$-D coarse
+code. The resulting $16^3$ grid is modeled with rotating axial attention: one block attends along
+$u$, the next $v$, and the next $t$. Three blocks communicate globally without materializing a
+$4096^2$ attention matrix.
+
+The full-field prior uses rectified flow~\cite{lipman2023flow}. For clean target latent $z_1$, noise
+$z_0$, and interpolation $z_s=(1-s)z_0+sz_1$, the model regresses the velocity $z_1-z_0$ while
+receiving time and an optional CLIP condition~\cite{radford2021clip}. Classifier-free dropout is
+required before the null branch is interpreted.
+
+\subsection{Persistent continuation}
+
+Long video is not generated by concatenating independent fixed clips. A stride retains jewels whose
+finite support intersects the overlap and copies their stable IDs and parameters exactly. The model
+predicts only new birth counts and 22-D birth marks in frontier-local coordinates. A
+$16\times16\times8$ raster of prefix counts and moments supplies spatially aligned context tokens.
+This factorization turns ``splat density per unit time'' into an explicit birth process: the field
+maintains a target contributor density while old jewels persist and new regions receive births.
+
+\subsection{Cursor edits and constrained repair}
+
+A cursor selects jewel centers or support intersections in the parallelepiped. Translating a group
+creates protected moved jewels and a dirty mask covering the source, destination, swept axis-aligned
+bounding box, and a cell halo. Let $m\in\{0,1\}^{K}$ mark dirty latent cells and $z^{\rm clean}$ be
+the original hierarchy. After each Euler flow step, sampling reclamps
+\begin{equation}
+z_{k+1}\leftarrow (1-m)\odot z^{\rm clean}+m\odot
+\left[z_k+\Delta s\,v_\theta(z_k,s_k,c,m)\right].
+\label{eq:clamp}
+\end{equation}
+The final merge contains untouched jewels, generated jewels decoded from dirty cells, and protected
+moved jewels. This guarantees locality mechanically; visual reconciliation at the destination must
+still be learned from edit tuples.
+
+\section{Experimental Protocol}
+
+Experiments use three tiers. A synthetic moving tube falsifies the basic motion representation.
+CUHK Avenue~\cite{lu2013avenue} supplies fixed-camera fitting and generation-mechanics experiments.
+UCF-101~\cite{soomro2012ucf101} supplies diverse action and appearance tests. Unless stated
+otherwise, the short side is 160 pixels. The current prompt corpus uses 96-frame, 120k-jewel
+joint fits with temporal-preserving spatial splitting.
+
+We intentionally distinguish metrics. Fit-training PSNR is often computed on sampled voxels and is
+not a publication-grade codec metric. ``Full-volume PSNR'' replays the complete saved field against
+the decoded source. Tokenizer PSNR compares continuous samples rendered from the fitted target and
+the decoded target, not decoded output against the source pixels. Energy distance evaluates latent
+sample distributions. Correct/shuffled/null continuation controls use identical targets and model
+weights. These quantities answer feasibility questions and should not be compared directly with
+published rate-distortion or FVD results.
+
+\section{Results and Discoveries}
+
+\subsection{Reconstruction is viable, but not novel by itself}
+
+The synthetic anisotropic-tube test reaches about \SI{55}{dB}. A real fixed-camera clip reaches
+\SI{43.2}{dB} with 10k primitives; four recent UCF prompt-corpus fields reach 30.32--33.67 dB on
+exact checkpoint replay. Figure~\ref{fig:promptfit} shows the source, 120k-jewel reconstruction, and
+five-times-amplified absolute error for basketball. Class identity, player silhouettes, court
+geometry, and dominant colors survive. Error concentrates on thin limbs, the ball, faces, object
+edges, and motion boundaries.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.90\linewidth]{../sol/results/prompt_smoke/previews_shard0/v_Basketball_g01_c03_w000000/contact_sheet.png}
+\caption{Exact 96-frame checkpoint replay sampled at frames 0, 24, 48, 72, and 95. Rows are source,
+120k-jewel reconstruction, and $5\times$ mean absolute RGB error. Full replay PSNR is
+\SI{33.67}{dB}.}
+\label{fig:promptfit}
+\end{figure}
+
+The covariance is not an ornamental parameter. Median anisotropy is about 2.8--3.3 on real footage,
+versus about 1.2 on the synthetic background-dominated test. More importantly, attempts to impose a
+soft Voronoi partition reduced both reconstruction and cross-seed canonicality. On one real clip,
+additive splats score \SI{43.2}{dB} with a 0.621 normalized cross-seed Chamfer ratio; vanilla
+Voronoi scores \SI{36.8}{dB}/0.745. A background pseudo-cell recovers some PSNR but not canonicality;
+Lloyd relaxation collapses to \SI{33.0}{dB}/0.784. Equalizing cell sizes fights the desired
+content-adaptive allocation, so the branch was removed.
+
+\subsection{Useful density is a rate, not a raw count}
+
+At 45k total jewels, temporal $3\sigma$ support intersects roughly 6.2k splats per Avenue frame, but
+only 3.9k exceed 5\% potential peak alpha and the opacity-weighted effective count is 3.3k. UCF is
+lower: 3.6k and 2.9k. Thus a nominally dense field remains below the desired 5k--10k effective
+contributors per frame.
+
+The naive 90k isotropic control demonstrates why. It nearly doubles observed births per frame,
+shortens median support from 5 to 3 frames, increases effective contributors only 30.3\%, and lowers
+PSNR. Figure~\ref{fig:density} shows that extra count does not recover more useful detail.
+
+\begin{table}[H]
+\centering
+\small
+\caption{Matched UCF density control. The successful next control preserves temporal extent and
+splits spatial axes rather than shrinking every axis.}
+\label{tab:density}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+Measurement & 45k isotropic & 90k isotropic & Change \\
+\midrule
+Peak alpha $\geq5\%$/frame & 3,595 & 4,724 & +31.4\% \\
+Effective contributors/frame & 2,933 & 3,822 & +30.3\% \\
+Full-volume PSNR & 34.136 & 33.062 & $-1.074$ dB \\
+Mean support lifespan (frames) & 8.41 & 5.58 & $-33.6\%$ \\
+Median support lifespan (frames) & 5 & 3 & $-40.0\%$ \\
+Observed births/frame & 659 & 1,290 & +95.6\% \\
+Fit runtime (minutes) & 56.8 & 79.7 & +40.3\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{../sol/results/ucf_90k_density/source_45k_90k_frame32.png}
+\caption{Source, 45k fit, and 90k isotropic fit at the same UCF frame. Doubling count increases
+short-lived fragments rather than useful detail and reduces full-volume PSNR.}
+\label{fig:density}
+\end{figure}
+
+\subsection{A generative field prior works before it works well}
+
+An early permutation-invariant SetDiT flow model directly generated 6,471-jewel Avenue fields from
+noise. Scaling 5.8M, 58M, and 173M-parameter models under a frozen protocol monotonically improves
+CLIP-Frechet distance from 0.31 to 0.20 to 0.16 and training loss from 1.148 to 1.066 to 0.993
+(Figures~\ref{fig:scaling-quant} and~\ref{fig:scaling-qual}). Samples preserve scene layout,
+palette, chirality flips induced by
+mirror augmentation, and temporal stability, but fine pedestrians remain distorted. The flattening
+curve identified data and representation density, rather than further model scaling on 231 windows,
+as the next axis.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.86\linewidth]{../assets/scaling_curve.png}
+\caption{Frozen scaling protocol for the first direct field prior. Improvement is monotone but
+saturates on the small, single-scene corpus.}
+\label{fig:scaling-quant}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.78\linewidth]{../assets/v012_triptych.png}
+\caption{A fitted reference and samples from v0, v1, and v2 at three times. Larger models preserve
+the coarse scene more consistently, while people remain visibly under-resolved.}
+\label{fig:scaling-qual}
+\end{figure}
+
+\subsection{Locality is load-bearing for the tokenizer}
+
+On 121 dense Avenue windows, coarse cell pooling repeatedly achieved plausible aggregate PSNR while
+erasing people. The first source-held-out tokenizer to preserve recognizable pedestrian silhouettes
+uses a $32^3$ grid, 24 values per cell, near-one-jewel average locality, and canonical-rank-aware
+decoding. Its 35-window audit reaches \SI{19.987}{dB} and 99.14\% count recovery. This remains a
+weak 1.26$\times$ numeric bottleneck. The $2^3$ PCA hierarchy reduces 32,768 tokens to 4,096 and
+loses only \SI{0.224}{dB}, making axial generation tractable.
+
+Appearance is not solved. A bright red coat in held-out footage retains its figure but decodes tan.
+Rare foreground chroma is overwhelmed by uniformly weighted 22-D jewel losses and sparse uniform
+render samples. This is a regression-to-palette failure, not a channel-order bug. Foreground chroma
+and perceptual metrics must accompany aggregate RGB PSNR.
+
+Cross-domain controls sharpen the conclusion. Frozen Avenue weights reach only
+\SI{17.786}{dB}/86.06\% count on UCF basketball; the identical architecture trained on that UCF
+window reaches \SI{22.316}{dB}/97.13\%. Equal-exposure joint training reaches
+\SI{20.278}{dB} on held-out Avenue and \SI{22.275}{dB} on UCF. The bottleneck can represent both,
+but absolute cell/domain specialization remains substantial.
+
+\begin{table}[H]
+\centering
+\small
+\caption{Selected tokenizer and hierarchy results. PSNR compares fitted target and tokenizer
+round-trip renders at fixed continuous samples.}
+\label{tab:tokenizer}
+\begin{tabularx}{\linewidth}{@{}XrrX@{}}
+\toprule
+Representation & Tokens & PSNR & Visual result \\
+\midrule
+$12\times12\times6$, 128-D & 864 & 18.940 & people erased \\
+$16\times16\times8$, rank-v2 & 2,048 & 20.428 & people erased \\
+$24\times24\times16$, pooled & 9,216 & 19.730 & faint traces \\
+$32^3$, rank-aware, 24-D & 32,768 & \textbf{19.987} & people recognizable \\
+$16^3$, PCA, 96-D & 4,096 & 19.763 & people retained \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Generation, continuation, and editing separate into distinct gates}
+
+The 1.94M-parameter axial prior learns the coarse latent distribution: energy distance 0.2493 beats
+CLIP nearest-neighbor retrieval (0.3164) and repeated scene mean (0.8473). Yet correct CLIP
+conditioning is slightly worse than shuffled or unconditional conditioning (gain $-0.00171$).
+With only four training cameras and one image embedding per window, the model learns scene-family
+statistics, not semantic control.
+
+Continuation gives a stronger causal control. Replacing one global prefix vector with aligned
+$16\times16\times8$ local tokens produces the results in Table~\ref{tab:continuation} and
+Figure~\ref{fig:continuation}. Correct context reduces standardized birth-feature MSE by 62.7\%
+against disjoint shuffled context and recovers 99.95\% of births. Carried jewels are copied with
+zero error. This is still an overfit to four views of one clip, but it proves that spatial
+correspondence, not merely window identity, is required.
+
+\begin{table}[H]
+\centering
+\small
+\caption{Matched cell-local continuation control.}
+\label{tab:continuation}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+Metric & Correct & Shuffled & Null \\
+\midrule
+Birth-feature MSE & \textbf{0.4475} & 1.1988 & 2.1695 \\
+Birth-count MAE/cell & \textbf{0.3310} & 3.7167 & 6.4994 \\
+Future-field PSNR & \textbf{19.870} & 7.302 & $-29.735$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\linewidth]{../sol/results/streaming_continuation_local/continuation_controls_contact.png}
+\caption{Start, middle, and end diagnostics for fitted target, correct prefix, disjoint shuffled
+prefix, and null prefix. The extreme null output is not a video baseline because this overfit was
+not trained with context dropout.}
+\label{fig:continuation}
+\end{figure}
+
+The editor translates 281 real fitted jewels, dirties 448 of 4,096 coarse cells (10.94\%), and
+merges 45,244 final jewels. Every clean coarse and fine latent is bit-identical. The repaired strip,
+however, is visibly washed out. A mask-aware 5,000-step branch improves dirty latent MSE only from
+1.8894 to 1.8848 and does not improve the visual. The result validates the editor invariant while
+falsifying the current repair learner.
+
+\subsection{Text preflight passes; promptable generation remains open}
+
+The prompt smoke test selects Basketball, HorseRiding, PlayingGuitar, and ApplyEyeMakeup from four
+disjoint UCF source groups: 12 training videos and four group-held-out validation videos. Three
+training phrasings and one unseen evaluation phrasing per class are embedded with frozen OpenCLIP
+ViT-B/32. Each unseen phrase retrieves the correct training-phrase centroid; the minimum correct
+versus best-wrong cosine margin is 0.2395 (Table~\ref{tab:prompt}).
+
+\begin{table}[H]
+\centering
+\small
+\caption{Held-out text geometry before jewel-model training.}
+\label{tab:prompt}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+Class & Correct cosine & Best wrong & Margin \\
+\midrule
+Basketball & 0.8641 & 0.5881 & 0.2760 \\
+HorseRiding & 0.9004 & 0.6610 & 0.2395 \\
+PlayingGuitar & 0.9037 & 0.6546 & 0.2490 \\
+ApplyEyeMakeup & 0.9102 & 0.6229 & 0.2873 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Four of 16 dense 120k-jewel fits are finalized, with replay PSNRs 32.10, 33.67, 30.32, and
+33.15 dB (mean 32.28). The remaining fits are in progress. The decisive future test is not text
+retrieval; it is whether correct prompts beat shuffled prompts and a trained null condition on
+held-out source group 4 while preserving rollout density, color, identity, and motion.
+
+\section{What Has Been Falsified}
+
+Failures have been used as architectural evidence rather than hidden tuning history:
+
+\begin{table}[H]
+\centering
+\small
+\caption{Selected falsifications and the resulting decision.}
+\label{tab:falsified}
+\begin{tabularx}{\linewidth}{@{}XX@{}}
+\toprule
+Failed hypothesis & Decision \\
+\midrule
+Soft Voronoi improves canonicality & Removed; additive wins reconstruction and normalized cross-seed Chamfer. \\
+More raw splats automatically increase useful density & Rejected; audit contributor rate and preserve temporal axes during split. \\
+Aggregate PSNR selects a visually useful tokenizer & Rejected; require held-out motion silhouettes and foreground chroma checks. \\
+Global prefix context is sufficient for births & Rejected; aligned cell-local context improves future-field PSNR by 3.41 dB. \\
+The six-camera CLIP prior uses semantics & Rejected; correct condition does not beat shuffled/null. \\
+Mask visibility alone teaches repair & Rejected; train explicit edit tuples with protected-jewel summaries. \\
+Further model scaling solves the sparse prior & Deprioritized; the curve saturates on 231 single-scene windows. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Limitations}
+
+\begin{itemize}
+  \item \textbf{No completed text-to-video result.} The four-class text geometry is valid, but the
+  prompt-conditioned generator has not been trained or evaluated.
+  \item \textbf{Small and specialized corpora.} The generative results use one fixed-camera scene;
+  the continuation result is an overfit; the prompt corpus contains only 16 videos.
+  \item \textbf{Fixed camera and no cuts.} Global camera motion shears most primitives at once and
+  spends density on camera motion. Camera tokens or explicit stabilization are future work.
+  \item \textbf{Low resolution.} Current fits use a 160-pixel short side. PSNR values are not
+  comparable to full-resolution codec papers without a matched rate-distortion protocol.
+  \item \textbf{Appearance loss.} Uniform feature and RGB losses underweight rare foreground color,
+  faces, hands, and thin objects. The red-to-tan coat error is a concrete warning.
+  \item \textbf{Pure-PyTorch rendering.} Exact kNN/Mahalanobis evaluation is useful for research but
+  slower than a tile CUDA rasterizer. Current reconstruction is optimization-based, not amortized.
+  \item \textbf{Edit quality.} Clean-region identity is exact, but dirty-region synthesis is not yet
+  visually useful and may create additive collisions with protected moved jewels.
+  \item \textbf{Novelty is provisional.} Closely related literature is moving quickly. A formal
+  claim requires a complete system, broader search, matched baselines, and external review.
+\end{itemize}
+
+\section{Path to a Promptable Model}
+
+The shortest evidence-driven path is:
+
+\begin{enumerate}
+  \item complete all 16 leakage-safe 96-frame UCF fits and audit effective contributor density;
+  \item train one shared tokenizer/normalizer using train groups only, adding foreground chroma and
+  motion-weighted render samples without sacrificing exact count contracts;
+  \item train initial-window and cell-local birth models with text dropout, using the same text
+  embedding at every stride and explicit correct/shuffled/null controls;
+  \item evaluate one-step held-out continuation before autonomous rollout, then measure seams,
+  birth rate, identity, color, and density across multiple generated strides;
+  \item create edit tuples during training: move jewel groups, provide protected-jewel cell
+  summaries and dirty masks, and supervise reconstruction of the original field;
+  \item scale from four UCF classes to caption-diverse fixed-camera video, then introduce camera
+  modeling and a thin pixel refiner only if the pure-field appearance ceiling remains binding.
+\end{enumerate}
+
+A publication-grade comparison should include GaRV/VeGaS/GSVC-family reconstruction controls,
+pixel-space video baselines, parameter count, fitting/encoding time, memory, random-access render
+speed, rate-distortion, FVD or VBench-style generation metrics, edit locality, and prompt
+selectivity. The unique value proposition is not winning every codec metric; it is combining
+continuous temporal structure, persistent generation, direct manipulation, and constrained repair
+in one native representation.
+
+\section{Conclusion}
+
+The broad idea that Gaussian splats can reconstruct video is established prior art. The present
+work contributes a disciplined attempt to turn that representation into a generative and editable
+medium. The strongest findings are structural: anisotropic space-time support is genuinely used;
+effective density depends on temporal lifetime rather than raw count; near-one-jewel tokenizer
+locality preserves small actors; a compact hierarchy makes dense generation tractable; spatially
+aligned prefix context is essential for births; and local editing can preserve untouched latents
+exactly. The strongest negative finding is equally important: neither semantic conditioning nor
+visual inpainting is solved by the present small corpus.
+
+The project is therefore past the representation-mechanics question but before the text-to-video
+claim. The next milestone is unambiguous: correct prompts must beat shuffled and trained-null
+controls on held-out clips and during overlap-conditioned rollout, while maintaining the density,
+identity, color, and edit invariants already measured.
+
+\appendix
+\section{Reproducibility Snapshot}
+
+\begin{table}[H]
+\centering
+\small
+\caption{Current reproducibility-critical constants.}
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\toprule
+Component & Frozen or selected setting \\
+\midrule
+Coordinate domain & normalized $[-1,1]^3$ in horizontal, vertical, and time \\
+Primitive feature & 22-D: center, log-covariance, P0 RGB, P1 color gradient, weight logit \\
+Renderer & additive P1, learned background, kNN 64, 100M distance-pair cap \\
+Dense prompt fit & 96 frames, 160-pixel short side, 16k init, 120k maximum, spatial split \\
+Fine tokenizer & $32^3$ cells, 24-D local latent, sparse variable-count decode \\
+Hierarchy & non-overlapping $2^3$ train-only PCA, 96 retained components, $16^3$ codes \\
+Prior & rectified flow, rotating axial attention, nullable CLIP/text condition \\
+Continuation & stable-ID carry plus cell-local prediction of frontier birth counts and marks \\
+Editing & swept source/destination dirty mask, protected moved jewels, exact clean-cell clamp \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Novelty Checklist Before Submission}
+
+\begin{enumerate}
+  \item Update the literature search through the submission date, including citations that cite
+  VeGaS, GaRV, HyperGS, and Diff4Splat.
+  \item Replace the provisional positioning paragraph with a feature-by-feature comparison verified
+  against code or supplements, not abstracts alone.
+  \item Demonstrate text-conditioned generation from noise on held-out prompts and sources.
+  \item Demonstrate at least two autonomous continuation strides with no privileged future field.
+  \item Demonstrate a moved-object repair in which clean regions are exact and the dirty region is
+  perceptually plausible under multiple samples.
+  \item Release the protocol, checkpoints, videos, and a matched baseline script.
+\end{enumerate}
+
+\clearpage
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\end{document}
