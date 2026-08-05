@@ -16,7 +16,8 @@ new jewel counts and marks while carried jewel IDs and parameters remain outside
 ### `BirthContinuationModel`
 
 - **Does**: combines prefix context with factorized `(u,v,birth-time)` embeddings, predicts one
-  log-count per cell, and decodes only requested canonical ranks
+  log-count per cell, optionally injects a frozen text embedding, and decodes only requested
+  canonical ranks
 - **Rationale**: variable birth count is part of generation; padded existence fields are unnecessary
 - **Rationale**: local context mode preserves spatial correspondence between preceding jewels and
   the birth cells that extend them; global mode remains load-compatible with the first checkpoint
@@ -24,7 +25,7 @@ new jewel counts and marks while carried jewel IDs and parameters remain outside
 ### `forward_training` / `loss`
 
 - **Does**: evaluates exact target ranks and balances standardized feature reconstruction with
-  log-count reconstruction
+  log-count reconstruction; optional per-example text dropout trains a learned null condition
 
 ### `forward_from_context`
 
@@ -41,10 +42,12 @@ new jewel counts and marks while carried jewel IDs and parameters remain outside
 |---|---|---|
 | Continuation trainer | Context raster has 46 channels and target features are standardized | Input schema |
 | Evaluator | Birth features are frontier-local and carried features are merged separately | Output semantics |
-| Prompted successor | Context embedding can later receive text cross-attention/conditioning | Removing conditioning path |
+| Prompted successor | `text_dim > 0` enables text projection and a trainable null condition | Text/dropout semantics |
 
 ## Notes
 
 - `context_mode="global"` preserves the first checkpoint's semantics. New training defaults to
   `context_mode="local"` because the global bottleneck lost spatial detail in visual continuation.
 - Passing correct versus disjoint shuffled/null prefixes remains a required selectivity control.
+- Text dropout must be used during prompt training. Calling the learned null branch without dropout
+  training does not produce a meaningful unconditional control.
