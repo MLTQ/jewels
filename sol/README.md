@@ -102,6 +102,11 @@ jewels with 0.0 error. It beats the matched global-context model by 3.41 dB, sho
 correspondence—not merely a window-level condition—is essential. This is an overfit feasibility
 result, not yet a generalizing or free-running generator. See
 [`results/streaming_continuation_local/README.md`](results/streaming_continuation_local/README.md).
+The four-class prompt preflight is now fixed and passes its text-only gate: 12 train and four
+source-group-held-out UCF videos, three training phrasings plus one unseen phrasing per class, and
+100% held-out CLIP centroid retrieval with a 0.239 minimum cosine margin. The first balanced
+four-video dense-fit shard is running on the allocated 2070S; the other shards are ready for the
+incoming multi-GPU compute. See [`results/prompt_smoke/README.md`](results/prompt_smoke/README.md).
 More flow steps or small learning-rate sweeps on the same six camera
 sources are unlikely to resolve either failed gate. VQ, entropy coding, and LLM-token integration
 remain premature. The staged implementation and go/no-go gates are in

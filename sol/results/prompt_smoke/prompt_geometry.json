@@ -1,0 +1,44 @@
+{
+  "accuracy": 1.0,
+  "mean_margin": 0.2629474550485611,
+  "minimum_margin": 0.23946785926818848,
+  "maximum_cross_class_centroid_cosine": 0.6832901239395142,
+  "classes": [
+    {
+      "class_name": "Basketball",
+      "evaluation_prompt": "a video of people playing basketball on a court",
+      "predicted_class": "Basketball",
+      "correct_cosine": 0.8640928864479065,
+      "best_wrong_cosine": 0.5880677700042725,
+      "margin": 0.27602511644363403,
+      "mean_train_paraphrase_cosine": 0.8143166899681091
+    },
+    {
+      "class_name": "HorseRiding",
+      "evaluation_prompt": "a video of a rider moving on a horse",
+      "predicted_class": "HorseRiding",
+      "correct_cosine": 0.900426983833313,
+      "best_wrong_cosine": 0.6609591245651245,
+      "margin": 0.23946785926818848,
+      "mean_train_paraphrase_cosine": 0.8549990653991699
+    },
+    {
+      "class_name": "PlayingGuitar",
+      "evaluation_prompt": "a video of a guitarist playing music",
+      "predicted_class": "PlayingGuitar",
+      "correct_cosine": 0.9036716222763062,
+      "best_wrong_cosine": 0.6546459197998047,
+      "margin": 0.24902570247650146,
+      "mean_train_paraphrase_cosine": 0.9084721207618713
+    },
+    {
+      "class_name": "ApplyEyeMakeup",
+      "evaluation_prompt": "a video of a person doing their eye makeup",
+      "predicted_class": "ApplyEyeMakeup",
+      "correct_cosine": 0.9101815223693848,
+      "best_wrong_cosine": 0.6229103803634644,
+      "margin": 0.2872711420059204,
+      "mean_train_paraphrase_cosine": 0.8783659338951111
+    }
+  ]
+}

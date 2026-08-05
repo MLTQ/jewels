@@ -160,8 +160,10 @@ research critical path. It needs:
    than whole windows.~~ The 96-frame/120k field and four 32-prefix/16-future views pass the
    correct/disjoint-shuffled/null gate. The selected cell-local model reaches 19.870 dB, 99.95%
    independently decoded birth density, and 0.0 stable-ID carry error.
-5. Add class-balanced UCF enumeration and text-condition sidecars, then fit the 16-window smoke
-   corpus at the newly validated density and streaming contract.
+5. ~~Add class-balanced UCF enumeration and text-condition sidecars.~~ The fixed 16-video manifest
+   holds out group 4 in every class; unseen prompt templates retrieve the correct CLIP class
+   centroid at 100% accuracy with a 0.239 minimum margin. Dense fitting is sharded four ways; shard
+   0 is running on the 2070S and shards 1–3 await the incoming compute.
 6. Train the shared tokenizer with motion/chroma sampling and compare foreground color against the
    current UCF control.
 7. Expand only after the smoke gate, then run the correct/shuffled/null prompt experiment.

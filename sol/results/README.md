@@ -5,6 +5,9 @@
 > [`axial/README.md`](axial/README.md). Cross-domain UCF evidence is in
 > [`transfer/README.md`](transfer/README.md).
 
+Prompted persistent-streaming preparation and held-out text geometry are recorded in
+[`prompt_smoke/README.md`](prompt_smoke/README.md).
+
 ## Decision
 
 The deterministic count-aware raster tokenizer is feasible on the 6,471-jewel Avenue corpus and is
