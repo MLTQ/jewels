@@ -1,0 +1,18 @@
+{
+  "continuation": "sol/results/streaming_continuation_local/continuation.pt",
+  "fit_checkpoint": "/private/tmp/ucf_96f_120k_spatial.pt",
+  "view": 0,
+  "frontier": 32,
+  "commit_stop": 48,
+  "shuffled_view": 3,
+  "render_shape": [
+    16,
+    24,
+    32
+  ],
+  "field_psnr": {
+    "correct prefix": 19.654481887817383,
+    "shuffled prefix": -1.06392240524292,
+    "null prefix": -32.0465087890625
+  }
+}

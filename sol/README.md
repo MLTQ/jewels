@@ -68,7 +68,7 @@ Its full held-out render audit reaches **19.763 dB**, only 0.224 dB below the fi
 1.94M-parameter axial flow trains at this resolution on the 2070S and its generated latent energy
 distance (**0.2493**) beats CLIP retrieval (0.3164) and scene-mean collapse (0.8473).
 
-Two critical gates still fail. Correct CLIP conditions do not beat shuffled or unconditional ones
+Two downstream gates still fail. Correct CLIP conditions do not beat shuffled or unconditional ones
 (conditional gain -0.00171), and full-generation samples used for local repair wash out the dirty
 strip. The end-to-end editor itself works: a real 281-jewel translation dirtied 448 of 4,096 coarse
 codes, preserved every clean coarse and fine code with **0.0 max error**, and merged moved jewels as
@@ -83,8 +83,9 @@ for metrics and animations.
 - Held-out tokenizer renders preserve small moving figures as well as aggregate sampled PSNR.
 - A latent prior beats scene-mean and nearest-training-window distribution baselines on held-out
   videos. **Passed for distribution, failed for conditioning.**
-- Deterministic carry/commit windows render without a measurable boundary seam; learned
-  continuation remains unproven.
+- Deterministic carry/commit windows render without a measurable boundary seam. **Passed.** A
+  prefix-conditioned birth overfit also beats disjoint shuffled/null controls. **Passed as an
+  overfit; generalization and free-running rollout remain open.**
 - A moved jewel group remains fixed while source and destination neighborhoods are resampled.
   **Mechanical invariant passed; visual repair quality failed.**
 
@@ -93,9 +94,15 @@ The 90k isotropic control is complete: doubling total jewels raises effective UC
 90k temporal-preserving spatial-split control. A new persistent-streaming audit shows why raw count
 scales so poorly: the 45k fit's mean/median finite-support lifespans are 8.41/5 frames, while the 90k
 isotropic fit falls to 5.58/3 and nearly doubles observed births per frame. Stable-ID carry/commit
-rendering now matches the monolithic finite-support field within `1.2e-7`; the next data gate is a
-single longer joint fit cropped into prefix/future views, before any independently fitted prompt
-corpus. More flow steps or small learning-rate sweeps on the same six camera
+rendering now matches the monolithic finite-support field within `1.2e-7`. The subsequent learned
+continuation gate also passes on a single 96-frame, 120k-jewel joint fit. The selected cell-local
+model uses aligned prefix tokens to reach 19.870 dB sampled future-field PSNR, reduce birth-feature
+error by 62.7% versus non-overlapping shuffled prefixes, recover 99.95% of births, and copy carried
+jewels with 0.0 error. It beats the matched global-context model by 3.41 dB, showing that spatial
+correspondence—not merely a window-level condition—is essential. This is an overfit feasibility
+result, not yet a generalizing or free-running generator. See
+[`results/streaming_continuation_local/README.md`](results/streaming_continuation_local/README.md).
+More flow steps or small learning-rate sweeps on the same six camera
 sources are unlikely to resolve either failed gate. VQ, entropy coding, and LLM-token integration
 remain premature. The staged implementation and go/no-go gates are in
 [`PROMPTABLE_ROADMAP.md`](PROMPTABLE_ROADMAP.md).

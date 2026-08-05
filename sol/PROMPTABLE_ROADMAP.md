@@ -41,6 +41,7 @@ edit = clean codes + moved protected jewels + dirty mask + prompt
 | Edit mechanics | Clean fine/coarse codes remain bit-identical and moved jewels remain protected | The editor's constraint mechanism is sound |
 | Learned repair | Dirty regions wash out | Train on paired masks/edits; full-generation samples are not a repair model |
 | Corpus durability | Exact CPU/CUDA recovery across densification, plus a bit-exact real CLI kill/restart; atomic saves every 100 steps | Multi-day fitting is now operationally safe |
+| Streaming continuation | Cell-local prefix tokens reach 19.870 dB, reduce mark MSE 62.7% versus disjoint shuffled context, recover 99.95% of births, and preserve carried jewels exactly | Persistent-state plus learned-birth factorization is viable; retain spatial context and test held-out clips/free-running rollout next |
 
 ## Phase 1 — a diverse, shared jewel tokenizer
 
@@ -155,8 +156,10 @@ research critical path. It needs:
    stride into carried jewels and births; finite-support streamed rendering matches the monolithic
    field within `1.2e-7`. The 90k isotropic audit exposes a 3-frame median lifespan and 1,290
    observed births/frame.
-4. Jointly fit one 96–128-frame clip, derive clamped-prefix/future-stride views from that single
-   field, and train a continuation overfit that predicts births/updates rather than whole windows.
+4. ~~Jointly fit one 96–128-frame clip and train a continuation overfit that predicts births rather
+   than whole windows.~~ The 96-frame/120k field and four 32-prefix/16-future views pass the
+   correct/disjoint-shuffled/null gate. The selected cell-local model reaches 19.870 dB, 99.95%
+   independently decoded birth density, and 0.0 stable-ID carry error.
 5. Add class-balanced UCF enumeration and text-condition sidecars, then fit the 16-window smoke
    corpus at the newly validated density and streaming contract.
 6. Train the shared tokenizer with motion/chroma sampling and compare foreground color against the

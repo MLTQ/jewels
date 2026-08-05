@@ -1,0 +1,20 @@
+{
+  "steps": 5000,
+  "seconds": 569.0532059669495,
+  "views": 4,
+  "evaluation_points_per_frame": 16,
+  "shuffled_control": "nonoverlapping_context",
+  "latest_evaluation": {
+    "correct_feature_mse": 0.6946377009153366,
+    "shuffled_feature_mse": 0.8530685156583786,
+    "null_feature_mse": 0.8725943267345428,
+    "correct_count_mae": 1.2129732966423035,
+    "shuffled_count_mae": 3.459110736846924,
+    "null_count_mae": 5.485424757003784,
+    "predicted_count_ratio": 0.9945852093817134,
+    "correct_render_psnr": 16.459145069122314,
+    "shuffled_render_psnr": 15.640653371810913,
+    "null_render_psnr": 15.846645832061768,
+    "carried_max_error": 0.0
+  }
+}
