@@ -32,16 +32,28 @@ trained.
 The 16 examples are deterministically partitioned into four balanced shards. Every shard contains
 one independent source group from all four classes; their union is the exact manifest.
 
-Shard 0 (group 1, four training videos) was launched on the allocated RTX 2070 Super with the
-validated 96-frame, 120k-jewel spatial-split settings and atomic recovery every 100 steps. Expected
-runtime is roughly eight hours. The remaining three shards are held for the incoming multi-GPU
-compute.
+Shard 0 (group 1, four training videos) completed on the allocated RTX 2070 Super with the
+validated 96-frame, 120k-jewel spatial-split settings and atomic recovery every 100 steps. Exact
+checkpoint replays score 32.10 dB for ApplyEyeMakeup, 33.67 dB for Basketball, 30.32 dB for
+HorseRiding, and 33.15 dB for PlayingGuitar (mean 32.28 dB). Shards 1–3 are running sequentially on
+the same card while the larger compute allocation is pending.
+
+## Shard-0 visual replay
+
+`previews_shard0/` contains one contact sheet, compact MP4, and metric report for each completed
+field. Every video is laid out as source on the left and fitted 120k-jewel reconstruction on the
+right. Contact-sheet rows are source, reconstruction, and amplified absolute error; columns sample
+frames 0, 24, 48, 72, and 95. These files replay finalized checkpoints with the production kNN-64
+renderer rather than rerunning optimization.
 
 ## Artifacts
 
 - `manifest.json`: source-group ownership, prompts, encoder identity, and fit contract
 - `prompts.pt`: validated normalized prompt vectors and per-example ownership
 - `prompt_geometry.json`: unseen-template retrieval report
+- `previews_shard0/*/compare.mp4`: source/reconstruction animations from the four completed fits
+- `previews_shard0/*/contact_sheet.png`: five-timepoint source/reconstruction/error comparisons
+- `previews_shard0/*/report.json`: exact replay metrics and checkpoint provenance
 
 Fitted checkpoints remain on the compute host under
 `/home/m/jewels/corpus/ucf_prompt_smoke/fits_shard*` because each 120k target is substantially larger

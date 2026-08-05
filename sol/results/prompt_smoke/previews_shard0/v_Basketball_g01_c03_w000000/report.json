@@ -1,0 +1,23 @@
+{
+  "checkpoint": "corpus/ucf_prompt_smoke/fits_shard0/v_Basketball_g01_c03_w000000.pt",
+  "source": {
+    "video": "/home/m/jewels/data/ucf_prompt_smoke_shard0/v_Basketball_g01_c03.avi",
+    "start_frame": 0
+  },
+  "shape": [
+    96,
+    160,
+    213
+  ],
+  "jewels": 120000,
+  "knn": 64,
+  "mse": 0.00042946499888785183,
+  "psnr": 33.67072296142578,
+  "frames": [
+    0,
+    24,
+    48,
+    72,
+    95
+  ]
+}

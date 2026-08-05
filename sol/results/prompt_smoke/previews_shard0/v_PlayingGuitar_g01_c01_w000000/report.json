@@ -1,0 +1,23 @@
+{
+  "checkpoint": "corpus/ucf_prompt_smoke/fits_shard0/v_PlayingGuitar_g01_c01_w000000.pt",
+  "source": {
+    "video": "/home/m/jewels/data/ucf_prompt_smoke_shard0/v_PlayingGuitar_g01_c01.avi",
+    "start_frame": 0
+  },
+  "shape": [
+    96,
+    160,
+    213
+  ],
+  "jewels": 120000,
+  "knn": 64,
+  "mse": 0.0004844338109251112,
+  "psnr": 33.14765548706055,
+  "frames": [
+    0,
+    24,
+    48,
+    72,
+    95
+  ]
+}

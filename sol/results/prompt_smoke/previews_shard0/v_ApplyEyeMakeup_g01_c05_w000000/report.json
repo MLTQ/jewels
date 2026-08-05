@@ -1,0 +1,23 @@
+{
+  "checkpoint": "corpus/ucf_prompt_smoke/fits_shard0/v_ApplyEyeMakeup_g01_c05_w000000.pt",
+  "source": {
+    "video": "/home/m/jewels/data/ucf_prompt_smoke_shard0/v_ApplyEyeMakeup_g01_c05.avi",
+    "start_frame": 0
+  },
+  "shape": [
+    96,
+    160,
+    213
+  ],
+  "jewels": 120000,
+  "knn": 64,
+  "mse": 0.0006165954400785267,
+  "psnr": 32.099998474121094,
+  "frames": [
+    0,
+    24,
+    48,
+    72,
+    95
+  ]
+}
