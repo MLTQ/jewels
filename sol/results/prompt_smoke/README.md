@@ -32,11 +32,20 @@ trained.
 The 16 examples are deterministically partitioned into four balanced shards. Every shard contains
 one independent source group from all four classes; their union is the exact manifest.
 
-Shard 0 (group 1, four training videos) completed on the allocated RTX 2070 Super with the
-validated 96-frame, 120k-jewel spatial-split settings and atomic recovery every 100 steps. Exact
-checkpoint replays score 32.10 dB for ApplyEyeMakeup, 33.67 dB for Basketball, 30.32 dB for
-HorseRiding, and 33.15 dB for PlayingGuitar (mean 32.28 dB). Shards 1–3 are running sequentially on
-the same card while the larger compute allocation is pending.
+All 16 fits are complete on the allocated RTX 2070 SUPER with the validated 96-frame, 120k-jewel
+spatial-split settings and atomic recovery every 100 steps. Exact shard-0 checkpoint replays score
+32.10 dB for ApplyEyeMakeup, 33.67 dB for Basketball, 30.32 dB for HorseRiding, and 33.15 dB for
+PlayingGuitar (mean 32.28 dB). Shards 1, 2, and 3 completed in 8.11, 8.10, and 8.07 hours. A read-only
+capacity audit over the union finds maximum `32^3` cell occupancy 253 against 512 slots with zero
+overflow.
+
+## Shared-tokenizer smoke
+
+The 500-step four-class tokenizer smoke passes trainability and count recovery, but not visual
+quality. A fixed 4,096-point audit over all four group-4 holdouts reaches 15.890 dB macro PSNR and
+95.74% count recovery. Broad palette and motion survive, while actor geometry remains diffuse. A
+fresh 3,000-step run using the same leakage-safe split and source-derived motion/chroma samples is
+the current visual gate. See [`tokenizer_smoke/README.md`](tokenizer_smoke/README.md).
 
 ## Shard-0 visual replay
 
@@ -54,6 +63,8 @@ renderer rather than rerunning optimization.
 - `previews_shard0/*/compare.mp4`: source/reconstruction animations from the four completed fits
 - `previews_shard0/*/contact_sheet.png`: five-timepoint source/reconstruction/error comparisons
 - `previews_shard0/*/report.json`: exact replay metrics and checkpoint provenance
+- `tokenizer_smoke/*_dense_roundtrip.gif`: four held-out fitted-target/tokenizer comparisons
+- `tokenizer_smoke/heldout_eval_4096.json`: high-sample shared-tokenizer audit
 
 Fitted checkpoints remain on the compute host under
 `/home/m/jewels/corpus/ucf_prompt_smoke/fits_shard*` because each 120k target is substantially larger

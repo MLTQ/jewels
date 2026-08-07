@@ -162,10 +162,12 @@ research critical path. It needs:
    independently decoded birth density, and 0.0 stable-ID carry error.
 5. ~~Add class-balanced UCF enumeration and text-condition sidecars.~~ The fixed 16-video manifest
    holds out group 4 in every class; unseen prompt templates retrieve the correct CLIP class
-   centroid at 100% accuracy with a 0.239 minimum margin. Dense fitting is sharded four ways; shard
-   0 is running on the 2070S and shards 1–3 await the incoming compute.
+   centroid at 100% accuracy with a 0.239 minimum margin. All 16 96-frame/120k-jewel fits are now
+   complete, and the `32^3` tokenizer audit finds zero slot overflow.
 6. Train the shared tokenizer with motion/chroma sampling and compare foreground color against the
-   current UCF control.
+   current UCF control. The bounded 500-step smoke passes trainability (15.890 dB and 95.74% count
+   on all four held-out sources) but remains visually diffuse; the fresh 3,000-step visual gate is
+   running on the 2070S.
 7. Expand only after the smoke gate, then run the correct/shuffled/null prompt experiment.
 
 ## Literature anchors

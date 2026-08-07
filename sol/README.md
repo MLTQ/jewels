@@ -104,9 +104,12 @@ result, not yet a generalizing or free-running generator. See
 [`results/streaming_continuation_local/README.md`](results/streaming_continuation_local/README.md).
 The four-class prompt preflight is now fixed and passes its text-only gate: 12 train and four
 source-group-held-out UCF videos, three training phrasings plus one unseen phrasing per class, and
-100% held-out CLIP centroid retrieval with a 0.239 minimum cosine margin. The first balanced
-four-video dense-fit shard is running on the allocated 2070S; the other shards are ready for the
-incoming multi-GPU compute. See [`results/prompt_smoke/README.md`](results/prompt_smoke/README.md).
+100% held-out CLIP centroid retrieval with a 0.239 minimum cosine margin. All 16 dense 96-frame,
+120k-jewel fits are complete. A shared tokenizer trained for 500 steps with source-derived
+motion/chroma samples reaches 15.890 dB and 95.74% count recovery across the four untouched group-4
+sources. This is a structural pass but a visual fail: palette and some motion survive, while actors
+remain diffuse. The fresh 3,000-step gate is running before any corpus expansion or prompt-prior
+claim. See [`results/prompt_smoke/README.md`](results/prompt_smoke/README.md).
 More flow steps or small learning-rate sweeps on the same six camera
 sources are unlikely to resolve either failed gate. VQ, entropy coding, and LLM-token integration
 remain premature. The staged implementation and go/no-go gates are in
