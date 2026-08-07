@@ -1,4 +1,4 @@
-"""Cache balanced high-change source-video coordinates for tokenizer training."""
+"""Cache balanced motion-and-chroma source coordinates for tokenizer training."""
 
 from __future__ import annotations
 
@@ -13,18 +13,56 @@ import torch
 def _window_motion_points(
     frames: list[torch.Tensor], pool_size: int
 ) -> tuple[torch.Tensor, torch.Tensor]:
+    """Retain the historical motion-only point-pool contract."""
+    points, scores, _ = _window_saliency_points(
+        frames, pool_size, chroma_fraction=0.0
+    )
+    return points, scores
+
+
+def _window_saliency_points(
+    frames: list[torch.Tensor],
+    pool_size: int,
+    *,
+    chroma_fraction: float,
+) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+    """Build temporally balanced, disjoint motion and saturated-color samples."""
+    if not 0 <= chroma_fraction <= 1:
+        raise ValueError("chroma fraction must be in [0,1]")
     video = torch.stack(frames).float().div_(255)
     frames_count, height, width, _ = video.shape
     median = video.median(dim=0).values
     residual = (video - median).abs().mean(dim=-1)
     temporal = torch.zeros_like(residual)
     temporal[1:] = (video[1:] - video[:-1]).abs().mean(dim=-1)
-    score = residual + 0.5 * temporal
+    motion_score = residual + 0.5 * temporal
+    chroma_score = video.amax(dim=-1) - video.amin(dim=-1)
     per_frame = max(1, pool_size // frames_count)
-    points, scores = [], []
+    points, scores, kinds = [], [], []
     for frame_index in range(frames_count):
         count = min(per_frame, height * width)
-        values, indices = score[frame_index].flatten().topk(count)
+        chroma_count = round(count * chroma_fraction)
+        motion_count = count - chroma_count
+        selected_indices = []
+        selected_scores = []
+        selected_kinds = []
+        motion_flat = motion_score[frame_index].flatten()
+        chroma_flat = chroma_score[frame_index].flatten()
+        if motion_count:
+            values, indices = motion_flat.topk(motion_count)
+            selected_indices.append(indices)
+            selected_scores.append(values)
+            selected_kinds.append(torch.zeros_like(indices))
+        if chroma_count:
+            available = chroma_flat.clone()
+            if selected_indices:
+                available[selected_indices[0]] = -1
+            values, indices = available.topk(chroma_count)
+            selected_indices.append(indices)
+            selected_scores.append(values)
+            selected_kinds.append(torch.ones_like(indices))
+        indices = torch.cat(selected_indices)
+        values = torch.cat(selected_scores)
         v = indices // width
         u = indices % width
         points.append(
@@ -40,14 +78,17 @@ def _window_motion_points(
             )
         )
         scores.append(values)
-    return torch.cat(points), torch.cat(scores)
+        kinds.append(torch.cat(selected_kinds))
+    return torch.cat(points), torch.cat(scores), torch.cat(kinds)
 
 
 def _parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--corpus", required=True)
+    parser.add_argument("--extra-corpus", action="append", default=[])
     parser.add_argument("--out", required=True)
     parser.add_argument("--pool-size", type=int, default=8192)
+    parser.add_argument("--chroma-fraction", type=float, default=0.5)
     return parser.parse_args()
 
 
@@ -55,11 +96,22 @@ def main() -> None:
     args = _parse_args()
     if args.pool_size <= 0:
         raise ValueError("pool size must be positive")
-    corpus = Path(args.corpus)
+    if not 0 <= args.chroma_fraction <= 1:
+        raise ValueError("chroma fraction must be in [0,1]")
+    corpora = [Path(args.corpus), *(Path(path) for path in args.extra_corpus)]
     output = Path(args.out)
     output.mkdir(parents=True, exist_ok=True)
     by_video: dict[str, list[dict]] = defaultdict(list)
-    for checkpoint_path in sorted(corpus.glob("*_w*.pt")):
+    checkpoint_paths = sorted(
+        path
+        for corpus in corpora
+        for path in corpus.glob("*_w*.pt")
+        if not path.name.endswith(".recovery.pt")
+    )
+    names = [path.name for path in checkpoint_paths]
+    if len(names) != len(set(names)):
+        raise ValueError("corpus roots contain duplicate checkpoint filenames")
+    for checkpoint_path in checkpoint_paths:
         checkpoint = torch.load(
             checkpoint_path, map_location="cpu", weights_only=False
         )
@@ -94,12 +146,19 @@ def main() -> None:
                     torch.from_numpy(resized.to_ndarray(format="rgb24").copy())
                 )
                 if len(frames) == active["shape"][0]:
-                    points, scores = _window_motion_points(frames, args.pool_size)
+                    points, scores, kinds = _window_saliency_points(
+                        frames,
+                        args.pool_size,
+                        chroma_fraction=args.chroma_fraction,
+                    )
                     path = output / f"{active['name']}.motion.pt"
                     torch.save(
                         {
+                            "schema": "jewel-source-saliency-v1",
                             "points": points,
                             "scores": scores,
+                            "kinds": kinds,
+                            "chroma_fraction": args.chroma_fraction,
                             "source_video": video_path,
                             "start_frame": active["start"],
                             "shape": active["shape"],
@@ -109,6 +168,8 @@ def main() -> None:
                     record = {
                         "name": active["name"],
                         "points": len(points),
+                        "motion_points": int((kinds == 0).sum()),
+                        "chroma_points": int((kinds == 1).sum()),
                         "artifact": path.name,
                     }
                     records.append(record)

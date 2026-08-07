@@ -26,7 +26,7 @@ worst-cell slot padding.
 ### `_prepare_examples` / `_batch`
 
 - **Does**: Precompute canonical compact targets on CPU and transfer only selected 45k-jewel batches.
-- **Optional data**: Loads and batches fixed-size source-video motion pools when configured.
+- **Optional data**: Loads and batches fixed-size source-video motion/chroma pools when configured.
 
 ### `_sampled_render_loss`
 
@@ -37,9 +37,10 @@ worst-cell slot padding.
 - **Rationale for motion sampling**: Uniform volume loss is dominated by static architecture. Target
   temporal differences provide a segmentation-free importance signal for pedestrians and other
   moving detail while the retained uniform fraction protects global reconstruction.
-- **Source-video pools**: `--motion-points-dir` loads precomputed per-window coordinates from
-  `cache_motion_points.py`. These are preferred over online fitted-field candidates because small
-  figures cannot be missed by random proposals and static fit shimmer cannot outrank real motion.
+- **Source-video pools**: `--motion-points-dir` retains its checkpoint-compatible name but loads
+  precomputed motion/chroma coordinates from `cache_motion_points.py`. These are preferred over
+  online fitted-field candidates because small figures and rare saturated colors cannot be missed
+  by random proposals, and static fit shimmer cannot outrank source evidence.
 
 ### `_atomic_checkpoint`
 
