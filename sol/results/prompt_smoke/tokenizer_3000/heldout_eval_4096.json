@@ -1,0 +1,58 @@
+{
+  "checkpoint": "/home/m/jewels/tokenizer/prompt_shared_3000/autoencoder.pt",
+  "step": 3000,
+  "corpus": "/home/m/jewels/corpus/ucf_prompt_smoke/fits_shard3",
+  "validation_sources": [
+    "v_ApplyEyeMakeup_g04_c06",
+    "v_Basketball_g04_c01",
+    "v_HorseRiding_g04_c05",
+    "v_PlayingGuitar_g04_c01"
+  ],
+  "selection": "tokenizer_validation_sources",
+  "trained_slots_per_cell": 512,
+  "evaluated_slots_per_cell": 512,
+  "points_per_example": 4096,
+  "requested_max_examples": 4,
+  "evaluation": {
+    "mean_psnr": 16.54068922996521,
+    "median_psnr": 15.771992683410645,
+    "macro_source_psnr": 16.54068922996521,
+    "source_mean_psnr": {
+      "v_ApplyEyeMakeup_g04_c06": 14.853371620178223,
+      "v_Basketball_g04_c01": 16.09912109375,
+      "v_HorseRiding_g04_c05": 15.444864273071289,
+      "v_PlayingGuitar_g04_c01": 19.765399932861328
+    },
+    "mean_count_ratio": 0.96190625,
+    "examples": [
+      {
+        "name": "v_ApplyEyeMakeup_g04_c06_w000000.pt",
+        "source_id": "v_ApplyEyeMakeup_g04_c06",
+        "psnr": 14.853371620178223,
+        "target_jewels": 120000,
+        "decoded_jewels": 113837
+      },
+      {
+        "name": "v_Basketball_g04_c01_w000000.pt",
+        "source_id": "v_Basketball_g04_c01",
+        "psnr": 16.09912109375,
+        "target_jewels": 120000,
+        "decoded_jewels": 116583
+      },
+      {
+        "name": "v_HorseRiding_g04_c05_w000000.pt",
+        "source_id": "v_HorseRiding_g04_c05",
+        "psnr": 15.444864273071289,
+        "target_jewels": 120000,
+        "decoded_jewels": 116439
+      },
+      {
+        "name": "v_PlayingGuitar_g04_c01_w000000.pt",
+        "source_id": "v_PlayingGuitar_g04_c01",
+        "psnr": 19.765399932861328,
+        "target_jewels": 120000,
+        "decoded_jewels": 114856
+      }
+    ]
+  }
+}

@@ -9,7 +9,8 @@ and deterministic round-trips across time.
 
 ### `main`
 - **Does**: Restores sparse codec/provenance, selects source-balanced validation windows, renders 16
-  matched temporal positions, and writes labeled GIFs plus a manifest.
+  matched temporal positions, and writes labeled GIFs plus a manifest. Target panels report the
+  actual jewel count from the loaded example rather than assuming a legacy corpus density.
 - **Diagnostic selection**: `--names` renders exact corpus examples, including training windows,
   when separating codec memorization from held-out scene generalization. Without it, selection stays
   source-held-out and balanced.
@@ -24,7 +25,7 @@ and deterministic round-trips across time.
 | Dependent | Expects | Breaking changes |
 |---|---|---|
 | Dense tokenizer selection | Panel order is fitted target / sparse round-trip | Visual semantics |
-| Research record | Manifest carries names, sources, frame indices, and counts | Manifest schema |
+| Research record | Panel labels and manifest carry the loaded target count | Label/count provenance |
 | Cross-domain audit | Manifest records trained and rendered slot capacities | Capacity provenance |
 
 ## Notes

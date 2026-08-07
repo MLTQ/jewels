@@ -1,0 +1,53 @@
+{
+  "steps": 3000,
+  "seconds": 4721.786329746246,
+  "latest_evaluation": {
+    "mean_psnr": 16.505708694458008,
+    "median_psnr": 15.648472309112549,
+    "macro_source_psnr": 16.505708694458008,
+    "source_mean_psnr": {
+      "v_ApplyEyeMakeup_g04_c06": 14.712090492248535,
+      "v_Basketball_g04_c01": 16.344684600830078,
+      "v_HorseRiding_g04_c05": 14.95226001739502,
+      "v_PlayingGuitar_g04_c01": 20.0137996673584
+    },
+    "mean_count_ratio": 0.96190625,
+    "examples": [
+      {
+        "name": "v_ApplyEyeMakeup_g04_c06_w000000.pt",
+        "source_id": "v_ApplyEyeMakeup_g04_c06",
+        "psnr": 14.712090492248535,
+        "target_jewels": 120000,
+        "decoded_jewels": 113837
+      },
+      {
+        "name": "v_Basketball_g04_c01_w000000.pt",
+        "source_id": "v_Basketball_g04_c01",
+        "psnr": 16.344684600830078,
+        "target_jewels": 120000,
+        "decoded_jewels": 116583
+      },
+      {
+        "name": "v_HorseRiding_g04_c05_w000000.pt",
+        "source_id": "v_HorseRiding_g04_c05",
+        "psnr": 14.95226001739502,
+        "target_jewels": 120000,
+        "decoded_jewels": 116439
+      },
+      {
+        "name": "v_PlayingGuitar_g04_c01_w000000.pt",
+        "source_id": "v_PlayingGuitar_g04_c01",
+        "psnr": 20.0137996673584,
+        "target_jewels": 120000,
+        "decoded_jewels": 114856
+      }
+    ]
+  },
+  "max_cell_occupancy": 253,
+  "validation_sources": [
+    "v_ApplyEyeMakeup_g04_c06",
+    "v_Basketball_g04_c01",
+    "v_HorseRiding_g04_c05",
+    "v_PlayingGuitar_g04_c01"
+  ]
+}

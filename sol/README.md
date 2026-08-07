@@ -107,9 +107,11 @@ source-group-held-out UCF videos, three training phrasings plus one unseen phras
 100% held-out CLIP centroid retrieval with a 0.239 minimum cosine margin. All 16 dense 96-frame,
 120k-jewel fits are complete. A shared tokenizer trained for 500 steps with source-derived
 motion/chroma samples reaches 15.890 dB and 95.74% count recovery across the four untouched group-4
-sources. This is a structural pass but a visual fail: palette and some motion survive, while actors
-remain diffuse. The fresh 3,000-step gate is running before any corpus expansion or prompt-prior
-claim. See [`results/prompt_smoke/README.md`](results/prompt_smoke/README.md).
+sources. The full 3,000-step gate improves to 16.541 dB and 96.19% count recovery but remains a
+visual failure: broad palette survives while action-defining actors collapse into texture. Known
+training sources reach 19.552 dB, exposing both a generalization gap and incomplete reconstruction.
+A single-window exposure control is now running; corpus expansion and the prompt prior remain
+paused. See [`results/prompt_smoke/README.md`](results/prompt_smoke/README.md).
 More flow steps or small learning-rate sweeps on the same six camera
 sources are unlikely to resolve either failed gate. VQ, entropy coding, and LLM-token integration
 remain premature. The staged implementation and go/no-go gates are in

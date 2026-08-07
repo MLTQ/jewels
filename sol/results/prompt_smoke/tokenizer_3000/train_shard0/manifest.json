@@ -1,0 +1,94 @@
+[
+  {
+    "name": "v_ApplyEyeMakeup_g01_c05_w000000.pt",
+    "source_id": "v_ApplyEyeMakeup_g01_c05",
+    "target_jewels": 120000,
+    "decoded_jewels": 118003,
+    "trained_slots_per_cell": 512,
+    "rendered_slots_per_cell": 512,
+    "frames": [
+      0,
+      9,
+      17,
+      26,
+      35,
+      43,
+      52,
+      60,
+      69,
+      78,
+      86,
+      95
+    ],
+    "artifact": "v_ApplyEyeMakeup_g01_c05_w000000_dense_roundtrip.gif"
+  },
+  {
+    "name": "v_Basketball_g01_c03_w000000.pt",
+    "source_id": "v_Basketball_g01_c03",
+    "target_jewels": 120000,
+    "decoded_jewels": 117857,
+    "trained_slots_per_cell": 512,
+    "rendered_slots_per_cell": 512,
+    "frames": [
+      0,
+      9,
+      17,
+      26,
+      35,
+      43,
+      52,
+      60,
+      69,
+      78,
+      86,
+      95
+    ],
+    "artifact": "v_Basketball_g01_c03_w000000_dense_roundtrip.gif"
+  },
+  {
+    "name": "v_HorseRiding_g01_c01_w000000.pt",
+    "source_id": "v_HorseRiding_g01_c01",
+    "target_jewels": 120000,
+    "decoded_jewels": 118623,
+    "trained_slots_per_cell": 512,
+    "rendered_slots_per_cell": 512,
+    "frames": [
+      0,
+      9,
+      17,
+      26,
+      35,
+      43,
+      52,
+      60,
+      69,
+      78,
+      86,
+      95
+    ],
+    "artifact": "v_HorseRiding_g01_c01_w000000_dense_roundtrip.gif"
+  },
+  {
+    "name": "v_PlayingGuitar_g01_c01_w000000.pt",
+    "source_id": "v_PlayingGuitar_g01_c01",
+    "target_jewels": 120000,
+    "decoded_jewels": 118924,
+    "trained_slots_per_cell": 512,
+    "rendered_slots_per_cell": 512,
+    "frames": [
+      0,
+      9,
+      17,
+      26,
+      35,
+      43,
+      52,
+      60,
+      69,
+      78,
+      86,
+      95
+    ],
+    "artifact": "v_PlayingGuitar_g01_c01_w000000_dense_roundtrip.gif"
+  }
+]

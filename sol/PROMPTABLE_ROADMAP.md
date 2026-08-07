@@ -165,9 +165,10 @@ research critical path. It needs:
    centroid at 100% accuracy with a 0.239 minimum margin. All 16 96-frame/120k-jewel fits are now
    complete, and the `32^3` tokenizer audit finds zero slot overflow.
 6. Train the shared tokenizer with motion/chroma sampling and compare foreground color against the
-   current UCF control. The bounded 500-step smoke passes trainability (15.890 dB and 95.74% count
-   on all four held-out sources) but remains visually diffuse; the fresh 3,000-step visual gate is
-   running on the 2070S.
+   current UCF control. The bounded smoke passes trainability, but the 3,000-step run reaches only
+   16.541 dB / 96.19% count on the four held-out sources and still erases action-defining subjects.
+   Seen sources reach 19.552 dB. Complete the 1,000-update single-window control before choosing
+   exposure-matched shared training versus a replacement for the rank/moment cell bottleneck.
 7. Expand only after the smoke gate, then run the correct/shuffled/null prompt experiment.
 
 ## Literature anchors

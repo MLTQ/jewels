@@ -74,7 +74,10 @@ def main() -> None:
         frames = [
             _row(
                 [
-                    _panel(target_frames[index], "45k fitted target"),
+                    _panel(
+                        target_frames[index],
+                        f"{example.features.shape[0]:,}-jewel fitted target",
+                    ),
                     _panel(decoded_frames[index], "sparse tokenizer round-trip"),
                 ]
             )
