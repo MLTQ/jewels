@@ -23,6 +23,9 @@ features and predicts one count per cell.
 ### `SparseJewelAutoencoder`
 - **Does**: Reuses the count-aware raster encoder and supplies compact feature/count training losses.
 - **Interacts with**: `token_grid.py`, `autoencoder.OccupancyAwareEncoder`, and the raster prior.
+- **Fine-grid control**: `structural_loss(..., balance_count=True)` averages occupied and empty
+  cell count errors separately so a sparse high-resolution grid cannot minimize loss by deleting
+  rare occupied cells. The legacy global mean remains the default.
 
 ### `RankConditionedEncoder`
 - **Does**: Applies a nonlinear projection to each `(jewel feature, canonical rank)` pair before
@@ -31,6 +34,12 @@ features and predicts one count per cell.
   individual detail to the ranks requested by the deterministic decoder. Rank conditioning retains
   that correspondence without changing the one-token-per-cell editing contract.
 
+### `_cell_basis` / position modes
+- **Does**: Encodes normalized 3D cell centers at four shared Fourier scales.
+- **Rationale**: `position_mode="fourier"` removes the two full learned cell lookup tables, forcing
+  diverse-scene content through the latent while retaining spatial identity. The default
+  `"learned"` mode preserves old checkpoint state keys and behavior.
+
 ## Contracts
 
 | Dependent | Expects | Breaking changes |
@@ -38,6 +47,7 @@ features and predicts one count per cell.
 | Dense trainer | Output contains `(B,N,F)` occupied features and `(B,C)` log-count | Output schema |
 | Evaluation/prior | `encoder` returns raster latents and `decode` returns variable sets | Codec interface |
 | Editor | Cell-constrained centers and canonical rank semantics remain stable | Spatial/rank layout |
+| Existing checkpoints | Missing `position_mode` means learned tables with unchanged state keys | Default/key names |
 
 ## Notes
 
@@ -48,3 +58,5 @@ features and predicts one count per cell.
 - Canonical rank swaps near center ties remain a research limitation shared with the padded decoder.
 - `encoder_mode="pooled"` loads the earlier checkpoints; `"rank"` selects the correspondence-aware
   experiment. Both modes accept unordered input sets, because ranks are assigned canonically.
+- Fourier positions currently require the rank-conditioned encoder; the legacy pooled encoder owns
+  a separate learned cell table and remains checkpoint-only.

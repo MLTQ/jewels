@@ -21,6 +21,11 @@ worst-cell slot padding.
   each domain the same 3,000 updates as its single-domain control.
 - **Encoder comparison**: `--encoder-mode rank` binds canonical rank to each feature before local
   pooling; the default `pooled` mode remains checkpoint-compatible with earlier runs.
+- **Position comparison**: `--position-mode fourier` replaces encoder and decoder absolute cell
+  tables with shared multiscale 3D features. It requires the rank encoder and is the diverse-scene
+  memorization control; learned positions remain the checkpoint-compatible default.
+- **Fine-grid count control**: `--balance-count-loss` gives occupied and empty cell groups equal
+  weight, while `--count-weight` controls its strength. Both retain prior defaults unless selected.
 - **Interacts with**: `sparse_autoencoder.py`, `corpus.py`, `evaluation.py`, and `render.py`.
 
 ### `_prepare_examples` / `_batch`

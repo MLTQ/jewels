@@ -110,8 +110,11 @@ motion/chroma samples reaches 15.890 dB and 95.74% count recovery across the fou
 sources. The full 3,000-step gate improves to 16.541 dB and 96.19% count recovery but remains a
 visual failure: broad palette survives while action-defining actors collapse into texture. Known
 training sources reach 19.552 dB, exposing both a generalization gap and incomplete reconstruction.
-A single-window exposure control is now running; corpus expansion and the prompt prior remain
-paused. See [`results/prompt_smoke/README.md`](results/prompt_smoke/README.md).
+The subsequent matched-budget sweep validates spatial density: a shared-position `64^3 × 8` control
+reaches 24.586 dB / 97.69% count, 2.85 dB above `32^3 × 64`, while reducing model parameters from
+21.48M to 2.34M. Its exposure-matched 12-window shared gate is active. Corpus expansion and the
+prompt prior remain paused until all four held-out actions render recognizably. See
+[`results/prompt_smoke/README.md`](results/prompt_smoke/README.md).
 More flow steps or small learning-rate sweeps on the same six camera
 sources are unlikely to resolve either failed gate. VQ, entropy coding, and LLM-token integration
 remain premature. The staged implementation and go/no-go gates are in

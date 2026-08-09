@@ -180,6 +180,9 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--latent-dim", type=int, default=128)
     parser.add_argument("--enc-depth", type=int, default=3)
     parser.add_argument("--encoder-mode", choices=("pooled", "rank"), default="pooled")
+    parser.add_argument(
+        "--position-mode", choices=("learned", "fourier"), default="learned"
+    )
     parser.add_argument("--dec-depth", type=int, default=4)
     parser.add_argument("--heads", type=int, default=8)
     parser.add_argument("--decode-chunk", type=int, default=32768)
@@ -201,6 +204,8 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--eval-points", type=int, default=256)
     parser.add_argument("--render-weight", type=float, default=0.5)
     parser.add_argument("--render-points", type=int, default=16)
+    parser.add_argument("--balance-count-loss", action="store_true")
+    parser.add_argument("--count-weight", type=float, default=0.25)
     parser.add_argument("--motion-render-fraction", type=float, default=0.0)
     parser.add_argument("--motion-candidate-multiplier", type=int, default=8)
     parser.add_argument("--motion-time-delta", type=float, default=0.05)
@@ -216,6 +221,8 @@ def main() -> None:
         raise ValueError("steps, batch, and decode chunk must be positive")
     if args.render_weight < 0 or args.render_points <= 0:
         raise ValueError("render settings are invalid")
+    if args.count_weight < 0:
+        raise ValueError("count weight cannot be negative")
     if not 0 <= args.motion_render_fraction <= 1:
         raise ValueError("motion render fraction must be in [0,1]")
     torch.manual_seed(args.seed)
@@ -286,6 +293,7 @@ def main() -> None:
         "heads": args.heads,
         "decode_chunk_size": args.decode_chunk,
         "encoder_mode": args.encoder_mode,
+        "position_mode": args.position_mode,
     }
     model = SparseJewelAutoencoder(**model_args).to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=0.01)
@@ -374,7 +382,12 @@ def main() -> None:
             group["lr"] = learning_rate
         with torch.autocast(device_type=device.type, dtype=torch.float16, enabled=use_amp):
             output = model.forward_compact(features, target)
-            loss, terms = model.structural_loss(output, target)
+            loss, terms = model.structural_loss(
+                output,
+                target,
+                count_weight=args.count_weight,
+                balance_count=args.balance_count_loss,
+            )
         if args.render_weight:
             with torch.autocast(device_type=device.type, enabled=False):
                 render_error = _sampled_render_loss(

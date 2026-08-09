@@ -167,8 +167,10 @@ research critical path. It needs:
 6. Train the shared tokenizer with motion/chroma sampling and compare foreground color against the
    current UCF control. The bounded smoke passes trainability, but the 3,000-step run reaches only
    16.541 dB / 96.19% count on the four held-out sources and still erases action-defining subjects.
-   Seen sources reach 19.552 dB. Complete the 1,000-update single-window control before choosing
-   exposure-matched shared training versus a replacement for the rank/moment cell bottleneck.
+   A matched single-window sweep shows that spatial density, not more channels, is decisive:
+   `64^3 × 8` reaches 24.586 dB / 97.69% count while `32^3 × 64` reaches 21.736 dB at the identical
+   latent-number budget. The exposure-matched 12,000-step shared spatial gate is running; convert
+   the winner to occupied fine tokens under a coarse hierarchy only after held-out renders pass.
 7. Expand only after the smoke gate, then run the correct/shuffled/null prompt experiment.
 
 ## Literature anchors

@@ -46,8 +46,10 @@ quality. A fixed 4,096-point audit over all four group-4 holdouts reaches 15.890
 95.74% count recovery. Broad palette and motion survive, while actor geometry remains diffuse. A
 fresh 3,000-step run using the same leakage-safe split and source-derived motion/chroma samples
 reaches 16.541 dB and 96.19% count recovery but still fails visually. Seen training windows reach
-19.552 dB, so a bounded single-window overfit now separates insufficient exposure from an
-intrinsically lossy cell codec. Prompt-prior training remains paused. See
+19.552 dB. A matched control confirms the density-allocation hypothesis: at the same 2,097,152
+latent-number budget, `64^3 × 8` shared Fourier cells reach 24.586 dB / 97.69% count on the overfit,
+versus 21.736 dB for `32^3 × 64`. The exposure-matched 12-window spatial run is active; prompt-prior
+training remains paused until its four held-out renders pass. See
 [`tokenizer_smoke/README.md`](tokenizer_smoke/README.md) and
 [`tokenizer_3000/README.md`](tokenizer_3000/README.md).
 
@@ -71,6 +73,7 @@ renderer rather than rerunning optimization.
 - `tokenizer_smoke/heldout_eval_4096.json`: high-sample shared-tokenizer audit
 - `tokenizer_3000/*_dense_roundtrip.gif`: final held-out comparisons after 3,000 steps
 - `tokenizer_3000/train_shard0/*`: seen-source capacity/generalization diagnostic
+- `tokenizer_3000/overfit_*/*`: matched exposure, position, width, and spatial-density controls
 
 Fitted checkpoints remain on the compute host under
 `/home/m/jewels/corpus/ucf_prompt_smoke/fits_shard*` because each 120k target is substantially larger

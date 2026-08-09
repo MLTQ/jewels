@@ -1,0 +1,26 @@
+{
+  "steps": 1000,
+  "seconds": 367.8508925437927,
+  "latest_evaluation": {
+    "mean_psnr": 22.43465232849121,
+    "median_psnr": 22.43465232849121,
+    "macro_source_psnr": 22.43465232849121,
+    "source_mean_psnr": {
+      "v_HorseRiding_g01_c01": 22.43465232849121
+    },
+    "mean_count_ratio": 0.9314916666666667,
+    "examples": [
+      {
+        "name": "v_HorseRiding_g01_c01_w000000.pt",
+        "source_id": "v_HorseRiding_g01_c01",
+        "psnr": 22.43465232849121,
+        "target_jewels": 120000,
+        "decoded_jewels": 111779
+      }
+    ]
+  },
+  "max_cell_occupancy": 94,
+  "validation_sources": [
+    "v_HorseRiding_g01_c01"
+  ]
+}

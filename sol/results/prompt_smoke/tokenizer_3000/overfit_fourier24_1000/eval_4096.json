@@ -1,0 +1,31 @@
+{
+  "checkpoint": "/home/m/jewels/tokenizer/overfit_fourier24_horse_1000/autoencoder.pt",
+  "step": 1000,
+  "corpus": "/home/m/jewels/corpus/ucf_prompt_smoke/fits_shard0",
+  "validation_sources": [
+    "v_HorseRiding_g01_c01"
+  ],
+  "selection": "tokenizer_validation_sources",
+  "trained_slots_per_cell": 512,
+  "evaluated_slots_per_cell": 512,
+  "points_per_example": 4096,
+  "requested_max_examples": 1,
+  "evaluation": {
+    "mean_psnr": 21.82168197631836,
+    "median_psnr": 21.82168197631836,
+    "macro_source_psnr": 21.82168197631836,
+    "source_mean_psnr": {
+      "v_HorseRiding_g01_c01": 21.82168197631836
+    },
+    "mean_count_ratio": 0.9918416666666666,
+    "examples": [
+      {
+        "name": "v_HorseRiding_g01_c01_w000000.pt",
+        "source_id": "v_HorseRiding_g01_c01",
+        "psnr": 21.82168197631836,
+        "target_jewels": 120000,
+        "decoded_jewels": 119021
+      }
+    ]
+  }
+}

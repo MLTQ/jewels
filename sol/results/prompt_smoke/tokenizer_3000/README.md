@@ -39,9 +39,35 @@ Their scenes are more recognizable than the held-out set but remain conspicuousl
 3.012 dB train/validation gap shows a generalization problem, while the incomplete training
 round-trips also implicate limited per-window exposure or the local set bottleneck itself.
 
-A matched 1,000-update single-window overfit is the next discriminator. If it becomes clean, the
-shared run was underexposed and should be trained with an exposure-matched schedule. If it remains
-noisy, the rank/moment cell codec must be replaced before further corpus or prompt-prior scaling.
+A matched 1,000-update single-window overfit reaches **23.657 dB** in the fixed 4,096-point audit
+with **97.60% count recovery**, about 4.1 dB above the shared model on this seen source. Fence
+structure and a rough horse/rider silhouette return, proving that exposure matters, but visible
+texture noise remains. The result supports an exposure-matched shared schedule while rejecting the
+stronger claim that training alone has solved the local codec.
+
+Matched controls remove the 16.78M absolute cell-embedding parameters and compare 24-D versus 64-D
+shared Fourier-position cell codes on this same window. The 24-D checkpoint shrinks from 258 MB to
+57 MB and reaches **21.822 dB** in the fixed audit; 64-D reaches **21.736 dB** despite using the same
+2,097,152 latent numbers as the spatial control below. Their renders are nearly identical and both
+are worse than the 23.657 dB learned-position overfit. The absolute table was acting as single-video
+content memory, while widening the actual content latent does not cure the rank/moment bottleneck.
+
+The next control redistributes the exact `32^3 × 64` latent-number budget as `64^3 × 8`. It removes
+global encoder attention and uses shared Fourier positions, spending representation on spatial
+density rather than channels. This is the smallest direct test of occupancy-adaptive tokenization
+before implementing a variable sparse cell stream. It completes 1,000 steps in only 365 seconds
+and lowers final normalized feature loss from about 0.240 to 0.156. Its built-in render audit reaches
+22.134 dB, but count recovery stalls at 87.71% because empty cells dominate the fine-grid count
+objective. Occupancy balancing plus a 0.5 count weight resolves that failure: the selected control
+completes in 366.7 seconds and reaches **24.586 dB / 97.69% count recovery** in the fixed audit. It
+beats the learned-position overfit by 0.929 dB, uses 2.34M model parameters instead of 21.48M, and
+keeps the rider more consistently visible across time.
+
+An exposure-matched 12,000-step shared run is now active with the selected `64^3 × 8` configuration,
+12 training sources, and the same four untouched group-4 holdouts. Each training window receives
+about 1,000 direct updates in expectation. This remains a dense-grid research proxy: the next
+representation step must store only occupied fine cells under a coarse hierarchy so generation does
+not process 262,144 mostly empty tokens.
 
 ## Artifacts
 
@@ -50,6 +76,11 @@ noisy, the rank/moment cell codec must be replaced before further corpus or prom
 - `manifest.json` and root `*_dense_roundtrip.gif`: four held-out visual comparisons
 - `train_shard0/train_shard0_eval_4096.json`: seen-source numerical diagnostic
 - `train_shard0/*_dense_roundtrip.gif`: four seen-source comparisons
+- `overfit_horse_1000/*`: exposure-control trajectory, audit, provenance, and corrected-label GIF
+- `overfit_fourier24_1000/*` and `overfit_fourier64_1000/*`: shared-position width controls
+- `overfit_spatial64x8_1000/*`: matched-budget spatial allocation with legacy global count loss
+- `overfit_spatial64x8_balanced_1000/*`: occupancy-balanced 0.25 count-weight control
+- `overfit_spatial64x8_balanced05_1000/*`: selected 0.5 count-weight control
 
 The archived GIFs were generated immediately before the renderer provenance fix and their target
 panels retain the legacy text `45k fitted target`; the manifests and checkpoints record the actual

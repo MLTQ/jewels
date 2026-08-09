@@ -1,0 +1,31 @@
+{
+  "checkpoint": "/home/m/jewels/tokenizer/overfit_120k_horse_1000/autoencoder.pt",
+  "step": 1000,
+  "corpus": "/home/m/jewels/corpus/ucf_prompt_smoke/fits_shard0",
+  "validation_sources": [
+    "v_HorseRiding_g01_c01"
+  ],
+  "selection": "tokenizer_validation_sources",
+  "trained_slots_per_cell": 512,
+  "evaluated_slots_per_cell": 512,
+  "points_per_example": 4096,
+  "requested_max_examples": 1,
+  "evaluation": {
+    "mean_psnr": 23.65743637084961,
+    "median_psnr": 23.65743637084961,
+    "macro_source_psnr": 23.65743637084961,
+    "source_mean_psnr": {
+      "v_HorseRiding_g01_c01": 23.65743637084961
+    },
+    "mean_count_ratio": 0.9760416666666667,
+    "examples": [
+      {
+        "name": "v_HorseRiding_g01_c01_w000000.pt",
+        "source_id": "v_HorseRiding_g01_c01",
+        "psnr": 23.65743637084961,
+        "target_jewels": 120000,
+        "decoded_jewels": 117125
+      }
+    ]
+  }
+}

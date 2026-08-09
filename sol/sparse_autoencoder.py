@@ -34,6 +34,24 @@ def _rank_basis(
     )
 
 
+def _cell_basis(
+    cell_indices: torch.Tensor, spec: GridSpec, dtype: torch.dtype
+) -> torch.Tensor:
+    """Encode raster-cell centers with shared multiscale 3D Fourier features."""
+    gu, gv, gt = spec.shape
+    t = cell_indices % gt
+    v = (cell_indices // gt) % gv
+    u = cell_indices // (gv * gt)
+    coordinate = torch.stack([u, v, t], dim=-1).to(dtype)
+    shape = coordinate.new_tensor([gu, gv, gt])
+    normalized = (coordinate + 0.5) * (2 / shape) - 1
+    frequencies = normalized.new_tensor([1.0, 2.0, 4.0, 8.0])
+    phases = normalized[..., None] * (math.pi * frequencies)
+    return torch.cat(
+        [normalized, phases.sin().flatten(-2), phases.cos().flatten(-2)], dim=-1
+    )
+
+
 class RankConditionedEncoder(nn.Module):
     """Pool nonlinear `(feature, canonical-rank)` bindings into raster tokens."""
 
@@ -45,19 +63,28 @@ class RankConditionedEncoder(nn.Module):
         spec: GridSpec,
         depth: int,
         heads: int,
+        position_mode: str = "learned",
     ) -> None:
         super().__init__()
         if depth < 0:
             raise ValueError("encoder depth cannot be negative")
+        if position_mode not in {"learned", "fourier"}:
+            raise ValueError(f"unknown position mode: {position_mode}")
         self.spec = spec
         self.grid = OccupancyGrid(spec)
+        self.position_mode = position_mode
         self.in_proj = nn.Sequential(
             nn.Linear(feature_dim + 8, model_dim),
             nn.GELU(),
             nn.Linear(model_dim, model_dim),
         )
         self.stats_proj = nn.Linear(model_dim * 2 + 2, model_dim)
-        self.cell_embed = nn.Parameter(torch.randn(spec.n_cells, model_dim) * 0.02)
+        if position_mode == "learned":
+            self.cell_embed = nn.Parameter(torch.randn(spec.n_cells, model_dim) * 0.02)
+            self.cell_position_proj = None
+        else:
+            self.register_parameter("cell_embed", None)
+            self.cell_position_proj = nn.Linear(27, model_dim)
         if depth:
             layer = nn.TransformerEncoderLayer(
                 model_dim,
@@ -72,6 +99,12 @@ class RankConditionedEncoder(nn.Module):
         else:
             self.blocks = nn.Identity()
         self.out = nn.Linear(model_dim, latent_dim)
+
+    def _position(self, device: torch.device, dtype: torch.dtype) -> torch.Tensor:
+        if self.cell_embed is not None:
+            return self.cell_embed
+        indices = torch.arange(self.spec.n_cells, device=device)
+        return self.cell_position_proj(_cell_basis(indices, self.spec, dtype))
 
     def forward(
         self, features: torch.Tensor, target: CompactGrid | None = None
@@ -96,7 +129,7 @@ class RankConditionedEncoder(nn.Module):
         log_count = torch.log1p(count) / math.log(self.spec.slots_per_cell + 1)
         cells = self.stats_proj(
             torch.cat([mean, variance, log_count, occupied], dim=-1)
-        ) + self.cell_embed[None]
+        ) + self._position(projected.device, projected.dtype)[None]
         return self.out(self.blocks(cells))
 
 
@@ -111,11 +144,20 @@ class SparseSlotDecoder(nn.Module):
         spec: GridSpec = GridSpec((12, 12, 6), 512),
         depth: int = 4,
         chunk_size: int = 32_768,
+        position_mode: str = "learned",
     ) -> None:
         super().__init__()
+        if position_mode not in {"learned", "fourier"}:
+            raise ValueError(f"unknown position mode: {position_mode}")
         self.spec = spec
         self.chunk_size = chunk_size
-        self.cell_embed = nn.Parameter(torch.randn(spec.n_cells, model_dim) * 0.02)
+        self.position_mode = position_mode
+        if position_mode == "learned":
+            self.cell_embed = nn.Parameter(torch.randn(spec.n_cells, model_dim) * 0.02)
+            self.cell_position_proj = None
+        else:
+            self.register_parameter("cell_embed", None)
+            self.cell_position_proj = nn.Linear(27, model_dim)
         self.latent_proj = nn.Linear(latent_dim, model_dim)
         self.slot_proj = nn.Linear(8, model_dim)
         self.blocks = nn.ModuleList(
@@ -133,6 +175,13 @@ class SparseSlotDecoder(nn.Module):
     def _slot_basis(self, slot_indices: torch.Tensor, dtype: torch.dtype) -> torch.Tensor:
         return _rank_basis(slot_indices, self.spec.slots_per_cell, dtype)
 
+    def _position(
+        self, cell_indices: torch.Tensor, dtype: torch.dtype
+    ) -> torch.Tensor:
+        if self.cell_embed is not None:
+            return self.cell_embed[cell_indices]
+        return self.cell_position_proj(_cell_basis(cell_indices, self.spec, dtype))
+
     def _decode_chunk(
         self,
         latents: torch.Tensor,
@@ -142,7 +191,7 @@ class SparseSlotDecoder(nn.Module):
     ) -> torch.Tensor:
         hidden = (
             self.latent_proj(latents[batch_indices, cell_indices])
-            + self.cell_embed[cell_indices]
+            + self._position(cell_indices, latents.dtype)
             + self.slot_proj(self._slot_basis(slot_indices, latents.dtype))
         )
         for block in self.blocks:
@@ -247,21 +296,31 @@ class SparseJewelAutoencoder(nn.Module):
         heads: int = 8,
         decode_chunk_size: int = 32_768,
         encoder_mode: str = "pooled",
+        position_mode: str = "learned",
     ) -> None:
         super().__init__()
         self.spec = spec
         self.grid = OccupancyGrid(spec)
         if encoder_mode == "pooled":
+            if position_mode != "learned":
+                raise ValueError("fourier positions require encoder_mode='rank'")
             self.encoder = OccupancyAwareEncoder(
                 feature_dim, model_dim, latent_dim, spec, enc_depth, heads
             )
         elif encoder_mode == "rank":
             self.encoder = RankConditionedEncoder(
-                feature_dim, model_dim, latent_dim, spec, enc_depth, heads
+                feature_dim,
+                model_dim,
+                latent_dim,
+                spec,
+                enc_depth,
+                heads,
+                position_mode,
             )
         else:
             raise ValueError(f"unknown encoder mode: {encoder_mode}")
         self.encoder_mode = encoder_mode
+        self.position_mode = position_mode
         self.decoder = SparseSlotDecoder(
             feature_dim,
             model_dim,
@@ -269,6 +328,7 @@ class SparseJewelAutoencoder(nn.Module):
             spec,
             dec_depth,
             decode_chunk_size,
+            position_mode,
         )
 
     def forward_compact(
@@ -289,10 +349,23 @@ class SparseJewelAutoencoder(nn.Module):
         target: CompactGrid,
         *,
         count_weight: float = 0.25,
+        balance_count: bool = False,
     ) -> tuple[torch.Tensor, dict[str, torch.Tensor]]:
         feature_error = F.smooth_l1_loss(output.occupied_features, target.values)
         target_log_count = torch.log1p(target.counts.to(output.log_count.dtype))
-        count_error = F.smooth_l1_loss(output.log_count, target_log_count)
+        count_errors = F.smooth_l1_loss(
+            output.log_count, target_log_count, reduction="none"
+        )
+        if balance_count:
+            occupied = target.counts > 0
+            groups = [
+                count_errors[mask].mean()
+                for mask in (occupied, ~occupied)
+                if mask.any()
+            ]
+            count_error = torch.stack(groups).mean()
+        else:
+            count_error = count_errors.mean()
         total = feature_error + count_weight * count_error
         return total, {
             "feature": feature_error.detach(),
