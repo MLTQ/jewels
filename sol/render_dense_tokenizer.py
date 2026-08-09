@@ -11,8 +11,8 @@ import torch
 from sol.corpus import FeatureNormalizer, load_fitted_corpus
 from sol.evaluation import select_balanced_examples
 from sol.render_prior_samples import _panel, _render, _row
-from sol.sparse_autoencoder import SparseJewelAutoencoder
 from sol.token_grid import GridSpec
+from sol.tokenizer_checkpoint import build_tokenizer
 
 
 def _parse_args() -> argparse.Namespace:
@@ -43,7 +43,7 @@ def main() -> None:
     spec = GridSpec(
         tuple(meta["grid_shape"]), args.slots_override or trained_slots
     )
-    model = SparseJewelAutoencoder(**meta["model_args"], spec=spec).to(device)
+    model = build_tokenizer(meta, spec).to(device)
     model.load_state_dict(checkpoint["model"])
     model.eval()
     normalizer = FeatureNormalizer.from_state_dict(meta["normalizer"])

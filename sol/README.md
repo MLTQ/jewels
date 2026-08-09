@@ -112,9 +112,17 @@ visual failure: broad palette survives while action-defining actors collapse int
 training sources reach 19.552 dB, exposing both a generalization gap and incomplete reconstruction.
 The subsequent matched-budget sweep validates spatial density: a shared-position `64^3 × 8` control
 reaches 24.586 dB / 97.69% count, 2.85 dB above `32^3 × 64`, while reducing model parameters from
-21.48M to 2.34M. Its exposure-matched 12-window shared gate is active. Corpus expansion and the
-prompt prior remain paused until all four held-out actions render recognizably. See
-[`results/prompt_smoke/README.md`](results/prompt_smoke/README.md).
+21.48M to 2.34M. Its completed 12,000-step shared gate reaches 20.735 dB / 99.794% on group-4
+holdouts but still erases actors on both seen and unseen sources. Occupied-group and one-jewel-token
+upper bounds reach 26.019/26.087 dB with exact topology yet remain visibly noisy, identifying
+learned jewel reconstruction as the wrong critical path.
+
+The first direct-jewel prompt model now predicts frontier births without a reconstruction codec. On
+held-out sources, correct text-only mark MSE is 1.1579 versus 1.1794 shuffled, and free decoded birth
+counts change deterministically with the action prompt. Correct prompts beat shuffled prompts in
+field PSNR for all four classes, but visible geometry remains washed out and null still wins some
+density controls. The next step is a factorized occupied-cell/positive-count topology head before an
+initial-window generator. See [`results/prompt_smoke/direct_prompted_streaming_3000/README.md`](results/prompt_smoke/direct_prompted_streaming_3000/README.md).
 More flow steps or small learning-rate sweeps on the same six camera
 sources are unlikely to resolve either failed gate. VQ, entropy coding, and LLM-token integration
 remain premature. The staged implementation and go/no-go gates are in

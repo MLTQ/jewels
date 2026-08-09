@@ -113,6 +113,27 @@ class StreamingModelTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             prompted.cell_states(context, torch.randn(2, 5))
 
+    def test_balanced_count_loss_upweights_sparse_birth_cells(self) -> None:
+        spec = GridSpec((2, 2, 2), 4)
+        model = BirthContinuationModel(model_dim=32, grid_spec=spec)
+        target = BirthTarget(
+            values=torch.randn(1, 22),
+            cell_indices=torch.tensor([0]),
+            slot_indices=torch.tensor([0]),
+            counts=torch.tensor([1, 0, 0, 0, 0, 0, 0, 0]),
+            global_ids=torch.tensor([0]),
+            birth_frames=torch.tensor([8]),
+        )
+        output = model.forward_training(torch.randn(spec.n_cells, 46), target)
+        output.log_count = torch.zeros_like(output.log_count)
+        _, global_terms = model.loss(output, target.values, target.counts)
+        _, balanced_terms = model.loss(
+            output, target.values, target.counts, balance_count=True
+        )
+        self.assertGreater(
+            float(balanced_terms["count"]), float(global_terms["count"])
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

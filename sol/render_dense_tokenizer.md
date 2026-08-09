@@ -2,14 +2,14 @@
 
 ## Purpose
 
-Provides the decisive visual gate for the 45k-jewel sparse tokenizer: matched held-out fitted targets
-and deterministic round-trips across time.
+Provides the decisive visual gate for sparse tokenizer variants: matched held-out fitted targets and
+deterministic round-trips across time.
 
 ## Components
 
 ### `main`
-- **Does**: Restores sparse codec/provenance, selects source-balanced validation windows, renders 16
-  matched temporal positions, and writes labeled GIFs plus a manifest. Target panels report the
+- **Does**: Restores the checkpoint-declared sparse codec/provenance, selects source-balanced
+  validation windows, renders 16 matched temporal positions, and writes labeled GIFs plus a manifest. Target panels report the
   actual jewel count from the loaded example rather than assuming a legacy corpus density.
 - **Diagnostic selection**: `--names` renders exact corpus examples, including training windows,
   when separating codec memorization from held-out scene generalization. Without it, selection stays

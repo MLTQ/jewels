@@ -1,0 +1,82 @@
+[
+  {
+    "source_id": "Basketball_g04",
+    "class_name": "Basketball",
+    "view": 0,
+    "target_births": 19300,
+    "predicted_births": {
+      "prefix + correct text": 12711,
+      "text only: correct": 11420,
+      "text only: shuffled": 10790,
+      "text only: null": 10140
+    },
+    "field_psnr": {
+      "prefix + correct text": 13.150901794433594,
+      "text only: correct": 12.839374542236328,
+      "text only: shuffled": 12.79344367980957,
+      "text only: null": 12.877774238586426
+    },
+    "artifact": "Basketball_g04_prompt_controls.gif",
+    "contact_sheet": "Basketball_g04_prompt_controls_contact.png"
+  },
+  {
+    "source_id": "HorseRiding_g04",
+    "class_name": "HorseRiding",
+    "view": 0,
+    "target_births": 20783,
+    "predicted_births": {
+      "prefix + correct text": 14334,
+      "text only: correct": 10790,
+      "text only: shuffled": 9141,
+      "text only: null": 10140
+    },
+    "field_psnr": {
+      "prefix + correct text": 13.87847900390625,
+      "text only: correct": 13.461549758911133,
+      "text only: shuffled": 13.406020164489746,
+      "text only: null": 13.413320541381836
+    },
+    "artifact": "HorseRiding_g04_prompt_controls.gif",
+    "contact_sheet": "HorseRiding_g04_prompt_controls_contact.png"
+  },
+  {
+    "source_id": "PlayingGuitar_g04",
+    "class_name": "PlayingGuitar",
+    "view": 0,
+    "target_births": 17973,
+    "predicted_births": {
+      "prefix + correct text": 12257,
+      "text only: correct": 9141,
+      "text only: shuffled": 9081,
+      "text only: null": 10140
+    },
+    "field_psnr": {
+      "prefix + correct text": 15.875967979431152,
+      "text only: correct": 15.610387802124023,
+      "text only: shuffled": 15.572442054748535,
+      "text only: null": 15.61236572265625
+    },
+    "artifact": "PlayingGuitar_g04_prompt_controls.gif",
+    "contact_sheet": "PlayingGuitar_g04_prompt_controls_contact.png"
+  },
+  {
+    "source_id": "ApplyEyeMakeup_g04",
+    "class_name": "ApplyEyeMakeup",
+    "view": 0,
+    "target_births": 18940,
+    "predicted_births": {
+      "prefix + correct text": 12785,
+      "text only: correct": 9081,
+      "text only: shuffled": 11420,
+      "text only: null": 10140
+    },
+    "field_psnr": {
+      "prefix + correct text": 11.934438705444336,
+      "text only: correct": 11.537723541259766,
+      "text only: shuffled": 11.518298149108887,
+      "text only: null": 11.54940414428711
+    },
+    "artifact": "ApplyEyeMakeup_g04_prompt_controls.gif",
+    "contact_sheet": "ApplyEyeMakeup_g04_prompt_controls_contact.png"
+  }
+]

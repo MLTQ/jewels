@@ -63,11 +63,18 @@ completes in 366.7 seconds and reaches **24.586 dB / 97.69% count recovery** in 
 beats the learned-position overfit by 0.929 dB, uses 2.34M model parameters instead of 21.48M, and
 keeps the rider more consistently visible across time.
 
-An exposure-matched 12,000-step shared run is now active with the selected `64^3 × 8` configuration,
-12 training sources, and the same four untouched group-4 holdouts. Each training window receives
-about 1,000 direct updates in expectation. This remains a dense-grid research proxy: the next
-representation step must store only occupied fine cells under a coarse hierarchy so generation does
-not process 262,144 mostly empty tokens.
+The exposure-matched 12,000-step shared run completes in 73.3 minutes. Its fixed held-out audit
+reaches **20.735 dB / 99.794% count** across the four untouched group-4 sources; four seen group-1
+sources reach **22.413 dB / 98.405% count**. The small 1.68 dB seen/held-out gap does not explain the
+failure: both sets still dissolve action-defining actors into mottled texture.
+
+Compact occupied-group controls then replace one dense moment token per cell with explicit sparse
+topology. A four-jewel/32-D control reaches 24.752 dB and exact count; increasing render supervision
+raises it to **26.019 dB**. A one-jewel/16-D upper bound reaches only 26.087 dB and remains visibly
+noisy. This shows that tiny decoded covariance/opacity errors accumulate across the field even after
+group averaging is removed. The project therefore pauses learned jewel reconstruction and trains
+the persistent continuation model directly on canonical jewel births. See
+`../direct_prompted_streaming_3000/README.md`.
 
 ## Artifacts
 
@@ -81,6 +88,10 @@ not process 262,144 mostly empty tokens.
 - `overfit_spatial64x8_1000/*`: matched-budget spatial allocation with legacy global count loss
 - `overfit_spatial64x8_balanced_1000/*`: occupancy-balanced 0.25 count-weight control
 - `overfit_spatial64x8_balanced05_1000/*`: selected 0.5 count-weight control
+- `shared_spatial64x8_balanced05_12000/*`: completed shared audit, seen-source diagnostic, and all
+  held-out/seen GIFs
+- `grouped4x32_horse_1000/*`, `grouped2x24_horse_1000/*`: occupied-group controls
+- `grouped4x32_render2_horse_1000/*`, `grouped1x16_render2_horse_1000/*`: render-dominant controls
 
 The archived GIFs were generated immediately before the renderer provenance fix and their target
 panels retain the legacy text `45k fitted target`; the manifests and checkpoints record the actual

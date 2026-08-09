@@ -2,8 +2,8 @@
 
 ## Purpose
 
-Runs the deterministic tokenizer gate on 45k-jewel fitted windows using the sparse variable-count
-decoder. It can train on multiple domains with deterministic domain-balanced sampling while
+Runs the deterministic tokenizer gate on fitted windows using either the dense-cell variable-count
+decoder or compact occupied-group tokens. It can train on multiple domains with deterministic domain-balanced sampling while
 retaining exact source-video holdouts. Defaults fit the allocated 8 GB RTX 2070 SUPER without
 worst-cell slot padding.
 
@@ -26,6 +26,9 @@ worst-cell slot padding.
   memorization control; learned positions remain the checkpoint-compatible default.
 - **Fine-grid count control**: `--balance-count-loss` gives occupied and empty cell groups equal
   weight, while `--count-weight` controls its strength. Both retain prior defaults unless selected.
+- **Occupied-group control**: `--jewels-per-token N` replaces every dense cell content vector and
+  learned count head with compact addressed tokens holding at most `N` canonical jewels. Discrete
+  token topology preserves count exactly; balancing the removed count loss is rejected explicitly.
 - **Interacts with**: `sparse_autoencoder.py`, `corpus.py`, `evaluation.py`, and `render.py`.
 
 ### `_prepare_examples` / `_batch`
@@ -62,6 +65,7 @@ worst-cell slot padding.
 | Dependent | Expects | Breaking changes |
 |---|---|---|
 | Dense prior cache | Checkpoint exposes encoder, normalizer, grid, and sparse architecture ID | Meta schema |
+| Sparse sequence prior | Grouped checkpoints expose explicit occupied address/count topology | Latent schema |
 | Research comparison | Whole-source holdout and exact sampled renderer match prior tokenizer gates | Protocol |
 | Joint-domain comparison | Domain alternation and normalizer weighting remain independent of corpus size | Sampling policy |
 | 2070S | Actual decode work is 45k ranks, not 442,368 padded capacity slots | Scaling behavior |

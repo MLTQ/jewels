@@ -10,8 +10,8 @@ import torch
 
 from sol.corpus import FeatureNormalizer, load_fitted_corpus
 from sol.evaluation import evaluate_roundtrip
-from sol.sparse_autoencoder import SparseJewelAutoencoder
 from sol.token_grid import GridSpec
+from sol.tokenizer_checkpoint import build_tokenizer
 
 
 def _parse_args() -> argparse.Namespace:
@@ -34,15 +34,13 @@ def main() -> None:
         raise ValueError("evaluation counts must be positive")
     checkpoint = torch.load(args.checkpoint, map_location="cpu", weights_only=False)
     meta = checkpoint["meta"]
-    if meta.get("architecture") != "sparse_variable_count_v1":
-        raise ValueError("checkpoint is not a sparse variable-count tokenizer")
     trained_slots = int(meta["slots_per_cell"])
     if args.slots_override and args.slots_override < trained_slots:
         raise ValueError("slots override cannot reduce checkpoint capacity")
     spec = GridSpec(
         tuple(meta["grid_shape"]), args.slots_override or trained_slots
     )
-    model = SparseJewelAutoencoder(**meta["model_args"], spec=spec).to(args.device)
+    model = build_tokenizer(meta, spec).to(args.device)
     model.load_state_dict(checkpoint["model"])
     normalizer = FeatureNormalizer.from_state_dict(meta["normalizer"])
     corpus_path = args.corpus or meta["corpus"]

@@ -1,0 +1,58 @@
+{
+  "checkpoint": "tokenizer/prompt_shared_spatial64x8_balanced05_12000/autoencoder.pt",
+  "step": 12000,
+  "corpus": "['/home/m/jewels/corpus/ucf_prompt_smoke/fits_shard0', '/home/m/jewels/corpus/ucf_prompt_smoke/fits_shard1', '/home/m/jewels/corpus/ucf_prompt_smoke/fits_shard2', '/home/m/jewels/corpus/ucf_prompt_smoke/fits_shard3']",
+  "validation_sources": [
+    "v_ApplyEyeMakeup_g04_c06",
+    "v_Basketball_g04_c01",
+    "v_HorseRiding_g04_c05",
+    "v_PlayingGuitar_g04_c01"
+  ],
+  "selection": "tokenizer_validation_sources",
+  "trained_slots_per_cell": 128,
+  "evaluated_slots_per_cell": 128,
+  "points_per_example": 4096,
+  "requested_max_examples": 4,
+  "evaluation": {
+    "mean_psnr": 20.735252857208252,
+    "median_psnr": 20.606511116027832,
+    "macro_source_psnr": 20.735252857208252,
+    "source_mean_psnr": {
+      "v_ApplyEyeMakeup_g04_c06": 20.630935668945312,
+      "v_Basketball_g04_c01": 20.58208656311035,
+      "v_HorseRiding_g04_c05": 20.186233520507812,
+      "v_PlayingGuitar_g04_c01": 21.54175567626953
+    },
+    "mean_count_ratio": 0.9979395833333333,
+    "examples": [
+      {
+        "name": "v_ApplyEyeMakeup_g04_c06_w000000.pt",
+        "source_id": "v_ApplyEyeMakeup_g04_c06",
+        "psnr": 20.630935668945312,
+        "target_jewels": 120000,
+        "decoded_jewels": 119404
+      },
+      {
+        "name": "v_Basketball_g04_c01_w000000.pt",
+        "source_id": "v_Basketball_g04_c01",
+        "psnr": 20.58208656311035,
+        "target_jewels": 120000,
+        "decoded_jewels": 119806
+      },
+      {
+        "name": "v_HorseRiding_g04_c05_w000000.pt",
+        "source_id": "v_HorseRiding_g04_c05",
+        "psnr": 20.186233520507812,
+        "target_jewels": 120000,
+        "decoded_jewels": 120343
+      },
+      {
+        "name": "v_PlayingGuitar_g04_c01_w000000.pt",
+        "source_id": "v_PlayingGuitar_g04_c01",
+        "psnr": 21.54175567626953,
+        "target_jewels": 120000,
+        "decoded_jewels": 119458
+      }
+    ]
+  }
+}

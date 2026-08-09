@@ -164,14 +164,21 @@ research critical path. It needs:
    holds out group 4 in every class; unseen prompt templates retrieve the correct CLIP class
    centroid at 100% accuracy with a 0.239 minimum margin. All 16 96-frame/120k-jewel fits are now
    complete, and the `32^3` tokenizer audit finds zero slot overflow.
-6. Train the shared tokenizer with motion/chroma sampling and compare foreground color against the
+6. ~~Train the shared tokenizer with motion/chroma sampling and compare foreground color against the
    current UCF control. The bounded smoke passes trainability, but the 3,000-step run reaches only
    16.541 dB / 96.19% count on the four held-out sources and still erases action-defining subjects.
    A matched single-window sweep shows that spatial density, not more channels, is decisive:
    `64^3 × 8` reaches 24.586 dB / 97.69% count while `32^3 × 64` reaches 21.736 dB at the identical
-   latent-number budget. The exposure-matched 12,000-step shared spatial gate is running; convert
-   the winner to occupied fine tokens under a coarse hierarchy only after held-out renders pass.
-7. Expand only after the smoke gate, then run the correct/shuffled/null prompt experiment.
+   latent-number budget.~~ The exposure-matched shared run reaches 20.735 dB / 99.794% on group-4
+   holdouts but fails visually on seen and unseen sources. Sparse grouped controls reach 26.087 dB
+   and exact count yet remain noisy, so learned jewel reconstruction is removed from the critical
+   path.
+7. Train direct prompt-conditioned jewel births while copying carried state exactly. The first
+   0.84M-parameter model establishes held-out prompt-to-density and small prompt-to-mark selectivity:
+   correct text-only mark MSE is 1.1579 versus 1.1794 shuffled, and free counts change
+   deterministically by action prompt. Visual action geometry remains washed out. Next factor birth
+   topology into calibrated occupancy and positive-count heads, then require correct prompt renders
+   to beat shuffled and null before initial-window generation.
 
 ## Literature anchors
 

@@ -1,0 +1,29 @@
+[
+  {
+    "name": "v_HorseRiding_g01_c01_w000000.pt",
+    "source_id": "v_HorseRiding_g01_c01",
+    "target_jewels": 120000,
+    "decoded_jewels": 120000,
+    "trained_slots_per_cell": 128,
+    "rendered_slots_per_cell": 128,
+    "frames": [
+      0,
+      6,
+      13,
+      19,
+      25,
+      32,
+      38,
+      44,
+      51,
+      57,
+      63,
+      70,
+      76,
+      82,
+      89,
+      95
+    ],
+    "artifact": "v_HorseRiding_g01_c01_w000000_dense_roundtrip.gif"
+  }
+]

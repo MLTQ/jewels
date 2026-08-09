@@ -1,0 +1,31 @@
+{
+  "checkpoint": "tokenizer/grouped4x32_render2_horse_1000/autoencoder.pt",
+  "step": 1000,
+  "corpus": "['corpus/ucf_prompt_smoke/fits_shard0']",
+  "validation_sources": [
+    "v_HorseRiding_g01_c01"
+  ],
+  "selection": "tokenizer_validation_sources",
+  "trained_slots_per_cell": 128,
+  "evaluated_slots_per_cell": 128,
+  "points_per_example": 4096,
+  "requested_max_examples": 1,
+  "evaluation": {
+    "mean_psnr": 26.019269943237305,
+    "median_psnr": 26.019269943237305,
+    "macro_source_psnr": 26.019269943237305,
+    "source_mean_psnr": {
+      "v_HorseRiding_g01_c01": 26.019269943237305
+    },
+    "mean_count_ratio": 1.0,
+    "examples": [
+      {
+        "name": "v_HorseRiding_g01_c01_w000000.pt",
+        "source_id": "v_HorseRiding_g01_c01",
+        "psnr": 26.019269943237305,
+        "target_jewels": 120000,
+        "decoded_jewels": 120000
+      }
+    ]
+  }
+}

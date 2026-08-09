@@ -20,6 +20,7 @@ from sol.corpus import (
 )
 from sol.domain_sampling import sample_domain_balanced_indices
 from sol.evaluation import EvaluationReport, evaluate_roundtrip
+from sol.grouped_sparse_autoencoder import GroupedSparseJewelAutoencoder
 from sol.render import render_exact
 from sol.sparse_autoencoder import SparseJewelAutoencoder
 from sol.token_grid import CompactGrid, GridSpec, OccupancyGrid
@@ -178,6 +179,7 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--slots", type=int, default=512)
     parser.add_argument("--model-dim", type=int, default=256)
     parser.add_argument("--latent-dim", type=int, default=128)
+    parser.add_argument("--jewels-per-token", type=int, default=0)
     parser.add_argument("--enc-depth", type=int, default=3)
     parser.add_argument("--encoder-mode", choices=("pooled", "rank"), default="pooled")
     parser.add_argument(
@@ -223,6 +225,10 @@ def main() -> None:
         raise ValueError("render settings are invalid")
     if args.count_weight < 0:
         raise ValueError("count weight cannot be negative")
+    if args.jewels_per_token < 0:
+        raise ValueError("jewels per token cannot be negative")
+    if args.jewels_per_token and args.balance_count_loss:
+        raise ValueError("grouped topology has exact counts and no count loss to balance")
     if not 0 <= args.motion_render_fraction <= 1:
         raise ValueError("motion render fraction must be in [0,1]")
     torch.manual_seed(args.seed)
@@ -283,19 +289,34 @@ def main() -> None:
         grid,
         Path(args.motion_points_dir) if args.motion_points_dir else None,
     )
-    model_args = {
-        "feature_dim": examples[0].features.shape[-1],
-        "model_dim": args.model_dim,
-        "latent_dim": args.latent_dim,
-        "spec": spec,
-        "enc_depth": args.enc_depth,
-        "dec_depth": args.dec_depth,
-        "heads": args.heads,
-        "decode_chunk_size": args.decode_chunk,
-        "encoder_mode": args.encoder_mode,
-        "position_mode": args.position_mode,
-    }
-    model = SparseJewelAutoencoder(**model_args).to(device)
+    if args.jewels_per_token:
+        model_args = {
+            "feature_dim": examples[0].features.shape[-1],
+            "model_dim": args.model_dim,
+            "latent_dim": args.latent_dim,
+            "spec": spec,
+            "jewels_per_token": args.jewels_per_token,
+            "enc_depth": args.enc_depth,
+            "dec_depth": args.dec_depth,
+            "decode_chunk_size": args.decode_chunk,
+        }
+        model = GroupedSparseJewelAutoencoder(**model_args).to(device)
+        architecture = "grouped_sparse_tokens_v1"
+    else:
+        model_args = {
+            "feature_dim": examples[0].features.shape[-1],
+            "model_dim": args.model_dim,
+            "latent_dim": args.latent_dim,
+            "spec": spec,
+            "enc_depth": args.enc_depth,
+            "dec_depth": args.dec_depth,
+            "heads": args.heads,
+            "decode_chunk_size": args.decode_chunk,
+            "encoder_mode": args.encoder_mode,
+            "position_mode": args.position_mode,
+        }
+        model = SparseJewelAutoencoder(**model_args).to(device)
+        architecture = "sparse_variable_count_v1"
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=0.01)
     use_amp = device.type == "cuda" and not args.no_amp
     scaler = torch.amp.GradScaler("cuda", enabled=use_amp)
@@ -309,10 +330,23 @@ def main() -> None:
         print(f"resumed step {start_step}", flush=True)
     parameters = sum(parameter.numel() for parameter in model.parameters())
     raw_numbers = examples[0].features.numel()
-    latent_numbers = spec.n_cells * args.latent_dim
+    if args.jewels_per_token:
+        first_counts = prepared[0].target.counts
+        occupied_tokens = int(
+            torch.div(
+                first_counts + args.jewels_per_token - 1,
+                args.jewels_per_token,
+                rounding_mode="floor",
+            ).sum()
+        )
+        latent_numbers = occupied_tokens * args.latent_dim
+    else:
+        occupied_tokens = spec.n_cells
+        latent_numbers = spec.n_cells * args.latent_dim
     padded_slots = spec.n_cells * spec.slots_per_cell
     print(
         f"model={parameters / 1e6:.2f}M latent={latent_numbers} numbers "
+        f"tokens={occupied_tokens} "
         f"compression={raw_numbers / latent_numbers:.2f}x "
         f"requested/padded={examples[0].features.shape[0]}/{padded_slots} amp={use_amp}",
         flush=True,
@@ -333,7 +367,7 @@ def main() -> None:
                 "scaler": scaler.state_dict(),
                 "step": step,
                 "meta": {
-                    "architecture": "sparse_variable_count_v1",
+                    "architecture": architecture,
                     "model_args": {
                         key: value for key, value in model_args.items() if key != "spec"
                     },

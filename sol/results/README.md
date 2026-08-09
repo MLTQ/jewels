@@ -7,6 +7,8 @@
 
 Prompted persistent-streaming preparation and held-out text geometry are recorded in
 [`prompt_smoke/README.md`](prompt_smoke/README.md).
+The first direct-jewel correct/shuffled/null prompt experiment and free-count videos are in
+[`prompt_smoke/direct_prompted_streaming_3000/README.md`](prompt_smoke/direct_prompted_streaming_3000/README.md).
 
 ## Decision
 

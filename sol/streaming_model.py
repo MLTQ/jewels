@@ -281,13 +281,24 @@ class BirthContinuationModel(nn.Module):
         target_counts: torch.Tensor,
         *,
         count_weight: float = 0.25,
+        balance_count: bool = False,
     ) -> tuple[torch.Tensor, dict[str, torch.Tensor]]:
         feature = F.smooth_l1_loss(
             output.occupied_features, normalized_target_values
         )
-        count = F.smooth_l1_loss(
-            output.log_count, torch.log1p(target_counts.to(output.log_count.dtype))
+        count_errors = F.smooth_l1_loss(
+            output.log_count,
+            torch.log1p(target_counts.to(output.log_count.dtype)),
+            reduction="none",
         )
+        if balance_count:
+            occupied = target_counts > 0
+            pieces = [count_errors[occupied].mean()]
+            if (~occupied).any():
+                pieces.append(count_errors[~occupied].mean())
+            count = torch.stack(pieces).mean()
+        else:
+            count = count_errors.mean()
         return feature + count_weight * count, {
             "feature": feature.detach(),
             "count": count.detach(),

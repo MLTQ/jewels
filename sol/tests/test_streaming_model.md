@@ -9,7 +9,8 @@ Protects the sparse conditional birth-model tensor and variable-count contracts.
 ### `StreamingModelTests`
 
 - **Does**: verifies global and cell-local prefix encoding, text/null/dropout paths, exact-rank
-  training output, finite loss, variable-count decode, and invalid input rejection
+  training output, finite loss, variable-count decode, sparse occupied/empty count balancing, and
+  invalid input rejection
 - **Interacts with**: `streaming_model.py`
 
 ## Contracts

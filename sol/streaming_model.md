@@ -26,6 +26,8 @@ new jewel counts and marks while carried jewel IDs and parameters remain outside
 
 - **Does**: evaluates exact target ranks and balances standardized feature reconstruction with
   log-count reconstruction; optional per-example text dropout trains a learned null condition
+- **Sparse count control**: `balance_count=True` averages occupied and empty cell errors separately,
+  preventing thousands of empty birth cells from overwhelming prompt-dependent topology.
 
 ### `forward_from_context`
 

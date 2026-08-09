@@ -1,0 +1,36 @@
+{
+  "steps": 3000,
+  "seconds": 25.203011751174927,
+  "train_views": 48,
+  "latest_evaluation": {
+    "full_context": {
+      "correct": {
+        "feature_mse": 1.0808647722005844,
+        "count_mae": 3.681438624858856
+      },
+      "shuffled": {
+        "feature_mse": 1.088380977511406,
+        "count_mae": 3.711382046341896
+      },
+      "null": {
+        "feature_mse": 1.0826222747564316,
+        "count_mae": 3.6563868522644043
+      }
+    },
+    "text_only": {
+      "correct": {
+        "feature_mse": 1.157916832715273,
+        "count_mae": 5.154787704348564
+      },
+      "shuffled": {
+        "feature_mse": 1.1794471442699432,
+        "count_mae": 5.278923720121384
+      },
+      "null": {
+        "feature_mse": 1.1641105860471725,
+        "count_mae": 5.125336915254593
+      }
+    },
+    "validation_views": 16
+  }
+}

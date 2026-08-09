@@ -2,13 +2,13 @@
 
 ## Purpose
 
-Runs the fixed exact-render audit across a saved sparse 45k-jewel tokenizer without resuming
-training. It is separate from the padded-checkpoint evaluator to keep architecture restoration explicit.
+Runs the fixed exact-render audit across a saved sparse tokenizer without resuming training. It is
+separate from the padded-checkpoint evaluator and restores the checkpoint's explicit architecture.
 
 ## Components
 
 ### `main`
-- **Does**: Validates the sparse architecture ID, restores model/grid/train-only normalization and
+- **Does**: Validates the tokenizer architecture ID, restores model/grid/train-only normalization and
   held-out sources, evaluates all requested windows, and emits reproducible JSON.
 - **Cross-domain mode**: `--all-sources` deliberately evaluates every supplied corpus example while
   retaining the frozen checkpoint normalization and weights. The output labels this selection so it
@@ -31,3 +31,5 @@ training. It is separate from the padded-checkpoint evaluator to keep architectu
 ## Notes
 
 - This isolates tokenizer error against the sharper dense fitted field, not raw source-video error.
+- Dense-cell count prediction and sparse occupied-group topology use the identical render protocol;
+  architecture-specific reconstruction cannot change the metric.
