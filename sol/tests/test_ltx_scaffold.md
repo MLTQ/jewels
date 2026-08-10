@@ -10,6 +10,7 @@ Jewels environment.
 - Prompts containing quotes and shell punctuation remain one subprocess argument.
 - Width/height obey the official 64-pixel multiple and frame count obeys `8*K+1`.
 - Missing checkpoint, upscaler, text-encoder, or virtual-environment assets fail before launch.
+- GPU memory/utilization rows are parsed strictly so malformed telemetry cannot enter receipts.
 
 ## Contracts
 

@@ -2,7 +2,12 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from sol.ltx_scaffold import ScaffoldConfig, build_command, validate_config
+from sol.ltx_scaffold import (
+    ScaffoldConfig,
+    _parse_gpu_sample,
+    build_command,
+    validate_config,
+)
 
 
 class LTXScaffoldTests(unittest.TestCase):
@@ -44,6 +49,11 @@ class LTXScaffoldTests(unittest.TestCase):
             root = Path(directory)
             with self.assertRaisesRegex(FileNotFoundError, "missing LTX runtime assets"):
                 validate_config(self.config(root))
+
+    def test_gpu_sample_parser_rejects_malformed_rows(self) -> None:
+        self.assertEqual(_parse_gpu_sample("1234, 87\n"), (1234, 87))
+        with self.assertRaisesRegex(ValueError, "unexpected nvidia-smi output"):
+            _parse_gpu_sample("1234 MiB")
 
 
 if __name__ == "__main__":

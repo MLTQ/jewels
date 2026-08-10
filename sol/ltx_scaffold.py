@@ -135,6 +135,29 @@ def _probe_video(path: Path) -> dict[str, object]:
     return json.loads(result.stdout)
 
 
+def _parse_gpu_sample(output: str) -> tuple[int, int]:
+    """Parse one no-header nvidia-smi memory/utilization row."""
+    fields = [field.strip() for field in output.strip().split(",")]
+    if len(fields) != 2:
+        raise ValueError(f"unexpected nvidia-smi output: {output!r}")
+    return int(fields[0]), int(fields[1])
+
+
+def _read_gpu_sample(device: str) -> tuple[int, int]:
+    result = subprocess.run(
+        [
+            "nvidia-smi",
+            f"--id={device}",
+            "--query-gpu=memory.used,utilization.gpu",
+            "--format=csv,noheader,nounits",
+        ],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    return _parse_gpu_sample(result.stdout)
+
+
 def run_scaffold(config: ScaffoldConfig, receipt_path: Path) -> dict[str, object]:
     """Launch LTX and persist success/failure provenance as JSON."""
     validate_config(config)
@@ -146,15 +169,54 @@ def run_scaffold(config: ScaffoldConfig, receipt_path: Path) -> dict[str, object
     environment["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
     started = datetime.now(timezone.utc)
     start_time = time.monotonic()
-    result = subprocess.run(
+    gpu_monitor: dict[str, int | str | None] = {
+        "device": config.cuda_visible_device,
+        "baseline_memory_mib": None,
+        "peak_memory_mib": None,
+        "peak_above_baseline_mib": None,
+        "maximum_utilization_percent": None,
+        "samples": 0,
+        "sample_errors": 0,
+    }
+
+    def sample_gpu() -> None:
+        try:
+            memory_mib, utilization = _read_gpu_sample(config.cuda_visible_device)
+        except (OSError, subprocess.SubprocessError, ValueError):
+            gpu_monitor["sample_errors"] = int(gpu_monitor["sample_errors"] or 0) + 1
+            return
+        if gpu_monitor["baseline_memory_mib"] is None:
+            gpu_monitor["baseline_memory_mib"] = memory_mib
+        current_peak = gpu_monitor["peak_memory_mib"]
+        gpu_monitor["peak_memory_mib"] = max(
+            memory_mib, int(current_peak) if current_peak is not None else memory_mib
+        )
+        current_utilization = gpu_monitor["maximum_utilization_percent"]
+        gpu_monitor["maximum_utilization_percent"] = max(
+            utilization,
+            int(current_utilization) if current_utilization is not None else utilization,
+        )
+        gpu_monitor["samples"] = int(gpu_monitor["samples"] or 0) + 1
+
+    sample_gpu()
+    process = subprocess.Popen(
         command,
         cwd=config.ltx_root,
         env=environment,
-        check=False,
     )
+    while process.poll() is None:
+        sample_gpu()
+        time.sleep(1.0)
+    returncode = process.wait()
+    baseline_memory = gpu_monitor["baseline_memory_mib"]
+    peak_memory = gpu_monitor["peak_memory_mib"]
+    if baseline_memory is not None and peak_memory is not None:
+        gpu_monitor["peak_above_baseline_mib"] = int(peak_memory) - int(
+            baseline_memory
+        )
     receipt: dict[str, object] = {
-        "status": "complete" if result.returncode == 0 else "failed",
-        "returncode": result.returncode,
+        "status": "complete" if returncode == 0 else "failed",
+        "returncode": returncode,
         "started_at": started.isoformat(),
         "elapsed_seconds": time.monotonic() - start_time,
         "ltx_revision": _git_revision(config.ltx_root),
@@ -167,14 +229,15 @@ def run_scaffold(config: ScaffoldConfig, receipt_path: Path) -> dict[str, object
             "output": str(config.output),
         },
         "command": command,
+        "gpu_monitor": gpu_monitor,
     }
-    if result.returncode == 0:
+    if returncode == 0:
         if not config.output.exists():
             raise FileNotFoundError("LTX returned success without creating its output")
         receipt["video_probe"] = _probe_video(config.output)
     receipt_path.write_text(json.dumps(receipt, indent=2) + "\n")
-    if result.returncode:
-        raise subprocess.CalledProcessError(result.returncode, command)
+    if returncode:
+        raise subprocess.CalledProcessError(returncode, command)
     return receipt
 
 
