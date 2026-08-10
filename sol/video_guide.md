@@ -21,7 +21,9 @@ text-to-video model's coarse prediction.
 |---|---|---|
 | Oracle-guide trainer/renderer | Output is `(spec.n_cells,3)` in `GridSpec` order | Axis order |
 | Future video prior | RGB guidance can be produced at any positive source resolution | Input layout |
+| `ltx_scaffold.py` | Generated MP4 frames are decoded channel-last before rasterization | Video output contract |
 
 ## Notes
 
 - This intentionally contains no video decoder or model-specific normalization.
+- LTX-specific execution and provenance live in `ltx_scaffold.py`; this module remains model-agnostic.

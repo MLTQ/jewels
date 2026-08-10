@@ -197,6 +197,11 @@ research critical path. It needs:
    target edge energy, +2.324 dB over deterministic marks. Next build the multiscale,
    render-supervised video-to-jewel realizer, then replace its oracle guide with a pretrained
    text-to-video scaffold.
+9. Install the official distilled LTX-2.3 pipeline on Aine as the first prompt-generated scaffold.
+   CUDA 13.2 and the idle RTX 4090 pass preflight; the pinned environment, 46.15 GB distilled v1.1
+   checkpoint, and 1.0 GB upscaler are installed. The required Gemma encoder download awaits the
+   account owner's acceptance of Google's usage license. First generation is fixed at `512x768`,
+   49 frames, FP8 cast, CPU offload, and a stable GPU UUID.
 
 ## Literature anchors
 
