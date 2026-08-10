@@ -55,7 +55,7 @@
 
 \title{\vspace{-1.5em}\textbf{Jewels: Toward Text-Conditioned, Streamable, and\\Locally Editable Video as Space-Time Gaussian Fields}}
 \author{The Jewels Project}
-\date{Technical report -- August 5, 2026}
+\date{Technical report -- August 9, 2026}
 
 \begin{document}
 \maketitle
@@ -83,11 +83,16 @@ full-volume PSNR by \SI{1.07}{dB}, motivating temporal-preserving spatial densif
 $32^3\!\times\!24$ tokenizer is the first held-out configuration to preserve small pedestrians;
 a train-only $2^3$ PCA hierarchy reduces it to $16^3\!\times\!96$ with a \SI{0.224}{dB} penalty.
 An axial rectified-flow prior beats retrieval and mean-collapse distribution baselines but does not
-yet use its semantic condition. Conversely, a cell-local prefix model reduces future-birth feature
+use its semantic condition. Conversely, a cell-local prefix model reduces future-birth feature
 error by 62.7\% against a disjoint shuffled-prefix control and renders at \SI{19.87}{dB} versus
 \SI{7.30}{dB}. Edit planning and masked sampling preserve every clean latent exactly, although the
-repaired region remains blurry. A four-class prompt corpus passes its text-geometry preflight, while
-the prompt-conditioned generative experiment remains in progress.
+repaired region remains blurry. A four-class direct prompt model changes held-out birth statistics
+but produces washed-out action geometry. Exact target topology improves its mean field PSNR by only
+\SI{0.172}{dB}, rejecting count prediction as the primary cause. Oracle-topology stochastic flow
+recovers edge energy without coherent objects; adding the true future as a \(24\times40\) guide
+raises held-out rendering from 14.232 to \SI{16.555}{dB} and from 59.8\% to 90.5\% of target edge
+energy. This privileged control selects a semantic-video-scaffold-to-jewel architecture; it is not
+a prompt-only generation result.
 
 Gaussian reconstruction of video is not new: VeGaS, GSVC, GaussianVideo, GaRV, and related work
 predate this project. The research opportunity evaluated here is narrower: a corpus-level
@@ -130,24 +135,30 @@ benchmark. We report (i) an additive \uvt{} Gaussian representation and gauge-fr
 (ii) density and tokenizer experiments that identify what preserves small moving subjects,
 (iii) controlled evidence that spatially aligned prefix context is essential for continuation,
 (iv) an edit/inpaint formulation with exact clean-region preservation, and (v) explicit negative
-results that bound what remains unproved. We additionally articulate two falsifiable systems
+results that bound what remains unproved. We further isolate deterministic conditional averaging as
+the current washout mechanism and show that a low-resolution semantic scaffold can recover global
+layout in stochastic jewel realization. We additionally articulate two falsifiable systems
 hypotheses: that explicit persistent fields offer interaction properties unavailable from an opaque
 raster latent alone, and that a hierarchical field can serve as a multimodal visual event language.
 
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}[
-  node distance=5mm and 6mm,
+  node distance=5mm and 4mm,
   box/.style={draw=jewelblue,rounded corners,fill=softgray,align=center,minimum height=9mm,text width=27mm,font=\small},
   action/.style={draw=jewelgold,rounded corners,fill=jewelgold!8,align=center,minimum height=9mm,text width=27mm,font=\small},
   arr/.style={-{Latex[length=2mm]},thick,jewelblue}
 ]
-\node[box] (text) {text prompt};
-\node[box,right=of text] (prior) {conditional latent flow};
-\node[box,right=of prior] (field) {persistent \uvt{} jewel field};
-\node[box,right=of field] (video) {deterministic render};
+\node[box,text width=18mm] (text) {text prompt};
+\node[box,text width=23mm,right=of text] (prior) {pretrained video prior};
+\node[box,text width=21mm,right=of prior] (scaffold) {semantic scaffold};
+\node[box,text width=23mm,right=of scaffold] (jewelizer) {stochastic jewelizer};
+\node[box,text width=22mm,right=of jewelizer] (field) {persistent \uvt{} field};
+\node[box,text width=19mm,right=of field] (video) {additive render};
 \draw[arr] (text) -- (prior);
-\draw[arr] (prior) -- (field);
+\draw[arr] (prior) -- (scaffold);
+\draw[arr] (scaffold) -- (jewelizer);
+\draw[arr] (jewelizer) -- (field);
 \draw[arr] (field) -- (video);
 
 \node[action,below=8mm of field] (drag) {cursor selection and jewel transform};
@@ -156,11 +167,11 @@ raster latent alone, and that a hierarchical field can serve as a multimodal vis
 \draw[arr] (field) -- (drag);
 \draw[arr] (drag) -- (mask);
 \draw[arr] (mask) -- (repair);
-\draw[arr] (repair.west) -| ([xshift=-4mm]prior.south) -- (prior.south);
+\draw[arr] (repair.west) -| ([xshift=-4mm]jewelizer.south) -- (jewelizer.south);
 \end{tikzpicture}
-\caption{Target system. Generation emits an explicit field rather than pixels. Editing moves
-protected primitives, marks source, destination, and swept cells dirty, and resamples only those
-cells while the rest of the latent remains exact.}
+\caption{Revised target system. A pretrained raster video prior supplies global semantics; the
+jewelizer emits the persistent explicit state. Editing moves protected primitives, marks source,
+destination, and swept cells dirty, and resamples only those cells while the rest remains exact.}
 \label{fig:system}
 \end{figure}
 
@@ -186,7 +197,18 @@ Generative Gaussian work is substantial but usually targets 3D objects, rooms, o
 scenes. GaussianCube and L3DG learn structured or latent generative models of 3D
 Gaussians~\cite{zhang2024gaussiancube,roessle2024l3dg}. VideoRFSplat generates text-conditioned 3D
 scenes with a video model~\cite{go2025videorfsplat}; Diff4Splat predicts a deformable 3D Gaussian
-scene from an image, camera path, and optional text~\cite{pan2026diff4splat}.
+scene from an image, camera path, and optional text~\cite{pan2026diff4splat}. DiffSplat repurposes a
+large image diffusion prior to generate Gaussian splat grids and reports a rendering loss as
+important for coherence across novel views~\cite{lin2025diffsplat}. This supports inheriting mature
+raster priors and supervising rendered output rather than treating independent Gaussian-parameter
+losses as a complete appearance objective.
+
+The jewel births are also a marked spatiotemporal point set. Point Set Diffusion directly models
+conditional spatial and spatiotemporal point processes without an intensity-function
+factorization~\cite{ludke2024pointset}, while point-cloud flow work emphasizes that permutation
+invariance and the coupling between noise and unordered targets materially affect the learned
+transport~\cite{hui2025notsoptimal}. These results motivate a stochastic set objective; they do not
+remove the need for a coherent video-level condition in the present task.
 
 Our provisional distinction is the combination of: (1) direct generation of the displayed 2D
 video as an anisotropic \uvt{} Gaussian field, (2) persistent stable-ID carry and birth emission
@@ -283,6 +305,25 @@ predicts only new birth counts and 22-D birth marks in frontier-local coordinate
 $16\times16\times8$ raster of prefix counts and moments supplies spatially aligned context tokens.
 This factorization turns ``splat density per unit time'' into an explicit birth process: the field
 maintains a target contributor density while old jewels persist and new regions receive births.
+
+\subsection{Stochastic mark realization and semantic guidance}
+
+The first prompt-conditioned continuation baseline predicts a sparse count raster and one canonical
+22-D mark per occupied cell/rank using deterministic Smooth-L1 regression. Canonical rank provides
+a reproducible address, but it does not make the conditional output unimodal: several plausible
+future actors, poses, and foreground colors can share the same local prefix and prompt. A paired
+deterministic loss can therefore average mutually incompatible marks.
+
+The controlled replacement holds target cells, counts, ranks, and carried jewels fixed and learns a
+rectified flow over only the marks. For data mark \(y_1\), Gaussian noise \(y_0\), and
+\(y_s=(1-s)y_0+sy_1\), the network predicts \(y_1-y_0\) while receiving the aligned prefix raster,
+cell/rank address, flow time, and text. A hard projection maps sampled centers and finite-support
+birth starts back to their declared cells without moving valid exterior edge-cell centers.
+
+An oracle-guide variant additionally cell-pools the true future stride rendered at
+\(24\times40\). It tests whether a coherent video scaffold contains the missing information needed
+to realize jewels. Because that guide contains the answer at low resolution, it measures an
+architectural ceiling and cannot be interpreted as text-to-video inference.
 
 \subsection{Cursor edits and constrained repair}
 
@@ -495,7 +536,7 @@ however, is visibly washed out. A mask-aware 5,000-step branch improves dirty la
 1.8894 to 1.8848 and does not improve the visual. The result validates the editor invariant while
 falsifying the current repair learner.
 
-\subsection{Text preflight passes; promptable generation remains open}
+\subsection{Text preflight passes; direct deterministic generation washes out}
 
 The prompt smoke test selects Basketball, HorseRiding, PlayingGuitar, and ApplyEyeMakeup from four
 disjoint UCF source groups: 12 training videos and four group-held-out validation videos. Three
@@ -520,10 +561,90 @@ ApplyEyeMakeup & 0.9102 & 0.6229 & 0.2873 \\
 \end{tabular}
 \end{table}
 
-Four of 16 dense 120k-jewel fits are finalized, with replay PSNRs 32.10, 33.67, 30.32, and
-33.15 dB (mean 32.28). The remaining fits are in progress. The decisive future test is not text
-retrieval; it is whether correct prompts beat shuffled prompts and a trained null condition on
-held-out source group 4 while preserving rollout density, color, identity, and motion.
+All 16 dense 120k-jewel fits are complete. A 0.84M-parameter direct continuation model is trained on
+the 12 group-1--3 videos and evaluated on all four group-4 sources. With the prefix removed, the
+correct unseen text template has mark MSE 1.1579 versus 1.1794 for shuffled action text and changes
+free decoded counts by class. Thus prompt information reaches the model, but decoded videos remain
+washed out and do not depict reliable action geometry.
+
+The proposed immediate remedy was to split the sparse topology head into occupied-cell
+classification and positive-count regression. We instead first held the entire target topology
+fixed. Table~\ref{tab:washout} shows that oracle cells, counts, and ranks improve mean PSNR by only
+\SI{0.172}{dB}. Predicted geometry and predicted color/gradient each independently collapse the
+render, while predicted opacity is comparatively benign. Moreover, only 39.73\% of predicted
+centers remain in their supplied spatial cell and 25.41\% in the full space-time birth cell. This is
+a real contract defect, but it is not the main visual cause: even the oracle-topology render remains
+washed out.
+
+\begin{table}[H]
+\centering
+\small
+\caption{Held-out deterministic washout decomposition averaged over four classes. ``Oracle
+topology'' supplies target cells, counts, and ranks while predicting all 22-D marks. Other rows
+replace only the named target mark group.}
+\label{tab:washout}
+\begin{tabularx}{\linewidth}{@{}XrX@{}}
+\toprule
+Output & Mean PSNR & Finding \\
+\midrule
+Free deterministic prediction & 14.060 dB & Topology and marks predicted \\
+Predicted marks, oracle topology & 14.232 dB & Only +0.172 dB; still washed out \\
+Predicted geometry only & 14.434 dB & Geometry error destroys structure \\
+Predicted color/gradient only & 15.255 dB & Appearance regression independently washes out \\
+Predicted opacity only & 24.816 dB & Opacity is not the dominant failure \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{A stochastic jewelizer needs a coherent semantic scaffold}
+
+A 1.54M-parameter mark flow trained for 12,000 steps with oracle topology restores edge energy but
+not semantic coherence. Raw held-out samples average 15.064 dB and 84.4\% of target edge energy,
+versus 14.232 dB and 59.8\% for deterministic marks, yet the GIFs show structured speckle rather
+than recognizable action. Sampling avoids part of the conditional mean, but the local prefix and
+four-class text vector do not determine global scene layout.
+
+A second 12,000-step control adds the true future only as a \(24\times40\) guide. Table
+\ref{tab:guide} and Figure~\ref{fig:guide} show the decisive result: the guided stochastic
+jewelizer reaches 16.555 dB and 90.5\% edge energy, recovering the court/player, horse/rider,
+guitar/player, and face/hand macro-layout. A corrected hard projection maps generated marks to the
+declared topology while leaving every fitted target render-identical at 100 dB, so the gain is not a
+projection artifact. Residual high-frequency noise remains substantial. Correct and shuffled text
+are also similar under the oracle guide because the guide already supplies the future semantics.
+
+\begin{table}[H]
+\centering
+\small
+\caption{Held-out mark realization with target birth topology. Ratios are relative to the fitted
+target render; the stochastic row is raw because the original projection was not target-preserving,
+whereas the final guided row uses the corrected projection.}
+\label{tab:guide}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+Mark generator & Mean PSNR & Contrast ratio & Edge ratio \\
+\midrule
+Deterministic regression & 14.232 & 0.574 & 0.598 \\
+Unguided stochastic flow & 15.064 & 0.775 & 0.844 \\
+Oracle-video-guided flow & \textbf{16.555} & \textbf{0.856} & \textbf{0.905} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{../sol/results/prompt_smoke/direct_prompted_streaming_3000/mark_flow_oracle_guide_12000/visual_contract_projection/HorseRiding_g04_mark_flow_controls_contact.png}
+\caption{HorseRiding at three held-out future times. Columns compare the fitted target, carried
+prefix alone, projection control, deterministic marks, zero-guide flow, guided raw and projected
+flow, and shuffled text with the same oracle guide. The guide restores scene layout that topology
+and stochasticity alone do not.}
+\label{fig:guide}
+\end{figure}
+
+The architectural decision is therefore to postpone free topology generation. First make a
+multiscale, render-supervised video-to-jewel realizer pass held-out oracle-guide reconstruction;
+then replace the privileged guide with samples from a pretrained text-to-video prior and learn
+scaffold-conditioned occupancy/counts. Direct text-to-jewel distillation becomes sensible only
+after a much larger captioned jewel corpus exists.
 
 \section{What Has Been Falsified}
 
@@ -543,6 +664,8 @@ More raw splats automatically increase useful density & Rejected; audit contribu
 Aggregate PSNR selects a visually useful tokenizer & Rejected; require held-out motion silhouettes and foreground chroma checks. \\
 Global prefix context is sufficient for births & Rejected; aligned cell-local context improves future-field PSNR by 3.41 dB. \\
 The six-camera CLIP prior uses semantics & Rejected; correct condition does not beat shuffled/null. \\
+Sparse count/topology error is the primary washout cause & Rejected; exact target topology adds only 0.172 dB. \\
+Stochastic marks alone recover coherent video & Rejected; edge energy returns, but samples remain structured noise without a video guide. \\
 Mask visibility alone teaches repair & Rejected; train explicit edit tuples with protected-jewel summaries. \\
 Further model scaling solves the sparse prior & Deprioritized; the curve saturates on 231 single-scene windows. \\
 \bottomrule
@@ -552,8 +675,9 @@ Further model scaling solves the sparse prior & Deprioritized; the curve saturat
 \section{Limitations}
 
 \begin{itemize}
-  \item \textbf{No completed text-to-video result.} The four-class text geometry is valid, but the
-  prompt-conditioned generator has not been trained or evaluated.
+  \item \textbf{No recognizable text-to-video result.} The four-class direct prompt model is
+  trained and shows small correct-versus-shuffled mark differences, but it does not synthesize
+  coherent held-out actions.
   \item \textbf{Small and specialized corpora.} The generative results use one fixed-camera scene;
   the continuation result is an overfit; the prompt corpus contains only 16 videos.
   \item \textbf{Fixed camera and no cuts.} Global camera motion shears most primitives at once and
@@ -562,6 +686,9 @@ Further model scaling solves the sparse prior & Deprioritized; the curve saturat
   comparable to full-resolution codec papers without a matched rate-distortion protocol.
   \item \textbf{Appearance loss.} Uniform feature and RGB losses underweight rare foreground color,
   faces, hands, and thin objects. The red-to-tan coat error is a concrete warning.
+  \item \textbf{Privileged semantic-guide control.} The successful \(24\times40\) guide is decoded
+  from the true future. It proves that guided jewel realization is plausible, not that a prompt can
+  yet produce that guide or the final field.
   \item \textbf{Pure-PyTorch rendering.} Exact kNN/Mahalanobis evaluation is useful for research but
   slower than a tile CUDA rasterizer. Current reconstruction is optimization-based, not amortized.
   \item \textbf{Edit quality.} Clean-region identity is exact, but dirty-region synthesis is not yet
@@ -586,6 +713,13 @@ convolutions and attention are mature, topology changes are implicit, and large 
 and video priors already exist. The case for jewels is instead a set of interaction and state
 properties summarized in Table~\ref{tab:field-advantages}. These properties do not by themselves
 imply better photorealism or rate-distortion.
+
+The oracle-guide experiment argues for using both representations where each is strongest. A
+pretrained raster video model can supply global scene semantics, pose, camera motion, and prompt
+knowledge; a stochastic jewelizer can convert that coarse scaffold into explicit persistent state.
+This is not a concession to pixel-only output: users still select, move, carry, render, and repair
+the final jewels. It is a bootstrap strategy that avoids asking a 12-video point-set learner to
+rediscover a video foundation model.
 
 \begin{table}[H]
 \centering
@@ -651,17 +785,18 @@ the same structured state supports cheaper local editing than full latent regene
 The shortest evidence-driven path is:
 
 \begin{enumerate}
-  \item complete all 16 leakage-safe 96-frame UCF fits and audit effective contributor density;
-  \item train one shared tokenizer/normalizer using train groups only, adding foreground chroma and
-  motion-weighted render samples without sacrificing exact count contracts;
-  \item train initial-window and cell-local birth models with text dropout, using the same text
-  embedding at every stride and explicit correct/shuffled/null controls;
-  \item evaluate one-step held-out continuation before autonomous rollout, then measure seams,
-  birth rate, identity, color, and density across multiple generated strides;
-  \item create edit tuples during training: move jewel groups, provide protected-jewel cell
-  summaries and dirty masks, and supervise reconstruction of the original field;
-  \item scale from four UCF classes to caption-diverse fixed-camera video, then introduce camera
-  modeling and a thin pixel refiner only if the pure-field appearance ceiling remains binding.
+  \item replace the cell-mean oracle guide with multiscale video features and cross-attention from
+  cell/rank queries, while target topology remains fixed;
+  \item supervise stochastic marks with denoised-target feature loss plus differentiable sampled
+  rendering, edge/chroma sampling, and a perceptual metric; require coherent group-4 renders;
+  \item replace the true-future guide with low-resolution video from a frozen pretrained
+  text-to-video model, measuring scaffold quality and jewelization quality separately;
+  \item learn scaffold-conditioned occupied-cell probability and positive counts, then emit only
+  frontier births while exact stable-ID jewels persist through the overlap;
+  \item train edit tuples with moved protected jewels, dirty masks, and local scaffold crops so
+  source/destination repair is learned while clean regions remain exact;
+  \item build a 1k--10k captioned jewel corpus and distill the scaffold pathway toward direct
+  text-to-jewel generation only after the hybrid pipeline passes prompt and rollout gates.
 \end{enumerate}
 
 A publication-grade comparison should include GaRV/VeGaS/GSVC-family reconstruction controls,
@@ -679,17 +814,17 @@ The broad idea that Gaussian splats can reconstruct video is established prior a
 work contributes a disciplined attempt to turn that representation into a generative and editable
 medium. The strongest findings are structural: anisotropic space-time support is genuinely used;
 effective density depends on temporal lifetime rather than raw count; near-one-jewel tokenizer
-locality preserves small actors; a compact hierarchy makes dense generation tractable; spatially
-aligned prefix context is essential for births; and local editing can preserve untouched latents
-exactly. These properties motivate an explicit-state alternative to opaque raster latents and a
-hierarchical visual event language for multimodal models. The strongest negative finding is equally
-important: neither semantic conditioning nor visual inpainting is solved by the present small
-corpus.
+locality preserves small actors; spatially aligned prefix context is essential for births; and local
+editing can preserve untouched latents exactly. The new washout audit adds a crucial causal result:
+correcting topology does not correct appearance, stochastic marks restore detail without semantics,
+and even a tiny coherent video scaffold substantially restores layout.
 
 The project is therefore past the representation-mechanics question but before the text-to-video
-claim. The next milestone is unambiguous: correct prompts must beat shuffled and trained-null
-controls on held-out clips and during overlap-conditioned rollout, while maintaining the density,
-identity, color, and edit invariants already measured.
+claim. Its next milestone is no longer ``predict counts better.'' It is to make the
+video-to-jewel realization coherent under a held-out multiscale oracle guide, then substitute a
+prompt-generated scaffold while maintaining density, identity, color, and edit invariants. This
+hybrid preserves the distinctive explicit state while inheriting the semantic competence that the
+current corpus cannot teach.
 
 \appendix
 \section{Reproducibility Snapshot}
@@ -710,6 +845,8 @@ Fine tokenizer & $32^3$ cells, 24-D local latent, sparse variable-count decode \
 Hierarchy & non-overlapping $2^3$ train-only PCA, 96 retained components, $16^3$ codes \\
 Prior & rectified flow, rotating axial attention, nullable CLIP/text condition \\
 Continuation & stable-ID carry plus cell-local prediction of frontier birth counts and marks \\
+Mark generator & 22-D oracle-topology rectified flow with cell/rank queries and nullable text \\
+Semantic control & privileged true-future \(24\times40\) guide; pretrained prompt guide remains open \\
 Editing & swept source/destination dirty mask, protected moved jewels, exact clean-cell clamp \\
 \bottomrule
 \end{tabularx}

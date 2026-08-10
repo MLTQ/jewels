@@ -1,0 +1,18 @@
+{
+  "steps": 12000,
+  "seconds": 158.98448514938354,
+  "train_views": 48,
+  "latest_evaluation": {
+    "validation_views": 16,
+    "full_context": {
+      "correct": 1.2012615650892258,
+      "shuffled": 1.2026942893862724,
+      "null": 1.2015714272856712
+    },
+    "text_only": {
+      "correct": 1.2150708213448524,
+      "shuffled": 1.2164164185523987,
+      "null": 1.2155629098415375
+    }
+  }
+}

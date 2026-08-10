@@ -8,7 +8,10 @@ which predicts canonical 22-D jewel births directly and copies carried jewels ex
 
 This is the first run in the project where a held-out text prompt changes independently decoded
 jewel topology in the expected class-specific direction. It is a semantic-selectivity result, not
-yet a recognizable text-to-video result.
+yet a recognizable text-to-video result. A subsequent controlled audit rejects the proposed
+occupied-cell/positive-count split as the remedy for washed-out video: exact target topology barely
+changes the deterministic render. The supported next architecture is a stochastic jewel realizer
+conditioned on a coherent video scaffold.
 
 ## Why the tokenizer path paused
 
@@ -66,14 +69,67 @@ updates. Correct held-out text improves mark MSE to **1.1585 versus 1.2029 shuff
 and 1.1658 null, but its density is worse than null. A 6,000-step occupied/empty-balanced count
 control further worsens overall count MAE by trading missed occupied cells for false positives.
 
-The next topology head must factorize:
+These runs motivated a topology-head redesign, but the washout decomposition below supersedes that
+plan. Count calibration remains necessary for autonomous generation; it is not the current visual
+bottleneck.
 
-1. occupied-cell probability with a calibrated sparse classification loss;
-2. positive count conditioned on occupancy;
-3. direct jewel marks conditioned on the emitted topology, local prefix, and text.
+## Washout decomposition: topology is not the cause
 
-Only after free decoded renders show visible correct-versus-shuffled action differences should we add
-an initial-window generator and autonomous multi-stride rollout.
+The audit holds the target birth cells, counts, ranks, carried state, render grid, and prompt fixed,
+then substitutes predicted mark groups. Across all four group-4 holdouts:
+
+| Controlled output | Mean field PSNR | Interpretation |
+|---|---:|---|
+| Free deterministic prediction | 14.060 dB | Count and marks predicted |
+| Predicted marks, exact target topology | 14.232 dB | Only +0.172 dB; still visibly washed out |
+| Predicted geometry only | 14.434 dB | Geometry errors independently destroy structure |
+| Predicted color only | 15.255 dB | Color/gradient regression independently washes appearance |
+| Predicted opacity only | 24.816 dB | Opacity is not the dominant failure |
+
+Only 39.73% of deterministic predicted centers remain in their declared spatial cell and 25.41%
+remain in their full birth cell, even though that cell is supplied to the model. This reveals a
+contract weakness, but exact topology does not repair the picture. The main failure is deterministic
+Smooth-L1 regression over a permutation-ambiguous, one-to-many set of 22-D marks: it produces a
+conditional average of incompatible positions, covariances, and colors.
+
+## Stochastic mark-flow and semantic-scaffold controls
+
+A 1.54M-parameter rectified flow was trained for 12,000 steps with exact target topology. It restores
+detail energy but not coherent content: raw samples average 15.064 dB and 84.44% of target edge
+energy, yet the GIFs are structured speckle rather than recognizable action. Stochasticity is
+necessary, but a local prefix and four-class text embedding do not specify the missing global scene.
+
+The decisive control adds the true future video only as a `24x40` low-resolution guide raster to a
+2.13M-parameter mark flow. It is an oracle experiment, not an inference-time result. With the same
+target topology and held-out sources, the guided jewelizer reaches:
+
+| Mark generator | Mean PSNR | Contrast ratio | Edge-energy ratio |
+|---|---:|---:|---:|
+| Deterministic marks | 14.232 dB | 0.574 | 0.598 |
+| Unguided stochastic flow, raw | 15.064 dB | 0.775 | 0.844 |
+| Oracle-video-guided stochastic flow | **16.555 dB** | **0.856** | **0.905** |
+
+The corrected hard topology projection leaves every fitted target render-identical at 100 dB, so
+the +2.324 dB guided gain over deterministic marks is not a projection artifact. The guide restores
+the court/player, horse/rider, guitar/player, and face/hand macro-layout; residual high-frequency
+noise shows that the current cell-mean guide encoder and feature-only flow loss are not yet a
+high-quality jewelizer. Correct and shuffled text remain similar because the oracle future guide
+already supplies nearly all scene semantics.
+
+## Architecture decision
+
+Do not train the occupied-cell/count head next. The best-supported path is:
+
+1. use a pretrained text-to-video model to generate a coherent, low-resolution semantic scaffold;
+2. train a multiscale, stochastic video-to-jewel realizer with spatial cross-attention and direct
+   differentiable render/perceptual supervision;
+3. once oracle-guide jewels are coherent, learn conditional birth occupancy/count around that
+   scaffold and preserve exact carried jewels across overlapping windows;
+4. distill away the raster scaffold only after a much larger captioned jewel corpus exists.
+
+This hybrid does not abandon native jewels: the final persistent, selectable, movable, and locally
+repairable state remains the jewel field. It uses mature raster video priors for the semantic task
+that 12 training clips cannot supply.
 
 ## Artifacts
 
@@ -83,3 +139,7 @@ an initial-window generator and autonomous multi-stride rollout.
   correct/shuffled/null comparisons.
 - `context50_12000/*`: higher text-only-exposure run.
 - `balanced_6000/*`: occupied/empty-balanced count negative control.
+- `washout_audit/*`: exact-topology and mark-group decomposition GIFs plus metrics.
+- `mark_flow_12000/*`: unguided oracle-topology stochastic-flow training and visual controls.
+- `mark_flow_oracle_guide_12000/visual_contract_projection/*`: authoritative oracle-video-guide
+  GIFs, contact sheets, and metrics after target-preserving topology projection.

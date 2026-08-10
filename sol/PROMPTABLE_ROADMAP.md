@@ -2,10 +2,12 @@
 
 ## Decision
 
-Do **not** attempt to train a general text-to-video foundation model on the 2070S. The credible
-route is to prove that the jewel representation can serve as an editable latent space underneath a
-small conditional generator, then inherit broad language/video knowledge from frozen encoders,
-captioned data, and eventually a pretrained video teacher.
+Do **not** attempt to train a general text-to-video foundation model on the 2070S or on the current
+12-video training split. The controlled washout audit shows that the next step is also **not** a
+better occupancy/count head: exact target topology improves deterministic mark renders by only
+0.172 dB. The credible route is a hybrid in which a pretrained text-to-video prior supplies a
+coherent, low-resolution semantic scaffold and a stochastic, render-supervised jewelizer realizes
+that scaffold as persistent editable state.
 
 The current prior is only *architecturally* prompt-ready. It was trained on mean-pooled **image**
 CLIP embeddings, not paired prompt embeddings. CLIP's shared space makes text inference possible as
@@ -13,20 +15,19 @@ a diagnostic, but does not remove the image/text modality gap or teach prompt co
 promptable result requires text conditions during training.
 
 ```text
-captioned video
-      │
-      ├─ high-quality fit ─> 45k-jewel target ─> shared tokenizer ─> 16³ coarse + fine codes
-      │                                                               │
-prompt ─> frozen text encoder ─────────────────────────────────────────┤
-                                                                      v
-                                                        conditional latent flow
-                                                                      │
-                                                   coarse-to-fine jewel decoder
-                                                                      │
-                                                      additive video renderer
+prompt ─> pretrained text-to-video prior ─> multiscale low-res video scaffold
+                                                  │
+past overlap ─> exact carried jewels ─────────────┤
+                                                  v
+                             stochastic topology + mark jewelizer
+                         (cross-attention + render/perceptual loss)
+                                                  │
+                                      persistent jewel field
+                                                  │
+                                      additive video renderer
 
-edit = clean codes + moved protected jewels + dirty mask + prompt
-                                      └────────> masked conditional flow repair
+edit = clean field + moved protected jewels + dirty mask + prompt/scaffold
+                                      └────────> masked local jewel repair
 ```
 
 ## What is already proven
@@ -42,8 +43,15 @@ edit = clean codes + moved protected jewels + dirty mask + prompt
 | Learned repair | Dirty regions wash out | Train on paired masks/edits; full-generation samples are not a repair model |
 | Corpus durability | Exact CPU/CUDA recovery across densification, plus a bit-exact real CLI kill/restart; atomic saves every 100 steps | Multi-day fitting is now operationally safe |
 | Streaming continuation | Cell-local prefix tokens reach 19.870 dB, reduce mark MSE 62.7% versus disjoint shuffled context, recover 99.95% of births, and preserve carried jewels exactly | Persistent-state plus learned-birth factorization is viable; retain spatial context and test held-out clips/free-running rollout next |
+| Washout cause | Exact target topology raises deterministic held-out PSNR only 14.060 to 14.232 dB; predicted geometry and color each destroy structure | Do not spend the next experiment on count heads; replace paired deterministic mark regression |
+| Stochastic marks | Oracle-topology flow restores edge energy from 59.8% to 84.4% but produces incoherent texture | Sampling avoids some conditional averaging, but still needs a global semantic scaffold |
+| Semantic scaffold | A true-future `24x40` guide raises held-out jewel renders to 16.555 dB and 90.5% target edge energy | Build a pretrained-video-guided jewelizer before autonomous topology or direct native generation |
 
-## Phase 1 — a diverse, shared jewel tokenizer
+## Phase 1 — representation and codec diagnosis (completed)
+
+This phase established useful locality and failure modes, but learned jewel reconstruction is no
+longer the generation critical path. Preserve these gates as regression tests rather than returning
+to codec sweeps.
 
 Start with UCF-101 because its directory class is a free, unambiguous action prompt and the data is
 already present. Use source groups—not adjacent clips—as the split unit.
@@ -65,46 +73,51 @@ The matched 45k full retime is 56.78 minutes/window, but that density is no long
 contract. Re-estimate the 16- and 96-window costs from the 90k control before requesting scale
 compute. Atomic 100-step recovery remains mandatory for every long fit.
 
-## Phase 2 — prove prompt selectivity before open vocabulary
+## Phase 2 — make video-to-jewel realization coherent
 
-Train the existing 16³ axial rectified-flow prior on **text embeddings of the UCF labels and prompt
-templates**, not image embeddings. Keep classifier-free condition dropout. For this small closed
-vocabulary, the current pooled CLIP-vector condition is sufficient and cheap.
+The deterministic direct-birth model, exact-topology audit, stochastic mark flow, and oracle guide
+now form a causal chain:
 
-Use multiple templates per class (for example, “a person playing basketball” and “an indoor
-basketball game”) so the model cannot key on one fixed string. Hold out source videos and some
-templates, but not whole classes at first.
+1. target topology alone does not remove washout;
+2. stochastic marks recover edge energy but not coherent objects;
+3. a low-resolution true-future guide restores recognizable global layout.
 
-**Required controls:**
+The next bounded implementation should therefore improve the jewelizer while keeping future video
+and target topology privileged. Replace the cell-mean guide convolution with multiscale spatial
+features and cross-attention from each cell/rank query. Train the stochastic 22-D mark flow with a
+sampled differentiable render loss on its denoised target estimate, plus edge/chroma/perceptual
+sampling. Keep feature losses for covariance stability, but do not let them dominate rendered
+appearance.
 
-- correct prompt versus shuffled prompt versus null prompt on the same flow paths;
-- generated-video action classification/retrieval versus chance and nearest-training retrieval;
-- within-prompt diversity, to reject memorized class prototypes;
-- macro-by-class rendered inspection, especially small actors and saturated clothing.
+**Go gate:** on all four held-out group-4 videos, guided jewels must visibly preserve action-defining
+geometry, improve LPIPS or another perceptual metric as well as PSNR, and substantially narrow the
+gap to fitted targets without increasing temporal flicker. Correct topology must remain exact and
+the carried prefix must remain bit-identical.
 
-**Go gate:** correct text must beat both shuffled and unconditional conditioning by a stable margin,
-and generated class accuracy must beat both chance and the unconditional model. If this fails, do
-not scale the model; inspect text/latent mutual information and class balance first.
+This phase is an amortized video-to-jewel representation model, not text-to-video. That separation is
+intentional: it proves that coherent raster semantics can be converted into editable jewels before
+we entangle the problem with prompt understanding.
 
-This phase is a promptable *domain model*, not a general text-to-video model. That limited claim is
-valuable: it isolates whether semantic control survives the jewel tokenizer.
+## Phase 3 — replace the oracle guide with a prompt-generated scaffold
 
-## Phase 3 — move from class prompts to natural captions
+Once the video-to-jewel gate passes:
 
-Once the class gate passes:
+1. Feed the jewelizer low-resolution videos sampled from a frozen pretrained text-to-video model.
+   This immediately provides open-vocabulary scene/action knowledge without pretending that 12 UCF
+   training clips can teach it.
+2. Train on both real-video scaffolds and teacher-generated scaffolds so the jewelizer tolerates the
+   teacher's artifacts and distribution while retaining a measurable real-video ceiling.
+3. Learn occupied-cell probability and positive count **conditioned on the scaffold**, local overlap,
+   and target contributor-rate feedback. Count is now solved in a semantically anchored coordinate
+   system rather than expected to create semantics itself.
+4. Use overlapping teacher windows and copy carried jewels exactly. Condition the next scaffold on
+   the previous raster overlap, then let the jewelizer emit only frontier births.
+5. Evaluate correct/shuffled/null text at the scaffold and final jewel render separately. This
+   distinguishes teacher prompt control from jewelizer fidelity.
 
-1. Build a 1k–10k single-shot captioned corpus from a curated public subset or videos generated by
-   a pretrained text-to-video teacher. Teacher data proves representation and control; it does not
-   make the student more knowledgeable than the teacher.
-2. Store the caption text and encoder identity with every fit. Avoid anonymous `.npy` conditions.
-3. Replace the single pooled CLIP vector with token-sequence conditioning from a frozen language
-   encoder and cross-attention in the axial blocks. Pooled vectors are adequate for class labels but
-   poor for binding multiple objects, actions, colors, and camera instructions.
-4. Freeze the now-diverse tokenizer while training the prior. Jointly tune only after prompt
-   selectivity is established, or codec drift will confound the generator experiment.
-5. Add coarse-to-fine generation: sample the 16³ global code first, then predict local fine residuals
-   conditioned on coarse code and text. This preserves the validated hierarchy and avoids a flat
-   32³ global attention problem.
+After that works, build a 1k--10k captioned jewel corpus and distill the teacher/scaffold pathway into
+a direct text-to-jewel hierarchy. Store caption text and encoder identity with every fit; replace a
+single pooled CLIP vector with token-sequence cross-attention for object/action/color binding.
 
 Modern systems reinforce these choices: CogVideoX uses a spatiotemporal VAE, deep text/video
 fusion, progressive training, and an extensively filtered/recaptioned corpus; HunyuanVideo likewise
@@ -173,12 +186,17 @@ research critical path. It needs:
    holdouts but fails visually on seen and unseen sources. Sparse grouped controls reach 26.087 dB
    and exact count yet remain noisy, so learned jewel reconstruction is removed from the critical
    path.
-7. Train direct prompt-conditioned jewel births while copying carried state exactly. The first
+7. ~~Train direct prompt-conditioned jewel births while copying carried state exactly.~~ The first
    0.84M-parameter model establishes held-out prompt-to-density and small prompt-to-mark selectivity:
    correct text-only mark MSE is 1.1579 versus 1.1794 shuffled, and free counts change
-   deterministically by action prompt. Visual action geometry remains washed out. Next factor birth
-   topology into calibrated occupancy and positive-count heads, then require correct prompt renders
-   to beat shuffled and null before initial-window generation.
+   deterministically by action prompt. Visual action geometry remains washed out. The exact-topology
+   decomposition rejects occupancy/count factorization as the washout fix: oracle topology adds only
+   0.172 dB.
+8. ~~Test stochastic mark generation and a semantic-scaffold control.~~ Oracle-topology mark flow
+   restores edge energy but not coherence; a true-future `24x40` guide reaches 16.555 dB and 90.5%
+   target edge energy, +2.324 dB over deterministic marks. Next build the multiscale,
+   render-supervised video-to-jewel realizer, then replace its oracle guide with a pretrained
+   text-to-video scaffold.
 
 ## Literature anchors
 
@@ -190,3 +208,6 @@ research critical path. It needs:
 - [Phenaki: Variable Length Video Generation From Open Domain Textual Description](https://arxiv.org/abs/2210.02399)
 - [StreamingT2V](https://openaccess.thecvf.com/content/CVPR2025/html/Henschel_StreamingT2V_Consistent_Dynamic_and_Extendable_Long_Video_Generation_from_Text_CVPR_2025_paper.html)
 - [AdapTok](https://openaccess.thecvf.com/content/CVPR2026/html/Li_AdapTok_Learning_Adaptive_and_Temporally_Causal_Video_Tokenization_in_a_CVPR_2026_paper.html)
+- [Unlocking Point Processes through Point Set Diffusion](https://arxiv.org/abs/2410.22493)
+- [DiffSplat: Repurposing Image Diffusion Models for Scalable Gaussian Splat Generation](https://arxiv.org/abs/2501.16764)
+- [Not-So-Optimal Transport Flows for 3D Point Cloud Generation](https://arxiv.org/abs/2502.12456)

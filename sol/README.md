@@ -7,8 +7,9 @@ code: experiments can fail here without destabilizing the existing results.
 ## Target system
 
 ```text
-text prompt -> conditional latent flow -> raster-ordered spacetime cells
-            -> deterministic jewel decoder -> additive renderer -> video
+text prompt -> pretrained video prior -> low-resolution semantic scaffold
+            -> stochastic, render-supervised jewelizer -> persistent jewels
+            -> additive renderer -> video
 
 rendered jewel parallelepiped -> cursor selection -> jewel transform
                               -> dirty source/destination cells
@@ -117,16 +118,21 @@ holdouts but still erases actors on both seen and unseen sources. Occupied-group
 upper bounds reach 26.019/26.087 dB with exact topology yet remain visibly noisy, identifying
 learned jewel reconstruction as the wrong critical path.
 
-The first direct-jewel prompt model now predicts frontier births without a reconstruction codec. On
+The first direct-jewel prompt model predicts frontier births without a reconstruction codec. On
 held-out sources, correct text-only mark MSE is 1.1579 versus 1.1794 shuffled, and free decoded birth
-counts change deterministically with the action prompt. Correct prompts beat shuffled prompts in
-field PSNR for all four classes, but visible geometry remains washed out and null still wins some
-density controls. The next step is a factorized occupied-cell/positive-count topology head before an
-initial-window generator. See [`results/prompt_smoke/direct_prompted_streaming_3000/README.md`](results/prompt_smoke/direct_prompted_streaming_3000/README.md).
-More flow steps or small learning-rate sweeps on the same six camera
-sources are unlikely to resolve either failed gate. VQ, entropy coding, and LLM-token integration
-remain premature. The staged implementation and go/no-go gates are in
-[`PROMPTABLE_ROADMAP.md`](PROMPTABLE_ROADMAP.md).
+counts change by action prompt, but visible geometry is washed out. A causal audit now locates the
+failure: exact target topology improves mean PSNR only 14.060 to 14.232 dB, and predicted geometry
+and color independently destroy structure. Oracle-topology stochastic flow restores target edge
+energy from 59.8% to 84.4% but produces incoherent texture. Supplying the true future only as a
+`24x40` semantic guide reaches **16.555 dB / 90.5% edge energy**, +2.324 dB over deterministic
+marks, and restores the held-out macro-layout. The authoritative projection also leaves target
+renders unchanged at 100 dB. This rejects the factorized-count head as the next washout fix and
+selects a multiscale, render-supervised video-to-jewel realizer followed by a pretrained
+text-to-video scaffold. See
+[`results/prompt_smoke/direct_prompted_streaming_3000/README.md`](results/prompt_smoke/direct_prompted_streaming_3000/README.md).
+More flow steps or small learning-rate sweeps on the same 12 training videos are unlikely to teach
+the missing scene semantics. VQ, entropy coding, and LLM-token integration remain premature. The
+staged implementation and go/no-go gates are in [`PROMPTABLE_ROADMAP.md`](PROMPTABLE_ROADMAP.md).
 
 ## UCF transfer result
 

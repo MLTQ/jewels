@@ -1,0 +1,258 @@
+[
+  {
+    "source_id": "Basketball_g04",
+    "class_name": "Basketball",
+    "target_births": 19300,
+    "free_births": 12711,
+    "topology_adherence": {
+      "spatial_cell_fraction": 0.42715024948120117,
+      "birth_cell_fraction": 0.15321242809295654,
+      "birth_commit_fraction": 0.9108290076255798
+    },
+    "normalized_group_mse": {
+      "center": 0.13103213906288147,
+      "covariance": 0.9409984946250916,
+      "color": 1.4054813385009766,
+      "gradient": 1.2477052211761475,
+      "opacity": 1.0090861320495605
+    },
+    "render_signatures": {
+      "carried only": {
+        "psnr": 13.340507507324219,
+        "contrast_ratio": 0.5245623588562012,
+        "edge_ratio": 0.5244693160057068,
+        "saturation_ratio": 0.7597672343254089,
+        "temporal_change_ratio": 1.1546097993850708
+      },
+      "oracle predicted marks": {
+        "psnr": 13.749503135681152,
+        "contrast_ratio": 0.5565497279167175,
+        "edge_ratio": 0.56659996509552,
+        "saturation_ratio": 0.7733691930770874,
+        "temporal_change_ratio": 1.1343380212783813
+      },
+      "predicted geometry": {
+        "psnr": 13.873453140258789,
+        "contrast_ratio": 0.5909593105316162,
+        "edge_ratio": 0.6925355195999146,
+        "saturation_ratio": 0.7958213090896606,
+        "temporal_change_ratio": 1.2582683563232422
+      },
+      "predicted color": {
+        "psnr": 14.764276504516602,
+        "contrast_ratio": 0.606287956237793,
+        "edge_ratio": 0.5773628354072571,
+        "saturation_ratio": 0.7997210025787354,
+        "temporal_change_ratio": 1.045373797416687
+      },
+      "predicted opacity": {
+        "psnr": 26.947731018066406,
+        "contrast_ratio": 0.9593306183815002,
+        "edge_ratio": 0.9517440795898438,
+        "saturation_ratio": 1.0331552028656006,
+        "temporal_change_ratio": 1.0009750127792358
+      },
+      "free prediction": {
+        "psnr": 13.579131126403809,
+        "contrast_ratio": 0.5377190709114075,
+        "edge_ratio": 0.545911967754364,
+        "saturation_ratio": 0.765208899974823,
+        "temporal_change_ratio": 1.145511269569397
+      }
+    },
+    "artifact": "Basketball_g04_washout_decomposition.gif",
+    "contact_sheet": "Basketball_g04_washout_decomposition_contact.png"
+  },
+  {
+    "source_id": "HorseRiding_g04",
+    "class_name": "HorseRiding",
+    "target_births": 20783,
+    "free_births": 14334,
+    "topology_adherence": {
+      "spatial_cell_fraction": 0.4021556079387665,
+      "birth_cell_fraction": 0.2626184821128845,
+      "birth_commit_fraction": 0.9609777331352234
+    },
+    "normalized_group_mse": {
+      "center": 0.12417689710855484,
+      "covariance": 1.1403536796569824,
+      "color": 1.3870421648025513,
+      "gradient": 1.4847512245178223,
+      "opacity": 0.9436583518981934
+    },
+    "render_signatures": {
+      "carried only": {
+        "psnr": 13.607513427734375,
+        "contrast_ratio": 0.4687640964984894,
+        "edge_ratio": 0.4750511646270752,
+        "saturation_ratio": 0.9211081266403198,
+        "temporal_change_ratio": 0.7189918756484985
+      },
+      "oracle predicted marks": {
+        "psnr": 14.359891891479492,
+        "contrast_ratio": 0.6008986830711365,
+        "edge_ratio": 0.6008821129798889,
+        "saturation_ratio": 0.9082244634628296,
+        "temporal_change_ratio": 0.7475106120109558
+      },
+      "predicted geometry": {
+        "psnr": 14.695018768310547,
+        "contrast_ratio": 0.6575105786323547,
+        "edge_ratio": 0.7833163142204285,
+        "saturation_ratio": 0.9162541627883911,
+        "temporal_change_ratio": 0.8430516123771667
+      },
+      "predicted color": {
+        "psnr": 15.361921310424805,
+        "contrast_ratio": 0.5757193565368652,
+        "edge_ratio": 0.5469316840171814,
+        "saturation_ratio": 0.9291234016418457,
+        "temporal_change_ratio": 0.7012602090835571
+      },
+      "predicted opacity": {
+        "psnr": 24.35015106201172,
+        "contrast_ratio": 0.8914166688919067,
+        "edge_ratio": 0.9356989860534668,
+        "saturation_ratio": 1.0739306211471558,
+        "temporal_change_ratio": 0.9699939489364624
+      },
+      "free prediction": {
+        "psnr": 14.155847549438477,
+        "contrast_ratio": 0.5352018475532532,
+        "edge_ratio": 0.5406334400177002,
+        "saturation_ratio": 0.9166297316551208,
+        "temporal_change_ratio": 0.7244126200675964
+      }
+    },
+    "artifact": "HorseRiding_g04_washout_decomposition.gif",
+    "contact_sheet": "HorseRiding_g04_washout_decomposition_contact.png"
+  },
+  {
+    "source_id": "PlayingGuitar_g04",
+    "class_name": "PlayingGuitar",
+    "target_births": 17973,
+    "free_births": 12257,
+    "topology_adherence": {
+      "spatial_cell_fraction": 0.39053022861480713,
+      "birth_cell_fraction": 0.3327769339084625,
+      "birth_commit_fraction": 0.9863128066062927
+    },
+    "normalized_group_mse": {
+      "center": 0.07734985649585724,
+      "covariance": 0.7126678824424744,
+      "color": 1.251741647720337,
+      "gradient": 1.5680655241012573,
+      "opacity": 0.9748996496200562
+    },
+    "render_signatures": {
+      "carried only": {
+        "psnr": 15.955421447753906,
+        "contrast_ratio": 0.5372333526611328,
+        "edge_ratio": 0.558687686920166,
+        "saturation_ratio": 0.7200835943222046,
+        "temporal_change_ratio": 2.5423130989074707
+      },
+      "oracle predicted marks": {
+        "psnr": 16.295698165893555,
+        "contrast_ratio": 0.578574538230896,
+        "edge_ratio": 0.6122921705245972,
+        "saturation_ratio": 0.7335359454154968,
+        "temporal_change_ratio": 2.518428325653076
+      },
+      "predicted geometry": {
+        "psnr": 16.44437026977539,
+        "contrast_ratio": 0.622329831123352,
+        "edge_ratio": 0.7267674803733826,
+        "saturation_ratio": 0.7368754744529724,
+        "temporal_change_ratio": 2.673222780227661
+      },
+      "predicted color": {
+        "psnr": 17.162918090820312,
+        "contrast_ratio": 0.6229527592658997,
+        "edge_ratio": 0.5996370315551758,
+        "saturation_ratio": 0.7497202157974243,
+        "temporal_change_ratio": 2.279329299926758
+      },
+      "predicted opacity": {
+        "psnr": 24.470840454101562,
+        "contrast_ratio": 1.0317935943603516,
+        "edge_ratio": 0.9464325904846191,
+        "saturation_ratio": 1.0356413125991821,
+        "temporal_change_ratio": 1.55391263961792
+      },
+      "free prediction": {
+        "psnr": 16.186988830566406,
+        "contrast_ratio": 0.5671347975730896,
+        "edge_ratio": 0.5939840078353882,
+        "saturation_ratio": 0.7299927473068237,
+        "temporal_change_ratio": 2.526865005493164
+      }
+    },
+    "artifact": "PlayingGuitar_g04_washout_decomposition.gif",
+    "contact_sheet": "PlayingGuitar_g04_washout_decomposition_contact.png"
+  },
+  {
+    "source_id": "ApplyEyeMakeup_g04",
+    "class_name": "ApplyEyeMakeup",
+    "target_births": 18940,
+    "free_births": 12787,
+    "topology_adherence": {
+      "spatial_cell_fraction": 0.3692185878753662,
+      "birth_cell_fraction": 0.26784583926200867,
+      "birth_commit_fraction": 0.972967267036438
+    },
+    "normalized_group_mse": {
+      "center": 0.10242530703544617,
+      "covariance": 0.9434643983840942,
+      "color": 0.9116898775100708,
+      "gradient": 1.427607536315918,
+      "opacity": 1.5266571044921875
+    },
+    "render_signatures": {
+      "carried only": {
+        "psnr": 11.93574333190918,
+        "contrast_ratio": 0.4946300685405731,
+        "edge_ratio": 0.5118291974067688,
+        "saturation_ratio": 1.0807968378067017,
+        "temporal_change_ratio": 1.2885879278182983
+      },
+      "oracle predicted marks": {
+        "psnr": 12.522363662719727,
+        "contrast_ratio": 0.559330940246582,
+        "edge_ratio": 0.6113067865371704,
+        "saturation_ratio": 1.0928572416305542,
+        "temporal_change_ratio": 1.2653028964996338
+      },
+      "predicted geometry": {
+        "psnr": 12.722335815429688,
+        "contrast_ratio": 0.6117137670516968,
+        "edge_ratio": 0.7748136520385742,
+        "saturation_ratio": 1.0654819011688232,
+        "temporal_change_ratio": 1.4008508920669556
+      },
+      "predicted color": {
+        "psnr": 13.731145858764648,
+        "contrast_ratio": 0.6057119369506836,
+        "edge_ratio": 0.5915607213973999,
+        "saturation_ratio": 1.1283611059188843,
+        "temporal_change_ratio": 1.1048755645751953
+      },
+      "predicted opacity": {
+        "psnr": 23.49420166015625,
+        "contrast_ratio": 0.8932515978813171,
+        "edge_ratio": 0.8935812711715698,
+        "saturation_ratio": 1.0560526847839355,
+        "temporal_change_ratio": 0.9634532332420349
+      },
+      "free prediction": {
+        "psnr": 12.31664752960205,
+        "contrast_ratio": 0.5239773392677307,
+        "edge_ratio": 0.5722913146018982,
+        "saturation_ratio": 1.0893021821975708,
+        "temporal_change_ratio": 1.2694422006607056
+      }
+    },
+    "artifact": "ApplyEyeMakeup_g04_washout_decomposition.gif",
+    "contact_sheet": "ApplyEyeMakeup_g04_washout_decomposition_contact.png"
+  }
+]

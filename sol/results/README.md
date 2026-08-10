@@ -9,6 +9,9 @@ Prompted persistent-streaming preparation and held-out text geometry are recorde
 [`prompt_smoke/README.md`](prompt_smoke/README.md).
 The first direct-jewel correct/shuffled/null prompt experiment and free-count videos are in
 [`prompt_smoke/direct_prompted_streaming_3000/README.md`](prompt_smoke/direct_prompted_streaming_3000/README.md).
+That record now also contains the exact-topology washout decomposition, an oracle-topology
+stochastic mark-flow control, and the decisive low-resolution oracle-video-guide experiment that
+selects a semantic-scaffold-to-jewel architecture over a count-head-only fix.
 
 ## Decision
 
