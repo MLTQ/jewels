@@ -197,12 +197,15 @@ research critical path. It needs:
    target edge energy, +2.324 dB over deterministic marks. Next build the multiscale,
    render-supervised video-to-jewel realizer, then replace its oracle guide with a pretrained
    text-to-video scaffold.
-9. Install the official distilled LTX-2.3 pipeline on Aine as the first prompt-generated scaffold.
+9. ~~Install and validate the official distilled LTX-2.3 pipeline on Aine as the first
+   prompt-generated scaffold.~~
    CUDA 13.2 and the RTX 4090 pass preflight; the pinned environment, 46.15 GB distilled v1.1
-   checkpoint, 1.0 GB upscaler, and five-shard 24.38 GB Gemma encoder are installed. First
-   generation is fixed at `512x768`, 49 frames, FP8 cast, CPU offload, and a stable GPU UUID; its
-   persistent service is queued behind a pre-existing 4090 training job rather than overcommitting
-   that allocation.
+   checkpoint, 1.0 GB upscaler, and five-shard 24.38 GB Gemma encoder are installed. The balanced
+   12-train/4-held-out scaffold gate completed 16/16 videos with no failures at `512x768`, 49 frames,
+   FP8 cast, and CPU offload. It averaged 172.98 seconds and 9,399 MiB peak GPU memory per clip; all
+   four class audits preserve the requested action and coherent macro-geometry. Next feed these
+   scaffolds through the multiscale video-to-jewel realizer, while separately benchmarking improved
+   LTX model-loading throughput before corpus-scale expansion.
 
 ## Literature anchors
 

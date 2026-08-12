@@ -1,0 +1,59 @@
+{
+  "schema": "jewels-ltx-corpus-audit-v1",
+  "source_manifest_sha256": "5e514966be50240393ff51a65327165e8794edc4898cdecc02269adc982be578",
+  "samples": {
+    "total": 16,
+    "complete": 16,
+    "failed": 0,
+    "train": 12,
+    "evaluation": 4
+  },
+  "media": {
+    "width": 768,
+    "height": 512,
+    "frames": 49,
+    "fps": 24,
+    "duration_seconds": 2.041667,
+    "video_codec": "h264",
+    "audio_codec": "aac",
+    "audio_sample_rate": 48000,
+    "audio_channels": 2
+  },
+  "runtime_seconds": {
+    "total": 2767.736189765972,
+    "mean": 172.98351186037326,
+    "min": 156.7683033529902,
+    "max": 206.42051131592598
+  },
+  "aggregate_peak_memory_mib": {
+    "mean": 9399.3125,
+    "min": 9398,
+    "max": 9401
+  },
+  "classes": [
+    {
+      "class_name": "ApplyEyeMakeup",
+      "samples": 4,
+      "mean_runtime_seconds": 169.2337254185113,
+      "max_peak_memory_mib": 9401
+    },
+    {
+      "class_name": "Basketball",
+      "samples": 4,
+      "mean_runtime_seconds": 194.2028855639801,
+      "max_peak_memory_mib": 9399
+    },
+    {
+      "class_name": "HorseRiding",
+      "samples": 4,
+      "mean_runtime_seconds": 161.81209328974364,
+      "max_peak_memory_mib": 9401
+    },
+    {
+      "class_name": "PlayingGuitar",
+      "samples": 4,
+      "mean_runtime_seconds": 166.68534316925798,
+      "max_peak_memory_mib": 9399
+    }
+  ]
+}

@@ -130,6 +130,13 @@ renders unchanged at 100 dB. This rejects the factorized-count head as the next 
 selects a multiscale, render-supervised video-to-jewel realizer followed by a pretrained
 text-to-video scaffold. See
 [`results/prompt_smoke/direct_prompted_streaming_3000/README.md`](results/prompt_smoke/direct_prompted_streaming_3000/README.md).
+The replacement semantic prior is now operational: official distilled LTX-2.3 generated all 16
+balanced train/held-out prompt scaffolds at 768x512x49 with no failures and a 9.40 GiB mean aggregate
+GPU peak. Contact-sheet audit preserves recognizable macro-geometry for Basketball, HorseRiding,
+PlayingGuitar, and ApplyEyeMakeup. See
+[`results/ltx_scaffold_v1/README.md`](results/ltx_scaffold_v1/README.md). Average GPU activity was
+low because CPU offload spent most of each 173-second sample rebuilding/streaming weights; actual
+two-stage denoising took about 14 seconds.
 More flow steps or small learning-rate sweeps on the same 12 training videos are unlikely to teach
 the missing scene semantics. VQ, entropy coding, and LLM-token integration remain premature. The
 staged implementation and go/no-go gates are in [`PROMPTABLE_ROADMAP.md`](PROMPTABLE_ROADMAP.md).

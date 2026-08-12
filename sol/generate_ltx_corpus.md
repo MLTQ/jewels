@@ -49,3 +49,8 @@ The v1 corpus uses 16 clips at `768x512`, 49 frames, 24 fps, FP8 cast, CPU offlo
 UUID `GPU-21d45575-7ece-a97c-35a0-294f7bce9c39`. Each semantic prompt receives the same neutral
 cinematography suffix: realistic, continuous, stable, natural motion, and no cuts. The untouched
 source phrasing remains separately recorded.
+
+The run completed 16/16 clips with no failures in 46.13 aggregate minutes. Mean sample runtime was
+172.98 seconds and aggregate peak GPU memory was tightly bounded at 9,398--9,401 MiB. All media
+contracts and four class-level contact-sheet audits pass; results are recorded in
+`results/ltx_scaffold_v1/README.md`.

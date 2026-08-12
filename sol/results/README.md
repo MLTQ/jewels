@@ -12,6 +12,8 @@ The first direct-jewel correct/shuffled/null prompt experiment and free-count vi
 That record now also contains the exact-topology washout decomposition, an oracle-topology
 stochastic mark-flow control, and the decisive low-resolution oracle-video-guide experiment that
 selects a semantic-scaffold-to-jewel architecture over a count-head-only fix.
+The first real prompt-generated replacement scaffold corpus and its four class-level visual audits
+are in [`ltx_scaffold_v1/README.md`](ltx_scaffold_v1/README.md).
 
 ## Decision
 

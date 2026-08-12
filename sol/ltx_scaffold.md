@@ -73,9 +73,10 @@ device readings; `peak_above_baseline_mib` subtracts the pre-launch display foot
 still be treated as an operational rather than allocator-exact measurement. `--dry-run` validates
 geometry and prints the exact argument vector without requiring model assets or starting CUDA work.
 
-The first real run is queued on Aine as `jewels-ltx-smoke.service`. It waits for the pre-existing
-`fable2.train` process and then for aggregate 4090 use to fall below 2 GiB before launching; this
-avoids overcommitting another experiment's live CUDA allocation.
+The first real run completed after safely waiting behind the pre-existing `fable2.train` process.
+It produced a coherent horse/rider MP4 in 179.81 seconds with a 9,329 MiB aggregate GPU peak. The
+subsequent 16-clip balanced corpus also completed without failure; see
+`results/ltx_scaffold_v1/README.md`.
 
 The scaffold is a teacher signal, not the final rendered state. It will be resized and aligned by
 `video_guide.py`; the jewel field remains the persistent editable output.
