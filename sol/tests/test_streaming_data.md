@@ -9,7 +9,7 @@ Protects construction of sparse, stable-ID continuation targets from one continu
 ### `StreamingDataTests`
 
 - **Does**: verifies carry/birth partitioning, birth-cell capacity, canonical ranks, feature
-  normalization round trips, and bounded context rasterization
+  normalization round trips, bounded context rasterization, and the public topology-packing API
 - **Interacts with**: `streaming_data.py`
 
 ## Contracts
@@ -18,3 +18,4 @@ Protects construction of sparse, stable-ID continuation targets from one continu
 |---|---|---|
 | Continuation trainer | Every future-active jewel is exactly carried or newly born | ID ownership |
 | Sparse decoder | Count sum equals compact target length and ranks fit capacity | Packing semantics |
+| Scaffold topology data | Public cell/rank packing is identical to continuation targets | API/order semantics |

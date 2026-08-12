@@ -101,7 +101,14 @@ LTX scaffolds: guided samples reach 15.342 dB/0.6942 SSIM versus 13.777 dB/0.416
 continuation, move contrast from 0.426 to 0.743 and edge energy from 0.486 to 0.830, retain 99.08\%
 birth-cell adherence, and preserve a recognizable primary action in three of four classes. Correct
 and shuffled text remain tied once the true LTX video guide is present. The result therefore
-validates privileged scaffold-to-jewel transfer, not free prompt-only jewel generation.
+validates privileged scaffold-to-jewel transfer, not free prompt-only jewel generation. A new
+0.88M-parameter scaffold/carry topology head then removes fitted birth cells, counts, and ranks for
+one held-out LTX continuation stride. Correct-scaffold slot F1 is 0.6636 versus 0.6092 shuffled,
+0.6091 null, and 0.6222 train mean. When the frozen flow synthesizes every predicted rank, learned
+topology reaches 15.464 dB/0.6967 SSIM versus 15.492 dB/0.6997 with oracle topology, predicts
+99.68\% of the birth budget, averages 5,822 effective contributors/frame, and copies carried
+features with zero error. This passes autonomous topology and density for one continuation; the
+initial field and multi-stride generated carry remain open.
 
 Gaussian reconstruction of video is not new: VeGaS, GSVC, GaussianVideo, GaRV, and related work
 predate this project. The research opportunity evaluated here is narrower: a corpus-level
@@ -147,7 +154,9 @@ benchmark. We report (i) an additive \uvt{} Gaussian representation and gauge-fr
 results that bound what remains unproved. We further isolate deterministic conditional averaging as
 the current washout mechanism and show that a low-resolution semantic scaffold can recover global
 layout in stochastic jewel realization and transfer from UCF training to unseen prompt-generated
-LTX videos without mark-model retraining. We additionally articulate two falsifiable systems
+LTX videos without mark-model retraining. We then replace fitted continuation topology with
+scaffold/carry-predicted counts and show that the frozen realizer remains within 0.028 dB of its
+oracle-topology control at the intended effective density. We additionally articulate two falsifiable systems
 hypotheses: that explicit persistent fields offer interaction properties unavailable from an opaque
 raster latent alone, and that a hierarchical field can serve as a multimodal visual event language.
 
@@ -315,6 +324,27 @@ predicts only new birth counts and 22-D birth marks in frontier-local coordinate
 $16\times16\times8$ raster of prefix counts and moments supplies spatially aligned context tokens.
 This factorization turns ``splat density per unit time'' into an explicit birth process: the field
 maintains a target contributor density while old jewels persist and new regions receive births.
+
+\subsection{Scaffold-conditioned birth topology}
+
+The first autonomous topology head receives two aligned
+$16\times16\times8$ fields. The scaffold field is trilinearly pooled RGB from the next 16 video
+frames. The carry field contains log density, occupancy, and mean opacity of jewels copied across
+the frontier. A 3D convolutional encoder with global pooled context predicts one occupancy logit
+$a_j$ and one positive-count value $q_j=1+\operatorname{softplus}(r_j)$ for every cell $j$. Its
+continuous expected count is
+\begin{equation}
+\hat n_j=\sigma(a_j)q_j.
+\end{equation}
+Training combines balanced occupied/empty binary cross-entropy, Smooth-L1 error on
+$\log(1+q_j)$ in positive cells, total log-count error, and an $L_1$ error between normalized count
+distributions. The occupancy threshold is selected only on training fields by slot F1. Decoding
+rounds positive counts and expands each cell into nested ranks $0,\ldots,\hat n_j-1$.
+
+Topology uses a 1,024-rank contract because one initial UCF cell contains 919 births. The frozen
+continuation mark flow uses 512 ranks, so coupling validates every predicted continuation cell
+against that smaller capacity and raises an error rather than clipping. Carried features condition
+the topology head but are never transformed; generated marks are appended after the exact carry.
 
 \subsection{Stochastic mark realization and semantic guidance}
 
@@ -809,10 +839,92 @@ retains court/player layout but remains the weakest and blurriest transfer.}
 
 Correct and shuffled text are effectively tied under the true LTX guide: correct text changes PSNR
 by only +0.023 dB and SSIM by -0.00134. Thus the jewel model has not learned independent prompt
-semantics; those semantics arrive through the prompt-generated raster scaffold. The architectural
-decision is now to learn scaffold-conditioned occupied cells, counts, and birth ranks while exact
-stable-ID overlap state persists. Direct text-to-jewel distillation becomes sensible only after
-that target-topology dependency is removed on a larger paired scaffold/jewel corpus.
+semantics; those semantics arrive through the prompt-generated raster scaffold. This licenses the
+next experiment: predict occupied cells, counts, and ranks from that scaffold while stable-ID
+overlap state persists. Direct text-to-jewel distillation remains a later corpus-scale question.
+
+\subsection{Learned scaffold topology matches the oracle continuation ceiling}
+
+We train the 0.88M-parameter topology head for 3,000 updates on 72 complete initial and
+continuation views from the 12 UCF fields, then evaluate without adaptation on 12 views from the
+four LTX fits. The run takes 41.96 seconds on an RTX 2070 Super. Table~\ref{tab:topologyhead}
+establishes causal scaffold use: the correct guide beats cross-class shuffled, null, and per-stride
+train-mean controls in slot F1 and count correlation. Removing carry drops slot F1 to 0.5374 and
+overpredicts births by 19.3\%, making persistent overlap a load-bearing input rather than a merge
+detail.
+
+\begin{table}[H]
+\centering
+\small
+\caption{Held-out LTX topology over all initial and continuation views. Threshold calibration and
+the train-mean count field use UCF training data only.}
+\label{tab:topologyhead}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+Topology input & Slot F1 & Count correlation & Birth ratio \\
+\midrule
+Correct scaffold + carry & \textbf{0.6636} & \textbf{0.6010} & 0.9390 \\
+Cross-class scaffold + carry & 0.6092 & 0.4728 & 0.9341 \\
+Null scaffold + carry & 0.6091 & 0.4628 & 0.8829 \\
+Per-stride UCF train mean & 0.6222 & 0.3147 & 0.9378 \\
+Correct scaffold, no carry & 0.5374 & 0.3440 & 1.1933 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+An oracle-mark rollout initially appeared to retain only 56--59\% of fitted effective density: it
+discarded every predicted rank without an exact counterpart in one fitted decomposition. That is
+not a valid generative density test because additive Gaussian decompositions are non-unique. Two
+source-level cross-validation folds that add two LTX fits strengthen count discrimination but do
+not materially change exact-rank retention, arguing against fitting a larger corpus solely to fix
+that diagnostic.
+
+The decisive experiment instead synthesizes every predicted rank with the frozen UCF mark flow.
+It evaluates the only LTX continuation view supported by the flow's 32-frame prefix contract,
+frames 32--48. The first 32 frames and carried jewels are fitted seed state; the learned topology
+uses correct scaffold RGB and carry. For the shuffled control only the topology guide is rotated to
+another class; the mark flow still sees the correct LTX guide and text. Thus any learned/shuffled
+difference is attributable to the topology field.
+
+Table~\ref{tab:autonomoustopology} shows that learned topology predicts 70,724 births versus 70,952
+targets and all four class means lie between 5,598 and 6,449 effective contributors/frame. It loses
+only 0.028 dB and 0.0030 SSIM to generated marks under oracle topology. Its largest cell has 113
+ranks, below the frozen flow's 512-rank capacity; spatial adherence is 100\%, mean birth-cell
+adherence exceeds 98.8\%, and carried features remain bit-identical with zero maximum error.
+
+\begin{table}[H]
+\centering
+\small
+\caption{Frozen mark realization on the held-out LTX 32--48 continuation. Appearance ratios target
+1.0; density is opacity-weighted effective contributors/frame.}
+\label{tab:autonomoustopology}
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+Panel & PSNR & SSIM & Contrast & Edge & Density \\
+\midrule
+Carried only & 13.529 & 0.3521 & 0.3263 & 0.3438 & 1,924 \\
+Oracle topology, generated marks & 15.492 & 0.6997 & 0.7252 & 0.8197 & 6,252 \\
+\textbf{Learned topology, generated marks} & \textbf{15.464} & \textbf{0.6967} & \textbf{0.7202} & \textbf{0.8250} & \textbf{5,822} \\
+Shuffled topology, correct mark guide & 15.353 & 0.6927 & 0.7314 & 0.8170 & 5,781 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\linewidth]{../sol/results/ltx_scaffold_v1/topology_eval/autonomous_topology_contact.png}
+\caption{One middle continuation frame per LTX class. Columns show fitted target, carried-only
+state, generated marks with oracle topology, generated marks with learned topology, and generated
+marks with cross-class-shuffled topology. Learned and oracle topology preserve the same macro-layout
+and share the same motion-region noise, localizing that residual error in mark realization.}
+\label{fig:autonomoustopology}
+\end{figure}
+
+This passes learned topology, intended density, and exact carry for one held-out continuation
+stride. The learned/shuffled visual margin is modest because coarse occupancy is nearly dense and
+the correct mark guide supplies strong semantics, although slot overlap and correlation remain
+causally better. Initial jewel generation and two free-running generated-mark strides are still
+required before the hybrid system is end-to-end.
 
 \section{What Has Been Falsified}
 
@@ -836,6 +948,7 @@ Sparse count/topology error is the primary washout cause & Rejected; exact targe
 Stochastic marks alone recover coherent video & Rejected; edge energy returns, but samples remain structured noise without a video guide. \\
 Local multiscale tokens automatically improve the raster guide & Rejected; token-only and residual-hybrid controls both lose the matched visual gate. \\
 Scalar render-loss tuning cures washout & Rejected; detail improves at weight 0.5, but one action becomes less faithful and less stable. \\
+Exact fitted cell/rank overlap measures generated density & Rejected; synthesizing all predicted ranks restores 5,822 effective contributors/frame and oracle-level rendering. \\
 Mask visibility alone teaches repair & Rejected; train explicit edit tuples with protected-jewel summaries. \\
 Further model scaling solves the sparse prior & Deprioritized; the curve saturates on 231 single-scene windows. \\
 \bottomrule
@@ -845,9 +958,10 @@ Further model scaling solves the sparse prior & Deprioritized; the curve saturat
 \section{Limitations}
 
 \begin{itemize}
-  \item \textbf{No autonomous text-to-jewel result.} The hybrid prompt-to-LTX-to-jewel path
-  preserves three of four held-out actions, but target topology and the LTX future video remain
-  privileged. The jewel model's correct and shuffled text controls are effectively tied.
+  \item \textbf{No end-to-end autonomous text-to-jewel result.} The hybrid path now predicts
+  continuation topology and marks from an LTX scaffold, but the first 32 jewel frames and carried
+  prefix are still fitted seed state. The jewel model's correct and shuffled text controls remain
+  tied because semantics live in the prompt-generated scaffold.
   \item \textbf{Small and specialized corpora.} The generative results use one fixed-camera scene;
   the continuation result is an overfit; the prompt corpus contains only 16 videos.
   \item \textbf{Fixed camera and no cuts.} Global camera motion shears most primitives at once and
@@ -856,9 +970,16 @@ Further model scaling solves the sparse prior & Deprioritized; the curve saturat
   comparable to full-resolution codec papers without a matched rate-distortion protocol.
   \item \textbf{Appearance loss.} Uniform feature and RGB losses underweight rare foreground color,
   faces, hands, and thin objects. The red-to-tan coat error is a concrete warning.
-  \item \textbf{Privileged semantic guide and topology.} The successful \(24\times40\) guide is
-  decoded from a prompt-generated LTX future, but the fitted target still supplies birth cells and
-  ranks. The transfer result proves scaffold-conditioned marks, not autonomous field construction.
+  \item \textbf{Single learned-topology stride.} Fitted cells and ranks are removed only for frames
+  32--48. Initial topology exceeds the frozen flow's old 512-rank capacity in one observed UCF cell,
+  and two generated-mark strides with model-produced carry have not yet been rendered.
+  \item \textbf{Weak rendered topology selectivity.} Correct scaffold topology beats shuffled/null
+  in count space, but shuffled-topology rendering is only 0.111 dB below correct because occupancy
+  is nearly dense and the mark flow still sees the correct guide. Finer/adaptive density fields may
+  be needed for topology itself to control semantics.
+  \item \textbf{Motion-region mark noise.} Learned and oracle topology share blur/noise on moving
+  actors, hands, and thin objects. This localizes the next visual error to mark realization rather
+  than insufficient birth count.
   \item \textbf{Pure-PyTorch rendering.} Exact kNN/Mahalanobis evaluation is useful for research but
   slower than a tile CUDA rasterizer. Current reconstruction is optimization-based, not amortized.
   \item \textbf{Edit quality.} Clean-region identity is exact, but dirty-region synthesis is not yet
@@ -955,14 +1076,14 @@ the same structured state supports cheaper local editing than full latent regene
 The shortest evidence-driven path is:
 
 \begin{enumerate}
-  \item freeze the passing UCF-trained raster-guided realizer as the cross-domain baseline and
-  expand paired LTX-scaffold/jewel coverage with held-out prompts and classes;
-  \item learn scaffold-conditioned occupied-cell probability, positive counts, and birth ranks,
-  removing fitted target topology from inference;
-  \item generate overlapping windows by copying stable-ID jewels exactly and emitting only frontier
-  births, with explicit density, seam, identity, and action-preservation gates;
+  \item freeze the passing learned-topology plus UCF mark-flow continuation as the one-stride
+  cross-domain baseline;
+  \item add an initial-state realizer compatible with the observed 1,024-rank topology contract,
+  then generate at least two frontier strides using only model-produced carry;
   \item redesign differentiable rendering around foreground/motion-aware samples and explicit
-  temporal stability only if the mark realizer, rather than topology, remains the limiting error;
+  temporal stability because learned and oracle topology now share the limiting visible error;
+  \item evaluate finer or adaptive topology only if correct-versus-shuffled rendering remains tied
+  after the mark guide is controlled;
   \item train edit tuples with moved protected jewels, dirty masks, and local scaffold crops so
   source/destination repair is learned while clean regions remain exact;
   \item build a 1k--10k captioned jewel corpus and distill the scaffold pathway toward direct
@@ -992,11 +1113,13 @@ strengthens that last result: without retraining, the UCF jewelizer improves all
 classes over deterministic continuation and preserves three recognizable actions.
 
 The project is therefore past the representation-mechanics question but before the text-to-video
-claim. Its next milestone is no longer ``test whether the realizer transfers'' or ``add more local
-tokens.'' It is to remove privileged target topology by predicting scaffold-conditioned occupancy,
-counts, and birth ranks under exact overlap carry. This hybrid preserves the distinctive explicit
-state while inheriting semantic competence that the current corpus cannot teach; prompt semantics
-still live in the pretrained scaffold, and direct distillation remains a later gate.
+claim. It is also past the one-stride target-topology question: learned scaffold/carry counts feed
+the frozen mark flow at the intended density and reach the oracle-topology ceiling. The next
+milestone is initial-state generation plus at least two generated-mark strides with model-produced
+carry, while foreground/motion-aware supervision attacks the shared realizer noise. This hybrid
+preserves the distinctive explicit state while inheriting semantic competence that the current
+corpus cannot teach; prompt semantics still live in the pretrained scaffold, and direct
+distillation remains a later gate.
 
 \appendix
 \section{Reproducibility Snapshot}
@@ -1016,9 +1139,10 @@ Dense prompt fit & 96 frames, 160-pixel short side, 16k init, 120k maximum, spat
 Fine tokenizer & $32^3$ cells, 24-D local latent, sparse variable-count decode \\
 Hierarchy & non-overlapping $2^3$ train-only PCA, 96 retained components, $16^3$ codes \\
 Prior & rectified flow, rotating axial attention, nullable CLIP/text condition \\
-Continuation & stable-ID carry plus cell-local prediction of frontier birth counts and marks \\
-Mark generator & 22-D oracle-topology rectified flow with cell/rank queries and nullable text \\
-Semantic control & prompt-generated LTX \(24\times40\) guide passes transfer; target topology remains privileged \\
+Continuation & stable-ID carry plus scaffold/carry prediction of frontier cells, counts, ranks, and marks \\
+Topology generator & 0.88M 3D cell-RGB/carry head; $16^3$ cells, 1,024-rank initial contract \\
+Mark generator & frozen 22-D rectified flow with learned cell/rank queries and nullable text \\
+Semantic control & prompt-generated LTX \(24\times40\) guide; one learned-topology continuation passes \\
 Editing & swept source/destination dirty mask, protected moved jewels, exact clean-cell clamp \\
 \bottomrule
 \end{tabularx}
@@ -1032,7 +1156,8 @@ Editing & swept source/destination dirty mask, protected moved jewels, exact cle
   \item Replace the provisional positioning paragraph with a feature-by-feature comparison verified
   against code or supplements, not abstracts alone.
   \item Demonstrate text-conditioned generation from noise on held-out prompts and sources.
-  \item Demonstrate at least two autonomous continuation strides with no privileged future field.
+  \item Demonstrate initial-state generation and at least two learned-topology/generated-mark
+  continuation strides using only model-produced carry and a prompt-generated scaffold.
   \item Demonstrate a moved-object repair in which clean regions are exact and the dirty region is
   perceptually plausible under multiple samples.
   \item Release the protocol, checkpoints, videos, and a matched baseline script.

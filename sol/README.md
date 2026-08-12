@@ -59,9 +59,13 @@ selected jewel realizer. Four matched local-token/render-loss variants failed to
 generated the complete 16-video prompt scaffold corpus, and all four evaluation scaffolds now have
 72k-jewel fits at 28.182--35.158 dB. The UCF-trained realizer passes the leakage-safe LTX transfer
 gate at 15.342 dB / 0.6942 SSIM versus 13.777 dB / 0.4160 for deterministic continuation. This
-validates privileged video-scaffold-to-jewel transfer; target topology and the future video guide
-remain externally owned. The older density, tokenizer, prior, continuation, and edit results below
-explain the sequence of gates that led to this frontier.
+validates video-scaffold-to-jewel transfer. A new UCF-trained topology head then removes fitted
+cells/counts/ranks for one LTX continuation stride: correct-scaffold slot F1 is 0.6636 versus
+0.6092 shuffled and 0.6091 null, and frozen-flow realization reaches 15.464 dB / 0.6967 SSIM versus
+15.492 dB / 0.6997 with oracle topology. It predicts 99.68% of the birth budget, averages 5,822
+effective jewels/frame, and preserves carried features exactly. Initial generation and multi-stride
+generated-mark rollout remain open. The older results below explain the sequence of gates that led
+to this frontier.
 
 The current corpus uses 45,000 jewels per 64-frame window. Although about 6.2k temporal 3σ supports
 intersect each Avenue frame, contribution-aware auditing finds only 3.9k splats/frame above 5% peak
@@ -99,6 +103,9 @@ for metrics and animations.
   overfit; generalization and free-running rollout remain open.**
 - A moved jewel group remains fixed while source and destination neighborhoods are resampled.
   **Mechanical invariant passed; visual repair quality failed.**
+- Scaffold-conditioned continuation replaces fitted topology, stays in the 5k--10k effective
+  density regime, and approaches the frozen oracle-topology realizer. **Passed for one held-out LTX
+  stride; initial state and two-stride generated carry remain open.**
 
 The 90k isotropic control is complete: doubling total jewels raises effective UCF contributors only
 30% (2.9k → 3.8k) and lowers full-volume PSNR by 1.07 dB. The next representation gate is the matched
@@ -158,10 +165,19 @@ On the four unseen LTX scaffolds, guided projected marks beat deterministic cont
 dB and 0.2782 SSIM; contrast moves 0.426 to 0.743, edge energy 0.486 to 0.830, temporal-change ratio
 reaches 0.981, and birth-cell adherence reaches 99.08%. Horse, guitar, and makeup remain visually
 recognizable; Basketball is the blurriest case. Correct and shuffled text are effectively tied once
-the true LTX raster is supplied, so prompt semantics still come from the scaffold model. The next
-gate is scaffold-conditioned topology/density under overlap carry, not more flow steps on the same
-12 UCF videos. VQ, entropy coding, and LLM-token integration remain premature. The staged
-implementation and go/no-go gates are in [`PROMPTABLE_ROADMAP.md`](PROMPTABLE_ROADMAP.md).
+the true LTX raster is supplied, so prompt semantics still come from the scaffold model.
+
+The next topology gate now also passes for one continuation. The 0.88M head uses scaffold RGB and
+carried-state density to predict occupied cells and positive counts. Across all initial and
+continuation views, correct-guide slot F1 is 0.6636 versus 0.6092 shuffled, 0.6091 null, and 0.6222
+train mean. On the shared 32--48 continuation, it predicts 70,724 versus 70,952 births. Synthesizing
+all predicted ranks---rather than discarding ranks without an exact fitted counterpart---recovers
+5,822 effective contributors/frame and 15.464 dB / 0.6967 SSIM, within 0.028 dB / 0.0030 of oracle
+topology. The visual noise is common to both, so the immediate quality work moves to
+foreground/motion-aware mark realization and a generated initial-state/multi-window gate. See
+[`results/ltx_scaffold_v1/topology_eval/README.md`](results/ltx_scaffold_v1/topology_eval/README.md).
+VQ, entropy coding, and LLM-token integration remain premature. The staged implementation and
+go/no-go gates are in [`PROMPTABLE_ROADMAP.md`](PROMPTABLE_ROADMAP.md).
 
 ## UCF transfer result
 

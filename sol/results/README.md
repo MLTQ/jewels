@@ -27,7 +27,11 @@ supervision is tested as an isolated objective change. Raster-guide render weigh
 also non-dominating trades: the lower weight recovers SSIM/edge detail but destabilizes Guitar. The
 selected v1 model subsequently passes cross-domain LTX video-scaffold realization at 15.342 dB /
 0.6942 SSIM against the 13.777 dB / 0.4160 deterministic control. This is a privileged
-video-guide/topology result, not free prompt-only jewel generation.
+video-guide/topology result, not free prompt-only jewel generation. The follow-up
+[`learned-topology gate`](ltx_scaffold_v1/topology_eval/README.md) removes fitted cells/counts/ranks
+for one continuation stride: frozen-flow rendering reaches 15.464 dB / 0.6967 SSIM and 5,822
+effective contributors/frame, within 0.028 dB of oracle topology with exact carry. Initial and
+multi-stride generated state remain open.
 
 ## Decision
 

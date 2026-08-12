@@ -16,6 +16,13 @@ in global coordinates and bit-identical; only new births become learned targets.
 - **Does**: stores canonical sparse `(cell,rank)` birth marks, counts, stable IDs, and birth frames
 - **Rationale**: cells are indexed by spatial center and first active time, not temporal center
 
+### `birth_cells` / `pack_births`
+
+- **Does**: exposes the canonical first-active-frame cell assignment and stable within-cell rank
+  packing for both continuation and scaffold-topology datasets
+- **Rationale**: topology generation must emit exactly the same cell/rank contract consumed by the
+  frozen mark realizer; duplicating the private packing logic would risk a silent ordering fork
+
 ### `ContinuationView` / `ContinuationDataset`
 
 - **Does**: couples a clamped prefix, exact carried state, sparse birth target, and complete future
@@ -40,6 +47,7 @@ in global coordinates and bit-identical; only new births become learned targets.
 | Continuation trainer | `carried_ids + birth_ids` partition `active_commit_ids` | Ownership policy |
 | Context encoder | Raster channels are `[mean(22), variance(22), log_count, occupied]` | Channel order |
 | Birth decoder | Canonical rank is stable within `(u,v,birth-time)` cells | Sort or cell semantics |
+| Scaffold topology model | Public packing uses the continuation model's exact cell/rank order | Function semantics |
 | Renderer evaluation | Carried features remain global and birth values are frontier-local | Coordinate convention |
 
 ## Notes

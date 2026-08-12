@@ -108,7 +108,7 @@ def rasterize_context(
     return torch.cat((mean, variance, log_count, occupied), dim=1)
 
 
-def _birth_cells(
+def birth_cells(
     values: torch.Tensor,
     birth_frames: torch.Tensor,
     frontier: int,
@@ -124,7 +124,7 @@ def _birth_cells(
     return (u * gv + v) * gt + t
 
 
-def _pack_births(
+def pack_births(
     values: torch.Tensor,
     global_ids: torch.Tensor,
     birth_frames: torch.Tensor,
@@ -132,7 +132,7 @@ def _pack_births(
     stride_frames: int,
     spec: GridSpec,
 ) -> BirthTarget:
-    cells = _birth_cells(values, birth_frames, frontier, stride_frames, spec)
+    cells = birth_cells(values, birth_frames, frontier, stride_frames, spec)
     counts = torch.bincount(cells, minlength=spec.n_cells)
     maximum = int(counts.max()) if len(counts) else 0
     if maximum > spec.slots_per_cell:
@@ -190,7 +190,7 @@ def build_continuation_dataset(
         birth_values = to_frontier_time(
             features[window.birth_ids], frames, window.frontier, stride_frames
         )
-        births = _pack_births(
+        births = pack_births(
             birth_values,
             window.birth_ids,
             lifecycles.first_active_frames[window.birth_ids],

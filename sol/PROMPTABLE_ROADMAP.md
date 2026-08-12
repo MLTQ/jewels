@@ -222,10 +222,19 @@ research critical path. It needs:
     0.4160 deterministic, with contrast 0.743, edge ratio 0.830, 99.08% birth-cell adherence, and
     three of four recognizable actions. Correct and shuffled text remain tied under the true LTX
     guide, so the result licenses scaffold-to-jewel realization only.
-12. Learn scaffold-conditioned occupied cells, counts, and birth ranks while carrying stable-ID
-    overlap jewels exactly. Evaluate density, window seams, and action preservation without target
-    topology. Redesign any future render loss around foreground/motion-aware sampling and explicit
-    temporal stability, then scale the paired LTX/jewel corpus only if that causal gate passes.
+12. ~~Learn scaffold-conditioned occupied cells, counts, and birth ranks while carrying stable-ID
+    overlap jewels exactly.~~ A 0.88M UCF-trained head reaches 0.6636 slot F1 on all held-out LTX
+    views versus 0.6092 shuffled, 0.6091 null, and 0.6222 train mean. On the 32--48 continuation it
+    predicts 70,724 versus 70,952 births. The frozen realizer synthesizes every learned rank at
+    15.464 dB / 0.6967 SSIM, within 0.028 dB / 0.0030 of oracle topology, while averaging 5,822
+    effective contributors/frame and preserving carried features at 0.0 error. Exact fitted-rank
+    retention had falsely suggested a density shortfall because Gaussian decompositions are
+    non-unique.
+13. Generate the initial jewel state and run at least two learned-topology/generated-mark strides
+    with only model-produced carry. In parallel, redesign mark supervision around foreground and
+    motion because learned and oracle topology now share the same visible noise. Treat stronger
+    topology selectivity as a secondary goal: correct counts beat shuffled causally, but the
+    correct LTX mark guide makes their rendered difference modest.
 
 ## Literature anchors
 

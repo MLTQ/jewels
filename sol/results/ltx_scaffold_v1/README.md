@@ -84,3 +84,19 @@ weakest transfer.
 This licenses the hybrid video-scaffold-to-jewel path only. Correct and shuffled text are tied once
 the LTX future raster is provided, and target topology remains privileged. See
 [`realizer_eval/README.md`](realizer_eval/README.md) for the frozen split, full metrics, and videos.
+
+## Learned topology and generated marks
+
+The target-topology dependency is now removed for one 16-frame continuation stride. A 0.88M
+cell-RGB/carry topology head trained on the 12 UCF fields reaches 0.6636 held-out LTX slot F1 versus
+0.6092 shuffled, 0.6091 null, and 0.6222 for a per-stride train mean. When every predicted rank is
+synthesized by the frozen realizer, learned topology reaches 15.464 dB / 0.6967 SSIM, essentially
+matching the oracle-topology 15.492 dB / 0.6997 result. It averages 5,822 effective
+contributors/frame across all four classes, predicts 99.68% of the target birth budget, and copies
+carried features with exactly 0.0 error.
+
+The learned/shuffled rendering gap is modest because topology cells are nearly dense and the mark
+flow still receives the correct LTX guide, but count correlation and slot F1 establish causal
+scaffold use. Visual noise is shared by learned and oracle topology, localizing the remaining
+quality problem in mark realization. See [`topology_eval/README.md`](topology_eval/README.md) for
+the full controls, GIFs, cross-validation diagnostic, and checkpoint hashes.

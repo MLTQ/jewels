@@ -7,7 +7,12 @@ import unittest
 
 import torch
 
-from sol.streaming_data import build_continuation_dataset, rasterize_context
+from sol.streaming_data import (
+    birth_cells,
+    build_continuation_dataset,
+    pack_births,
+    rasterize_context,
+)
 from sol.token_grid import GridSpec
 
 
@@ -78,6 +83,40 @@ class StreamingDataTests(unittest.TestCase):
         occupied = raster[:, -1]
         self.assertGreater(int(occupied.sum()), 0)
         self.assertLessEqual(int(occupied.sum()), len(view.context_features))
+
+    def test_public_birth_packing_matches_dataset_contract(self) -> None:
+        data = build_continuation_dataset(
+            _features(),
+            32,
+            prefix_frames=8,
+            stride_frames=4,
+            support_sigma=2.0,
+            grid_spec=GridSpec((4, 4, 2), 8),
+        )
+        view = data.views[0]
+        repacked = pack_births(
+            view.births.values,
+            view.births.global_ids,
+            view.births.birth_frames,
+            view.frontier,
+            data.stride_frames,
+            data.grid_spec,
+        )
+        self.assertTrue(
+            torch.equal(
+                birth_cells(
+                    view.births.values,
+                    view.births.birth_frames,
+                    view.frontier,
+                    data.stride_frames,
+                    data.grid_spec,
+                ),
+                view.births.cell_indices,
+            )
+        )
+        self.assertTrue(torch.equal(repacked.values, view.births.values))
+        self.assertTrue(torch.equal(repacked.slot_indices, view.births.slot_indices))
+        self.assertTrue(torch.equal(repacked.counts, view.births.counts))
 
 
 if __name__ == "__main__":
