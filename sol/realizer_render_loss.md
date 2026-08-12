@@ -24,6 +24,21 @@ letting normalized 22-D feature error alone decide visual quality.
   independent uniform points or feature MSE can average away.
 - **Efficiency**: Births render directly in frontier-local time; only the fixed carried field uses
   global coordinates. This avoids a differentiable eigendecomposition merely to change time units.
+- **Boundary anchor**: `anchor_frontier=True` fixes the first sampled patch at local frame zero so
+  low-contribution support tails cannot hide a blank initial frame or continuation seam.
+- **Saliency sampling**: A declared patch fraction may be drawn from scaffold cells scored by
+  fitted-background deviation, adjacent-time motion, rare chroma, and spatial color boundaries.
+  Uniform patches remain in the mix to protect whole-scene fidelity.
+- **Foreground/motion terms**: Target-render saliency weights foreground RGB and thin boundaries.
+  Motion loss emphasizes temporal differences and their spatial boundary; stability loss emphasizes
+  temporal error where the target is quiet, explicitly penalizing stochastic flicker.
+
+### `scaffold_saliency_weights`
+
+- **Does**: Converts the canonical cell-RGB guide into non-negative foreground/motion/chroma/edge
+  sampling weights without inspecting fitted jewel features.
+- **Rationale**: The low-resolution teacher already locates the actor/action, so it can allocate
+  scarce differentiable render queries while preserving the inference ownership boundary.
 
 ## Contracts
 
@@ -32,6 +47,8 @@ letting normalized 22-D feature error alone decide visual quality.
 | Mark-flow trainer | Predicted and target births have identical target-owned row topology | Row ownership |
 | Renderer | Local query time is `(frame-frontier)/stride` | Time convention |
 | Visual objective | Fixed carried jewels and background are identical for both renders | Base composition |
+| Streaming fine-tune | Optional anchored patch begins at the current frontier | Patch sampling |
+| Motion-aware fine-tune | Guide grid order matches the realizer grid | Saliency addressing |
 
 ## Notes
 

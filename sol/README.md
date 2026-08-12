@@ -63,9 +63,12 @@ validates video-scaffold-to-jewel transfer. A new UCF-trained topology head then
 cells/counts/ranks for one LTX continuation stride: correct-scaffold slot F1 is 0.6636 versus
 0.6092 shuffled and 0.6091 null, and frozen-flow realization reaches 15.464 dB / 0.6967 SSIM versus
 15.492 dB / 0.6997 with oracle topology. It predicts 99.68% of the birth budget, averages 5,822
-effective jewels/frame, and preserves carried features exactly. Initial generation and multi-stride
-generated-mark rollout remain open. The older results below explain the sequence of gates that led
-to this frontier.
+effective jewels/frame, and preserves carried features exactly. The subsequent empty-state plus
+two-continuation gate is now autonomous: correct LTX scaffolds reach 14.570 dB / 0.6306 SSIM at
+7,493 effective jewels/frame with exact append-only IDs/carry. A matched foreground/motion
+fine-tune raises global fidelity but also raises quiet-region flicker, so the universal v1 flow
+remains selected and the next gate is an explicitly factorized lifecycle/appearance sampler. The
+older results below explain the sequence of gates that led to this frontier.
 
 The current corpus uses 45,000 jewels per 64-frame window. Although about 6.2k temporal 3σ supports
 intersect each Avenue frame, contribution-aware auditing finds only 3.9k splats/frame above 5% peak
@@ -176,6 +179,22 @@ all predicted ranks---rather than discarding ranks without an exact fitted count
 topology. The visual noise is common to both, so the immediate quality work moves to
 foreground/motion-aware mark realization and a generated initial-state/multi-window gate. See
 [`results/ltx_scaffold_v1/topology_eval/README.md`](results/ltx_scaffold_v1/topology_eval/README.md).
+That autonomous gate now passes. One 1,024-rank mark flow generates an empty-state initial window
+and two continuation windows using only its own append-only field as carry. A clip-boundary audit
+removed an artificial three-sigma opening tail: frame-zero visible density rose from 106--244 to
+8,586--9,513 jewels without retraining. Across four held-out LTX scaffolds, correct PSNR rises from
+12.408 to **14.570 dB**, correct SSIM from 0.6041 to **0.6306**, and correct conditioning beats
+shuffled by 4.116 dB. The generated field averages 7,493 effective jewels/frame, every stable ID is
+exact, carried-feature error is 0.0, and seam change is only 0.964 times ordinary frame change. See
+[`results/ltx_scaffold_v1/scaffold_mark_rollout/README.md`](results/ltx_scaffold_v1/scaffold_mark_rollout/README.md).
+
+A bounded foreground/motion supervision sweep then exposes the next coupling. The best initialized
+1,000-step arm raises PSNR to 14.972 dB and SSIM to 0.6610, improves all four classes globally and
+three classes in foreground-edge/motion-boundary error, but raises quiet-region temporal MAE 3.8%
+and lowers foreground PSNR in two classes. It is rejected under the predeclared stability gate.
+The next experiment will integrate the frozen v1 lifecycle trajectory independently and permit a
+separate residual stream to alter appearance/geometry only. See
+[`results/ltx_scaffold_v1/foreground_motion_ablation/README.md`](results/ltx_scaffold_v1/foreground_motion_ablation/README.md).
 VQ, entropy coding, and LLM-token integration remain premature. The staged implementation and
 go/no-go gates are in [`PROMPTABLE_ROADMAP.md`](PROMPTABLE_ROADMAP.md).
 

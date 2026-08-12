@@ -17,6 +17,8 @@ Protects the bounded stochastic mark-generation gate chosen after the prompted w
 - **Discrete lifecycle check**: Projection bounds are expressed in physical stride frames.
 - **Boundary check**: Valid centers outside the visible frame remain in their clamped edge cells
   without being moved onto the image boundary.
+- **Censored-time check**: The optional initial-window policy preserves pre-frame-zero support only
+  for time-cell zero; later time cells remain strictly projected.
 - **Gradient check**: Hard projection remains differentiable without in-place autograd version
   conflicts for render-supervised denoised estimates.
 - **Interacts with**: `birth_mark_flow.py`, `GridSpec`, and temporal covariance recovery.

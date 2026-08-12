@@ -20,6 +20,8 @@ class ScaffoldTopologyView:
     index: int
     frontier: int
     commit_stop: int
+    context_features: torch.Tensor
+    context_ids: torch.Tensor
     carried_global_features: torch.Tensor
     carried_ids: torch.Tensor
     births: BirthTarget
@@ -68,6 +70,13 @@ def build_scaffold_topology_views(
                 index=window.index,
                 frontier=window.frontier,
                 commit_stop=window.commit_stop,
+                context_features=to_frontier_time(
+                    features[window.context_ids],
+                    frames,
+                    window.frontier,
+                    stride_frames,
+                ),
+                context_ids=window.context_ids,
                 carried_global_features=features[window.carried_ids].clone(),
                 carried_ids=window.carried_ids,
                 births=births,

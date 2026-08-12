@@ -94,6 +94,7 @@ def realize_topology_marks(
     stride_frames: int,
     steps: int,
     generator: torch.Generator,
+    allow_prefrontier_support: bool = False,
 ) -> torch.Tensor:
     """Sample and hard-project frontier-local marks for learned topology."""
     device = context_raster.device
@@ -116,4 +117,5 @@ def realize_topology_marks(
         spec=flow.grid_spec,
         support_sigma=support_sigma,
         stride_frames=stride_frames,
+        allow_prefrontier_support=allow_prefrontier_support,
     )

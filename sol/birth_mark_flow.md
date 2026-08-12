@@ -44,6 +44,9 @@ first experiment isolates geometry/appearance generation from topology.
   physical first-active frame in the assigned bin, so already valid target jewels are unchanged.
 - **Boundary cells**: Spatial edge cells retain their unbounded exterior half-space because
   `GridSpec.cell_index` assigns out-of-frame centers there by clamping the address, not the center.
+- **Initial time boundary**: `allow_prefrontier_support` leaves the lower support-start boundary
+  open for time-cell zero. This represents jewels that were already active before an observed clip
+  began; later cells and continuation windows retain the strict birth-cell contract.
 - **Gradient contract**: Projection is out-of-place so differentiable render supervision can
   backpropagate through projected denoised marks. Temporal support extent is detached only while
   calculating the hard center boundary, avoiding undefined eigenvector gradients at repeated

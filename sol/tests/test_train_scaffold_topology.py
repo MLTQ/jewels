@@ -32,6 +32,8 @@ def _source(split: str, class_id: int, counts: torch.Tensor) -> PreparedTopology
         index=0,
         frontier=0,
         commit_stop=4,
+        context_features=torch.empty(0, 22),
+        context_ids=torch.empty(0, dtype=torch.long),
         carried_global_features=torch.empty(0, 22),
         carried_ids=torch.empty(0, dtype=torch.long),
         births=births,

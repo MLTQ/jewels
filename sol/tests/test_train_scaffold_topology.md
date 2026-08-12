@@ -12,7 +12,7 @@ per-stride train-mean construction, and held-out control-view ownership.
 - **Does**: Builds synthetic prepared sources and verifies that validation counts never enter the
   training mean while control rows preserve source/target identity. It also verifies that the
   diagnostic cross-validation override is source-exact and rejects duplicate, missing, or
-  all-validation source sets.
+  all-validation source sets. Synthetic topology rows include the explicit empty initial context.
 - **Interacts with**: `train_scaffold_topology.py`.
 
 ## Contracts

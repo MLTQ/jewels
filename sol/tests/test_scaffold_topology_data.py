@@ -39,6 +39,7 @@ class ScaffoldTopologyDataTests(unittest.TestCase):
         )
         self.assertEqual([view.frontier for view in views], [0, 8, 16, 24])
         self.assertEqual(len(views[0].carried_ids), 0)
+        self.assertEqual(len(views[0].context_ids), 0)
         for view in views:
             partition = torch.cat((view.carried_ids, view.births.global_ids)).sort().values
             self.assertTrue(torch.equal(partition, view.active_commit_ids))
@@ -46,6 +47,9 @@ class ScaffoldTopologyDataTests(unittest.TestCase):
             self.assertTrue(
                 torch.equal(view.birth_global_features, _features()[view.births.global_ids])
             )
+            self.assertEqual(len(view.context_features), len(view.context_ids))
+            if view.frontier:
+                self.assertTrue((view.context_features[:, 2] <= 0).any())
 
     def test_carried_raster_is_empty_or_finite_and_bounded(self) -> None:
         spec = GridSpec((4, 4, 2), 8)

@@ -354,8 +354,14 @@ def project_birth_topology(
     support_sigma: float,
     stride_frames: int,
     covariance_chunk: int = 4096,
+    allow_prefrontier_support: bool = False,
 ) -> torch.Tensor:
-    """Clamp sampled centers and finite-support starts to their declared birth cells."""
+    """Clamp sampled centers and finite-support starts to their declared birth cells.
+
+    Initial-window time-cell zero may represent jewels already active before the
+    observable clip boundary.  ``allow_prefrontier_support`` preserves that
+    censored left tail while retaining the cell's ordinary upper boundary.
+    """
     if local_features.ndim != 2 or local_features.shape[1] != 22:
         raise ValueError("local features must have shape (N,22)")
     if cell_indices.shape != (len(local_features),):
@@ -416,6 +422,12 @@ def project_birth_topology(
     last_frame = stop_frame - 1
     lower_t = (first_frame.to(local_features) - 1) / stride_frames + epsilon
     upper_t = last_frame.to(local_features) / stride_frames
+    if allow_prefrontier_support:
+        lower_t = torch.where(
+            t == 0,
+            local_features.new_full((len(local_features),), -torch.inf),
+            lower_t,
+        )
     projected_start = torch.maximum(
         lower_t, torch.minimum(support_start, upper_t)
     )

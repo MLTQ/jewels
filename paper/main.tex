@@ -107,8 +107,13 @@ one held-out LTX continuation stride. Correct-scaffold slot F1 is 0.6636 versus 
 0.6091 null, and 0.6222 train mean. When the frozen flow synthesizes every predicted rank, learned
 topology reaches 15.464 dB/0.6967 SSIM versus 15.492 dB/0.6997 with oracle topology, predicts
 99.68\% of the birth budget, averages 5,822 effective contributors/frame, and copies carried
-features with zero error. This passes autonomous topology and density for one continuation; the
-initial field and multi-stride generated carry remain open.
+features with zero error. A compatible 1,024-rank flow then generates an empty-state initial stride
+and two continuations using only its own append-only field. Correcting a censored clip-start
+projection raises deterministic correct-scaffold PSNR from 12.408 to 14.570 dB and frame-zero
+visible density from 106--244 to 8,586--9,513, while stable IDs and carry remain exact. The selected
+field averages 7,493 effective contributors/frame and beats shuffled scaffolds by 4.116 dB. A
+foreground/motion-aware fine-tune reaches 14.972 dB/0.6610 SSIM but raises quiet-region temporal
+error by 3.8\%; it is rejected under the predeclared stability gate.
 
 Gaussian reconstruction of video is not new: VeGaS, GSVC, GaussianVideo, GaRV, and related work
 predate this project. The research opportunity evaluated here is narrower: a corpus-level
@@ -156,9 +161,12 @@ the current washout mechanism and show that a low-resolution semantic scaffold c
 layout in stochastic jewel realization and transfer from UCF training to unseen prompt-generated
 LTX videos without mark-model retraining. We then replace fitted continuation topology with
 scaffold/carry-predicted counts and show that the frozen realizer remains within 0.028 dB of its
-oracle-topology control at the intended effective density. We additionally articulate two falsifiable systems
-hypotheses: that explicit persistent fields offer interaction properties unavailable from an opaque
-raster latent alone, and that a hierarchical field can serve as a multimodal visual event language.
+oracle-topology control at the intended effective density. Finally, we remove fitted initial state,
+run three autonomous windows with exact append-only identity, and isolate a lifecycle/appearance
+coupling that scalar foreground weighting does not resolve. We additionally articulate two
+falsifiable systems hypotheses: that explicit persistent fields offer interaction properties
+unavailable from an opaque raster latent alone, and that a hierarchical field can serve as a
+multimodal visual event language.
 
 \begin{figure}[H]
 \centering
@@ -345,6 +353,20 @@ Topology uses a 1,024-rank contract because one initial UCF cell contains 919 bi
 continuation mark flow uses 512 ranks, so coupling validates every predicted continuation cell
 against that smaller capacity and raises an error rather than clipping. Carried features condition
 the topology head but are never transformed; generated marks are appended after the exact carry.
+
+For empty-state generation we train a second, 1,024-rank mark flow over all 72 complete UCF views:
+12 initial views receive an explicitly empty context raster and 60 later views receive only the
+preceding causal stride. At inference, each window recomputes context and carry from the generated
+field, expands the topology head's declared cell counts into ranks, samples every mark, converts
+frontier-local time to global time, and appends contiguous IDs. Existing rows are audited for
+bit-exact immutability after every append.
+
+The observed beginning of a clip is a censored boundary, not necessarily a physical birth. A jewel
+assigned to initial time cell zero may therefore have finite support that began before frame zero.
+The projector leaves that lower boundary open only for the first local time cell of the first
+window; every later cell and continuation frontier remains strict. A matched control can restore
+the former strict initial projection without changing topology, noise, weights, or continuation
+semantics.
 
 \subsection{Stochastic mark realization and semantic guidance}
 
@@ -923,9 +945,108 @@ and share the same motion-region noise, localizing that residual error in mark r
 This passes learned topology, intended density, and exact carry for one held-out continuation
 stride. The learned/shuffled visual margin is modest because coarse occupancy is nearly dense and
 the correct mark guide supplies strong semantics, although slot overlap and correlation remain
-causally better. Initial jewel generation and two free-running generated-mark strides are still
-required before the hybrid system is end-to-end.
+causally better. It licenses the fitted-seed-free rollout below.
 
+\subsection{Empty-state generation and two free-running continuations}
+
+One 2.13M-parameter universal mark flow is trained for 12,000 updates across the 72 UCF views in
+162.14 seconds on an RTX 2070 Super. We freeze it and the topology head, then generate three
+16-frame windows for each held-out LTX scaffold. Correct, cross-class shuffled, and null controls
+share text, weights, random seed, and a background derived only from the first scaffold stride.
+The initial window begins from zero jewels; later context, carry, and topology state come only from
+the control's own generated field. All results use deterministic PyTorch 2.12 CUDA kernels, 20 Euler
+steps, and seed 31.
+
+The strict initial projection creates a mathematical opening ramp: its support-start constraint
+moves time-cell-zero centers to about three temporal standard deviations before frame zero, where a
+unit-opacity Gaussian contributes only $\exp(-4.5)\approx1.1\%$. Treating frame zero as a censored
+observation boundary changes no learned parameter. Table~\ref{tab:autonomousrollout} shows a 2.162
+dB correct-scaffold gain, a larger correct-versus-shuffled margin, lower excess temporal change,
+and density closer to the fitted reference. Frame-zero jewels above 5\% peak alpha rise from
+106--244 to 8,586--9,513 across the four sources. Every prior and carried feature remains
+bit-identical, and every emitted ID is append-only and contiguous.
+
+\begin{table}[H]
+\centering
+\small
+\caption{Deterministic empty-state plus two-continuation rollout. Density is effective
+contributors/frame; seam is boundary change divided by ordinary temporal change.}
+\label{tab:autonomousrollout}
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+Initial boundary & Correct PSNR & SSIM & Correct--shuffled & Density & Seam \\
+\midrule
+Strict finite support & 12.408 & 0.6041 & 3.601 & 10,403 & 1.035 \\
+\textbf{Left-censored clip start} & \textbf{14.570} & \textbf{0.6306} & \textbf{4.116} & \textbf{7,493} & \textbf{0.964} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\linewidth]{../sol/results/ltx_scaffold_v1/scaffold_mark_rollout/three_window_rollout_contact.png}
+\caption{The first fully generated field at the first frame of the third window. Rows are the four
+LTX classes; columns show the LTX scaffold, fitted jewel ceiling, correct-scaffold generation,
+cross-class scaffold, and null scaffold. Correct guidance preserves action layout, but moving
+subjects remain noisy relative to the fitted ceiling.}
+\label{fig:autonomousrollout}
+\end{figure}
+
+This passes the structural generation gate: all 48 frames are jewels generated from a
+prompt-produced video scaffold and model-produced state, effective density lies in the requested
+5k--10k regime, and seams are not worse than ordinary motion. It does not pass the final fidelity
+gate. Correct generation remains 7.27 dB below the fitted jewel ceiling, and the actor, hands,
+guitar, and face contain visible motion-region noise.
+
+\subsection{Foreground weighting exposes lifecycle--appearance coupling}
+
+We initialize four 1,000-update arms from the passing universal flow. Target-derived scaffold
+saliency combines foreground/background deviation, rare chroma, spatial edge, and temporal change.
+Exploratory arms weight rendered salient patches, every 22-D feature, or only spatial/appearance
+dimensions; the final arm combines spatial/appearance weighting with a rendered quiet-change
+penalty. Temporal center and time-coupled covariance dimensions retain their ordinary feature loss
+but receive no extra saliency weight.
+
+The decisive exact-seed comparison in Table~\ref{tab:foregroundablation} is not a null result.
+Global fidelity improves in all four classes; foreground-edge and motion-boundary error improve in
+three, and aggregate excess motion falls slightly. Yet quiet-region temporal error rises 3.8\%,
+with PlayingGuitar and ApplyEyeMakeup each worsening by about 0.0018, while foreground PSNR falls in
+Basketball and PlayingGuitar. The branch therefore fails the predeclared consistency/stability gate
+and the base remains selected.
+
+\begin{table}[H]
+\centering
+\small
+\caption{Exact deterministic foreground/motion ablation. Lower is better for motion-boundary and
+quiet temporal MAE; temporal-change ratio targets 1.0.}
+\label{tab:foregroundablation}
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+Arm & PSNR & SSIM & Temporal ratio & Foreground PSNR & Motion MAE & Quiet MAE \\
+\midrule
+\textbf{Universal base} & 14.570 & 0.6306 & 1.1918 & 10.225 & 0.07235 & \textbf{0.02145} \\
+Spatial/appearance + stability & \textbf{14.972} & \textbf{0.6610} & \textbf{1.1872} & \textbf{10.456} & \textbf{0.07201} & 0.02227 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The causal conclusion is architectural. Excluding lifecycle dimensions from an extra loss does not
+freeze them: the shared flow trunk changes all velocities, and altered appearance state feeds back
+into later Euler steps and continuation rasters. The next control should integrate the frozen base
+trajectory independently, copy its temporal center/time-covariance state exactly, and learn a
+separate appearance/geometry residual stream. This turns lifecycle preservation from a soft
+penalty into an invariant.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.78\linewidth]{../sol/results/ltx_scaffold_v1/foreground_motion_ablation/spatial_feature_stability_contact.png}
+\caption{The rejected spatial/appearance-plus-stability arm at the first frame of the third window.
+Its aggregate fidelity gain is real, but the contact view does not show a uniformly cleaner subject,
+and the full temporal audit detects increased quiet-region flicker.}
+\label{fig:foregroundablation}
+\end{figure}
+
+\clearpage
 \section{What Has Been Falsified}
 
 Failures have been used as architectural evidence rather than hidden tuning history:
@@ -948,6 +1069,7 @@ Sparse count/topology error is the primary washout cause & Rejected; exact targe
 Stochastic marks alone recover coherent video & Rejected; edge energy returns, but samples remain structured noise without a video guide. \\
 Local multiscale tokens automatically improve the raster guide & Rejected; token-only and residual-hybrid controls both lose the matched visual gate. \\
 Scalar render-loss tuning cures washout & Rejected; detail improves at weight 0.5, but one action becomes less faithful and less stable. \\
+Scalar foreground weighting separates detail from lifecycle & Rejected; global fidelity rises, but quiet-region temporal error rises 3.8\%. \\
 Exact fitted cell/rank overlap measures generated density & Rejected; synthesizing all predicted ranks restores 5,822 effective contributors/frame and oracle-level rendering. \\
 Mask visibility alone teaches repair & Rejected; train explicit edit tuples with protected-jewel summaries. \\
 Further model scaling solves the sparse prior & Deprioritized; the curve saturates on 231 single-scene windows. \\
@@ -958,28 +1080,28 @@ Further model scaling solves the sparse prior & Deprioritized; the curve saturat
 \section{Limitations}
 
 \begin{itemize}
-  \item \textbf{No end-to-end autonomous text-to-jewel result.} The hybrid path now predicts
-  continuation topology and marks from an LTX scaffold, but the first 32 jewel frames and carried
-  prefix are still fitted seed state. The jewel model's correct and shuffled text controls remain
-  tied because semantics live in the prompt-generated scaffold.
+  \item \textbf{No direct text-selective jewel generator.} The hybrid path now generates all 48
+  jewel frames from a prompt-produced LTX scaffold and its own state, but the jewel model's correct
+  and shuffled text controls remain tied because semantics live in the raster scaffold.
   \item \textbf{Small and specialized corpora.} The generative results use one fixed-camera scene;
   the continuation result is an overfit; the prompt corpus contains only 16 videos.
   \item \textbf{Fixed camera and no cuts.} Global camera motion shears most primitives at once and
   spends density on camera motion. Camera tokens or explicit stabilization are future work.
   \item \textbf{Low resolution.} Current fits use a 160-pixel short side. PSNR values are not
   comparable to full-resolution codec papers without a matched rate-distortion protocol.
-  \item \textbf{Appearance loss.} Uniform feature and RGB losses underweight rare foreground color,
-  faces, hands, and thin objects. The red-to-tan coat error is a concrete warning.
-  \item \textbf{Single learned-topology stride.} Fitted cells and ranks are removed only for frames
-  32--48. Initial topology exceeds the frozen flow's old 512-rank capacity in one observed UCF cell,
-  and two generated-mark strides with model-produced carry have not yet been rendered.
+  \item \textbf{Lifecycle--appearance coupling.} Foreground-weighted supervision improves global
+  fidelity and some subject edges, but the best arm raises quiet-region flicker. A shared flow trunk
+  cannot guarantee lifecycle invariance merely by excluding temporal dimensions from an extra loss.
+  \item \textbf{Short autonomous horizon.} Fitted cells, ranks, marks, and carry are removed for all
+  three generated windows, but the audit covers only 48 frames, four action classes, and one seed.
+  Longer rollouts may amplify carry error or exhaust the fixed topology/rank contract.
   \item \textbf{Weak rendered topology selectivity.} Correct scaffold topology beats shuffled/null
   in count space, but shuffled-topology rendering is only 0.111 dB below correct because occupancy
   is nearly dense and the mark flow still sees the correct guide. Finer/adaptive density fields may
   be needed for topology itself to control semantics.
   \item \textbf{Motion-region mark noise.} Learned and oracle topology share blur/noise on moving
-  actors, hands, and thin objects. This localizes the next visual error to mark realization rather
-  than insufficient birth count.
+  actors, hands, and thin objects. The scalar saliency sweep improves aggregate fidelity but does
+  not remove this error without a quiet-region stability regression.
   \item \textbf{Pure-PyTorch rendering.} Exact kNN/Mahalanobis evaluation is useful for research but
   slower than a tile CUDA rasterizer. Current reconstruction is optimization-based, not amortized.
   \item \textbf{Edit quality.} Clean-region identity is exact, but dirty-region synthesis is not yet
@@ -1076,12 +1198,14 @@ the same structured state supports cheaper local editing than full latent regene
 The shortest evidence-driven path is:
 
 \begin{enumerate}
-  \item freeze the passing learned-topology plus UCF mark-flow continuation as the one-stride
+  \item freeze the passing 1,024-rank empty-state plus two-continuation rollout as the deterministic
   cross-domain baseline;
-  \item add an initial-state realizer compatible with the observed 1,024-rank topology contract,
-  then generate at least two frontier strides using only model-produced carry;
-  \item redesign differentiable rendering around foreground/motion-aware samples and explicit
-  temporal stability because learned and oracle topology now share the limiting visible error;
+  \item factor lifecycle from appearance: independently integrate the frozen base trajectory,
+  copy temporal center/time covariance exactly, and train only an appearance/geometry residual;
+  \item accept foreground/motion supervision only if at least three classes gain subject detail
+  with bit-identical lifecycle state and no quiet-region temporal regression;
+  \item extend the autonomous audit beyond three windows and across multiple prompts/seeds before
+  interpreting exact short-horizon carry as long-video stability;
   \item evaluate finer or adaptive topology only if correct-versus-shuffled rendering remains tied
   after the mark guide is controlled;
   \item train edit tuples with moved protected jewels, dirty masks, and local scaffold crops so
@@ -1114,12 +1238,15 @@ classes over deterministic continuation and preserves three recognizable actions
 
 The project is therefore past the representation-mechanics question but before the text-to-video
 claim. It is also past the one-stride target-topology question: learned scaffold/carry counts feed
-the frozen mark flow at the intended density and reach the oracle-topology ceiling. The next
-milestone is initial-state generation plus at least two generated-mark strides with model-produced
-carry, while foreground/motion-aware supervision attacks the shared realizer noise. This hybrid
-preserves the distinctive explicit state while inheriting semantic competence that the current
-corpus cannot teach; prompt semantics still live in the pretrained scaffold, and direct
-distillation remains a later gate.
+the frozen mark flow at the intended density and reach the oracle-topology ceiling. It is now also
+past the fitted-seed-free short-rollout question: an empty initial field plus two continuations
+preserve append-only identity at the intended density, and a matched boundary control explains the
+former opening washout without retraining. The next milestone is not another scalar loss sweep.
+Foreground/motion weighting yields real detail but trades it against quiet-region stability, so the
+next falsifiable model must separate an exact frozen lifecycle trajectory from a learned
+appearance/geometry residual. This hybrid preserves the distinctive explicit state while
+inheriting semantic competence that the current corpus cannot teach; prompt semantics still live
+in the pretrained scaffold, and direct distillation remains a later gate.
 
 \appendix
 \section{Reproducibility Snapshot}
@@ -1139,10 +1266,10 @@ Dense prompt fit & 96 frames, 160-pixel short side, 16k init, 120k maximum, spat
 Fine tokenizer & $32^3$ cells, 24-D local latent, sparse variable-count decode \\
 Hierarchy & non-overlapping $2^3$ train-only PCA, 96 retained components, $16^3$ codes \\
 Prior & rectified flow, rotating axial attention, nullable CLIP/text condition \\
-Continuation & stable-ID carry plus scaffold/carry prediction of frontier cells, counts, ranks, and marks \\
+Continuation & empty initial state plus two 16-frame strides; generated-state context/carry; append-only IDs \\
 Topology generator & 0.88M 3D cell-RGB/carry head; $16^3$ cells, 1,024-rank initial contract \\
-Mark generator & frozen 22-D rectified flow with learned cell/rank queries and nullable text \\
-Semantic control & prompt-generated LTX \(24\times40\) guide; one learned-topology continuation passes \\
+Mark generator & selected 2.13M 1,024-rank 22-D rectified flow; 20 deterministic Euler steps \\
+Semantic control & prompt-generated LTX \(24\times40\) guide; three-window autonomous rollout passes structurally \\
 Editing & swept source/destination dirty mask, protected moved jewels, exact clean-cell clamp \\
 \bottomrule
 \end{tabularx}
@@ -1156,8 +1283,8 @@ Editing & swept source/destination dirty mask, protected moved jewels, exact cle
   \item Replace the provisional positioning paragraph with a feature-by-feature comparison verified
   against code or supplements, not abstracts alone.
   \item Demonstrate text-conditioned generation from noise on held-out prompts and sources.
-  \item Demonstrate initial-state generation and at least two learned-topology/generated-mark
-  continuation strides using only model-produced carry and a prompt-generated scaffold.
+  \item Extend the passing initial-plus-two-continuation result across longer horizons, multiple
+  seeds/prompts, and a lifecycle-factorized foreground-detail model without quiet-region flicker.
   \item Demonstrate a moved-object repair in which clean regions are exact and the dirty region is
   perceptually plausible under multiple samples.
   \item Release the protocol, checkpoints, videos, and a matched baseline script.

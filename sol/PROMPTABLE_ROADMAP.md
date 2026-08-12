@@ -230,11 +230,25 @@ research critical path. It needs:
     effective contributors/frame and preserving carried features at 0.0 error. Exact fitted-rank
     retention had falsely suggested a density shortfall because Gaussian decompositions are
     non-unique.
-13. Generate the initial jewel state and run at least two learned-topology/generated-mark strides
-    with only model-produced carry. In parallel, redesign mark supervision around foreground and
-    motion because learned and oracle topology now share the same visible noise. Treat stronger
-    topology selectivity as a secondary goal: correct counts beat shuffled causally, but the
-    correct LTX mark guide makes their rendered difference modest.
+13. ~~Generate the initial jewel state and run at least two learned-topology/generated-mark strides
+    with only model-produced carry.~~ One 1,024-rank flow now generates an empty-state initial
+    stride plus two continuations from append-only model state. The opening washout was a censored
+    boundary bug: permitting pre-frame-zero support only in the initial time-cell-zero raises
+    visible frame-zero density from 106--244 to 8,586--9,513 without retraining. Correct held-out
+    LTX rollouts reach 14.570 dB / 0.6306 SSIM, +2.162 dB over an exact deterministic
+    strict-boundary control and +4.116 dB over shuffled scaffolds. Effective density is 7,493/frame,
+    every stable ID/carry audit is exact, and seam change is 0.964 times ordinary change.
+14. ~~Test scalar foreground, motion-boundary, rare-chroma, and temporal-stability supervision
+    while preserving the v1 checkpoint.~~ Four 1,000-step initialized arms establish a genuine but
+    coupled detail/stability tradeoff. The best combined arm reaches 14.972 dB / 0.6610 SSIM,
+    improves all four classes in both global metrics, and slightly improves aggregate
+    motion-boundary/excess-motion error, but raises quiet-region temporal MAE 3.8% and worsens
+    foreground PSNR in two classes. Reject it under the predeclared gate and retain v1.
+15. Factor lifecycle from appearance during sampling. Freeze an independently integrated v1 base
+    trajectory and learn an appearance/geometry residual stream whose output cannot alter temporal
+    center or time-covariance state. Require bit-identical lifecycle dimensions and stable IDs,
+    foreground gains in at least three classes, and no quiet-temporal regression before selection.
+    This gate is tracked as `jewels-4pt`.
 
 ## Literature anchors
 

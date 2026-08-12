@@ -10,8 +10,9 @@ complete 16-frame emission decisions rather than one privileged future.
 
 ### `ScaffoldTopologyView`
 
-- **Does**: Stores exact carried state, canonical birth cells/counts/ranks, both local and global
-  birth marks, and the target active field for one complete emission stride.
+- **Does**: Stores the local preceding-stride context, exact carried state, canonical birth
+  cells/counts/ranks, both local and global birth marks, and the target active field for one
+  complete emission stride.
 - **Rationale**: Marks and topology can be swapped independently while stable IDs remain explicit.
 
 ### `build_scaffold_topology_views`
@@ -34,6 +35,7 @@ complete 16-frame emission decisions rather than one privileged future.
 | Dependent | Expects | Breaking changes |
 |---|---|---|
 | Topology trainer | Every full stride, including index zero, owns only new births | Window policy |
+| Initial-compatible mark trainer | Frontier zero has empty context; later context is local and causal | Context semantics |
 | Frozen mark realizer | Birth cells/ranks use the existing `16×16×8` canonical order | Packing order |
 | Sequential rollout | Carried features remain global and bit-identical | Coordinate/ID semantics |
 | Topology model | Carry raster channels are log density, occupancy, mean alpha | Channel order |
@@ -46,3 +48,5 @@ complete 16-frame emission decisions rather than one privileged future.
   919, versus 283 for later births and 455 for LTX initialization. The older 512-rank mark-realizer
   contract is sufficient for continuation but must be extended or factorized for initial marks.
 - Carried support is sampled at temporal cell midpoints. It is conditioning, not a render metric.
+- Context covers at most the preceding stride and may include jewels no longer carried into the
+  commit. It is empty at frontier zero by construction.

@@ -31,6 +31,8 @@ without changing or retraining the mark generator.
 
 - **Does**: Samples standardized marks for learned cells/ranks, restores physical feature units,
   and hard-projects centers/support starts into their declared topology.
+- **Initial boundary**: May preserve support before the local frontier for time-cell zero when the
+  caller is generating the beginning of an observed clip. Continuation callers remain strict.
 - **Interacts with**: The frozen `BirthMarkFlowModel` and its train-only birth standardizer.
 
 ## Contracts

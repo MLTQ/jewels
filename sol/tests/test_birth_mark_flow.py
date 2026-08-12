@@ -198,6 +198,38 @@ class BirthMarkFlowTests(unittest.TestCase):
         )
         self.assertLess(float((projected - features).abs().max()), 1e-5)
 
+    def test_projection_can_preserve_censored_initial_support(self) -> None:
+        spec = GridSpec((2, 2, 2), 8)
+        features = torch.zeros(2, 22)
+        features[:, :2] = -0.5
+        features[:, 3] = 2 * math.log(0.05)
+        features[:, 6] = 2 * math.log(0.05)
+        features[:, 8] = 2 * math.log(0.04)
+        features[:, 2] = -0.5 + 3 * 0.04
+        cells = torch.tensor([0, 1])
+        strict = project_birth_topology(
+            features,
+            cells,
+            spec=spec,
+            support_sigma=3.0,
+            stride_frames=8,
+        )
+        censored = project_birth_topology(
+            features,
+            cells,
+            spec=spec,
+            support_sigma=3.0,
+            stride_frames=8,
+            allow_prefrontier_support=True,
+        )
+        strict_start = strict[:, 2] - 3 * temporal_standard_deviation(strict)
+        censored_start = censored[:, 2] - 3 * temporal_standard_deviation(censored)
+        self.assertGreater(float(strict_start[0]), -0.126)
+        self.assertAlmostEqual(float(censored_start[0]), -0.5, places=5)
+        self.assertAlmostEqual(
+            float(censored_start[1]), float(strict_start[1]), places=5
+        )
+
     def test_projection_backpropagates_without_inplace_versions(self) -> None:
         spec = GridSpec((2, 2, 2), 8)
         features = torch.zeros(2, 22)
