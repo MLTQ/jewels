@@ -55,7 +55,7 @@
 
 \title{\vspace{-1.5em}\textbf{Jewels: Toward Text-Conditioned, Streamable, and\\Locally Editable Video as Space-Time Gaussian Fields}}
 \author{The Jewels Project}
-\date{Technical report -- August 9, 2026}
+\date{Technical report -- August 12, 2026}
 
 \begin{document}
 \maketitle
@@ -92,7 +92,16 @@ but produces washed-out action geometry. Exact target topology improves its mean
 recovers edge energy without coherent objects; adding the true future as a \(24\times40\) guide
 raises held-out rendering from 14.232 to \SI{16.555}{dB} and from 59.8\% to 90.5\% of target edge
 energy. This privileged control selects a semantic-video-scaffold-to-jewel architecture; it is not
-a prompt-only generation result.
+a prompt-only generation result. Official distilled LTX-2.3 then produces all 16 balanced prompt
+scaffolds. Four density-matched 49-frame/72k-jewel reconstructions replay at
+\SIrange{28.18}{35.16}{dB}, averaging 5,966 effective contributors/frame. Token-only multiscale,
+raster-plus-token, and two raster-guide render-loss controls fail to dominate the original guide.
+The selected UCF-trained realizer then passes a predeclared cross-domain gate on the four unseen
+LTX scaffolds: guided samples reach 15.342 dB/0.6942 SSIM versus 13.777 dB/0.4160 for deterministic
+continuation, move contrast from 0.426 to 0.743 and edge energy from 0.486 to 0.830, retain 99.08\%
+birth-cell adherence, and preserve a recognizable primary action in three of four classes. Correct
+and shuffled text remain tied once the true LTX video guide is present. The result therefore
+validates privileged scaffold-to-jewel transfer, not free prompt-only jewel generation.
 
 Gaussian reconstruction of video is not new: VeGaS, GSVC, GaussianVideo, GaRV, and related work
 predate this project. The research opportunity evaluated here is narrower: a corpus-level
@@ -137,7 +146,8 @@ benchmark. We report (i) an additive \uvt{} Gaussian representation and gauge-fr
 (iv) an edit/inpaint formulation with exact clean-region preservation, and (v) explicit negative
 results that bound what remains unproved. We further isolate deterministic conditional averaging as
 the current washout mechanism and show that a low-resolution semantic scaffold can recover global
-layout in stochastic jewel realization. We additionally articulate two falsifiable systems
+layout in stochastic jewel realization and transfer from UCF training to unseen prompt-generated
+LTX videos without mark-model retraining. We additionally articulate two falsifiable systems
 hypotheses: that explicit persistent fields offer interaction properties unavailable from an opaque
 raster latent alone, and that a hierarchical field can serve as a multimodal visual event language.
 
@@ -324,6 +334,20 @@ An oracle-guide variant additionally cell-pools the true future stride rendered 
 \(24\times40\). It tests whether a coherent video scaffold contains the missing information needed
 to realize jewels. Because that guide contains the answer at low resolution, it measures an
 architectural ceiling and cannot be interpreted as text-to-video inference.
+
+The first multiscale control constructs three guide volumes: the available future video and
+low-pass versions at scales (2) and (4). A \(2\times2\times2\) subgrid in every birth cell
+produces 24 local tokens, each containing RGB, horizontal/vertical/temporal RGB differences, local
+coordinates, and scale identity. A cell/rank/noisy-mark query cross-attends only to tokens in its
+addressed cell. For intermediate flow state \(y_s\) and predicted velocity \(v_\theta\), the
+denoised endpoint
+\begin{equation}
+\hat y_1 = y_s + (1-s)v_\theta(y_s,s,c)
+\end{equation}
+is projected to the fixed topology and rendered on contiguous space-time patches. The tested
+visual objective combines RGB MSE, spatial/temporal edge L1, opponent-chroma L1, and patch SSIM
+while retaining feature-space flow loss for covariance stability. A follow-up hybrid keeps the
+entire cell-RGB 3D-convolution/global guide path and adds local tokens only as residual evidence.
 
 \subsection{Cursor edits and constrained repair}
 
@@ -640,11 +664,155 @@ and stochasticity alone do not.}
 \label{fig:guide}
 \end{figure}
 
-The architectural decision is therefore to postpone free topology generation. First make a
-multiscale, render-supervised video-to-jewel realizer pass held-out oracle-guide reconstruction;
-then replace the privileged guide with samples from a pretrained text-to-video prior and learn
-scaffold-conditioned occupancy/counts. Direct text-to-jewel distillation becomes sensible only
-after a much larger captioned jewel corpus exists.
+\subsection{Prompt scaffolds can be fitted at the intended contributor rate}
+
+The official distilled LTX-2.3 pipeline generated a balanced set of 16 prompt videos: three
+training phrasings and one unseen evaluation phrasing for each of the four action classes. All
+16 complete at \(768\times512\), 49 frames, and 24 fps. Mean generation time is 172.98 seconds and
+mean aggregate GPU peak is 9,399 MiB on the RTX 4090. Independent contact-sheet review preserves
+the requested action and primary subject in every clip, so this corpus supplies substantially more
+coherent prompt semantics than the direct jewel model.
+
+Before fitting all generated videos, we scale the established 120k/96-frame budget by space-time
+volume, which gives approximately 69k jewels, and round to a 72k ceiling. The first Basketball
+evaluation-prompt fit takes 1,523.1 seconds and replays at \SI{28.182}{dB}. More importantly, its
+opacity-weighted effective density averages 6,384 contributors/frame and ranges 5,485--7,626;
+7,389/frame exceed 5\% potential peak alpha. Thus it lands inside the intended 5k--10k visual
+regime rather than merely increasing raw total count.
+
+The frozen contract then transfers cleanly across all four actions (Table~\ref{tab:ltxfits}). Mean
+full-video PSNR is \SI{31.472}{dB}; mean effective density is 5,966 contributors/frame and mean
+5\%-alpha count is 6,883/frame. PlayingGuitar is the instructive exception: its strict effective
+count is 4,597/frame, slightly below the nominal floor, despite a strong reconstruction. Density is
+therefore retained as a content-aware diagnostic rather than enforced as a blind scalar quota.
+ApplyEyeMakeup reaches \SI{35.158}{dB} after a checkpoint-preserving 4090-to-2070S migration and
+preserves face, hand, eye motion, and palette. Figure~\ref{fig:ltxfit} shows the weakest-PSNR
+Basketball case: court, players, ball motion, and red uniforms survive, while fine fence/tree detail
+and fast limbs remain soft. These pass as semantic-scaffold targets, not as final codec results.
+
+\begin{table}[H]
+\centering
+\small
+\caption{Frozen 49-frame/72k-jewel LTX reconstruction gate. Contributor counts are per-frame
+means; ``effective'' is opacity weighted.}
+\label{tab:ltxfits}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+Class & PSNR (dB) & Effective & Above 5\% alpha \\
+\midrule
+Basketball & 28.182 & 6,384 & 7,389 \\
+HorseRiding & 31.707 & 7,134 & 8,042 \\
+PlayingGuitar & 30.839 & 4,597 & 5,339 \\
+ApplyEyeMakeup & 35.158 & 5,749 & 6,762 \\
+\midrule
+Mean & 31.472 & 5,966 & 6,883 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{../sol/results/ltx_scaffold_v1/jewel_fit_gate_72k/contact_sheet.png}
+\caption{LTX Basketball scaffold at frames 0, 12, 24, 36, and 48. Rows show decoded source,
+72k-jewel reconstruction, and \(5\times\) absolute RGB error. Full replay PSNR is
+\SI{28.182}{dB}; measured effective density is 6,384 jewels/frame.}
+\label{fig:ltxfit}
+\end{figure}
+
+\subsection{Multiscale and render controls expose non-dominating trades}
+
+Table~\ref{tab:multiscale} reports the token-only multiscale model with render weight 2 against the
+cell-RGB v1 guide under identical topology, noise, sampling steps, held-out sources, and renderer.
+It raises target-relative contrast and edge energy, but lowers paired PSNR, mean frame-global SSIM,
+saturation, and temporal stability. Per-class behavior is inconsistent: ApplyEyeMakeup improves,
+Basketball is nearly flat, HorseRiding loses SSIM, and PlayingGuitar loses \SI{0.948}{dB}. Visual
+inspection likewise finds cleaner local regions but no reliable action-level improvement. The
+branch therefore does not pass the realizer gate.
+
+Two controls separate architecture from objective. Keeping the complete raster path and adding
+tokens with feature loss alone lowers every aggregate appearance metric, reaching 16.240 dB and
+0.8345 SSIM. Keeping only the v1 raster architecture and applying render weight 2 raises contrast
+but loses 0.547 dB and 0.0087 SSIM. Reducing the predeclared weight to 0.5 improves mean SSIM by
+0.0082, contrast ratio by 0.0795, and edge ratio by 0.0200, but loses 0.307 dB, reduces saturation,
+and increases excess temporal change. ApplyEyeMakeup improves by 0.584 dB, whereas PlayingGuitar
+loses 1.574 dB and overshoots both contrast and motion. The detail signal is real, but the present
+uniform tiny-patch estimator is not stable across actions.
+
+\begin{table}[H]
+\centering
+\small
+\caption{Matched four-class guided mark realization. Ratios target 1.0; temporal change above 1.0
+indicates excess flicker/motion energy.}
+\label{tab:multiscale}
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+Guide/objective & PSNR & SSIM & Contrast & Edge & Saturation & Temporal \\
+\midrule
+Raster, feature flow & \textbf{16.555} & 0.8475 & 0.8555 & 0.9050 & \textbf{0.9371} & \textbf{1.7236} \\
+Tokens, feature+render (2.0) & 16.419 & 0.8441 & 0.8694 & 0.9108 & 0.9194 & 1.7833 \\
+Raster+tokens, feature flow & 16.240 & 0.8345 & 0.8519 & 0.8925 & 0.9209 & 1.7250 \\
+Raster, feature+render (2.0) & 16.009 & 0.8388 & 0.8936 & 0.9021 & 0.8836 & 1.7725 \\
+Raster, feature+render (0.5) & 16.248 & \textbf{0.8557} & \textbf{0.9351} & \textbf{0.9251} & 0.9167 & 1.8055 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The token-only model exchanged cross-cell macro context for within-cell detail, and the residual
+token control shows that simply stacking both paths is not sufficient at this data scale. The
+render controls likewise reject scalar-weight tuning as the fix: their local losses can sharpen
+detail while amplifying motion inconsistently. We retain v1 for the cross-domain scaffold gate and
+reserve future render supervision for foreground/motion-aware sampling with an explicit temporal
+stability term.
+
+\subsection{UCF-trained jewel realization transfers to unseen LTX scaffolds}
+
+Before viewing any cross-domain output, we declare that v1 must beat deterministic UCF continuation
+in macro PSNR and SSIM, move contrast and edge ratios toward 1.0, retain at least 98\% mean
+birth-cell adherence, and preserve a recognizable primary subject/action in at least three of four
+contact sheets. Training remains the original 12 UCF sources; validation replaces only the four
+group-4 clips with unseen LTX evaluation-prompt scaffolds. The first 16-frame continuation view,
+sampling noise, target topology, and renderer are matched across controls.
+
+Table~\ref{tab:ltxtransfer} shows that the gate passes. Guided flow gains \SI{1.565}{dB} and 0.2782
+SSIM over deterministic continuation. Contrast rises from 0.426 to 0.743, edge energy from 0.486 to
+0.830, temporal change reaches 0.981 of target, and birth-cell adherence is 99.08\%. Every class
+improves in PSNR and SSIM: PSNR gains span \SIrange{0.590}{2.627}{dB}. Projection without the video
+guide is insufficient, reaching only \SI{12.810}{dB}; the semantic raster is the causal input.
+
+\begin{table}[H]
+\centering
+\small
+\caption{UCF-trained mark realization on four unseen LTX scaffolds. Appearance and temporal ratios
+target 1.0; birth-cell values report projected adherence.}
+\label{tab:ltxtransfer}
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+Panel & PSNR & SSIM & Contrast & Edge & Temporal & Birth cell \\
+\midrule
+Deterministic continuation & 13.777 & 0.4160 & 0.4261 & 0.4860 & 0.7873 & 0.1021 \\
+Flow, no guide & 12.810 & 0.3454 & 0.5048 & 0.6691 & 0.9583 & 0.9739 \\
+Flow, LTX guide & \textbf{15.342} & 0.6942 & \textbf{0.7428} & \textbf{0.8300} & \textbf{0.9815} & \textbf{0.9908} \\
+Flow, guide + shuffled text & 15.319 & \textbf{0.6955} & 0.7429 & 0.8260 & 0.9853 & 0.9904 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.68\linewidth]{../sol/results/ltx_scaffold_v1/realizer_eval/transfer_gate_contact.png}
+\caption{One matched future time per LTX class. Columns show fitted target, deterministic UCF
+continuation, and guided projected flow; rows are Basketball, HorseRiding, PlayingGuitar, and
+ApplyEyeMakeup. Horse, guitar, and makeup retain recognizable primary subjects/actions. Basketball
+retains court/player layout but remains the weakest and blurriest transfer.}
+\label{fig:ltxtransfer}
+\end{figure}
+
+Correct and shuffled text are effectively tied under the true LTX guide: correct text changes PSNR
+by only +0.023 dB and SSIM by -0.00134. Thus the jewel model has not learned independent prompt
+semantics; those semantics arrive through the prompt-generated raster scaffold. The architectural
+decision is now to learn scaffold-conditioned occupied cells, counts, and birth ranks while exact
+stable-ID overlap state persists. Direct text-to-jewel distillation becomes sensible only after
+that target-topology dependency is removed on a larger paired scaffold/jewel corpus.
 
 \section{What Has Been Falsified}
 
@@ -666,6 +834,8 @@ Global prefix context is sufficient for births & Rejected; aligned cell-local co
 The six-camera CLIP prior uses semantics & Rejected; correct condition does not beat shuffled/null. \\
 Sparse count/topology error is the primary washout cause & Rejected; exact target topology adds only 0.172 dB. \\
 Stochastic marks alone recover coherent video & Rejected; edge energy returns, but samples remain structured noise without a video guide. \\
+Local multiscale tokens automatically improve the raster guide & Rejected; token-only and residual-hybrid controls both lose the matched visual gate. \\
+Scalar render-loss tuning cures washout & Rejected; detail improves at weight 0.5, but one action becomes less faithful and less stable. \\
 Mask visibility alone teaches repair & Rejected; train explicit edit tuples with protected-jewel summaries. \\
 Further model scaling solves the sparse prior & Deprioritized; the curve saturates on 231 single-scene windows. \\
 \bottomrule
@@ -675,9 +845,9 @@ Further model scaling solves the sparse prior & Deprioritized; the curve saturat
 \section{Limitations}
 
 \begin{itemize}
-  \item \textbf{No recognizable text-to-video result.} The four-class direct prompt model is
-  trained and shows small correct-versus-shuffled mark differences, but it does not synthesize
-  coherent held-out actions.
+  \item \textbf{No autonomous text-to-jewel result.} The hybrid prompt-to-LTX-to-jewel path
+  preserves three of four held-out actions, but target topology and the LTX future video remain
+  privileged. The jewel model's correct and shuffled text controls are effectively tied.
   \item \textbf{Small and specialized corpora.} The generative results use one fixed-camera scene;
   the continuation result is an overfit; the prompt corpus contains only 16 videos.
   \item \textbf{Fixed camera and no cuts.} Global camera motion shears most primitives at once and
@@ -686,9 +856,9 @@ Further model scaling solves the sparse prior & Deprioritized; the curve saturat
   comparable to full-resolution codec papers without a matched rate-distortion protocol.
   \item \textbf{Appearance loss.} Uniform feature and RGB losses underweight rare foreground color,
   faces, hands, and thin objects. The red-to-tan coat error is a concrete warning.
-  \item \textbf{Privileged semantic-guide control.} The successful \(24\times40\) guide is decoded
-  from the true future. It proves that guided jewel realization is plausible, not that a prompt can
-  yet produce that guide or the final field.
+  \item \textbf{Privileged semantic guide and topology.} The successful \(24\times40\) guide is
+  decoded from a prompt-generated LTX future, but the fitted target still supplies birth cells and
+  ranks. The transfer result proves scaffold-conditioned marks, not autonomous field construction.
   \item \textbf{Pure-PyTorch rendering.} Exact kNN/Mahalanobis evaluation is useful for research but
   slower than a tile CUDA rasterizer. Current reconstruction is optimization-based, not amortized.
   \item \textbf{Edit quality.} Clean-region identity is exact, but dirty-region synthesis is not yet
@@ -785,14 +955,14 @@ the same structured state supports cheaper local editing than full latent regene
 The shortest evidence-driven path is:
 
 \begin{enumerate}
-  \item replace the cell-mean oracle guide with multiscale video features and cross-attention from
-  cell/rank queries, while target topology remains fixed;
-  \item supervise stochastic marks with denoised-target feature loss plus differentiable sampled
-  rendering, edge/chroma sampling, and a perceptual metric; require coherent group-4 renders;
-  \item replace the true-future guide with low-resolution video from a frozen pretrained
-  text-to-video model, measuring scaffold quality and jewelization quality separately;
-  \item learn scaffold-conditioned occupied-cell probability and positive counts, then emit only
-  frontier births while exact stable-ID jewels persist through the overlap;
+  \item freeze the passing UCF-trained raster-guided realizer as the cross-domain baseline and
+  expand paired LTX-scaffold/jewel coverage with held-out prompts and classes;
+  \item learn scaffold-conditioned occupied-cell probability, positive counts, and birth ranks,
+  removing fitted target topology from inference;
+  \item generate overlapping windows by copying stable-ID jewels exactly and emitting only frontier
+  births, with explicit density, seam, identity, and action-preservation gates;
+  \item redesign differentiable rendering around foreground/motion-aware samples and explicit
+  temporal stability only if the mark realizer, rather than topology, remains the limiting error;
   \item train edit tuples with moved protected jewels, dirty masks, and local scaffold crops so
   source/destination repair is learned while clean regions remain exact;
   \item build a 1k--10k captioned jewel corpus and distill the scaffold pathway toward direct
@@ -817,14 +987,16 @@ effective density depends on temporal lifetime rather than raw count; near-one-j
 locality preserves small actors; spatially aligned prefix context is essential for births; and local
 editing can preserve untouched latents exactly. The new washout audit adds a crucial causal result:
 correcting topology does not correct appearance, stochastic marks restore detail without semantics,
-and even a tiny coherent video scaffold substantially restores layout.
+and even a tiny coherent video scaffold substantially restores layout. The cross-domain gate
+strengthens that last result: without retraining, the UCF jewelizer improves all four unseen LTX
+classes over deterministic continuation and preserves three recognizable actions.
 
 The project is therefore past the representation-mechanics question but before the text-to-video
-claim. Its next milestone is no longer ``predict counts better.'' It is to make the
-video-to-jewel realization coherent under a held-out multiscale oracle guide, then substitute a
-prompt-generated scaffold while maintaining density, identity, color, and edit invariants. This
-hybrid preserves the distinctive explicit state while inheriting the semantic competence that the
-current corpus cannot teach.
+claim. Its next milestone is no longer ``test whether the realizer transfers'' or ``add more local
+tokens.'' It is to remove privileged target topology by predicting scaffold-conditioned occupancy,
+counts, and birth ranks under exact overlap carry. This hybrid preserves the distinctive explicit
+state while inheriting semantic competence that the current corpus cannot teach; prompt semantics
+still live in the pretrained scaffold, and direct distillation remains a later gate.
 
 \appendix
 \section{Reproducibility Snapshot}
@@ -846,7 +1018,7 @@ Hierarchy & non-overlapping $2^3$ train-only PCA, 96 retained components, $16^3$
 Prior & rectified flow, rotating axial attention, nullable CLIP/text condition \\
 Continuation & stable-ID carry plus cell-local prediction of frontier birth counts and marks \\
 Mark generator & 22-D oracle-topology rectified flow with cell/rank queries and nullable text \\
-Semantic control & privileged true-future \(24\times40\) guide; pretrained prompt guide remains open \\
+Semantic control & prompt-generated LTX \(24\times40\) guide passes transfer; target topology remains privileged \\
 Editing & swept source/destination dirty mask, protected moved jewels, exact clean-cell clamp \\
 \bottomrule
 \end{tabularx}

@@ -16,8 +16,9 @@ topology, carried state, renderer, and frame grid.
   exact jewel renderer.
 - **Rationale**: Target counts/cells/ranks isolate whether stochastic mark generation restores
   contrast and coherent geometry before any topology model is justified.
-- **Oracle-guide mode**: Guided checkpoints replace the text-only panel with a same-noise zero-guide
-  ablation and show raw/projected guided samples plus a shuffled-text guide control.
+- **Oracle-guide mode**: Cell-raster and multiscale-token checkpoints replace the text-only panel
+  with a same-noise zero-guide ablation and show raw/projected guided samples plus a shuffled-text
+  guide control. Multiscale sampling geometry comes from checkpointed trainer arguments.
 
 ## Contracts
 

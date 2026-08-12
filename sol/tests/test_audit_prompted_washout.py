@@ -69,6 +69,7 @@ class PromptedWashoutAuditTests(unittest.TestCase):
         signature = render_signature(blurred, target)
         self.assertLess(signature.contrast_ratio, 0.01)
         self.assertLess(signature.edge_ratio, 0.01)
+        self.assertLess(signature.ssim, 0.1)
         self.assertTrue(math.isfinite(signature.psnr))
 
 

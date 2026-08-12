@@ -41,6 +41,7 @@ class TopologyAdherence:
 @dataclass(frozen=True)
 class RenderSignature:
     psnr: float
+    ssim: float
     contrast_ratio: float
     edge_ratio: float
     saturation_ratio: float
@@ -160,9 +161,31 @@ def render_signature(
     def _ratio(candidate_value: torch.Tensor, target_value: torch.Tensor) -> float:
         return float(candidate_value / target_value.clamp_min(1e-8))
 
+    def _ssim(candidate_frames: torch.Tensor, target_frames: torch.Tensor) -> float:
+        dimensions = (1, 2)
+        candidate_mean = candidate_frames.mean(dim=dimensions)
+        target_mean = target_frames.mean(dim=dimensions)
+        candidate_centered = candidate_frames - candidate_mean[:, None, None]
+        target_centered = target_frames - target_mean[:, None, None]
+        candidate_variance = candidate_centered.square().mean(dim=dimensions)
+        target_variance = target_centered.square().mean(dim=dimensions)
+        covariance = (candidate_centered * target_centered).mean(dim=dimensions)
+        c1 = 0.01**2
+        c2 = 0.03**2
+        score = (
+            (2 * candidate_mean * target_mean + c1)
+            * (2 * covariance + c2)
+            / (
+                (candidate_mean.square() + target_mean.square() + c1)
+                * (candidate_variance + target_variance + c2)
+            )
+        )
+        return float(score.mean())
+
     mse = F.mse_loss(candidate, target).clamp_min(1e-10)
     return RenderSignature(
         psnr=float(-10 * torch.log10(mse)),
+        ssim=_ssim(candidate, target),
         contrast_ratio=_ratio(_mean_luma_std(candidate), _mean_luma_std(target)),
         edge_ratio=_ratio(_edge_energy(candidate), _edge_energy(target)),
         saturation_ratio=_ratio(_saturation(candidate), _saturation(target)),

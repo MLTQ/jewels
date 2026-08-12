@@ -1,0 +1,475 @@
+{
+  "schema": "ucf-prompt-streaming-v1",
+  "frames": 96,
+  "validation_group": "ltx-evaluation",
+  "classes": [
+    {
+      "class_name": "Basketball",
+      "label": "playing basketball",
+      "train_prompts": [
+        "a person playing basketball",
+        "an indoor basketball game",
+        "someone dribbling and shooting a basketball"
+      ],
+      "evaluation_prompts": [
+        "a video of people playing basketball on a court"
+      ]
+    },
+    {
+      "class_name": "HorseRiding",
+      "label": "riding a horse",
+      "train_prompts": [
+        "a person riding a horse",
+        "horse riding outdoors",
+        "someone traveling on horseback"
+      ],
+      "evaluation_prompts": [
+        "a video of a rider moving on a horse"
+      ]
+    },
+    {
+      "class_name": "PlayingGuitar",
+      "label": "playing guitar",
+      "train_prompts": [
+        "a person playing guitar",
+        "a musician performing with a guitar",
+        "someone strumming a guitar"
+      ],
+      "evaluation_prompts": [
+        "a video of a guitarist playing music"
+      ]
+    },
+    {
+      "class_name": "ApplyEyeMakeup",
+      "label": "applying eye makeup",
+      "train_prompts": [
+        "a person applying eye makeup",
+        "someone putting makeup around their eyes",
+        "a close-up of applying eye cosmetics"
+      ],
+      "evaluation_prompts": [
+        "a video of a person doing their eye makeup"
+      ]
+    }
+  ],
+  "text_encoder": {
+    "library": "open_clip",
+    "model": "ViT-B-32",
+    "pretrained": "laion2b_s34b_b79k",
+    "pooling": "normalized_text_embedding",
+    "condition_dropout": 0.15
+  },
+  "fit_contract": {
+    "size": 160,
+    "num_init": 16000,
+    "max_primitives": 120000,
+    "steps": 9000,
+    "voxels": 65536,
+    "split_mode": "spatial",
+    "recovery_every": 100,
+    "windows_per_video": 1
+  },
+  "examples": [
+    {
+      "class_id": 0,
+      "class_name": "Basketball",
+      "label": "playing basketball",
+      "source_group": 1,
+      "source_id": "Basketball_g01",
+      "clip_id": 3,
+      "split": "train",
+      "video": "/home/m/jewels/data/corpora/ucf101/UCF-101/Basketball/v_Basketball_g01_c03.avi",
+      "fit_video": "/home/m/jewels/data/ucf_prompt_smoke/v_Basketball_g01_c03.avi",
+      "frame_count": 206,
+      "start_frame": 0,
+      "frames": 96,
+      "train_prompts": [
+        "a person playing basketball",
+        "an indoor basketball game",
+        "someone dribbling and shooting a basketball"
+      ],
+      "evaluation_prompts": [
+        "a video of people playing basketball on a court"
+      ]
+    },
+    {
+      "class_id": 0,
+      "class_name": "Basketball",
+      "label": "playing basketball",
+      "source_group": 2,
+      "source_id": "Basketball_g02",
+      "clip_id": 5,
+      "split": "train",
+      "video": "/home/m/jewels/data/corpora/ucf101/UCF-101/Basketball/v_Basketball_g02_c05.avi",
+      "fit_video": "/home/m/jewels/data/ucf_prompt_smoke/v_Basketball_g02_c05.avi",
+      "frame_count": 144,
+      "start_frame": 0,
+      "frames": 96,
+      "train_prompts": [
+        "a person playing basketball",
+        "an indoor basketball game",
+        "someone dribbling and shooting a basketball"
+      ],
+      "evaluation_prompts": [
+        "a video of people playing basketball on a court"
+      ]
+    },
+    {
+      "class_id": 0,
+      "class_name": "Basketball",
+      "label": "playing basketball",
+      "source_group": 3,
+      "source_id": "Basketball_g03",
+      "clip_id": 1,
+      "split": "train",
+      "video": "/home/m/jewels/data/corpora/ucf101/UCF-101/Basketball/v_Basketball_g03_c01.avi",
+      "fit_video": "/home/m/jewels/data/ucf_prompt_smoke/v_Basketball_g03_c01.avi",
+      "frame_count": 138,
+      "start_frame": 0,
+      "frames": 96,
+      "train_prompts": [
+        "a person playing basketball",
+        "an indoor basketball game",
+        "someone dribbling and shooting a basketball"
+      ],
+      "evaluation_prompts": [
+        "a video of people playing basketball on a court"
+      ]
+    },
+    {
+      "class_id": 0,
+      "class_name": "Basketball",
+      "label": "playing basketball",
+      "source_group": "ltx-evaluation",
+      "source_id": "00_basketball_evaluation_00_seed42003",
+      "clip_id": 0,
+      "split": "validation",
+      "video": "/home/m/LTX-2/corpora/jewels_ucf_prompt_v1/00_basketball_evaluation_00_seed42003.mp4",
+      "fit_video": "/home/m/LTX-2/corpora/jewels_ucf_prompt_v1/00_basketball_evaluation_00_seed42003.mp4",
+      "frame_count": 49,
+      "start_frame": 0,
+      "frames": 49,
+      "train_prompts": [
+        "a person playing basketball",
+        "an indoor basketball game",
+        "someone dribbling and shooting a basketball"
+      ],
+      "evaluation_prompts": [
+        "a video of people playing basketball on a court"
+      ],
+      "scaffold": {
+        "schema": "jewels-ltx-corpus-v1",
+        "prompt_role": "evaluation",
+        "prompt_index": 0,
+        "generation_prompt": "a video of people playing basketball on a court. Realistic video, one continuous shot, stable camera, natural motion, no cuts.",
+        "seed": 42003,
+        "receipt": "/home/m/LTX-2/corpora/jewels_ucf_prompt_v1/00_basketball_evaluation_00_seed42003.json",
+        "ltx_revision": "4f8905737aac86a554637cac86c178877a39c744"
+      }
+    },
+    {
+      "class_id": 1,
+      "class_name": "HorseRiding",
+      "label": "riding a horse",
+      "source_group": 1,
+      "source_id": "HorseRiding_g01",
+      "clip_id": 1,
+      "split": "train",
+      "video": "/home/m/jewels/data/corpora/ucf101/UCF-101/HorseRiding/v_HorseRiding_g01_c01.avi",
+      "fit_video": "/home/m/jewels/data/ucf_prompt_smoke/v_HorseRiding_g01_c01.avi",
+      "frame_count": 239,
+      "start_frame": 0,
+      "frames": 96,
+      "train_prompts": [
+        "a person riding a horse",
+        "horse riding outdoors",
+        "someone traveling on horseback"
+      ],
+      "evaluation_prompts": [
+        "a video of a rider moving on a horse"
+      ]
+    },
+    {
+      "class_id": 1,
+      "class_name": "HorseRiding",
+      "label": "riding a horse",
+      "source_group": 2,
+      "source_id": "HorseRiding_g02",
+      "clip_id": 1,
+      "split": "train",
+      "video": "/home/m/jewels/data/corpora/ucf101/UCF-101/HorseRiding/v_HorseRiding_g02_c01.avi",
+      "fit_video": "/home/m/jewels/data/ucf_prompt_smoke/v_HorseRiding_g02_c01.avi",
+      "frame_count": 180,
+      "start_frame": 0,
+      "frames": 96,
+      "train_prompts": [
+        "a person riding a horse",
+        "horse riding outdoors",
+        "someone traveling on horseback"
+      ],
+      "evaluation_prompts": [
+        "a video of a rider moving on a horse"
+      ]
+    },
+    {
+      "class_id": 1,
+      "class_name": "HorseRiding",
+      "label": "riding a horse",
+      "source_group": 3,
+      "source_id": "HorseRiding_g03",
+      "clip_id": 7,
+      "split": "train",
+      "video": "/home/m/jewels/data/corpora/ucf101/UCF-101/HorseRiding/v_HorseRiding_g03_c07.avi",
+      "fit_video": "/home/m/jewels/data/ucf_prompt_smoke/v_HorseRiding_g03_c07.avi",
+      "frame_count": 192,
+      "start_frame": 0,
+      "frames": 96,
+      "train_prompts": [
+        "a person riding a horse",
+        "horse riding outdoors",
+        "someone traveling on horseback"
+      ],
+      "evaluation_prompts": [
+        "a video of a rider moving on a horse"
+      ]
+    },
+    {
+      "class_id": 1,
+      "class_name": "HorseRiding",
+      "label": "riding a horse",
+      "source_group": "ltx-evaluation",
+      "source_id": "01_horseriding_evaluation_00_seed42103",
+      "clip_id": 0,
+      "split": "validation",
+      "video": "/home/m/LTX-2/corpora/jewels_ucf_prompt_v1/01_horseriding_evaluation_00_seed42103.mp4",
+      "fit_video": "/home/m/LTX-2/corpora/jewels_ucf_prompt_v1/01_horseriding_evaluation_00_seed42103.mp4",
+      "frame_count": 49,
+      "start_frame": 0,
+      "frames": 49,
+      "train_prompts": [
+        "a person riding a horse",
+        "horse riding outdoors",
+        "someone traveling on horseback"
+      ],
+      "evaluation_prompts": [
+        "a video of a rider moving on a horse"
+      ],
+      "scaffold": {
+        "schema": "jewels-ltx-corpus-v1",
+        "prompt_role": "evaluation",
+        "prompt_index": 0,
+        "generation_prompt": "a video of a rider moving on a horse. Realistic video, one continuous shot, stable camera, natural motion, no cuts.",
+        "seed": 42103,
+        "receipt": "/home/m/LTX-2/corpora/jewels_ucf_prompt_v1/01_horseriding_evaluation_00_seed42103.json",
+        "ltx_revision": "4f8905737aac86a554637cac86c178877a39c744"
+      }
+    },
+    {
+      "class_id": 2,
+      "class_name": "PlayingGuitar",
+      "label": "playing guitar",
+      "source_group": 1,
+      "source_id": "PlayingGuitar_g01",
+      "clip_id": 1,
+      "split": "train",
+      "video": "/home/m/jewels/data/corpora/ucf101/UCF-101/PlayingGuitar/v_PlayingGuitar_g01_c01.avi",
+      "fit_video": "/home/m/jewels/data/ucf_prompt_smoke/v_PlayingGuitar_g01_c01.avi",
+      "frame_count": 250,
+      "start_frame": 0,
+      "frames": 96,
+      "train_prompts": [
+        "a person playing guitar",
+        "a musician performing with a guitar",
+        "someone strumming a guitar"
+      ],
+      "evaluation_prompts": [
+        "a video of a guitarist playing music"
+      ]
+    },
+    {
+      "class_id": 2,
+      "class_name": "PlayingGuitar",
+      "label": "playing guitar",
+      "source_group": 2,
+      "source_id": "PlayingGuitar_g02",
+      "clip_id": 1,
+      "split": "train",
+      "video": "/home/m/jewels/data/corpora/ucf101/UCF-101/PlayingGuitar/v_PlayingGuitar_g02_c01.avi",
+      "fit_video": "/home/m/jewels/data/ucf_prompt_smoke/v_PlayingGuitar_g02_c01.avi",
+      "frame_count": 250,
+      "start_frame": 0,
+      "frames": 96,
+      "train_prompts": [
+        "a person playing guitar",
+        "a musician performing with a guitar",
+        "someone strumming a guitar"
+      ],
+      "evaluation_prompts": [
+        "a video of a guitarist playing music"
+      ]
+    },
+    {
+      "class_id": 2,
+      "class_name": "PlayingGuitar",
+      "label": "playing guitar",
+      "source_group": 3,
+      "source_id": "PlayingGuitar_g03",
+      "clip_id": 1,
+      "split": "train",
+      "video": "/home/m/jewels/data/corpora/ucf101/UCF-101/PlayingGuitar/v_PlayingGuitar_g03_c01.avi",
+      "fit_video": "/home/m/jewels/data/ucf_prompt_smoke/v_PlayingGuitar_g03_c01.avi",
+      "frame_count": 250,
+      "start_frame": 0,
+      "frames": 96,
+      "train_prompts": [
+        "a person playing guitar",
+        "a musician performing with a guitar",
+        "someone strumming a guitar"
+      ],
+      "evaluation_prompts": [
+        "a video of a guitarist playing music"
+      ]
+    },
+    {
+      "class_id": 2,
+      "class_name": "PlayingGuitar",
+      "label": "playing guitar",
+      "source_group": "ltx-evaluation",
+      "source_id": "02_playingguitar_evaluation_00_seed42203",
+      "clip_id": 0,
+      "split": "validation",
+      "video": "/home/m/LTX-2/corpora/jewels_ucf_prompt_v1/02_playingguitar_evaluation_00_seed42203.mp4",
+      "fit_video": "/home/m/LTX-2/corpora/jewels_ucf_prompt_v1/02_playingguitar_evaluation_00_seed42203.mp4",
+      "frame_count": 49,
+      "start_frame": 0,
+      "frames": 49,
+      "train_prompts": [
+        "a person playing guitar",
+        "a musician performing with a guitar",
+        "someone strumming a guitar"
+      ],
+      "evaluation_prompts": [
+        "a video of a guitarist playing music"
+      ],
+      "scaffold": {
+        "schema": "jewels-ltx-corpus-v1",
+        "prompt_role": "evaluation",
+        "prompt_index": 0,
+        "generation_prompt": "a video of a guitarist playing music. Realistic video, one continuous shot, stable camera, natural motion, no cuts.",
+        "seed": 42203,
+        "receipt": "/home/m/LTX-2/corpora/jewels_ucf_prompt_v1/02_playingguitar_evaluation_00_seed42203.json",
+        "ltx_revision": "4f8905737aac86a554637cac86c178877a39c744"
+      }
+    },
+    {
+      "class_id": 3,
+      "class_name": "ApplyEyeMakeup",
+      "label": "applying eye makeup",
+      "source_group": 1,
+      "source_id": "ApplyEyeMakeup_g01",
+      "clip_id": 5,
+      "split": "train",
+      "video": "/home/m/jewels/data/corpora/ucf101/UCF-101/ApplyEyeMakeup/v_ApplyEyeMakeup_g01_c05.avi",
+      "fit_video": "/home/m/jewels/data/ucf_prompt_smoke/v_ApplyEyeMakeup_g01_c05.avi",
+      "frame_count": 296,
+      "start_frame": 0,
+      "frames": 96,
+      "train_prompts": [
+        "a person applying eye makeup",
+        "someone putting makeup around their eyes",
+        "a close-up of applying eye cosmetics"
+      ],
+      "evaluation_prompts": [
+        "a video of a person doing their eye makeup"
+      ]
+    },
+    {
+      "class_id": 3,
+      "class_name": "ApplyEyeMakeup",
+      "label": "applying eye makeup",
+      "source_group": 2,
+      "source_id": "ApplyEyeMakeup_g02",
+      "clip_id": 3,
+      "split": "train",
+      "video": "/home/m/jewels/data/corpora/ucf101/UCF-101/ApplyEyeMakeup/v_ApplyEyeMakeup_g02_c03.avi",
+      "fit_video": "/home/m/jewels/data/ucf_prompt_smoke/v_ApplyEyeMakeup_g02_c03.avi",
+      "frame_count": 216,
+      "start_frame": 0,
+      "frames": 96,
+      "train_prompts": [
+        "a person applying eye makeup",
+        "someone putting makeup around their eyes",
+        "a close-up of applying eye cosmetics"
+      ],
+      "evaluation_prompts": [
+        "a video of a person doing their eye makeup"
+      ]
+    },
+    {
+      "class_id": 3,
+      "class_name": "ApplyEyeMakeup",
+      "label": "applying eye makeup",
+      "source_group": 3,
+      "source_id": "ApplyEyeMakeup_g03",
+      "clip_id": 1,
+      "split": "train",
+      "video": "/home/m/jewels/data/corpora/ucf101/UCF-101/ApplyEyeMakeup/v_ApplyEyeMakeup_g03_c01.avi",
+      "fit_video": "/home/m/jewels/data/ucf_prompt_smoke/v_ApplyEyeMakeup_g03_c01.avi",
+      "frame_count": 209,
+      "start_frame": 0,
+      "frames": 96,
+      "train_prompts": [
+        "a person applying eye makeup",
+        "someone putting makeup around their eyes",
+        "a close-up of applying eye cosmetics"
+      ],
+      "evaluation_prompts": [
+        "a video of a person doing their eye makeup"
+      ]
+    },
+    {
+      "class_id": 3,
+      "class_name": "ApplyEyeMakeup",
+      "label": "applying eye makeup",
+      "source_group": "ltx-evaluation",
+      "source_id": "03_applyeyemakeup_evaluation_00_seed42303",
+      "clip_id": 0,
+      "split": "validation",
+      "video": "/home/m/LTX-2/corpora/jewels_ucf_prompt_v1/03_applyeyemakeup_evaluation_00_seed42303.mp4",
+      "fit_video": "/home/m/LTX-2/corpora/jewels_ucf_prompt_v1/03_applyeyemakeup_evaluation_00_seed42303.mp4",
+      "frame_count": 49,
+      "start_frame": 0,
+      "frames": 49,
+      "train_prompts": [
+        "a person applying eye makeup",
+        "someone putting makeup around their eyes",
+        "a close-up of applying eye cosmetics"
+      ],
+      "evaluation_prompts": [
+        "a video of a person doing their eye makeup"
+      ],
+      "scaffold": {
+        "schema": "jewels-ltx-corpus-v1",
+        "prompt_role": "evaluation",
+        "prompt_index": 0,
+        "generation_prompt": "a video of a person doing their eye makeup. Realistic video, one continuous shot, stable camera, natural motion, no cuts.",
+        "seed": 42303,
+        "receipt": "/home/m/LTX-2/corpora/jewels_ucf_prompt_v1/03_applyeyemakeup_evaluation_00_seed42303.json",
+        "ltx_revision": "4f8905737aac86a554637cac86c178877a39c744"
+      }
+    }
+  ],
+  "validation_frames": 49,
+  "evaluation_domain": "LTX-2.3",
+  "validation_fit_contract": {
+    "size": 160,
+    "num_init": 9000,
+    "max_primitives": 72000,
+    "steps": 9000,
+    "voxels": 65536,
+    "split_mode": "spatial",
+    "recovery_every": 100,
+    "windows_per_video": 1
+  },
+  "ltx_source_manifest_sha256": "5e514966be50240393ff51a65327165e8794edc4898cdecc02269adc982be578"
+}

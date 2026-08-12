@@ -53,19 +53,24 @@ class BirthMarkFlowModel(nn.Module):
         mark_depth: int = 3,
         text_dim: int = 512,
         guide_dim: int = 0,
+        guide_token_dim: int = 0,
+        guide_heads: int = 8,
     ) -> None:
         super().__init__()
         if feature_dim != 22:
             raise ValueError("the canonical birth-mark contract has 22 features")
         if model_dim % 8:
             raise ValueError("model_dim must be divisible by eight")
-        if text_dim <= 0 or guide_dim < 0:
-            raise ValueError("text_dim must be positive and guide_dim non-negative")
+        if text_dim <= 0 or guide_dim < 0 or guide_token_dim < 0:
+            raise ValueError("text_dim must be positive and guide dimensions non-negative")
+        if guide_heads <= 0 or (guide_token_dim and model_dim % guide_heads):
+            raise ValueError("guide heads must be positive and divide model_dim")
         self.feature_dim = feature_dim
         self.model_dim = model_dim
         self.grid_spec = grid_spec
         self.text_dim = text_dim
         self.guide_dim = guide_dim
+        self.guide_token_dim = guide_token_dim
         self.context_encoder = ContextRasterEncoder(
             context_dim, model_dim, grid_spec.shape, context_depth
         )
@@ -76,6 +81,23 @@ class BirthMarkFlowModel(nn.Module):
             ContextRasterEncoder(guide_dim, model_dim, grid_spec.shape, guide_depth)
             if guide_dim
             else None
+        )
+        self.guide_token_encoder = (
+            nn.Sequential(
+                nn.Linear(guide_token_dim, model_dim),
+                nn.SiLU(),
+                nn.Linear(model_dim, model_dim),
+            )
+            if guide_token_dim
+            else None
+        )
+        self.guide_attention = (
+            nn.MultiheadAttention(model_dim, guide_heads, batch_first=True)
+            if guide_token_dim
+            else None
+        )
+        self.guide_attention_norm = (
+            nn.LayerNorm(model_dim) if guide_token_dim else None
         )
         gu, gv, gt = grid_spec.shape
         self.u_embedding = nn.Parameter(torch.randn(gu, model_dim) * 0.02)
@@ -134,6 +156,7 @@ class BirthMarkFlowModel(nn.Module):
         text_condition: torch.Tensor | None,
         drop_condition: torch.Tensor | None = None,
         guide_raster: torch.Tensor | None = None,
+        guide_tokens: torch.Tensor | None = None,
     ) -> torch.Tensor:
         if noisy_values.ndim != 2 or noisy_values.shape[1] != self.feature_dim:
             raise ValueError("noisy values must have shape (N,feature_dim)")
@@ -160,13 +183,42 @@ class BirthMarkFlowModel(nn.Module):
                     self.grid_spec.n_cells, self.guide_dim
                 )
             guide_context = self.guide_encoder(guide_raster, spatial=True)
+        encoded_guide_tokens = None
+        if self.guide_token_encoder is None:
+            if guide_tokens is not None:
+                raise ValueError("model was constructed without multiscale video guidance")
+            token_guide_context: torch.Tensor | float = 0.0
+        else:
+            if guide_tokens is None:
+                guide_tokens = noisy_values.new_zeros(
+                    self.grid_spec.n_cells, 1, self.guide_token_dim
+                )
+            if (
+                guide_tokens.ndim != 3
+                or guide_tokens.shape[0] != self.grid_spec.n_cells
+                or guide_tokens.shape[2] != self.guide_token_dim
+                or guide_tokens.shape[1] == 0
+            ):
+                raise ValueError(
+                    "guide tokens must have shape (cells,tokens,guide_token_dim)"
+                )
+            encoded_guide_tokens = self.guide_token_encoder(
+                guide_tokens.to(noisy_values)
+            )
+            token_guide_context = encoded_guide_tokens.mean(dim=1)[None]
         gu, gv, gt = self.grid_spec.shape
         position = (
             self.u_embedding[:, None, None]
             + self.v_embedding[None, :, None]
             + self.t_embedding[None, None, :]
         ).reshape(self.grid_spec.n_cells, -1)
-        cells = context + noisy_context + guide_context + position[None]
+        cells = (
+            context
+            + noisy_context
+            + guide_context
+            + token_guide_context
+            + position[None]
+        )
         text = self._text_condition(
             text_condition, drop_condition, reference=noisy_values
         )
@@ -183,6 +235,16 @@ class BirthMarkFlowModel(nn.Module):
             )
             + self.noisy_mark_projection(noisy_values)
         )
+        if encoded_guide_tokens is not None:
+            if self.guide_attention is None or self.guide_attention_norm is None:
+                raise AssertionError("guide attention modules are incomplete")
+            attended = self.guide_attention(
+                hidden[:, None],
+                encoded_guide_tokens[cell_indices],
+                encoded_guide_tokens[cell_indices],
+                need_weights=False,
+            )[0][:, 0]
+            hidden = self.guide_attention_norm(hidden + attended)
         for block in self.mark_blocks:
             hidden = block(hidden)
         return self.velocity_head(hidden)
@@ -200,6 +262,7 @@ def birth_mark_flow_objective(
     flow_time: torch.Tensor,
     drop_condition: torch.Tensor | None = None,
     guide_raster: torch.Tensor | None = None,
+    guide_tokens: torch.Tensor | None = None,
 ) -> torch.Tensor:
     """Score one explicit noise-to-mark path with topology held fixed."""
     if noise.shape != target_values.shape:
@@ -219,6 +282,7 @@ def birth_mark_flow_objective(
         text_condition,
         drop_condition,
         guide_raster,
+        guide_tokens,
     )
     return F.mse_loss(predicted.float(), expected_velocity.float())
 
@@ -235,6 +299,7 @@ def sample_birth_marks(
     cfg_scale: float = 1.0,
     generator: torch.Generator | None = None,
     guide_raster: torch.Tensor | None = None,
+    guide_tokens: torch.Tensor | None = None,
 ) -> torch.Tensor:
     """Euler-sample standardized marks for one externally supplied topology."""
     if steps <= 0:
@@ -259,6 +324,7 @@ def sample_birth_marks(
             slot_indices,
             text_condition,
             guide_raster=guide_raster,
+            guide_tokens=guide_tokens,
         )
         if text_condition is not None and cfg_scale != 1.0:
             unconditioned = model(
@@ -269,6 +335,7 @@ def sample_birth_marks(
                 slot_indices,
                 None,
                 guide_raster=guide_raster,
+                guide_tokens=guide_tokens,
             )
             velocity = unconditioned + cfg_scale * (conditioned - unconditioned)
         else:
@@ -297,44 +364,49 @@ def project_birth_topology(
         raise ValueError("support sigma, stride, and covariance chunk must be positive")
     if not len(local_features):
         return local_features.clone()
-    output = local_features.clone()
     gu, gv, gt = spec.shape
     t = cell_indices % gt
     v = (cell_indices // gt) % gv
     u = cell_indices // (gv * gt)
-    coordinates = torch.stack((u, v), dim=1).to(output)
-    size = output.new_tensor((2 / gu, 2 / gv))
+    coordinates = torch.stack((u, v), dim=1).to(local_features)
+    size = local_features.new_tensor((2 / gu, 2 / gv))
     lower = -1 + coordinates * size
     upper = lower + size
-    epsilon = torch.finfo(output.dtype).eps * 16
+    epsilon = torch.finfo(local_features.dtype).eps * 16
     lower_bound = lower + epsilon
     upper_bound = upper - epsilon
     lower_bound[:, 0] = torch.where(
-        u == 0, output.new_full((len(output),), -torch.inf), lower_bound[:, 0]
+        u == 0,
+        local_features.new_full((len(local_features),), -torch.inf),
+        lower_bound[:, 0],
     )
     upper_bound[:, 0] = torch.where(
         u == gu - 1,
-        output.new_full((len(output),), torch.inf),
+        local_features.new_full((len(local_features),), torch.inf),
         upper_bound[:, 0],
     )
     lower_bound[:, 1] = torch.where(
-        v == 0, output.new_full((len(output),), -torch.inf), lower_bound[:, 1]
+        v == 0,
+        local_features.new_full((len(local_features),), -torch.inf),
+        lower_bound[:, 1],
     )
     upper_bound[:, 1] = torch.where(
         v == gv - 1,
-        output.new_full((len(output),), torch.inf),
+        local_features.new_full((len(local_features),), torch.inf),
         upper_bound[:, 1],
     )
-    output[:, :2] = torch.maximum(
-        lower_bound, torch.minimum(output[:, :2], upper_bound)
+    projected_spatial = torch.maximum(
+        lower_bound, torch.minimum(local_features[:, :2], upper_bound)
     )
     temporal_sigma = torch.cat(
         [
-            temporal_standard_deviation(output[start : start + covariance_chunk])
-            for start in range(0, len(output), covariance_chunk)
+            temporal_standard_deviation(
+                local_features[start : start + covariance_chunk]
+            )
+            for start in range(0, len(local_features), covariance_chunk)
         ]
-    )
-    support_start = output[:, 2] - support_sigma * temporal_sigma
+    ).detach()
+    support_start = local_features[:, 2] - support_sigma * temporal_sigma
     first_frame = torch.div(
         t * stride_frames + gt - 1, gt, rounding_mode="floor"
     )
@@ -342,10 +414,17 @@ def project_birth_topology(
         (t + 1) * stride_frames + gt - 1, gt, rounding_mode="floor"
     )
     last_frame = stop_frame - 1
-    lower_t = (first_frame.to(output) - 1) / stride_frames + epsilon
-    upper_t = last_frame.to(output) / stride_frames
+    lower_t = (first_frame.to(local_features) - 1) / stride_frames + epsilon
+    upper_t = last_frame.to(local_features) / stride_frames
     projected_start = torch.maximum(
         lower_t, torch.minimum(support_start, upper_t)
     )
-    output[:, 2] += projected_start - support_start
-    return output
+    projected_t = local_features[:, 2] + projected_start - support_start
+    return torch.cat(
+        (
+            projected_spatial,
+            projected_t[:, None],
+            local_features[:, 3:],
+        ),
+        dim=1,
+    )

@@ -9,7 +9,7 @@ fix prompted video washout.
 
 ### `PromptedWashoutAuditTests`
 - **Does**: Verifies exact feature-group hybrids, detection of spatial cell escape, and
-  target-relative loss of visible detail.
+  target-relative loss of visible detail, including low SSIM for a conditional-mean image.
 - **Interacts with**: `audit_prompted_washout.py` and `GridSpec`.
 
 ## Contracts

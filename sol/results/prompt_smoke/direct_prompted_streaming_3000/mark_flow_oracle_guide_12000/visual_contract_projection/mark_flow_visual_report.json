@@ -7,6 +7,7 @@
     "render_signatures": {
       "carried only": {
         "psnr": 13.340507507324219,
+        "ssim": 0.5868196487426758,
         "contrast_ratio": 0.5245623588562012,
         "edge_ratio": 0.5244693160057068,
         "saturation_ratio": 0.7597672343254089,
@@ -14,13 +15,15 @@
       },
       "projected target": {
         "psnr": 100.0,
+        "ssim": 1.0,
         "contrast_ratio": 1.0,
         "edge_ratio": 0.9999999403953552,
-        "saturation_ratio": 1.0,
+        "saturation_ratio": 0.9999998807907104,
         "temporal_change_ratio": 1.0
       },
       "deterministic marks": {
         "psnr": 13.749503135681152,
+        "ssim": 0.6248184442520142,
         "contrast_ratio": 0.5565497279167175,
         "edge_ratio": 0.56659996509552,
         "saturation_ratio": 0.7733691930770874,
@@ -28,13 +31,15 @@
       },
       "flow no guide": {
         "psnr": 12.286881446838379,
-        "contrast_ratio": 0.6113474369049072,
+        "ssim": 0.5450512766838074,
+        "contrast_ratio": 0.6113473773002625,
         "edge_ratio": 0.7315813302993774,
         "saturation_ratio": 0.7676823139190674,
         "temporal_change_ratio": 1.562186598777771
       },
       "flow guided raw": {
-        "psnr": 16.003786087036133,
+        "psnr": 16.0037841796875,
+        "ssim": 0.8368332386016846,
         "contrast_ratio": 0.8293725848197937,
         "edge_ratio": 0.8791192770004272,
         "saturation_ratio": 0.9599965810775757,
@@ -42,6 +47,7 @@
       },
       "flow guided": {
         "psnr": 16.288663864135742,
+        "ssim": 0.8500885367393494,
         "contrast_ratio": 0.8422395586967468,
         "edge_ratio": 0.9003819227218628,
         "saturation_ratio": 0.9563954472541809,
@@ -49,6 +55,7 @@
       },
       "guided shuffled": {
         "psnr": 15.894116401672363,
+        "ssim": 0.8449100852012634,
         "contrast_ratio": 0.8445819020271301,
         "edge_ratio": 0.892608642578125,
         "saturation_ratio": 0.9323631525039673,
@@ -68,8 +75,8 @@
       },
       "flow no guide": {
         "spatial_cell_fraction": 1.0,
-        "birth_cell_fraction": 0.9927979111671448,
-        "birth_commit_fraction": 0.9991191625595093
+        "birth_cell_fraction": 0.9876165986061096,
+        "birth_commit_fraction": 0.9969947934150696
       },
       "flow guided raw": {
         "spatial_cell_fraction": 0.5168911814689636,
@@ -78,13 +85,13 @@
       },
       "flow guided": {
         "spatial_cell_fraction": 1.0,
-        "birth_cell_fraction": 0.9947668313980103,
-        "birth_commit_fraction": 0.9996891021728516
+        "birth_cell_fraction": 0.9941450953483582,
+        "birth_commit_fraction": 0.9995855093002319
       },
       "guided shuffled": {
         "spatial_cell_fraction": 1.0,
-        "birth_cell_fraction": 0.9953367710113525,
-        "birth_commit_fraction": 0.9998445510864258
+        "birth_cell_fraction": 0.994611382484436,
+        "birth_commit_fraction": 0.9996373057365417
       }
     },
     "artifact": "Basketball_g04_mark_flow_controls.gif",
@@ -98,6 +105,7 @@
     "render_signatures": {
       "carried only": {
         "psnr": 13.607513427734375,
+        "ssim": 0.5214636325836182,
         "contrast_ratio": 0.4687640964984894,
         "edge_ratio": 0.4750511646270752,
         "saturation_ratio": 0.9211081266403198,
@@ -105,44 +113,50 @@
       },
       "projected target": {
         "psnr": 100.0,
+        "ssim": 1.0,
         "contrast_ratio": 1.0,
         "edge_ratio": 1.0,
         "saturation_ratio": 1.0000001192092896,
-        "temporal_change_ratio": 0.9999998807907104
+        "temporal_change_ratio": 1.0
       },
       "deterministic marks": {
         "psnr": 14.359891891479492,
+        "ssim": 0.6036849617958069,
         "contrast_ratio": 0.6008986830711365,
         "edge_ratio": 0.6008821129798889,
         "saturation_ratio": 0.9082244634628296,
         "temporal_change_ratio": 0.7475106120109558
       },
       "flow no guide": {
-        "psnr": 12.410192489624023,
+        "psnr": 12.41019344329834,
+        "ssim": 0.5440769195556641,
         "contrast_ratio": 0.6646327376365662,
         "edge_ratio": 0.8018912672996521,
         "saturation_ratio": 0.8232437372207642,
-        "temporal_change_ratio": 1.0162353515625
+        "temporal_change_ratio": 1.0162354707717896
       },
       "flow guided raw": {
         "psnr": 16.378055572509766,
+        "ssim": 0.833545446395874,
         "contrast_ratio": 0.902122974395752,
-        "edge_ratio": 0.9161700010299683,
+        "edge_ratio": 0.9161699414253235,
         "saturation_ratio": 0.953563392162323,
         "temporal_change_ratio": 0.92949378490448
       },
       "flow guided": {
         "psnr": 16.614370346069336,
+        "ssim": 0.8419244289398193,
         "contrast_ratio": 0.9026122093200684,
-        "edge_ratio": 0.9185286164283752,
-        "saturation_ratio": 0.9489094614982605,
+        "edge_ratio": 0.91852867603302,
+        "saturation_ratio": 0.9489092826843262,
         "temporal_change_ratio": 0.9094216227531433
       },
       "guided shuffled": {
         "psnr": 17.066627502441406,
+        "ssim": 0.8464390635490417,
         "contrast_ratio": 0.9069085121154785,
-        "edge_ratio": 0.9292412996292114,
-        "saturation_ratio": 0.9632434844970703,
+        "edge_ratio": 0.9292412400245667,
+        "saturation_ratio": 0.9632436037063599,
         "temporal_change_ratio": 0.907747745513916
       }
     },
@@ -159,8 +173,8 @@
       },
       "flow no guide": {
         "spatial_cell_fraction": 1.0,
-        "birth_cell_fraction": 0.9913390874862671,
-        "birth_commit_fraction": 0.9986527562141418
+        "birth_cell_fraction": 0.9852764010429382,
+        "birth_commit_fraction": 0.9962950348854065
       },
       "flow guided raw": {
         "spatial_cell_fraction": 0.5248039364814758,
@@ -169,13 +183,13 @@
       },
       "flow guided": {
         "spatial_cell_fraction": 1.0,
-        "birth_cell_fraction": 0.9926382303237915,
-        "birth_commit_fraction": 0.999855637550354
+        "birth_cell_fraction": 0.9906654357910156,
+        "birth_commit_fraction": 0.999230146408081
       },
       "guided shuffled": {
         "spatial_cell_fraction": 1.0,
-        "birth_cell_fraction": 0.992590069770813,
-        "birth_commit_fraction": 0.9997594356536865
+        "birth_cell_fraction": 0.9909060001373291,
+        "birth_commit_fraction": 0.999374508857727
       }
     },
     "artifact": "HorseRiding_g04_mark_flow_controls.gif",
@@ -189,6 +203,7 @@
     "render_signatures": {
       "carried only": {
         "psnr": 15.955421447753906,
+        "ssim": 0.6070847511291504,
         "contrast_ratio": 0.5372333526611328,
         "edge_ratio": 0.558687686920166,
         "saturation_ratio": 0.7200835943222046,
@@ -196,6 +211,7 @@
       },
       "projected target": {
         "psnr": 100.0,
+        "ssim": 1.0,
         "contrast_ratio": 1.0,
         "edge_ratio": 1.0,
         "saturation_ratio": 1.0,
@@ -203,6 +219,7 @@
       },
       "deterministic marks": {
         "psnr": 16.295698165893555,
+        "ssim": 0.6542497277259827,
         "contrast_ratio": 0.578574538230896,
         "edge_ratio": 0.6122921705245972,
         "saturation_ratio": 0.7335359454154968,
@@ -210,13 +227,15 @@
       },
       "flow no guide": {
         "psnr": 15.413924217224121,
-        "contrast_ratio": 0.6661451458930969,
+        "ssim": 0.5907692313194275,
+        "contrast_ratio": 0.6661450862884521,
         "edge_ratio": 0.8054239153862,
         "saturation_ratio": 0.6307273507118225,
-        "temporal_change_ratio": 3.4722647666931152
+        "temporal_change_ratio": 3.4722652435302734
       },
       "flow guided raw": {
         "psnr": 17.224849700927734,
+        "ssim": 0.8254247307777405,
         "contrast_ratio": 0.8858427405357361,
         "edge_ratio": 0.8717248439788818,
         "saturation_ratio": 0.7817004919052124,
@@ -224,17 +243,19 @@
       },
       "flow guided": {
         "psnr": 17.438533782958984,
+        "ssim": 0.836098849773407,
         "contrast_ratio": 0.8895362615585327,
         "edge_ratio": 0.886404812335968,
         "saturation_ratio": 0.7875458598136902,
-        "temporal_change_ratio": 3.3799376487731934
+        "temporal_change_ratio": 3.3799378871917725
       },
       "guided shuffled": {
         "psnr": 17.780078887939453,
+        "ssim": 0.8450900912284851,
         "contrast_ratio": 0.9081631302833557,
-        "edge_ratio": 0.8918609619140625,
+        "edge_ratio": 0.8918607831001282,
         "saturation_ratio": 0.7969132661819458,
-        "temporal_change_ratio": 3.379042863845825
+        "temporal_change_ratio": 3.379042387008667
       }
     },
     "topology_adherence": {
@@ -250,8 +271,8 @@
       },
       "flow no guide": {
         "spatial_cell_fraction": 1.0,
-        "birth_cell_fraction": 0.9926556348800659,
-        "birth_commit_fraction": 0.9986090064048767
+        "birth_cell_fraction": 0.987369954586029,
+        "birth_commit_fraction": 0.9963834881782532
       },
       "flow guided raw": {
         "spatial_cell_fraction": 0.5611751079559326,
@@ -260,13 +281,13 @@
       },
       "flow guided": {
         "spatial_cell_fraction": 1.0,
-        "birth_cell_fraction": 0.9970511198043823,
-        "birth_commit_fraction": 0.9998331069946289
+        "birth_cell_fraction": 0.9957157969474792,
+        "birth_commit_fraction": 0.9992766976356506
       },
       "guided shuffled": {
         "spatial_cell_fraction": 1.0,
-        "birth_cell_fraction": 0.9969398379325867,
-        "birth_commit_fraction": 0.9997774362564087
+        "birth_cell_fraction": 0.9961609244346619,
+        "birth_commit_fraction": 0.9995548725128174
       }
     },
     "artifact": "PlayingGuitar_g04_mark_flow_controls.gif",
@@ -280,6 +301,7 @@
     "render_signatures": {
       "carried only": {
         "psnr": 11.93574333190918,
+        "ssim": 0.5470779538154602,
         "contrast_ratio": 0.4946300685405731,
         "edge_ratio": 0.5118291974067688,
         "saturation_ratio": 1.0807968378067017,
@@ -287,6 +309,7 @@
       },
       "projected target": {
         "psnr": 100.0,
+        "ssim": 1.0,
         "contrast_ratio": 1.0,
         "edge_ratio": 1.0,
         "saturation_ratio": 1.0,
@@ -294,6 +317,7 @@
       },
       "deterministic marks": {
         "psnr": 12.522363662719727,
+        "ssim": 0.6143509745597839,
         "contrast_ratio": 0.559330940246582,
         "edge_ratio": 0.6113067865371704,
         "saturation_ratio": 1.0928572416305542,
@@ -301,13 +325,15 @@
       },
       "flow no guide": {
         "psnr": 10.972944259643555,
+        "ssim": 0.5138853192329407,
         "contrast_ratio": 0.5569640398025513,
-        "edge_ratio": 0.7445473670959473,
-        "saturation_ratio": 0.8580488562583923,
+        "edge_ratio": 0.7445473074913025,
+        "saturation_ratio": 0.8580489158630371,
         "temporal_change_ratio": 1.7153105735778809
       },
       "flow guided raw": {
         "psnr": 15.634075164794922,
+        "ssim": 0.8515717387199402,
         "contrast_ratio": 0.7787261009216309,
         "edge_ratio": 0.8897363543510437,
         "saturation_ratio": 1.051487922668457,
@@ -315,17 +341,19 @@
       },
       "flow guided": {
         "psnr": 15.880155563354492,
+        "ssim": 0.8617969155311584,
         "contrast_ratio": 0.7877410650253296,
         "edge_ratio": 0.9148460030555725,
         "saturation_ratio": 1.055694580078125,
         "temporal_change_ratio": 1.2913539409637451
       },
       "guided shuffled": {
-        "psnr": 15.628669738769531,
+        "psnr": 15.628667831420898,
+        "ssim": 0.8479411005973816,
         "contrast_ratio": 0.7689254283905029,
         "edge_ratio": 0.9161127209663391,
         "saturation_ratio": 1.080115795135498,
-        "temporal_change_ratio": 1.3257063627243042
+        "temporal_change_ratio": 1.3257062435150146
       }
     },
     "topology_adherence": {
@@ -341,8 +369,8 @@
       },
       "flow no guide": {
         "spatial_cell_fraction": 1.0,
-        "birth_cell_fraction": 0.9885955452919006,
-        "birth_commit_fraction": 0.9982048869132996
+        "birth_cell_fraction": 0.9778246879577637,
+        "birth_commit_fraction": 0.9940865635871887
       },
       "flow guided raw": {
         "spatial_cell_fraction": 0.5736008286476135,
@@ -351,13 +379,13 @@
       },
       "flow guided": {
         "spatial_cell_fraction": 1.0,
-        "birth_cell_fraction": 0.9940865635871887,
-        "birth_commit_fraction": 0.9996832013130188
+        "birth_cell_fraction": 0.9922914505004883,
+        "birth_commit_fraction": 0.9991024136543274
       },
       "guided shuffled": {
         "spatial_cell_fraction": 1.0,
-        "birth_cell_fraction": 0.9920802712440491,
-        "birth_commit_fraction": 0.9995776414871216
+        "birth_cell_fraction": 0.9893875122070312,
+        "birth_commit_fraction": 0.9987856149673462
       }
     },
     "artifact": "ApplyEyeMakeup_g04_mark_flow_controls.gif",

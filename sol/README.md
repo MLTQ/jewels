@@ -53,6 +53,16 @@ quality; that requires fitted-corpus checkpoints and GPU training.
 
 ## Current result
 
+**Frontier as of 2026-08-12.** A coherent pretrained-video scaffold is now the selected semantic
+bootstrap, and the original `24x40` cross-cell/global raster-guided stochastic mark flow is the
+selected jewel realizer. Four matched local-token/render-loss variants failed to dominate it. LTX
+generated the complete 16-video prompt scaffold corpus, and all four evaluation scaffolds now have
+72k-jewel fits at 28.182--35.158 dB. The UCF-trained realizer passes the leakage-safe LTX transfer
+gate at 15.342 dB / 0.6942 SSIM versus 13.777 dB / 0.4160 for deterministic continuation. This
+validates privileged video-scaffold-to-jewel transfer; target topology and the future video guide
+remain externally owned. The older density, tokenizer, prior, continuation, and edit results below
+explain the sequence of gates that led to this frontier.
+
 The current corpus uses 45,000 jewels per 64-frame window. Although about 6.2k temporal 3σ supports
 intersect each Avenue frame, contribution-aware auditing finds only 3.9k splats/frame above 5% peak
 alpha and 3.3k opacity-weighted effective contributors (UCF: 3.6k and 2.9k). It is therefore still
@@ -127,8 +137,10 @@ energy from 59.8% to 84.4% but produces incoherent texture. Supplying the true f
 `24x40` semantic guide reaches **16.555 dB / 90.5% edge energy**, +2.324 dB over deterministic
 marks, and restores the held-out macro-layout. The authoritative projection also leaves target
 renders unchanged at 100 dB. This rejects the factorized-count head as the next washout fix and
-selects a multiscale, render-supervised video-to-jewel realizer followed by a pretrained
-text-to-video scaffold. See
+selects a semantic-video-scaffold-to-jewel pathway. Subsequent matched controls reject the tested
+local multiscale token path and scalar render-loss tuning: the best weight-0.5 arm raises SSIM and
+edge energy but loses 0.307 dB overall and destabilizes PlayingGuitar by 1.574 dB. The original
+cross-cell/global raster-guide flow therefore remains the selected transfer model. See
 [`results/prompt_smoke/direct_prompted_streaming_3000/README.md`](results/prompt_smoke/direct_prompted_streaming_3000/README.md).
 The replacement semantic prior is now operational: official distilled LTX-2.3 generated all 16
 balanced train/held-out prompt scaffolds at 768x512x49 with no failures and a 9.40 GiB mean aggregate
@@ -136,10 +148,20 @@ GPU peak. Contact-sheet audit preserves recognizable macro-geometry for Basketba
 PlayingGuitar, and ApplyEyeMakeup. See
 [`results/ltx_scaffold_v1/README.md`](results/ltx_scaffold_v1/README.md). Average GPU activity was
 low because CPU offload spent most of each 173-second sample rebuilding/streaming weights; actual
-two-stage denoising took about 14 seconds.
-More flow steps or small learning-rate sweeps on the same 12 training videos are unlikely to teach
-the missing scene semantics. VQ, entropy coding, and LLM-token integration remain premature. The
-staged implementation and go/no-go gates are in [`PROMPTABLE_ROADMAP.md`](PROMPTABLE_ROADMAP.md).
+two-stage denoising took about 14 seconds. Density-matched 72k fits replay Basketball, HorseRiding,
+PlayingGuitar, and ApplyEyeMakeup at 28.182, 31.707, 30.839, and 35.158 dB. Across the four, mean
+effective density is 5,966 contributors/frame and the mean 5%-alpha count is 6,883/frame. Guitar's
+stricter effective count remains 4,597 despite a strong visual, confirming that density must be a
+content-aware diagnostic rather than a blind quota.
+
+On the four unseen LTX scaffolds, guided projected marks beat deterministic continuation by 1.565
+dB and 0.2782 SSIM; contrast moves 0.426 to 0.743, edge energy 0.486 to 0.830, temporal-change ratio
+reaches 0.981, and birth-cell adherence reaches 99.08%. Horse, guitar, and makeup remain visually
+recognizable; Basketball is the blurriest case. Correct and shuffled text are effectively tied once
+the true LTX raster is supplied, so prompt semantics still come from the scaffold model. The next
+gate is scaffold-conditioned topology/density under overlap carry, not more flow steps on the same
+12 UCF videos. VQ, entropy coding, and LLM-token integration remain premature. The staged
+implementation and go/no-go gates are in [`PROMPTABLE_ROADMAP.md`](PROMPTABLE_ROADMAP.md).
 
 ## UCF transfer result
 

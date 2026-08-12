@@ -1,0 +1,172 @@
+{
+  "corpora": [
+    "corpus/ltx_scaffold_v1_eval_72k"
+  ],
+  "support_sigma": 3.0,
+  "peak_alpha_thresholds": [
+    0.01,
+    0.05
+  ],
+  "examples": [
+    {
+      "name": "00_basketball_evaluation_00_seed42003_w000000.pt",
+      "source_id": "00_basketball_evaluation_00_seed42003",
+      "domain_id": "ltx_scaffold_v1_eval_72k",
+      "jewels": 72000,
+      "frames": 49,
+      "support_counts": {
+        "mean": 12342.509765625,
+        "median": 12245.0,
+        "min": 10907.0,
+        "max": 14422.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 10488.9794921875,
+          "median": 10344.0,
+          "min": 9222.0,
+          "max": 12310.0
+        },
+        "0.05": {
+          "mean": 7388.67333984375,
+          "median": 7259.0,
+          "min": 6463.0,
+          "max": 8828.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 6384.2119140625,
+        "median": 6292.060546875,
+        "min": 5484.6279296875,
+        "max": 7625.72265625
+      }
+    },
+    {
+      "name": "01_horseriding_evaluation_00_seed42103_w000000.pt",
+      "source_id": "01_horseriding_evaluation_00_seed42103",
+      "domain_id": "ltx_scaffold_v1_eval_72k",
+      "jewels": 72000,
+      "frames": 49,
+      "support_counts": {
+        "mean": 13494.44921875,
+        "median": 14330.0,
+        "min": 9503.0,
+        "max": 15315.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 11426.265625,
+          "median": 12135.0,
+          "min": 7975.0,
+          "max": 12877.0
+        },
+        "0.05": {
+          "mean": 8042.48974609375,
+          "median": 8442.0,
+          "min": 5359.0,
+          "max": 9010.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 7134.025390625,
+        "median": 7483.73779296875,
+        "min": 4802.89892578125,
+        "max": 8064.00830078125
+      }
+    },
+    {
+      "name": "02_playingguitar_evaluation_00_seed42203_w000000.pt",
+      "source_id": "02_playingguitar_evaluation_00_seed42203",
+      "domain_id": "ltx_scaffold_v1_eval_72k",
+      "jewels": 72000,
+      "frames": 49,
+      "support_counts": {
+        "mean": 8811.6123046875,
+        "median": 9059.0,
+        "min": 6110.0,
+        "max": 10609.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 7534.224609375,
+          "median": 7754.0,
+          "min": 5117.0,
+          "max": 9030.0
+        },
+        "0.05": {
+          "mean": 5339.06103515625,
+          "median": 5461.0,
+          "min": 3401.0,
+          "max": 6318.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 4597.4423828125,
+        "median": 4678.58203125,
+        "min": 2994.375732421875,
+        "max": 5524.64208984375
+      }
+    },
+    {
+      "name": "03_applyeyemakeup_evaluation_00_seed42303_w000000.pt",
+      "source_id": "03_applyeyemakeup_evaluation_00_seed42303",
+      "domain_id": "ltx_scaffold_v1_eval_72k",
+      "jewels": 72000,
+      "frames": 49,
+      "support_counts": {
+        "mean": 10945.9794921875,
+        "median": 11086.0,
+        "min": 8744.0,
+        "max": 12092.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 9458.9384765625,
+          "median": 9602.0,
+          "min": 7398.0,
+          "max": 10425.0
+        },
+        "0.05": {
+          "mean": 6761.53076171875,
+          "median": 6919.0,
+          "min": 4920.0,
+          "max": 7536.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 5748.6376953125,
+        "median": 5818.41015625,
+        "min": 4294.7158203125,
+        "max": 6448.81201171875
+      }
+    }
+  ],
+  "aggregate": {
+    "support_counts": {
+      "mean": 11398.6376953125,
+      "median": 11431.0,
+      "min": 6110.0,
+      "max": 15315.0
+    },
+    "peak_alpha_counts": {
+      "0.01": {
+        "mean": 9727.1015625,
+        "median": 9700.0,
+        "min": 5117.0,
+        "max": 12877.0
+      },
+      "0.05": {
+        "mean": 6882.93896484375,
+        "median": 6919.0,
+        "min": 3401.0,
+        "max": 9010.0
+      }
+    },
+    "effective_peak_alpha_counts": {
+      "mean": 5966.07958984375,
+      "median": 5889.67578125,
+      "min": 2994.375732421875,
+      "max": 8064.00830078125
+    }
+  }
+}

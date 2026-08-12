@@ -13,7 +13,21 @@ That record now also contains the exact-topology washout decomposition, an oracl
 stochastic mark-flow control, and the decisive low-resolution oracle-video-guide experiment that
 selects a semantic-scaffold-to-jewel architecture over a count-head-only fix.
 The first real prompt-generated replacement scaffold corpus and its four class-level visual audits
-are in [`ltx_scaffold_v1/README.md`](ltx_scaffold_v1/README.md).
+are in [`ltx_scaffold_v1/README.md`](ltx_scaffold_v1/README.md). Its four density-matched 72k jewel
+fits and completed leakage-safe UCF-train/LTX-validation realizer gate live beneath that folder.
+The first multiscale token-guide/render-loss control is recorded under
+[`prompt_smoke/direct_prompted_streaming_3000/mark_flow_multiscale_render2_12000/README.md`](prompt_smoke/direct_prompted_streaming_3000/mark_flow_multiscale_render2_12000/README.md);
+it improves contrast/edge energy but is not selected because PSNR, SSIM, saturation, and temporal
+stability do not improve together. The capacity-matched
+[`raster-plus-token control`](prompt_smoke/direct_prompted_streaming_3000/mark_flow_hybrid_feature_12000/README.md)
+also fails, so the original cross-cell/global raster conditioner remains selected while render
+supervision is tested as an isolated objective change. Raster-guide render weights
+[`2.0`](prompt_smoke/direct_prompted_streaming_3000/mark_flow_raster_render2_12000/README.md) and
+[`0.5`](prompt_smoke/direct_prompted_streaming_3000/mark_flow_raster_render05_12000/README.md) are
+also non-dominating trades: the lower weight recovers SSIM/edge detail but destabilizes Guitar. The
+selected v1 model subsequently passes cross-domain LTX video-scaffold realization at 15.342 dB /
+0.6942 SSIM against the 13.777 dB / 0.4160 deterministic control. This is a privileged
+video-guide/topology result, not free prompt-only jewel generation.
 
 ## Decision
 

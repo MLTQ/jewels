@@ -8,7 +8,8 @@ Protects the leakage-safe stochastic prompt-control schema for oracle-topology m
 
 ### `PromptedMarkFlowEvaluationTests`
 - **Does**: Builds a tiny multi-class corpus and verifies finite correct/shuffled/null fixed-path
-  metrics for both full-prefix and text-only conditions.
+  metrics for both full-prefix and text-only conditions, including a complete multiscale-token
+  guide mapping.
 - **Interacts with**: `prompted_mark_flow_eval.py`, `birth_mark_flow.py`, and `streaming_corpus.py`.
 
 ## Contracts

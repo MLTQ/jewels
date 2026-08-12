@@ -1,0 +1,23 @@
+{
+  "checkpoint": "corpus/ltx_scaffold_v1_eval_72k/01_horseriding_evaluation_00_seed42103_w000000.pt",
+  "source": {
+    "video": "/home/m/LTX-2/corpora/jewels_ucf_prompt_v1/01_horseriding_evaluation_00_seed42103.mp4",
+    "start_frame": 0
+  },
+  "shape": [
+    49,
+    160,
+    240
+  ],
+  "jewels": 72000,
+  "knn": 64,
+  "mse": 0.0006749432068318129,
+  "psnr": 31.707326889038086,
+  "frames": [
+    0,
+    12,
+    24,
+    36,
+    48
+  ]
+}

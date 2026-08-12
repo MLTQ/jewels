@@ -28,7 +28,9 @@ submission-ready benchmark paper.
 - **Does**: Consolidates reconstruction, density, tokenizer, generation, continuation, editing, and
   prompt-preflight results, including failed controls. The current report includes the exact
   topology/mark-group washout decomposition, oracle-topology stochastic flow, and privileged
-  low-resolution video-guide experiment.
+  low-resolution video-guide experiment, the 16-video LTX scaffold gate, all four density-matched
+  jewel fits, the negative token-only and residual-hybrid controls, the non-dominating raster
+  render-loss sweep, and the passing UCF-train/LTX-validation realizer transfer gate.
 - **Interacts with**: Figures and metric reports under `assets/` and `sol/results/`.
 
 ### Semantic scaffold architecture
@@ -38,7 +40,12 @@ submission-ready benchmark paper.
 - **Interacts with**: `audit_prompted_washout.py`, `birth_mark_flow.py`, `video_guide.py`, and the
   prompt-smoke result artifacts.
 - **Rationale**: Exact topology adds only 0.172 dB, stochasticity restores detail without coherence,
-  and a privileged `24x40` guide restores macro-layout and 90.5% of target edge energy.
+  a privileged `24x40` guide restores macro-layout and 90.5% of target edge energy, and the first
+  local-token branches show that within-cell detail cannot replace or simply stack onto
+  cross-cell/global guide context. The lower render-loss weight raises SSIM/edge detail but
+  destabilizes Guitar, so v1 remains selected. Without retraining, v1 then reaches 15.342 dB /
+  0.6942 SSIM on four unseen LTX scaffolds versus 13.777 dB / 0.4160 deterministic continuation,
+  passing the privileged transfer gate while leaving topology generation open.
 
 ### Limitations and path forward
 
@@ -82,3 +89,6 @@ submission-ready benchmark paper.
   control, persistent rollout, and cheaper local edits.
 - The oracle video guide is explicitly labeled privileged; it licenses the architecture but not a
   prompt-only generation claim.
+- LTX scaffold generation, optimized jewel reconstruction, and learned jewel realization remain
+  separate metrics. Cross-domain realization now passes, but correct/shuffled text remains tied
+  under the guide and target topology remains privileged.

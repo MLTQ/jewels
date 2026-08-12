@@ -1,0 +1,126 @@
+{
+  "schema": "ltx-realizer-transfer-gate-v1",
+  "candidate_panel": "flow guided",
+  "baseline_panel": "deterministic marks",
+  "aggregate": {
+    "deterministic marks": {
+      "psnr": 13.776625633239746,
+      "ssim": 0.4159979596734047,
+      "contrast_ratio": 0.426074855029583,
+      "edge_ratio": 0.4860176667571068,
+      "saturation_ratio": 0.9026080816984177,
+      "temporal_change_ratio": 0.7872579842805862,
+      "spatial_cell_fraction": 0.2673720344901085,
+      "birth_cell_fraction": 0.102070945315063,
+      "birth_commit_fraction": 0.9223412871360779
+    },
+    "flow no guide": {
+      "psnr": 12.810104846954346,
+      "ssim": 0.34540990740060806,
+      "contrast_ratio": 0.5047953128814697,
+      "edge_ratio": 0.6690721213817596,
+      "saturation_ratio": 0.8180897831916809,
+      "temporal_change_ratio": 0.9583251178264618,
+      "spatial_cell_fraction": 1.0,
+      "birth_cell_fraction": 0.9738910049200058,
+      "birth_commit_fraction": 0.9893705248832703
+    },
+    "flow guided": {
+      "psnr": 15.342104434967041,
+      "ssim": 0.6941652894020081,
+      "contrast_ratio": 0.7428405284881592,
+      "edge_ratio": 0.8299787789583206,
+      "saturation_ratio": 0.9533081501722336,
+      "temporal_change_ratio": 0.9814655035734177,
+      "spatial_cell_fraction": 1.0,
+      "birth_cell_fraction": 0.9908488690853119,
+      "birth_commit_fraction": 0.997435986995697
+    },
+    "guided shuffled": {
+      "psnr": 15.31909465789795,
+      "ssim": 0.6955083310604095,
+      "contrast_ratio": 0.7428526878356934,
+      "edge_ratio": 0.8260291367769241,
+      "saturation_ratio": 0.9525696039199829,
+      "temporal_change_ratio": 0.9852912276983261,
+      "spatial_cell_fraction": 1.0,
+      "birth_cell_fraction": 0.9903969317674637,
+      "birth_commit_fraction": 0.9971677213907242
+    }
+  },
+  "guided_minus_deterministic": {
+    "psnr": 1.565478801727295,
+    "ssim": 0.27816732972860336,
+    "contrast_ratio": 0.3167656734585762,
+    "edge_ratio": 0.34396111220121384,
+    "saturation_ratio": 0.05070006847381592,
+    "temporal_change_ratio": 0.19420751929283142
+  },
+  "correct_minus_shuffled_guided": {
+    "psnr": 0.023009777069091797,
+    "ssim": -0.0013430416584014893,
+    "contrast_ratio": -0.000012159347534179688,
+    "edge_ratio": 0.003949642181396484,
+    "saturation_ratio": 0.0007385462522506714,
+    "temporal_change_ratio": -0.0038257241249084473
+  },
+  "per_class": [
+    {
+      "class_name": "Basketball",
+      "source_id": "00_basketball_evaluation_00_seed42003",
+      "guided_psnr": 16.309661865234375,
+      "deterministic_psnr": 14.65263843536377,
+      "psnr_delta": 1.6570234298706055,
+      "guided_ssim": 0.7031825184822083,
+      "deterministic_ssim": 0.3983822762966156,
+      "ssim_delta": 0.30480024218559265,
+      "guided_birth_cell_fraction": 0.9925206303596497
+    },
+    {
+      "class_name": "HorseRiding",
+      "source_id": "01_horseriding_evaluation_00_seed42103",
+      "guided_psnr": 16.818805694580078,
+      "deterministic_psnr": 16.22922134399414,
+      "psnr_delta": 0.5895843505859375,
+      "guided_ssim": 0.6423143148422241,
+      "deterministic_ssim": 0.41891536116600037,
+      "ssim_delta": 0.22339895367622375,
+      "guided_birth_cell_fraction": 0.9916051626205444
+    },
+    {
+      "class_name": "PlayingGuitar",
+      "source_id": "02_playingguitar_evaluation_00_seed42203",
+      "guided_psnr": 13.87194538116455,
+      "deterministic_psnr": 12.483262062072754,
+      "psnr_delta": 1.3886833190917969,
+      "guided_ssim": 0.6484645009040833,
+      "deterministic_ssim": 0.39783498644828796,
+      "ssim_delta": 0.2506295144557953,
+      "guided_birth_cell_fraction": 0.9907239079475403
+    },
+    {
+      "class_name": "ApplyEyeMakeup",
+      "source_id": "03_applyeyemakeup_evaluation_00_seed42303",
+      "guided_psnr": 14.36800479888916,
+      "deterministic_psnr": 11.74138069152832,
+      "psnr_delta": 2.62662410736084,
+      "guided_ssim": 0.7826998233795166,
+      "deterministic_ssim": 0.44885921478271484,
+      "ssim_delta": 0.33384060859680176,
+      "guided_birth_cell_fraction": 0.9885457754135132
+    }
+  ],
+  "visual_review": {
+    "required_recognizable": 3,
+    "recognizable_count": 3,
+    "passes": [
+      "HorseRiding",
+      "PlayingGuitar",
+      "ApplyEyeMakeup"
+    ],
+    "weakest": "Basketball",
+    "note": "Basketball retains the court/player layout but is the blurriest transfer; the other three preserve their primary subject/action."
+  },
+  "gate_pass": true,
+  "scope": "Passes cross-domain oracle-topology, true-video-guided mark realization only; does not establish free prompt-only jewel generation."
+}

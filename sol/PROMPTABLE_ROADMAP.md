@@ -194,18 +194,38 @@ research critical path. It needs:
    0.172 dB.
 8. ~~Test stochastic mark generation and a semantic-scaffold control.~~ Oracle-topology mark flow
    restores edge energy but not coherence; a true-future `24x40` guide reaches 16.555 dB and 90.5%
-   target edge energy, +2.324 dB over deterministic marks. Next build the multiscale,
-   render-supervised video-to-jewel realizer, then replace its oracle guide with a pretrained
-   text-to-video scaffold.
+   target edge energy, +2.324 dB over deterministic marks. This selects the cross-cell/global raster
+   guide for matched local-token and render-objective controls before replacing its oracle source
+   with a pretrained text-to-video scaffold.
 9. ~~Install and validate the official distilled LTX-2.3 pipeline on Aine as the first
    prompt-generated scaffold.~~
    CUDA 13.2 and the RTX 4090 pass preflight; the pinned environment, 46.15 GB distilled v1.1
    checkpoint, 1.0 GB upscaler, and five-shard 24.38 GB Gemma encoder are installed. The balanced
    12-train/4-held-out scaffold gate completed 16/16 videos with no failures at `512x768`, 49 frames,
    FP8 cast, and CPU offload. It averaged 172.98 seconds and 9,399 MiB peak GPU memory per clip; all
-   four class audits preserve the requested action and coherent macro-geometry. Next feed these
-   scaffolds through the multiscale video-to-jewel realizer, while separately benchmarking improved
-   LTX model-loading throughput before corpus-scale expansion.
+   four class audits preserve the requested action and coherent macro-geometry.
+10. ~~Fit the four LTX evaluation scaffolds at density matched by spacetime volume.~~ The frozen
+    49-frame/72k contract reaches 28.182, 31.707, 30.839, and 35.158 dB for Basketball,
+    HorseRiding, PlayingGuitar, and ApplyEyeMakeup. Mean effective density is 5,966/frame and mean
+    5%-alpha count is 6,883/frame. Guitar's 4,597 effective contributors/frame despite a strong
+    visual confirms that measured density is a content-aware diagnostic, not a blind quota.
+11. ~~Test multiscale/render controls and the selected v1 realizer on unseen LTX scaffolds.~~ The
+    first token-only multiscale plus render-loss jewelizer is a negative control: versus the v1
+    cell-RGB guide it raises contrast 0.856 to 0.869 and edge energy 0.905 to 0.911, but lowers PSNR
+    16.555 to 16.419, SSIM 0.8475 to 0.8441, saturation, and temporal stability. It had removed the
+    v1 guide's cross-cell 3D/global path. The corrected feature-only hybrid retains that path but is
+    also rejected: it reaches 16.240 dB / 0.8345 SSIM and lowers every aggregate appearance metric.
+    Raster-only render-loss controls at weights 2.0 and 0.5 also fail the joint gate. Weight 0.5
+    raises SSIM 0.8475 to 0.8557 and edge ratio 0.9050 to 0.9251, but loses 0.307 dB overall and
+    destabilizes PlayingGuitar by -1.574 dB with excess motion. The retained v1 model then passes
+    the predeclared UCF-train/LTX-validation gate: 15.342 dB / 0.6942 SSIM versus 13.777 dB /
+    0.4160 deterministic, with contrast 0.743, edge ratio 0.830, 99.08% birth-cell adherence, and
+    three of four recognizable actions. Correct and shuffled text remain tied under the true LTX
+    guide, so the result licenses scaffold-to-jewel realization only.
+12. Learn scaffold-conditioned occupied cells, counts, and birth ranks while carrying stable-ID
+    overlap jewels exactly. Evaluate density, window seams, and action preservation without target
+    topology. Redesign any future render loss around foreground/motion-aware sampling and explicit
+    temporal stability, then scale the paired LTX/jewel corpus only if that causal gate passes.
 
 ## Literature anchors
 

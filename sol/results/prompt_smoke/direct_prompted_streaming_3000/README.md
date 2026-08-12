@@ -121,8 +121,8 @@ already supplies nearly all scene semantics.
 Do not train the occupied-cell/count head next. The best-supported path is:
 
 1. use a pretrained text-to-video model to generate a coherent, low-resolution semantic scaffold;
-2. train a multiscale, stochastic video-to-jewel realizer with spatial cross-attention and direct
-   differentiable render/perceptual supervision;
+2. retain the proven cross-cell/global raster guide while evaluating richer conditioning and
+   render objectives only through matched held-out controls;
 3. once oracle-guide jewels are coherent, learn conditional birth occupancy/count around that
    scaffold and preserve exact carried jewels across overlapping windows;
 4. distill away the raster scaffold only after a much larger captioned jewel corpus exists.
@@ -130,6 +130,13 @@ Do not train the occupied-cell/count head next. The best-supported path is:
 This hybrid does not abandon native jewels: the final persistent, selectable, movable, and locally
 repairable state remains the jewel field. It uses mature raster video priors for the semantic task
 that 12 training clips cannot supply.
+
+Subsequent controls sharpen this decision. Token-only multiscale conditioning and a residual
+raster-plus-token hybrid both lose the joint visual gate. Raster-guide render losses at weights 2.0
+and 0.5 are also non-dominating: weight 0.5 improves SSIM, contrast, and edge energy but loses mean
+PSNR and destabilizes Guitar. The v1 raster feature-flow model remains selected for the LTX
+cross-domain transfer gate; future render supervision needs foreground/motion-aware sampling and
+explicit temporal stability rather than further scalar tuning.
 
 ## Artifacts
 

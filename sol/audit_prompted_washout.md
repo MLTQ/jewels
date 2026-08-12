@@ -22,7 +22,8 @@ for errors that remain under oracle topology.
   elsewhere or becomes active in a different window.
 
 ### `render_signature`
-- **Does**: Reports PSNR and target-relative contrast, edge, saturation, and temporal-change energy.
+- **Does**: Reports PSNR, spatiotemporal mean SSIM, and target-relative contrast, edge, saturation,
+  and temporal-change energy.
 - **Rationale**: PSNR alone can reward a low-detail conditional mean despite visible washout.
 
 ### `main`

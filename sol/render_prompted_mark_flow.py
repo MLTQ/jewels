@@ -16,6 +16,7 @@ from sol.birth_mark_flow import (
     project_birth_topology,
     sample_birth_marks,
 )
+from sol.multiscale_video_guide import video_to_multiscale_cell_tokens
 from sol.prompt_embeddings import load_prompt_cache
 from sol.render import render_exact
 from sol.render_streaming_continuation import _panel, _row, frame_points
@@ -153,7 +154,8 @@ def main() -> None:
         wrong_text = prompt_by_class[shuffled_class[example.class_id]]
         source = manifest_examples[example.source_id]
         guide = None
-        if flow.guide_dim:
+        guide_tokens = None
+        if flow.guide_dim or flow.guide_token_dim:
             video = load_video(
                 source["video"],
                 max_frames=example.dataset.total_frames,
@@ -161,9 +163,16 @@ def main() -> None:
                 resize=(args.height, args.width),
                 device="cpu",
             )
-            guide = video_to_cell_raster(
-                video[view.frontier : view.commit_stop], spec
-            ).to(device)
+            future_video = video[view.frontier : view.commit_stop]
+            if flow.guide_dim:
+                guide = video_to_cell_raster(future_video, spec).to(device)
+            if flow.guide_token_dim:
+                guide_tokens = video_to_multiscale_cell_tokens(
+                    future_video,
+                    spec,
+                    scales=tuple(train_args["guide_scales"]),
+                    subgrid=tuple(train_args["guide_subgrid"]),
+                ).to(device)
         deterministic_output = deterministic.forward_training(
             context, target, correct_text
         )
@@ -175,6 +184,7 @@ def main() -> None:
             text: torch.Tensor,
             context_raster: torch.Tensor,
             guide_raster: torch.Tensor | None,
+            multiscale_tokens: torch.Tensor | None,
         ) -> torch.Tensor:
             generator = torch.Generator(device=device).manual_seed(
                 args.seed + example_index
@@ -188,11 +198,12 @@ def main() -> None:
                 steps=args.steps,
                 generator=generator,
                 guide_raster=guide_raster,
+                guide_tokens=multiscale_tokens,
             )
             return corpus.birth_standardizer.denormalize(normalized)
 
-        correct_raw = sample(correct_text, context, guide)
-        shuffled_raw = sample(wrong_text, context, guide)
+        correct_raw = sample(correct_text, context, guide, guide_tokens)
+        shuffled_raw = sample(wrong_text, context, guide, guide_tokens)
         correct_projected = project_birth_topology(
             correct_raw,
             target.cell_indices,
@@ -215,11 +226,20 @@ def main() -> None:
             support_sigma=example.dataset.support_sigma,
             stride_frames=example.dataset.stride_frames,
         )
-        if flow.guide_dim:
+        if flow.guide_dim or flow.guide_token_dim:
             no_guide_raw = sample(
                 correct_text,
                 context,
-                torch.zeros(spec.n_cells, flow.guide_dim, device=device),
+                (
+                    torch.zeros(spec.n_cells, flow.guide_dim, device=device)
+                    if flow.guide_dim
+                    else None
+                ),
+                (
+                    torch.zeros_like(guide_tokens)
+                    if guide_tokens is not None
+                    else None
+                ),
             )
             no_guide_projected = project_birth_topology(
                 no_guide_raw,
@@ -238,7 +258,7 @@ def main() -> None:
             }
         else:
             text_only_raw = sample(
-                correct_text, torch.zeros_like(context), None
+                correct_text, torch.zeros_like(context), None, None
             )
             text_only_projected = project_birth_topology(
                 text_only_raw,

@@ -1,0 +1,23 @@
+{
+  "checkpoint": "corpus/ltx_scaffold_v1_eval_72k/02_playingguitar_evaluation_00_seed42203_w000000.pt",
+  "source": {
+    "video": "/home/m/LTX-2/corpora/jewels_ucf_prompt_v1/02_playingguitar_evaluation_00_seed42203.mp4",
+    "start_frame": 0
+  },
+  "shape": [
+    49,
+    160,
+    240
+  ],
+  "jewels": 72000,
+  "knn": 64,
+  "mse": 0.0008242947515100241,
+  "psnr": 30.839174270629883,
+  "frames": [
+    0,
+    12,
+    24,
+    36,
+    48
+  ]
+}

@@ -9,7 +9,8 @@ held-out source groups. It fixes noise, flow time, and oracle topology across co
 
 ### `evaluate_prompted_mark_flow`
 - **Does**: Scores correct, different-class, and trained-null text under full-prefix and text-only
-  contexts for every held-out continuation view, with an optional matched video-guide raster.
+  contexts for every held-out continuation view, with an optional matched video-guide raster or
+  multiscale token set.
 - **Interacts with**: `birth_mark_flow_objective` and the leakage-safe prompt corpus.
 - **Rationale**: Sharing each stochastic flow path prevents noise variation from masquerading as
   semantic selectivity.
@@ -25,6 +26,7 @@ held-out source groups. It fixes noise, flow time, and oracle topology across co
 | Research gate | Shuffled text always belongs to a different action class | Class rotation |
 | Visual sampler | Metrics hold topology fixed and therefore assess marks, not counts | Interpretation |
 | Oracle-guide experiment | Every guided validation view supplies its own aligned RGB raster | Guide mapping |
+| Multiscale experiment | Every guided validation view supplies its own `(cell,token,feature)` set | Token mapping |
 
 ## Notes
 

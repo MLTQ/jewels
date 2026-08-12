@@ -36,6 +36,7 @@ def evaluate_prompted_mark_flow(
     device: torch.device | str,
     seed: int = 0,
     guide_rasters: dict[tuple[str, int], torch.Tensor] | None = None,
+    guide_tokens: dict[tuple[str, int], torch.Tensor] | None = None,
 ) -> PromptedMarkFlowEvaluation:
     """Compare correct, different-class, and null text on identical flow paths."""
     target_device = torch.device(device)
@@ -82,6 +83,11 @@ def evaluate_prompted_mark_flow(
                 if guide_rasters is None or (example.source_id, view.index) not in guide_rasters:
                     raise ValueError("guided flow evaluation requires every view raster")
                 guide = guide_rasters[(example.source_id, view.index)].to(target_device)
+            tokens = None
+            if model.guide_token_dim:
+                if guide_tokens is None or (example.source_id, view.index) not in guide_tokens:
+                    raise ValueError("multiscale flow evaluation requires every view token set")
+                tokens = guide_tokens[(example.source_id, view.index)].to(target_device)
             noise = torch.randn(
                 target.shape,
                 device=target_device,
@@ -109,6 +115,7 @@ def evaluate_prompted_mark_flow(
                             noise=noise,
                             flow_time=flow_time,
                             guide_raster=guide,
+                            guide_tokens=tokens,
                         )
                     )
             views += 1

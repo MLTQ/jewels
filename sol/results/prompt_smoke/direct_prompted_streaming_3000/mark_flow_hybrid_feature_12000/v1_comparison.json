@@ -1,0 +1,168 @@
+{
+  "panel": "flow guided",
+  "sources": [
+    "ApplyEyeMakeup_g04",
+    "Basketball_g04",
+    "HorseRiding_g04",
+    "PlayingGuitar_g04"
+  ],
+  "baseline": {
+    "render": {
+      "psnr": 16.55543088912964,
+      "ssim": 0.8474771827459335,
+      "contrast_ratio": 0.8555322736501694,
+      "edge_ratio": 0.9050403535366058,
+      "saturation_ratio": 0.9371362924575806,
+      "temporal_change_ratio": 1.7236244827508926
+    },
+    "topology": {
+      "spatial_cell_fraction": 1.0,
+      "birth_cell_fraction": 0.9932044446468353,
+      "birth_commit_fraction": 0.9992986917495728
+    }
+  },
+  "candidate": {
+    "render": {
+      "psnr": 16.23963975906372,
+      "ssim": 0.8345137685537338,
+      "contrast_ratio": 0.8518769443035126,
+      "edge_ratio": 0.8925144672393799,
+      "saturation_ratio": 0.9209242314100266,
+      "temporal_change_ratio": 1.7249870300292969
+    },
+    "topology": {
+      "spatial_cell_fraction": 1.0,
+      "birth_cell_fraction": 0.9849410951137543,
+      "birth_commit_fraction": 0.99823959171772
+    }
+  },
+  "delta": {
+    "render": {
+      "psnr": -0.31579113006591797,
+      "ssim": -0.012963414192199707,
+      "contrast_ratio": -0.0036553293466567993,
+      "edge_ratio": -0.012525886297225952,
+      "saturation_ratio": -0.016212061047554016,
+      "temporal_change_ratio": 0.0013625472784042358
+    },
+    "topology": {
+      "spatial_cell_fraction": 0.0,
+      "birth_cell_fraction": -0.008263349533081055,
+      "birth_commit_fraction": -0.0010591000318527222
+    }
+  },
+  "per_source": [
+    {
+      "source_id": "ApplyEyeMakeup_g04",
+      "class_name": "ApplyEyeMakeup",
+      "baseline": {
+        "psnr": 15.880155563354492,
+        "ssim": 0.8617969155311584,
+        "contrast_ratio": 0.7877410650253296,
+        "edge_ratio": 0.9148460030555725,
+        "saturation_ratio": 1.055694580078125,
+        "temporal_change_ratio": 1.2913539409637451
+      },
+      "candidate": {
+        "psnr": 15.08504867553711,
+        "ssim": 0.8425773978233337,
+        "contrast_ratio": 0.801341712474823,
+        "edge_ratio": 0.8904120922088623,
+        "saturation_ratio": 0.9814587235450745,
+        "temporal_change_ratio": 1.3092753887176514
+      },
+      "delta": {
+        "psnr": -0.7951068878173828,
+        "ssim": -0.019219517707824707,
+        "contrast_ratio": 0.013600647449493408,
+        "edge_ratio": -0.024433910846710205,
+        "saturation_ratio": -0.07423585653305054,
+        "temporal_change_ratio": 0.01792144775390625
+      }
+    },
+    {
+      "source_id": "Basketball_g04",
+      "class_name": "Basketball",
+      "baseline": {
+        "psnr": 16.288663864135742,
+        "ssim": 0.8500885367393494,
+        "contrast_ratio": 0.8422395586967468,
+        "edge_ratio": 0.9003819227218628,
+        "saturation_ratio": 0.9563954472541809,
+        "temporal_change_ratio": 1.3137844800949097
+      },
+      "candidate": {
+        "psnr": 16.05521011352539,
+        "ssim": 0.8540492653846741,
+        "contrast_ratio": 0.8816805481910706,
+        "edge_ratio": 0.9079959988594055,
+        "saturation_ratio": 0.9704117178916931,
+        "temporal_change_ratio": 1.3457551002502441
+      },
+      "delta": {
+        "psnr": -0.23345375061035156,
+        "ssim": 0.003960728645324707,
+        "contrast_ratio": 0.03944098949432373,
+        "edge_ratio": 0.007614076137542725,
+        "saturation_ratio": 0.014016270637512207,
+        "temporal_change_ratio": 0.03197062015533447
+      }
+    },
+    {
+      "source_id": "HorseRiding_g04",
+      "class_name": "HorseRiding",
+      "baseline": {
+        "psnr": 16.614370346069336,
+        "ssim": 0.8419244289398193,
+        "contrast_ratio": 0.9026122093200684,
+        "edge_ratio": 0.91852867603302,
+        "saturation_ratio": 0.9489092826843262,
+        "temporal_change_ratio": 0.9094216227531433
+      },
+      "candidate": {
+        "psnr": 16.440202713012695,
+        "ssim": 0.813184916973114,
+        "contrast_ratio": 0.8508238792419434,
+        "edge_ratio": 0.8869985342025757,
+        "saturation_ratio": 0.9624748826026917,
+        "temporal_change_ratio": 0.9269680976867676
+      },
+      "delta": {
+        "psnr": -0.17416763305664062,
+        "ssim": -0.028739511966705322,
+        "contrast_ratio": -0.051788330078125,
+        "edge_ratio": -0.031530141830444336,
+        "saturation_ratio": 0.013565599918365479,
+        "temporal_change_ratio": 0.017546474933624268
+      }
+    },
+    {
+      "source_id": "PlayingGuitar_g04",
+      "class_name": "PlayingGuitar",
+      "baseline": {
+        "psnr": 17.438533782958984,
+        "ssim": 0.836098849773407,
+        "contrast_ratio": 0.8895362615585327,
+        "edge_ratio": 0.886404812335968,
+        "saturation_ratio": 0.7875458598136902,
+        "temporal_change_ratio": 3.3799378871917725
+      },
+      "candidate": {
+        "psnr": 17.378097534179688,
+        "ssim": 0.8282434940338135,
+        "contrast_ratio": 0.8736616373062134,
+        "edge_ratio": 0.884651243686676,
+        "saturation_ratio": 0.769351601600647,
+        "temporal_change_ratio": 3.3179495334625244
+      },
+      "delta": {
+        "psnr": -0.060436248779296875,
+        "ssim": -0.007855355739593506,
+        "contrast_ratio": -0.015874624252319336,
+        "edge_ratio": -0.0017535686492919922,
+        "saturation_ratio": -0.018194258213043213,
+        "temporal_change_ratio": -0.06198835372924805
+      }
+    }
+  ]
+}

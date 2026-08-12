@@ -94,6 +94,71 @@ class BirthMarkFlowTests(unittest.TestCase):
         )
         self.assertEqual(velocity.shape, values.shape)
 
+    def test_multiscale_guide_attention_backpropagates(self) -> None:
+        spec = GridSpec((2, 2, 2), 8)
+        model = BirthMarkFlowModel(
+            model_dim=32,
+            grid_spec=spec,
+            context_depth=1,
+            noisy_depth=1,
+            cell_depth=1,
+            mark_depth=1,
+            text_dim=6,
+            guide_token_dim=16,
+            guide_heads=4,
+        )
+        target = torch.randn(4, 22)
+        cells = torch.tensor([0, 2, 4, 6])
+        tokens = torch.randn(spec.n_cells, 3, 16)
+        loss = birth_mark_flow_objective(
+            model,
+            torch.randn(spec.n_cells, 46),
+            target,
+            cells,
+            torch.zeros(4, dtype=torch.long),
+            torch.randn(6),
+            noise=torch.randn_like(target),
+            flow_time=torch.tensor([0.5]),
+            guide_tokens=tokens,
+        )
+        loss.backward()
+        self.assertTrue(torch.isfinite(loss))
+        self.assertTrue(
+            any(
+                parameter.grad is not None
+                for parameter in model.guide_attention.parameters()
+            )
+        )
+
+    def test_hybrid_raster_and_token_guides_share_one_flow(self) -> None:
+        spec = GridSpec((2, 2, 2), 8)
+        model = BirthMarkFlowModel(
+            model_dim=32,
+            grid_spec=spec,
+            context_depth=1,
+            noisy_depth=1,
+            guide_depth=1,
+            cell_depth=1,
+            mark_depth=1,
+            text_dim=6,
+            guide_dim=3,
+            guide_token_dim=16,
+            guide_heads=4,
+        )
+        values = torch.randn(4, 22)
+        cells = torch.tensor([0, 2, 4, 6])
+        velocity = model(
+            torch.randn(spec.n_cells, 46),
+            values,
+            torch.tensor([0.5]),
+            cells,
+            torch.zeros(4, dtype=torch.long),
+            torch.randn(6),
+            guide_raster=torch.randn(spec.n_cells, 3),
+            guide_tokens=torch.randn(spec.n_cells, 3, 16),
+        )
+        self.assertEqual(velocity.shape, values.shape)
+
     def test_projection_enforces_spatial_and_support_start_cells(self) -> None:
         spec = GridSpec((2, 2, 2), 8)
         features = torch.zeros(2, 22)
@@ -132,6 +197,25 @@ class BirthMarkFlowTests(unittest.TestCase):
             stride_frames=8,
         )
         self.assertLess(float((projected - features).abs().max()), 1e-5)
+
+    def test_projection_backpropagates_without_inplace_versions(self) -> None:
+        spec = GridSpec((2, 2, 2), 8)
+        features = torch.zeros(2, 22)
+        features[:, :3] = torch.tensor([[0.9, 0.9, -0.8], [-0.9, -0.9, 1.8]])
+        features[:, 3] = 2 * math.log(0.05)
+        features[:, 6] = 2 * math.log(0.05)
+        features[:, 8] = 2 * math.log(0.04)
+        features.requires_grad_()
+        projected = project_birth_topology(
+            features,
+            torch.tensor([0, 7]),
+            spec=spec,
+            support_sigma=3.0,
+            stride_frames=8,
+        )
+        projected.square().mean().backward()
+        self.assertIsNotNone(features.grad)
+        self.assertTrue(torch.isfinite(features.grad).all())
 
 
 if __name__ == "__main__":

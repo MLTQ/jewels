@@ -48,3 +48,39 @@ so merely retaining a `DistilledPipeline` Python object does not remove the load
 Before scaling by orders of magnitude, benchmark either two concurrent CPU-offloaded workers
 (their independent 9.4 GiB peaks should fit in 24 GiB, but shared RAM/PCIe behavior is unmeasured) or
 a prompt-embedding/model-lifecycle refactor. The semantic-scaffold gate itself passes.
+
+## Density-matched jewel reconstruction
+
+The first evaluation-prompt scaffold has now been fitted at 72,000 jewels, a budget scaled from the
+120k/96-frame contract by spacetime volume. Its exact full-video render reaches 28.182 dB and
+measures 6,384 effective contributors/frame on average (5,485–7,626), directly satisfying the
+5k–10k density target. Court/action/color geometry survives, while fine structures and fast limbs
+remain softer than the LTX source. See [`jewel_fit_gate_72k/README.md`](jewel_fit_gate_72k/README.md)
+for the comparison and density report.
+
+The second, Horse Riding, fit reaches 31.707 dB and 7,134 effective contributors/frame while
+preserving the rider, horse, arena geometry, and blue shirt. This makes the density result a
+two-content confirmation rather than a Basketball-specific calibration.
+
+Playing Guitar reaches 30.839 dB and retains its saturated red instrument and moving hands. Its
+5%-alpha contributor count is 5,339/frame, while opacity-weighted effective density is 4,597/frame;
+the strong visual despite that stricter shortfall motivates content-aware density control rather
+than blind top-up to a fixed scalar count.
+
+Apply Eye Makeup completes the frozen four-class reconstruction gate at 35.158 dB, with 5,749
+effective contributors/frame and 6,762/frame above 5% peak alpha. The face, hand, eye motion, and
+palette remain stable. Across all four 72k fits, mean replay PSNR is 31.472 dB and mean effective
+density is 5,966 contributors/frame.
+
+## Cross-domain jewel realizer
+
+The UCF-trained raster-guided stochastic mark flow passes its predeclared evaluation on the four
+unseen LTX scaffolds. Guided projected samples reach 15.342 dB / 0.6942 SSIM versus 13.777 dB /
+0.4160 for deterministic continuation; target-relative contrast moves from 0.426 to 0.743, edge
+energy from 0.486 to 0.830, and birth-cell adherence reaches 99.08%. HorseRiding, PlayingGuitar,
+and ApplyEyeMakeup retain recognizable primary subjects/actions; Basketball remains visibly the
+weakest transfer.
+
+This licenses the hybrid video-scaffold-to-jewel path only. Correct and shuffled text are tied once
+the LTX future raster is provided, and target topology remains privileged. See
+[`realizer_eval/README.md`](realizer_eval/README.md) for the frozen split, full metrics, and videos.

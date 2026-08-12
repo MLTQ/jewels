@@ -1,0 +1,73 @@
+{
+  "corpora": [
+    "corpus/ltx_scaffold_v1_eval_72k"
+  ],
+  "support_sigma": 3.0,
+  "peak_alpha_thresholds": [
+    0.01,
+    0.05
+  ],
+  "examples": [
+    {
+      "name": "00_basketball_evaluation_00_seed42003_w000000.pt",
+      "source_id": "00_basketball_evaluation_00_seed42003",
+      "domain_id": "ltx_scaffold_v1_eval_72k",
+      "jewels": 72000,
+      "frames": 49,
+      "support_counts": {
+        "mean": 12342.509765625,
+        "median": 12245.0,
+        "min": 10907.0,
+        "max": 14422.0
+      },
+      "peak_alpha_counts": {
+        "0.01": {
+          "mean": 10488.9794921875,
+          "median": 10344.0,
+          "min": 9222.0,
+          "max": 12310.0
+        },
+        "0.05": {
+          "mean": 7388.67333984375,
+          "median": 7259.0,
+          "min": 6463.0,
+          "max": 8828.0
+        }
+      },
+      "effective_peak_alpha_counts": {
+        "mean": 6384.2119140625,
+        "median": 6292.060546875,
+        "min": 5484.6279296875,
+        "max": 7625.72265625
+      }
+    }
+  ],
+  "aggregate": {
+    "support_counts": {
+      "mean": 12342.509765625,
+      "median": 12245.0,
+      "min": 10907.0,
+      "max": 14422.0
+    },
+    "peak_alpha_counts": {
+      "0.01": {
+        "mean": 10488.9794921875,
+        "median": 10344.0,
+        "min": 9222.0,
+        "max": 12310.0
+      },
+      "0.05": {
+        "mean": 7388.67333984375,
+        "median": 7259.0,
+        "min": 6463.0,
+        "max": 8828.0
+      }
+    },
+    "effective_peak_alpha_counts": {
+      "mean": 6384.2119140625,
+      "median": 6292.060546875,
+      "min": 5484.6279296875,
+      "max": 7625.72265625
+    }
+  }
+}
