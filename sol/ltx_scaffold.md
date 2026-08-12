@@ -29,7 +29,8 @@ and video metadata in a JSON receipt.
 - **Does**: Pins the selected CUDA device and expandable allocator, launches LTX, probes the MP4,
   samples aggregate GPU memory/utilization once per second, and records success or failure
   provenance.
-- **Interacts with**: `ffprobe` and the external LTX repository revision.
+- **Interacts with**: `ffprobe` for both video and audio streams and the external LTX repository
+  revision.
 
 ### `_read_gpu_sample`
 
@@ -41,7 +42,7 @@ and video metadata in a JSON receipt.
 | Dependent | Expects | Breaking changes |
 |---|---|---|
 | Aine smoke run | Official repo at `/home/m/LTX-2` with the distilled v1.1 assets | Default paths |
-| Jewel guide loader | A playable RGB MP4 with explicit frame count and resolution | Output container |
+| Jewel guide loader | A playable RGB MP4 with explicit frame count, resolution, and optional audio | Output container |
 | Research audit | JSON receipt includes prompt, seed, command, revision, runtime, GPU peak, and probe | Receipt schema |
 
 ## Aine baseline

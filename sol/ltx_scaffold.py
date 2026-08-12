@@ -120,10 +120,11 @@ def _probe_video(path: Path) -> dict[str, object]:
             "ffprobe",
             "-v",
             "error",
-            "-select_streams",
-            "v:0",
             "-show_entries",
-            "stream=width,height,nb_frames,r_frame_rate:format=duration,size",
+            (
+                "stream=index,codec_type,codec_name,width,height,nb_frames,"
+                "r_frame_rate,sample_rate,channels:format=duration,size"
+            ),
             "-of",
             "json",
             str(path),
