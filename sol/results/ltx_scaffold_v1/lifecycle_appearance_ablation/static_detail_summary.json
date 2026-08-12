@@ -1,0 +1,4257 @@
+{
+  "schema": "scaffold-mark-lifecycle-appearance-rollout-v1",
+  "sources": 4,
+  "sampling_steps": 20,
+  "sampling_seed": 31,
+  "deterministic": true,
+  "runtime": {
+    "torch_version": "2.12.0+cu130",
+    "device": "cuda:0"
+  },
+  "inputs": {
+    "topology_checkpoint": "/home/m/jewels/topology/scaffold_topology_v1/run_3000/scaffold_topology.pt",
+    "mark_flow_checkpoint": "/home/m/jewels/topology/scaffold_mark_flow_v1/run_12000/scaffold_mark_flow.pt",
+    "appearance_flow_checkpoint": "/home/m/jewels/topology/scaffold_mark_flow_v1/feature_spatial_saliency2_stable05_1000/scaffold_mark_flow.pt",
+    "appearance_dimension_set": "static-detail",
+    "appearance_dimensions": [
+      0,
+      1,
+      3,
+      4,
+      6,
+      9,
+      10,
+      11,
+      12,
+      13,
+      15,
+      16,
+      18,
+      19
+    ],
+    "manifest": "/home/m/jewels/topology/scaffold_topology_v1/manifest.json",
+    "prompt_cache": "/home/m/jewels/topology/scaffold_topology_v1/prompts.pt",
+    "checkpoint_roots": [
+      "/home/m/jewels/corpus/ucf_prompt_smoke/fits_shard0",
+      "/home/m/jewels/corpus/ucf_prompt_smoke/fits_shard1",
+      "/home/m/jewels/corpus/ucf_prompt_smoke/fits_shard2",
+      "/home/m/jewels/corpus/ltx_scaffold_v1_eval_72k"
+    ],
+    "manifest_sha256": "64d6d09b77ce8a475364c57d96040a00dcda0c8811f38c1e87847f46d9d7860e"
+  },
+  "initial_boundary_contract": "left_censored_clip_start",
+  "completed_strides": 3,
+  "occupancy_threshold": 0.9,
+  "topology": {
+    "correct": {
+      "cell_count_mae": 8.3140869140625,
+      "cell_log_count_mae": 0.7937202453613281,
+      "total_count_ratio": 0.9094709753990173,
+      "occupancy_precision": 0.9570220708847046,
+      "occupancy_recall": 0.9298185110092163,
+      "occupancy_f1": 0.9432241916656494,
+      "occupancy_iou": 0.8925490379333496,
+      "slot_precision": 0.6431411504745483,
+      "slot_recall": 0.584918200969696,
+      "slot_f1": 0.6126495003700256,
+      "count_correlation": 0.44697337597608566,
+      "predicted_births": 251245.0,
+      "target_births": 276254.0
+    },
+    "shuffled": {
+      "cell_count_mae": 10.412190437316895,
+      "cell_log_count_mae": 1.0207322835922241,
+      "total_count_ratio": 0.9068683385848999,
+      "occupancy_precision": 0.9495012164115906,
+      "occupancy_recall": 0.9250021576881409,
+      "occupancy_f1": 0.937091588973999,
+      "occupancy_iou": 0.8816296458244324,
+      "slot_precision": 0.540642499923706,
+      "slot_recall": 0.4902915358543396,
+      "slot_f1": 0.5142374038696289,
+      "count_correlation": 0.17575261245171228,
+      "predicted_births": 250526.0,
+      "target_births": 276254.0
+    },
+    "null": {
+      "cell_count_mae": 9.866536140441895,
+      "cell_log_count_mae": 1.0348970890045166,
+      "total_count_ratio": 0.8399878144264221,
+      "occupancy_precision": 0.9465306997299194,
+      "occupancy_recall": 0.918078601360321,
+      "occupancy_f1": 0.9320876002311707,
+      "occupancy_iou": 0.8728127479553223,
+      "slot_precision": 0.5727730989456177,
+      "slot_recall": 0.4811224341392517,
+      "slot_f1": 0.5229626893997192,
+      "count_correlation": 0.2214905551324288,
+      "predicted_births": 232050.0,
+      "target_births": 276254.0
+    }
+  },
+  "macro_render_signatures": {
+    "fitted jewel ceiling": {
+      "psnr": 21.840225219726562,
+      "ssim": 0.9309791326522827,
+      "contrast_ratio": 1.1998954713344574,
+      "edge_ratio": 1.4486351013183594,
+      "saturation_ratio": 1.0947285145521164,
+      "temporal_change_ratio": 1.8871737122535706
+    },
+    "generated frozen base": {
+      "psnr": 14.57001280784607,
+      "ssim": 0.6306029260158539,
+      "contrast_ratio": 0.9700028449296951,
+      "edge_ratio": 1.2051376551389694,
+      "saturation_ratio": 0.9764773547649384,
+      "temporal_change_ratio": 1.191765621304512
+    },
+    "generated correct": {
+      "psnr": 14.914823770523071,
+      "ssim": 0.653790295124054,
+      "contrast_ratio": 0.9851804077625275,
+      "edge_ratio": 1.2034647315740585,
+      "saturation_ratio": 0.9954799562692642,
+      "temporal_change_ratio": 1.199659138917923
+    },
+    "generated shuffled": {
+      "psnr": 10.360123872756958,
+      "ssim": -0.014604853553464636,
+      "contrast_ratio": 0.9582176804542542,
+      "edge_ratio": 1.2039493471384048,
+      "saturation_ratio": 1.130753070116043,
+      "temporal_change_ratio": 1.2251823246479034
+    },
+    "generated null": {
+      "psnr": 11.657798290252686,
+      "ssim": 0.0227812179364264,
+      "contrast_ratio": 0.6369577497243881,
+      "edge_ratio": 1.14926278591156,
+      "saturation_ratio": 1.031089425086975,
+      "temporal_change_ratio": 1.2036600410938263
+    }
+  },
+  "macro_saliency_signatures": {
+    "fitted jewel ceiling": {
+      "foreground_rgb_mae": 0.09562390297651291,
+      "foreground_psnr": 17.96779116899877,
+      "foreground_edge_mae": 0.42405081540346146,
+      "motion_boundary_mae": 0.07547129038721323,
+      "quiet_temporal_mae": 0.011526249698363245
+    },
+    "generated frozen base": {
+      "foreground_rgb_mae": 0.2268689163029194,
+      "foreground_psnr": 10.22521293481097,
+      "foreground_edge_mae": 0.689516231417656,
+      "motion_boundary_mae": 0.07234851084649563,
+      "quiet_temporal_mae": 0.02145190630108118
+    },
+    "generated correct": {
+      "foreground_rgb_mae": 0.21656249091029167,
+      "foreground_psnr": 10.66000592271247,
+      "foreground_edge_mae": 0.6758731305599213,
+      "motion_boundary_mae": 0.07220543641597033,
+      "quiet_temporal_mae": 0.022387569304555655
+    },
+    "generated shuffled": {
+      "foreground_rgb_mae": 0.29143647849559784,
+      "foreground_psnr": 9.05861833143964,
+      "foreground_edge_mae": 0.7080799490213394,
+      "motion_boundary_mae": 0.07217620313167572,
+      "quiet_temporal_mae": 0.023822034243494272
+    },
+    "generated null": {
+      "foreground_rgb_mae": 0.23799361661076546,
+      "foreground_psnr": 11.094571566090263,
+      "foreground_edge_mae": 0.6487721353769302,
+      "motion_boundary_mae": 0.06941665895283222,
+      "quiet_temporal_mae": 0.02178065711632371
+    }
+  },
+  "macro_seams": {
+    "fitted jewel ceiling": {
+      "candidate_seam_change": 0.034175984328612685,
+      "target_seam_change": 0.017382084857672453,
+      "candidate_regular_change": 0.036576959770172834,
+      "target_regular_change": 0.019729177001863718,
+      "seam_to_target_ratio": 2.0109443962574005,
+      "seam_to_regular_ratio": 0.9245401471853256
+    },
+    "generated frozen base": {
+      "candidate_seam_change": 0.022330614272505045,
+      "target_seam_change": 0.017382084857672453,
+      "candidate_regular_change": 0.02318614348769188,
+      "target_regular_change": 0.019729177001863718,
+      "seam_to_target_ratio": 1.6102372258901596,
+      "seam_to_regular_ratio": 0.9635783433914185
+    },
+    "generated correct": {
+      "candidate_seam_change": 0.022798298858106136,
+      "target_seam_change": 0.017382084857672453,
+      "candidate_regular_change": 0.02372064348310232,
+      "target_regular_change": 0.019729177001863718,
+      "seam_to_target_ratio": 1.6233052015304565,
+      "seam_to_regular_ratio": 0.9614480882883072
+    },
+    "generated shuffled": {
+      "candidate_seam_change": 0.022757829166948795,
+      "target_seam_change": 0.017382084857672453,
+      "candidate_regular_change": 0.023564660921692848,
+      "target_regular_change": 0.019729177001863718,
+      "seam_to_target_ratio": 1.601969376206398,
+      "seam_to_regular_ratio": 0.9648934453725815
+    },
+    "generated null": {
+      "candidate_seam_change": 0.0203421781770885,
+      "target_seam_change": 0.017382084857672453,
+      "candidate_regular_change": 0.02034740336239338,
+      "target_regular_change": 0.019729177001863718,
+      "seam_to_target_ratio": 1.4554638713598251,
+      "seam_to_regular_ratio": 1.000453606247902
+    }
+  },
+  "macro_effective_density": {
+    "fitted jewel ceiling": 5988.7779541015625,
+    "generated frozen base": 7492.92822265625,
+    "generated correct": 7494.819091796875,
+    "generated shuffled": 7463.303466796875,
+    "generated null": 7318.5318603515625
+  },
+  "lifecycle_appearance": {
+    "all_lifecycle_exact": true,
+    "all_stable_ids_exact": true,
+    "all_topology_exact": true,
+    "controls_audited": 12
+  },
+  "mean_background_mae": 0.03262012265622616,
+  "records": [
+    {
+      "source_id": "00_basketball_evaluation_00_seed42003",
+      "class_name": "Basketball",
+      "shuffled_source_id": "01_horseriding_evaluation_00_seed42103",
+      "completed_frames": 48,
+      "background": {
+        "contract": "initial_scaffold_rgb_mean",
+        "predicted": [
+          0.5282515287399292,
+          0.5374985933303833,
+          0.5214658379554749
+        ],
+        "fitted_reference": [
+          0.5137500762939453,
+          0.503560483455658,
+          0.48462849855422974
+        ],
+        "mae": 0.028425633907318115
+      },
+      "render_signatures": {
+        "fitted jewel ceiling": {
+          "psnr": 21.33943748474121,
+          "ssim": 0.9119983315467834,
+          "contrast_ratio": 1.22976553440094,
+          "edge_ratio": 1.6339855194091797,
+          "saturation_ratio": 1.2387802600860596,
+          "temporal_change_ratio": 2.4005885124206543
+        },
+        "generated frozen base": {
+          "psnr": 16.23535919189453,
+          "ssim": 0.6837306022644043,
+          "contrast_ratio": 0.9418519139289856,
+          "edge_ratio": 1.2456424236297607,
+          "saturation_ratio": 1.034149408340454,
+          "temporal_change_ratio": 1.1678026914596558
+        },
+        "generated correct": {
+          "psnr": 16.142641067504883,
+          "ssim": 0.6979769468307495,
+          "contrast_ratio": 1.030824899673462,
+          "edge_ratio": 1.3013352155685425,
+          "saturation_ratio": 1.0645527839660645,
+          "temporal_change_ratio": 1.2017823457717896
+        },
+        "generated shuffled": {
+          "psnr": 11.753045082092285,
+          "ssim": 0.10635910928249359,
+          "contrast_ratio": 1.0497899055480957,
+          "edge_ratio": 1.354496717453003,
+          "saturation_ratio": 1.5652966499328613,
+          "temporal_change_ratio": 1.1017279624938965
+        },
+        "generated null": {
+          "psnr": 13.094643592834473,
+          "ssim": 0.05995876342058182,
+          "contrast_ratio": 0.6583964228630066,
+          "edge_ratio": 1.2352920770645142,
+          "saturation_ratio": 1.2295132875442505,
+          "temporal_change_ratio": 1.1292662620544434
+        }
+      },
+      "saliency_signatures": {
+        "fitted jewel ceiling": {
+          "foreground_rgb_mae": 0.0909406989812851,
+          "foreground_psnr": 18.49967111944119,
+          "foreground_edge_mae": 0.4392735958099365,
+          "motion_boundary_mae": 0.09657375514507294,
+          "quiet_temporal_mae": 0.008976898156106472
+        },
+        "generated frozen base": {
+          "foreground_rgb_mae": 0.16537413001060486,
+          "foreground_psnr": 13.823662929463474,
+          "foreground_edge_mae": 0.5811501741409302,
+          "motion_boundary_mae": 0.06402860581874847,
+          "quiet_temporal_mae": 0.01796424761414528
+        },
+        "generated correct": {
+          "foreground_rgb_mae": 0.16329848766326904,
+          "foreground_psnr": 13.787787862859764,
+          "foreground_edge_mae": 0.5874499082565308,
+          "motion_boundary_mae": 0.06447049230337143,
+          "quiet_temporal_mae": 0.018737709149718285
+        },
+        "generated shuffled": {
+          "foreground_rgb_mae": 0.2775428295135498,
+          "foreground_psnr": 9.45387412121261,
+          "foreground_edge_mae": 0.6687954664230347,
+          "motion_boundary_mae": 0.0641271248459816,
+          "quiet_temporal_mae": 0.02294805832207203
+        },
+        "generated null": {
+          "foreground_rgb_mae": 0.23718184232711792,
+          "foreground_psnr": 11.07507449511483,
+          "foreground_edge_mae": 0.5696665644645691,
+          "motion_boundary_mae": 0.06187940761446953,
+          "quiet_temporal_mae": 0.021030770614743233
+        }
+      },
+      "seams": {
+        "fitted jewel ceiling": {
+          "candidate_seam_change": 0.04490756243467331,
+          "target_seam_change": 0.019222421571612358,
+          "candidate_regular_change": 0.03994045406579971,
+          "target_regular_change": 0.016512317582964897,
+          "seam_to_target_ratio": 2.336207389831543,
+          "seam_to_regular_ratio": 1.124362826347351
+        },
+        "generated frozen base": {
+          "candidate_seam_change": 0.02079114317893982,
+          "target_seam_change": 0.019222421571612358,
+          "candidate_regular_change": 0.02111307717859745,
+          "target_regular_change": 0.016512317582964897,
+          "seam_to_target_ratio": 1.0816088914871216,
+          "seam_to_regular_ratio": 0.9847519397735596
+        },
+        "generated correct": {
+          "candidate_seam_change": 0.0219464972615242,
+          "target_seam_change": 0.019222421571612358,
+          "candidate_regular_change": 0.02230198308825493,
+          "target_regular_change": 0.016512317582964897,
+          "seam_to_target_ratio": 1.1417135000228882,
+          "seam_to_regular_ratio": 0.9840603470802307
+        },
+        "generated shuffled": {
+          "candidate_seam_change": 0.021112404763698578,
+          "target_seam_change": 0.019222421571612358,
+          "candidate_regular_change": 0.02281258814036846,
+          "target_regular_change": 0.016512317582964897,
+          "seam_to_target_ratio": 1.098321795463562,
+          "seam_to_regular_ratio": 0.9254717230796814
+        },
+        "generated null": {
+          "candidate_seam_change": 0.018913401290774345,
+          "target_seam_change": 0.019222421571612358,
+          "candidate_regular_change": 0.01956753432750702,
+          "target_regular_change": 0.016512317582964897,
+          "seam_to_target_ratio": 0.9839239716529846,
+          "seam_to_regular_ratio": 0.9665704965591431
+        }
+      },
+      "density": {
+        "fitted jewel ceiling": {
+          "effective": {
+            "mean": 6398.15185546875,
+            "median": 6292.060546875,
+            "min": 5484.6279296875,
+            "max": 7625.72265625
+          },
+          "above_5_percent_alpha": {
+            "mean": 7401.66650390625,
+            "median": 7259.0,
+            "min": 6463.0,
+            "max": 8828.0
+          },
+          "frontier_effective": {
+            "0": 6829.2568359375,
+            "16": 7085.634765625,
+            "32": 5757.64501953125
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 7945,
+            "16": 8004,
+            "32": 6639
+          },
+          "initial_stride_effective": [
+            6829.2568359375,
+            6339.49853515625,
+            6292.060546875,
+            6448.02880859375,
+            6682.181640625,
+            6909.79736328125,
+            7115.66162109375,
+            7327.59423828125,
+            7474.294921875,
+            7553.57275390625,
+            7598.60791015625,
+            7625.72265625,
+            7586.408203125,
+            7486.048828125,
+            7361.97900390625,
+            7226.755859375
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            7945,
+            7390,
+            7259,
+            7409,
+            7649,
+            7967,
+            8234,
+            8445,
+            8595,
+            8688,
+            8775,
+            8828,
+            8749,
+            8657,
+            8542,
+            8278
+          ]
+        },
+        "generated correct": {
+          "effective": {
+            "mean": 7688.37109375,
+            "median": 8116.7392578125,
+            "min": 5748.49609375,
+            "max": 8609.4990234375
+          },
+          "above_5_percent_alpha": {
+            "mean": 8436.1669921875,
+            "median": 8925.0,
+            "min": 6127.0,
+            "max": 9471.0
+          },
+          "frontier_effective": {
+            "0": 7754.9619140625,
+            "16": 7782.5908203125,
+            "32": 8277.955078125
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 8973,
+            "16": 8589,
+            "32": 9141
+          },
+          "initial_stride_effective": [
+            7754.9619140625,
+            7427.5458984375,
+            6980.30224609375,
+            6524.568359375,
+            6145.97314453125,
+            5891.0458984375,
+            5764.8828125,
+            5748.49609375,
+            5821.2548828125,
+            5969.56201171875,
+            6188.083984375,
+            6456.98974609375,
+            6730.46533203125,
+            7009.74169921875,
+            7292.01513671875,
+            7567.3544921875
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            8973,
+            8554,
+            7914,
+            7254,
+            6719,
+            6298,
+            6127,
+            6139,
+            6203,
+            6273,
+            6615,
+            6908,
+            7284,
+            7629,
+            7994,
+            8268
+          ]
+        },
+        "generated shuffled": {
+          "effective": {
+            "mean": 7835.87646484375,
+            "median": 8338.2255859375,
+            "min": 6179.51904296875,
+            "max": 8642.8759765625
+          },
+          "above_5_percent_alpha": {
+            "mean": 8724.0205078125,
+            "median": 9287.0,
+            "min": 6687.0,
+            "max": 10069.0
+          },
+          "frontier_effective": {
+            "0": 8642.8759765625,
+            "16": 7336.30908203125,
+            "32": 8429.0400390625
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 10069,
+            "16": 8187,
+            "32": 9407
+          },
+          "initial_stride_effective": [
+            8642.8759765625,
+            8165.400390625,
+            7617.19140625,
+            7088.0703125,
+            6668.900390625,
+            6383.515625,
+            6231.18359375,
+            6179.51904296875,
+            6197.953125,
+            6235.41552734375,
+            6323.89404296875,
+            6454.0517578125,
+            6630.982421875,
+            6804.66162109375,
+            6985.1318359375,
+            7172.7109375
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            10069,
+            9456,
+            8720,
+            7991,
+            7388,
+            6979,
+            6839,
+            6687,
+            6710,
+            6697,
+            6846,
+            7035,
+            7316,
+            7556,
+            7742,
+            8015
+          ]
+        },
+        "generated null": {
+          "effective": {
+            "mean": 7441.08642578125,
+            "median": 7321.27685546875,
+            "min": 5677.32666015625,
+            "max": 9609.0078125
+          },
+          "above_5_percent_alpha": {
+            "mean": 8198.7080078125,
+            "median": 8149.0,
+            "min": 6099.0,
+            "max": 10593.0
+          },
+          "frontier_effective": {
+            "0": 7043.3388671875,
+            "16": 6869.95654296875,
+            "32": 7961.1455078125
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 8149,
+            "16": 7724,
+            "32": 8833
+          },
+          "initial_stride_effective": [
+            7043.3388671875,
+            6715.16552734375,
+            6352.9677734375,
+            6012.9326171875,
+            5776.83251953125,
+            5677.32666015625,
+            5714.2490234375,
+            5844.17138671875,
+            6053.28564453125,
+            6286.41015625,
+            6513.251953125,
+            6696.10595703125,
+            6834.916015625,
+            6922.28173828125,
+            6966.0107421875,
+            6952.70849609375
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            8149,
+            7706,
+            7197,
+            6652,
+            6318,
+            6099,
+            6195,
+            6283,
+            6415,
+            6761,
+            7107,
+            7354,
+            7583,
+            7666,
+            7754,
+            7774
+          ]
+        },
+        "generated frozen base": {
+          "effective": {
+            "mean": 7685.013671875,
+            "median": 8113.20654296875,
+            "min": 5745.73681640625,
+            "max": 8605.884765625
+          },
+          "above_5_percent_alpha": {
+            "mean": 8432.6455078125,
+            "median": 8920.0,
+            "min": 6126.0,
+            "max": 9470.0
+          },
+          "frontier_effective": {
+            "0": 7752.0576171875,
+            "16": 7778.79150390625,
+            "32": 8274.9375
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 8972,
+            "16": 8589,
+            "32": 9138
+          },
+          "initial_stride_effective": [
+            7752.0576171875,
+            7424.60302734375,
+            6977.44091796875,
+            6521.65380859375,
+            6143.0703125,
+            5888.27587890625,
+            5762.16015625,
+            5745.73681640625,
+            5818.52783203125,
+            5966.7265625,
+            6185.33251953125,
+            6454.0693359375,
+            6727.3486328125,
+            7006.427734375,
+            7288.35546875,
+            7563.455078125
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            8972,
+            8550,
+            7907,
+            7249,
+            6718,
+            6294,
+            6126,
+            6138,
+            6198,
+            6271,
+            6613,
+            6908,
+            7280,
+            7627,
+            7988,
+            8261
+          ]
+        }
+      },
+      "rollouts": {
+        "correct": {
+          "completed_frames": 48,
+          "total_jewels": 59051,
+          "stable_ids_exact": true,
+          "windows": [
+            {
+              "index": 0,
+              "frontier": 0,
+              "commit_stop": 16,
+              "context_jewels": 0,
+              "carried_jewels": 0,
+              "born_jewels": 26527,
+              "state_jewels": 26527,
+              "maximum_cell_count": 205,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 1,
+              "frontier": 16,
+              "commit_stop": 32,
+              "context_jewels": 25476,
+              "carried_jewels": 13201,
+              "born_jewels": 16337,
+              "state_jewels": 42864,
+              "maximum_cell_count": 36,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 2,
+              "frontier": 32,
+              "commit_stop": 48,
+              "context_jewels": 29577,
+              "carried_jewels": 14464,
+              "born_jewels": 16187,
+              "state_jewels": 59051,
+              "maximum_cell_count": 35,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            }
+          ]
+        },
+        "shuffled": {
+          "completed_frames": 48,
+          "total_jewels": 57882,
+          "stable_ids_exact": true,
+          "windows": [
+            {
+              "index": 0,
+              "frontier": 0,
+              "commit_stop": 16,
+              "context_jewels": 0,
+              "carried_jewels": 0,
+              "born_jewels": 27012,
+              "state_jewels": 27012,
+              "maximum_cell_count": 307,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 1,
+              "frontier": 16,
+              "commit_stop": 32,
+              "context_jewels": 25573,
+              "carried_jewels": 12920,
+              "born_jewels": 14916,
+              "state_jewels": 41928,
+              "maximum_cell_count": 46,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 2,
+              "frontier": 32,
+              "commit_stop": 48,
+              "context_jewels": 27915,
+              "carried_jewels": 14637,
+              "born_jewels": 15954,
+              "state_jewels": 57882,
+              "maximum_cell_count": 53,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            }
+          ]
+        },
+        "null": {
+          "completed_frames": 48,
+          "total_jewels": 57708,
+          "stable_ids_exact": true,
+          "windows": [
+            {
+              "index": 0,
+              "frontier": 0,
+              "commit_stop": 16,
+              "context_jewels": 0,
+              "carried_jewels": 0,
+              "born_jewels": 23510,
+              "state_jewels": 23510,
+              "maximum_cell_count": 174,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 1,
+              "frontier": 16,
+              "commit_stop": 32,
+              "context_jewels": 22471,
+              "carried_jewels": 11658,
+              "born_jewels": 15583,
+              "state_jewels": 39093,
+              "maximum_cell_count": 40,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 2,
+              "frontier": 32,
+              "commit_stop": 48,
+              "context_jewels": 27256,
+              "carried_jewels": 14134,
+              "born_jewels": 18615,
+              "state_jewels": 57708,
+              "maximum_cell_count": 61,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            }
+          ]
+        }
+      },
+      "lifecycle_appearance": {
+        "correct": {
+          "lifecycle_dimensions": [
+            2,
+            5,
+            7,
+            8
+          ],
+          "appearance_dimensions": [
+            0,
+            1,
+            3,
+            4,
+            6,
+            9,
+            10,
+            11,
+            12,
+            13,
+            15,
+            16,
+            18,
+            19
+          ],
+          "lifecycle_exact": true,
+          "stable_ids_exact": true,
+          "topology_exact": true,
+          "base": {
+            "completed_frames": 48,
+            "total_jewels": 59051,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 26527,
+                "state_jewels": 26527,
+                "maximum_cell_count": 205,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 25476,
+                "carried_jewels": 13201,
+                "born_jewels": 16337,
+                "state_jewels": 42864,
+                "maximum_cell_count": 36,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 29577,
+                "carried_jewels": 14464,
+                "born_jewels": 16187,
+                "state_jewels": 59051,
+                "maximum_cell_count": 35,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "appearance": {
+            "completed_frames": 48,
+            "total_jewels": 59051,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 26527,
+                "state_jewels": 26527,
+                "maximum_cell_count": 205,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 25476,
+                "carried_jewels": 13201,
+                "born_jewels": 16337,
+                "state_jewels": 42864,
+                "maximum_cell_count": 36,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 29577,
+                "carried_jewels": 14464,
+                "born_jewels": 16187,
+                "state_jewels": 59051,
+                "maximum_cell_count": 35,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "windows": [
+            {
+              "index": 0,
+              "born_jewels": 26527,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.02770063653588295
+            },
+            {
+              "index": 1,
+              "born_jewels": 16337,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.030308671295642853
+            },
+            {
+              "index": 2,
+              "born_jewels": 16187,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.03153327479958534
+            }
+          ]
+        },
+        "shuffled": {
+          "lifecycle_dimensions": [
+            2,
+            5,
+            7,
+            8
+          ],
+          "appearance_dimensions": [
+            0,
+            1,
+            3,
+            4,
+            6,
+            9,
+            10,
+            11,
+            12,
+            13,
+            15,
+            16,
+            18,
+            19
+          ],
+          "lifecycle_exact": true,
+          "stable_ids_exact": true,
+          "topology_exact": true,
+          "base": {
+            "completed_frames": 48,
+            "total_jewels": 57882,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 27012,
+                "state_jewels": 27012,
+                "maximum_cell_count": 307,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 25573,
+                "carried_jewels": 12920,
+                "born_jewels": 14916,
+                "state_jewels": 41928,
+                "maximum_cell_count": 46,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 27915,
+                "carried_jewels": 14637,
+                "born_jewels": 15954,
+                "state_jewels": 57882,
+                "maximum_cell_count": 53,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "appearance": {
+            "completed_frames": 48,
+            "total_jewels": 57882,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 27012,
+                "state_jewels": 27012,
+                "maximum_cell_count": 307,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 25573,
+                "carried_jewels": 12920,
+                "born_jewels": 14916,
+                "state_jewels": 41928,
+                "maximum_cell_count": 46,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 27915,
+                "carried_jewels": 14637,
+                "born_jewels": 15954,
+                "state_jewels": 57882,
+                "maximum_cell_count": 53,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "windows": [
+            {
+              "index": 0,
+              "born_jewels": 27012,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.024413956329226494
+            },
+            {
+              "index": 1,
+              "born_jewels": 14916,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.0254361629486084
+            },
+            {
+              "index": 2,
+              "born_jewels": 15954,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.02621322311460972
+            }
+          ]
+        },
+        "null": {
+          "lifecycle_dimensions": [
+            2,
+            5,
+            7,
+            8
+          ],
+          "appearance_dimensions": [
+            0,
+            1,
+            3,
+            4,
+            6,
+            9,
+            10,
+            11,
+            12,
+            13,
+            15,
+            16,
+            18,
+            19
+          ],
+          "lifecycle_exact": true,
+          "stable_ids_exact": true,
+          "topology_exact": true,
+          "base": {
+            "completed_frames": 48,
+            "total_jewels": 57708,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 23510,
+                "state_jewels": 23510,
+                "maximum_cell_count": 174,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 22471,
+                "carried_jewels": 11658,
+                "born_jewels": 15583,
+                "state_jewels": 39093,
+                "maximum_cell_count": 40,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 27256,
+                "carried_jewels": 14134,
+                "born_jewels": 18615,
+                "state_jewels": 57708,
+                "maximum_cell_count": 61,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "appearance": {
+            "completed_frames": 48,
+            "total_jewels": 57708,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 23510,
+                "state_jewels": 23510,
+                "maximum_cell_count": 174,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 22471,
+                "carried_jewels": 11658,
+                "born_jewels": 15583,
+                "state_jewels": 39093,
+                "maximum_cell_count": 40,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 27256,
+                "carried_jewels": 14134,
+                "born_jewels": 18615,
+                "state_jewels": 57708,
+                "maximum_cell_count": 61,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "windows": [
+            {
+              "index": 0,
+              "born_jewels": 23510,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.026211045682430267
+            },
+            {
+              "index": 1,
+              "born_jewels": 15583,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.02767079323530197
+            },
+            {
+              "index": 2,
+              "born_jewels": 18615,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.02747572958469391
+            }
+          ]
+        }
+      },
+      "artifacts": {
+        "gif": "00_basketball_evaluation_00_seed42003_three_window_rollout.gif",
+        "contact_sheet": "00_basketball_evaluation_00_seed42003_three_window_rollout_contact.png",
+        "generated_field": "00_basketball_evaluation_00_seed42003_generated_field.pt"
+      }
+    },
+    {
+      "source_id": "01_horseriding_evaluation_00_seed42103",
+      "class_name": "HorseRiding",
+      "shuffled_source_id": "02_playingguitar_evaluation_00_seed42203",
+      "completed_frames": 48,
+      "background": {
+        "contract": "initial_scaffold_rgb_mean",
+        "predicted": [
+          0.3552412688732147,
+          0.34678980708122253,
+          0.3166288435459137
+        ],
+        "fitted_reference": [
+          0.28380945324897766,
+          0.2806735038757324,
+          0.239157572388649
+        ],
+        "mae": 0.07167313247919083
+      },
+      "render_signatures": {
+        "fitted jewel ceiling": {
+          "psnr": 21.122344970703125,
+          "ssim": 0.8836748600006104,
+          "contrast_ratio": 1.2906700372695923,
+          "edge_ratio": 1.5670874118804932,
+          "saturation_ratio": 1.1482150554656982,
+          "temporal_change_ratio": 2.1701927185058594
+        },
+        "generated frozen base": {
+          "psnr": 15.166977882385254,
+          "ssim": 0.606814980506897,
+          "contrast_ratio": 1.3768024444580078,
+          "edge_ratio": 1.263681411743164,
+          "saturation_ratio": 1.095218539237976,
+          "temporal_change_ratio": 1.2105576992034912
+        },
+        "generated correct": {
+          "psnr": 15.648778915405273,
+          "ssim": 0.6221356987953186,
+          "contrast_ratio": 1.3461885452270508,
+          "edge_ratio": 1.2672743797302246,
+          "saturation_ratio": 1.1071017980575562,
+          "temporal_change_ratio": 1.2086092233657837
+        },
+        "generated shuffled": {
+          "psnr": 12.245195388793945,
+          "ssim": -0.01618458330631256,
+          "contrast_ratio": 1.174350380897522,
+          "edge_ratio": 1.2659252882003784,
+          "saturation_ratio": 1.178736686706543,
+          "temporal_change_ratio": 1.450183391571045
+        },
+        "generated null": {
+          "psnr": 13.894298553466797,
+          "ssim": 0.12601302564144135,
+          "contrast_ratio": 0.8621879816055298,
+          "edge_ratio": 1.18735933303833,
+          "saturation_ratio": 0.8564242720603943,
+          "temporal_change_ratio": 1.285548448562622
+        }
+      },
+      "saliency_signatures": {
+        "fitted jewel ceiling": {
+          "foreground_rgb_mae": 0.10366902500391006,
+          "foreground_psnr": 17.255316450140736,
+          "foreground_edge_mae": 0.4146989583969116,
+          "motion_boundary_mae": 0.06546366959810257,
+          "quiet_temporal_mae": 0.01687939092516899
+        },
+        "generated frozen base": {
+          "foreground_rgb_mae": 0.3163425922393799,
+          "foreground_psnr": 4.7932660836455065,
+          "foreground_edge_mae": 0.779590368270874,
+          "motion_boundary_mae": 0.05405218526721001,
+          "quiet_temporal_mae": 0.022755134850740433
+        },
+        "generated correct": {
+          "foreground_rgb_mae": 0.28549063205718994,
+          "foreground_psnr": 5.892964719878638,
+          "foreground_edge_mae": 0.7499110102653503,
+          "motion_boundary_mae": 0.053646016865968704,
+          "quiet_temporal_mae": 0.022574907168745995
+        },
+        "generated shuffled": {
+          "foreground_rgb_mae": 0.24272149801254272,
+          "foreground_psnr": 10.366948122522956,
+          "foreground_edge_mae": 0.6221456527709961,
+          "motion_boundary_mae": 0.052687060087919235,
+          "quiet_temporal_mae": 0.024778252467513084
+        },
+        "generated null": {
+          "foreground_rgb_mae": 0.16944684088230133,
+          "foreground_psnr": 13.75389254368702,
+          "foreground_edge_mae": 0.5587387681007385,
+          "motion_boundary_mae": 0.048678334802389145,
+          "quiet_temporal_mae": 0.023114770650863647
+        }
+      },
+      "seams": {
+        "fitted jewel ceiling": {
+          "candidate_seam_change": 0.03118380345404148,
+          "target_seam_change": 0.013905536383390427,
+          "candidate_regular_change": 0.034537237137556076,
+          "target_regular_change": 0.015920398756861687,
+          "seam_to_target_ratio": 2.2425458431243896,
+          "seam_to_regular_ratio": 0.9029037952423096
+        },
+        "generated frozen base": {
+          "candidate_seam_change": 0.02199149876832962,
+          "target_seam_change": 0.013905536383390427,
+          "candidate_regular_change": 0.02388075366616249,
+          "target_regular_change": 0.015920398756861687,
+          "seam_to_target_ratio": 1.581492304801941,
+          "seam_to_regular_ratio": 0.9208879470825195
+        },
+        "generated correct": {
+          "candidate_seam_change": 0.02194267511367798,
+          "target_seam_change": 0.013905536383390427,
+          "candidate_regular_change": 0.023406939581036568,
+          "target_regular_change": 0.015920398756861687,
+          "seam_to_target_ratio": 1.5779812335968018,
+          "seam_to_regular_ratio": 0.9374431371688843
+        },
+        "generated shuffled": {
+          "candidate_seam_change": 0.024990729987621307,
+          "target_seam_change": 0.013905536383390427,
+          "candidate_regular_change": 0.02436460740864277,
+          "target_regular_change": 0.015920398756861687,
+          "seam_to_target_ratio": 1.7971783876419067,
+          "seam_to_regular_ratio": 1.0256980657577515
+        },
+        "generated null": {
+          "candidate_seam_change": 0.020707551389932632,
+          "target_seam_change": 0.013905536383390427,
+          "candidate_regular_change": 0.020823398604989052,
+          "target_regular_change": 0.015920398756861687,
+          "seam_to_target_ratio": 1.4891587495803833,
+          "seam_to_regular_ratio": 0.9944366812705994
+        }
+      },
+      "density": {
+        "fitted jewel ceiling": {
+          "effective": {
+            "mean": 7181.15771484375,
+            "median": 7483.73779296875,
+            "min": 4802.89892578125,
+            "max": 8064.00830078125
+          },
+          "above_5_percent_alpha": {
+            "mean": 8094.95849609375,
+            "median": 8442.0,
+            "min": 5359.0,
+            "max": 9010.0
+          },
+          "frontier_effective": {
+            "0": 6571.53466796875,
+            "16": 7723.095703125,
+            "32": 7370.2060546875
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 7413,
+            "16": 8605,
+            "32": 8396
+          },
+          "initial_stride_effective": [
+            6571.53466796875,
+            6434.62890625,
+            6699.3544921875,
+            7012.0732421875,
+            7333.59521484375,
+            7667.16259765625,
+            7905.08544921875,
+            7942.498046875,
+            7960.90185546875,
+            7993.29443359375,
+            8034.03662109375,
+            8064.00830078125,
+            7984.99853515625,
+            7949.92431640625,
+            7906.18505859375,
+            7810.0458984375
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            7413,
+            7227,
+            7449,
+            7864,
+            8342,
+            8602,
+            8889,
+            9010,
+            8948,
+            8997,
+            9007,
+            8911,
+            8829,
+            8832,
+            8758,
+            8665
+          ]
+        },
+        "generated correct": {
+          "effective": {
+            "mean": 7346.75048828125,
+            "median": 7644.4228515625,
+            "min": 5884.26416015625,
+            "max": 8268.7392578125
+          },
+          "above_5_percent_alpha": {
+            "mean": 8103.41650390625,
+            "median": 8398.0,
+            "min": 6324.0,
+            "max": 9511.0
+          },
+          "frontier_effective": {
+            "0": 8206.208984375,
+            "16": 6979.10693359375,
+            "32": 7608.62158203125
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 9511,
+            "16": 7794,
+            "32": 8408
+          },
+          "initial_stride_effective": [
+            8206.208984375,
+            7687.00390625,
+            7123.9541015625,
+            6613.09912109375,
+            6242.92041015625,
+            5995.24365234375,
+            5886.73583984375,
+            5884.26416015625,
+            5927.8623046875,
+            5974.49072265625,
+            6064.97119140625,
+            6164.310546875,
+            6301.001953125,
+            6462.11376953125,
+            6651.0439453125,
+            6826.6044921875
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            9511,
+            8808,
+            8105,
+            7355,
+            6811,
+            6503,
+            6394,
+            6324,
+            6401,
+            6473,
+            6556,
+            6735,
+            6921,
+            7129,
+            7287,
+            7532
+          ]
+        },
+        "generated shuffled": {
+          "effective": {
+            "mean": 6994.77294921875,
+            "median": 7610.3046875,
+            "min": 5191.8154296875,
+            "max": 7955.71484375
+          },
+          "above_5_percent_alpha": {
+            "mean": 7564.66650390625,
+            "median": 8262.0,
+            "min": 5368.0,
+            "max": 8664.0
+          },
+          "frontier_effective": {
+            "0": 7610.3046875,
+            "16": 6108.0146484375,
+            "32": 7862.4013671875
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 8565,
+            "16": 6729,
+            "32": 8649
+          },
+          "initial_stride_effective": [
+            7610.3046875,
+            6826.76611328125,
+            6095.740234375,
+            5540.7060546875,
+            5254.09326171875,
+            5191.8154296875,
+            5269.49169921875,
+            5370.6865234375,
+            5532.953125,
+            5640.03466796875,
+            5766.17919921875,
+            5852.42431640625,
+            5961.7626953125,
+            6006.212890625,
+            6019.234375,
+            6067.59912109375
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            8565,
+            7558,
+            6649,
+            5942,
+            5502,
+            5368,
+            5495,
+            5641,
+            5838,
+            5911,
+            6066,
+            6160,
+            6330,
+            6487,
+            6511,
+            6664
+          ]
+        },
+        "generated null": {
+          "effective": {
+            "mean": 7168.1015625,
+            "median": 7161.748046875,
+            "min": 5190.17529296875,
+            "max": 9042.8427734375
+          },
+          "above_5_percent_alpha": {
+            "mean": 7810.27099609375,
+            "median": 7784.0,
+            "min": 5493.0,
+            "max": 9823.0
+          },
+          "frontier_effective": {
+            "0": 6466.94873046875,
+            "16": 6311.2578125,
+            "32": 8226.8837890625
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 7408,
+            "16": 7053,
+            "32": 9019
+          },
+          "initial_stride_effective": [
+            6466.94873046875,
+            6079.169921875,
+            5701.34228515625,
+            5407.72509765625,
+            5234.28125,
+            5190.17529296875,
+            5250.80029296875,
+            5366.74072265625,
+            5559.56396484375,
+            5733.7958984375,
+            5909.2353515625,
+            6055.0869140625,
+            6183.42626953125,
+            6262.75390625,
+            6348.55126953125,
+            6361.98486328125
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            7408,
+            6872,
+            6315,
+            5843,
+            5531,
+            5493,
+            5535,
+            5614,
+            5820,
+            6048,
+            6332,
+            6586,
+            6822,
+            6918,
+            7044,
+            7061
+          ]
+        },
+        "generated frozen base": {
+          "effective": {
+            "mean": 7346.38037109375,
+            "median": 7643.92333984375,
+            "min": 5884.7353515625,
+            "max": 8267.955078125
+          },
+          "above_5_percent_alpha": {
+            "mean": 8102.95849609375,
+            "median": 8397.0,
+            "min": 6324.0,
+            "max": 9513.0
+          },
+          "frontier_effective": {
+            "0": 8205.7744140625,
+            "16": 6978.0732421875,
+            "32": 7608.33837890625
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 9513,
+            "16": 7789,
+            "32": 8404
+          },
+          "initial_stride_effective": [
+            8205.7744140625,
+            7686.63037109375,
+            7123.64404296875,
+            6612.912109375,
+            6242.79638671875,
+            5995.32421875,
+            5887.080078125,
+            5884.7353515625,
+            5928.38134765625,
+            5975.00830078125,
+            6065.37451171875,
+            6164.53076171875,
+            6300.77783203125,
+            6461.63134765625,
+            6650.22802734375,
+            6825.61767578125
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            9513,
+            8810,
+            8106,
+            7353,
+            6810,
+            6501,
+            6396,
+            6324,
+            6401,
+            6474,
+            6557,
+            6734,
+            6922,
+            7126,
+            7287,
+            7534
+          ]
+        }
+      },
+      "rollouts": {
+        "correct": {
+          "completed_frames": 48,
+          "total_jewels": 58355,
+          "stable_ids_exact": true,
+          "windows": [
+            {
+              "index": 0,
+              "frontier": 0,
+              "commit_stop": 16,
+              "context_jewels": 0,
+              "carried_jewels": 0,
+              "born_jewels": 27012,
+              "state_jewels": 27012,
+              "maximum_cell_count": 307,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 1,
+              "frontier": 16,
+              "commit_stop": 32,
+              "context_jewels": 25280,
+              "carried_jewels": 12288,
+              "born_jewels": 15012,
+              "state_jewels": 42024,
+              "maximum_cell_count": 46,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 2,
+              "frontier": 32,
+              "commit_stop": 48,
+              "context_jewels": 27336,
+              "carried_jewels": 13411,
+              "born_jewels": 16331,
+              "state_jewels": 58355,
+              "maximum_cell_count": 59,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            }
+          ]
+        },
+        "shuffled": {
+          "completed_frames": 48,
+          "total_jewels": 70486,
+          "stable_ids_exact": true,
+          "windows": [
+            {
+              "index": 0,
+              "frontier": 0,
+              "commit_stop": 16,
+              "context_jewels": 0,
+              "carried_jewels": 0,
+              "born_jewels": 30809,
+              "state_jewels": 30809,
+              "maximum_cell_count": 370,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 1,
+              "frontier": 16,
+              "commit_stop": 32,
+              "context_jewels": 26319,
+              "carried_jewels": 10757,
+              "born_jewels": 19591,
+              "state_jewels": 50400,
+              "maximum_cell_count": 57,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 2,
+              "frontier": 32,
+              "commit_stop": 48,
+              "context_jewels": 30339,
+              "carried_jewels": 13193,
+              "born_jewels": 20086,
+              "state_jewels": 70486,
+              "maximum_cell_count": 95,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            }
+          ]
+        },
+        "null": {
+          "completed_frames": 48,
+          "total_jewels": 58858,
+          "stable_ids_exact": true,
+          "windows": [
+            {
+              "index": 0,
+              "frontier": 0,
+              "commit_stop": 16,
+              "context_jewels": 0,
+              "carried_jewels": 0,
+              "born_jewels": 23510,
+              "state_jewels": 23510,
+              "maximum_cell_count": 174,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 1,
+              "frontier": 16,
+              "commit_stop": 32,
+              "context_jewels": 21976,
+              "carried_jewels": 10778,
+              "born_jewels": 16503,
+              "state_jewels": 40013,
+              "maximum_cell_count": 61,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 2,
+              "frontier": 32,
+              "commit_stop": 48,
+              "context_jewels": 27278,
+              "carried_jewels": 14258,
+              "born_jewels": 18845,
+              "state_jewels": 58858,
+              "maximum_cell_count": 64,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            }
+          ]
+        }
+      },
+      "lifecycle_appearance": {
+        "correct": {
+          "lifecycle_dimensions": [
+            2,
+            5,
+            7,
+            8
+          ],
+          "appearance_dimensions": [
+            0,
+            1,
+            3,
+            4,
+            6,
+            9,
+            10,
+            11,
+            12,
+            13,
+            15,
+            16,
+            18,
+            19
+          ],
+          "lifecycle_exact": true,
+          "stable_ids_exact": true,
+          "topology_exact": true,
+          "base": {
+            "completed_frames": 48,
+            "total_jewels": 58355,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 27012,
+                "state_jewels": 27012,
+                "maximum_cell_count": 307,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 25280,
+                "carried_jewels": 12288,
+                "born_jewels": 15012,
+                "state_jewels": 42024,
+                "maximum_cell_count": 46,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 27336,
+                "carried_jewels": 13411,
+                "born_jewels": 16331,
+                "state_jewels": 58355,
+                "maximum_cell_count": 59,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "appearance": {
+            "completed_frames": 48,
+            "total_jewels": 58355,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 27012,
+                "state_jewels": 27012,
+                "maximum_cell_count": 307,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 25280,
+                "carried_jewels": 12288,
+                "born_jewels": 15012,
+                "state_jewels": 42024,
+                "maximum_cell_count": 46,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 27336,
+                "carried_jewels": 13411,
+                "born_jewels": 16331,
+                "state_jewels": 58355,
+                "maximum_cell_count": 59,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "windows": [
+            {
+              "index": 0,
+              "born_jewels": 27012,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.02075047604739666
+            },
+            {
+              "index": 1,
+              "born_jewels": 15012,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.024451442062854767
+            },
+            {
+              "index": 2,
+              "born_jewels": 16331,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.025272347033023834
+            }
+          ]
+        },
+        "shuffled": {
+          "lifecycle_dimensions": [
+            2,
+            5,
+            7,
+            8
+          ],
+          "appearance_dimensions": [
+            0,
+            1,
+            3,
+            4,
+            6,
+            9,
+            10,
+            11,
+            12,
+            13,
+            15,
+            16,
+            18,
+            19
+          ],
+          "lifecycle_exact": true,
+          "stable_ids_exact": true,
+          "topology_exact": true,
+          "base": {
+            "completed_frames": 48,
+            "total_jewels": 70486,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 30809,
+                "state_jewels": 30809,
+                "maximum_cell_count": 370,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 26319,
+                "carried_jewels": 10757,
+                "born_jewels": 19591,
+                "state_jewels": 50400,
+                "maximum_cell_count": 57,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 30339,
+                "carried_jewels": 13193,
+                "born_jewels": 20086,
+                "state_jewels": 70486,
+                "maximum_cell_count": 95,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "appearance": {
+            "completed_frames": 48,
+            "total_jewels": 70486,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 30809,
+                "state_jewels": 30809,
+                "maximum_cell_count": 370,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 26319,
+                "carried_jewels": 10757,
+                "born_jewels": 19591,
+                "state_jewels": 50400,
+                "maximum_cell_count": 57,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 30339,
+                "carried_jewels": 13193,
+                "born_jewels": 20086,
+                "state_jewels": 70486,
+                "maximum_cell_count": 95,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "windows": [
+            {
+              "index": 0,
+              "born_jewels": 30809,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.02006891556084156
+            },
+            {
+              "index": 1,
+              "born_jewels": 19591,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.02240881696343422
+            },
+            {
+              "index": 2,
+              "born_jewels": 20086,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.02351783961057663
+            }
+          ]
+        },
+        "null": {
+          "lifecycle_dimensions": [
+            2,
+            5,
+            7,
+            8
+          ],
+          "appearance_dimensions": [
+            0,
+            1,
+            3,
+            4,
+            6,
+            9,
+            10,
+            11,
+            12,
+            13,
+            15,
+            16,
+            18,
+            19
+          ],
+          "lifecycle_exact": true,
+          "stable_ids_exact": true,
+          "topology_exact": true,
+          "base": {
+            "completed_frames": 48,
+            "total_jewels": 58858,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 23510,
+                "state_jewels": 23510,
+                "maximum_cell_count": 174,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 21976,
+                "carried_jewels": 10778,
+                "born_jewels": 16503,
+                "state_jewels": 40013,
+                "maximum_cell_count": 61,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 27278,
+                "carried_jewels": 14258,
+                "born_jewels": 18845,
+                "state_jewels": 58858,
+                "maximum_cell_count": 64,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "appearance": {
+            "completed_frames": 48,
+            "total_jewels": 58858,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 23510,
+                "state_jewels": 23510,
+                "maximum_cell_count": 174,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 21976,
+                "carried_jewels": 10778,
+                "born_jewels": 16503,
+                "state_jewels": 40013,
+                "maximum_cell_count": 61,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 27278,
+                "carried_jewels": 14258,
+                "born_jewels": 18845,
+                "state_jewels": 58858,
+                "maximum_cell_count": 64,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "windows": [
+            {
+              "index": 0,
+              "born_jewels": 23510,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.024554599076509476
+            },
+            {
+              "index": 1,
+              "born_jewels": 16503,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.026219546794891357
+            },
+            {
+              "index": 2,
+              "born_jewels": 18845,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.027144363150000572
+            }
+          ]
+        }
+      },
+      "artifacts": {
+        "gif": "01_horseriding_evaluation_00_seed42103_three_window_rollout.gif",
+        "contact_sheet": "01_horseriding_evaluation_00_seed42103_three_window_rollout_contact.png",
+        "generated_field": "01_horseriding_evaluation_00_seed42103_generated_field.pt"
+      }
+    },
+    {
+      "source_id": "02_playingguitar_evaluation_00_seed42203",
+      "class_name": "PlayingGuitar",
+      "shuffled_source_id": "03_applyeyemakeup_evaluation_00_seed42303",
+      "completed_frames": 48,
+      "background": {
+        "contract": "initial_scaffold_rgb_mean",
+        "predicted": [
+          0.35901114344596863,
+          0.20346541702747345,
+          0.17937497794628143
+        ],
+        "fitted_reference": [
+          0.36381837725639343,
+          0.2184009999036789,
+          0.1909218728542328
+        ],
+        "mae": 0.010429903864860535
+      },
+      "render_signatures": {
+        "fitted jewel ceiling": {
+          "psnr": 21.557559967041016,
+          "ssim": 0.9515410661697388,
+          "contrast_ratio": 1.1632254123687744,
+          "edge_ratio": 1.3086320161819458,
+          "saturation_ratio": 0.9896630644798279,
+          "temporal_change_ratio": 1.46304190158844
+        },
+        "generated frozen base": {
+          "psnr": 13.081894874572754,
+          "ssim": 0.5093411803245544,
+          "contrast_ratio": 0.7427119016647339,
+          "edge_ratio": 0.979118287563324,
+          "saturation_ratio": 0.9712105393409729,
+          "temporal_change_ratio": 0.6094672083854675
+        },
+        "generated correct": {
+          "psnr": 13.372293472290039,
+          "ssim": 0.5364658832550049,
+          "contrast_ratio": 0.7525340914726257,
+          "edge_ratio": 0.9860416054725647,
+          "saturation_ratio": 0.9877987504005432,
+          "temporal_change_ratio": 0.6294621229171753
+        },
+        "generated shuffled": {
+          "psnr": 9.382436752319336,
+          "ssim": -0.0011971074854955077,
+          "contrast_ratio": 0.9203583002090454,
+          "edge_ratio": 0.8922479748725891,
+          "saturation_ratio": 0.8566915392875671,
+          "temporal_change_ratio": 0.5127241611480713
+        },
+        "generated null": {
+          "psnr": 10.320276260375977,
+          "ssim": -0.06699493527412415,
+          "contrast_ratio": 0.5381214022636414,
+          "edge_ratio": 0.9000638723373413,
+          "saturation_ratio": 1.081058144569397,
+          "temporal_change_ratio": 0.5432010889053345
+        }
+      },
+      "saliency_signatures": {
+        "fitted jewel ceiling": {
+          "foreground_rgb_mae": 0.10257328301668167,
+          "foreground_psnr": 17.355481014563303,
+          "foreground_edge_mae": 0.4705652594566345,
+          "motion_boundary_mae": 0.10240469127893448,
+          "quiet_temporal_mae": 0.013262100517749786
+        },
+        "generated frozen base": {
+          "foreground_rgb_mae": 0.22536057233810425,
+          "foreground_psnr": 11.132782559413691,
+          "foreground_edge_mae": 0.7579634189605713,
+          "motion_boundary_mae": 0.1126195415854454,
+          "quiet_temporal_mae": 0.021666720509529114
+        },
+        "generated correct": {
+          "foreground_rgb_mae": 0.22488747537136078,
+          "foreground_psnr": 11.16343817868638,
+          "foreground_edge_mae": 0.7422007322311401,
+          "motion_boundary_mae": 0.11275806277990341,
+          "quiet_temporal_mae": 0.02316950261592865
+        },
+        "generated shuffled": {
+          "foreground_rgb_mae": 0.35459843277931213,
+          "foreground_psnr": 7.27396656716598,
+          "foreground_edge_mae": 0.7933008670806885,
+          "motion_boundary_mae": 0.11325246840715408,
+          "quiet_temporal_mae": 0.026457902044057846
+        },
+        "generated null": {
+          "foreground_rgb_mae": 0.2851155996322632,
+          "foreground_psnr": 9.347369018691609,
+          "foreground_edge_mae": 0.7637705206871033,
+          "motion_boundary_mae": 0.11189816892147064,
+          "quiet_temporal_mae": 0.021469581872224808
+        }
+      },
+      "seams": {
+        "fitted jewel ceiling": {
+          "candidate_seam_change": 0.04549606889486313,
+          "target_seam_change": 0.028249092400074005,
+          "candidate_regular_change": 0.053354352712631226,
+          "target_regular_change": 0.03489778935909271,
+          "seam_to_target_ratio": 1.6105320453643799,
+          "seam_to_regular_ratio": 0.852715253829956
+        },
+        "generated frozen base": {
+          "candidate_seam_change": 0.022131558507680893,
+          "target_seam_change": 0.028249092400074005,
+          "candidate_regular_change": 0.022886909544467926,
+          "target_regular_change": 0.03489778935909271,
+          "seam_to_target_ratio": 0.7834431529045105,
+          "seam_to_regular_ratio": 0.9669963717460632
+        },
+        "generated correct": {
+          "candidate_seam_change": 0.023255228996276855,
+          "target_seam_change": 0.028249092400074005,
+          "candidate_regular_change": 0.023997990414500237,
+          "target_regular_change": 0.03489778935909271,
+          "seam_to_target_ratio": 0.8232203722000122,
+          "seam_to_regular_ratio": 0.9690490365028381
+        },
+        "generated shuffled": {
+          "candidate_seam_change": 0.02290784940123558,
+          "target_seam_change": 0.028249092400074005,
+          "candidate_regular_change": 0.023641204461455345,
+          "target_regular_change": 0.03489778935909271,
+          "seam_to_target_ratio": 0.8109233975410461,
+          "seam_to_regular_ratio": 0.9689797759056091
+        },
+        "generated null": {
+          "candidate_seam_change": 0.020311975851655006,
+          "target_seam_change": 0.028249092400074005,
+          "candidate_regular_change": 0.01924719661474228,
+          "target_regular_change": 0.03489778935909271,
+          "seam_to_target_ratio": 0.7190310955047607,
+          "seam_to_regular_ratio": 1.055321216583252
+        }
+      },
+      "density": {
+        "fitted jewel ceiling": {
+          "effective": {
+            "mean": 4600.171875,
+            "median": 4678.58203125,
+            "min": 2994.375732421875,
+            "max": 5524.64208984375
+          },
+          "above_5_percent_alpha": {
+            "mean": 5343.75,
+            "median": 5461.0,
+            "min": 3401.0,
+            "max": 6318.0
+          },
+          "frontier_effective": {
+            "0": 3029.70068359375,
+            "16": 4325.32666015625,
+            "32": 5323.9013671875
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 3426,
+            "16": 5095,
+            "32": 6143
+          },
+          "initial_stride_effective": [
+            3029.70068359375,
+            2994.375732421875,
+            3254.571533203125,
+            3352.3095703125,
+            3414.58447265625,
+            3620.158447265625,
+            3813.653564453125,
+            3833.361572265625,
+            3761.392578125,
+            3797.440185546875,
+            3864.0400390625,
+            4066.619873046875,
+            4250.521484375,
+            4342.08935546875,
+            4389.58447265625,
+            4334.97119140625
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            3426,
+            3401,
+            3735,
+            3874,
+            4011,
+            4220,
+            4428,
+            4419,
+            4377,
+            4359,
+            4499,
+            4683,
+            4963,
+            5096,
+            5126,
+            5109
+          ]
+        },
+        "generated correct": {
+          "effective": {
+            "mean": 7470.35546875,
+            "median": 8005.97314453125,
+            "min": 5418.7109375,
+            "max": 8863.0400390625
+          },
+          "above_5_percent_alpha": {
+            "mean": 8143.8125,
+            "median": 8859.0,
+            "min": 5743.0,
+            "max": 9751.0
+          },
+          "frontier_effective": {
+            "0": 7904.22412109375,
+            "16": 6595.06640625,
+            "32": 8283.9189453125
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 8859,
+            "16": 7322,
+            "32": 9092
+          },
+          "initial_stride_effective": [
+            7904.22412109375,
+            7113.02099609375,
+            6367.8408203125,
+            5789.25439453125,
+            5485.962890625,
+            5418.7109375,
+            5498.1455078125,
+            5649.45068359375,
+            5824.02685546875,
+            5962.14111328125,
+            6112.94775390625,
+            6189.36865234375,
+            6287.30078125,
+            6376.7109375,
+            6500.9873046875,
+            6560.4423828125
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            8859,
+            7927,
+            6994,
+            6237,
+            5783,
+            5743,
+            5849,
+            6007,
+            6200,
+            6326,
+            6509,
+            6588,
+            6796,
+            6931,
+            7160,
+            7230
+          ]
+        },
+        "generated shuffled": {
+          "effective": {
+            "mean": 7702.34619140625,
+            "median": 8046.01171875,
+            "min": 5576.28125,
+            "max": 9132.6044921875
+          },
+          "above_5_percent_alpha": {
+            "mean": 8386.7705078125,
+            "median": 8898.0,
+            "min": 5864.0,
+            "max": 9951.0
+          },
+          "frontier_effective": {
+            "0": 7761.1611328125,
+            "16": 7255.349609375,
+            "32": 8771.3876953125
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 8907,
+            "16": 7932,
+            "32": 9573
+          },
+          "initial_stride_effective": [
+            7761.1611328125,
+            7209.2255859375,
+            6629.28515625,
+            6106.2646484375,
+            5747.96923828125,
+            5576.28125,
+            5593.212890625,
+            5686.89111328125,
+            5844.6494140625,
+            6026.3984375,
+            6252.70263671875,
+            6443.31494140625,
+            6644.705078125,
+            6806.60595703125,
+            7013.14306640625,
+            7149.49462890625
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            8907,
+            8198,
+            7473,
+            6697,
+            6119,
+            5864,
+            5921,
+            6062,
+            6260,
+            6385,
+            6687,
+            6945,
+            7183,
+            7358,
+            7653,
+            7840
+          ]
+        },
+        "generated null": {
+          "effective": {
+            "mean": 7396.51611328125,
+            "median": 7205.48681640625,
+            "min": 5557.55419921875,
+            "max": 9183.1240234375
+          },
+          "above_5_percent_alpha": {
+            "mean": 8098.35400390625,
+            "median": 8079.0,
+            "min": 5931.0,
+            "max": 9972.0
+          },
+          "frontier_effective": {
+            "0": 7030.806640625,
+            "16": 6939.04296875,
+            "32": 8280.3291015625
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 8129,
+            "16": 7788,
+            "32": 9122
+          },
+          "initial_stride_effective": [
+            7030.806640625,
+            6698.45458984375,
+            6308.27001953125,
+            5948.83935546875,
+            5702.6962890625,
+            5566.599609375,
+            5557.55419921875,
+            5641.896484375,
+            5797.1337890625,
+            5984.8037109375,
+            6223.82666015625,
+            6463.55712890625,
+            6672.02783203125,
+            6811.685546875,
+            6924.10107421875,
+            6958.896484375
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            8129,
+            7684,
+            7125,
+            6552,
+            6135,
+            5963,
+            5966,
+            5931,
+            6076,
+            6375,
+            6713,
+            7120,
+            7408,
+            7584,
+            7753,
+            7761
+          ]
+        },
+        "generated frozen base": {
+          "effective": {
+            "mean": 7467.03369140625,
+            "median": 8003.3291015625,
+            "min": 5415.96923828125,
+            "max": 8858.6318359375
+          },
+          "above_5_percent_alpha": {
+            "mean": 8140.3125,
+            "median": 8857.0,
+            "min": 5740.0,
+            "max": 9740.0
+          },
+          "frontier_effective": {
+            "0": 7899.99853515625,
+            "16": 6592.38427734375,
+            "32": 8280.208984375
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 8857,
+            "16": 7318,
+            "32": 9090
+          },
+          "initial_stride_effective": [
+            7899.99853515625,
+            7109.24853515625,
+            6364.3505859375,
+            5785.86083984375,
+            5482.8125,
+            5415.96923828125,
+            5495.71240234375,
+            5647.21923828125,
+            5821.8544921875,
+            5959.99267578125,
+            6110.8896484375,
+            6187.181640625,
+            6284.83740234375,
+            6374.294921875,
+            6498.37109375,
+            6557.798828125
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            8857,
+            7918,
+            6993,
+            6228,
+            5779,
+            5740,
+            5847,
+            6005,
+            6202,
+            6323,
+            6507,
+            6586,
+            6794,
+            6926,
+            7158,
+            7229
+          ]
+        }
+      },
+      "rollouts": {
+        "correct": {
+          "completed_frames": 48,
+          "total_jewels": 69435,
+          "stable_ids_exact": true,
+          "windows": [
+            {
+              "index": 0,
+              "frontier": 0,
+              "commit_stop": 16,
+              "context_jewels": 0,
+              "carried_jewels": 0,
+              "born_jewels": 30809,
+              "state_jewels": 30809,
+              "maximum_cell_count": 370,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 1,
+              "frontier": 16,
+              "commit_stop": 32,
+              "context_jewels": 26729,
+              "carried_jewels": 11498,
+              "born_jewels": 18789,
+              "state_jewels": 49598,
+              "maximum_cell_count": 54,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 2,
+              "frontier": 32,
+              "commit_stop": 48,
+              "context_jewels": 30285,
+              "carried_jewels": 14065,
+              "born_jewels": 19837,
+              "state_jewels": 69435,
+              "maximum_cell_count": 74,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            }
+          ]
+        },
+        "shuffled": {
+          "completed_frames": 48,
+          "total_jewels": 63142,
+          "stable_ids_exact": true,
+          "windows": [
+            {
+              "index": 0,
+              "frontier": 0,
+              "commit_stop": 16,
+              "context_jewels": 0,
+              "carried_jewels": 0,
+              "born_jewels": 27927,
+              "state_jewels": 27927,
+              "maximum_cell_count": 285,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 1,
+              "frontier": 16,
+              "commit_stop": 32,
+              "context_jewels": 25906,
+              "carried_jewels": 12610,
+              "born_jewels": 17228,
+              "state_jewels": 45155,
+              "maximum_cell_count": 89,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 2,
+              "frontier": 32,
+              "commit_stop": 48,
+              "context_jewels": 29875,
+              "carried_jewels": 14956,
+              "born_jewels": 17987,
+              "state_jewels": 63142,
+              "maximum_cell_count": 85,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            }
+          ]
+        },
+        "null": {
+          "completed_frames": 48,
+          "total_jewels": 57152,
+          "stable_ids_exact": true,
+          "windows": [
+            {
+              "index": 0,
+              "frontier": 0,
+              "commit_stop": 16,
+              "context_jewels": 0,
+              "carried_jewels": 0,
+              "born_jewels": 23510,
+              "state_jewels": 23510,
+              "maximum_cell_count": 174,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 1,
+              "frontier": 16,
+              "commit_stop": 32,
+              "context_jewels": 22440,
+              "carried_jewels": 11547,
+              "born_jewels": 15331,
+              "state_jewels": 38841,
+              "maximum_cell_count": 41,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 2,
+              "frontier": 32,
+              "commit_stop": 48,
+              "context_jewels": 26874,
+              "carried_jewels": 14277,
+              "born_jewels": 18311,
+              "state_jewels": 57152,
+              "maximum_cell_count": 53,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            }
+          ]
+        }
+      },
+      "lifecycle_appearance": {
+        "correct": {
+          "lifecycle_dimensions": [
+            2,
+            5,
+            7,
+            8
+          ],
+          "appearance_dimensions": [
+            0,
+            1,
+            3,
+            4,
+            6,
+            9,
+            10,
+            11,
+            12,
+            13,
+            15,
+            16,
+            18,
+            19
+          ],
+          "lifecycle_exact": true,
+          "stable_ids_exact": true,
+          "topology_exact": true,
+          "base": {
+            "completed_frames": 48,
+            "total_jewels": 69435,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 30809,
+                "state_jewels": 30809,
+                "maximum_cell_count": 370,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 26729,
+                "carried_jewels": 11498,
+                "born_jewels": 18789,
+                "state_jewels": 49598,
+                "maximum_cell_count": 54,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 30285,
+                "carried_jewels": 14065,
+                "born_jewels": 19837,
+                "state_jewels": 69435,
+                "maximum_cell_count": 74,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "appearance": {
+            "completed_frames": 48,
+            "total_jewels": 69435,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 30809,
+                "state_jewels": 30809,
+                "maximum_cell_count": 370,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 26729,
+                "carried_jewels": 11498,
+                "born_jewels": 18789,
+                "state_jewels": 49598,
+                "maximum_cell_count": 54,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 30285,
+                "carried_jewels": 14065,
+                "born_jewels": 19837,
+                "state_jewels": 69435,
+                "maximum_cell_count": 74,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "windows": [
+            {
+              "index": 0,
+              "born_jewels": 30809,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.02178192138671875
+            },
+            {
+              "index": 1,
+              "born_jewels": 18789,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.023581035435199738
+            },
+            {
+              "index": 2,
+              "born_jewels": 19837,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.025614965707063675
+            }
+          ]
+        },
+        "shuffled": {
+          "lifecycle_dimensions": [
+            2,
+            5,
+            7,
+            8
+          ],
+          "appearance_dimensions": [
+            0,
+            1,
+            3,
+            4,
+            6,
+            9,
+            10,
+            11,
+            12,
+            13,
+            15,
+            16,
+            18,
+            19
+          ],
+          "lifecycle_exact": true,
+          "stable_ids_exact": true,
+          "topology_exact": true,
+          "base": {
+            "completed_frames": 48,
+            "total_jewels": 63142,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 27927,
+                "state_jewels": 27927,
+                "maximum_cell_count": 285,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 25906,
+                "carried_jewels": 12610,
+                "born_jewels": 17228,
+                "state_jewels": 45155,
+                "maximum_cell_count": 89,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 29875,
+                "carried_jewels": 14956,
+                "born_jewels": 17987,
+                "state_jewels": 63142,
+                "maximum_cell_count": 85,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "appearance": {
+            "completed_frames": 48,
+            "total_jewels": 63142,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 27927,
+                "state_jewels": 27927,
+                "maximum_cell_count": 285,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 25906,
+                "carried_jewels": 12610,
+                "born_jewels": 17228,
+                "state_jewels": 45155,
+                "maximum_cell_count": 89,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 29875,
+                "carried_jewels": 14956,
+                "born_jewels": 17987,
+                "state_jewels": 63142,
+                "maximum_cell_count": 85,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "windows": [
+            {
+              "index": 0,
+              "born_jewels": 27927,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.02215772680938244
+            },
+            {
+              "index": 1,
+              "born_jewels": 17228,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.024346336722373962
+            },
+            {
+              "index": 2,
+              "born_jewels": 17987,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.025235312059521675
+            }
+          ]
+        },
+        "null": {
+          "lifecycle_dimensions": [
+            2,
+            5,
+            7,
+            8
+          ],
+          "appearance_dimensions": [
+            0,
+            1,
+            3,
+            4,
+            6,
+            9,
+            10,
+            11,
+            12,
+            13,
+            15,
+            16,
+            18,
+            19
+          ],
+          "lifecycle_exact": true,
+          "stable_ids_exact": true,
+          "topology_exact": true,
+          "base": {
+            "completed_frames": 48,
+            "total_jewels": 57152,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 23510,
+                "state_jewels": 23510,
+                "maximum_cell_count": 174,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 22440,
+                "carried_jewels": 11547,
+                "born_jewels": 15331,
+                "state_jewels": 38841,
+                "maximum_cell_count": 41,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 26874,
+                "carried_jewels": 14277,
+                "born_jewels": 18311,
+                "state_jewels": 57152,
+                "maximum_cell_count": 53,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "appearance": {
+            "completed_frames": 48,
+            "total_jewels": 57152,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 23510,
+                "state_jewels": 23510,
+                "maximum_cell_count": 174,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 22440,
+                "carried_jewels": 11547,
+                "born_jewels": 15331,
+                "state_jewels": 38841,
+                "maximum_cell_count": 41,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 26874,
+                "carried_jewels": 14277,
+                "born_jewels": 18311,
+                "state_jewels": 57152,
+                "maximum_cell_count": 53,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "windows": [
+            {
+              "index": 0,
+              "born_jewels": 23510,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.023434437811374664
+            },
+            {
+              "index": 1,
+              "born_jewels": 15331,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.02532625012099743
+            },
+            {
+              "index": 2,
+              "born_jewels": 18311,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.025267021730542183
+            }
+          ]
+        }
+      },
+      "artifacts": {
+        "gif": "02_playingguitar_evaluation_00_seed42203_three_window_rollout.gif",
+        "contact_sheet": "02_playingguitar_evaluation_00_seed42203_three_window_rollout_contact.png",
+        "generated_field": "02_playingguitar_evaluation_00_seed42203_generated_field.pt"
+      }
+    },
+    {
+      "source_id": "03_applyeyemakeup_evaluation_00_seed42303",
+      "class_name": "ApplyEyeMakeup",
+      "shuffled_source_id": "00_basketball_evaluation_00_seed42003",
+      "completed_frames": 48,
+      "background": {
+        "contract": "initial_scaffold_rgb_mean",
+        "predicted": [
+          0.47965705394744873,
+          0.3660654127597809,
+          0.33753955364227295
+        ],
+        "fitted_reference": [
+          0.5141826868057251,
+          0.35871171951293945,
+          0.3195634186267853
+        ],
+        "mae": 0.019951820373535156
+      },
+      "render_signatures": {
+        "fitted jewel ceiling": {
+          "psnr": 23.3415584564209,
+          "ssim": 0.9767022728919983,
+          "contrast_ratio": 1.115920901298523,
+          "edge_ratio": 1.2848354578018188,
+          "saturation_ratio": 1.0022556781768799,
+          "temporal_change_ratio": 1.5148717164993286
+        },
+        "generated frozen base": {
+          "psnr": 13.795819282531738,
+          "ssim": 0.7225249409675598,
+          "contrast_ratio": 0.8186451196670532,
+          "edge_ratio": 1.332108497619629,
+          "saturation_ratio": 0.8053309321403503,
+          "temporal_change_ratio": 1.7792348861694336
+        },
+        "generated correct": {
+          "psnr": 14.49558162689209,
+          "ssim": 0.7585826516151428,
+          "contrast_ratio": 0.8111740946769714,
+          "edge_ratio": 1.2592077255249023,
+          "saturation_ratio": 0.8224664926528931,
+          "temporal_change_ratio": 1.7587828636169434
+        },
+        "generated shuffled": {
+          "psnr": 8.059818267822266,
+          "ssim": -0.14739683270454407,
+          "contrast_ratio": 0.6883721351623535,
+          "edge_ratio": 1.303127408027649,
+          "saturation_ratio": 0.9222874045372009,
+          "temporal_change_ratio": 1.836093783378601
+        },
+        "generated null": {
+          "psnr": 9.321974754333496,
+          "ssim": -0.027851982042193413,
+          "contrast_ratio": 0.48912519216537476,
+          "edge_ratio": 1.2743358612060547,
+          "saturation_ratio": 0.9573619961738586,
+          "temporal_change_ratio": 1.8566243648529053
+        }
+      },
+      "saliency_signatures": {
+        "fitted jewel ceiling": {
+          "foreground_rgb_mae": 0.0853126049041748,
+          "foreground_psnr": 18.76069609184984,
+          "foreground_edge_mae": 0.37166544795036316,
+          "motion_boundary_mae": 0.037443045526742935,
+          "quiet_temporal_mae": 0.006986609194427729
+        },
+        "generated frozen base": {
+          "foreground_rgb_mae": 0.20039837062358856,
+          "foreground_psnr": 11.151140166721214,
+          "foreground_edge_mae": 0.6393609642982483,
+          "motion_boundary_mae": 0.05869371071457863,
+          "quiet_temporal_mae": 0.023421522229909897
+        },
+        "generated correct": {
+          "foreground_rgb_mae": 0.19257336854934692,
+          "foreground_psnr": 11.7958329294251,
+          "foreground_edge_mae": 0.6239308714866638,
+          "motion_boundary_mae": 0.057947173714637756,
+          "quiet_temporal_mae": 0.02506815828382969
+        },
+        "generated shuffled": {
+          "foreground_rgb_mae": 0.2908831536769867,
+          "foreground_psnr": 9.139684514857008,
+          "foreground_edge_mae": 0.7480778098106384,
+          "motion_boundary_mae": 0.058638159185647964,
+          "quiet_temporal_mae": 0.02110392414033413
+        },
+        "generated null": {
+          "foreground_rgb_mae": 0.2602301836013794,
+          "foreground_psnr": 10.20195020686759,
+          "foreground_edge_mae": 0.7029126882553101,
+          "motion_boundary_mae": 0.05521072447299957,
+          "quiet_temporal_mae": 0.02150750532746315
+        }
+      },
+      "seams": {
+        "fitted jewel ceiling": {
+          "candidate_seam_change": 0.015116502530872822,
+          "target_seam_change": 0.008151289075613022,
+          "candidate_regular_change": 0.018475795164704323,
+          "target_regular_change": 0.011586202308535576,
+          "seam_to_target_ratio": 1.8544923067092896,
+          "seam_to_regular_ratio": 0.8181787133216858
+        },
+        "generated frozen base": {
+          "candidate_seam_change": 0.024408256635069847,
+          "target_seam_change": 0.008151289075613022,
+          "candidate_regular_change": 0.02486383356153965,
+          "target_regular_change": 0.011586202308535576,
+          "seam_to_target_ratio": 2.9944045543670654,
+          "seam_to_regular_ratio": 0.9816771149635315
+        },
+        "generated correct": {
+          "candidate_seam_change": 0.02404879406094551,
+          "target_seam_change": 0.008151289075613022,
+          "candidate_regular_change": 0.025175660848617554,
+          "target_regular_change": 0.011586202308535576,
+          "seam_to_target_ratio": 2.950305700302124,
+          "seam_to_regular_ratio": 0.9552398324012756
+        },
+        "generated shuffled": {
+          "candidate_seam_change": 0.022020332515239716,
+          "target_seam_change": 0.008151289075613022,
+          "candidate_regular_change": 0.023440243676304817,
+          "target_regular_change": 0.011586202308535576,
+          "seam_to_target_ratio": 2.701453924179077,
+          "seam_to_regular_ratio": 0.9394242167472839
+        },
+        "generated null": {
+          "candidate_seam_change": 0.021435784175992012,
+          "target_seam_change": 0.008151289075613022,
+          "candidate_regular_change": 0.021751483902335167,
+          "target_regular_change": 0.011586202308535576,
+          "seam_to_target_ratio": 2.629741668701172,
+          "seam_to_regular_ratio": 0.9854860305786133
+        }
+      },
+      "density": {
+        "fitted jewel ceiling": {
+          "effective": {
+            "mean": 5775.63037109375,
+            "median": 5818.41015625,
+            "min": 4294.7158203125,
+            "max": 6448.81201171875
+          },
+          "above_5_percent_alpha": {
+            "mean": 6793.45849609375,
+            "median": 6919.0,
+            "min": 4920.0,
+            "max": 7536.0
+          },
+          "frontier_effective": {
+            "0": 5304.10791015625,
+            "16": 6448.81201171875,
+            "32": 5752.8701171875
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 6183,
+            "16": 7512,
+            "32": 6870
+          },
+          "initial_stride_effective": [
+            5304.10791015625,
+            4993.37744140625,
+            5099.64501953125,
+            5303.4140625,
+            5526.173828125,
+            5816.17578125,
+            6025.56884765625,
+            6041.95654296875,
+            6071.72607421875,
+            6133.48974609375,
+            6328.892578125,
+            6416.68701171875,
+            6414.40673828125,
+            6379.67041015625,
+            6373.08837890625,
+            6415.654296875
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            6183,
+            5699,
+            5874,
+            6097,
+            6475,
+            6791,
+            7000,
+            7071,
+            7130,
+            7183,
+            7350,
+            7442,
+            7441,
+            7536,
+            7507,
+            7526
+          ]
+        },
+        "generated correct": {
+          "effective": {
+            "mean": 7473.79931640625,
+            "median": 7963.37255859375,
+            "min": 5465.66064453125,
+            "max": 8444.48046875
+          },
+          "above_5_percent_alpha": {
+            "mean": 8168.6875,
+            "median": 8713.0,
+            "min": 5803.0,
+            "max": 9273.0
+          },
+          "frontier_effective": {
+            "0": 7483.4658203125,
+            "16": 6961.83447265625,
+            "32": 8377.1298828125
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 8587,
+            "16": 7650,
+            "32": 9160
+          },
+          "initial_stride_effective": [
+            7483.4658203125,
+            6923.24072265625,
+            6367.88818359375,
+            5901.84326171875,
+            5599.53369140625,
+            5465.66064453125,
+            5478.68310546875,
+            5583.3876953125,
+            5767.06494140625,
+            5959.1513671875,
+            6135.17724609375,
+            6294.5087890625,
+            6450.12060546875,
+            6576.46044921875,
+            6717.380859375,
+            6834.65380859375
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            8587,
+            7873,
+            7065,
+            6441,
+            5971,
+            5803,
+            5852,
+            5907,
+            6137,
+            6318,
+            6586,
+            6788,
+            7018,
+            7195,
+            7377,
+            7536
+          ]
+        },
+        "generated shuffled": {
+          "effective": {
+            "mean": 7320.21826171875,
+            "median": 7585.1845703125,
+            "min": 5728.53857421875,
+            "max": 7982.5244140625
+          },
+          "above_5_percent_alpha": {
+            "mean": 7983.54150390625,
+            "median": 8298.0,
+            "min": 6074.0,
+            "max": 8919.0
+          },
+          "frontier_effective": {
+            "0": 7803.63720703125,
+            "16": 7407.298828125,
+            "32": 7640.8037109375
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 8919,
+            "16": 8111,
+            "32": 8335
+          },
+          "initial_stride_effective": [
+            7803.63720703125,
+            7448.10205078125,
+            6965.09423828125,
+            6470.72119140625,
+            6086.05322265625,
+            5850.275390625,
+            5760.4345703125,
+            5728.53857421875,
+            5770.70361328125,
+            5911.7412109375,
+            6149.3642578125,
+            6397.150390625,
+            6658.158203125,
+            6890.763671875,
+            7092.947265625,
+            7268.1484375
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            8919,
+            8507,
+            7843,
+            7153,
+            6546,
+            6242,
+            6134,
+            6074,
+            6133,
+            6241,
+            6560,
+            6866,
+            7206,
+            7530,
+            7766,
+            7930
+          ]
+        },
+        "generated null": {
+          "effective": {
+            "mean": 7268.42333984375,
+            "median": 7053.029296875,
+            "min": 5585.97216796875,
+            "max": 9249.353515625
+          },
+          "above_5_percent_alpha": {
+            "mean": 7991.8125,
+            "median": 7928.0,
+            "min": 5981.0,
+            "max": 10180.0
+          },
+          "frontier_effective": {
+            "0": 6949.99609375,
+            "16": 6428.4208984375,
+            "32": 8077.75146484375
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 8023,
+            "16": 7249,
+            "32": 8892
+          },
+          "initial_stride_effective": [
+            6949.99609375,
+            6584.8408203125,
+            6181.53515625,
+            5844.1044921875,
+            5644.263671875,
+            5585.97216796875,
+            5634.73828125,
+            5765.31298828125,
+            5926.318359375,
+            6094.515625,
+            6254.82177734375,
+            6340.71142578125,
+            6401.32080078125,
+            6439.0498046875,
+            6467.95703125,
+            6458.17919921875
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            8023,
+            7567,
+            6957,
+            6383,
+            6058,
+            5981,
+            6036,
+            6158,
+            6339,
+            6489,
+            6757,
+            6950,
+            7068,
+            7199,
+            7222,
+            7255
+          ]
+        },
+        "generated frozen base": {
+          "effective": {
+            "mean": 7473.28515625,
+            "median": 7963.1669921875,
+            "min": 5465.7431640625,
+            "max": 8443.173828125
+          },
+          "above_5_percent_alpha": {
+            "mean": 8168.08349609375,
+            "median": 8709.0,
+            "min": 5802.0,
+            "max": 9273.0
+          },
+          "frontier_effective": {
+            "0": 7483.013671875,
+            "16": 6961.1826171875,
+            "32": 8376.7001953125
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 8586,
+            "16": 7650,
+            "32": 9158
+          },
+          "initial_stride_effective": [
+            7483.013671875,
+            6922.97705078125,
+            6367.8837890625,
+            5901.95654296875,
+            5599.70849609375,
+            5465.7431640625,
+            5478.71826171875,
+            5583.48095703125,
+            5767.3916015625,
+            5959.39208984375,
+            6135.2080078125,
+            6294.48974609375,
+            6450.0087890625,
+            6576.095703125,
+            6716.91064453125,
+            6834.1884765625
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            8586,
+            7875,
+            7070,
+            6443,
+            5972,
+            5802,
+            5848,
+            5910,
+            6140,
+            6318,
+            6585,
+            6789,
+            7016,
+            7194,
+            7377,
+            7538
+          ]
+        }
+      },
+      "rollouts": {
+        "correct": {
+          "completed_frames": 48,
+          "total_jewels": 64404,
+          "stable_ids_exact": true,
+          "windows": [
+            {
+              "index": 0,
+              "frontier": 0,
+              "commit_stop": 16,
+              "context_jewels": 0,
+              "carried_jewels": 0,
+              "born_jewels": 27927,
+              "state_jewels": 27927,
+              "maximum_cell_count": 285,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 1,
+              "frontier": 16,
+              "commit_stop": 32,
+              "context_jewels": 25535,
+              "carried_jewels": 12172,
+              "born_jewels": 17793,
+              "state_jewels": 45720,
+              "maximum_cell_count": 91,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 2,
+              "frontier": 32,
+              "commit_stop": 48,
+              "context_jewels": 30004,
+              "carried_jewels": 14458,
+              "born_jewels": 18684,
+              "state_jewels": 64404,
+              "maximum_cell_count": 77,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            }
+          ]
+        },
+        "shuffled": {
+          "completed_frames": 48,
+          "total_jewels": 59016,
+          "stable_ids_exact": true,
+          "windows": [
+            {
+              "index": 0,
+              "frontier": 0,
+              "commit_stop": 16,
+              "context_jewels": 0,
+              "carried_jewels": 0,
+              "born_jewels": 26527,
+              "state_jewels": 26527,
+              "maximum_cell_count": 205,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 1,
+              "frontier": 16,
+              "commit_stop": 32,
+              "context_jewels": 25411,
+              "carried_jewels": 12791,
+              "born_jewels": 16006,
+              "state_jewels": 42533,
+              "maximum_cell_count": 33,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 2,
+              "frontier": 32,
+              "commit_stop": 48,
+              "context_jewels": 28828,
+              "carried_jewels": 13397,
+              "born_jewels": 16483,
+              "state_jewels": 59016,
+              "maximum_cell_count": 36,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            }
+          ]
+        },
+        "null": {
+          "completed_frames": 48,
+          "total_jewels": 58332,
+          "stable_ids_exact": true,
+          "windows": [
+            {
+              "index": 0,
+              "frontier": 0,
+              "commit_stop": 16,
+              "context_jewels": 0,
+              "carried_jewels": 0,
+              "born_jewels": 23510,
+              "state_jewels": 23510,
+              "maximum_cell_count": 174,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 1,
+              "frontier": 16,
+              "commit_stop": 32,
+              "context_jewels": 22338,
+              "carried_jewels": 10929,
+              "born_jewels": 15897,
+              "state_jewels": 39407,
+              "maximum_cell_count": 53,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 2,
+              "frontier": 32,
+              "commit_stop": 48,
+              "context_jewels": 26818,
+              "carried_jewels": 14058,
+              "born_jewels": 18925,
+              "state_jewels": 58332,
+              "maximum_cell_count": 69,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            }
+          ]
+        }
+      },
+      "lifecycle_appearance": {
+        "correct": {
+          "lifecycle_dimensions": [
+            2,
+            5,
+            7,
+            8
+          ],
+          "appearance_dimensions": [
+            0,
+            1,
+            3,
+            4,
+            6,
+            9,
+            10,
+            11,
+            12,
+            13,
+            15,
+            16,
+            18,
+            19
+          ],
+          "lifecycle_exact": true,
+          "stable_ids_exact": true,
+          "topology_exact": true,
+          "base": {
+            "completed_frames": 48,
+            "total_jewels": 64404,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 27927,
+                "state_jewels": 27927,
+                "maximum_cell_count": 285,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 25535,
+                "carried_jewels": 12172,
+                "born_jewels": 17793,
+                "state_jewels": 45720,
+                "maximum_cell_count": 91,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 30004,
+                "carried_jewels": 14458,
+                "born_jewels": 18684,
+                "state_jewels": 64404,
+                "maximum_cell_count": 77,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "appearance": {
+            "completed_frames": 48,
+            "total_jewels": 64404,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 27927,
+                "state_jewels": 27927,
+                "maximum_cell_count": 285,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 25535,
+                "carried_jewels": 12172,
+                "born_jewels": 17793,
+                "state_jewels": 45720,
+                "maximum_cell_count": 91,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 30004,
+                "carried_jewels": 14458,
+                "born_jewels": 18684,
+                "state_jewels": 64404,
+                "maximum_cell_count": 77,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "windows": [
+            {
+              "index": 0,
+              "born_jewels": 27927,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.022573573514819145
+            },
+            {
+              "index": 1,
+              "born_jewels": 17793,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.025787437334656715
+            },
+            {
+              "index": 2,
+              "born_jewels": 18684,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.026262478902935982
+            }
+          ]
+        },
+        "shuffled": {
+          "lifecycle_dimensions": [
+            2,
+            5,
+            7,
+            8
+          ],
+          "appearance_dimensions": [
+            0,
+            1,
+            3,
+            4,
+            6,
+            9,
+            10,
+            11,
+            12,
+            13,
+            15,
+            16,
+            18,
+            19
+          ],
+          "lifecycle_exact": true,
+          "stable_ids_exact": true,
+          "topology_exact": true,
+          "base": {
+            "completed_frames": 48,
+            "total_jewels": 59016,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 26527,
+                "state_jewels": 26527,
+                "maximum_cell_count": 205,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 25411,
+                "carried_jewels": 12791,
+                "born_jewels": 16006,
+                "state_jewels": 42533,
+                "maximum_cell_count": 33,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 28828,
+                "carried_jewels": 13397,
+                "born_jewels": 16483,
+                "state_jewels": 59016,
+                "maximum_cell_count": 36,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "appearance": {
+            "completed_frames": 48,
+            "total_jewels": 59016,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 26527,
+                "state_jewels": 26527,
+                "maximum_cell_count": 205,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 25411,
+                "carried_jewels": 12791,
+                "born_jewels": 16006,
+                "state_jewels": 42533,
+                "maximum_cell_count": 33,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 28828,
+                "carried_jewels": 13397,
+                "born_jewels": 16483,
+                "state_jewels": 59016,
+                "maximum_cell_count": 36,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "windows": [
+            {
+              "index": 0,
+              "born_jewels": 26527,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.02504805102944374
+            },
+            {
+              "index": 1,
+              "born_jewels": 16006,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.028580239042639732
+            },
+            {
+              "index": 2,
+              "born_jewels": 16483,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.030499717220664024
+            }
+          ]
+        },
+        "null": {
+          "lifecycle_dimensions": [
+            2,
+            5,
+            7,
+            8
+          ],
+          "appearance_dimensions": [
+            0,
+            1,
+            3,
+            4,
+            6,
+            9,
+            10,
+            11,
+            12,
+            13,
+            15,
+            16,
+            18,
+            19
+          ],
+          "lifecycle_exact": true,
+          "stable_ids_exact": true,
+          "topology_exact": true,
+          "base": {
+            "completed_frames": 48,
+            "total_jewels": 58332,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 23510,
+                "state_jewels": 23510,
+                "maximum_cell_count": 174,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 22338,
+                "carried_jewels": 10929,
+                "born_jewels": 15897,
+                "state_jewels": 39407,
+                "maximum_cell_count": 53,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 26818,
+                "carried_jewels": 14058,
+                "born_jewels": 18925,
+                "state_jewels": 58332,
+                "maximum_cell_count": 69,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "appearance": {
+            "completed_frames": 48,
+            "total_jewels": 58332,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 23510,
+                "state_jewels": 23510,
+                "maximum_cell_count": 174,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 22338,
+                "carried_jewels": 10929,
+                "born_jewels": 15897,
+                "state_jewels": 39407,
+                "maximum_cell_count": 53,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 26818,
+                "carried_jewels": 14058,
+                "born_jewels": 18925,
+                "state_jewels": 58332,
+                "maximum_cell_count": 69,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "windows": [
+            {
+              "index": 0,
+              "born_jewels": 23510,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.025820506736636162
+            },
+            {
+              "index": 1,
+              "born_jewels": 15897,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.026710551232099533
+            },
+            {
+              "index": 2,
+              "born_jewels": 18925,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.02687482163310051
+            }
+          ]
+        }
+      },
+      "artifacts": {
+        "gif": "03_applyeyemakeup_evaluation_00_seed42303_three_window_rollout.gif",
+        "contact_sheet": "03_applyeyemakeup_evaluation_00_seed42303_three_window_rollout_contact.png",
+        "generated_field": "03_applyeyemakeup_evaluation_00_seed42303_generated_field.pt"
+      }
+    }
+  ]
+}

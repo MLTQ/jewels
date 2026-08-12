@@ -34,7 +34,8 @@ submission-ready benchmark paper.
   render-loss sweep, the passing UCF-train/LTX-validation realizer transfer gate, and the first
   learned-topology/frozen-realizer continuation with exact carry and density controls. It now also
   includes the empty-state plus two-continuation generated-state rollout, exact deterministic
-  censored clip-start control, and rejected foreground/motion scalar-supervision sweep.
+  censored clip-start control, rejected foreground/motion scalar-supervision sweep, and passing
+  two-stream lifecycle/scaffold-gated RGB residual control.
 - **Interacts with**: Figures and metric reports under `assets/` and `sol/results/`.
 
 ### Semantic scaffold architecture
@@ -80,15 +81,24 @@ submission-ready benchmark paper.
   initialized 1,000-step supervision arms, and the predeclared selection decision.
 - **Rationale**: The best combined arm raises PSNR to 14.972 dB and SSIM to 0.6610, but raises
   quiet-region temporal MAE 3.8% and worsens foreground PSNR in two classes. It is rejected. The
-  next control must independently integrate a frozen lifecycle stream and learn only an
-  appearance/geometry residual.
+  resulting requirement is an independently integrated frozen lifecycle stream plus a constrained
+  appearance residual; the following factorization experiment now tests that requirement.
+
+### Lifecycle/appearance factorization
+
+- **Does**: Documents the independently integrated frozen base, exact topology/lifecycle/ID
+  ownership, feature-dimension screens, scaffold-saliency spatial gate, and 12-control audit.
+- **Rationale**: Exact lifecycle copying retains the unconstrained fidelity gain but does not stop
+  rendered flicker. Restricting the residual to RGB in the top 20% scaffold-salient cells passes the
+  macro quiet gate, improves subject metrics in three classes, and leaves density/state exact.
 
 ### Limitations and path forward
 
 - **Does**: Prevents unfinished prompt generation or repair quality from being described as solved
   and specifies the gates required for a future novelty claim. It distinguishes the passing
   three-window hybrid rollout from still-open direct jewel-text selectivity, long-horizon rollout,
-  lifecycle-factorized detail, weak rendered topology selectivity, and useful local repair.
+  a purpose-built higher-capacity appearance adapter, weak rendered topology selectivity, and
+  useful local repair.
 
 ### Representation rationale and multimodal event language
 
@@ -130,4 +140,5 @@ submission-ready benchmark paper.
 - LTX scaffold generation, optimized jewel reconstruction, topology prediction, and learned mark
   realization remain separate metrics. Cross-domain realization and three autonomous jewel
   windows now pass structurally, but correct/shuffled jewel-text remains tied under the guide and
-  moving-subject fidelity remains far below the fitted ceiling.
+  moving-subject fidelity remains far below the fitted ceiling. The conservative factorized RGB
+  residual passes its macro stability gate but is not yet a dedicated compact adapter.

@@ -113,7 +113,12 @@ projection raises deterministic correct-scaffold PSNR from 12.408 to 14.570 dB a
 visible density from 106--244 to 8,586--9,513, while stable IDs and carry remain exact. The selected
 field averages 7,493 effective contributors/frame and beats shuffled scaffolds by 4.116 dB. A
 foreground/motion-aware fine-tune reaches 14.972 dB/0.6610 SSIM but raises quiet-region temporal
-error by 3.8\%; it is rejected under the predeclared stability gate.
+error by 3.8\%; it is rejected under the predeclared stability gate. A two-stream control then
+integrates the selected base independently and copies lifecycle state exactly. Full-field
+appearance retains the fidelity gain but still flickers; restricting its residual to RGB in the
+top 20\% scaffold-salient cells passes the four-class gate at 14.604 dB/0.6314 SSIM, lowers macro
+quiet error, improves foreground PSNR/edge and motion-boundary metrics in three classes, and keeps
+lifecycle coordinates, topology, density, and stable IDs bit-identical across 12 controls.
 
 Gaussian reconstruction of video is not new: VeGaS, GSVC, GaussianVideo, GaRV, and related work
 predate this project. The research opportunity evaluated here is narrower: a corpus-level
@@ -162,8 +167,10 @@ layout in stochastic jewel realization and transfer from UCF training to unseen 
 LTX videos without mark-model retraining. We then replace fitted continuation topology with
 scaffold/carry-predicted counts and show that the frozen realizer remains within 0.028 dB of its
 oracle-topology control at the intended effective density. Finally, we remove fitted initial state,
-run three autonomous windows with exact append-only identity, and isolate a lifecycle/appearance
-coupling that scalar foreground weighting does not resolve. We additionally articulate two
+run three autonomous windows with exact append-only identity, isolate a lifecycle/appearance
+coupling that scalar foreground weighting does not resolve, and pass a conservative factorized
+control whose scaffold-gated RGB residual cannot alter lifecycle, topology, density, or identity.
+We additionally articulate two
 falsifiable systems hypotheses: that explicit persistent fields offer interaction properties
 unavailable from an opaque raster latent alone, and that a hierarchical field can serve as a
 multimodal visual event language.
@@ -1046,6 +1053,65 @@ and the full temporal audit detects increased quiet-region flicker.}
 \label{fig:foregroundablation}
 \end{figure}
 
+\subsection{Exact lifecycle ownership admits a safe appearance residual}
+
+We next run the proposed two-stream control without training another checkpoint. Both streams share
+one Gaussian initial state, but the selected v1 flow is integrated independently and alone owns
+topology counts, causal row selection, stable IDs, temporal center, and time-coupled log-covariance
+coordinates. Candidate coordinates outside a declared residual set are copied from v1 after every
+Euler step, topology projection, and local-to-global covariance transform. Later topology is also
+predicted from v1 carry, so candidate opacity or geometry cannot change which jewels exist. The
+rejected saliency checkpoint supplies the second velocity field; its difference from v1 is the
+appearance residual. This reuse makes the experiment an architectural control rather than another
+optimization sweep.
+
+Exact lifecycle copying does not by itself remove flicker. As Table~\ref{tab:lifecycleappearance}
+shows, allowing every spatial/appearance coordinate retains a 0.401 dB gain but raises quiet error
+4.45\%. Freezing opacity and RGB time-gradients barely changes the regression. Removing geometry
+cuts it to 0.32\%, indicating that spatially displaced fixed-lifetime jewels still sweep through
+quiet pixels differently. The passing arm therefore allows only base RGB residuals in the top 20\%
+of cells under the inference-available scaffold foreground/motion/chroma/boundary score.
+
+\begin{table}[H]
+\centering
+\footnotesize
+\caption{Deterministic lifecycle/appearance screens. The selected arm sacrifices most of the
+unconstrained gain to satisfy the predeclared quiet-stability invariant. Lower is better for the
+three MAE columns.}
+\label{tab:lifecycleappearance}
+\begin{tabularx}{\linewidth}{@{}Xrrrrrr@{}}
+\toprule
+Residual & PSNR & SSIM & Foreground PSNR & Foreground edge & Motion boundary & Quiet temporal \\
+\midrule
+Frozen v1 base & 14.5700 & 0.63060 & 10.2252 & 0.68952 & 0.072349 & 0.021452 \\
+All spatial/appearance & \textbf{14.9713} & \textbf{0.65629} & \textbf{10.6827} & 0.67613 & \textbf{0.072201} & 0.022406 \\
+Static spatial/detail & 14.9148 & 0.65379 & 10.6600 & \textbf{0.67587} & 0.072205 & 0.022388 \\
+Color + spatial gradients & 14.7476 & 0.63766 & 10.4657 & 0.68341 & 0.072240 & 0.021520 \\
+Color, all cells & 14.7550 & 0.63781 & 10.4863 & 0.68263 & 0.072224 & 0.021516 \\
+\textbf{Color, top 20\% salient} & 14.6041 & 0.63140 & 10.3591 & 0.68486 & 0.072268 & \textbf{0.021440} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+The selected arm gains 0.034 dB PSNR and 0.0008 SSIM, adds 0.134 dB foreground PSNR, and lowers
+macro foreground-edge, motion-boundary, and quiet errors without changing the 7,493 effective
+contributors/frame. PSNR improves in all four classes; foreground PSNR, foreground-edge MAE, and
+motion-boundary MAE each improve in three. Across four sources and correct/shuffled/null controls,
+lifecycle coordinates, count tensors, topology, and stable IDs are bit-identical in all 12
+rollouts. Correct guidance remains separated from shuffled by 4.141 dB. Two class-level quiet
+changes remain slightly positive (below \(10^{-5}\)), so this is a conservative factorization proof,
+not a claim that motion fidelity is solved. A purpose-built zero-initialized adapter must now expand
+the safe residual beyond RGB without relaxing exact ownership.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.94\linewidth]{../sol/results/ltx_scaffold_v1/lifecycle_appearance_ablation/color_salient20_contact.png}
+\caption{Selected scaffold-gated RGB residual at the first frame of the third window. The candidate
+is intentionally close to the frozen field: it passes stability by changing only base color in
+salient cells, while shuffled and null controls retain their expected semantic failure.}
+\label{fig:lifecycleappearance}
+\end{figure}
+
 \clearpage
 \section{What Has Been Falsified}
 
@@ -1070,6 +1136,7 @@ Stochastic marks alone recover coherent video & Rejected; edge energy returns, b
 Local multiscale tokens automatically improve the raster guide & Rejected; token-only and residual-hybrid controls both lose the matched visual gate. \\
 Scalar render-loss tuning cures washout & Rejected; detail improves at weight 0.5, but one action becomes less faithful and less stable. \\
 Scalar foreground weighting separates detail from lifecycle & Rejected; global fidelity rises, but quiet-region temporal error rises 3.8\%. \\
+Exact lifecycle copying alone removes quiet-region flicker & Rejected; full-field appearance still changes rendered motion, so the passing residual is scaffold-gated RGB only. \\
 Exact fitted cell/rank overlap measures generated density & Rejected; synthesizing all predicted ranks restores 5,822 effective contributors/frame and oracle-level rendering. \\
 Mask visibility alone teaches repair & Rejected; train explicit edit tuples with protected-jewel summaries. \\
 Further model scaling solves the sparse prior & Deprioritized; the curve saturates on 231 single-scene windows. \\
@@ -1089,9 +1156,10 @@ Further model scaling solves the sparse prior & Deprioritized; the curve saturat
   spends density on camera motion. Camera tokens or explicit stabilization are future work.
   \item \textbf{Low resolution.} Current fits use a 160-pixel short side. PSNR values are not
   comparable to full-resolution codec papers without a matched rate-distortion protocol.
-  \item \textbf{Lifecycle--appearance coupling.} Foreground-weighted supervision improves global
-  fidelity and some subject edges, but the best arm raises quiet-region flicker. A shared flow trunk
-  cannot guarantee lifecycle invariance merely by excluding temporal dimensions from an extra loss.
+  \item \textbf{Conservative lifecycle factorization.} Exact two-stream ownership now passes the
+  macro stability gate only when the residual is restricted to RGB in the top 20\% scaffold-salient
+  cells. Full geometry/appearance still flickers, and two classes retain sub-\(10^{-5}\) quiet
+  increases even in the selected arm. A dedicated adapter and broader gate remain open.
   \item \textbf{Short autonomous horizon.} Fitted cells, ranks, marks, and carry are removed for all
   three generated windows, but the audit covers only 48 frames, four action classes, and one seed.
   Longer rollouts may amplify carry error or exhaust the fixed topology/rank contract.
@@ -1100,8 +1168,8 @@ Further model scaling solves the sparse prior & Deprioritized; the curve saturat
   is nearly dense and the mark flow still sees the correct guide. Finer/adaptive density fields may
   be needed for topology itself to control semantics.
   \item \textbf{Motion-region mark noise.} Learned and oracle topology share blur/noise on moving
-  actors, hands, and thin objects. The scalar saliency sweep improves aggregate fidelity but does
-  not remove this error without a quiet-region stability regression.
+  actors, hands, and thin objects. The factorized RGB residual passes stability but gains only
+  0.034 dB globally; it does not recover the 7.24 dB gap to the fitted ceiling.
   \item \textbf{Pure-PyTorch rendering.} Exact kNN/Mahalanobis evaluation is useful for research but
   slower than a tile CUDA rasterizer. Current reconstruction is optimization-based, not amortized.
   \item \textbf{Edit quality.} Clean-region identity is exact, but dirty-region synthesis is not yet
@@ -1198,12 +1266,12 @@ the same structured state supports cheaper local editing than full latent regene
 The shortest evidence-driven path is:
 
 \begin{enumerate}
-  \item freeze the passing 1,024-rank empty-state plus two-continuation rollout as the deterministic
-  cross-domain baseline;
-  \item factor lifecycle from appearance: independently integrate the frozen base trajectory,
-  copy temporal center/time covariance exactly, and train only an appearance/geometry residual;
-  \item accept foreground/motion supervision only if at least three classes gain subject detail
-  with bit-identical lifecycle state and no quiet-region temporal regression;
+  \item freeze the passing two-stream control: v1 owns topology/lifecycle/IDs exactly, while RGB
+  residuals are confined to the top 20\% scaffold-salient cells;
+  \item replace the second full flow copy with a zero-initialized appearance adapter over frozen v1
+  features, retaining bit-identical base sampling and the same correct/shuffled/null audit;
+  \item expand the adapter beyond RGB only when at least three classes gain subject detail without
+  raising macro quiet-region error or weakening prompt-scaffold separation;
   \item extend the autonomous audit beyond three windows and across multiple prompts/seeds before
   interpreting exact short-horizon carry as long-video stability;
   \item evaluate finer or adaptive topology only if correct-versus-shuffled rendering remains tied
@@ -1243,10 +1311,13 @@ past the fitted-seed-free short-rollout question: an empty initial field plus tw
 preserve append-only identity at the intended density, and a matched boundary control explains the
 former opening washout without retraining. The next milestone is not another scalar loss sweep.
 Foreground/motion weighting yields real detail but trades it against quiet-region stability, so the
-next falsifiable model must separate an exact frozen lifecycle trajectory from a learned
-appearance/geometry residual. This hybrid preserves the distinctive explicit state while
-inheriting semantic competence that the current corpus cannot teach; prompt semantics still live
-in the pretrained scaffold, and direct distillation remains a later gate.
+two-stream control separates an exact frozen lifecycle trajectory from appearance. It passes only
+under a conservative scaffold-gated RGB residual: topology, density, lifecycle, and stable IDs stay
+exact, three-class subject metrics improve, and macro quiet error falls, but the gain is just
+0.034 dB. The next falsifiable model is therefore a zero-initialized appearance adapter that can
+expand this safe residual without relaxing ownership. The hybrid preserves the distinctive explicit
+state while inheriting semantic competence that the current corpus cannot teach; prompt semantics
+still live in the pretrained scaffold, and direct distillation remains a later gate.
 
 \appendix
 \section{Reproducibility Snapshot}
@@ -1269,6 +1340,7 @@ Prior & rectified flow, rotating axial attention, nullable CLIP/text condition \
 Continuation & empty initial state plus two 16-frame strides; generated-state context/carry; append-only IDs \\
 Topology generator & 0.88M 3D cell-RGB/carry head; $16^3$ cells, 1,024-rank initial contract \\
 Mark generator & selected 2.13M 1,024-rank 22-D rectified flow; 20 deterministic Euler steps \\
+Appearance control & independent frozen v1 trajectory; RGB residual in top 20\% scaffold-salient cells \\
 Semantic control & prompt-generated LTX \(24\times40\) guide; three-window autonomous rollout passes structurally \\
 Editing & swept source/destination dirty mask, protected moved jewels, exact clean-cell clamp \\
 \bottomrule
@@ -1284,7 +1356,8 @@ Editing & swept source/destination dirty mask, protected moved jewels, exact cle
   against code or supplements, not abstracts alone.
   \item Demonstrate text-conditioned generation from noise on held-out prompts and sources.
   \item Extend the passing initial-plus-two-continuation result across longer horizons, multiple
-  seeds/prompts, and a lifecycle-factorized foreground-detail model without quiet-region flicker.
+  seeds/prompts, and a purpose-built lifecycle-factorized adapter with larger gains and no
+  per-class quiet-region regression.
   \item Demonstrate a moved-object repair in which clean regions are exact and the dirty region is
   perceptually plausible under multiple samples.
   \item Release the protocol, checkpoints, videos, and a matched baseline script.

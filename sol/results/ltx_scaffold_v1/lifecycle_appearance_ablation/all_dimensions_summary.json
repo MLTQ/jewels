@@ -1,0 +1,4288 @@
+{
+  "schema": "scaffold-mark-lifecycle-appearance-rollout-v1",
+  "sources": 4,
+  "sampling_steps": 20,
+  "sampling_seed": 31,
+  "deterministic": true,
+  "runtime": {
+    "torch_version": "2.12.0+cu130",
+    "device": "cuda:0"
+  },
+  "inputs": {
+    "topology_checkpoint": "/home/m/jewels/topology/scaffold_topology_v1/run_3000/scaffold_topology.pt",
+    "mark_flow_checkpoint": "/home/m/jewels/topology/scaffold_mark_flow_v1/run_12000/scaffold_mark_flow.pt",
+    "appearance_flow_checkpoint": "/home/m/jewels/topology/scaffold_mark_flow_v1/feature_spatial_saliency2_stable05_1000/scaffold_mark_flow.pt",
+    "manifest": "/home/m/jewels/topology/scaffold_topology_v1/manifest.json",
+    "prompt_cache": "/home/m/jewels/topology/scaffold_topology_v1/prompts.pt",
+    "checkpoint_roots": [
+      "/home/m/jewels/corpus/ucf_prompt_smoke/fits_shard0",
+      "/home/m/jewels/corpus/ucf_prompt_smoke/fits_shard1",
+      "/home/m/jewels/corpus/ucf_prompt_smoke/fits_shard2",
+      "/home/m/jewels/corpus/ltx_scaffold_v1_eval_72k"
+    ],
+    "manifest_sha256": "64d6d09b77ce8a475364c57d96040a00dcda0c8811f38c1e87847f46d9d7860e"
+  },
+  "initial_boundary_contract": "left_censored_clip_start",
+  "completed_strides": 3,
+  "occupancy_threshold": 0.9,
+  "topology": {
+    "correct": {
+      "cell_count_mae": 8.3140869140625,
+      "cell_log_count_mae": 0.7937202453613281,
+      "total_count_ratio": 0.9094709753990173,
+      "occupancy_precision": 0.9570220708847046,
+      "occupancy_recall": 0.9298185110092163,
+      "occupancy_f1": 0.9432241916656494,
+      "occupancy_iou": 0.8925490379333496,
+      "slot_precision": 0.6431411504745483,
+      "slot_recall": 0.584918200969696,
+      "slot_f1": 0.6126495003700256,
+      "count_correlation": 0.44697337597608566,
+      "predicted_births": 251245.0,
+      "target_births": 276254.0
+    },
+    "shuffled": {
+      "cell_count_mae": 10.412190437316895,
+      "cell_log_count_mae": 1.0207322835922241,
+      "total_count_ratio": 0.9068683385848999,
+      "occupancy_precision": 0.9495012164115906,
+      "occupancy_recall": 0.9250021576881409,
+      "occupancy_f1": 0.937091588973999,
+      "occupancy_iou": 0.8816296458244324,
+      "slot_precision": 0.540642499923706,
+      "slot_recall": 0.4902915358543396,
+      "slot_f1": 0.5142374038696289,
+      "count_correlation": 0.17575261245171228,
+      "predicted_births": 250526.0,
+      "target_births": 276254.0
+    },
+    "null": {
+      "cell_count_mae": 9.866536140441895,
+      "cell_log_count_mae": 1.0348970890045166,
+      "total_count_ratio": 0.8399878144264221,
+      "occupancy_precision": 0.9465306997299194,
+      "occupancy_recall": 0.918078601360321,
+      "occupancy_f1": 0.9320876002311707,
+      "occupancy_iou": 0.8728127479553223,
+      "slot_precision": 0.5727730989456177,
+      "slot_recall": 0.4811224341392517,
+      "slot_f1": 0.5229626893997192,
+      "count_correlation": 0.2214905551324288,
+      "predicted_births": 232050.0,
+      "target_births": 276254.0
+    }
+  },
+  "macro_render_signatures": {
+    "fitted jewel ceiling": {
+      "psnr": 21.840225219726562,
+      "ssim": 0.9309791326522827,
+      "contrast_ratio": 1.1998954713344574,
+      "edge_ratio": 1.4486351013183594,
+      "saturation_ratio": 1.0947285145521164,
+      "temporal_change_ratio": 1.8871737122535706
+    },
+    "generated frozen base": {
+      "psnr": 14.57001280784607,
+      "ssim": 0.6306029260158539,
+      "contrast_ratio": 0.9700028449296951,
+      "edge_ratio": 1.2051376551389694,
+      "saturation_ratio": 0.9764773547649384,
+      "temporal_change_ratio": 1.191765621304512
+    },
+    "generated correct": {
+      "psnr": 14.971340894699097,
+      "ssim": 0.6562898010015488,
+      "contrast_ratio": 0.984062984585762,
+      "edge_ratio": 1.2039180845022202,
+      "saturation_ratio": 0.9884486645460129,
+      "temporal_change_ratio": 1.199966698884964
+    },
+    "generated shuffled": {
+      "psnr": 10.363453149795532,
+      "ssim": -0.015454604872502387,
+      "contrast_ratio": 0.9584273099899292,
+      "edge_ratio": 1.205488234758377,
+      "saturation_ratio": 1.1278960704803467,
+      "temporal_change_ratio": 1.2268874049186707
+    },
+    "generated null": {
+      "psnr": 11.639889001846313,
+      "ssim": 0.0217245789244771,
+      "contrast_ratio": 0.6400559842586517,
+      "edge_ratio": 1.1634609699249268,
+      "saturation_ratio": 1.033524990081787,
+      "temporal_change_ratio": 1.2199267596006393
+    }
+  },
+  "macro_saliency_signatures": {
+    "fitted jewel ceiling": {
+      "foreground_rgb_mae": 0.09562390297651291,
+      "foreground_psnr": 17.96779116899877,
+      "foreground_edge_mae": 0.42405081540346146,
+      "motion_boundary_mae": 0.07547129038721323,
+      "quiet_temporal_mae": 0.011526249698363245
+    },
+    "generated frozen base": {
+      "foreground_rgb_mae": 0.2268689163029194,
+      "foreground_psnr": 10.22521293481097,
+      "foreground_edge_mae": 0.689516231417656,
+      "motion_boundary_mae": 0.07234851084649563,
+      "quiet_temporal_mae": 0.02145190630108118
+    },
+    "generated correct": {
+      "foreground_rgb_mae": 0.21685417741537094,
+      "foreground_psnr": 10.682745752557768,
+      "foreground_edge_mae": 0.676130011677742,
+      "motion_boundary_mae": 0.07220120169222355,
+      "quiet_temporal_mae": 0.022405910305678844
+    },
+    "generated shuffled": {
+      "foreground_rgb_mae": 0.29231997206807137,
+      "foreground_psnr": 9.040632123908594,
+      "foreground_edge_mae": 0.7087921798229218,
+      "motion_boundary_mae": 0.07218987680971622,
+      "quiet_temporal_mae": 0.023829565849155188
+    },
+    "generated null": {
+      "foreground_rgb_mae": 0.23826397955417633,
+      "foreground_psnr": 11.082567125315258,
+      "foreground_edge_mae": 0.6505743116140366,
+      "motion_boundary_mae": 0.06950049940496683,
+      "quiet_temporal_mae": 0.021972244139760733
+    }
+  },
+  "macro_seams": {
+    "fitted jewel ceiling": {
+      "candidate_seam_change": 0.034175984328612685,
+      "target_seam_change": 0.017382084857672453,
+      "candidate_regular_change": 0.036576959770172834,
+      "target_regular_change": 0.019729177001863718,
+      "seam_to_target_ratio": 2.0109443962574005,
+      "seam_to_regular_ratio": 0.9245401471853256
+    },
+    "generated frozen base": {
+      "candidate_seam_change": 0.022330614272505045,
+      "target_seam_change": 0.017382084857672453,
+      "candidate_regular_change": 0.02318614348769188,
+      "target_regular_change": 0.019729177001863718,
+      "seam_to_target_ratio": 1.6102372258901596,
+      "seam_to_regular_ratio": 0.9635783433914185
+    },
+    "generated correct": {
+      "candidate_seam_change": 0.02299375180155039,
+      "target_seam_change": 0.017382084857672453,
+      "candidate_regular_change": 0.02375755226239562,
+      "target_regular_change": 0.019729177001863718,
+      "seam_to_target_ratio": 1.6400470435619354,
+      "seam_to_regular_ratio": 0.9682087153196335
+    },
+    "generated shuffled": {
+      "candidate_seam_change": 0.022928327787667513,
+      "target_seam_change": 0.017382084857672453,
+      "candidate_regular_change": 0.023608598858118057,
+      "target_regular_change": 0.019729177001863718,
+      "seam_to_target_ratio": 1.6138053834438324,
+      "seam_to_regular_ratio": 0.9701752066612244
+    },
+    "generated null": {
+      "candidate_seam_change": 0.02081081736832857,
+      "target_seam_change": 0.017382084857672453,
+      "candidate_regular_change": 0.02060226770117879,
+      "target_regular_change": 0.019729177001863718,
+      "seam_to_target_ratio": 1.4870480597019196,
+      "seam_to_regular_ratio": 1.0109612792730331
+    }
+  },
+  "macro_effective_density": {
+    "fitted jewel ceiling": 5988.7779541015625,
+    "generated frozen base": 7492.92822265625,
+    "generated correct": 7487.837158203125,
+    "generated shuffled": 7454.7608642578125,
+    "generated null": 7318.2730712890625
+  },
+  "lifecycle_appearance": {
+    "all_lifecycle_exact": true,
+    "all_stable_ids_exact": true,
+    "all_topology_exact": true,
+    "controls_audited": 12
+  },
+  "mean_background_mae": 0.03262012265622616,
+  "records": [
+    {
+      "source_id": "00_basketball_evaluation_00_seed42003",
+      "class_name": "Basketball",
+      "shuffled_source_id": "01_horseriding_evaluation_00_seed42103",
+      "completed_frames": 48,
+      "background": {
+        "contract": "initial_scaffold_rgb_mean",
+        "predicted": [
+          0.5282515287399292,
+          0.5374985933303833,
+          0.5214658379554749
+        ],
+        "fitted_reference": [
+          0.5137500762939453,
+          0.503560483455658,
+          0.48462849855422974
+        ],
+        "mae": 0.028425633907318115
+      },
+      "render_signatures": {
+        "fitted jewel ceiling": {
+          "psnr": 21.33943748474121,
+          "ssim": 0.9119983315467834,
+          "contrast_ratio": 1.22976553440094,
+          "edge_ratio": 1.6339855194091797,
+          "saturation_ratio": 1.2387802600860596,
+          "temporal_change_ratio": 2.4005885124206543
+        },
+        "generated frozen base": {
+          "psnr": 16.23535919189453,
+          "ssim": 0.6837306022644043,
+          "contrast_ratio": 0.9418519139289856,
+          "edge_ratio": 1.2456424236297607,
+          "saturation_ratio": 1.034149408340454,
+          "temporal_change_ratio": 1.1678026914596558
+        },
+        "generated correct": {
+          "psnr": 16.32103157043457,
+          "ssim": 0.703179121017456,
+          "contrast_ratio": 1.0215466022491455,
+          "edge_ratio": 1.2881823778152466,
+          "saturation_ratio": 1.0424789190292358,
+          "temporal_change_ratio": 1.1902880668640137
+        },
+        "generated shuffled": {
+          "psnr": 11.768664360046387,
+          "ssim": 0.10422345995903015,
+          "contrast_ratio": 1.0484004020690918,
+          "edge_ratio": 1.356823205947876,
+          "saturation_ratio": 1.5654559135437012,
+          "temporal_change_ratio": 1.1038079261779785
+        },
+        "generated null": {
+          "psnr": 13.115433692932129,
+          "ssim": 0.062473610043525696,
+          "contrast_ratio": 0.657398521900177,
+          "edge_ratio": 1.2411489486694336,
+          "saturation_ratio": 1.2302801609039307,
+          "temporal_change_ratio": 1.136698603630066
+        }
+      },
+      "saliency_signatures": {
+        "fitted jewel ceiling": {
+          "foreground_rgb_mae": 0.0909406989812851,
+          "foreground_psnr": 18.49967111944119,
+          "foreground_edge_mae": 0.4392735958099365,
+          "motion_boundary_mae": 0.09657375514507294,
+          "quiet_temporal_mae": 0.008976898156106472
+        },
+        "generated frozen base": {
+          "foreground_rgb_mae": 0.16537413001060486,
+          "foreground_psnr": 13.823662929463474,
+          "foreground_edge_mae": 0.5811501741409302,
+          "motion_boundary_mae": 0.06402860581874847,
+          "quiet_temporal_mae": 0.01796424761414528
+        },
+        "generated correct": {
+          "foreground_rgb_mae": 0.16172653436660767,
+          "foreground_psnr": 13.92089972436547,
+          "foreground_edge_mae": 0.5834496021270752,
+          "motion_boundary_mae": 0.06431620568037033,
+          "quiet_temporal_mae": 0.018451184034347534
+        },
+        "generated shuffled": {
+          "foreground_rgb_mae": 0.2772230803966522,
+          "foreground_psnr": 9.489351650553488,
+          "foreground_edge_mae": 0.6678221821784973,
+          "motion_boundary_mae": 0.06411593407392502,
+          "quiet_temporal_mae": 0.022800246253609657
+        },
+        "generated null": {
+          "foreground_rgb_mae": 0.23692768812179565,
+          "foreground_psnr": 11.083776906309296,
+          "foreground_edge_mae": 0.5706192851066589,
+          "motion_boundary_mae": 0.06193657964468002,
+          "quiet_temporal_mae": 0.020910847932100296
+        }
+      },
+      "seams": {
+        "fitted jewel ceiling": {
+          "candidate_seam_change": 0.04490756243467331,
+          "target_seam_change": 0.019222421571612358,
+          "candidate_regular_change": 0.03994045406579971,
+          "target_regular_change": 0.016512317582964897,
+          "seam_to_target_ratio": 2.336207389831543,
+          "seam_to_regular_ratio": 1.124362826347351
+        },
+        "generated frozen base": {
+          "candidate_seam_change": 0.02079114317893982,
+          "target_seam_change": 0.019222421571612358,
+          "candidate_regular_change": 0.02111307717859745,
+          "target_regular_change": 0.016512317582964897,
+          "seam_to_target_ratio": 1.0816088914871216,
+          "seam_to_regular_ratio": 0.9847519397735596
+        },
+        "generated correct": {
+          "candidate_seam_change": 0.021732721477746964,
+          "target_seam_change": 0.019222421571612358,
+          "candidate_regular_change": 0.021995477378368378,
+          "target_regular_change": 0.016512317582964897,
+          "seam_to_target_ratio": 1.1305922269821167,
+          "seam_to_regular_ratio": 0.988054096698761
+        },
+        "generated shuffled": {
+          "candidate_seam_change": 0.02112256921827793,
+          "target_seam_change": 0.019222421571612358,
+          "candidate_regular_change": 0.022708991542458534,
+          "target_regular_change": 0.016512317582964897,
+          "seam_to_target_ratio": 1.0988506078720093,
+          "seam_to_regular_ratio": 0.9301412105560303
+        },
+        "generated null": {
+          "candidate_seam_change": 0.01932564377784729,
+          "target_seam_change": 0.019222421571612358,
+          "candidate_regular_change": 0.01962803676724434,
+          "target_regular_change": 0.016512317582964897,
+          "seam_to_target_ratio": 1.0053699016571045,
+          "seam_to_regular_ratio": 0.9845938086509705
+        }
+      },
+      "density": {
+        "fitted jewel ceiling": {
+          "effective": {
+            "mean": 6398.15185546875,
+            "median": 6292.060546875,
+            "min": 5484.6279296875,
+            "max": 7625.72265625
+          },
+          "above_5_percent_alpha": {
+            "mean": 7401.66650390625,
+            "median": 7259.0,
+            "min": 6463.0,
+            "max": 8828.0
+          },
+          "frontier_effective": {
+            "0": 6829.2568359375,
+            "16": 7085.634765625,
+            "32": 5757.64501953125
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 7945,
+            "16": 8004,
+            "32": 6639
+          },
+          "initial_stride_effective": [
+            6829.2568359375,
+            6339.49853515625,
+            6292.060546875,
+            6448.02880859375,
+            6682.181640625,
+            6909.79736328125,
+            7115.66162109375,
+            7327.59423828125,
+            7474.294921875,
+            7553.57275390625,
+            7598.60791015625,
+            7625.72265625,
+            7586.408203125,
+            7486.048828125,
+            7361.97900390625,
+            7226.755859375
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            7945,
+            7390,
+            7259,
+            7409,
+            7649,
+            7967,
+            8234,
+            8445,
+            8595,
+            8688,
+            8775,
+            8828,
+            8749,
+            8657,
+            8542,
+            8278
+          ]
+        },
+        "generated correct": {
+          "effective": {
+            "mean": 7690.84765625,
+            "median": 8129.44775390625,
+            "min": 5757.1572265625,
+            "max": 8615.9404296875
+          },
+          "above_5_percent_alpha": {
+            "mean": 8374.8330078125,
+            "median": 8846.0,
+            "min": 6076.0,
+            "max": 9413.0
+          },
+          "frontier_effective": {
+            "0": 7747.68798828125,
+            "16": 7795.189453125,
+            "32": 8288.2626953125
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 8908,
+            "16": 8559,
+            "32": 9058
+          },
+          "initial_stride_effective": [
+            7747.68798828125,
+            7417.98583984375,
+            6970.74951171875,
+            6518.41552734375,
+            6144.40234375,
+            5893.9296875,
+            5770.81103515625,
+            5757.1572265625,
+            5830.703125,
+            5978.44873046875,
+            6198.63818359375,
+            6469.66162109375,
+            6745.30029296875,
+            7026.390625,
+            7309.65283203125,
+            7584.1923828125
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            8908,
+            8495,
+            7853,
+            7212,
+            6650,
+            6240,
+            6076,
+            6096,
+            6150,
+            6231,
+            6577,
+            6877,
+            7255,
+            7603,
+            7963,
+            8231
+          ]
+        },
+        "generated shuffled": {
+          "effective": {
+            "mean": 7816.11083984375,
+            "median": 8312.494140625,
+            "min": 6180.185546875,
+            "max": 8620.1259765625
+          },
+          "above_5_percent_alpha": {
+            "mean": 8679.1455078125,
+            "median": 9231.0,
+            "min": 6648.0,
+            "max": 10028.0
+          },
+          "frontier_effective": {
+            "0": 8620.1259765625,
+            "16": 7327.724609375,
+            "32": 8401.8232421875
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 10028,
+            "16": 8170,
+            "32": 9354
+          },
+          "initial_stride_effective": [
+            8620.1259765625,
+            8144.18798828125,
+            7598.783203125,
+            7073.4970703125,
+            6658.62841796875,
+            6377.97216796875,
+            6229.7470703125,
+            6180.185546875,
+            6200.2060546875,
+            6238.26513671875,
+            6327.037109375,
+            6456.4228515625,
+            6630.27587890625,
+            6800.72021484375,
+            6979.3359375,
+            7165.33447265625
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            10028,
+            9409,
+            8663,
+            7959,
+            7342,
+            6952,
+            6795,
+            6648,
+            6682,
+            6680,
+            6827,
+            7000,
+            7294,
+            7543,
+            7725,
+            8003
+          ]
+        },
+        "generated null": {
+          "effective": {
+            "mean": 7439.439453125,
+            "median": 7315.2685546875,
+            "min": 5676.5458984375,
+            "max": 9599.9677734375
+          },
+          "above_5_percent_alpha": {
+            "mean": 8165.04150390625,
+            "median": 8130.0,
+            "min": 6053.0,
+            "max": 10513.0
+          },
+          "frontier_effective": {
+            "0": 7028.0693359375,
+            "16": 6882.25927734375,
+            "32": 7958.564453125
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 8098,
+            "16": 7713,
+            "32": 8793
+          },
+          "initial_stride_effective": [
+            7028.0693359375,
+            6700.41796875,
+            6339.84619140625,
+            6002.8994140625,
+            5771.21630859375,
+            5676.5458984375,
+            5717.0419921875,
+            5850.41748046875,
+            6062.3408203125,
+            6298.72265625,
+            6526.1201171875,
+            6706.78857421875,
+            6844.7822265625,
+            6931.37939453125,
+            6976.3720703125,
+            6964.92822265625
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            8098,
+            7653,
+            7157,
+            6614,
+            6270,
+            6053,
+            6132,
+            6233,
+            6372,
+            6719,
+            7084,
+            7332,
+            7562,
+            7643,
+            7727,
+            7770
+          ]
+        },
+        "generated frozen base": {
+          "effective": {
+            "mean": 7685.013671875,
+            "median": 8113.20654296875,
+            "min": 5745.73681640625,
+            "max": 8605.884765625
+          },
+          "above_5_percent_alpha": {
+            "mean": 8432.6455078125,
+            "median": 8920.0,
+            "min": 6126.0,
+            "max": 9470.0
+          },
+          "frontier_effective": {
+            "0": 7752.0576171875,
+            "16": 7778.79150390625,
+            "32": 8274.9375
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 8972,
+            "16": 8589,
+            "32": 9138
+          },
+          "initial_stride_effective": [
+            7752.0576171875,
+            7424.60302734375,
+            6977.44091796875,
+            6521.65380859375,
+            6143.0703125,
+            5888.27587890625,
+            5762.16015625,
+            5745.73681640625,
+            5818.52783203125,
+            5966.7265625,
+            6185.33251953125,
+            6454.0693359375,
+            6727.3486328125,
+            7006.427734375,
+            7288.35546875,
+            7563.455078125
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            8972,
+            8550,
+            7907,
+            7249,
+            6718,
+            6294,
+            6126,
+            6138,
+            6198,
+            6271,
+            6613,
+            6908,
+            7280,
+            7627,
+            7988,
+            8261
+          ]
+        }
+      },
+      "rollouts": {
+        "correct": {
+          "completed_frames": 48,
+          "total_jewels": 59051,
+          "stable_ids_exact": true,
+          "windows": [
+            {
+              "index": 0,
+              "frontier": 0,
+              "commit_stop": 16,
+              "context_jewels": 0,
+              "carried_jewels": 0,
+              "born_jewels": 26527,
+              "state_jewels": 26527,
+              "maximum_cell_count": 205,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 1,
+              "frontier": 16,
+              "commit_stop": 32,
+              "context_jewels": 25476,
+              "carried_jewels": 13201,
+              "born_jewels": 16337,
+              "state_jewels": 42864,
+              "maximum_cell_count": 36,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 2,
+              "frontier": 32,
+              "commit_stop": 48,
+              "context_jewels": 29577,
+              "carried_jewels": 14464,
+              "born_jewels": 16187,
+              "state_jewels": 59051,
+              "maximum_cell_count": 35,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            }
+          ]
+        },
+        "shuffled": {
+          "completed_frames": 48,
+          "total_jewels": 57882,
+          "stable_ids_exact": true,
+          "windows": [
+            {
+              "index": 0,
+              "frontier": 0,
+              "commit_stop": 16,
+              "context_jewels": 0,
+              "carried_jewels": 0,
+              "born_jewels": 27012,
+              "state_jewels": 27012,
+              "maximum_cell_count": 307,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 1,
+              "frontier": 16,
+              "commit_stop": 32,
+              "context_jewels": 25573,
+              "carried_jewels": 12920,
+              "born_jewels": 14916,
+              "state_jewels": 41928,
+              "maximum_cell_count": 46,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 2,
+              "frontier": 32,
+              "commit_stop": 48,
+              "context_jewels": 27915,
+              "carried_jewels": 14637,
+              "born_jewels": 15954,
+              "state_jewels": 57882,
+              "maximum_cell_count": 53,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            }
+          ]
+        },
+        "null": {
+          "completed_frames": 48,
+          "total_jewels": 57708,
+          "stable_ids_exact": true,
+          "windows": [
+            {
+              "index": 0,
+              "frontier": 0,
+              "commit_stop": 16,
+              "context_jewels": 0,
+              "carried_jewels": 0,
+              "born_jewels": 23510,
+              "state_jewels": 23510,
+              "maximum_cell_count": 174,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 1,
+              "frontier": 16,
+              "commit_stop": 32,
+              "context_jewels": 22471,
+              "carried_jewels": 11658,
+              "born_jewels": 15583,
+              "state_jewels": 39093,
+              "maximum_cell_count": 40,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 2,
+              "frontier": 32,
+              "commit_stop": 48,
+              "context_jewels": 27256,
+              "carried_jewels": 14134,
+              "born_jewels": 18615,
+              "state_jewels": 57708,
+              "maximum_cell_count": 61,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            }
+          ]
+        }
+      },
+      "lifecycle_appearance": {
+        "correct": {
+          "lifecycle_dimensions": [
+            2,
+            5,
+            7,
+            8
+          ],
+          "spatial_appearance_dimensions": [
+            0,
+            1,
+            3,
+            4,
+            6,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21
+          ],
+          "lifecycle_exact": true,
+          "stable_ids_exact": true,
+          "topology_exact": true,
+          "base": {
+            "completed_frames": 48,
+            "total_jewels": 59051,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 26527,
+                "state_jewels": 26527,
+                "maximum_cell_count": 205,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 25476,
+                "carried_jewels": 13201,
+                "born_jewels": 16337,
+                "state_jewels": 42864,
+                "maximum_cell_count": 36,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 29577,
+                "carried_jewels": 14464,
+                "born_jewels": 16187,
+                "state_jewels": 59051,
+                "maximum_cell_count": 35,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "appearance": {
+            "completed_frames": 48,
+            "total_jewels": 59051,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 26527,
+                "state_jewels": 26527,
+                "maximum_cell_count": 205,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 25476,
+                "carried_jewels": 13201,
+                "born_jewels": 16337,
+                "state_jewels": 42864,
+                "maximum_cell_count": 36,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 29577,
+                "carried_jewels": 14464,
+                "born_jewels": 16187,
+                "state_jewels": 59051,
+                "maximum_cell_count": 35,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "windows": [
+            {
+              "index": 0,
+              "born_jewels": 26527,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.0320323221385479
+            },
+            {
+              "index": 1,
+              "born_jewels": 16337,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.03725894168019295
+            },
+            {
+              "index": 2,
+              "born_jewels": 16187,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.03874178230762482
+            }
+          ]
+        },
+        "shuffled": {
+          "lifecycle_dimensions": [
+            2,
+            5,
+            7,
+            8
+          ],
+          "spatial_appearance_dimensions": [
+            0,
+            1,
+            3,
+            4,
+            6,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21
+          ],
+          "lifecycle_exact": true,
+          "stable_ids_exact": true,
+          "topology_exact": true,
+          "base": {
+            "completed_frames": 48,
+            "total_jewels": 57882,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 27012,
+                "state_jewels": 27012,
+                "maximum_cell_count": 307,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 25573,
+                "carried_jewels": 12920,
+                "born_jewels": 14916,
+                "state_jewels": 41928,
+                "maximum_cell_count": 46,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 27915,
+                "carried_jewels": 14637,
+                "born_jewels": 15954,
+                "state_jewels": 57882,
+                "maximum_cell_count": 53,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "appearance": {
+            "completed_frames": 48,
+            "total_jewels": 57882,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 27012,
+                "state_jewels": 27012,
+                "maximum_cell_count": 307,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 25573,
+                "carried_jewels": 12920,
+                "born_jewels": 14916,
+                "state_jewels": 41928,
+                "maximum_cell_count": 46,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 27915,
+                "carried_jewels": 14637,
+                "born_jewels": 15954,
+                "state_jewels": 57882,
+                "maximum_cell_count": 53,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "windows": [
+            {
+              "index": 0,
+              "born_jewels": 27012,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.027508648112416267
+            },
+            {
+              "index": 1,
+              "born_jewels": 14916,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.0302912387996912
+            },
+            {
+              "index": 2,
+              "born_jewels": 15954,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.032149508595466614
+            }
+          ]
+        },
+        "null": {
+          "lifecycle_dimensions": [
+            2,
+            5,
+            7,
+            8
+          ],
+          "spatial_appearance_dimensions": [
+            0,
+            1,
+            3,
+            4,
+            6,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21
+          ],
+          "lifecycle_exact": true,
+          "stable_ids_exact": true,
+          "topology_exact": true,
+          "base": {
+            "completed_frames": 48,
+            "total_jewels": 57708,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 23510,
+                "state_jewels": 23510,
+                "maximum_cell_count": 174,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 22471,
+                "carried_jewels": 11658,
+                "born_jewels": 15583,
+                "state_jewels": 39093,
+                "maximum_cell_count": 40,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 27256,
+                "carried_jewels": 14134,
+                "born_jewels": 18615,
+                "state_jewels": 57708,
+                "maximum_cell_count": 61,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "appearance": {
+            "completed_frames": 48,
+            "total_jewels": 57708,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 23510,
+                "state_jewels": 23510,
+                "maximum_cell_count": 174,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 22471,
+                "carried_jewels": 11658,
+                "born_jewels": 15583,
+                "state_jewels": 39093,
+                "maximum_cell_count": 40,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 27256,
+                "carried_jewels": 14134,
+                "born_jewels": 18615,
+                "state_jewels": 57708,
+                "maximum_cell_count": 61,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "windows": [
+            {
+              "index": 0,
+              "born_jewels": 23510,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.03050907514989376
+            },
+            {
+              "index": 1,
+              "born_jewels": 15583,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.03195592015981674
+            },
+            {
+              "index": 2,
+              "born_jewels": 18615,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.031782425940036774
+            }
+          ]
+        }
+      },
+      "artifacts": {
+        "gif": "00_basketball_evaluation_00_seed42003_three_window_rollout.gif",
+        "contact_sheet": "00_basketball_evaluation_00_seed42003_three_window_rollout_contact.png",
+        "generated_field": "00_basketball_evaluation_00_seed42003_generated_field.pt"
+      }
+    },
+    {
+      "source_id": "01_horseriding_evaluation_00_seed42103",
+      "class_name": "HorseRiding",
+      "shuffled_source_id": "02_playingguitar_evaluation_00_seed42203",
+      "completed_frames": 48,
+      "background": {
+        "contract": "initial_scaffold_rgb_mean",
+        "predicted": [
+          0.3552412688732147,
+          0.34678980708122253,
+          0.3166288435459137
+        ],
+        "fitted_reference": [
+          0.28380945324897766,
+          0.2806735038757324,
+          0.239157572388649
+        ],
+        "mae": 0.07167313247919083
+      },
+      "render_signatures": {
+        "fitted jewel ceiling": {
+          "psnr": 21.122344970703125,
+          "ssim": 0.8836748600006104,
+          "contrast_ratio": 1.2906700372695923,
+          "edge_ratio": 1.5670874118804932,
+          "saturation_ratio": 1.1482150554656982,
+          "temporal_change_ratio": 2.1701927185058594
+        },
+        "generated frozen base": {
+          "psnr": 15.166977882385254,
+          "ssim": 0.606814980506897,
+          "contrast_ratio": 1.3768024444580078,
+          "edge_ratio": 1.263681411743164,
+          "saturation_ratio": 1.095218539237976,
+          "temporal_change_ratio": 1.2105576992034912
+        },
+        "generated correct": {
+          "psnr": 15.64842414855957,
+          "ssim": 0.6227214932441711,
+          "contrast_ratio": 1.3526911735534668,
+          "edge_ratio": 1.2726223468780518,
+          "saturation_ratio": 1.1063226461410522,
+          "temporal_change_ratio": 1.2138550281524658
+        },
+        "generated shuffled": {
+          "psnr": 12.225117683410645,
+          "ssim": -0.017871322110295296,
+          "contrast_ratio": 1.1788876056671143,
+          "edge_ratio": 1.2702289819717407,
+          "saturation_ratio": 1.1754655838012695,
+          "temporal_change_ratio": 1.4569706916809082
+        },
+        "generated null": {
+          "psnr": 13.840842247009277,
+          "ssim": 0.1237403154373169,
+          "contrast_ratio": 0.8703819513320923,
+          "edge_ratio": 1.2054811716079712,
+          "saturation_ratio": 0.8616045117378235,
+          "temporal_change_ratio": 1.306420087814331
+        }
+      },
+      "saliency_signatures": {
+        "fitted jewel ceiling": {
+          "foreground_rgb_mae": 0.10366902500391006,
+          "foreground_psnr": 17.255316450140736,
+          "foreground_edge_mae": 0.4146989583969116,
+          "motion_boundary_mae": 0.06546366959810257,
+          "quiet_temporal_mae": 0.01687939092516899
+        },
+        "generated frozen base": {
+          "foreground_rgb_mae": 0.3163425922393799,
+          "foreground_psnr": 4.7932660836455065,
+          "foreground_edge_mae": 0.779590368270874,
+          "motion_boundary_mae": 0.05405218526721001,
+          "quiet_temporal_mae": 0.022755134850740433
+        },
+        "generated correct": {
+          "foreground_rgb_mae": 0.2876266837120056,
+          "foreground_psnr": 5.810231454560089,
+          "foreground_edge_mae": 0.7540181279182434,
+          "motion_boundary_mae": 0.05367567017674446,
+          "quiet_temporal_mae": 0.022766174748539925
+        },
+        "generated shuffled": {
+          "foreground_rgb_mae": 0.24392254650592804,
+          "foreground_psnr": 10.330712372234597,
+          "foreground_edge_mae": 0.6229381561279297,
+          "motion_boundary_mae": 0.05273547023534775,
+          "quiet_temporal_mae": 0.024942547082901
+        },
+        "generated null": {
+          "foreground_rgb_mae": 0.1696927845478058,
+          "foreground_psnr": 13.736751533455875,
+          "foreground_edge_mae": 0.5604245662689209,
+          "motion_boundary_mae": 0.048780933022499084,
+          "quiet_temporal_mae": 0.023441312834620476
+        }
+      },
+      "seams": {
+        "fitted jewel ceiling": {
+          "candidate_seam_change": 0.03118380345404148,
+          "target_seam_change": 0.013905536383390427,
+          "candidate_regular_change": 0.034537237137556076,
+          "target_regular_change": 0.015920398756861687,
+          "seam_to_target_ratio": 2.2425458431243896,
+          "seam_to_regular_ratio": 0.9029037952423096
+        },
+        "generated frozen base": {
+          "candidate_seam_change": 0.02199149876832962,
+          "target_seam_change": 0.013905536383390427,
+          "candidate_regular_change": 0.02388075366616249,
+          "target_regular_change": 0.015920398756861687,
+          "seam_to_target_ratio": 1.581492304801941,
+          "seam_to_regular_ratio": 0.9208879470825195
+        },
+        "generated correct": {
+          "candidate_seam_change": 0.022342657670378685,
+          "target_seam_change": 0.013905536383390427,
+          "candidate_regular_change": 0.023578492924571037,
+          "target_regular_change": 0.015920398756861687,
+          "seam_to_target_ratio": 1.6067454814910889,
+          "seam_to_regular_ratio": 0.9475863575935364
+        },
+        "generated shuffled": {
+          "candidate_seam_change": 0.025260772556066513,
+          "target_seam_change": 0.013905536383390427,
+          "candidate_regular_change": 0.024526244029402733,
+          "target_regular_change": 0.015920398756861687,
+          "seam_to_target_ratio": 1.8165981769561768,
+          "seam_to_regular_ratio": 1.0299487113952637
+        },
+        "generated null": {
+          "candidate_seam_change": 0.021232668310403824,
+          "target_seam_change": 0.013905536383390427,
+          "candidate_regular_change": 0.02116231992840767,
+          "target_regular_change": 0.015920398756861687,
+          "seam_to_target_ratio": 1.5269218683242798,
+          "seam_to_regular_ratio": 1.003324270248413
+        }
+      },
+      "density": {
+        "fitted jewel ceiling": {
+          "effective": {
+            "mean": 7181.15771484375,
+            "median": 7483.73779296875,
+            "min": 4802.89892578125,
+            "max": 8064.00830078125
+          },
+          "above_5_percent_alpha": {
+            "mean": 8094.95849609375,
+            "median": 8442.0,
+            "min": 5359.0,
+            "max": 9010.0
+          },
+          "frontier_effective": {
+            "0": 6571.53466796875,
+            "16": 7723.095703125,
+            "32": 7370.2060546875
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 7413,
+            "16": 8605,
+            "32": 8396
+          },
+          "initial_stride_effective": [
+            6571.53466796875,
+            6434.62890625,
+            6699.3544921875,
+            7012.0732421875,
+            7333.59521484375,
+            7667.16259765625,
+            7905.08544921875,
+            7942.498046875,
+            7960.90185546875,
+            7993.29443359375,
+            8034.03662109375,
+            8064.00830078125,
+            7984.99853515625,
+            7949.92431640625,
+            7906.18505859375,
+            7810.0458984375
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            7413,
+            7227,
+            7449,
+            7864,
+            8342,
+            8602,
+            8889,
+            9010,
+            8948,
+            8997,
+            9007,
+            8911,
+            8829,
+            8832,
+            8758,
+            8665
+          ]
+        },
+        "generated correct": {
+          "effective": {
+            "mean": 7338.13623046875,
+            "median": 7631.95947265625,
+            "min": 5885.85791015625,
+            "max": 8256.32421875
+          },
+          "above_5_percent_alpha": {
+            "mean": 8090.52099609375,
+            "median": 8386.0,
+            "min": 6304.0,
+            "max": 9477.0
+          },
+          "frontier_effective": {
+            "0": 8188.44921875,
+            "16": 6982.86328125,
+            "32": 7588.677734375
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 9477,
+            "16": 7786,
+            "32": 8387
+          },
+          "initial_stride_effective": [
+            8188.44921875,
+            7670.14697265625,
+            7108.50439453125,
+            6600.6494140625,
+            6234.39013671875,
+            5990.91748046875,
+            5885.900390625,
+            5885.85791015625,
+            5931.4912109375,
+            5979.146484375,
+            6068.37353515625,
+            6168.0576171875,
+            6306.236328125,
+            6468.234375,
+            6657.328125,
+            6831.55517578125
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            9477,
+            8766,
+            8060,
+            7329,
+            6789,
+            6474,
+            6354,
+            6304,
+            6393,
+            6462,
+            6549,
+            6727,
+            6930,
+            7142,
+            7297,
+            7541
+          ]
+        },
+        "generated shuffled": {
+          "effective": {
+            "mean": 6994.12255859375,
+            "median": 7588.19384765625,
+            "min": 5181.40966796875,
+            "max": 7958.05322265625
+          },
+          "above_5_percent_alpha": {
+            "mean": 7548.125,
+            "median": 8262.0,
+            "min": 5327.0,
+            "max": 8658.0
+          },
+          "frontier_effective": {
+            "0": 7588.19384765625,
+            "16": 6117.1787109375,
+            "32": 7864.3505859375
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 8510,
+            "16": 6721,
+            "32": 8633
+          },
+          "initial_stride_effective": [
+            7588.19384765625,
+            6805.3388671875,
+            6076.04345703125,
+            5523.8095703125,
+            5240.57470703125,
+            5181.40966796875,
+            5262.32080078125,
+            5366.67626953125,
+            5533.7568359375,
+            5645.4150390625,
+            5777.13427734375,
+            5864.572265625,
+            5973.9599609375,
+            6017.9794921875,
+            6030.20947265625,
+            6078.51513671875
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            8510,
+            7512,
+            6594,
+            5898,
+            5445,
+            5327,
+            5458,
+            5611,
+            5824,
+            5885,
+            6053,
+            6157,
+            6332,
+            6475,
+            6516,
+            6663
+          ]
+        },
+        "generated null": {
+          "effective": {
+            "mean": 7170.52392578125,
+            "median": 7167.83447265625,
+            "min": 5184.3173828125,
+            "max": 9034.896484375
+          },
+          "above_5_percent_alpha": {
+            "mean": 7798.27099609375,
+            "median": 7781.0,
+            "min": 5446.0,
+            "max": 9804.0
+          },
+          "frontier_effective": {
+            "0": 6448.98681640625,
+            "16": 6325.66796875,
+            "32": 8233.380859375
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 7357,
+            "16": 7049,
+            "32": 9013
+          },
+          "initial_stride_effective": [
+            6448.98681640625,
+            6062.37109375,
+            5686.59619140625,
+            5395.70166015625,
+            5224.69873046875,
+            5184.3173828125,
+            5248.26123046875,
+            5365.611328125,
+            5560.7412109375,
+            5736.3447265625,
+            5914.97119140625,
+            6063.822265625,
+            6194.03662109375,
+            6274.26904296875,
+            6362.90478515625,
+            6376.9072265625
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            7357,
+            6830,
+            6281,
+            5797,
+            5496,
+            5446,
+            5498,
+            5592,
+            5795,
+            6036,
+            6314,
+            6582,
+            6817,
+            6918,
+            7044,
+            7062
+          ]
+        },
+        "generated frozen base": {
+          "effective": {
+            "mean": 7346.38037109375,
+            "median": 7643.92333984375,
+            "min": 5884.7353515625,
+            "max": 8267.955078125
+          },
+          "above_5_percent_alpha": {
+            "mean": 8102.95849609375,
+            "median": 8397.0,
+            "min": 6324.0,
+            "max": 9513.0
+          },
+          "frontier_effective": {
+            "0": 8205.7744140625,
+            "16": 6978.0732421875,
+            "32": 7608.33837890625
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 9513,
+            "16": 7789,
+            "32": 8404
+          },
+          "initial_stride_effective": [
+            8205.7744140625,
+            7686.63037109375,
+            7123.64404296875,
+            6612.912109375,
+            6242.79638671875,
+            5995.32421875,
+            5887.080078125,
+            5884.7353515625,
+            5928.38134765625,
+            5975.00830078125,
+            6065.37451171875,
+            6164.53076171875,
+            6300.77783203125,
+            6461.63134765625,
+            6650.22802734375,
+            6825.61767578125
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            9513,
+            8810,
+            8106,
+            7353,
+            6810,
+            6501,
+            6396,
+            6324,
+            6401,
+            6474,
+            6557,
+            6734,
+            6922,
+            7126,
+            7287,
+            7534
+          ]
+        }
+      },
+      "rollouts": {
+        "correct": {
+          "completed_frames": 48,
+          "total_jewels": 58355,
+          "stable_ids_exact": true,
+          "windows": [
+            {
+              "index": 0,
+              "frontier": 0,
+              "commit_stop": 16,
+              "context_jewels": 0,
+              "carried_jewels": 0,
+              "born_jewels": 27012,
+              "state_jewels": 27012,
+              "maximum_cell_count": 307,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 1,
+              "frontier": 16,
+              "commit_stop": 32,
+              "context_jewels": 25280,
+              "carried_jewels": 12288,
+              "born_jewels": 15012,
+              "state_jewels": 42024,
+              "maximum_cell_count": 46,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 2,
+              "frontier": 32,
+              "commit_stop": 48,
+              "context_jewels": 27336,
+              "carried_jewels": 13411,
+              "born_jewels": 16331,
+              "state_jewels": 58355,
+              "maximum_cell_count": 59,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            }
+          ]
+        },
+        "shuffled": {
+          "completed_frames": 48,
+          "total_jewels": 70486,
+          "stable_ids_exact": true,
+          "windows": [
+            {
+              "index": 0,
+              "frontier": 0,
+              "commit_stop": 16,
+              "context_jewels": 0,
+              "carried_jewels": 0,
+              "born_jewels": 30809,
+              "state_jewels": 30809,
+              "maximum_cell_count": 370,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 1,
+              "frontier": 16,
+              "commit_stop": 32,
+              "context_jewels": 26319,
+              "carried_jewels": 10757,
+              "born_jewels": 19591,
+              "state_jewels": 50400,
+              "maximum_cell_count": 57,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 2,
+              "frontier": 32,
+              "commit_stop": 48,
+              "context_jewels": 30339,
+              "carried_jewels": 13193,
+              "born_jewels": 20086,
+              "state_jewels": 70486,
+              "maximum_cell_count": 95,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            }
+          ]
+        },
+        "null": {
+          "completed_frames": 48,
+          "total_jewels": 58858,
+          "stable_ids_exact": true,
+          "windows": [
+            {
+              "index": 0,
+              "frontier": 0,
+              "commit_stop": 16,
+              "context_jewels": 0,
+              "carried_jewels": 0,
+              "born_jewels": 23510,
+              "state_jewels": 23510,
+              "maximum_cell_count": 174,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 1,
+              "frontier": 16,
+              "commit_stop": 32,
+              "context_jewels": 21976,
+              "carried_jewels": 10778,
+              "born_jewels": 16503,
+              "state_jewels": 40013,
+              "maximum_cell_count": 61,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 2,
+              "frontier": 32,
+              "commit_stop": 48,
+              "context_jewels": 27278,
+              "carried_jewels": 14258,
+              "born_jewels": 18845,
+              "state_jewels": 58858,
+              "maximum_cell_count": 64,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            }
+          ]
+        }
+      },
+      "lifecycle_appearance": {
+        "correct": {
+          "lifecycle_dimensions": [
+            2,
+            5,
+            7,
+            8
+          ],
+          "spatial_appearance_dimensions": [
+            0,
+            1,
+            3,
+            4,
+            6,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21
+          ],
+          "lifecycle_exact": true,
+          "stable_ids_exact": true,
+          "topology_exact": true,
+          "base": {
+            "completed_frames": 48,
+            "total_jewels": 58355,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 27012,
+                "state_jewels": 27012,
+                "maximum_cell_count": 307,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 25280,
+                "carried_jewels": 12288,
+                "born_jewels": 15012,
+                "state_jewels": 42024,
+                "maximum_cell_count": 46,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 27336,
+                "carried_jewels": 13411,
+                "born_jewels": 16331,
+                "state_jewels": 58355,
+                "maximum_cell_count": 59,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "appearance": {
+            "completed_frames": 48,
+            "total_jewels": 58355,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 27012,
+                "state_jewels": 27012,
+                "maximum_cell_count": 307,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 25280,
+                "carried_jewels": 12288,
+                "born_jewels": 15012,
+                "state_jewels": 42024,
+                "maximum_cell_count": 46,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 27336,
+                "carried_jewels": 13411,
+                "born_jewels": 16331,
+                "state_jewels": 58355,
+                "maximum_cell_count": 59,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "windows": [
+            {
+              "index": 0,
+              "born_jewels": 27012,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.02395487204194069
+            },
+            {
+              "index": 1,
+              "born_jewels": 15012,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.02755659446120262
+            },
+            {
+              "index": 2,
+              "born_jewels": 16331,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.028259819373488426
+            }
+          ]
+        },
+        "shuffled": {
+          "lifecycle_dimensions": [
+            2,
+            5,
+            7,
+            8
+          ],
+          "spatial_appearance_dimensions": [
+            0,
+            1,
+            3,
+            4,
+            6,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21
+          ],
+          "lifecycle_exact": true,
+          "stable_ids_exact": true,
+          "topology_exact": true,
+          "base": {
+            "completed_frames": 48,
+            "total_jewels": 70486,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 30809,
+                "state_jewels": 30809,
+                "maximum_cell_count": 370,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 26319,
+                "carried_jewels": 10757,
+                "born_jewels": 19591,
+                "state_jewels": 50400,
+                "maximum_cell_count": 57,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 30339,
+                "carried_jewels": 13193,
+                "born_jewels": 20086,
+                "state_jewels": 70486,
+                "maximum_cell_count": 95,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "appearance": {
+            "completed_frames": 48,
+            "total_jewels": 70486,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 30809,
+                "state_jewels": 30809,
+                "maximum_cell_count": 370,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 26319,
+                "carried_jewels": 10757,
+                "born_jewels": 19591,
+                "state_jewels": 50400,
+                "maximum_cell_count": 57,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 30339,
+                "carried_jewels": 13193,
+                "born_jewels": 20086,
+                "state_jewels": 70486,
+                "maximum_cell_count": 95,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "windows": [
+            {
+              "index": 0,
+              "born_jewels": 30809,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.023416690528392792
+            },
+            {
+              "index": 1,
+              "born_jewels": 19591,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.025266816839575768
+            },
+            {
+              "index": 2,
+              "born_jewels": 20086,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.026816753670573235
+            }
+          ]
+        },
+        "null": {
+          "lifecycle_dimensions": [
+            2,
+            5,
+            7,
+            8
+          ],
+          "spatial_appearance_dimensions": [
+            0,
+            1,
+            3,
+            4,
+            6,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21
+          ],
+          "lifecycle_exact": true,
+          "stable_ids_exact": true,
+          "topology_exact": true,
+          "base": {
+            "completed_frames": 48,
+            "total_jewels": 58858,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 23510,
+                "state_jewels": 23510,
+                "maximum_cell_count": 174,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 21976,
+                "carried_jewels": 10778,
+                "born_jewels": 16503,
+                "state_jewels": 40013,
+                "maximum_cell_count": 61,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 27278,
+                "carried_jewels": 14258,
+                "born_jewels": 18845,
+                "state_jewels": 58858,
+                "maximum_cell_count": 64,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "appearance": {
+            "completed_frames": 48,
+            "total_jewels": 58858,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 23510,
+                "state_jewels": 23510,
+                "maximum_cell_count": 174,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 21976,
+                "carried_jewels": 10778,
+                "born_jewels": 16503,
+                "state_jewels": 40013,
+                "maximum_cell_count": 61,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 27278,
+                "carried_jewels": 14258,
+                "born_jewels": 18845,
+                "state_jewels": 58858,
+                "maximum_cell_count": 64,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "windows": [
+            {
+              "index": 0,
+              "born_jewels": 23510,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.028654063120484352
+            },
+            {
+              "index": 1,
+              "born_jewels": 16503,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.02937391772866249
+            },
+            {
+              "index": 2,
+              "born_jewels": 18845,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.030329737812280655
+            }
+          ]
+        }
+      },
+      "artifacts": {
+        "gif": "01_horseriding_evaluation_00_seed42103_three_window_rollout.gif",
+        "contact_sheet": "01_horseriding_evaluation_00_seed42103_three_window_rollout_contact.png",
+        "generated_field": "01_horseriding_evaluation_00_seed42103_generated_field.pt"
+      }
+    },
+    {
+      "source_id": "02_playingguitar_evaluation_00_seed42203",
+      "class_name": "PlayingGuitar",
+      "shuffled_source_id": "03_applyeyemakeup_evaluation_00_seed42303",
+      "completed_frames": 48,
+      "background": {
+        "contract": "initial_scaffold_rgb_mean",
+        "predicted": [
+          0.35901114344596863,
+          0.20346541702747345,
+          0.17937497794628143
+        ],
+        "fitted_reference": [
+          0.36381837725639343,
+          0.2184009999036789,
+          0.1909218728542328
+        ],
+        "mae": 0.010429903864860535
+      },
+      "render_signatures": {
+        "fitted jewel ceiling": {
+          "psnr": 21.557559967041016,
+          "ssim": 0.9515410661697388,
+          "contrast_ratio": 1.1632254123687744,
+          "edge_ratio": 1.3086320161819458,
+          "saturation_ratio": 0.9896630644798279,
+          "temporal_change_ratio": 1.46304190158844
+        },
+        "generated frozen base": {
+          "psnr": 13.081894874572754,
+          "ssim": 0.5093411803245544,
+          "contrast_ratio": 0.7427119016647339,
+          "edge_ratio": 0.979118287563324,
+          "saturation_ratio": 0.9712105393409729,
+          "temporal_change_ratio": 0.6094672083854675
+        },
+        "generated correct": {
+          "psnr": 13.417130470275879,
+          "ssim": 0.5407911539077759,
+          "contrast_ratio": 0.7535064816474915,
+          "edge_ratio": 0.9899123311042786,
+          "saturation_ratio": 0.9844914078712463,
+          "temporal_change_ratio": 0.6328606605529785
+        },
+        "generated shuffled": {
+          "psnr": 9.417970657348633,
+          "ssim": 0.001677903812378645,
+          "contrast_ratio": 0.914634108543396,
+          "edge_ratio": 0.8927836418151855,
+          "saturation_ratio": 0.8520705103874207,
+          "temporal_change_ratio": 0.511117696762085
+        },
+        "generated null": {
+          "psnr": 10.312864303588867,
+          "ssim": -0.06494837999343872,
+          "contrast_ratio": 0.5415509939193726,
+          "edge_ratio": 0.9133609533309937,
+          "saturation_ratio": 1.0839481353759766,
+          "temporal_change_ratio": 0.5515645146369934
+        }
+      },
+      "saliency_signatures": {
+        "fitted jewel ceiling": {
+          "foreground_rgb_mae": 0.10257328301668167,
+          "foreground_psnr": 17.355481014563303,
+          "foreground_edge_mae": 0.4705652594566345,
+          "motion_boundary_mae": 0.10240469127893448,
+          "quiet_temporal_mae": 0.013262100517749786
+        },
+        "generated frozen base": {
+          "foreground_rgb_mae": 0.22536057233810425,
+          "foreground_psnr": 11.132782559413691,
+          "foreground_edge_mae": 0.7579634189605713,
+          "motion_boundary_mae": 0.1126195415854454,
+          "quiet_temporal_mae": 0.021666720509529114
+        },
+        "generated correct": {
+          "foreground_rgb_mae": 0.2254757583141327,
+          "foreground_psnr": 11.136310759738187,
+          "foreground_edge_mae": 0.7435001134872437,
+          "motion_boundary_mae": 0.11278995126485825,
+          "quiet_temporal_mae": 0.023276565596461296
+        },
+        "generated shuffled": {
+          "foreground_rgb_mae": 0.3562735915184021,
+          "foreground_psnr": 7.234935583847479,
+          "foreground_edge_mae": 0.7957667708396912,
+          "motion_boundary_mae": 0.11333885043859482,
+          "quiet_temporal_mae": 0.026448221877217293
+        },
+        "generated null": {
+          "foreground_rgb_mae": 0.28555333614349365,
+          "foreground_psnr": 9.331504859396926,
+          "foreground_edge_mae": 0.7668507099151611,
+          "motion_boundary_mae": 0.11193597316741943,
+          "quiet_temporal_mae": 0.021671773865818977
+        }
+      },
+      "seams": {
+        "fitted jewel ceiling": {
+          "candidate_seam_change": 0.04549606889486313,
+          "target_seam_change": 0.028249092400074005,
+          "candidate_regular_change": 0.053354352712631226,
+          "target_regular_change": 0.03489778935909271,
+          "seam_to_target_ratio": 1.6105320453643799,
+          "seam_to_regular_ratio": 0.852715253829956
+        },
+        "generated frozen base": {
+          "candidate_seam_change": 0.022131558507680893,
+          "target_seam_change": 0.028249092400074005,
+          "candidate_regular_change": 0.022886909544467926,
+          "target_regular_change": 0.03489778935909271,
+          "seam_to_target_ratio": 0.7834431529045105,
+          "seam_to_regular_ratio": 0.9669963717460632
+        },
+        "generated correct": {
+          "candidate_seam_change": 0.023527275770902634,
+          "target_seam_change": 0.028249092400074005,
+          "candidate_regular_change": 0.024205319583415985,
+          "target_regular_change": 0.03489778935909271,
+          "seam_to_target_ratio": 0.8328506946563721,
+          "seam_to_regular_ratio": 0.9719878435134888
+        },
+        "generated shuffled": {
+          "candidate_seam_change": 0.023158717900514603,
+          "target_seam_change": 0.028249092400074005,
+          "candidate_regular_change": 0.0237447340041399,
+          "target_regular_change": 0.03489778935909271,
+          "seam_to_target_ratio": 0.8198039531707764,
+          "seam_to_regular_ratio": 0.9753201603889465
+        },
+        "generated null": {
+          "candidate_seam_change": 0.020860180258750916,
+          "target_seam_change": 0.028249092400074005,
+          "candidate_regular_change": 0.01955372840166092,
+          "target_regular_change": 0.03489778935909271,
+          "seam_to_target_ratio": 0.7384371757507324,
+          "seam_to_regular_ratio": 1.0668134689331055
+        }
+      },
+      "density": {
+        "fitted jewel ceiling": {
+          "effective": {
+            "mean": 4600.171875,
+            "median": 4678.58203125,
+            "min": 2994.375732421875,
+            "max": 5524.64208984375
+          },
+          "above_5_percent_alpha": {
+            "mean": 5343.75,
+            "median": 5461.0,
+            "min": 3401.0,
+            "max": 6318.0
+          },
+          "frontier_effective": {
+            "0": 3029.70068359375,
+            "16": 4325.32666015625,
+            "32": 5323.9013671875
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 3426,
+            "16": 5095,
+            "32": 6143
+          },
+          "initial_stride_effective": [
+            3029.70068359375,
+            2994.375732421875,
+            3254.571533203125,
+            3352.3095703125,
+            3414.58447265625,
+            3620.158447265625,
+            3813.653564453125,
+            3833.361572265625,
+            3761.392578125,
+            3797.440185546875,
+            3864.0400390625,
+            4066.619873046875,
+            4250.521484375,
+            4342.08935546875,
+            4389.58447265625,
+            4334.97119140625
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            3426,
+            3401,
+            3735,
+            3874,
+            4011,
+            4220,
+            4428,
+            4419,
+            4377,
+            4359,
+            4499,
+            4683,
+            4963,
+            5096,
+            5126,
+            5109
+          ]
+        },
+        "generated correct": {
+          "effective": {
+            "mean": 7464.91015625,
+            "median": 7999.95361328125,
+            "min": 5412.853515625,
+            "max": 8841.4755859375
+          },
+          "above_5_percent_alpha": {
+            "mean": 8127.04150390625,
+            "median": 8806.0,
+            "min": 5704.0,
+            "max": 9720.0
+          },
+          "frontier_effective": {
+            "0": 7883.99560546875,
+            "16": 6602.154296875,
+            "32": 8276.16796875
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 8806,
+            "16": 7326,
+            "32": 9068
+          },
+          "initial_stride_effective": [
+            7883.99560546875,
+            7093.330078125,
+            6350.49560546875,
+            5776.0234375,
+            5476.056640625,
+            5412.853515625,
+            5495.6640625,
+            5649.5712890625,
+            5825.6806640625,
+            5965.2880859375,
+            6118.28125,
+            6195.92236328125,
+            6295.24072265625,
+            6384.85791015625,
+            6510.05126953125,
+            6569.0224609375
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            8806,
+            7875,
+            6943,
+            6188,
+            5737,
+            5704,
+            5810,
+            5981,
+            6176,
+            6301,
+            6501,
+            6574,
+            6778,
+            6932,
+            7159,
+            7246
+          ]
+        },
+        "generated shuffled": {
+          "effective": {
+            "mean": 7688.787109375,
+            "median": 8037.23681640625,
+            "min": 5566.11328125,
+            "max": 9110.7197265625
+          },
+          "above_5_percent_alpha": {
+            "mean": 8356.0205078125,
+            "median": 8848.0,
+            "min": 5813.0,
+            "max": 9908.0
+          },
+          "frontier_effective": {
+            "0": 7734.5595703125,
+            "16": 7253.7451171875,
+            "32": 8747.1669921875
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 8848,
+            "16": 7923,
+            "32": 9531
+          },
+          "initial_stride_effective": [
+            7734.5595703125,
+            7185.29833984375,
+            6608.54541015625,
+            6089.22021484375,
+            5735.4326171875,
+            5566.11328125,
+            5586.06103515625,
+            5682.46337890625,
+            5842.92138671875,
+            6026.40771484375,
+            6254.017578125,
+            6444.107421875,
+            6645.19091796875,
+            6808.064453125,
+            7015.5390625,
+            7150.31787109375
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            8848,
+            8145,
+            7431,
+            6657,
+            6074,
+            5813,
+            5893,
+            6028,
+            6226,
+            6362,
+            6668,
+            6924,
+            7168,
+            7353,
+            7642,
+            7823
+          ]
+        },
+        "generated null": {
+          "effective": {
+            "mean": 7397.18994140625,
+            "median": 7202.10546875,
+            "min": 5560.9130859375,
+            "max": 9174.388671875
+          },
+          "above_5_percent_alpha": {
+            "mean": 8081.625,
+            "median": 8062.0,
+            "min": 5896.0,
+            "max": 9964.0
+          },
+          "frontier_effective": {
+            "0": 7014.73876953125,
+            "16": 6953.884765625,
+            "32": 8280.673828125
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 8080,
+            "16": 7794,
+            "32": 9092
+          },
+          "initial_stride_effective": [
+            7014.73876953125,
+            6683.41748046875,
+            6294.88671875,
+            5938.2978515625,
+            5696.38525390625,
+            5564.630859375,
+            5560.9130859375,
+            5649.07958984375,
+            5808.26904296875,
+            5997.60400390625,
+            6237.2080078125,
+            6476.49755859375,
+            6684.5224609375,
+            6824.28271484375,
+            6937.10693359375,
+            6972.06005859375
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            8080,
+            7644,
+            7072,
+            6515,
+            6080,
+            5915,
+            5926,
+            5896,
+            6059,
+            6347,
+            6707,
+            7101,
+            7386,
+            7567,
+            7755,
+            7760
+          ]
+        },
+        "generated frozen base": {
+          "effective": {
+            "mean": 7467.03369140625,
+            "median": 8003.3291015625,
+            "min": 5415.96923828125,
+            "max": 8858.6318359375
+          },
+          "above_5_percent_alpha": {
+            "mean": 8140.3125,
+            "median": 8857.0,
+            "min": 5740.0,
+            "max": 9740.0
+          },
+          "frontier_effective": {
+            "0": 7899.99853515625,
+            "16": 6592.38427734375,
+            "32": 8280.208984375
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 8857,
+            "16": 7318,
+            "32": 9090
+          },
+          "initial_stride_effective": [
+            7899.99853515625,
+            7109.24853515625,
+            6364.3505859375,
+            5785.86083984375,
+            5482.8125,
+            5415.96923828125,
+            5495.71240234375,
+            5647.21923828125,
+            5821.8544921875,
+            5959.99267578125,
+            6110.8896484375,
+            6187.181640625,
+            6284.83740234375,
+            6374.294921875,
+            6498.37109375,
+            6557.798828125
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            8857,
+            7918,
+            6993,
+            6228,
+            5779,
+            5740,
+            5847,
+            6005,
+            6202,
+            6323,
+            6507,
+            6586,
+            6794,
+            6926,
+            7158,
+            7229
+          ]
+        }
+      },
+      "rollouts": {
+        "correct": {
+          "completed_frames": 48,
+          "total_jewels": 69435,
+          "stable_ids_exact": true,
+          "windows": [
+            {
+              "index": 0,
+              "frontier": 0,
+              "commit_stop": 16,
+              "context_jewels": 0,
+              "carried_jewels": 0,
+              "born_jewels": 30809,
+              "state_jewels": 30809,
+              "maximum_cell_count": 370,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 1,
+              "frontier": 16,
+              "commit_stop": 32,
+              "context_jewels": 26729,
+              "carried_jewels": 11498,
+              "born_jewels": 18789,
+              "state_jewels": 49598,
+              "maximum_cell_count": 54,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 2,
+              "frontier": 32,
+              "commit_stop": 48,
+              "context_jewels": 30285,
+              "carried_jewels": 14065,
+              "born_jewels": 19837,
+              "state_jewels": 69435,
+              "maximum_cell_count": 74,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            }
+          ]
+        },
+        "shuffled": {
+          "completed_frames": 48,
+          "total_jewels": 63142,
+          "stable_ids_exact": true,
+          "windows": [
+            {
+              "index": 0,
+              "frontier": 0,
+              "commit_stop": 16,
+              "context_jewels": 0,
+              "carried_jewels": 0,
+              "born_jewels": 27927,
+              "state_jewels": 27927,
+              "maximum_cell_count": 285,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 1,
+              "frontier": 16,
+              "commit_stop": 32,
+              "context_jewels": 25906,
+              "carried_jewels": 12610,
+              "born_jewels": 17228,
+              "state_jewels": 45155,
+              "maximum_cell_count": 89,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 2,
+              "frontier": 32,
+              "commit_stop": 48,
+              "context_jewels": 29875,
+              "carried_jewels": 14956,
+              "born_jewels": 17987,
+              "state_jewels": 63142,
+              "maximum_cell_count": 85,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            }
+          ]
+        },
+        "null": {
+          "completed_frames": 48,
+          "total_jewels": 57152,
+          "stable_ids_exact": true,
+          "windows": [
+            {
+              "index": 0,
+              "frontier": 0,
+              "commit_stop": 16,
+              "context_jewels": 0,
+              "carried_jewels": 0,
+              "born_jewels": 23510,
+              "state_jewels": 23510,
+              "maximum_cell_count": 174,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 1,
+              "frontier": 16,
+              "commit_stop": 32,
+              "context_jewels": 22440,
+              "carried_jewels": 11547,
+              "born_jewels": 15331,
+              "state_jewels": 38841,
+              "maximum_cell_count": 41,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 2,
+              "frontier": 32,
+              "commit_stop": 48,
+              "context_jewels": 26874,
+              "carried_jewels": 14277,
+              "born_jewels": 18311,
+              "state_jewels": 57152,
+              "maximum_cell_count": 53,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            }
+          ]
+        }
+      },
+      "lifecycle_appearance": {
+        "correct": {
+          "lifecycle_dimensions": [
+            2,
+            5,
+            7,
+            8
+          ],
+          "spatial_appearance_dimensions": [
+            0,
+            1,
+            3,
+            4,
+            6,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21
+          ],
+          "lifecycle_exact": true,
+          "stable_ids_exact": true,
+          "topology_exact": true,
+          "base": {
+            "completed_frames": 48,
+            "total_jewels": 69435,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 30809,
+                "state_jewels": 30809,
+                "maximum_cell_count": 370,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 26729,
+                "carried_jewels": 11498,
+                "born_jewels": 18789,
+                "state_jewels": 49598,
+                "maximum_cell_count": 54,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 30285,
+                "carried_jewels": 14065,
+                "born_jewels": 19837,
+                "state_jewels": 69435,
+                "maximum_cell_count": 74,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "appearance": {
+            "completed_frames": 48,
+            "total_jewels": 69435,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 30809,
+                "state_jewels": 30809,
+                "maximum_cell_count": 370,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 26729,
+                "carried_jewels": 11498,
+                "born_jewels": 18789,
+                "state_jewels": 49598,
+                "maximum_cell_count": 54,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 30285,
+                "carried_jewels": 14065,
+                "born_jewels": 19837,
+                "state_jewels": 69435,
+                "maximum_cell_count": 74,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "windows": [
+            {
+              "index": 0,
+              "born_jewels": 30809,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.025232043117284775
+            },
+            {
+              "index": 1,
+              "born_jewels": 18789,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.02722831815481186
+            },
+            {
+              "index": 2,
+              "born_jewels": 19837,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.02960788458585739
+            }
+          ]
+        },
+        "shuffled": {
+          "lifecycle_dimensions": [
+            2,
+            5,
+            7,
+            8
+          ],
+          "spatial_appearance_dimensions": [
+            0,
+            1,
+            3,
+            4,
+            6,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21
+          ],
+          "lifecycle_exact": true,
+          "stable_ids_exact": true,
+          "topology_exact": true,
+          "base": {
+            "completed_frames": 48,
+            "total_jewels": 63142,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 27927,
+                "state_jewels": 27927,
+                "maximum_cell_count": 285,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 25906,
+                "carried_jewels": 12610,
+                "born_jewels": 17228,
+                "state_jewels": 45155,
+                "maximum_cell_count": 89,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 29875,
+                "carried_jewels": 14956,
+                "born_jewels": 17987,
+                "state_jewels": 63142,
+                "maximum_cell_count": 85,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "appearance": {
+            "completed_frames": 48,
+            "total_jewels": 63142,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 27927,
+                "state_jewels": 27927,
+                "maximum_cell_count": 285,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 25906,
+                "carried_jewels": 12610,
+                "born_jewels": 17228,
+                "state_jewels": 45155,
+                "maximum_cell_count": 89,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 29875,
+                "carried_jewels": 14956,
+                "born_jewels": 17987,
+                "state_jewels": 63142,
+                "maximum_cell_count": 85,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "windows": [
+            {
+              "index": 0,
+              "born_jewels": 27927,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.02604861930012703
+            },
+            {
+              "index": 1,
+              "born_jewels": 17228,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.028300870209932327
+            },
+            {
+              "index": 2,
+              "born_jewels": 17987,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.029594983905553818
+            }
+          ]
+        },
+        "null": {
+          "lifecycle_dimensions": [
+            2,
+            5,
+            7,
+            8
+          ],
+          "spatial_appearance_dimensions": [
+            0,
+            1,
+            3,
+            4,
+            6,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21
+          ],
+          "lifecycle_exact": true,
+          "stable_ids_exact": true,
+          "topology_exact": true,
+          "base": {
+            "completed_frames": 48,
+            "total_jewels": 57152,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 23510,
+                "state_jewels": 23510,
+                "maximum_cell_count": 174,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 22440,
+                "carried_jewels": 11547,
+                "born_jewels": 15331,
+                "state_jewels": 38841,
+                "maximum_cell_count": 41,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 26874,
+                "carried_jewels": 14277,
+                "born_jewels": 18311,
+                "state_jewels": 57152,
+                "maximum_cell_count": 53,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "appearance": {
+            "completed_frames": 48,
+            "total_jewels": 57152,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 23510,
+                "state_jewels": 23510,
+                "maximum_cell_count": 174,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 22440,
+                "carried_jewels": 11547,
+                "born_jewels": 15331,
+                "state_jewels": 38841,
+                "maximum_cell_count": 41,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 26874,
+                "carried_jewels": 14277,
+                "born_jewels": 18311,
+                "state_jewels": 57152,
+                "maximum_cell_count": 53,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "windows": [
+            {
+              "index": 0,
+              "born_jewels": 23510,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.02784491330385208
+            },
+            {
+              "index": 1,
+              "born_jewels": 15331,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.029134390875697136
+            },
+            {
+              "index": 2,
+              "born_jewels": 18311,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.02883976884186268
+            }
+          ]
+        }
+      },
+      "artifacts": {
+        "gif": "02_playingguitar_evaluation_00_seed42203_three_window_rollout.gif",
+        "contact_sheet": "02_playingguitar_evaluation_00_seed42203_three_window_rollout_contact.png",
+        "generated_field": "02_playingguitar_evaluation_00_seed42203_generated_field.pt"
+      }
+    },
+    {
+      "source_id": "03_applyeyemakeup_evaluation_00_seed42303",
+      "class_name": "ApplyEyeMakeup",
+      "shuffled_source_id": "00_basketball_evaluation_00_seed42003",
+      "completed_frames": 48,
+      "background": {
+        "contract": "initial_scaffold_rgb_mean",
+        "predicted": [
+          0.47965705394744873,
+          0.3660654127597809,
+          0.33753955364227295
+        ],
+        "fitted_reference": [
+          0.5141826868057251,
+          0.35871171951293945,
+          0.3195634186267853
+        ],
+        "mae": 0.019951820373535156
+      },
+      "render_signatures": {
+        "fitted jewel ceiling": {
+          "psnr": 23.3415584564209,
+          "ssim": 0.9767022728919983,
+          "contrast_ratio": 1.115920901298523,
+          "edge_ratio": 1.2848354578018188,
+          "saturation_ratio": 1.0022556781768799,
+          "temporal_change_ratio": 1.5148717164993286
+        },
+        "generated frozen base": {
+          "psnr": 13.795819282531738,
+          "ssim": 0.7225249409675598,
+          "contrast_ratio": 0.8186451196670532,
+          "edge_ratio": 1.332108497619629,
+          "saturation_ratio": 0.8053309321403503,
+          "temporal_change_ratio": 1.7792348861694336
+        },
+        "generated correct": {
+          "psnr": 14.498777389526367,
+          "ssim": 0.758467435836792,
+          "contrast_ratio": 0.8085076808929443,
+          "edge_ratio": 1.2649552822113037,
+          "saturation_ratio": 0.8205016851425171,
+          "temporal_change_ratio": 1.762863039970398
+        },
+        "generated shuffled": {
+          "psnr": 8.042059898376465,
+          "ssim": -0.14984846115112305,
+          "contrast_ratio": 0.6917871236801147,
+          "edge_ratio": 1.302117109298706,
+          "saturation_ratio": 0.9185922741889954,
+          "temporal_change_ratio": 1.835653305053711
+        },
+        "generated null": {
+          "psnr": 9.29041576385498,
+          "ssim": -0.03436722978949547,
+          "contrast_ratio": 0.4908924698829651,
+          "edge_ratio": 1.2938528060913086,
+          "saturation_ratio": 0.9582671523094177,
+          "temporal_change_ratio": 1.885023832321167
+        }
+      },
+      "saliency_signatures": {
+        "fitted jewel ceiling": {
+          "foreground_rgb_mae": 0.0853126049041748,
+          "foreground_psnr": 18.76069609184984,
+          "foreground_edge_mae": 0.37166544795036316,
+          "motion_boundary_mae": 0.037443045526742935,
+          "quiet_temporal_mae": 0.006986609194427729
+        },
+        "generated frozen base": {
+          "foreground_rgb_mae": 0.20039837062358856,
+          "foreground_psnr": 11.151140166721214,
+          "foreground_edge_mae": 0.6393609642982483,
+          "motion_boundary_mae": 0.05869371071457863,
+          "quiet_temporal_mae": 0.023421522229909897
+        },
+        "generated correct": {
+          "foreground_rgb_mae": 0.1925877332687378,
+          "foreground_psnr": 11.863541071567322,
+          "foreground_edge_mae": 0.6235522031784058,
+          "motion_boundary_mae": 0.05802297964692116,
+          "quiet_temporal_mae": 0.025129716843366623
+        },
+        "generated shuffled": {
+          "foreground_rgb_mae": 0.2918606698513031,
+          "foreground_psnr": 9.107528888998813,
+          "foreground_edge_mae": 0.7486416101455688,
+          "motion_boundary_mae": 0.058569252490997314,
+          "quiet_temporal_mae": 0.0211272481828928
+        },
+        "generated null": {
+          "foreground_rgb_mae": 0.26088210940361023,
+          "foreground_psnr": 10.178235202098929,
+          "foreground_edge_mae": 0.7044026851654053,
+          "motion_boundary_mae": 0.055348511785268784,
+          "quiet_temporal_mae": 0.02186504192650318
+        }
+      },
+      "seams": {
+        "fitted jewel ceiling": {
+          "candidate_seam_change": 0.015116502530872822,
+          "target_seam_change": 0.008151289075613022,
+          "candidate_regular_change": 0.018475795164704323,
+          "target_regular_change": 0.011586202308535576,
+          "seam_to_target_ratio": 1.8544923067092896,
+          "seam_to_regular_ratio": 0.8181787133216858
+        },
+        "generated frozen base": {
+          "candidate_seam_change": 0.024408256635069847,
+          "target_seam_change": 0.008151289075613022,
+          "candidate_regular_change": 0.02486383356153965,
+          "target_regular_change": 0.011586202308535576,
+          "seam_to_target_ratio": 2.9944045543670654,
+          "seam_to_regular_ratio": 0.9816771149635315
+        },
+        "generated correct": {
+          "candidate_seam_change": 0.02437235228717327,
+          "target_seam_change": 0.008151289075613022,
+          "candidate_regular_change": 0.02525091916322708,
+          "target_regular_change": 0.011586202308535576,
+          "seam_to_target_ratio": 2.989999771118164,
+          "seam_to_regular_ratio": 0.9652065634727478
+        },
+        "generated shuffled": {
+          "candidate_seam_change": 0.022171251475811005,
+          "target_seam_change": 0.008151289075613022,
+          "candidate_regular_change": 0.02345442585647106,
+          "target_regular_change": 0.011586202308535576,
+          "seam_to_target_ratio": 2.719968795776367,
+          "seam_to_regular_ratio": 0.945290744304657
+        },
+        "generated null": {
+          "candidate_seam_change": 0.021824777126312256,
+          "target_seam_change": 0.008151289075613022,
+          "candidate_regular_change": 0.02206498570740223,
+          "target_regular_change": 0.011586202308535576,
+          "seam_to_target_ratio": 2.6774632930755615,
+          "seam_to_regular_ratio": 0.9891135692596436
+        }
+      },
+      "density": {
+        "fitted jewel ceiling": {
+          "effective": {
+            "mean": 5775.63037109375,
+            "median": 5818.41015625,
+            "min": 4294.7158203125,
+            "max": 6448.81201171875
+          },
+          "above_5_percent_alpha": {
+            "mean": 6793.45849609375,
+            "median": 6919.0,
+            "min": 4920.0,
+            "max": 7536.0
+          },
+          "frontier_effective": {
+            "0": 5304.10791015625,
+            "16": 6448.81201171875,
+            "32": 5752.8701171875
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 6183,
+            "16": 7512,
+            "32": 6870
+          },
+          "initial_stride_effective": [
+            5304.10791015625,
+            4993.37744140625,
+            5099.64501953125,
+            5303.4140625,
+            5526.173828125,
+            5816.17578125,
+            6025.56884765625,
+            6041.95654296875,
+            6071.72607421875,
+            6133.48974609375,
+            6328.892578125,
+            6416.68701171875,
+            6414.40673828125,
+            6379.67041015625,
+            6373.08837890625,
+            6415.654296875
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            6183,
+            5699,
+            5874,
+            6097,
+            6475,
+            6791,
+            7000,
+            7071,
+            7130,
+            7183,
+            7350,
+            7442,
+            7441,
+            7536,
+            7507,
+            7526
+          ]
+        },
+        "generated correct": {
+          "effective": {
+            "mean": 7457.45458984375,
+            "median": 7943.81103515625,
+            "min": 5453.79345703125,
+            "max": 8422.3193359375
+          },
+          "above_5_percent_alpha": {
+            "mean": 8138.77099609375,
+            "median": 8699.0,
+            "min": 5761.0,
+            "max": 9217.0
+          },
+          "frontier_effective": {
+            "0": 7461.06884765625,
+            "16": 6960.98046875,
+            "32": 8351.818359375
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 8540,
+            "16": 7649,
+            "32": 9118
+          },
+          "initial_stride_effective": [
+            7461.06884765625,
+            6902.34033203125,
+            6348.57763671875,
+            5884.65234375,
+            5584.982421875,
+            5453.79345703125,
+            5469.02685546875,
+            5575.92529296875,
+            5762.9755859375,
+            5957.04052734375,
+            6133.06640625,
+            6295.3408203125,
+            6451.740234375,
+            6578.3876953125,
+            6718.31787109375,
+            6834.69189453125
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            8540,
+            7831,
+            7029,
+            6402,
+            5927,
+            5761,
+            5808,
+            5863,
+            6110,
+            6291,
+            6570,
+            6756,
+            7002,
+            7181,
+            7378,
+            7532
+          ]
+        },
+        "generated shuffled": {
+          "effective": {
+            "mean": 7320.02294921875,
+            "median": 7583.31103515625,
+            "min": 5736.337890625,
+            "max": 7978.732421875
+          },
+          "above_5_percent_alpha": {
+            "mean": 7947.64599609375,
+            "median": 8252.0,
+            "min": 6048.0,
+            "max": 8878.0
+          },
+          "frontier_effective": {
+            "0": 7787.77734375,
+            "16": 7419.12890625,
+            "32": 7634.73046875
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 8878,
+            "16": 8095,
+            "32": 8279
+          },
+          "initial_stride_effective": [
+            7787.77734375,
+            7432.49072265625,
+            6950.94921875,
+            6459.44775390625,
+            6079.1708984375,
+            5849.0966796875,
+            5764.8125,
+            5736.337890625,
+            5779.3662109375,
+            5921.58740234375,
+            6160.990234375,
+            6408.61962890625,
+            6671.13330078125,
+            6904.130859375,
+            7106.158203125,
+            7281.43115234375
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            8878,
+            8471,
+            7803,
+            7101,
+            6500,
+            6198,
+            6108,
+            6048,
+            6105,
+            6217,
+            6536,
+            6835,
+            7191,
+            7529,
+            7742,
+            7940
+          ]
+        },
+        "generated null": {
+          "effective": {
+            "mean": 7265.93896484375,
+            "median": 7044.36376953125,
+            "min": 5579.79541015625,
+            "max": 9254.08984375
+          },
+          "above_5_percent_alpha": {
+            "mean": 7968.79150390625,
+            "median": 7899.0,
+            "min": 5923.0,
+            "max": 10159.0
+          },
+          "frontier_effective": {
+            "0": 6928.8310546875,
+            "16": 6434.3876953125,
+            "32": 8076.8310546875
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 7981,
+            "16": 7250,
+            "32": 8870
+          },
+          "initial_stride_effective": [
+            6928.8310546875,
+            6564.5625,
+            6163.3056640625,
+            5828.84375,
+            5633.29541015625,
+            5579.79541015625,
+            5632.1142578125,
+            5766.24267578125,
+            5930.25244140625,
+            6099.4560546875,
+            6258.57568359375,
+            6341.96923828125,
+            6401.89501953125,
+            6441.07958984375,
+            6472.912109375,
+            6464.78564453125
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            7981,
+            7524,
+            6917,
+            6335,
+            6005,
+            5923,
+            6004,
+            6126,
+            6304,
+            6456,
+            6741,
+            6923,
+            7055,
+            7185,
+            7214,
+            7239
+          ]
+        },
+        "generated frozen base": {
+          "effective": {
+            "mean": 7473.28515625,
+            "median": 7963.1669921875,
+            "min": 5465.7431640625,
+            "max": 8443.173828125
+          },
+          "above_5_percent_alpha": {
+            "mean": 8168.08349609375,
+            "median": 8709.0,
+            "min": 5802.0,
+            "max": 9273.0
+          },
+          "frontier_effective": {
+            "0": 7483.013671875,
+            "16": 6961.1826171875,
+            "32": 8376.7001953125
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 8586,
+            "16": 7650,
+            "32": 9158
+          },
+          "initial_stride_effective": [
+            7483.013671875,
+            6922.97705078125,
+            6367.8837890625,
+            5901.95654296875,
+            5599.70849609375,
+            5465.7431640625,
+            5478.71826171875,
+            5583.48095703125,
+            5767.3916015625,
+            5959.39208984375,
+            6135.2080078125,
+            6294.48974609375,
+            6450.0087890625,
+            6576.095703125,
+            6716.91064453125,
+            6834.1884765625
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            8586,
+            7875,
+            7070,
+            6443,
+            5972,
+            5802,
+            5848,
+            5910,
+            6140,
+            6318,
+            6585,
+            6789,
+            7016,
+            7194,
+            7377,
+            7538
+          ]
+        }
+      },
+      "rollouts": {
+        "correct": {
+          "completed_frames": 48,
+          "total_jewels": 64404,
+          "stable_ids_exact": true,
+          "windows": [
+            {
+              "index": 0,
+              "frontier": 0,
+              "commit_stop": 16,
+              "context_jewels": 0,
+              "carried_jewels": 0,
+              "born_jewels": 27927,
+              "state_jewels": 27927,
+              "maximum_cell_count": 285,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 1,
+              "frontier": 16,
+              "commit_stop": 32,
+              "context_jewels": 25535,
+              "carried_jewels": 12172,
+              "born_jewels": 17793,
+              "state_jewels": 45720,
+              "maximum_cell_count": 91,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 2,
+              "frontier": 32,
+              "commit_stop": 48,
+              "context_jewels": 30004,
+              "carried_jewels": 14458,
+              "born_jewels": 18684,
+              "state_jewels": 64404,
+              "maximum_cell_count": 77,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            }
+          ]
+        },
+        "shuffled": {
+          "completed_frames": 48,
+          "total_jewels": 59016,
+          "stable_ids_exact": true,
+          "windows": [
+            {
+              "index": 0,
+              "frontier": 0,
+              "commit_stop": 16,
+              "context_jewels": 0,
+              "carried_jewels": 0,
+              "born_jewels": 26527,
+              "state_jewels": 26527,
+              "maximum_cell_count": 205,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 1,
+              "frontier": 16,
+              "commit_stop": 32,
+              "context_jewels": 25411,
+              "carried_jewels": 12791,
+              "born_jewels": 16006,
+              "state_jewels": 42533,
+              "maximum_cell_count": 33,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 2,
+              "frontier": 32,
+              "commit_stop": 48,
+              "context_jewels": 28828,
+              "carried_jewels": 13397,
+              "born_jewels": 16483,
+              "state_jewels": 59016,
+              "maximum_cell_count": 36,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            }
+          ]
+        },
+        "null": {
+          "completed_frames": 48,
+          "total_jewels": 58332,
+          "stable_ids_exact": true,
+          "windows": [
+            {
+              "index": 0,
+              "frontier": 0,
+              "commit_stop": 16,
+              "context_jewels": 0,
+              "carried_jewels": 0,
+              "born_jewels": 23510,
+              "state_jewels": 23510,
+              "maximum_cell_count": 174,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 1,
+              "frontier": 16,
+              "commit_stop": 32,
+              "context_jewels": 22338,
+              "carried_jewels": 10929,
+              "born_jewels": 15897,
+              "state_jewels": 39407,
+              "maximum_cell_count": 53,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 2,
+              "frontier": 32,
+              "commit_stop": 48,
+              "context_jewels": 26818,
+              "carried_jewels": 14058,
+              "born_jewels": 18925,
+              "state_jewels": 58332,
+              "maximum_cell_count": 69,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            }
+          ]
+        }
+      },
+      "lifecycle_appearance": {
+        "correct": {
+          "lifecycle_dimensions": [
+            2,
+            5,
+            7,
+            8
+          ],
+          "spatial_appearance_dimensions": [
+            0,
+            1,
+            3,
+            4,
+            6,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21
+          ],
+          "lifecycle_exact": true,
+          "stable_ids_exact": true,
+          "topology_exact": true,
+          "base": {
+            "completed_frames": 48,
+            "total_jewels": 64404,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 27927,
+                "state_jewels": 27927,
+                "maximum_cell_count": 285,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 25535,
+                "carried_jewels": 12172,
+                "born_jewels": 17793,
+                "state_jewels": 45720,
+                "maximum_cell_count": 91,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 30004,
+                "carried_jewels": 14458,
+                "born_jewels": 18684,
+                "state_jewels": 64404,
+                "maximum_cell_count": 77,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "appearance": {
+            "completed_frames": 48,
+            "total_jewels": 64404,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 27927,
+                "state_jewels": 27927,
+                "maximum_cell_count": 285,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 25535,
+                "carried_jewels": 12172,
+                "born_jewels": 17793,
+                "state_jewels": 45720,
+                "maximum_cell_count": 91,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 30004,
+                "carried_jewels": 14458,
+                "born_jewels": 18684,
+                "state_jewels": 64404,
+                "maximum_cell_count": 77,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "windows": [
+            {
+              "index": 0,
+              "born_jewels": 27927,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.02635270170867443
+            },
+            {
+              "index": 1,
+              "born_jewels": 17793,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.02961071766912937
+            },
+            {
+              "index": 2,
+              "born_jewels": 18684,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.0306459441781044
+            }
+          ]
+        },
+        "shuffled": {
+          "lifecycle_dimensions": [
+            2,
+            5,
+            7,
+            8
+          ],
+          "spatial_appearance_dimensions": [
+            0,
+            1,
+            3,
+            4,
+            6,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21
+          ],
+          "lifecycle_exact": true,
+          "stable_ids_exact": true,
+          "topology_exact": true,
+          "base": {
+            "completed_frames": 48,
+            "total_jewels": 59016,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 26527,
+                "state_jewels": 26527,
+                "maximum_cell_count": 205,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 25411,
+                "carried_jewels": 12791,
+                "born_jewels": 16006,
+                "state_jewels": 42533,
+                "maximum_cell_count": 33,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 28828,
+                "carried_jewels": 13397,
+                "born_jewels": 16483,
+                "state_jewels": 59016,
+                "maximum_cell_count": 36,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "appearance": {
+            "completed_frames": 48,
+            "total_jewels": 59016,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 26527,
+                "state_jewels": 26527,
+                "maximum_cell_count": 205,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 25411,
+                "carried_jewels": 12791,
+                "born_jewels": 16006,
+                "state_jewels": 42533,
+                "maximum_cell_count": 33,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 28828,
+                "carried_jewels": 13397,
+                "born_jewels": 16483,
+                "state_jewels": 59016,
+                "maximum_cell_count": 36,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "windows": [
+            {
+              "index": 0,
+              "born_jewels": 26527,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.028786929324269295
+            },
+            {
+              "index": 1,
+              "born_jewels": 16006,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.03299296647310257
+            },
+            {
+              "index": 2,
+              "born_jewels": 16483,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.03547952324151993
+            }
+          ]
+        },
+        "null": {
+          "lifecycle_dimensions": [
+            2,
+            5,
+            7,
+            8
+          ],
+          "spatial_appearance_dimensions": [
+            0,
+            1,
+            3,
+            4,
+            6,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21
+          ],
+          "lifecycle_exact": true,
+          "stable_ids_exact": true,
+          "topology_exact": true,
+          "base": {
+            "completed_frames": 48,
+            "total_jewels": 58332,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 23510,
+                "state_jewels": 23510,
+                "maximum_cell_count": 174,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 22338,
+                "carried_jewels": 10929,
+                "born_jewels": 15897,
+                "state_jewels": 39407,
+                "maximum_cell_count": 53,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 26818,
+                "carried_jewels": 14058,
+                "born_jewels": 18925,
+                "state_jewels": 58332,
+                "maximum_cell_count": 69,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "appearance": {
+            "completed_frames": 48,
+            "total_jewels": 58332,
+            "stable_ids_exact": true,
+            "windows": [
+              {
+                "index": 0,
+                "frontier": 0,
+                "commit_stop": 16,
+                "context_jewels": 0,
+                "carried_jewels": 0,
+                "born_jewels": 23510,
+                "state_jewels": 23510,
+                "maximum_cell_count": 174,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 1,
+                "frontier": 16,
+                "commit_stop": 32,
+                "context_jewels": 22338,
+                "carried_jewels": 10929,
+                "born_jewels": 15897,
+                "state_jewels": 39407,
+                "maximum_cell_count": 53,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              },
+              {
+                "index": 2,
+                "frontier": 32,
+                "commit_stop": 48,
+                "context_jewels": 26818,
+                "carried_jewels": 14058,
+                "born_jewels": 18925,
+                "state_jewels": 58332,
+                "maximum_cell_count": 69,
+                "max_prior_feature_error": 0.0,
+                "max_carried_feature_error": 0.0
+              }
+            ]
+          },
+          "windows": [
+            {
+              "index": 0,
+              "born_jewels": 23510,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.030360084027051926
+            },
+            {
+              "index": 1,
+              "born_jewels": 15897,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.030530855059623718
+            },
+            {
+              "index": 2,
+              "born_jewels": 18925,
+              "lifecycle_exact": true,
+              "max_normalized_lifecycle_error": 0.0,
+              "max_local_lifecycle_error": 0.0,
+              "max_global_lifecycle_error": 0.0,
+              "spatial_appearance_mae": 0.03059183992445469
+            }
+          ]
+        }
+      },
+      "artifacts": {
+        "gif": "03_applyeyemakeup_evaluation_00_seed42303_three_window_rollout.gif",
+        "contact_sheet": "03_applyeyemakeup_evaluation_00_seed42303_three_window_rollout_contact.png",
+        "generated_field": "03_applyeyemakeup_evaluation_00_seed42303_generated_field.pt"
+      }
+    }
+  ]
+}

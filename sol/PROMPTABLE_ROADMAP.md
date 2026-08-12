@@ -244,11 +244,17 @@ research critical path. It needs:
     improves all four classes in both global metrics, and slightly improves aggregate
     motion-boundary/excess-motion error, but raises quiet-region temporal MAE 3.8% and worsens
     foreground PSNR in two classes. Reject it under the predeclared gate and retain v1.
-15. Factor lifecycle from appearance during sampling. Freeze an independently integrated v1 base
-    trajectory and learn an appearance/geometry residual stream whose output cannot alter temporal
-    center or time-covariance state. Require bit-identical lifecycle dimensions and stable IDs,
-    foreground gains in at least three classes, and no quiet-temporal regression before selection.
-    This gate is tracked as `jewels-4pt`.
+15. ~~Factor lifecycle from appearance during sampling.~~ An independently integrated v1 stream now
+    owns topology, stable IDs, temporal center, and time-coupled covariance exactly. Full-field
+    residuals retain the earlier +0.401 dB gain but still raise quiet error 4.45%, localizing the
+    problem to appearance feedback rather than lifecycle drift. Restricting the residual to RGB in
+    the top 20% scaffold-salient cells passes the deterministic four-class gate: +0.034 dB PSNR,
+    +0.0008 SSIM, +0.134 dB foreground PSNR, lower macro foreground-edge/motion/quiet errors,
+    detail gains in three classes, and bit-identical lifecycle/counts/IDs across 12 controls.
+16. Train a zero-initialized appearance adapter over the frozen flow rather than storing a second
+    full model. Preserve the exact two-stream ownership and scaffold gate, then expand beyond RGB
+    only when the four-class quiet-stability gate remains passing. Evaluate longer rollouts and a
+    larger held-out scaffold corpus before promoting it beyond a factorization proof.
 
 ## Literature anchors
 

@@ -9,8 +9,11 @@ Protects the target-free causal background baseline and explicit multi-window se
 ### `RenderScaffoldMarkRolloutTests`
 
 - **Does**: Verifies background color comes only from supplied initial frames and seam changes are
-  measured exactly at stride boundaries. Full rollout reports separately retain per-frontier and
-  first-stride density vectors.
+  measured exactly at stride boundaries. It also protects the optional frozen-base panel without
+  changing the established baseline panel list and verifies the static-detail screen excludes
+  opacity and temporal RGB gradient. It also checks the scaffold saliency gate selects exactly the
+  declared cell fraction. Full rollout reports separately retain per-frontier and first-stride
+  density vectors.
 - **Interacts with**: `render_scaffold_mark_rollout.py`.
 
 ## Contracts

@@ -13,7 +13,13 @@ import torch
 
 from sol.audit_prompted_washout import render_signature
 from sol.birth_mark_flow import BirthMarkFlowModel
+from sol.lifecycle_appearance_rollout import (
+    LifecycleAppearanceRollout,
+    rollout_lifecycle_appearance_marks,
+)
+from sol.lifecycle_appearance_flow import APPEARANCE_DIMENSION_SETS
 from sol.prompt_embeddings import load_prompt_cache
+from sol.realizer_render_loss import scaffold_saliency_weights
 from sol.render import render_exact
 from sol.render_streaming_continuation import _panel, _row, frame_points
 from sol.saliency_metrics import saliency_render_signature
@@ -29,7 +35,7 @@ from sol.video_guide import video_to_cell_raster
 from stprim.data.video_io import load_video
 
 
-PANELS = (
+BASE_PANELS = (
     "LTX scaffold",
     "fitted jewel ceiling",
     "generated correct",
@@ -38,10 +44,31 @@ PANELS = (
 )
 
 
+def _panel_names(lifecycle_appearance: bool) -> tuple[str, ...]:
+    """Insert the matched frozen branch only for two-stream experiments."""
+    if not lifecycle_appearance:
+        return BASE_PANELS
+    return (
+        "LTX scaffold",
+        "fitted jewel ceiling",
+        "generated frozen base",
+        "generated correct",
+        "generated shuffled",
+        "generated null",
+    )
+
+
 def _parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--topology", required=True)
     parser.add_argument("--mark-flow", required=True)
+    parser.add_argument("--appearance-flow")
+    parser.add_argument(
+        "--appearance-dimension-set",
+        choices=tuple(APPEARANCE_DIMENSION_SETS),
+        default="all",
+    )
+    parser.add_argument("--appearance-saliency-fraction", type=float, default=1.0)
     parser.add_argument("--manifest", required=True)
     parser.add_argument("--prompt-cache", required=True)
     parser.add_argument("--checkpoint-root", action="append", required=True)
@@ -77,6 +104,29 @@ def _fit_lookup(roots: list[str]) -> dict[str, Path]:
                 raise ValueError(f"duplicate fitted checkpoint: {path.name}")
             paths[path.name] = path
     return paths
+
+
+def _appearance_saliency_gates(
+    guides: tuple[torch.Tensor, ...],
+    grid_shape: tuple[int, int, int],
+    background: torch.Tensor,
+    fraction: float,
+) -> tuple[torch.Tensor, ...]:
+    """Select a fixed fraction of highest-scoring guide cells in every stride."""
+    if not 0 < fraction <= 1:
+        raise ValueError("appearance saliency fraction must lie inside (0,1]")
+    gates = []
+    for guide in guides:
+        scores = scaffold_saliency_weights(guide, grid_shape, background)
+        if fraction == 1.0:
+            gates.append(torch.ones_like(scores))
+            continue
+        count = max(1, round(len(scores) * fraction))
+        selected = scores.topk(count).indices
+        gate = torch.zeros_like(scores)
+        gate[selected] = 1
+        gates.append(gate)
+    return tuple(gates)
 
 
 def _causal_background(initial_video: torch.Tensor) -> torch.Tensor:
@@ -184,6 +234,8 @@ def main() -> None:
     args = _parse_args()
     if min(args.steps, args.height, args.width, args.upscale) <= 0:
         raise ValueError("sampling and render dimensions must be positive")
+    if not 0 < args.appearance_saliency_fraction <= 1:
+        raise ValueError("appearance saliency fraction must lie inside (0,1]")
     device = torch.device(args.device)
     _configure_determinism(args.deterministic, device)
     manifest = json.loads(Path(args.manifest).read_text())
@@ -251,6 +303,48 @@ def main() -> None:
             raise ValueError("reconstructed standardizers differ from the mark flow")
     if flow_meta.get("background_contract") != "initial_scaffold_rgb_mean":
         raise ValueError("mark flow declares an unsupported background contract")
+    appearance_flow = None
+    appearance_meta = None
+    if args.appearance_flow:
+        appearance_saved = torch.load(
+            args.appearance_flow, map_location="cpu", weights_only=False
+        )
+        appearance_meta = appearance_saved["meta"]
+        if appearance_meta.get("architecture") != "scaffold_birth_mark_flow_v1":
+            raise ValueError("appearance checkpoint is not a scaffold mark flow")
+        if appearance_meta.get("manifest_sha256") != prompt_cache.manifest_sha256:
+            raise ValueError("appearance checkpoint does not own this manifest")
+        appearance_spec = GridSpec(
+            tuple(appearance_meta["grid_shape"]),
+            int(appearance_meta["slots_per_cell"]),
+        )
+        if appearance_spec != flow_spec or (
+            appearance_meta["model_args"] != flow_meta["model_args"]
+        ):
+            raise ValueError("base and appearance checkpoints have different models")
+        appearance_args = appearance_meta["train_args"]
+        for name in ("stride_frames", "support_sigma"):
+            if appearance_args[name] != flow_args[name]:
+                raise ValueError(
+                    f"base and appearance checkpoints disagree on {name}"
+                )
+        for name in ("context_standardizer", "birth_standardizer"):
+            for statistic in ("mean", "std"):
+                if not torch.equal(
+                    appearance_meta[name][statistic], flow_meta[name][statistic]
+                ):
+                    raise ValueError(
+                        f"base and appearance checkpoints disagree on {name}"
+                    )
+        if appearance_meta.get("background_contract") != flow_meta.get(
+            "background_contract"
+        ):
+            raise ValueError("base and appearance background contracts differ")
+        appearance_flow = BirthMarkFlowModel(
+            grid_spec=appearance_spec, **appearance_meta["model_args"]
+        ).to(device)
+        appearance_flow.load_state_dict(appearance_saved["model"])
+        appearance_flow.eval()
 
     validation = sorted(
         corpus.validation,
@@ -302,9 +396,11 @@ def main() -> None:
     aggregate_rows = []
     predicted_counts = {"correct": [], "shuffled": [], "null": []}
     target_counts = []
+    panels = _panel_names(appearance_flow is not None)
     for source_index, source in enumerate(selected_sources):
         source_id = source.field.source_id
         target_video = videos[source_id]
+        background = _causal_background(target_video[: corpus.stride_frames])
         source_guides = {
             "correct": guides[source_id],
             "shuffled": guides[alternate[source_id]],
@@ -314,32 +410,58 @@ def main() -> None:
             source.field.evaluation_prompt_indices[0]
         ].to(device)
         rollouts: dict[str, ScaffoldMarkRollout] = {}
+        paired_rollouts: dict[str, LifecycleAppearanceRollout] = {}
         for name, control_guides in source_guides.items():
             generator = torch.Generator(device=device).manual_seed(
                 args.seed + source_index
             )
-            rollouts[name] = rollout_scaffold_marks(
-                topology,
-                flow,
-                control_guides,
-                text,
-                context_standardizer,
-                birth_standardizer,
-                total_frames=source.field.frames,
-                stride_frames=corpus.stride_frames,
-                support_sigma=corpus.support_sigma,
-                topology_spec=topology_spec,
-                occupancy_threshold=occupancy_threshold,
-                device=device,
-                steps=args.steps,
-                generator=generator,
-                allow_initial_prefrontier=not args.strict_initial_boundary,
-            )
+            rollout_arguments = {
+                "total_frames": source.field.frames,
+                "stride_frames": corpus.stride_frames,
+                "support_sigma": corpus.support_sigma,
+                "topology_spec": topology_spec,
+                "occupancy_threshold": occupancy_threshold,
+                "device": device,
+                "steps": args.steps,
+                "generator": generator,
+                "allow_initial_prefrontier": not args.strict_initial_boundary,
+            }
+            if appearance_flow is None:
+                rollouts[name] = rollout_scaffold_marks(
+                    topology,
+                    flow,
+                    control_guides,
+                    text,
+                    context_standardizer,
+                    birth_standardizer,
+                    **rollout_arguments,
+                )
+            else:
+                paired = rollout_lifecycle_appearance_marks(
+                    topology,
+                    flow,
+                    appearance_flow,
+                    control_guides,
+                    text,
+                    context_standardizer,
+                    birth_standardizer,
+                    appearance_dimensions=APPEARANCE_DIMENSION_SETS[
+                        args.appearance_dimension_set
+                    ],
+                    appearance_cell_weights=_appearance_saliency_gates(
+                        tuple(control_guides),
+                        topology_spec.shape,
+                        background,
+                        args.appearance_saliency_fraction,
+                    ),
+                    **rollout_arguments,
+                )
+                paired_rollouts[name] = paired
+                rollouts[name] = paired.appearance
             predicted_counts[name].extend(rollouts[name].counts)
         target_counts.extend(view.births.counts for view in source.views)
         completed_frames = rollouts["correct"].completed_frames
         target_video = target_video[:completed_frames]
-        background = _causal_background(target_video[: corpus.stride_frames])
         item = manifest_sources[source_id]
         fit_name = f"{Path(item['video']).stem}_w000000.pt"
         fit_path = fits.get(fit_name)
@@ -367,6 +489,15 @@ def main() -> None:
                 width=args.width,
             ),
         }
+        if paired_rollouts:
+            rendered["generated frozen base"] = _render_field(
+                paired_rollouts["correct"].base.features,
+                points,
+                background,
+                frames=completed_frames,
+                height=args.height,
+                width=args.width,
+            )
         for control, panel in (
             ("correct", "generated correct"),
             ("shuffled", "generated shuffled"),
@@ -418,8 +549,16 @@ def main() -> None:
                 for name, rollout in rollouts.items()
             },
         }
+        if paired_rollouts:
+            density["generated frozen base"] = _density_report(
+                paired_rollouts["correct"].base.features,
+                source.field.frames,
+                completed_frames,
+                corpus.stride_frames,
+                corpus.support_sigma,
+            )
         animation = [
-            _row([_panel(rendered[name][frame], name, args.upscale) for name in PANELS])
+            _row([_panel(rendered[name][frame], name, args.upscale) for name in panels])
             for frame in range(completed_frames)
         ]
         gif_name = f"{source_id}_three_window_rollout.gif"
@@ -453,15 +592,22 @@ def main() -> None:
         contact.save(output_dir / contact_name)
         aggregate_rows.append(animation[2 * corpus.stride_frames])
         field_name = f"{source_id}_generated_field.pt"
-        torch.save(
-            {
-                "features": rollouts["correct"].features,
-                "global_ids": rollouts["correct"].global_ids,
-                "background": background,
-                "rollout": rollouts["correct"].report,
-            },
-            output_dir / field_name,
-        )
+        field_payload = {
+            "features": rollouts["correct"].features,
+            "global_ids": rollouts["correct"].global_ids,
+            "background": background,
+            "rollout": rollouts["correct"].report,
+        }
+        if paired_rollouts:
+            field_payload.update(
+                {
+                    "frozen_base_features": paired_rollouts[
+                        "correct"
+                    ].base.features,
+                    "lifecycle_appearance": paired_rollouts["correct"].report,
+                }
+            )
+        torch.save(field_payload, output_dir / field_name)
         record = {
             "source_id": source_id,
             "class_name": source.field.class_name,
@@ -478,6 +624,11 @@ def main() -> None:
             "seams": seams,
             "density": density,
             "rollouts": {name: rollout.report for name, rollout in rollouts.items()},
+            "lifecycle_appearance": (
+                {name: rollout.report for name, rollout in paired_rollouts.items()}
+                if paired_rollouts
+                else None
+            ),
             "artifacts": {
                 "gif": gif_name,
                 "contact_sheet": contact_name,
@@ -512,14 +663,14 @@ def main() -> None:
             ],
             "signature",
         )
-        for panel in PANELS
+        for panel in panels
         if panel != "LTX scaffold"
     }
     macro_seams = {
         panel: _macro_average(
             [{"seam": record["seams"][panel]} for record in records], "seam"
         )
-        for panel in PANELS
+        for panel in panels
         if panel != "LTX scaffold"
     }
     macro_saliency = {
@@ -530,21 +681,34 @@ def main() -> None:
             ],
             "signature",
         )
-        for panel in PANELS
+        for panel in panels
         if panel != "LTX scaffold"
     }
     macro_density = {
         panel: sum(record["density"][panel]["effective"]["mean"] for record in records)
         / len(records)
-        for panel in (
-            "fitted jewel ceiling",
-            "generated correct",
-            "generated shuffled",
-            "generated null",
-        )
+        for panel in panels
+        if panel != "LTX scaffold"
     }
+    lifecycle_appearance_report = None
+    if appearance_flow is not None:
+        paired = [
+            control
+            for record in records
+            for control in record["lifecycle_appearance"].values()
+        ]
+        lifecycle_appearance_report = {
+            "all_lifecycle_exact": all(item["lifecycle_exact"] for item in paired),
+            "all_stable_ids_exact": all(item["stable_ids_exact"] for item in paired),
+            "all_topology_exact": all(item["topology_exact"] for item in paired),
+            "controls_audited": len(paired),
+        }
     summary = {
-        "schema": "scaffold-mark-three-window-rollout-v1",
+        "schema": (
+            "scaffold-mark-lifecycle-appearance-rollout-v1"
+            if appearance_flow is not None
+            else "scaffold-mark-three-window-rollout-v1"
+        ),
         "sources": len(records),
         "sampling_steps": args.steps,
         "sampling_seed": args.seed,
@@ -556,6 +720,20 @@ def main() -> None:
         "inputs": {
             "topology_checkpoint": args.topology,
             "mark_flow_checkpoint": args.mark_flow,
+            "appearance_flow_checkpoint": args.appearance_flow,
+            "appearance_dimension_set": (
+                args.appearance_dimension_set if appearance_flow is not None else None
+            ),
+            "appearance_dimensions": (
+                list(APPEARANCE_DIMENSION_SETS[args.appearance_dimension_set])
+                if appearance_flow is not None
+                else None
+            ),
+            "appearance_saliency_fraction": (
+                args.appearance_saliency_fraction
+                if appearance_flow is not None
+                else None
+            ),
             "manifest": args.manifest,
             "prompt_cache": args.prompt_cache,
             "checkpoint_roots": args.checkpoint_root,
@@ -573,6 +751,7 @@ def main() -> None:
         "macro_saliency_signatures": macro_saliency,
         "macro_seams": macro_seams,
         "macro_effective_density": macro_density,
+        "lifecycle_appearance": lifecycle_appearance_report,
         "mean_background_mae": sum(record["background"]["mae"] for record in records)
         / len(records),
         "records": records,

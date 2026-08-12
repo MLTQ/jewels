@@ -2,8 +2,9 @@
 
 ## Purpose
 
-Executes and visualizes the first fitted-seed-free jewel sequence: initial generation plus two
-free-running continuation strides under correct, shuffled, and null video scaffolds.
+Executes and visualizes fitted-seed-free jewel sequences: initial generation plus two free-running
+continuation strides under correct, shuffled, and null video scaffolds. It also runs the optional
+two-stream lifecycle/appearance control against a matched frozen base.
 
 ## Components
 
@@ -36,18 +37,34 @@ free-running continuation strides under correct, shuffled, and null video scaffo
   boundary contract.
 - **Provenance**: The summary records the sampling seed, PyTorch/device runtime, every checkpoint
   and corpus input path, and the prompt-manifest digest so future matched controls are reproducible.
+- **Two-stream gate**: `--appearance-flow` integrates the selected `--mark-flow` in lockstep,
+  renders it beside the constrained candidate, and records exact lifecycle, topology, and ID audits
+  for all three scaffold controls.
+- **Dimension screens**: `--appearance-dimension-set` applies named, checkpoint-independent masks
+  after every sampler/projection/coordinate-transform stage, localizing whether geometry, opacity,
+  RGB, or spatial/temporal gradients own an improvement or regression.
+- **Spatial residual gate**: `--appearance-saliency-fraction` enables residuals only for the top
+  guide-derived foreground/motion/chroma/boundary cells in each stride. It uses the causal initial
+  scaffold background and never reads evaluation masks or fitted jewels.
+
+### `_panel_names`
+
+- **Does**: Preserves the five-panel baseline artifact or inserts the frozen-base panel for a
+  lifecycle/appearance experiment.
 
 ## Contracts
 
 | Dependent | Expects | Breaking changes |
 |---|---|---|
 | P1 generation gate | No fitted marks, counts, context, carry, or background enter generated panels | Ownership |
-| Visual review | Five panel names and six boundary-focused contact rows remain stable | Artifact schema |
+| Visual review | Baseline keeps five panels; paired runs add the labeled frozen base | Artifact schema |
 | Interactive prototype | Correct rollout saves canonical features plus stable IDs | Field schema |
 | Scientific report | Global and saliency render metrics, seams, density, capacity, and controls are present | JSON schema |
 | Matched fine-tunes | Deterministic mode and seed are identical between checkpoint arms | RNG policy |
 | Initial-boundary ablation | Strict and censored runs differ only at frontier zero | Projection policy |
 | Result comparison | Seed, runtime, inputs, and manifest digest are explicit | Provenance schema |
+| Lifecycle factorization | Paired summaries expose exact state ownership for every control | Audit schema |
+| Spatial residual screen | Gate fraction and per-window realized strengths are serialized | Gate policy |
 
 ## Notes
 
