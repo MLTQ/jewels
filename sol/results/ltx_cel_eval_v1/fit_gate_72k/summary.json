@@ -1,0 +1,46 @@
+{
+  "schema": "jewels-ltx-cel-fit-gate-v1",
+  "contract": {
+    "classes": 4,
+    "frames": 49,
+    "render_height": 160,
+    "render_width": 240,
+    "initial_jewels": 9000,
+    "final_jewels": 72000,
+    "fit_steps": 9000,
+    "split_mode": "spatial",
+    "seed": 0
+  },
+  "cel": {
+    "psnr": 28.67460536956787,
+    "ssim": 0.9616078734397888,
+    "flat_region_rgb_mae": 0.008176643517799675,
+    "edge_region_rgb_mae": 0.0555867338553071,
+    "quiet_temporal_change_mae": 0.007119640882592648,
+    "target_temporal_change": 0.015288159193005413,
+    "effective_contributors_per_frame": 5941.37353515625,
+    "contributors_above_005_peak_alpha_per_frame": 7162.6123046875
+  },
+  "photoreal": {
+    "psnr": 31.47165060043335,
+    "ssim": 0.9906269013881683,
+    "flat_region_rgb_mae": 0.01271524210460484,
+    "edge_region_rgb_mae": 0.03424365585669875,
+    "quiet_temporal_change_mae": 0.00846945634111762,
+    "target_temporal_change": 0.0353412467520684,
+    "effective_contributors_per_frame": 5966.07958984375,
+    "contributors_above_005_peak_alpha_per_frame": 6882.93896484375
+  },
+  "cel_minus_photoreal": {
+    "psnr": -2.7970452308654785,
+    "ssim": -0.029019027948379517,
+    "flat_region_rgb_mae": -0.004538598586805165,
+    "edge_region_rgb_mae": 0.02134307799860835,
+    "quiet_temporal_change_mae": -0.0013498154585249722,
+    "target_temporal_change": -0.020053087559062988,
+    "effective_contributors_per_frame": -24.7060546875,
+    "contributors_above_005_peak_alpha_per_frame": 279.67333984375
+  },
+  "decision": "reject_whole_domain_switch_before_fill_contour_control",
+  "next_gate": "fixed_72k_fill_contour_allocation"
+}

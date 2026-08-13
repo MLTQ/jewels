@@ -1,0 +1,23 @@
+{
+  "checkpoint": "/home/m/jewels/corpus/ltx_cel_eval_v1_72k/01_horseriding_evaluation_00_seed42103_w000000.pt",
+  "source": {
+    "video": "/home/m/LTX-2/corpora/jewels_cel_eval_v1/01_horseriding_evaluation_00_seed42103.mp4",
+    "start_frame": 0
+  },
+  "shape": [
+    49,
+    160,
+    240
+  ],
+  "jewels": 72000,
+  "knn": 64,
+  "mse": 0.0015091393142938614,
+  "psnr": 28.21270751953125,
+  "frames": [
+    0,
+    12,
+    24,
+    36,
+    48
+  ]
+}

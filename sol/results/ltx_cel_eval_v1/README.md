@@ -31,12 +31,55 @@ frames 0, 16, 32, and 48 in class order.
 
 ## Frozen jewel-fit gate
 
-The matched reconstruction run started on Aine's RTX 2070S as
-`jewels-cel-fit-v1.service`. It fits one 49-frame window per clip using exactly 9,000 initial
-jewels, spatial densification to 72,000, 9,000 optimizer steps, seed 0, and recovery every 100
-steps. Checkpoints are written to `/home/m/jewels/corpus/ltx_cel_eval_v1_72k`.
+The matched reconstruction run completed on Aine using the RTX 2070S for Basketball/HorseRiding
+and the RTX 4090 for PlayingGuitar/ApplyEyeMakeup. Every clip uses exactly 9,000 initial jewels,
+spatial densification to 72,000, 9,000 optimizer steps, seed 0, and the same 49-frame geometry and
+rendering contract as the photoreal gate. Checkpoints remain at
+`/home/m/jewels/corpus/ltx_cel_eval_v1_72k`.
 
-The decision metric is not style appearance alone. Completed fits will be compared with the
-photoreal four-class gate at identical budget using full-volume PSNR/SSIM, edge and temporal-change
-retention, palette stability, and contribution-aware jewels per frame.
+### Result
 
+| Mean over four classes | Cel shaded | Photoreal control | Cel difference |
+|---|---:|---:|---:|
+| Full-volume PSNR | 28.675 dB | 31.472 dB | -2.797 dB |
+| SSIM | 0.9616 | 0.9906 | -0.0290 |
+| Flat-region RGB MAE | **0.00818** | 0.01272 | **-35.7%** |
+| Contour-region RGB MAE | 0.05559 | **0.03424** | +62.3% |
+| Contour / flat error | 7.14x | 2.66x | +4.47x |
+| Edge-energy ratio (target 1.0) | 1.006 | 0.939 | +0.067 |
+| Quiet temporal-change MAE | **0.00712** | 0.00847 | **-15.9%** |
+| Target temporal change | 0.01529 | 0.03534 | -56.7% |
+| Effective contributors / frame | 5,941 | 5,966 | -0.4% |
+| Contributors above 5% peak alpha / frame | 7,163 | 6,883 | +4.1% |
+
+| Class | PSNR | SSIM | Effective contributors / frame |
+|---|---:|---:|---:|
+| Basketball | 26.520 dB | 0.8978 | 7,544 |
+| HorseRiding | 28.213 dB | 0.9660 | 4,240 |
+| PlayingGuitar | 29.026 dB | 0.9882 | 6,174 |
+| ApplyEyeMakeup | 30.940 dB | 0.9943 | 5,807 |
+
+The broad-fill hypothesis passes: all four cel clips have lower flat-region error than their
+class-matched photoreal controls. The whole-domain hypothesis fails under the current primitive
+allocation because every class has higher contour-region error. Bold lines occupy little area but
+carry most object identity, so uniform pixel loss and ordinary spatial splitting undersupply the
+narrow moving curves. Near-perfect aggregate edge energy does not contradict this: blurred halos
+and displaced double edges preserve the amount of edge energy without preserving its location.
+
+The density audit rules out a simple count explanation. Cel and photoreal fields have effectively
+the same contributors per frame, and the cel fields have more contributors above 5% peak alpha.
+Temporal ratios above one are also easy to misread because the styled targets contain 57% less
+motion; their absolute quiet-region temporal error is modestly lower.
+
+### Decision
+
+Do not begin style-specific learned-generator training on these fields as evidence that the current
+jewel representation prefers animation. First run a fixed-72k fill/contour allocation control:
+broad long-lived jewels for region interiors and narrow motion-aligned jewels for ink curves, with
+edge-aware sampling or densification. The style remains a promising product wedge if that control
+retains the 35.7% flat-region advantage while removing the 62.3% contour penalty.
+
+`fit_gate_72k/contact_sheet.png` stacks all four source/reconstruction/error audits. Each class
+folder contains the full 49-frame comparison GIF, contact sheet, and exact-render report.
+`cel_metrics.json`, `photoreal_metrics.json`, `density.json`, and `summary.json` retain the complete
+numeric evidence.

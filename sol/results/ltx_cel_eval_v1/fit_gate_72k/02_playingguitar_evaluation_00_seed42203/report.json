@@ -1,0 +1,23 @@
+{
+  "checkpoint": "/home/m/jewels/corpus/ltx_cel_eval_v1_72k/02_playingguitar_evaluation_00_seed42203_w000000.pt",
+  "source": {
+    "video": "/home/m/LTX-2/corpora/jewels_cel_eval_v1/02_playingguitar_evaluation_00_seed42203.mp4",
+    "start_frame": 0
+  },
+  "shape": [
+    49,
+    160,
+    240
+  ],
+  "jewels": 72000,
+  "knn": 64,
+  "mse": 0.0012514723930507898,
+  "psnr": 29.025787353515625,
+  "frames": [
+    0,
+    12,
+    24,
+    36,
+    48
+  ]
+}

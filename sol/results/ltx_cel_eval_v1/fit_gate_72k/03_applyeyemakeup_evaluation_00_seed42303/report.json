@@ -1,0 +1,23 @@
+{
+  "checkpoint": "/home/m/jewels/corpus/ltx_cel_eval_v1_72k/03_applyeyemakeup_evaluation_00_seed42303_w000000.pt",
+  "source": {
+    "video": "/home/m/LTX-2/corpora/jewels_cel_eval_v1/03_applyeyemakeup_evaluation_00_seed42303.mp4",
+    "start_frame": 0
+  },
+  "shape": [
+    49,
+    160,
+    240
+  ],
+  "jewels": 72000,
+  "knn": 64,
+  "mse": 0.0008054104400798678,
+  "psnr": 30.93982696533203,
+  "frames": [
+    0,
+    12,
+    24,
+    36,
+    48
+  ]
+}

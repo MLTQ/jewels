@@ -1,0 +1,23 @@
+{
+  "checkpoint": "/home/m/jewels/corpus/ltx_cel_eval_v1_72k/00_basketball_evaluation_00_seed42003_w000000.pt",
+  "source": {
+    "video": "/home/m/LTX-2/corpora/jewels_cel_eval_v1/00_basketball_evaluation_00_seed42003.mp4",
+    "start_frame": 0
+  },
+  "shape": [
+    49,
+    160,
+    240
+  ],
+  "jewels": 72000,
+  "knn": 64,
+  "mse": 0.002228385303169489,
+  "psnr": 26.520099639892578,
+  "frames": [
+    0,
+    12,
+    24,
+    36,
+    48
+  ]
+}
