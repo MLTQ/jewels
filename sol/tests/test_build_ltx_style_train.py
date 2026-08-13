@@ -9,7 +9,10 @@ import unittest
 
 import torch
 
-from sol.build_ltx_style_train import build_ltx_style_manifest
+from sol.build_ltx_style_train import (
+    build_ltx_style_manifest,
+    select_ltx_style_class,
+)
 from sol.prompt_embeddings import build_prompt_cache, collect_prompts, manifest_digest
 from sol.ucf_prompt_manifest import VideoCandidate, build_manifest
 
@@ -57,6 +60,29 @@ def _ltx_manifest(
 
 
 class BuildLtxStyleTrainTests(unittest.TestCase):
+    def test_single_field_selection_retains_one_paired_physical_field(self) -> None:
+        derived = build_ltx_style_manifest(_ucf_manifest(), _ltx_manifest())
+        selected = select_ltx_style_class(derived, "Basketball")
+        self.assertEqual(len(selected["classes"]), 1)
+        self.assertEqual(len(selected["examples"]), 2)
+        self.assertEqual(
+            {item["split"] for item in selected["examples"]},
+            {"train", "validation"},
+        )
+        self.assertEqual(
+            len({item["shared_field_stem"] for item in selected["examples"]}),
+            1,
+        )
+        self.assertEqual(
+            selected["validation_protocol"],
+            "same-field-single-class-memorization",
+        )
+
+    def test_single_field_selection_rejects_unknown_class(self) -> None:
+        derived = build_ltx_style_manifest(_ucf_manifest(), _ltx_manifest())
+        with self.assertRaisesRegex(ValueError, "one train and one validation"):
+            select_ltx_style_class(derived, "HorseRiding")
+
     def test_builds_explicit_overlapping_train_and_reconstruction_aliases(self) -> None:
         derived = build_ltx_style_manifest(_ucf_manifest(), _ltx_manifest())
         self.assertEqual(len(derived["examples"]), 2)

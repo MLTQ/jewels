@@ -133,6 +133,29 @@ class RealizerRenderLossTests(unittest.TestCase):
         )
         self.assertLess(float(terms.total.abs()), 1e-6)
 
+    def test_candidate_background_receives_visual_gradient(self) -> None:
+        target = random_jewels(6, seed=74)
+        candidate_background = torch.full((3,), 0.2, requires_grad=True)
+        terms = realizer_render_loss(
+            target,
+            target,
+            torch.empty(0, 22),
+            total_frames=10,
+            frontier=2,
+            stride_frames=4,
+            background=torch.tensor((0.4, 0.5, 0.6)),
+            candidate_background=candidate_background,
+            render_height=4,
+            render_width=4,
+            patches=1,
+            patch_frames=1,
+            patch_height=2,
+            patch_width=2,
+        )
+        terms.total.backward()
+        self.assertIsNotNone(candidate_background.grad)
+        self.assertGreater(float(candidate_background.grad.abs().sum()), 0)
+
 
 if __name__ == "__main__":
     unittest.main()

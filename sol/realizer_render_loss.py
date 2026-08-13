@@ -299,6 +299,7 @@ def realizer_render_loss(
     frontier: int,
     stride_frames: int,
     background: torch.Tensor,
+    candidate_background: torch.Tensor | None = None,
     render_height: int = 24,
     render_width: int = 40,
     patches: int = 2,
@@ -334,6 +335,12 @@ def realizer_render_loss(
     )
     if any(weight < 0 for weight in weights) or not any(weights):
         raise ValueError("render loss weights must be non-negative and not all zero")
+    if background.shape != (3,) or (
+        candidate_background is not None and candidate_background.shape != (3,)
+    ):
+        raise ValueError("target and candidate backgrounds must have shape (3,)")
+    if candidate_background is None:
+        candidate_background = background
     patch_importance = None
     if saliency_fraction:
         if guide_raster is None or guide_grid_shape is None:
@@ -360,14 +367,16 @@ def realizer_render_loss(
     )
     shape = (patches, patch_frames, patch_height, patch_width, 3)
     with torch.no_grad():
-        base = render_exact(
-            carried_global.float(), global_points, background=background.float()
-        )
+        base = render_exact(carried_global.float(), global_points)
         expected = (
-            base + render_exact(target_local.float(), local_points)
+            base
+            + background.float()[None]
+            + render_exact(target_local.float(), local_points)
         ).clamp(0, 1).reshape(shape)
     candidate = (
-        base + render_exact(predicted_local.float(), local_points)
+        base
+        + candidate_background.float()[None]
+        + render_exact(predicted_local.float(), local_points)
     ).clamp(0, 1).reshape(shape)
     rgb = F.mse_loss(candidate, expected)
     edge = _edge_loss(candidate, expected)

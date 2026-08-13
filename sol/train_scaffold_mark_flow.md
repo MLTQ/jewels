@@ -32,6 +32,13 @@ complete stride, removing the continuation-only 512-rank/fitted-prefix limitatio
 - **Render state**: Keeps the exact fitted carried field/background only as supervised training
   targets; neither is serialized into or supplied to autonomous inference.
 
+### `_single_background_initialization`
+
+- **Does**: Initializes an optional three-value learned background from the first scaffold stride's
+  mean RGB and rejects any corpus containing more than one physical training source.
+- **Rationale**: The single-field capacity gate can learn decomposition gauge without initializing
+  from the privileged fitted background.
+
 ### `main`
 
 - **Does**: Cycles every train stride, trains rectified flow with text/context/guide dropout,
@@ -44,6 +51,15 @@ complete stride, removing the continuation-only 512-rank/fitted-prefix limitatio
   bounded visual correction without restarting the feature-trained flow.
 - **Contribution correction**: An optional loss matches per-jewel alpha, cell alpha mass, and soft
   5%-visible counts exactly at local frontier time zero, addressing weak lifecycle tails directly.
+- **Single-field background**: `--learn-single-background` optimizes a sigmoid-bounded RGB
+  parameter only through rendered supervision and serializes both its causal initialization
+  contract and final value. It cannot be enabled for multi-source training. Its optimizer group
+  has no weight decay, avoiding an otherwise hidden bias toward mid-gray; model weights retain
+  ordinary AdamW decay.
+- **Precision safety**: Feature-only training retains CUDA mixed precision. Any run with rendered
+  supervision automatically uses full-precision backpropagation because loss scaling through the
+  differentiable covariance renderer can produce infinite gradients and silently skip updates.
+  Gradient clipping includes the optional background as well as model parameters.
 - **Saliency correction**: Optional scaffold-derived sampling mixes uniform patches with cells rich
   in foreground, motion, rare chroma, and spatial boundaries. Separate rendered terms emphasize
   foreground RGB, moving boundaries, and quiet-region temporal stability.
@@ -66,6 +82,7 @@ complete stride, removing the continuation-only 512-rank/fitted-prefix limitatio
 | Motion-aware ablation | Saliency fraction and all component weights are checkpointed | Loss policy |
 | Salient feature ablation | Cell saliency is guide-owned and never changes mark topology | Ownership |
 | Cross-corpus adaptation | Transfer validates the exact architecture/grid/rank basis and starts a fresh optimizer | Initialization policy |
+| Single-field memorization | Learned background starts from causal guide RGB, not fitted metadata | Gauge ownership |
 
 ## Notes
 

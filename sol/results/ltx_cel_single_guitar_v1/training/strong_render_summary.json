@@ -1,0 +1,46 @@
+{
+  "steps": 5000,
+  "seconds": 438.01336574554443,
+  "train_views": 3,
+  "schedule_views": 4,
+  "initial_train_views": 1,
+  "latest_evaluation": {
+    "validation_views": 3,
+    "shuffled_scaffold_available": false,
+    "aggregate": {
+      "correct": 1.9301564693450928,
+      "null_scaffold": 1.8940194447835286,
+      "no_context": 1.6183645725250244,
+      "null_minus_correct": -0.0361370245615642,
+      "no_context_minus_correct": -0.31179189682006836
+    },
+    "initial": {
+      "correct": 1.1792175769805908,
+      "null_scaffold": 1.1838024854660034,
+      "no_context": 1.1792175769805908,
+      "null_minus_correct": 0.004584908485412598,
+      "no_context_minus_correct": 0.0
+    },
+    "continuation": {
+      "correct": 2.3056259155273438,
+      "null_scaffold": 2.2491279244422913,
+      "no_context": 1.8379380702972412,
+      "null_minus_correct": -0.05649799108505249,
+      "no_context_minus_correct": -0.46768784523010254
+    },
+    "per_source": {
+      "02_playingguitar_evaluation_00_seed42203__style_reconstruction": {
+        "correct": 1.9301564693450928,
+        "null_scaffold": 1.8940194447835286,
+        "no_context": 1.6183645725250244,
+        "null_minus_correct": -0.0361370245615642,
+        "no_context_minus_correct": -0.31179189682006836
+      }
+    }
+  },
+  "learned_background": [
+    0.8220715522766113,
+    0.601603627204895,
+    0.47292637825012207
+  ]
+}

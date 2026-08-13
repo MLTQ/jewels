@@ -11,6 +11,7 @@ from pathlib import Path
 from sol.build_ltx_realizer_eval import LTX_CORPUS_SCHEMA
 from sol.prompt_embeddings import (
     build_prompt_cache,
+    collect_prompts,
     load_prompt_cache,
     manifest_digest,
     save_prompt_cache,
@@ -139,6 +140,38 @@ def build_ltx_style_manifest(
     return derived
 
 
+def select_ltx_style_class(manifest: dict, class_name: str) -> dict:
+    """Restrict a style-adaptation manifest to one explicit physical field."""
+    examples = [
+        deepcopy(item)
+        for item in manifest.get("examples", [])
+        if item.get("class_name") == class_name
+    ]
+    if len(examples) != 2 or {item.get("split") for item in examples} != {
+        "train",
+        "validation",
+    }:
+        raise ValueError(
+            "single-field selection requires one train and one validation alias"
+        )
+    stems = {item.get("shared_field_stem") for item in examples}
+    if len(stems) != 1 or None in stems:
+        raise ValueError("single-field aliases must share one physical field stem")
+    selected = deepcopy(manifest)
+    selected["classes"] = [
+        deepcopy(item)
+        for item in manifest.get("classes", [])
+        if item.get("class_name") == class_name
+    ]
+    if len(selected["classes"]) != 1:
+        raise ValueError(f"manifest does not declare class {class_name!r} exactly once")
+    selected["examples"] = examples
+    selected["single_field_overfit_class"] = class_name
+    selected["validation_protocol"] = "same-field-single-class-memorization"
+    selected["validation_group"] = "same-field-single-class-memorization"
+    return selected
+
+
 def _parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--ucf-manifest", required=True)
@@ -146,6 +179,7 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--source-prompt-cache", required=True)
     parser.add_argument("--out-manifest", required=True)
     parser.add_argument("--out-prompt-cache", required=True)
+    parser.add_argument("--class-name")
     return parser.parse_args()
 
 
@@ -162,7 +196,20 @@ def main() -> None:
         ltx_manifest,
         source_manifest_file_sha256=hashlib.sha256(ucf_path.read_bytes()).hexdigest(),
     )
-    cache = build_prompt_cache(manifest, source_cache.prompts, source_cache.embeddings)
+    if args.class_name:
+        manifest = select_ltx_style_class(manifest, args.class_name)
+    expected_prompts = collect_prompts(manifest)
+    prompt_lookup = {
+        prompt: index for index, prompt in enumerate(source_cache.prompts)
+    }
+    if set(expected_prompts) - set(prompt_lookup):
+        raise ValueError("source prompt cache lacks selected manifest prompts")
+    prompt_rows = [prompt_lookup[prompt] for prompt in expected_prompts]
+    cache = build_prompt_cache(
+        manifest,
+        expected_prompts,
+        source_cache.embeddings[prompt_rows],
+    )
     if cache.encoder != source_cache.encoder:
         raise ValueError("derived manifest changes the prompt encoder contract")
 
@@ -190,6 +237,9 @@ def main() -> None:
                 "frames": manifest["frames"],
                 "validation_protocol": manifest["validation_protocol"],
                 "source_overlap": manifest["source_overlap"],
+                "single_field_overfit_class": manifest.get(
+                    "single_field_overfit_class"
+                ),
             },
             indent=2,
         ),

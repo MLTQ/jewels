@@ -9,7 +9,12 @@ import torch
 from sol.scaffold_mark_data import build_scaffold_mark_corpus
 from sol.streaming_corpus import PromptedField
 from sol.token_grid import GridSpec
-from sol.train_scaffold_mark_flow import _feature_objective, _prepare
+from sol.train_scaffold_mark_flow import (
+    _feature_objective,
+    _prepare,
+    _single_background_initialization,
+    _training_amp_enabled,
+)
 
 
 def _field(source_id: str, class_id: int, split: str) -> PromptedField:
@@ -34,6 +39,15 @@ def _field(source_id: str, class_id: int, split: str) -> PromptedField:
 
 
 class TrainScaffoldMarkFlowTests(unittest.TestCase):
+    def test_render_supervision_disables_unsafe_amp_scaling(self) -> None:
+        cuda = torch.device("cuda")
+        self.assertTrue(
+            _training_amp_enabled(cuda, no_amp=False, render_weight=0.0)
+        )
+        self.assertFalse(
+            _training_amp_enabled(cuda, no_amp=False, render_weight=1.0)
+        )
+
     def test_feature_objective_emphasizes_salient_cells(self) -> None:
         expected = torch.zeros(2, 3)
         salient_error = expected.clone()
@@ -98,6 +112,54 @@ class TrainScaffoldMarkFlowTests(unittest.TestCase):
         )
         self.assertTrue(all((view.cell_saliency > 0).all() for view in prepared))
         self.assertTrue(all(view.total_frames == 16 for view in prepared))
+
+    def test_single_background_uses_initial_guide_mean(self) -> None:
+        torch.manual_seed(8)
+        spec = GridSpec((2, 2, 2), 8)
+        corpus = build_scaffold_mark_corpus(
+            [_field("train-a", 0, "train"), _field("valid-a", 0, "validation")],
+            torch.randn(4, 8),
+            stride_frames=8,
+            support_sigma=2.0,
+            grid_spec=spec,
+        )
+        guides = {
+            (source.field.source_id, view.index): torch.full(
+                (spec.n_cells, 3), 0.3 + 0.1 * view.index
+            )
+            for source in corpus.sources
+            for view in source.views
+        }
+        prepared = _prepare(corpus, guides, torch.device("cpu"))
+        torch.testing.assert_close(
+            _single_background_initialization(prepared), torch.full((3,), 0.3)
+        )
+
+    def test_single_background_rejects_multiple_training_sources(self) -> None:
+        torch.manual_seed(9)
+        spec = GridSpec((2, 2, 2), 8)
+        corpus = build_scaffold_mark_corpus(
+            [
+                _field("train-a", 0, "train"),
+                _field("train-b", 1, "train"),
+                _field("valid-a", 0, "validation"),
+                _field("valid-b", 1, "validation"),
+            ],
+            torch.randn(4, 8),
+            stride_frames=8,
+            support_sigma=2.0,
+            grid_spec=spec,
+        )
+        guides = {
+            (source.field.source_id, view.index): torch.full(
+                (spec.n_cells, 3), 0.4
+            )
+            for source in corpus.sources
+            for view in source.views
+        }
+        prepared = _prepare(corpus, guides, torch.device("cpu"))
+        with self.assertRaisesRegex(ValueError, "one source"):
+            _single_background_initialization(prepared)
 
 
 if __name__ == "__main__":

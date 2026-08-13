@@ -1,0 +1,114 @@
+{
+  "schema": "ucf-prompt-streaming-v1",
+  "frames": 49,
+  "validation_group": "same-field-single-class-memorization",
+  "classes": [
+    {
+      "class_name": "PlayingGuitar",
+      "label": "playing guitar",
+      "train_prompts": [
+        "a person playing guitar",
+        "a musician performing with a guitar",
+        "someone strumming a guitar"
+      ],
+      "evaluation_prompts": [
+        "a video of a guitarist playing music"
+      ]
+    }
+  ],
+  "text_encoder": {
+    "library": "open_clip",
+    "model": "ViT-B-32",
+    "pretrained": "laion2b_s34b_b79k",
+    "pooling": "normalized_text_embedding",
+    "condition_dropout": 0.15
+  },
+  "fit_contract": {
+    "size": 160,
+    "num_init": 9000,
+    "max_primitives": 72000,
+    "steps": 9000,
+    "voxels": 65536,
+    "split_mode": "spatial",
+    "recovery_every": 100,
+    "windows_per_video": 1
+  },
+  "examples": [
+    {
+      "class_id": 2,
+      "class_name": "PlayingGuitar",
+      "label": "playing guitar",
+      "source_group": "ltx-style-train",
+      "source_id": "02_playingguitar_evaluation_00_seed42203__style_train",
+      "clip_id": 0,
+      "split": "train",
+      "video": "/home/m/LTX-2/corpora/jewels_cel_eval_v1/02_playingguitar_evaluation_00_seed42203.mp4",
+      "fit_video": "/home/m/LTX-2/corpora/jewels_cel_eval_v1/02_playingguitar_evaluation_00_seed42203.mp4",
+      "frame_count": 49,
+      "start_frame": 0,
+      "frames": 49,
+      "train_prompts": [
+        "a person playing guitar",
+        "a musician performing with a guitar",
+        "someone strumming a guitar"
+      ],
+      "evaluation_prompts": [
+        "a video of a guitarist playing music"
+      ],
+      "shared_field_stem": "02_playingguitar_evaluation_00_seed42203",
+      "scaffold": {
+        "schema": "jewels-ltx-corpus-v1",
+        "prompt_role": "evaluation",
+        "prompt_index": 0,
+        "source_prompt": "a video of a guitarist playing music",
+        "generation_prompt": "a video of a guitarist playing music. Rotoscoped cel-shaded animation with broad flat color regions, a restrained palette, bold stable ink contours, minimal surface texture, clean color holds, one continuous shot, stable camera, coherent natural motion, no cuts.",
+        "seed": 42203,
+        "receipt": "/home/m/LTX-2/corpora/jewels_cel_eval_v1/02_playingguitar_evaluation_00_seed42203.json",
+        "ltx_revision": "4f8905737aac86a554637cac86c178877a39c744"
+      },
+      "overlaps_validation_source_id": "02_playingguitar_evaluation_00_seed42203__style_reconstruction"
+    },
+    {
+      "class_id": 2,
+      "class_name": "PlayingGuitar",
+      "label": "playing guitar",
+      "source_group": "ltx-style-reconstruction",
+      "source_id": "02_playingguitar_evaluation_00_seed42203__style_reconstruction",
+      "clip_id": 0,
+      "split": "validation",
+      "video": "/home/m/LTX-2/corpora/jewels_cel_eval_v1/02_playingguitar_evaluation_00_seed42203.mp4",
+      "fit_video": "/home/m/LTX-2/corpora/jewels_cel_eval_v1/02_playingguitar_evaluation_00_seed42203.mp4",
+      "frame_count": 49,
+      "start_frame": 0,
+      "frames": 49,
+      "train_prompts": [
+        "a person playing guitar",
+        "a musician performing with a guitar",
+        "someone strumming a guitar"
+      ],
+      "evaluation_prompts": [
+        "a video of a guitarist playing music"
+      ],
+      "shared_field_stem": "02_playingguitar_evaluation_00_seed42203",
+      "scaffold": {
+        "schema": "jewels-ltx-corpus-v1",
+        "prompt_role": "evaluation",
+        "prompt_index": 0,
+        "source_prompt": "a video of a guitarist playing music",
+        "generation_prompt": "a video of a guitarist playing music. Rotoscoped cel-shaded animation with broad flat color regions, a restrained palette, bold stable ink contours, minimal surface texture, clean color holds, one continuous shot, stable camera, coherent natural motion, no cuts.",
+        "seed": 42203,
+        "receipt": "/home/m/LTX-2/corpora/jewels_cel_eval_v1/02_playingguitar_evaluation_00_seed42203.json",
+        "ltx_revision": "4f8905737aac86a554637cac86c178877a39c744"
+      },
+      "overlaps_training_source_id": "02_playingguitar_evaluation_00_seed42203__style_train"
+    }
+  ],
+  "training_domain": "LTX-2.3 cel-shaded/rotoscoped",
+  "validation_protocol": "same-field-single-class-memorization",
+  "validation_is_unseen": false,
+  "source_overlap": true,
+  "ltx_source_manifest_sha256": "5e514966be50240393ff51a65327165e8794edc4898cdecc02269adc982be578",
+  "ucf_manifest_canonical_sha256": "2c86403ef5540a24899600fac5d8e9b6f09b1220f2bd421e234fc7f664ce0261",
+  "ucf_manifest_file_sha256": "5e514966be50240393ff51a65327165e8794edc4898cdecc02269adc982be578",
+  "single_field_overfit_class": "PlayingGuitar"
+}

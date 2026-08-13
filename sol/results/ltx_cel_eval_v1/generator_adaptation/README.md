@@ -148,3 +148,14 @@ CUDA_VISIBLE_DEVICES=GPU-21d45575-7ece-a97c-35a0-294f7bce9c39 python \
 - Aine checkpoints: `/home/m/jewels/topology/ltx_cel_generator_v1/mark_transfer_3000` and
   `/home/m/jewels/topology/ltx_cel_generator_v1/topology_transfer_1500`.
 - Deterministic visual rollout: `/home/m/jewels/topology/ltx_cel_generator_v1/rollout_seed31_20`.
+
+## Follow-up single-field capacity gate
+
+The subsequent exact-topology/fitted-carry PlayingGuitar memorization audit is
+tracked in `sol/results/ltx_cel_single_guitar_v1`. It rejects strong whole-mark
+render/frontier tuning: source PSNR falls from 17.426 to 13.723 dB while effective
+density inflates from 6,258 to 7,933 splats/frame. A 100x weaker rendered loss
+preserves density and modestly improves spatial SSIM/foreground error, but its
+matched endpoint slightly worsens quiet temporal error. The selected next gate is
+therefore the frozen-lifecycle, appearance-only adapter (`jewels-brv`), not more
+splats or immediate corpus expansion.

@@ -28,6 +28,13 @@ with an explicit same-field reconstruction audit instead of claiming an unseen v
 - **Interacts with**: `prompt_embeddings.py`, `streaming_corpus.py`, and both scaffold trainers.
 - **Rationale**: No text is re-encoded; prompt strings, embedding order, and encoder identity remain
   fixed while field ownership changes explicitly.
+- **Single-field mode**: `--class-name` retains only one physical field's paired aliases and slices
+  the frozen prompt cache to that class's exact rows for a deliberately narrow memorization gate.
+
+### `select_ltx_style_class`
+
+- **Does**: Validates and extracts one train/reconstruction alias pair sharing a physical field.
+- **Rationale**: The capacity/objective gate must not silently train on the other three cel fields.
 
 ## Contracts
 
@@ -37,6 +44,7 @@ with an explicit same-field reconstruction audit instead of claiming an unseen v
 | Mark trainer | Four training and four reconstruction sources each contain initial plus two continuation views | Frame/stride policy |
 | Topology trainer | Every class exists in both manifest splits | Split construction |
 | Prompt conditioning | Three train prompt variants optimize each class; evaluation prompt audits reconstruction | Prompt ownership |
+| Single-field overfit | Exactly one physical stem appears once in each split | Selection policy |
 
 ## Notes
 

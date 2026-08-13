@@ -74,6 +74,40 @@ class ScaffoldMarkEvalTests(unittest.TestCase):
         for section in ("aggregate", "initial", "continuation"):
             self.assertTrue(torch.isfinite(torch.tensor(list(report[section].values()))).all())
 
+    def test_single_class_omits_only_unavailable_shuffled_control(self) -> None:
+        torch.manual_seed(5)
+        spec = GridSpec((2, 2, 2), 8)
+        corpus = build_scaffold_mark_corpus(
+            [_field("train-a", 0, "train"), _field("valid-a", 0, "validation")],
+            torch.randn(4, 8),
+            stride_frames=8,
+            support_sigma=2.0,
+            grid_spec=spec,
+        )
+        model = BirthMarkFlowModel(
+            model_dim=8,
+            grid_spec=spec,
+            context_depth=1,
+            noisy_depth=1,
+            guide_depth=1,
+            cell_depth=1,
+            mark_depth=1,
+            text_dim=8,
+            guide_dim=3,
+            guide_heads=1,
+        )
+        guides = {
+            (source.field.source_id, view.index): torch.rand(spec.n_cells, 3)
+            for source in corpus.sources
+            for view in source.views
+        }
+        report = evaluate_scaffold_mark_flow(
+            model, corpus, guides, device="cpu", seed=10
+        )
+        self.assertFalse(report["shuffled_scaffold_available"])
+        self.assertNotIn("shuffled_scaffold", report["aggregate"])
+        self.assertIn("null_minus_correct", report["aggregate"])
+
 
 if __name__ == "__main__":
     unittest.main()

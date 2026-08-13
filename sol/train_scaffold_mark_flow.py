@@ -104,6 +104,14 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--render-stability-weight", type=float, default=0.0)
     parser.add_argument("--render-saliency-fraction", type=float, default=0.0)
     parser.add_argument("--render-anchor-frontier", action="store_true")
+    parser.add_argument(
+        "--learn-single-background",
+        action="store_true",
+        help=(
+            "learn one RGB background from a causal scaffold initialization; "
+            "requires exactly one physical training field and render supervision"
+        ),
+    )
     parser.add_argument("--frontier-weight", type=float, default=0.0)
     parser.add_argument("--frontier-every", type=int, default=1)
     parser.add_argument("--frontier-visible-threshold", type=float, default=0.05)
@@ -259,6 +267,26 @@ def _load_backgrounds(
     return backgrounds
 
 
+def _single_background_initialization(
+    prepared: list[PreparedScaffoldMarkView],
+) -> torch.Tensor:
+    """Initialize one learned background from the first causal scaffold stride."""
+    source_ids = {view.source_id for view in prepared}
+    initial = [view for view in prepared if view.frontier == 0]
+    if len(source_ids) != 1 or len(initial) != 1:
+        raise ValueError(
+            "single-background learning requires one source with one initial view"
+        )
+    return initial[0].guide_raster.float().mean(dim=0).clamp(1e-4, 1 - 1e-4)
+
+
+def _training_amp_enabled(
+    device: torch.device, *, no_amp: bool, render_weight: float
+) -> bool:
+    """Keep differentiable jewel-render gradients out of unsafe loss scaling."""
+    return device.type == "cuda" and not no_amp and not render_weight
+
+
 def _atomic_save(path: Path, state: dict) -> None:
     temporary = path.with_suffix(path.suffix + ".tmp")
     torch.save(state, temporary)
@@ -280,6 +308,8 @@ def main() -> None:
         raise ValueError("feature saliency weight must be non-negative")
     if args.render_weight < 0 or args.render_every <= 0:
         raise ValueError("render weight/cadence are invalid")
+    if args.learn_single_background and not args.render_weight:
+        raise ValueError("single-background learning requires render supervision")
     if args.frontier_weight < 0 or args.frontier_every <= 0:
         raise ValueError("frontier contribution weight/cadence are invalid")
     if not 0 < args.frontier_visible_threshold < 1:
@@ -346,8 +376,20 @@ def main() -> None:
         "guide_heads": 8,
     }
     model = BirthMarkFlowModel(grid_spec=spec, **model_args).to(device)
-    optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=0.01)
-    use_amp = device.type == "cuda" and not args.no_amp
+    background_logit = None
+    if args.learn_single_background:
+        initial_background = _single_background_initialization(prepared).to(device)
+        background_logit = torch.nn.Parameter(torch.logit(initial_background))
+    model_parameters = list(model.parameters())
+    trainable_parameters = list(model_parameters)
+    parameter_groups = [{"params": model_parameters, "weight_decay": 0.01}]
+    if background_logit is not None:
+        trainable_parameters.append(background_logit)
+        parameter_groups.append({"params": [background_logit], "weight_decay": 0.0})
+    optimizer = torch.optim.AdamW(parameter_groups, lr=args.lr)
+    use_amp = _training_amp_enabled(
+        device, no_amp=args.no_amp, render_weight=args.render_weight
+    )
     scaler = torch.amp.GradScaler("cuda", enabled=use_amp)
     output_dir = Path(args.out)
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -359,6 +401,10 @@ def main() -> None:
     if args.resume and checkpoint_path.exists():
         saved = torch.load(checkpoint_path, map_location=device, weights_only=False)
         model.load_state_dict(saved["model"])
+        if background_logit is not None:
+            if saved.get("background_logit") is None:
+                raise ValueError("resume checkpoint lacks learned background state")
+            background_logit.data.copy_(saved["background_logit"].to(device))
         optimizer.load_state_dict(saved["optimizer"])
         scaler.load_state_dict(saved["scaler"])
         start_step = int(saved["step"])
@@ -391,6 +437,11 @@ def main() -> None:
             checkpoint_path,
             {
                 "model": model.state_dict(),
+                "background_logit": (
+                    background_logit.detach().cpu()
+                    if background_logit is not None
+                    else None
+                ),
                 "optimizer": optimizer.state_dict(),
                 "scaler": scaler.state_dict(),
                 "step": step,
@@ -408,7 +459,16 @@ def main() -> None:
                     ],
                     "context_standardizer": corpus.context_standardizer.state_dict(),
                     "birth_standardizer": corpus.birth_standardizer.state_dict(),
-                    "background_contract": "initial_scaffold_rgb_mean",
+                    "background_contract": (
+                        "single_field_learned_rgb"
+                        if background_logit is not None
+                        else "initial_scaffold_rgb_mean"
+                    ),
+                    "learned_background": (
+                        torch.sigmoid(background_logit).detach().cpu()
+                        if background_logit is not None
+                        else None
+                    ),
                     "initialized_from": args.initialize_from,
                     "transferred_from": args.transfer_from,
                     "initialization": initialization,
@@ -527,6 +587,11 @@ def main() -> None:
                 frontier=view.frontier,
                 stride_frames=view.stride_frames,
                 background=view.background,
+                candidate_background=(
+                    torch.sigmoid(background_logit)
+                    if background_logit is not None
+                    else None
+                ),
                 render_height=args.guide_height,
                 render_width=args.guide_width,
                 patches=args.render_patches,
@@ -550,7 +615,7 @@ def main() -> None:
         optimizer.zero_grad(set_to_none=True)
         scaler.scale(loss).backward()
         scaler.unscale_(optimizer)
-        gradient_norm = torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+        gradient_norm = torch.nn.utils.clip_grad_norm_(trainable_parameters, 1.0)
         scaler.step(optimizer)
         scaler.update()
         history.append(
@@ -623,6 +688,11 @@ def main() -> None:
                 "gradient_norm": float(gradient_norm),
                 "lr": learning_rate,
                 "seconds_per_step": (now - interval_started) / len(recent),
+                "learned_background": (
+                    torch.sigmoid(background_logit).detach().cpu().tolist()
+                    if background_logit is not None
+                    else None
+                ),
             }
             for name in (
                 "render_rgb",
@@ -668,6 +738,11 @@ def main() -> None:
         "schedule_views": len(training_schedule),
         "initial_train_views": sum(view.frontier == 0 for view in prepared),
         "latest_evaluation": latest,
+        "learned_background": (
+            torch.sigmoid(background_logit).detach().cpu().tolist()
+            if background_logit is not None
+            else None
+        ),
     }
     (output_dir / "summary.json").write_text(json.dumps(summary, indent=2) + "\n")
     print(json.dumps(summary, indent=2), flush=True)

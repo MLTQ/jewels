@@ -32,6 +32,9 @@ letting normalized 22-D feature error alone decide visual quality.
 - **Foreground/motion terms**: Target-render saliency weights foreground RGB and thin boundaries.
   Motion loss emphasizes temporal differences and their spatial boundary; stability loss emphasizes
   temporal error where the target is quiet, explicitly penalizing stochastic flicker.
+- **Background isolation**: An optional differentiable candidate background is composed against the
+  fixed fitted target background, allowing a causal background estimate to learn without leaking
+  the fitted RGB value into generation.
 
 ### `scaffold_saliency_weights`
 
@@ -48,6 +51,7 @@ letting normalized 22-D feature error alone decide visual quality.
 | Renderer | Local query time is `(frame-frontier)/stride` | Time convention |
 | Visual objective | Fixed carried jewels and background are identical for both renders | Base composition |
 | Streaming fine-tune | Optional anchored patch begins at the current frontier | Patch sampling |
+| Background overfit | Candidate background receives gradients while target background stays fixed | Composition policy |
 | Motion-aware fine-tune | Guide grid order matches the realizer grid | Saliency addressing |
 
 ## Notes

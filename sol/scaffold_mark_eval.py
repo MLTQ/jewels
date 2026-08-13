@@ -17,13 +17,12 @@ def _mean_controls(rows: list[dict[str, float]]) -> dict[str, float]:
     means = {
         name: sum(row[name] for row in rows) / len(rows) for name in names
     }
-    means.update(
-        {
-            "shuffled_minus_correct": means["shuffled_scaffold"] - means["correct"],
-            "null_minus_correct": means["null_scaffold"] - means["correct"],
-            "no_context_minus_correct": means["no_context"] - means["correct"],
-        }
-    )
+    if "shuffled_scaffold" in means:
+        means["shuffled_minus_correct"] = (
+            means["shuffled_scaffold"] - means["correct"]
+        )
+    means["null_minus_correct"] = means["null_scaffold"] - means["correct"]
+    means["no_context_minus_correct"] = means["no_context"] - means["correct"]
     return means
 
 
@@ -40,14 +39,16 @@ def evaluate_scaffold_mark_flow(
     validation = sorted(
         corpus.validation, key=lambda source: (source.field.class_id, source.field.source_id)
     )
-    if len({source.field.class_id for source in validation}) < 2:
-        raise ValueError("shuffled scaffold controls require two validation classes")
+    shuffled_available = len({source.field.class_id for source in validation}) >= 2
     alternate = {}
-    for offset, source in enumerate(validation):
-        candidate = validation[(offset + 1) % len(validation)]
-        if candidate.field.class_id == source.field.class_id:
-            raise ValueError("shuffled scaffold must come from a different class")
-        alternate[source.field.source_id] = candidate.field.source_id
+    if shuffled_available:
+        for source in validation:
+            candidate = next(
+                item
+                for item in validation
+                if item.field.class_id != source.field.class_id
+            )
+            alternate[source.field.source_id] = candidate.field.source_id
 
     target_device = torch.device(device)
     generator = torch.Generator(device=target_device).manual_seed(seed)
@@ -62,8 +63,14 @@ def evaluate_scaffold_mark_flow(
             if not len(view.births.values):
                 continue
             key = (source.field.source_id, view.index)
-            alternate_key = (alternate[source.field.source_id], view.index)
-            if key not in guide_rasters or alternate_key not in guide_rasters:
+            alternate_key = (
+                (alternate[source.field.source_id], view.index)
+                if shuffled_available
+                else None
+            )
+            if key not in guide_rasters or (
+                alternate_key is not None and alternate_key not in guide_rasters
+            ):
                 raise ValueError("guide raster map is incomplete for scaffold controls")
             context = rasterize_scaffold_context(
                 view.context_features,
@@ -80,7 +87,11 @@ def evaluate_scaffold_mark_flow(
                 source.field.evaluation_prompt_indices[0]
             ].to(target_device)
             guide = guide_rasters[key].to(target_device)
-            shuffled = guide_rasters[alternate_key].to(target_device)
+            shuffled = (
+                guide_rasters[alternate_key].to(target_device)
+                if alternate_key is not None
+                else None
+            )
             noise = torch.randn(target.shape, device=target_device, generator=generator)
             flow_time = torch.rand(1, device=target_device, generator=generator)
 
@@ -101,10 +112,11 @@ def evaluate_scaffold_mark_flow(
 
             record = {
                 "correct": loss(context, guide),
-                "shuffled_scaffold": loss(context, shuffled),
                 "null_scaffold": loss(context, torch.zeros_like(guide)),
                 "no_context": loss(torch.zeros_like(context), guide),
             }
+            if shuffled is not None:
+                record["shuffled_scaffold"] = loss(context, shuffled)
             rows.append(record)
             source_rows.append(record)
             (initial_rows if view.frontier == 0 else continuation_rows).append(record)
@@ -114,6 +126,7 @@ def evaluate_scaffold_mark_flow(
         raise ValueError("evaluation requires birth-bearing initial and continuation views")
     return {
         "validation_views": len(rows),
+        "shuffled_scaffold_available": shuffled_available,
         "aggregate": _mean_controls(rows),
         "initial": _mean_controls(initial_rows),
         "continuation": _mean_controls(continuation_rows),

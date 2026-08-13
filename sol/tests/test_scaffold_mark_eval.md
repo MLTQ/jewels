@@ -10,7 +10,8 @@ mark flow.
 ### `ScaffoldMarkEvalTests`
 
 - **Does**: Builds a tiny two-class corpus and checks that finite aggregate, initial, and
-  continuation control sections are produced.
+  continuation control sections are produced. A paired single-class corpus verifies that only
+  the scientifically unavailable shuffled control is omitted while null/context controls remain.
 - **Interacts with**: `scaffold_mark_eval.py`.
 
 ## Contracts

@@ -14,6 +14,10 @@ Protects device-row preparation for the universal 1,024-rank scaffold mark train
   a high-saliency cell receive greater objective weight than errors in a quiet cell.
 - **Lifecycle check**: Spatial-appearance mode leaves temporal-dimension errors uniformly weighted
   even when their rows occupy cells with very different saliency.
+- **Background check**: Single-field initialization is the exact causal initial-guide mean and
+  rejects multiple physical training sources.
+- **Precision check**: Rendered supervision disables unsafe mixed-precision loss scaling while
+  feature-only CUDA training retains it.
 - **Interacts with**: `train_scaffold_mark_flow.py`.
 
 ## Contracts
@@ -24,3 +28,4 @@ Protects device-row preparation for the universal 1,024-rank scaffold mark train
 | Mark model | Prepared cell/rank tensors honor the shared grid | Capacity/order |
 | Render fine-tune | Every row carries background and timeline metadata | Preparation schema |
 | Feature saliency | Every row carries one mean-normalized importance per guide cell | Weighting schema |
+| Background overfit | Initialization never reads fitted background metadata | Gauge ownership |
