@@ -778,7 +778,8 @@ and stochasticity alone do not.}
 
 \subsection{Prompt scaffolds can be fitted at the intended contributor rate}
 
-The official distilled LTX-2.3 pipeline generated a balanced set of 16 prompt videos: three
+The official distilled LTX-2.3 pipeline~\citep{hacohen2026ltx2} generated a balanced set of 16
+prompt videos: three
 training phrasings and one unseen evaluation phrasing for each of the four action classes. All
 16 complete at \(768\times512\), 49 frames, and 24 fps. Mean generation time is 172.98 seconds and
 mean aggregate GPU peak is 9,399 MiB on the RTX 4090. Independent contact-sheet review preserves
@@ -1057,6 +1058,46 @@ prompt-produced video scaffold and model-produced state, effective density lies 
 5k--10k regime, and seams are not worse than ordinary motion. It does not pass the final fidelity
 gate. Correct generation remains 7.27 dB below the fitted jewel ceiling, and the actor, hands,
 guitar, and face contain visible motion-region noise.
+
+\subsection{A trivial decode of the scaffold guide bounds every pixel-fidelity claim}
+
+The rollout's only pixel input per 16-frame stride is the \(16\times16\times8\) cell-RGB guide
+computed from the resized LTX video. The obvious baseline is to decode that input with no learned
+model at all: invert the cell raster and trilinearly upsample each stride back to render
+resolution. Table~\ref{tab:guidebaseline} scores this decode under the identical deterministic
+rollout protocol, reference, and metrics.
+
+\begin{table}[H]
+\centering
+\small
+\caption{Guide-upsample baseline versus the generated field on the four held-out LTX scaffolds
+(48 frames, identical protocol). Ratios are candidate/target; 1.0 matches the target's energy.}
+\label{tab:guidebaseline}
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+Arm & PSNR & SSIM & Edge ratio & Temporal ratio & Fg.\ PSNR & Quiet MAE \\
+\midrule
+Guide upsample (no model) & \textbf{21.081} & \textbf{0.9037} & 0.515 & 0.508 & \textbf{16.54} & \textbf{0.0064} \\
+Generated correct (seed 31) & 14.570 & 0.6306 & \textbf{1.205} & \textbf{1.192} & 10.23 & 0.0215 \\
+Fitted jewel ceiling & 21.840 & 0.9310 & 1.449 & 1.887 & --- & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The blurred upsample wins every reference-based fidelity metric in every class, by 5.5--7.8 dB
+PSNR, and sits only 0.76 dB below the fitted 72k ceiling. What it cannot do is carry detail: it
+retains roughly half the target's edge energy and temporal change, while the generated field
+restores both to approximately target level at target density. The same bound holds for the
+cel-shaded adaptation record (19.60 versus 15.40 dB). This is the perception--distortion tradeoff
+in an unusually clean form~\citep{blau2018perception}: reference-based PSNR and
+SSIM~\citep{wang2004ssim} reward the blur and cannot demonstrate the generative stack's
+contribution. Two consequences follow. First, any future claim of rollout quality must either
+beat this baseline on fidelity or be scored where detail restoration counts, i.e.\ with
+perceptual and distribution metrics such as LPIPS~\citep{zhang2018lpips} and
+FVD~\citep{unterthiner2018fvd}. Second, the system's near-term value claim rests on what the
+baseline structurally lacks: an editable, persistent, object-decomposed field rather than pixels
+--- and on closing the temporal-stability gap, since the trivial decode is currently 3.3\(\times\)
+quieter in static regions than the generated field.
 
 \subsection{Foreground weighting exposes lifecycle--appearance coupling}
 
@@ -1355,6 +1396,12 @@ Further model scaling solves the sparse prior & Deprioritized; the curve saturat
   slower than a tile CUDA rasterizer. Current reconstruction is optimization-based, not amortized.
   \item \textbf{Edit quality.} Clean-region identity is exact, but dirty-region synthesis is not yet
   visually useful and may create additive collisions with protected moved jewels.
+  \item \textbf{Reference-based fidelity metrics saturate below a trivial baseline.} A
+  no-model trilinear decode of the scaffold guide beats every generated rollout on PSNR, SSIM,
+  foreground PSNR, and quiet-region stability (Table~\ref{tab:guidebaseline}); the generated
+  field wins only detail- and motion-energy restoration. Until perceptual/distribution metrics
+  (LPIPS, FVD) and external baselines are in place, no fidelity number in this report should be
+  read as evidence that the generative stack outperforms trivial decoding of its own input.
   \item \textbf{Novelty is provisional.} Closely related literature is moving quickly. A formal
   claim requires a complete system, broader search, matched baselines, and external review.
 \end{itemize}

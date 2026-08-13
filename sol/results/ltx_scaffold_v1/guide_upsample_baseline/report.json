@@ -1,0 +1,361 @@
+{
+ "schema": "guide-upsample-baseline-v1",
+ "protocol": {
+  "grid_shape": [
+   16,
+   16,
+   8
+  ],
+  "stride_frames": 16,
+  "strides": 3,
+  "height": 48,
+  "width": 80,
+  "guide_source": "target video resized to (height,width), per-stride video_to_cell_raster, trilinear upsample back",
+  "reference": "same resized target slice as the rollout report"
+ },
+ "inputs": {
+  "manifest": "/private/tmp/claude-501/-Users-max-Code-jewels--claude-worktrees-project-review-completion-8eeff8/2c1a8ad7-da78-4783-8e69-9f3641f4fae0/scratchpad/photoreal_manifest.json",
+  "rollout_summary": "sol/results/ltx_scaffold_v1/scaffold_mark_rollout/summary.json"
+ },
+ "macro_baseline_render_signature": {
+  "psnr": 21.08046865463257,
+  "ssim": 0.9036927074193954,
+  "contrast_ratio": 0.9004938155412674,
+  "edge_ratio": 0.5147560089826584,
+  "saturation_ratio": 0.9611122161149979,
+  "temporal_change_ratio": 0.5084159672260284
+ },
+ "macro_baseline_saliency_signature": {
+  "foreground_rgb_mae": 0.11337258853018284,
+  "foreground_psnr": 16.539899585671275,
+  "foreground_edge_mae": 0.4061018079519272,
+  "motion_boundary_mae": 0.08584155328571796,
+  "quiet_temporal_mae": 0.006434971961425617
+ },
+ "macro_pipeline_render_signatures": {
+  "fitted jewel ceiling": {
+   "psnr": 21.840225219726562,
+   "ssim": 0.9309791326522827,
+   "contrast_ratio": 1.1998954713344574,
+   "edge_ratio": 1.4486351013183594,
+   "saturation_ratio": 1.0947285145521164,
+   "temporal_change_ratio": 1.8871737122535706
+  },
+  "generated correct": {
+   "psnr": 14.57001280784607,
+   "ssim": 0.6306029260158539,
+   "contrast_ratio": 0.9700028449296951,
+   "edge_ratio": 1.2051376551389694,
+   "saturation_ratio": 0.9764773547649384,
+   "temporal_change_ratio": 1.191765621304512
+  },
+  "generated shuffled": {
+   "psnr": 10.45428466796875,
+   "ssim": 0.008574535604566336,
+   "contrast_ratio": 0.9466362148523331,
+   "edge_ratio": 1.1894581317901611,
+   "saturation_ratio": 1.1114128977060318,
+   "temporal_change_ratio": 1.20769502222538
+  },
+  "generated null": {
+   "psnr": 11.662907123565674,
+   "ssim": 0.062138576060533524,
+   "contrast_ratio": 0.6633851826190948,
+   "edge_ratio": 1.1273344159126282,
+   "saturation_ratio": 1.0127847343683243,
+   "temporal_change_ratio": 1.1934170871973038
+  }
+ },
+ "macro_pipeline_saliency_signatures": {
+  "fitted jewel ceiling": {
+   "foreground_rgb_mae": 0.09562390297651291,
+   "foreground_psnr": 17.967791168998765,
+   "foreground_edge_mae": 0.42405081540346146,
+   "motion_boundary_mae": 0.07547129038721323,
+   "quiet_temporal_mae": 0.011526249698363245
+  },
+  "generated correct": {
+   "foreground_rgb_mae": 0.2268689163029194,
+   "foreground_psnr": 10.22521293481097,
+   "foreground_edge_mae": 0.689516231417656,
+   "motion_boundary_mae": 0.07234851084649563,
+   "quiet_temporal_mae": 0.02145190630108118
+  },
+  "generated shuffled": {
+   "foreground_rgb_mae": 0.28458525985479355,
+   "foreground_psnr": 9.15553448974182,
+   "foreground_edge_mae": 0.7094415128231049,
+   "motion_boundary_mae": 0.07205402012914419,
+   "quiet_temporal_mae": 0.02322820294648409
+  },
+  "generated null": {
+   "foreground_rgb_mae": 0.23742001503705978,
+   "foreground_psnr": 11.096487652693675,
+   "foreground_edge_mae": 0.6499038189649582,
+   "motion_boundary_mae": 0.06960660871118307,
+   "quiet_temporal_mae": 0.021702649537473917
+  }
+ },
+ "records": [
+  {
+   "source_id": "00_basketball_evaluation_00_seed42003",
+   "video": "/home/m/LTX-2/corpora/jewels_ucf_prompt_v1/00_basketball_evaluation_00_seed42003.mp4",
+   "baseline": {
+    "completed_frames": 48,
+    "render_signature": {
+     "psnr": 21.71358871459961,
+     "ssim": 0.8989647626876831,
+     "contrast_ratio": 0.9146218299865723,
+     "edge_ratio": 0.41323408484458923,
+     "saturation_ratio": 0.9143713116645813,
+     "temporal_change_ratio": 0.44047480821609497
+    },
+    "saliency_signature": {
+     "foreground_rgb_mae": 0.11048480123281479,
+     "foreground_psnr": 17.021067214823354,
+     "foreground_edge_mae": 0.4430259168148041,
+     "motion_boundary_mae": 0.09796154499053955,
+     "quiet_temporal_mae": 0.003709950717166066
+    },
+    "seams": {
+     "candidate_seam_change": 0.032877836376428604,
+     "target_seam_change": 0.03025461733341217,
+     "candidate_regular_change": 0.010793622583150864,
+     "target_regular_change": 0.026477284729480743,
+     "seam_to_target_ratio": 1.0867047309875488,
+     "seam_to_regular_ratio": 3.0460429191589355
+    }
+   },
+   "pipeline_render_signatures": {
+    "fitted jewel ceiling": {
+     "psnr": 21.33943748474121,
+     "ssim": 0.9119983315467834,
+     "contrast_ratio": 1.22976553440094,
+     "edge_ratio": 1.6339855194091797,
+     "saturation_ratio": 1.2387802600860596,
+     "temporal_change_ratio": 2.4005885124206543
+    },
+    "generated correct": {
+     "psnr": 16.23535919189453,
+     "ssim": 0.6837306022644043,
+     "contrast_ratio": 0.9418519139289856,
+     "edge_ratio": 1.2456424236297607,
+     "saturation_ratio": 1.034149408340454,
+     "temporal_change_ratio": 1.1678026914596558
+    },
+    "generated shuffled": {
+     "psnr": 11.931685447692871,
+     "ssim": 0.15107716619968414,
+     "contrast_ratio": 1.0411559343338013,
+     "edge_ratio": 1.3152409791946411,
+     "saturation_ratio": 1.488115668296814,
+     "temporal_change_ratio": 1.084496021270752
+    },
+    "generated null": {
+     "psnr": 12.884088516235352,
+     "ssim": 0.02989473193883896,
+     "contrast_ratio": 0.6628804802894592,
+     "edge_ratio": 1.2041784524917603,
+     "saturation_ratio": 1.258789300918579,
+     "temporal_change_ratio": 1.1092052459716797
+    }
+   },
+   "baseline_minus_generated_correct_psnr": 5.478229522705078
+  },
+  {
+   "source_id": "01_horseriding_evaluation_00_seed42103",
+   "video": "/home/m/LTX-2/corpora/jewels_ucf_prompt_v1/01_horseriding_evaluation_00_seed42103.mp4",
+   "baseline": {
+    "completed_frames": 48,
+    "render_signature": {
+     "psnr": 21.002689361572266,
+     "ssim": 0.8412869572639465,
+     "contrast_ratio": 0.8731973767280579,
+     "edge_ratio": 0.4399213492870331,
+     "saturation_ratio": 0.9334123730659485,
+     "temporal_change_ratio": 0.5070368647575378
+    },
+    "saliency_signature": {
+     "foreground_rgb_mae": 0.11668448895215988,
+     "foreground_psnr": 16.401197947746706,
+     "foreground_edge_mae": 0.4173640310764313,
+     "motion_boundary_mae": 0.06885731965303421,
+     "quiet_temporal_mae": 0.010790458880364895
+    },
+    "seams": {
+     "candidate_seam_change": 0.026241770014166832,
+     "target_seam_change": 0.021731719374656677,
+     "candidate_regular_change": 0.011721639893949032,
+     "target_regular_change": 0.02445230260491371,
+     "seam_to_target_ratio": 1.2075331211090088,
+     "seam_to_regular_ratio": 2.23874568939209
+    }
+   },
+   "pipeline_render_signatures": {
+    "fitted jewel ceiling": {
+     "psnr": 21.122344970703125,
+     "ssim": 0.8836748600006104,
+     "contrast_ratio": 1.2906700372695923,
+     "edge_ratio": 1.5670874118804932,
+     "saturation_ratio": 1.1482150554656982,
+     "temporal_change_ratio": 2.1701927185058594
+    },
+    "generated correct": {
+     "psnr": 15.166977882385254,
+     "ssim": 0.606814980506897,
+     "contrast_ratio": 1.3768024444580078,
+     "edge_ratio": 1.263681411743164,
+     "saturation_ratio": 1.095218539237976,
+     "temporal_change_ratio": 1.2105576992034912
+    },
+    "generated shuffled": {
+     "psnr": 12.342884063720703,
+     "ssim": 0.014651026576757431,
+     "contrast_ratio": 1.1685129404067993,
+     "edge_ratio": 1.2404760122299194,
+     "saturation_ratio": 1.1480308771133423,
+     "temporal_change_ratio": 1.4111506938934326
+    },
+    "generated null": {
+     "psnr": 13.964165687561035,
+     "ssim": 0.21030451357364655,
+     "contrast_ratio": 0.9114928841590881,
+     "edge_ratio": 1.17205011844635,
+     "saturation_ratio": 0.8622987866401672,
+     "temporal_change_ratio": 1.280548334121704
+    }
+   },
+   "baseline_minus_generated_correct_psnr": 5.835711479187012
+  },
+  {
+   "source_id": "02_playingguitar_evaluation_00_seed42203",
+   "video": "/home/m/LTX-2/corpora/jewels_ucf_prompt_v1/02_playingguitar_evaluation_00_seed42203.mp4",
+   "baseline": {
+    "completed_frames": 48,
+    "render_signature": {
+     "psnr": 20.00260353088379,
+     "ssim": 0.9144729971885681,
+     "contrast_ratio": 0.8719975352287292,
+     "edge_ratio": 0.5724148750305176,
+     "saturation_ratio": 1.0009565353393555,
+     "temporal_change_ratio": 0.5535774827003479
+    },
+    "saliency_signature": {
+     "foreground_rgb_mae": 0.1228477954864502,
+     "foreground_psnr": 15.92539345841992,
+     "foreground_edge_mae": 0.4331854581832886,
+     "motion_boundary_mae": 0.12569667398929596,
+     "quiet_temporal_mae": 0.009935222566127777
+    },
+    "seams": {
+     "candidate_seam_change": 0.044150978326797485,
+     "target_seam_change": 0.035765767097473145,
+     "candidate_regular_change": 0.02284925803542137,
+     "target_regular_change": 0.043230731040239334,
+     "seam_to_target_ratio": 1.234447956085205,
+     "seam_to_regular_ratio": 1.9322718381881714
+    }
+   },
+   "pipeline_render_signatures": {
+    "fitted jewel ceiling": {
+     "psnr": 21.557559967041016,
+     "ssim": 0.9515410661697388,
+     "contrast_ratio": 1.1632254123687744,
+     "edge_ratio": 1.3086320161819458,
+     "saturation_ratio": 0.9896630644798279,
+     "temporal_change_ratio": 1.46304190158844
+    },
+    "generated correct": {
+     "psnr": 13.081894874572754,
+     "ssim": 0.5093411803245544,
+     "contrast_ratio": 0.7427119016647339,
+     "edge_ratio": 0.979118287563324,
+     "saturation_ratio": 0.9712105393409729,
+     "temporal_change_ratio": 0.6094672083854675
+    },
+    "generated shuffled": {
+     "psnr": 9.133277893066406,
+     "ssim": -0.015921732410788536,
+     "contrast_ratio": 0.9501906037330627,
+     "edge_ratio": 0.9498357772827148,
+     "saturation_ratio": 0.8832534551620483,
+     "temporal_change_ratio": 0.5359330773353577
+    },
+    "generated null": {
+     "psnr": 10.303969383239746,
+     "ssim": -0.047928016632795334,
+     "contrast_ratio": 0.551279604434967,
+     "edge_ratio": 0.8821929693222046,
+     "saturation_ratio": 1.0281007289886475,
+     "temporal_change_ratio": 0.541196882724762
+    }
+   },
+   "baseline_minus_generated_correct_psnr": 6.920708656311035
+  },
+  {
+   "source_id": "03_applyeyemakeup_evaluation_00_seed42303",
+   "video": "/home/m/LTX-2/corpora/jewels_ucf_prompt_v1/03_applyeyemakeup_evaluation_00_seed42303.mp4",
+   "baseline": {
+    "completed_frames": 48,
+    "render_signature": {
+     "psnr": 21.60299301147461,
+     "ssim": 0.960046112537384,
+     "contrast_ratio": 0.9421585202217102,
+     "edge_ratio": 0.6334537267684937,
+     "saturation_ratio": 0.9957086443901062,
+     "temporal_change_ratio": 0.5325747132301331
+    },
+    "saliency_signature": {
+     "foreground_rgb_mae": 0.10347326844930649,
+     "foreground_psnr": 16.811939721695122,
+     "foreground_edge_mae": 0.3308318257331848,
+     "motion_boundary_mae": 0.050850674510002136,
+     "quiet_temporal_mae": 0.0013042556820437312
+    },
+    "seams": {
+     "candidate_seam_change": 0.010910715907812119,
+     "target_seam_change": 0.009619556367397308,
+     "candidate_regular_change": 0.006952257826924324,
+     "target_regular_change": 0.01353703998029232,
+     "seam_to_target_ratio": 1.134222388267517,
+     "seam_to_regular_ratio": 1.5693773031234741
+    }
+   },
+   "pipeline_render_signatures": {
+    "fitted jewel ceiling": {
+     "psnr": 23.3415584564209,
+     "ssim": 0.9767022728919983,
+     "contrast_ratio": 1.115920901298523,
+     "edge_ratio": 1.2848354578018188,
+     "saturation_ratio": 1.0022556781768799,
+     "temporal_change_ratio": 1.5148717164993286
+    },
+    "generated correct": {
+     "psnr": 13.795819282531738,
+     "ssim": 0.7225249409675598,
+     "contrast_ratio": 0.8186451196670532,
+     "edge_ratio": 1.332108497619629,
+     "saturation_ratio": 0.8053309321403503,
+     "temporal_change_ratio": 1.7792348861694336
+    },
+    "generated shuffled": {
+     "psnr": 8.40929126739502,
+     "ssim": -0.1155083179473877,
+     "contrast_ratio": 0.626685380935669,
+     "edge_ratio": 1.2522797584533691,
+     "saturation_ratio": 0.9262515902519226,
+     "temporal_change_ratio": 1.7992002964019775
+    },
+    "generated null": {
+     "psnr": 9.499404907226562,
+     "ssim": 0.056283075362443924,
+     "contrast_ratio": 0.527887761592865,
+     "edge_ratio": 1.2509161233901978,
+     "saturation_ratio": 0.9019501209259033,
+     "temporal_change_ratio": 1.8427178859710693
+    }
+   },
+   "baseline_minus_generated_correct_psnr": 7.807173728942871
+  }
+ ]
+}

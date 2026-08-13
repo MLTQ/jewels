@@ -24,6 +24,15 @@ selected UCF topology/mark stack to all four styled fields, with source overlap 
 and no claim of unseen generalization. Its fitted-seed-free 48-frame rollouts reach 15.401 dB /
 0.4270 SSIM under the correct scaffold versus 12.642 / 0.0571 shuffled; density is already matched,
 while excessive temporal noise selects appearance/stability as the next generator bottleneck.
+A guide-upsample baseline now bounds both rollout arms: trivially trilinear-upsampling the exact
+per-stride `(16,16,8)` scaffold guides beats the generated-correct rollouts on every
+pixel-fidelity metric (photoreal 21.081 dB / 0.9037 SSIM vs 14.570 / 0.6306; cel 19.604 / 0.6811
+vs 15.401 / 0.4270) while carrying only about half the target's edge and motion energy, which the
+generated fields restore to roughly target level. Reference-based PSNR/SSIM alone therefore
+cannot demonstrate the generative stack's contribution; see
+[`ltx_scaffold_v1/guide_upsample_baseline/README.md`](ltx_scaffold_v1/guide_upsample_baseline/README.md)
+and
+[`ltx_cel_eval_v1/guide_upsample_baseline/README.md`](ltx_cel_eval_v1/guide_upsample_baseline/README.md).
 The first multiscale token-guide/render-loss control is recorded under
 [`prompt_smoke/direct_prompted_streaming_3000/mark_flow_multiscale_render2_12000/README.md`](prompt_smoke/direct_prompted_streaming_3000/mark_flow_multiscale_render2_12000/README.md);
 it improves contrast/edge energy but is not selected because PSNR, SSIM, saturation, and temporal

@@ -140,3 +140,15 @@ base-owned-count audit retains +0.332 dB PSNR, +0.761 dB foreground PSNR, and al
 edge/motion/quiet gains, but SSIM improves in only two classes and the visual-recognition gate
 fails. The coupling direction is retained; the feature-loss checkpoint is not selected. See
 [`coupled_set_v1/README.md`](coupled_set_v1/README.md) for the native-aspect gate and decision.
+
+## Guide-upsample baseline
+
+The rollout's own input, decoded trivially, now bounds every pixel-fidelity claim. Trilinear
+upsampling of the exact per-stride `(16,16,8)` cell-RGB guides reaches 21.081 dB / 0.9037 SSIM on
+the four held-out scaffolds — beating the generated-correct rollout (14.570 / 0.6306) in every
+class and sitting only 0.76 dB below the fitted 72k ceiling — while carrying only half the
+target's edge energy (0.515) and temporal change (0.508). The generated field restores both to
+~1.2 at target-level density. Single-reference PSNR/SSIM therefore cannot demonstrate the
+generative stack's contribution; detail/motion-energy restoration and the editable persistent
+field must carry the claim, and perceptual/distribution metrics are required. See
+[`guide_upsample_baseline/README.md`](guide_upsample_baseline/README.md).

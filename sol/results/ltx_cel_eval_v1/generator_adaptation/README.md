@@ -37,7 +37,11 @@ source step.
 The mark schedule contains 12 distinct views and repeats the four initial views once, for 16 cyclic
 schedule rows. Correct-scaffold normalized feature loss is 0.9732, versus 0.9991 shuffled and
 0.9853 null. The separation exists in both regimes: shuffled-minus-correct is 0.0338 initially and
-0.0219 in continuation. This is a conditioning-sensitivity result, not a pixel metric.
+0.0219 in continuation. This is a conditioning-sensitivity result, not a pixel metric. One control
+in `mark_summary.json` deserves explicit mention: the no-context arm scores 0.9768 aggregate —
+only 0.0036 above correct, and exactly 0.0 above it in the initial regime — so the causal
+carried-state context contributes little to mark loss on these same-field targets; the strong
+separations above are carried by the scaffold guide, not by context.
 
 The topology reconstruction audit predicts 274,861 births versus 275,251 targets (ratio 0.99858),
 with 0.1284 cell-count MAE, 0.9972 count correlation, and 0.99426 slot F1. Shuffled topology falls

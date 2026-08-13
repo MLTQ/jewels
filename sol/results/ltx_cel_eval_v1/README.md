@@ -93,3 +93,12 @@ bottleneck.
 folder contains the full 49-frame comparison GIF, contact sheet, and exact-render report.
 `cel_metrics.json`, `photoreal_metrics.json`, `density.json`, and `summary.json` retain the complete
 numeric evidence.
+
+## Guide-upsample baseline
+
+The same trivial-decode bound applied to the adapted-generator rollouts: upsampled per-stride
+guides reach 19.604 dB / 0.6811 SSIM versus the generated-correct 15.401 / 0.4270, winning every
+class on PSNR and foreground PSNR with 14.6x lower quiet-region temporal error, while carrying
+under half the target's edge and motion energy. The generated field and the baseline fail in
+opposite directions (flicker versus missing motion). Pixel-fidelity metrics alone cannot license
+the generator; see [`guide_upsample_baseline/README.md`](guide_upsample_baseline/README.md).
