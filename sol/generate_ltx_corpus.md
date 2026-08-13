@@ -16,6 +16,13 @@ manifest without changing the source prompt contract.
 - **Rationale**: A 16-sample batch is the smallest balanced LTX gate matching the existing four-class
   text-conditioning split.
 
+### `select_plan`
+
+- **Does**: Selects all prompts or only the train/evaluation role while retaining the source
+  manifest's class order, seeds, stems, and prompt identities.
+- **Rationale**: A role filter can produce a balanced four-class evaluation gate; truncating the
+  class-major 16-sample plan cannot.
+
 ### `CorpusRuntime` / `scaffold_config`
 
 - **Does**: Binds every sample to one resolution, frame count, model revision path, GPU UUID,
@@ -42,6 +49,7 @@ manifest without changing the source prompt contract.
 | Prompt evaluation | Training and evaluation phrasings remain explicitly labeled | Role semantics |
 | Experiment audit | Source manifest SHA-256 and deterministic seeds remain recorded | Digest/seed policy |
 | Resume service | Completed matching receipts are skipped; failed/missing samples rerun | Match criteria |
+| Styled evaluation gate | `--prompt-role evaluation` returns one held-out prompt per class | Role filtering/order |
 
 ## Aine run
 

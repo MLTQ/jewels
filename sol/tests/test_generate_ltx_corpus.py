@@ -7,6 +7,7 @@ from sol.generate_ltx_corpus import (
     CorpusRuntime,
     build_plan,
     scaffold_config,
+    select_plan,
     write_corpus_manifest,
 )
 
@@ -91,6 +92,19 @@ class LTXCorpusTests(unittest.TestCase):
             payload = write_corpus_manifest(source_path, plan, runtime)
             self.assertEqual(payload["summary"]["complete"], 0)
             self.assertEqual(payload["summary"]["failed"], 1)
+
+    def test_plan_can_select_one_balanced_prompt_role(self) -> None:
+        plan = build_plan(source_manifest(), seed_base=1_000)
+        evaluation = select_plan(plan, prompt_role="evaluation")
+        self.assertEqual(len(evaluation), 4)
+        self.assertEqual(
+            [item.class_name for item in evaluation],
+            ["Basketball", "HorseRiding", "Guitar", "Makeup"],
+        )
+        self.assertEqual([item.seed for item in evaluation], [1003, 1103, 1203, 1303])
+        self.assertIs(select_plan(plan), plan)
+        with self.assertRaisesRegex(ValueError, "unsupported prompt role"):
+            select_plan(plan, prompt_role="validation")
 
     def test_invalid_source_schema_is_rejected(self) -> None:
         with self.assertRaisesRegex(ValueError, "unsupported"):

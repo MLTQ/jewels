@@ -124,6 +124,20 @@ def build_plan(
     return tuple(plan)
 
 
+def select_plan(
+    plan: tuple[CorpusExample, ...], *, prompt_role: str = "all"
+) -> tuple[CorpusExample, ...]:
+    """Select one prompt split without changing corpus order or identities."""
+    if prompt_role == "all":
+        return plan
+    if prompt_role not in {"train", "evaluation"}:
+        raise ValueError(f"unsupported prompt role: {prompt_role}")
+    selected = tuple(example for example in plan if example.prompt_role == prompt_role)
+    if not selected:
+        raise ValueError(f"generation plan has no {prompt_role} examples")
+    return selected
+
+
 def scaffold_config(example: CorpusExample, runtime: CorpusRuntime) -> ScaffoldConfig:
     """Bind one corpus identity to the pinned LTX scaffold runtime."""
     root = runtime.ltx_root
@@ -291,6 +305,12 @@ def _parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--offload", choices=("none", "cpu", "disk"), default="cpu")
     parser.add_argument("--max-batch-size", type=int, default=1)
+    parser.add_argument(
+        "--prompt-role",
+        choices=("all", "train", "evaluation"),
+        default="all",
+        help="generate all prompts or only one source-manifest split",
+    )
     parser.add_argument("--max-examples", type=int, default=0)
     parser.add_argument("--dry-run", action="store_true")
     return parser.parse_args()
@@ -305,6 +325,7 @@ def main() -> None:
         seed_base=args.seed_base,
         prompt_suffix=args.prompt_suffix,
     )
+    plan = select_plan(plan, prompt_role=args.prompt_role)
     if args.max_examples < 0:
         raise ValueError("max_examples must be non-negative")
     if args.max_examples:
