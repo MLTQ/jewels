@@ -1,0 +1,92 @@
+{
+  "status": "complete",
+  "returncode": 0,
+  "started_at": "2026-08-13T03:07:54.216873+00:00",
+  "elapsed_seconds": 176.28742835705634,
+  "ltx_revision": "4f8905737aac86a554637cac86c178877a39c744",
+  "config": {
+    "ltx_root": "/home/m/LTX-2",
+    "distilled_checkpoint": "/home/m/LTX-2/models/ltx-2.3/ltx-2.3-22b-distilled-1.1.safetensors",
+    "spatial_upsampler": "/home/m/LTX-2/models/ltx-2.3/ltx-2.3-spatial-upscaler-x2-1.1.safetensors",
+    "gemma_root": "/home/m/LTX-2/models/gemma-3-12b",
+    "prompt": "a video of a guitarist playing music. Rotoscoped cel-shaded animation with broad flat color regions, a restrained palette, bold stable ink contours, minimal surface texture, clean color holds, one continuous shot, stable camera, coherent natural motion, no cuts.",
+    "output": "/home/m/LTX-2/corpora/jewels_cel_eval_v1/02_playingguitar_evaluation_00_seed42203.mp4",
+    "cuda_visible_device": "GPU-21d45575-7ece-a97c-35a0-294f7bce9c39",
+    "seed": 42203,
+    "height": 512,
+    "width": 768,
+    "num_frames": 49,
+    "frame_rate": 24.0,
+    "quantization": "fp8-cast",
+    "offload": "cpu",
+    "max_batch_size": 1
+  },
+  "command": [
+    "/home/m/LTX-2/.venv/bin/python",
+    "-m",
+    "ltx_pipelines.distilled",
+    "--distilled-checkpoint-path",
+    "/home/m/LTX-2/models/ltx-2.3/ltx-2.3-22b-distilled-1.1.safetensors",
+    "--spatial-upsampler-path",
+    "/home/m/LTX-2/models/ltx-2.3/ltx-2.3-spatial-upscaler-x2-1.1.safetensors",
+    "--gemma-root",
+    "/home/m/LTX-2/models/gemma-3-12b",
+    "--prompt",
+    "a video of a guitarist playing music. Rotoscoped cel-shaded animation with broad flat color regions, a restrained palette, bold stable ink contours, minimal surface texture, clean color holds, one continuous shot, stable camera, coherent natural motion, no cuts.",
+    "--output-path",
+    "/home/m/LTX-2/corpora/jewels_cel_eval_v1/02_playingguitar_evaluation_00_seed42203.mp4",
+    "--seed",
+    "42203",
+    "--height",
+    "512",
+    "--width",
+    "768",
+    "--num-frames",
+    "49",
+    "--frame-rate",
+    "24.0",
+    "--quantization",
+    "fp8-cast",
+    "--offload",
+    "cpu",
+    "--max-batch-size",
+    "1"
+  ],
+  "gpu_monitor": {
+    "device": "GPU-21d45575-7ece-a97c-35a0-294f7bce9c39",
+    "baseline_memory_mib": 848,
+    "peak_memory_mib": 9408,
+    "peak_above_baseline_mib": 8560,
+    "maximum_utilization_percent": 100,
+    "samples": 168,
+    "sample_errors": 0
+  },
+  "video_probe": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "index": 0,
+        "codec_name": "h264",
+        "codec_type": "video",
+        "width": 768,
+        "height": 512,
+        "r_frame_rate": "24/1",
+        "nb_frames": "49"
+      },
+      {
+        "index": 1,
+        "codec_name": "aac",
+        "codec_type": "audio",
+        "sample_rate": "48000",
+        "channels": 2,
+        "r_frame_rate": "0/0",
+        "nb_frames": "96"
+      }
+    ],
+    "format": {
+      "duration": "2.041667",
+      "size": "330738"
+    }
+  }
+}

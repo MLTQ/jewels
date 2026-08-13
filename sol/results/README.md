@@ -15,6 +15,8 @@ selects a semantic-scaffold-to-jewel architecture over a count-head-only fix.
 The first real prompt-generated replacement scaffold corpus and its four class-level visual audits
 are in [`ltx_scaffold_v1/README.md`](ltx_scaffold_v1/README.md). Its four density-matched 72k jewel
 fits and completed leakage-safe UCF-train/LTX-validation realizer gate live beneath that folder.
+The matched low-texture domain test, including four exact cel-shaded LTX sources and the active
+fixed-density fitting protocol, is in [`ltx_cel_eval_v1/README.md`](ltx_cel_eval_v1/README.md).
 The first multiscale token-guide/render-loss control is recorded under
 [`prompt_smoke/direct_prompted_streaming_3000/mark_flow_multiscale_render2_12000/README.md`](prompt_smoke/direct_prompted_streaming_3000/mark_flow_multiscale_render2_12000/README.md);
 it improves contrast/edge energy but is not selected because PSNR, SSIM, saturation, and temporal
