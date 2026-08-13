@@ -12,8 +12,9 @@ Protects the target-free causal background baseline and explicit multi-window se
   measured exactly at stride boundaries. It also protects the optional frozen-base panel without
   changing the established baseline panel list and verifies the static-detail screen excludes
   opacity and temporal RGB gradient. It also checks the scaffold saliency gate selects exactly the
-  declared cell fraction. Full rollout reports separately retain per-frontier and first-stride
-  density vectors.
+  declared cell fraction and that class seeds derive from the complete validation order rather than
+  a filtered high-resolution subset. Full rollout reports separately retain per-frontier and
+  first-stride density vectors.
 - **Interacts with**: `render_scaffold_mark_rollout.py`.
 
 ## Contracts
@@ -22,3 +23,4 @@ Protects the target-free causal background baseline and explicit multi-window se
 |---|---|---|
 | Autonomous render gate | Background never reads a fitted checkpoint | Background input |
 | Seam audit | Boundaries are temporal differences at `stride-1` | Index convention |
+| Filtered evaluation | Every source keeps its full-split deterministic seed | RNG convention |

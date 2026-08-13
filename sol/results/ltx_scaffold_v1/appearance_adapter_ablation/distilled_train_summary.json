@@ -1,0 +1,21 @@
+{
+  "steps": 3000,
+  "seconds": 241.0206036567688,
+  "adapter_parameters": 74067,
+  "base_parameters": 2125846,
+  "parameter_ratio": 0.03484118793176928,
+  "gate_fraction": 0.2,
+  "render_resolution": [
+    192,
+    288
+  ],
+  "latest_evaluation": {
+    "base_gated_rgb_mse": 1.2715009450912476,
+    "adapted_gated_rgb_mse": 1.265013575553894,
+    "relative_improvement": 0.0051021350494458014,
+    "views": 12,
+    "teacher_gated_rgb_mse": 1.2684333324432373,
+    "teacher_relative_improvement": 0.0024125917167840648,
+    "adapter_to_teacher_gated_rgb_mse": 0.0028068902902305126
+  }
+}

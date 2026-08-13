@@ -12,6 +12,7 @@ from sol.render_scaffold_mark_rollout import (
     _causal_background,
     _panel_names,
     _seam_report,
+    _source_seed_map,
 )
 from sol.lifecycle_appearance_flow import APPEARANCE_DIMENSION_SETS
 
@@ -46,6 +47,13 @@ class RenderScaffoldMarkRolloutTests(unittest.TestCase):
         )
         self.assertEqual(int(gates[0].sum()), 2)
         self.assertEqual(float(gates[0][3]), 1.0)
+
+    def test_source_seeds_do_not_change_when_a_filtered_subset_is_rendered(self) -> None:
+        seeds = _source_seed_map(("basketball", "horse", "guitar", "eye"), 31)
+        self.assertEqual(seeds["basketball"], 31)
+        self.assertEqual(seeds["horse"], 32)
+        self.assertEqual(seeds["guitar"], 33)
+        self.assertEqual(seeds["eye"], 34)
 
 
 if __name__ == "__main__":

@@ -40,7 +40,13 @@ video-guide/topology result, not free prompt-only jewel generation. The follow-u
 [`learned-topology gate`](ltx_scaffold_v1/topology_eval/README.md) removes fitted cells/counts/ranks
 for one continuation stride: frozen-flow rendering reaches 15.464 dB / 0.6967 SSIM and 5,822
 effective contributors/frame, within 0.028 dB of oracle topology with exact carry. Initial and
-multi-stride generated state remain open.
+two continuation strides now generate from an empty field with exact append-only identity at 7,493
+effective contributors/frame. The subsequent
+[`appearance factorization`](ltx_scaffold_v1/lifecycle_appearance_ablation/README.md) passes only
+under a top-20% RGB gate. Its
+[`74k compact adapter`](ltx_scaffold_v1/appearance_adapter_ablation/README.md) preserves exact state
+ownership but captures only part of the selected full-flow correction, moving the primary visual
+bottleneck to neighborhood-coupled mark realization.
 
 ## Decision
 

@@ -1,0 +1,131 @@
+{
+  "schema": "jewels.appearance_adapter_native_four_class.v1",
+  "protocol": {
+    "grid": [
+      288,
+      192
+    ],
+    "source_aspect_ratio": "3:2",
+    "frames_per_source": 48,
+    "windows_per_source": 3,
+    "source_seed_contract": "base_seed_plus_full_validation_order",
+    "source_seeds": [
+      31,
+      32,
+      33,
+      34
+    ],
+    "appearance_dimensions": [
+      9,
+      10,
+      11
+    ],
+    "appearance_saliency_fraction": 0.2,
+    "appearance_strength": 0.5
+  },
+  "inputs": {
+    "basketball_summary": "distilled_basketball_half_strength_summary.json",
+    "remaining_sources_summary": "distilled_horse_guitar_eye_half_strength_native_summary.json",
+    "appearance_adapter_checkpoint": "/home/m/jewels/topology/scaffold_appearance_adapter_v1/distill_3000_seed43/appearance_adapter_step002500.pt"
+  },
+  "sources": 4,
+  "frozen_base": {
+    "psnr": 14.141720533370972,
+    "ssim": 0.600085586309433,
+    "foreground_psnr": 9.978346389253375,
+    "foreground_edge_mae": 0.2591668628156185,
+    "motion_boundary_mae": 0.13401041738688946,
+    "quiet_temporal_mae": 0.023303117137402296
+  },
+  "adapter": {
+    "psnr": 14.148134469985962,
+    "ssim": 0.6001124829053879,
+    "foreground_psnr": 10.00770068472991,
+    "foreground_edge_mae": 0.25907397270202637,
+    "motion_boundary_mae": 0.13400024734437466,
+    "quiet_temporal_mae": 0.023297935258597136
+  },
+  "adapter_minus_frozen_base": {
+    "psnr": 0.006413936614990234,
+    "ssim": 0.00002689659595489502,
+    "foreground_psnr": 0.0293542954765349,
+    "foreground_edge_mae": -0.00009289011359214783,
+    "motion_boundary_mae": -0.000010170042514801025,
+    "quiet_temporal_mae": -0.0000051818788051605225
+  },
+  "per_class": [
+    {
+      "class_name": "Basketball",
+      "source_id": "00_basketball_evaluation_00_seed42003",
+      "seed": 31,
+      "delta_psnr": 0.0064792633056640625,
+      "delta_ssim": 0.0003947615623474121,
+      "delta_foreground_psnr": 0.015258630155463138,
+      "delta_foreground_edge_mae": 0.00007957220077514648,
+      "delta_motion_boundary_mae": 0.00001074373722076416,
+      "delta_quiet_temporal_mae": 0.000008981674909591675,
+      "non_appearance_exact": true,
+      "lifecycle_exact": true,
+      "stable_ids_exact": true,
+      "topology_exact": true
+    },
+    {
+      "class_name": "HorseRiding",
+      "source_id": "01_horseriding_evaluation_00_seed42103",
+      "seed": 32,
+      "delta_psnr": 0.013064384460449219,
+      "delta_ssim": 0.00012826919555664062,
+      "delta_foreground_psnr": 0.09565988537824577,
+      "delta_foreground_edge_mae": -0.00040969252586364746,
+      "delta_motion_boundary_mae": -0.000028692185878753662,
+      "delta_quiet_temporal_mae": -0.000035043805837631226,
+      "non_appearance_exact": true,
+      "lifecycle_exact": true,
+      "stable_ids_exact": true,
+      "topology_exact": true
+    },
+    {
+      "class_name": "PlayingGuitar",
+      "source_id": "02_playingguitar_evaluation_00_seed42203",
+      "seed": 33,
+      "delta_psnr": 0.0015878677368164062,
+      "delta_ssim": -0.0002726316452026367,
+      "delta_foreground_psnr": 0.00006634429042939871,
+      "delta_foreground_edge_mae": 3.8743019104003906e-7,
+      "delta_motion_boundary_mae": -0.000006034970283508301,
+      "delta_quiet_temporal_mae": 0.000004123896360397339,
+      "non_appearance_exact": true,
+      "lifecycle_exact": true,
+      "stable_ids_exact": true,
+      "topology_exact": true
+    },
+    {
+      "class_name": "ApplyEyeMakeup",
+      "source_id": "03_applyeyemakeup_evaluation_00_seed42303",
+      "seed": 34,
+      "delta_psnr": 0.00452423095703125,
+      "delta_ssim": -0.00014281272888183594,
+      "delta_foreground_psnr": 0.0064323220820039495,
+      "delta_foreground_edge_mae": -0.00004182755947113037,
+      "delta_motion_boundary_mae": -0.0000166967511177063,
+      "delta_quiet_temporal_mae": 0.000001210719347000122,
+      "non_appearance_exact": true,
+      "lifecycle_exact": true,
+      "stable_ids_exact": true,
+      "topology_exact": true
+    }
+  ],
+  "gates": {
+    "positive_psnr_classes": 4,
+    "positive_foreground_psnr_classes": 4,
+    "improved_foreground_edge_classes": 2,
+    "improved_motion_boundary_classes": 3,
+    "improved_quiet_temporal_classes": 1,
+    "maximum_class_quiet_increase": 0.000008981674909591675,
+    "maximum_class_quiet_increase_limit": 0.00001,
+    "state_invariants_exact_sources": 4,
+    "passes_frozen_base_native_gate": true,
+    "passes_full_flow_teacher_replacement_gate": false
+  },
+  "decision": "Retain the compact exact-ownership adapter infrastructure, but reject this checkpoint as a replacement for the selected full-flow RGB teacher. Prioritize a neighborhood-coupled birth-set realizer; keep autonomous-trajectory distillation as a bounded secondary follow-up."
+}

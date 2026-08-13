@@ -35,7 +35,9 @@ submission-ready benchmark paper.
   learned-topology/frozen-realizer continuation with exact carry and density controls. It now also
   includes the empty-state plus two-continuation generated-state rollout, exact deterministic
   censored clip-start control, rejected foreground/motion scalar-supervision sweep, and passing
-  two-stream lifecycle/scaffold-gated RGB residual control.
+  two-stream lifecycle/scaffold-gated RGB residual control. It now also records the 74,067-parameter
+  base-locked adapter, direct-supervision failure, teacher-distilled calibration, and negative
+  compact-replacement decision.
 - **Interacts with**: Figures and metric reports under `assets/` and `sol/results/`.
 
 ### Semantic scaffold architecture
@@ -92,13 +94,32 @@ submission-ready benchmark paper.
   rendered flicker. Restricting the residual to RGB in the top 20% scaffold-salient cells passes the
   macro quiet gate, improves subject metrics in three classes, and leaves density/state exact.
 
+### Compact base-locked appearance adapter
+
+- **Does**: Defines the zero-initialized 74,067-parameter RGB velocity adapter, independent frozen
+  base trajectory, external scaffold gate/strength, teacher-distillation option, and exact copying
+  after sampling, projection, and coordinate conversion.
+- **Rationale**: The module is only 3.48% of the 2.13M-parameter base and cannot change topology,
+  lifecycle, density, geometry, opacity, gradients, or IDs. Native-aspect 288x192 supervision avoids
+  the earlier 40x24 aspect shear while testing whether the safe full-flow correction compresses.
+- **Result**: Direct target-velocity training improves held-out feature error but worsens the native
+  Basketball rollout. Teacher distillation plus half-strength calibration preserves all 12 matched
+  control invariants, improves macro fidelity/quiet stability, and raises foreground PSNR in three
+  classes, but captures only 29% of the full-flow PSNR gain. Full strength captures 57% and violates
+  the class-level native quiet gate, so the adapter remains a structural proof rather than a
+  selected teacher replacement. The definitive 288x192 four-class gate nevertheless improves PSNR
+  and foreground PSNR in all four classes, with macro deltas of +0.00641 dB and +0.02935 dB;
+  foreground-edge, motion-boundary, and quiet MAE all fall, every class stays inside the `1e-5`
+  quiet limit, and all non-RGB state remains exact. This passes the frozen-base structural gate but
+  does not overturn the matched teacher-replacement failure.
+
 ### Limitations and path forward
 
 - **Does**: Prevents unfinished prompt generation or repair quality from being described as solved
   and specifies the gates required for a future novelty claim. It distinguishes the passing
   three-window hybrid rollout from still-open direct jewel-text selectivity, long-horizon rollout,
-  a purpose-built higher-capacity appearance adapter, weak rendered topology selectivity, and
-  useful local repair.
+  trajectory-level adapter distillation, neighborhood-coupled mark realization, weak rendered
+  topology selectivity, and useful local repair.
 
 ### Representation rationale and multimodal event language
 
@@ -141,4 +162,6 @@ submission-ready benchmark paper.
   realization remain separate metrics. Cross-domain realization and three autonomous jewel
   windows now pass structurally, but correct/shuffled jewel-text remains tied under the guide and
   moving-subject fidelity remains far below the fitted ceiling. The conservative factorized RGB
-  residual passes its macro stability gate but is not yet a dedicated compact adapter.
+  residual passes its macro stability gate. Its dedicated compact adapter preserves exact ownership
+  but fails the full-flow replacement criterion, confirming that compressing a residual and solving
+  motion-field noise are different claims.

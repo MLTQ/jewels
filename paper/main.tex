@@ -55,7 +55,7 @@
 
 \title{\vspace{-1.5em}\textbf{Jewels: Toward Text-Conditioned, Streamable, and\\Locally Editable Video as Space-Time Gaussian Fields}}
 \author{The Jewels Project}
-\date{Technical report -- August 12, 2026}
+\date{Technical report -- August 13, 2026}
 
 \begin{document}
 \maketitle
@@ -118,7 +118,11 @@ integrates the selected base independently and copies lifecycle state exactly. F
 appearance retains the fidelity gain but still flickers; restricting its residual to RGB in the
 top 20\% scaffold-salient cells passes the four-class gate at 14.604 dB/0.6314 SSIM, lowers macro
 quiet error, improves foreground PSNR/edge and motion-boundary metrics in three classes, and keeps
-lifecycle coordinates, topology, density, and stable IDs bit-identical across 12 controls.
+lifecycle coordinates, topology, density, and stable IDs bit-identical across 12 controls. A
+zero-initialized 74,067-parameter RGB adapter preserves the same exact ownership and improves its
+matched frozen base by 0.0098 dB while lowering macro quiet error, but captures only 29\% of the
+full-flow PSNR gain. It therefore compresses part of the safe correction without passing the
+replacement gate or resolving the native-aspect motion-field noise.
 
 Gaussian reconstruction of video is not new: VeGaS, GSVC, GaussianVideo, GaRV, and related work
 predate this project. The research opportunity evaluated here is narrower: a corpus-level
@@ -170,7 +174,8 @@ oracle-topology control at the intended effective density. Finally, we remove fi
 run three autonomous windows with exact append-only identity, isolate a lifecycle/appearance
 coupling that scalar foreground weighting does not resolve, and pass a conservative factorized
 control whose scaffold-gated RGB residual cannot alter lifecycle, topology, density, or identity.
-We additionally articulate two
+We then compress that path into a 74k-parameter base-locked adapter; exact ownership survives, but
+the student reproduces only part of the teacher's fidelity gain. We additionally articulate two
 falsifiable systems hypotheses: that explicit persistent fields offer interaction properties
 unavailable from an opaque raster latent alone, and that a hierarchical field can serve as a
 multimodal visual event language.
@@ -407,6 +412,29 @@ is projected to the fixed topology and rendered on contiguous space-time patches
 visual objective combines RGB MSE, spatial/temporal edge L1, opponent-chroma L1, and patch SSIM
 while retaining feature-space flow loss for covariance stability. A follow-up hybrid keeps the
 entire cell-RGB 3D-convolution/global guide path and adds local tokens only as residual evidence.
+
+\subsection{A base-locked appearance adapter}
+
+The safe two-stream control can be compressed without granting the new module ownership of the
+field. Let $v_0$ be the frozen 2.13M-parameter mark-flow velocity and let $a_\phi$ be a compact
+adapter that receives the adapted mark state, $v_0$, addressed causal context and guide cells,
+cell/rank position, flow time, and text. For canonical RGB coordinates
+$\mathcal C=\{9,10,11\}$, scaffold-cell gate $g_j\in\{0,1\}$, and calibrated strength $\lambda$,
+the adapted velocity is
+\begin{equation}
+v^{\rm app}_{i,d}=\begin{cases}
+v_{0,i,d}+\lambda g_{j(i)}a_{\phi,i,d}, & d\in\mathcal C,\\
+v_{0,i,d}, & d\notin\mathcal C.
+\end{cases}
+\end{equation}
+The base trajectory is integrated independently from the shared Gaussian initial state. Every
+non-RGB value is copied from that trajectory after each Euler step, topology projection, and
+local-to-global transform; later topology, causal row selection, counts, density, and stable IDs
+also remain base-owned. The adapter has 74,067 parameters (3.48\% of the base) and a zero-initialized
+three-channel head, so its initial sample is exactly the frozen sample. Training uses the same top
+20\% scaffold-saliency gate and a 288-by-192 coordinate grid that preserves the source's 3:2 aspect
+ratio. A teacher-distilled arm transfers only the validated full-flow RGB velocity difference;
+real-video render patches remain an independent target.
 
 \subsection{Cursor edits and constrained repair}
 
@@ -1112,6 +1140,62 @@ salient cells, while shuffled and null controls retain their expected semantic f
 \label{fig:lifecycleappearance}
 \end{figure}
 
+\subsection{A compact adapter preserves state but only partly matches the teacher}
+
+We train the base-locked adapter on the same leakage-safe split. It has 74,067 parameters, versus
+2.13M for either full flow, and trains for 3,000 updates in about four minutes on the RTX 4090.
+Direct target-velocity supervision improves held-out gated RGB velocity MSE by 1.53\% at its best
+checkpoint, yet its 288-by-192 Basketball rollout loses 0.0079 dB and 0.00254 SSIM. This rejects
+single-time feature error as a selection metric. Distilling the validated full-flow correction
+instead produces a positive native-aspect result, but full strength raises Basketball quiet error
+by $1.87\times10^{-5}$. We therefore predeclare a one-half residual calibration for the final gate.
+
+Table~\ref{tab:appearanceadapter} reports the original 40-by-24 protocol only as an exact regression
+against Table~\ref{tab:lifecycleappearance}; training and the primary visual audit use the
+native-aspect grid. The half-strength adapter improves its bit-identical frozen base by 0.0098 dB,
+raises foreground PSNR in three classes, lowers macro edge, motion, and quiet error, and keeps every
+class's quiet increase below $10^{-5}$. Across all 12 correct/shuffled/null rollouts, every non-RGB
+coordinate, topology tensor, density, lifecycle value, and stable ID remains exact. Nevertheless,
+it captures only 29\% of the full-flow PSNR gain and 33\% of its foreground-PSNR gain. Full strength
+captures 57\% of the PSNR gain but narrowly violates the class-level quiet gate and still does not
+match the teacher. The compact replacement criterion therefore fails.
+
+\begin{table}[H]
+\centering
+\footnotesize
+\caption{Matched four-class adapter regression. The low-resolution grid is retained solely to
+compare with the previously selected full-flow control; lower is better for MAE columns.}
+\label{tab:appearanceadapter}
+\begin{tabularx}{\linewidth}{@{}Xrrrrrr@{}}
+\toprule
+Mechanism & PSNR & SSIM & Foreground PSNR & Foreground edge & Motion boundary & Quiet temporal \\
+\midrule
+Frozen v1 base & 14.5700 & 0.63060 & 10.2252 & 0.68952 & 0.072349 & 0.021452 \\
+Full-flow RGB teacher & \textbf{14.6041} & \textbf{0.63140} & \textbf{10.3591} & \textbf{0.68486} & \textbf{0.072268} & \textbf{0.021440} \\
+74k adapter, $\lambda=1$ & 14.5895 & 0.63085 & 10.3143 & 0.68647 & 0.072300 & 0.021441 \\
+74k adapter, $\lambda=0.5$ & 14.5798 & 0.63074 & 10.2695 & 0.68799 & 0.072323 & 0.021446 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+The definitive native-aspect gate uses 288-by-192 grids and the stable per-source seeds
+31--34. Relative to its independently integrated frozen base, the half-strength adapter raises
+macro PSNR from 14.1417 to 14.1481 dB and foreground PSNR from 9.9783 to 10.0077 dB. PSNR and
+foreground PSNR improve in all four classes; macro SSIM changes by $+2.69\times10^{-5}$, while
+foreground-edge, motion-boundary, and quiet temporal MAE fall by $9.29\times10^{-5}$,
+$1.02\times10^{-5}$, and $5.18\times10^{-6}$. The largest class-level quiet increase is
+$8.98\times10^{-6}$, inside the predeclared limit, and all non-RGB state remains exact. Thus the
+adapter passes its native frozen-base structural gate. It still fails the stronger replacement
+claim because the matched experiment above shows that it recovers only a minority of the selected
+teacher's improvement, and the native visual difference remains minute.
+
+The failure is informative rather than destructive. The adapter proves that architectural state
+ownership survives a 28.7-times smaller trainable module. What it does not prove is that isolated
+RGB correction solves the visible noise: the native-aspect frozen and adapted fields remain nearly
+indistinguishable beside the fitted ceiling. A stronger student should be distilled on complete
+autonomous sampling trajectories, while the main realizer must couple neighboring births and their
+space-time geometry rather than treating color correction as the dominant missing capacity.
+
 \clearpage
 \section{What Has Been Falsified}
 
@@ -1137,6 +1221,7 @@ Local multiscale tokens automatically improve the raster guide & Rejected; token
 Scalar render-loss tuning cures washout & Rejected; detail improves at weight 0.5, but one action becomes less faithful and less stable. \\
 Scalar foreground weighting separates detail from lifecycle & Rejected; global fidelity rises, but quiet-region temporal error rises 3.8\%. \\
 Exact lifecycle copying alone removes quiet-region flicker & Rejected; full-field appearance still changes rendered motion, so the passing residual is scaffold-gated RGB only. \\
+Single-time RGB distillation fully replaces the second flow & Rejected; the 74k adapter preserves exact state but captures only 29\% of the teacher's gated PSNR gain at the passing strength. \\
 Exact fitted cell/rank overlap measures generated density & Rejected; synthesizing all predicted ranks restores 5,822 effective contributors/frame and oracle-level rendering. \\
 Mask visibility alone teaches repair & Rejected; train explicit edit tuples with protected-jewel summaries. \\
 Further model scaling solves the sparse prior & Deprioritized; the curve saturates on 231 single-scene windows. \\
@@ -1156,10 +1241,10 @@ Further model scaling solves the sparse prior & Deprioritized; the curve saturat
   spends density on camera motion. Camera tokens or explicit stabilization are future work.
   \item \textbf{Low resolution.} Current fits use a 160-pixel short side. PSNR values are not
   comparable to full-resolution codec papers without a matched rate-distortion protocol.
-  \item \textbf{Conservative lifecycle factorization.} Exact two-stream ownership now passes the
-  macro stability gate only when the residual is restricted to RGB in the top 20\% scaffold-salient
-  cells. Full geometry/appearance still flickers, and two classes retain sub-\(10^{-5}\) quiet
-  increases even in the selected arm. A dedicated adapter and broader gate remain open.
+  \item \textbf{Conservative lifecycle factorization.} Exact two-stream ownership passes the macro
+  stability gate only when the residual is restricted to RGB in the top 20\% scaffold-salient
+  cells. The dedicated 74k adapter preserves that ownership but only partly matches the full-flow
+  correction; complete-trajectory distillation and broader residuals remain open.
   \item \textbf{Short autonomous horizon.} Fitted cells, ranks, marks, and carry are removed for all
   three generated windows, but the audit covers only 48 frames, four action classes, and one seed.
   Longer rollouts may amplify carry error or exhaust the fixed topology/rank contract.
@@ -1168,8 +1253,9 @@ Further model scaling solves the sparse prior & Deprioritized; the curve saturat
   is nearly dense and the mark flow still sees the correct guide. Finer/adaptive density fields may
   be needed for topology itself to control semantics.
   \item \textbf{Motion-region mark noise.} Learned and oracle topology share blur/noise on moving
-  actors, hands, and thin objects. The factorized RGB residual passes stability but gains only
-  0.034 dB globally; it does not recover the 7.24 dB gap to the fitted ceiling.
+  actors, hands, and thin objects. The full-flow RGB residual gains only 0.034 dB and the passing
+  compact adapter gains 0.010 dB under the matched protocol; neither recovers the 7.24 dB gap to
+  the fitted ceiling.
   \item \textbf{Pure-PyTorch rendering.} Exact kNN/Mahalanobis evaluation is useful for research but
   slower than a tile CUDA rasterizer. Current reconstruction is optimization-based, not amortized.
   \item \textbf{Edit quality.} Clean-region identity is exact, but dirty-region synthesis is not yet
@@ -1268,10 +1354,12 @@ The shortest evidence-driven path is:
 \begin{enumerate}
   \item freeze the passing two-stream control: v1 owns topology/lifecycle/IDs exactly, while RGB
   residuals are confined to the top 20\% scaffold-salient cells;
-  \item replace the second full flow copy with a zero-initialized appearance adapter over frozen v1
-  features, retaining bit-identical base sampling and the same correct/shuffled/null audit;
-  \item expand the adapter beyond RGB only when at least three classes gain subject detail without
-  raising macro quiet-region error or weakening prompt-scaffold separation;
+  \item retain the 74k zero-initialized adapter as a structural proof, but do not call it a full-flow
+  replacement: at its passing strength it reproduces only part of the teacher correction;
+  \item if compact residual compression remains useful, distill complete autonomous teacher
+  trajectories before expanding beyond RGB, and retain the class-level quiet gate;
+  \item address the larger visual bottleneck with a cell- or neighborhood-coupled set realizer whose
+  births share local space-time geometry rather than sampling every addressed rank independently;
   \item extend the autonomous audit beyond three windows and across multiple prompts/seeds before
   interpreting exact short-horizon carry as long-video stability;
   \item evaluate finer or adaptive topology only if correct-versus-shuffled rendering remains tied
@@ -1279,7 +1367,7 @@ The shortest evidence-driven path is:
   \item train edit tuples with moved protected jewels, dirty masks, and local scaffold crops so
   source/destination repair is learned while clean regions remain exact;
   \item build a 1k--10k captioned jewel corpus and distill the scaffold pathway toward direct
-  text-to-jewel generation only after the hybrid pipeline passes prompt and rollout gates.
+  text-to-jewel generation after the coupled realizer passes prompt and rollout gates.
 \end{enumerate}
 
 A publication-grade comparison should include GaRV/VeGaS/GSVC-family reconstruction controls,
@@ -1314,10 +1402,13 @@ Foreground/motion weighting yields real detail but trades it against quiet-regio
 two-stream control separates an exact frozen lifecycle trajectory from appearance. It passes only
 under a conservative scaffold-gated RGB residual: topology, density, lifecycle, and stable IDs stay
 exact, three-class subject metrics improve, and macro quiet error falls, but the gain is just
-0.034 dB. The next falsifiable model is therefore a zero-initialized appearance adapter that can
-expand this safe residual without relaxing ownership. The hybrid preserves the distinctive explicit
-state while inheriting semantic competence that the current corpus cannot teach; prompt semantics
-still live in the pretrained scaffold, and direct distillation remains a later gate.
+0.034 dB. The zero-initialized compact adapter now preserves that ownership with 3.48\% as many
+parameters as the base, but at its passing strength recovers only 0.010 dB and 29\% of the
+teacher's gain. The next visual model should therefore couple local birth sets and their geometry;
+complete-trajectory adapter distillation is a secondary compression problem. The hybrid preserves
+the distinctive explicit state while inheriting semantic competence that the current corpus cannot
+teach; prompt semantics still live in the pretrained scaffold, and direct distillation remains a
+later gate.
 
 \appendix
 \section{Reproducibility Snapshot}
@@ -1341,6 +1432,7 @@ Continuation & empty initial state plus two 16-frame strides; generated-state co
 Topology generator & 0.88M 3D cell-RGB/carry head; $16^3$ cells, 1,024-rank initial contract \\
 Mark generator & selected 2.13M 1,024-rank 22-D rectified flow; 20 deterministic Euler steps \\
 Appearance control & independent frozen v1 trajectory; RGB residual in top 20\% scaffold-salient cells \\
+Compact adapter & 74,067 parameters; RGB only; $\lambda=0.5$ passing quiet calibration; exact base ownership \\
 Semantic control & prompt-generated LTX \(24\times40\) guide; three-window autonomous rollout passes structurally \\
 Editing & swept source/destination dirty mask, protected moved jewels, exact clean-cell clamp \\
 \bottomrule
@@ -1355,9 +1447,9 @@ Editing & swept source/destination dirty mask, protected moved jewels, exact cle
   \item Replace the provisional positioning paragraph with a feature-by-feature comparison verified
   against code or supplements, not abstracts alone.
   \item Demonstrate text-conditioned generation from noise on held-out prompts and sources.
-  \item Extend the passing initial-plus-two-continuation result across longer horizons, multiple
-  seeds/prompts, and a purpose-built lifecycle-factorized adapter with larger gains and no
-  per-class quiet-region regression.
+  \item Extend the passing initial-plus-two-continuation result across longer horizons and multiple
+  seeds/prompts; replace one-step adapter distillation with trajectory supervision or document the
+  compact branch as a structural control only.
   \item Demonstrate a moved-object repair in which clean regions are exact and the dirty region is
   perceptually plausible under multiple samples.
   \item Release the protocol, checkpoints, videos, and a matched baseline script.

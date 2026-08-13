@@ -100,3 +100,27 @@ flow still receives the correct LTX guide, but count correlation and slot F1 est
 scaffold use. Visual noise is shared by learned and oracle topology, localizing the remaining
 quality problem in mark realization. See [`topology_eval/README.md`](topology_eval/README.md) for
 the full controls, GIFs, cross-validation diagnostic, and checkpoint hashes.
+
+## Autonomous rollout and appearance factorization
+
+The fitted initial field and fitted continuation carry have now been removed for all three 16-frame
+windows. A corrected left-censored clip-start boundary raises the frozen generator to 14.570 dB /
+0.6306 SSIM with 7,493 effective contributors/frame while retaining append-only stable IDs and
+bit-exact carried rows. Correct scaffolds beat shuffled by 4.116 dB. See
+[`scaffold_mark_rollout/README.md`](scaffold_mark_rollout/README.md) for the three-window controls.
+
+A two-stream architectural control then freezes topology, density, lifecycle, and IDs while allowing
+only an RGB residual in the top 20% scaffold-salient cells. The selected full-flow control gains
+0.034 dB, improves foreground/detail metrics in three classes, and lowers macro quiet error across
+12 correct/shuffled/null rollouts. See
+[`lifecycle_appearance_ablation/README.md`](lifecycle_appearance_ablation/README.md).
+
+The purpose-built 74,067-parameter adapter preserves the same exact ownership with 28.7 times fewer
+trainable parameters. At 288x192, teacher distillation plus half-strength calibration improves
+PSNR and foreground PSNR in all four classes (+0.00641 dB and +0.02935 dB macro), lowers macro
+edge/motion/quiet errors, and keeps every class inside the quiet gate. It nevertheless captures
+only 29% of the full-flow PSNR gain under the exact matched protocol; full strength captures 57%
+and fails the native class-level quiet gate. It is retained as a structural proof, not selected as
+a teacher replacement. Native-aspect contacts also confirm that RGB correction is much smaller
+than the remaining coherent mark-realization problem. See
+[`appearance_adapter_ablation/README.md`](appearance_adapter_ablation/README.md).
