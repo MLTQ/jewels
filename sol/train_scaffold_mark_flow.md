@@ -38,8 +38,10 @@ complete stride, removing the continuation-only 512-rank/fitted-prefix limitatio
   evaluates fixed held-out controls, and saves resumable provenance plus train-only standardizers.
 - **Rationale**: Cycling guarantees that high-rank initial topology is not under-sampled relative
   to the five continuation strides per 96-frame UCF field.
-- **Fine-tune path**: `--initialize-from`, `--initial-repeat`, and optional frontier-anchored render
-  patches support a bounded visual correction without restarting the feature-trained flow.
+- **Fine-tune path**: `--initialize-from` retains the same-manifest guard, while the explicit
+  `--transfer-from` path imports model-only weights from a compatible corpus and records both
+  manifest digests. `--initial-repeat` and optional frontier-anchored render patches support a
+  bounded visual correction without restarting the feature-trained flow.
 - **Contribution correction**: An optional loss matches per-jewel alpha, cell alpha mass, and soft
   5%-visible counts exactly at local frontier time zero, addressing weak lifecycle tails directly.
 - **Saliency correction**: Optional scaffold-derived sampling mixes uniform patches with cells rich
@@ -63,6 +65,7 @@ complete stride, removing the continuation-only 512-rank/fitted-prefix limitatio
 | Contribution density | Frontier threshold matches the density audit and is checkpointed | Threshold |
 | Motion-aware ablation | Saliency fraction and all component weights are checkpointed | Loss policy |
 | Salient feature ablation | Cell saliency is guide-owned and never changes mark topology | Ownership |
+| Cross-corpus adaptation | Transfer validates the exact architecture/grid/rank basis and starts a fresh optimizer | Initialization policy |
 
 ## Notes
 

@@ -18,7 +18,12 @@ fits and completed leakage-safe UCF-train/LTX-validation realizer gate live bene
 The completed matched low-texture domain test is in
 [`ltx_cel_eval_v1/README.md`](ltx_cel_eval_v1/README.md). Flat-region error falls 35.7%, but
 contour-region error rises 62.3% at effectively identical density, selecting an explicit
-fill/contour allocation test before style-specific generator training.
+fill/contour allocation test. A subsequent user-directed
+[`same-field generator adaptation`](ltx_cel_eval_v1/generator_adaptation/README.md) transfers the
+selected UCF topology/mark stack to all four styled fields, with source overlap explicitly recorded
+and no claim of unseen generalization. Its fitted-seed-free 48-frame rollouts reach 15.401 dB /
+0.4270 SSIM under the correct scaffold versus 12.642 / 0.0571 shuffled; density is already matched,
+while excessive temporal noise selects appearance/stability as the next generator bottleneck.
 The first multiscale token-guide/render-loss control is recorded under
 [`prompt_smoke/direct_prompted_streaming_3000/mark_flow_multiscale_render2_12000/README.md`](prompt_smoke/direct_prompted_streaming_3000/mark_flow_multiscale_render2_12000/README.md);
 it improves contrast/edge energy but is not selected because PSNR, SSIM, saturation, and temporal

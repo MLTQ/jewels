@@ -11,6 +11,7 @@ import time
 
 import torch
 
+from sol.checkpoint_transfer import load_compatible_model_weights
 from sol.prompt_embeddings import load_prompt_cache
 from sol.scaffold_topology import ScaffoldTopologyModel, ScaffoldTopologyOutput
 from sol.scaffold_topology_data import (
@@ -73,6 +74,10 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--no-amp", action="store_true")
     parser.add_argument("--resume", action="store_true")
+    parser.add_argument(
+        "--transfer-from",
+        help="model-only initialization from a compatible checkpoint on another manifest",
+    )
     parser.add_argument(
         "--diagnostic-validation-source-id",
         action="append",
@@ -259,6 +264,8 @@ def main() -> None:
         raise ValueError("training schedule is outside its valid range")
     if min(args.guide_height, args.guide_width) <= 0 or min(weights) < 0:
         raise ValueError("guide dimensions and loss weights are invalid")
+    if args.resume and args.transfer_from:
+        raise ValueError("resume and transfer-from are mutually exclusive")
     torch.manual_seed(args.seed)
     generator = torch.Generator().manual_seed(args.seed)
     device = torch.device(args.device)
@@ -302,12 +309,25 @@ def main() -> None:
     log_path = output_dir / "train_log.jsonl"
     start_step = 0
     latest = None
+    initialization = None
     if args.resume and checkpoint_path.exists():
         saved = torch.load(checkpoint_path, map_location=device, weights_only=False)
         model.load_state_dict(saved["model"])
         optimizer.load_state_dict(saved["optimizer"])
         scaler.load_state_dict(saved["scaler"])
         start_step = int(saved["step"])
+        initialization = saved.get("meta", {}).get("initialization")
+    elif args.transfer_from:
+        initialization = load_compatible_model_weights(
+            model,
+            args.transfer_from,
+            map_location=device,
+            architecture="scaffold_topology_v1",
+            model_args=model_args,
+            grid_spec=spec,
+            destination_manifest_sha256=prompt_cache.manifest_sha256,
+            allow_cross_manifest=True,
+        )
 
     def save(step: int, evaluation: dict | None) -> None:
         _atomic_save(
@@ -339,6 +359,8 @@ def main() -> None:
                         if args.diagnostic_validation_source_id
                         else "manifest"
                     ),
+                    "transferred_from": args.transfer_from,
+                    "initialization": initialization,
                     "train_args": vars(args),
                     "latest_evaluation": evaluation,
                 },

@@ -1,0 +1,353 @@
+{
+  "schema": "ucf-prompt-streaming-v1",
+  "frames": 49,
+  "validation_group": "same-field-training-reconstruction",
+  "classes": [
+    {
+      "class_name": "Basketball",
+      "label": "playing basketball",
+      "train_prompts": [
+        "a person playing basketball",
+        "an indoor basketball game",
+        "someone dribbling and shooting a basketball"
+      ],
+      "evaluation_prompts": [
+        "a video of people playing basketball on a court"
+      ]
+    },
+    {
+      "class_name": "HorseRiding",
+      "label": "riding a horse",
+      "train_prompts": [
+        "a person riding a horse",
+        "horse riding outdoors",
+        "someone traveling on horseback"
+      ],
+      "evaluation_prompts": [
+        "a video of a rider moving on a horse"
+      ]
+    },
+    {
+      "class_name": "PlayingGuitar",
+      "label": "playing guitar",
+      "train_prompts": [
+        "a person playing guitar",
+        "a musician performing with a guitar",
+        "someone strumming a guitar"
+      ],
+      "evaluation_prompts": [
+        "a video of a guitarist playing music"
+      ]
+    },
+    {
+      "class_name": "ApplyEyeMakeup",
+      "label": "applying eye makeup",
+      "train_prompts": [
+        "a person applying eye makeup",
+        "someone putting makeup around their eyes",
+        "a close-up of applying eye cosmetics"
+      ],
+      "evaluation_prompts": [
+        "a video of a person doing their eye makeup"
+      ]
+    }
+  ],
+  "text_encoder": {
+    "library": "open_clip",
+    "model": "ViT-B-32",
+    "pretrained": "laion2b_s34b_b79k",
+    "pooling": "normalized_text_embedding",
+    "condition_dropout": 0.15
+  },
+  "fit_contract": {
+    "size": 160,
+    "num_init": 9000,
+    "max_primitives": 72000,
+    "steps": 9000,
+    "voxels": 65536,
+    "split_mode": "spatial",
+    "recovery_every": 100,
+    "windows_per_video": 1
+  },
+  "examples": [
+    {
+      "class_id": 0,
+      "class_name": "Basketball",
+      "label": "playing basketball",
+      "source_group": "ltx-style-train",
+      "source_id": "00_basketball_evaluation_00_seed42003__style_train",
+      "clip_id": 0,
+      "split": "train",
+      "video": "/home/m/LTX-2/corpora/jewels_cel_eval_v1/00_basketball_evaluation_00_seed42003.mp4",
+      "fit_video": "/home/m/LTX-2/corpora/jewels_cel_eval_v1/00_basketball_evaluation_00_seed42003.mp4",
+      "frame_count": 49,
+      "start_frame": 0,
+      "frames": 49,
+      "train_prompts": [
+        "a person playing basketball",
+        "an indoor basketball game",
+        "someone dribbling and shooting a basketball"
+      ],
+      "evaluation_prompts": [
+        "a video of people playing basketball on a court"
+      ],
+      "shared_field_stem": "00_basketball_evaluation_00_seed42003",
+      "scaffold": {
+        "schema": "jewels-ltx-corpus-v1",
+        "prompt_role": "evaluation",
+        "prompt_index": 0,
+        "source_prompt": "a video of people playing basketball on a court",
+        "generation_prompt": "a video of people playing basketball on a court. Rotoscoped cel-shaded animation with broad flat color regions, a restrained palette, bold stable ink contours, minimal surface texture, clean color holds, one continuous shot, stable camera, coherent natural motion, no cuts.",
+        "seed": 42003,
+        "receipt": "/home/m/LTX-2/corpora/jewels_cel_eval_v1/00_basketball_evaluation_00_seed42003.json",
+        "ltx_revision": "4f8905737aac86a554637cac86c178877a39c744"
+      },
+      "overlaps_validation_source_id": "00_basketball_evaluation_00_seed42003__style_reconstruction"
+    },
+    {
+      "class_id": 1,
+      "class_name": "HorseRiding",
+      "label": "riding a horse",
+      "source_group": "ltx-style-train",
+      "source_id": "01_horseriding_evaluation_00_seed42103__style_train",
+      "clip_id": 0,
+      "split": "train",
+      "video": "/home/m/LTX-2/corpora/jewels_cel_eval_v1/01_horseriding_evaluation_00_seed42103.mp4",
+      "fit_video": "/home/m/LTX-2/corpora/jewels_cel_eval_v1/01_horseriding_evaluation_00_seed42103.mp4",
+      "frame_count": 49,
+      "start_frame": 0,
+      "frames": 49,
+      "train_prompts": [
+        "a person riding a horse",
+        "horse riding outdoors",
+        "someone traveling on horseback"
+      ],
+      "evaluation_prompts": [
+        "a video of a rider moving on a horse"
+      ],
+      "shared_field_stem": "01_horseriding_evaluation_00_seed42103",
+      "scaffold": {
+        "schema": "jewels-ltx-corpus-v1",
+        "prompt_role": "evaluation",
+        "prompt_index": 0,
+        "source_prompt": "a video of a rider moving on a horse",
+        "generation_prompt": "a video of a rider moving on a horse. Rotoscoped cel-shaded animation with broad flat color regions, a restrained palette, bold stable ink contours, minimal surface texture, clean color holds, one continuous shot, stable camera, coherent natural motion, no cuts.",
+        "seed": 42103,
+        "receipt": "/home/m/LTX-2/corpora/jewels_cel_eval_v1/01_horseriding_evaluation_00_seed42103.json",
+        "ltx_revision": "4f8905737aac86a554637cac86c178877a39c744"
+      },
+      "overlaps_validation_source_id": "01_horseriding_evaluation_00_seed42103__style_reconstruction"
+    },
+    {
+      "class_id": 2,
+      "class_name": "PlayingGuitar",
+      "label": "playing guitar",
+      "source_group": "ltx-style-train",
+      "source_id": "02_playingguitar_evaluation_00_seed42203__style_train",
+      "clip_id": 0,
+      "split": "train",
+      "video": "/home/m/LTX-2/corpora/jewels_cel_eval_v1/02_playingguitar_evaluation_00_seed42203.mp4",
+      "fit_video": "/home/m/LTX-2/corpora/jewels_cel_eval_v1/02_playingguitar_evaluation_00_seed42203.mp4",
+      "frame_count": 49,
+      "start_frame": 0,
+      "frames": 49,
+      "train_prompts": [
+        "a person playing guitar",
+        "a musician performing with a guitar",
+        "someone strumming a guitar"
+      ],
+      "evaluation_prompts": [
+        "a video of a guitarist playing music"
+      ],
+      "shared_field_stem": "02_playingguitar_evaluation_00_seed42203",
+      "scaffold": {
+        "schema": "jewels-ltx-corpus-v1",
+        "prompt_role": "evaluation",
+        "prompt_index": 0,
+        "source_prompt": "a video of a guitarist playing music",
+        "generation_prompt": "a video of a guitarist playing music. Rotoscoped cel-shaded animation with broad flat color regions, a restrained palette, bold stable ink contours, minimal surface texture, clean color holds, one continuous shot, stable camera, coherent natural motion, no cuts.",
+        "seed": 42203,
+        "receipt": "/home/m/LTX-2/corpora/jewels_cel_eval_v1/02_playingguitar_evaluation_00_seed42203.json",
+        "ltx_revision": "4f8905737aac86a554637cac86c178877a39c744"
+      },
+      "overlaps_validation_source_id": "02_playingguitar_evaluation_00_seed42203__style_reconstruction"
+    },
+    {
+      "class_id": 3,
+      "class_name": "ApplyEyeMakeup",
+      "label": "applying eye makeup",
+      "source_group": "ltx-style-train",
+      "source_id": "03_applyeyemakeup_evaluation_00_seed42303__style_train",
+      "clip_id": 0,
+      "split": "train",
+      "video": "/home/m/LTX-2/corpora/jewels_cel_eval_v1/03_applyeyemakeup_evaluation_00_seed42303.mp4",
+      "fit_video": "/home/m/LTX-2/corpora/jewels_cel_eval_v1/03_applyeyemakeup_evaluation_00_seed42303.mp4",
+      "frame_count": 49,
+      "start_frame": 0,
+      "frames": 49,
+      "train_prompts": [
+        "a person applying eye makeup",
+        "someone putting makeup around their eyes",
+        "a close-up of applying eye cosmetics"
+      ],
+      "evaluation_prompts": [
+        "a video of a person doing their eye makeup"
+      ],
+      "shared_field_stem": "03_applyeyemakeup_evaluation_00_seed42303",
+      "scaffold": {
+        "schema": "jewels-ltx-corpus-v1",
+        "prompt_role": "evaluation",
+        "prompt_index": 0,
+        "source_prompt": "a video of a person doing their eye makeup",
+        "generation_prompt": "a video of a person doing their eye makeup. Rotoscoped cel-shaded animation with broad flat color regions, a restrained palette, bold stable ink contours, minimal surface texture, clean color holds, one continuous shot, stable camera, coherent natural motion, no cuts.",
+        "seed": 42303,
+        "receipt": "/home/m/LTX-2/corpora/jewels_cel_eval_v1/03_applyeyemakeup_evaluation_00_seed42303.json",
+        "ltx_revision": "4f8905737aac86a554637cac86c178877a39c744"
+      },
+      "overlaps_validation_source_id": "03_applyeyemakeup_evaluation_00_seed42303__style_reconstruction"
+    },
+    {
+      "class_id": 0,
+      "class_name": "Basketball",
+      "label": "playing basketball",
+      "source_group": "ltx-style-reconstruction",
+      "source_id": "00_basketball_evaluation_00_seed42003__style_reconstruction",
+      "clip_id": 0,
+      "split": "validation",
+      "video": "/home/m/LTX-2/corpora/jewels_cel_eval_v1/00_basketball_evaluation_00_seed42003.mp4",
+      "fit_video": "/home/m/LTX-2/corpora/jewels_cel_eval_v1/00_basketball_evaluation_00_seed42003.mp4",
+      "frame_count": 49,
+      "start_frame": 0,
+      "frames": 49,
+      "train_prompts": [
+        "a person playing basketball",
+        "an indoor basketball game",
+        "someone dribbling and shooting a basketball"
+      ],
+      "evaluation_prompts": [
+        "a video of people playing basketball on a court"
+      ],
+      "shared_field_stem": "00_basketball_evaluation_00_seed42003",
+      "scaffold": {
+        "schema": "jewels-ltx-corpus-v1",
+        "prompt_role": "evaluation",
+        "prompt_index": 0,
+        "source_prompt": "a video of people playing basketball on a court",
+        "generation_prompt": "a video of people playing basketball on a court. Rotoscoped cel-shaded animation with broad flat color regions, a restrained palette, bold stable ink contours, minimal surface texture, clean color holds, one continuous shot, stable camera, coherent natural motion, no cuts.",
+        "seed": 42003,
+        "receipt": "/home/m/LTX-2/corpora/jewels_cel_eval_v1/00_basketball_evaluation_00_seed42003.json",
+        "ltx_revision": "4f8905737aac86a554637cac86c178877a39c744"
+      },
+      "overlaps_training_source_id": "00_basketball_evaluation_00_seed42003__style_train"
+    },
+    {
+      "class_id": 1,
+      "class_name": "HorseRiding",
+      "label": "riding a horse",
+      "source_group": "ltx-style-reconstruction",
+      "source_id": "01_horseriding_evaluation_00_seed42103__style_reconstruction",
+      "clip_id": 0,
+      "split": "validation",
+      "video": "/home/m/LTX-2/corpora/jewels_cel_eval_v1/01_horseriding_evaluation_00_seed42103.mp4",
+      "fit_video": "/home/m/LTX-2/corpora/jewels_cel_eval_v1/01_horseriding_evaluation_00_seed42103.mp4",
+      "frame_count": 49,
+      "start_frame": 0,
+      "frames": 49,
+      "train_prompts": [
+        "a person riding a horse",
+        "horse riding outdoors",
+        "someone traveling on horseback"
+      ],
+      "evaluation_prompts": [
+        "a video of a rider moving on a horse"
+      ],
+      "shared_field_stem": "01_horseriding_evaluation_00_seed42103",
+      "scaffold": {
+        "schema": "jewels-ltx-corpus-v1",
+        "prompt_role": "evaluation",
+        "prompt_index": 0,
+        "source_prompt": "a video of a rider moving on a horse",
+        "generation_prompt": "a video of a rider moving on a horse. Rotoscoped cel-shaded animation with broad flat color regions, a restrained palette, bold stable ink contours, minimal surface texture, clean color holds, one continuous shot, stable camera, coherent natural motion, no cuts.",
+        "seed": 42103,
+        "receipt": "/home/m/LTX-2/corpora/jewels_cel_eval_v1/01_horseriding_evaluation_00_seed42103.json",
+        "ltx_revision": "4f8905737aac86a554637cac86c178877a39c744"
+      },
+      "overlaps_training_source_id": "01_horseriding_evaluation_00_seed42103__style_train"
+    },
+    {
+      "class_id": 2,
+      "class_name": "PlayingGuitar",
+      "label": "playing guitar",
+      "source_group": "ltx-style-reconstruction",
+      "source_id": "02_playingguitar_evaluation_00_seed42203__style_reconstruction",
+      "clip_id": 0,
+      "split": "validation",
+      "video": "/home/m/LTX-2/corpora/jewels_cel_eval_v1/02_playingguitar_evaluation_00_seed42203.mp4",
+      "fit_video": "/home/m/LTX-2/corpora/jewels_cel_eval_v1/02_playingguitar_evaluation_00_seed42203.mp4",
+      "frame_count": 49,
+      "start_frame": 0,
+      "frames": 49,
+      "train_prompts": [
+        "a person playing guitar",
+        "a musician performing with a guitar",
+        "someone strumming a guitar"
+      ],
+      "evaluation_prompts": [
+        "a video of a guitarist playing music"
+      ],
+      "shared_field_stem": "02_playingguitar_evaluation_00_seed42203",
+      "scaffold": {
+        "schema": "jewels-ltx-corpus-v1",
+        "prompt_role": "evaluation",
+        "prompt_index": 0,
+        "source_prompt": "a video of a guitarist playing music",
+        "generation_prompt": "a video of a guitarist playing music. Rotoscoped cel-shaded animation with broad flat color regions, a restrained palette, bold stable ink contours, minimal surface texture, clean color holds, one continuous shot, stable camera, coherent natural motion, no cuts.",
+        "seed": 42203,
+        "receipt": "/home/m/LTX-2/corpora/jewels_cel_eval_v1/02_playingguitar_evaluation_00_seed42203.json",
+        "ltx_revision": "4f8905737aac86a554637cac86c178877a39c744"
+      },
+      "overlaps_training_source_id": "02_playingguitar_evaluation_00_seed42203__style_train"
+    },
+    {
+      "class_id": 3,
+      "class_name": "ApplyEyeMakeup",
+      "label": "applying eye makeup",
+      "source_group": "ltx-style-reconstruction",
+      "source_id": "03_applyeyemakeup_evaluation_00_seed42303__style_reconstruction",
+      "clip_id": 0,
+      "split": "validation",
+      "video": "/home/m/LTX-2/corpora/jewels_cel_eval_v1/03_applyeyemakeup_evaluation_00_seed42303.mp4",
+      "fit_video": "/home/m/LTX-2/corpora/jewels_cel_eval_v1/03_applyeyemakeup_evaluation_00_seed42303.mp4",
+      "frame_count": 49,
+      "start_frame": 0,
+      "frames": 49,
+      "train_prompts": [
+        "a person applying eye makeup",
+        "someone putting makeup around their eyes",
+        "a close-up of applying eye cosmetics"
+      ],
+      "evaluation_prompts": [
+        "a video of a person doing their eye makeup"
+      ],
+      "shared_field_stem": "03_applyeyemakeup_evaluation_00_seed42303",
+      "scaffold": {
+        "schema": "jewels-ltx-corpus-v1",
+        "prompt_role": "evaluation",
+        "prompt_index": 0,
+        "source_prompt": "a video of a person doing their eye makeup",
+        "generation_prompt": "a video of a person doing their eye makeup. Rotoscoped cel-shaded animation with broad flat color regions, a restrained palette, bold stable ink contours, minimal surface texture, clean color holds, one continuous shot, stable camera, coherent natural motion, no cuts.",
+        "seed": 42303,
+        "receipt": "/home/m/LTX-2/corpora/jewels_cel_eval_v1/03_applyeyemakeup_evaluation_00_seed42303.json",
+        "ltx_revision": "4f8905737aac86a554637cac86c178877a39c744"
+      },
+      "overlaps_training_source_id": "03_applyeyemakeup_evaluation_00_seed42303__style_train"
+    }
+  ],
+  "training_domain": "LTX-2.3 cel-shaded/rotoscoped",
+  "validation_protocol": "same-field-training-reconstruction",
+  "validation_is_unseen": false,
+  "source_overlap": true,
+  "ltx_source_manifest_sha256": "5e514966be50240393ff51a65327165e8794edc4898cdecc02269adc982be578",
+  "ucf_manifest_canonical_sha256": "2c86403ef5540a24899600fac5d8e9b6f09b1220f2bd421e234fc7f664ce0261",
+  "ucf_manifest_file_sha256": "5e514966be50240393ff51a65327165e8794edc4898cdecc02269adc982be578"
+}

@@ -1,0 +1,126 @@
+{
+  "schema": "ltx-cel-generator-adaptation-v1",
+  "date": "2026-08-13",
+  "corpus": {
+    "physical_fields": 4,
+    "training_aliases": 4,
+    "reconstruction_aliases": 4,
+    "validation_protocol": "same-field-training-reconstruction",
+    "validation_is_unseen": false,
+    "source_overlap": true,
+    "frames_per_field": 49,
+    "complete_views_per_field": 3,
+    "grid_shape": [16, 16, 8],
+    "slots_per_cell": 1024,
+    "maximum_observed_rank": 341,
+    "fitted_jewels_per_field": 72000,
+    "manifest_sha256": "a8d0ca58e2531b224ae6bdb2645e7e29967952906c96e651ec8e5434c9cf7f62"
+  },
+  "mark_flow": {
+    "parameters": 2125846,
+    "steps": 3000,
+    "seconds": 40.55940246582031,
+    "learning_rate": 0.0001,
+    "train_views": 12,
+    "initial_train_views": 4,
+    "schedule_views": 16,
+    "gpu": "NVIDIA GeForce RTX 4090",
+    "source_checkpoint": "/home/m/jewels/topology/scaffold_mark_flow_v1/run_12000/scaffold_mark_flow.pt",
+    "source_step": 12000,
+    "source_manifest_sha256": "64d6d09b77ce8a475364c57d96040a00dcda0c8811f38c1e87847f46d9d7860e",
+    "optimizer_restored": false,
+    "reconstruction_feature_loss": {
+      "correct": 0.9731566508611044,
+      "shuffled": 0.9990587731202444,
+      "shuffled_minus_correct": 0.025902122259140015,
+      "null": 0.9853016336758932,
+      "null_minus_correct": 0.012144982814788818,
+      "initial_correct": 0.9607658237218857,
+      "initial_shuffled_minus_correct": 0.03383238613605499,
+      "continuation_correct": 0.9793520644307137,
+      "continuation_shuffled_minus_correct": 0.021936990320682526
+    }
+  },
+  "topology": {
+    "parameters": 881282,
+    "steps": 1500,
+    "seconds": 22.89506435394287,
+    "learning_rate": 0.0001,
+    "train_views": 12,
+    "reconstruction_views": 12,
+    "gpu": "NVIDIA GeForce RTX 2070 SUPER",
+    "source_checkpoint": "/home/m/jewels/topology/scaffold_topology_v1/run_3000/scaffold_topology.pt",
+    "source_step": 3000,
+    "source_manifest_sha256": "64d6d09b77ce8a475364c57d96040a00dcda0c8811f38c1e87847f46d9d7860e",
+    "optimizer_restored": false,
+    "reconstruction": {
+      "predicted_births": 274861,
+      "target_births": 275251,
+      "total_count_ratio": 0.9985831379890442,
+      "cell_count_mae": 0.12841796875,
+      "count_correlation": 0.9971996595462164,
+      "occupancy_f1": 1.0,
+      "slot_f1": 0.9942629933357239
+    },
+    "controls": {
+      "shuffled_slot_f1": 0.6780528426170349,
+      "shuffled_count_correlation": 0.5523574898640314,
+      "null_slot_f1": 0.675337016582489,
+      "null_count_correlation": 0.5694589540362358
+    }
+  },
+  "oracle_mark_topology_rollout": {
+    "effective_density_mean": 5895.20849609375,
+    "effective_density_ratio_mean": 0.9884410798549652,
+    "all_stable_ids_unique": true,
+    "all_max_carry_feature_error": 0.0,
+    "per_class_effective_density": {
+      "Basketball": 7523.45556640625,
+      "HorseRiding": 4222.24169921875,
+      "PlayingGuitar": 6078.26611328125,
+      "ApplyEyeMakeup": 5756.87060546875
+    }
+  },
+  "fitted_seed_free_visual_rollout": {
+    "sampling_steps": 20,
+    "sampling_seed": 31,
+    "deterministic": true,
+    "completed_strides": 3,
+    "completed_frames": 48,
+    "mean_background_mae": 0.06658596149645746,
+    "render": {
+      "fitted_ceiling_psnr": 23.131142139434814,
+      "fitted_ceiling_ssim": 0.8973598629236221,
+      "correct_psnr": 15.40078067779541,
+      "correct_ssim": 0.4270240478217602,
+      "shuffled_psnr": 12.641761064529419,
+      "shuffled_ssim": 0.05711219273507595,
+      "null_psnr": 14.758152723312378,
+      "null_ssim": 0.07414647098630667
+    },
+    "effective_density": {
+      "fitted_ceiling": 5964.154296875,
+      "correct": 6092.6248779296875,
+      "shuffled": 5988.395751953125,
+      "null": 4611.410949707031
+    },
+    "correct_temporal": {
+      "temporal_change_ratio": 6.409554302692413,
+      "quiet_temporal_mae": 0.029725851025432348,
+      "motion_boundary_mae": 0.08873423375189304
+    },
+    "free_running_topology": {
+      "total_count_ratio": 0.999847412109375,
+      "count_correlation": 0.8438409368197123,
+      "slot_f1": 0.8330850601196289
+    },
+    "all_correct_stable_ids_exact": true
+  },
+  "limitations": [
+    "Validation aliases share the exact physical fields used for training.",
+    "Mark loss is standardized jewel-feature loss, not rendered pixel quality.",
+    "Oracle-mark topology rollout does not test generated mark appearance.",
+    "This stack still consumes a video scaffold in addition to text.",
+    "Motion and quiet-region temporal error remain far above the fitted ceiling."
+  ]
+}

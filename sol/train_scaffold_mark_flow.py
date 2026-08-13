@@ -12,6 +12,7 @@ import time
 import torch
 
 from sol.birth_mark_flow import BirthMarkFlowModel, project_birth_topology
+from sol.checkpoint_transfer import load_compatible_model_weights
 from sol.frontier_contribution_loss import frontier_contribution_loss
 from sol.prompt_embeddings import load_prompt_cache
 from sol.realizer_render_loss import (
@@ -113,6 +114,10 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--no-amp", action="store_true")
     parser.add_argument("--resume", action="store_true")
     parser.add_argument("--initialize-from")
+    parser.add_argument(
+        "--transfer-from",
+        help="model-only initialization from a compatible checkpoint on another manifest",
+    )
     return parser.parse_args()
 
 
@@ -292,8 +297,10 @@ def main() -> None:
         raise ValueError("render component weights must be non-negative and not all zero")
     if not 0 <= args.render_saliency_fraction <= 1:
         raise ValueError("render saliency fraction must be in [0,1]")
-    if args.resume and args.initialize_from:
-        raise ValueError("resume and initialize-from are mutually exclusive")
+    if sum(bool(value) for value in (args.resume, args.initialize_from, args.transfer_from)) > 1:
+        raise ValueError(
+            "resume, initialize-from, and transfer-from are mutually exclusive"
+        )
     dropouts = (args.text_dropout, args.context_dropout, args.guide_dropout)
     if any(value < 0 or value > 1 for value in dropouts):
         raise ValueError("conditioning dropout probabilities must be in [0,1]")
@@ -348,24 +355,36 @@ def main() -> None:
     log_path = output_dir / "train_log.jsonl"
     start_step = 0
     latest = None
+    initialization = None
     if args.resume and checkpoint_path.exists():
         saved = torch.load(checkpoint_path, map_location=device, weights_only=False)
         model.load_state_dict(saved["model"])
         optimizer.load_state_dict(saved["optimizer"])
         scaler.load_state_dict(saved["scaler"])
         start_step = int(saved["step"])
+        initialization = saved.get("meta", {}).get("initialization")
     elif args.initialize_from:
-        saved = torch.load(args.initialize_from, map_location=device, weights_only=False)
-        meta = saved.get("meta", {})
-        if meta.get("architecture") != "scaffold_birth_mark_flow_v1":
-            raise ValueError("initialization checkpoint is not a scaffold mark flow")
-        if meta.get("manifest_sha256") != prompt_cache.manifest_sha256:
-            raise ValueError("initialization checkpoint owns a different manifest")
-        if meta.get("model_args") != model_args or tuple(meta.get("grid_shape", ())) != spec.shape:
-            raise ValueError("initialization checkpoint architecture/grid differs")
-        if int(meta.get("slots_per_cell", 0)) != spec.slots_per_cell:
-            raise ValueError("initialization checkpoint rank capacity differs")
-        model.load_state_dict(saved["model"])
+        initialization = load_compatible_model_weights(
+            model,
+            args.initialize_from,
+            map_location=device,
+            architecture="scaffold_birth_mark_flow_v1",
+            model_args=model_args,
+            grid_spec=spec,
+            destination_manifest_sha256=prompt_cache.manifest_sha256,
+            allow_cross_manifest=False,
+        )
+    elif args.transfer_from:
+        initialization = load_compatible_model_weights(
+            model,
+            args.transfer_from,
+            map_location=device,
+            architecture="scaffold_birth_mark_flow_v1",
+            model_args=model_args,
+            grid_spec=spec,
+            destination_manifest_sha256=prompt_cache.manifest_sha256,
+            allow_cross_manifest=True,
+        )
 
     def save(step: int, evaluation: dict | None) -> None:
         _atomic_save(
@@ -391,6 +410,8 @@ def main() -> None:
                     "birth_standardizer": corpus.birth_standardizer.state_dict(),
                     "background_contract": "initial_scaffold_rgb_mean",
                     "initialized_from": args.initialize_from,
+                    "transferred_from": args.transfer_from,
+                    "initialization": initialization,
                     "train_args": vars(args),
                     "latest_evaluation": evaluation,
                 },

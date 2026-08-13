@@ -1,0 +1,738 @@
+{
+  "steps": 1500,
+  "seconds": 22.89506435394287,
+  "train_views": 12,
+  "validation_views": 12,
+  "train_calibration": {
+    "cell_count_mae": 0.12841796875,
+    "cell_log_count_mae": 0.003730403259396553,
+    "total_count_ratio": 0.9985831379890442,
+    "occupancy_precision": 1.0,
+    "occupancy_recall": 1.0,
+    "occupancy_f1": 1.0,
+    "occupancy_iou": 1.0,
+    "slot_precision": 0.9949683547019958,
+    "slot_recall": 0.9935585856437683,
+    "slot_f1": 0.9942629933357239,
+    "count_correlation": 0.9971996595462164,
+    "predicted_births": 274861.0,
+    "target_births": 275251.0
+  },
+  "validation": {
+    "occupancy_threshold": 0.95,
+    "validation_views": 12,
+    "aggregate": {
+      "correct": {
+        "cell_count_mae": 0.12841796875,
+        "cell_log_count_mae": 0.003730403259396553,
+        "total_count_ratio": 0.9985831379890442,
+        "occupancy_precision": 1.0,
+        "occupancy_recall": 1.0,
+        "occupancy_f1": 1.0,
+        "occupancy_iou": 1.0,
+        "slot_precision": 0.9949683547019958,
+        "slot_recall": 0.9935585856437683,
+        "slot_f1": 0.9942629933357239,
+        "count_correlation": 0.9971996595462164,
+        "predicted_births": 274861.0,
+        "target_births": 275251.0
+      },
+      "shuffled": {
+        "cell_count_mae": 7.143961429595947,
+        "cell_log_count_mae": 0.658386766910553,
+        "total_count_ratio": 0.9812389612197876,
+        "occupancy_precision": 0.9644310474395752,
+        "occupancy_recall": 0.9733025431632996,
+        "occupancy_f1": 0.9688464999198914,
+        "occupancy_iou": 0.9395754337310791,
+        "slot_precision": 0.6845349669456482,
+        "slot_recall": 0.6716923713684082,
+        "slot_f1": 0.6780528426170349,
+        "count_correlation": 0.5523574898640314,
+        "predicted_births": 270087.0,
+        "target_births": 275251.0
+      },
+      "null": {
+        "cell_count_mae": 6.635009765625,
+        "cell_log_count_mae": 0.6803364753723145,
+        "total_count_ratio": 0.8246982097625732,
+        "occupancy_precision": 0.965724766254425,
+        "occupancy_recall": 0.9475035071372986,
+        "occupancy_f1": 0.9565274119377136,
+        "occupancy_iou": 0.9166769981384277,
+        "slot_precision": 0.7471134066581726,
+        "slot_recall": 0.6161431074142456,
+        "slot_f1": 0.675337016582489,
+        "count_correlation": 0.5694589540362358,
+        "predicted_births": 226999.0,
+        "target_births": 275251.0
+      },
+      "correct_no_carry": {
+        "cell_count_mae": 4.95068359375,
+        "cell_log_count_mae": 0.36789563298225403,
+        "total_count_ratio": 1.2494885921478271,
+        "occupancy_precision": 0.9759359359741211,
+        "occupancy_recall": 0.9803619384765625,
+        "occupancy_f1": 0.9781439304351807,
+        "occupancy_iou": 0.9572228193283081,
+        "slot_precision": 0.7232810854911804,
+        "slot_recall": 0.9037315249443054,
+        "slot_f1": 0.8034994602203369,
+        "count_correlation": 0.7393960108359655,
+        "predicted_births": 343923.0,
+        "target_births": 275251.0
+      },
+      "train_mean": {
+        "cell_count_mae": 6.1883544921875,
+        "cell_log_count_mae": 0.6000918745994568,
+        "total_count_ratio": 0.9995240569114685,
+        "occupancy_precision": 0.9511232376098633,
+        "occupancy_recall": 0.9999144077301025,
+        "occupancy_f1": 0.974908709526062,
+        "occupancy_iou": 0.9510458111763,
+        "slot_precision": 0.7238405346870422,
+        "slot_recall": 0.7234960198402405,
+        "slot_f1": 0.7236682772636414,
+        "count_correlation": 0.5829038619995117,
+        "predicted_births": 275120.0,
+        "target_births": 275251.0
+      }
+    },
+    "per_class": {
+      "Basketball": {
+        "correct": {
+          "cell_count_mae": 0.1346028596162796,
+          "cell_log_count_mae": 0.003452459117397666,
+          "total_count_ratio": 0.9987057447433472,
+          "occupancy_precision": 1.0,
+          "occupancy_recall": 1.0,
+          "occupancy_f1": 1.0,
+          "occupancy_iou": 1.0,
+          "slot_precision": 0.9947593212127686,
+          "slot_recall": 0.9934718608856201,
+          "slot_f1": 0.9941151738166809,
+          "count_correlation": 0.997512698173523,
+          "predicted_births": 70220.0,
+          "target_births": 70311.0
+        },
+        "shuffled": {
+          "cell_count_mae": 6.579264163970947,
+          "cell_log_count_mae": 0.5832460522651672,
+          "total_count_ratio": 0.9134843945503235,
+          "occupancy_precision": 0.9914945363998413,
+          "occupancy_recall": 0.9593550562858582,
+          "occupancy_f1": 0.9751600623130798,
+          "occupancy_iou": 0.9515242576599121,
+          "slot_precision": 0.7326710820198059,
+          "slot_recall": 0.6692836284637451,
+          "slot_f1": 0.699544370174408,
+          "count_correlation": 0.59662959476312,
+          "predicted_births": 64228.0,
+          "target_births": 70311.0
+        },
+        "null": {
+          "cell_count_mae": 6.439453125,
+          "cell_log_count_mae": 0.6444684863090515,
+          "total_count_ratio": 0.7775028347969055,
+          "occupancy_precision": 0.9796096086502075,
+          "occupancy_recall": 0.9440712332725525,
+          "occupancy_f1": 0.9615122079849243,
+          "occupancy_iou": 0.9258770942687988,
+          "slot_precision": 0.7812208533287048,
+          "slot_recall": 0.607401430606842,
+          "slot_f1": 0.6834322810173035,
+          "count_correlation": 0.6367291808128357,
+          "predicted_births": 54667.0,
+          "target_births": 70311.0
+        },
+        "correct_no_carry": {
+          "cell_count_mae": 5.525390625,
+          "cell_log_count_mae": 0.3831426799297333,
+          "total_count_ratio": 1.2991565465927124,
+          "occupancy_precision": 0.983595609664917,
+          "occupancy_recall": 0.9868995547294617,
+          "occupancy_f1": 0.9852448105812073,
+          "occupancy_iou": 0.9709187150001526,
+          "slot_precision": 0.6990420818328857,
+          "slot_recall": 0.9081651568412781,
+          "slot_f1": 0.789998471736908,
+          "count_correlation": 0.7215490937232971,
+          "predicted_births": 91345.0,
+          "target_births": 70311.0
+        },
+        "train_mean": {
+          "cell_count_mae": 5.406412601470947,
+          "cell_log_count_mae": 0.4969742000102997,
+          "total_count_ratio": 0.9782252907752991,
+          "occupancy_precision": 0.9692332744598389,
+          "occupancy_recall": 1.0,
+          "occupancy_f1": 0.9843763113021851,
+          "occupancy_iou": 0.9692332744598389,
+          "slot_precision": 0.7696568965911865,
+          "slot_recall": 0.7528978586196899,
+          "slot_f1": 0.7611851096153259,
+          "count_correlation": 0.7104042967160543,
+          "predicted_births": 68780.0,
+          "target_births": 70311.0
+        }
+      },
+      "HorseRiding": {
+        "correct": {
+          "cell_count_mae": 0.0343424491584301,
+          "cell_log_count_mae": 0.001927788951434195,
+          "total_count_ratio": 0.9990806579589844,
+          "occupancy_precision": 1.0,
+          "occupancy_recall": 1.0,
+          "occupancy_f1": 1.0,
+          "occupancy_iou": 1.0,
+          "slot_precision": 0.9988685846328735,
+          "slot_recall": 0.9979502558708191,
+          "slot_f1": 0.9984092712402344,
+          "count_correlation": 0.9993273615837097,
+          "predicted_births": 66289.0,
+          "target_births": 66350.0
+        },
+        "shuffled": {
+          "cell_count_mae": 8.1708984375,
+          "cell_log_count_mae": 0.8239312171936035,
+          "total_count_ratio": 0.9894197583198547,
+          "occupancy_precision": 0.9227257370948792,
+          "occupancy_recall": 0.9742903113365173,
+          "occupancy_f1": 0.9478071928024292,
+          "occupancy_iou": 0.9007923603057861,
+          "slot_precision": 0.622989296913147,
+          "slot_recall": 0.6163979172706604,
+          "slot_f1": 0.6196760535240173,
+          "count_correlation": 0.42424391210079193,
+          "predicted_births": 65648.0,
+          "target_births": 66350.0
+        },
+        "null": {
+          "cell_count_mae": 6.254068851470947,
+          "cell_log_count_mae": 0.6717643141746521,
+          "total_count_ratio": 0.8590655326843262,
+          "occupancy_precision": 0.9409998059272766,
+          "occupancy_recall": 0.9510801434516907,
+          "occupancy_f1": 0.9460131525993347,
+          "occupancy_iou": 0.8975568413734436,
+          "slot_precision": 0.7449604272842407,
+          "slot_recall": 0.6399698853492737,
+          "slot_f1": 0.6884855031967163,
+          "count_correlation": 0.5551516711711884,
+          "predicted_births": 56999.0,
+          "target_births": 66350.0
+        },
+        "correct_no_carry": {
+          "cell_count_mae": 4.055826663970947,
+          "cell_log_count_mae": 0.36308276653289795,
+          "total_count_ratio": 1.1486812829971313,
+          "occupancy_precision": 0.9617310166358948,
+          "occupancy_recall": 0.960185706615448,
+          "occupancy_f1": 0.9609577655792236,
+          "occupancy_iou": 0.9248495101928711,
+          "slot_precision": 0.7718034386634827,
+          "slot_recall": 0.8865561485290527,
+          "slot_f1": 0.8252095580101013,
+          "count_correlation": 0.7861133019129435,
+          "predicted_births": 76215.0,
+          "target_births": 66350.0
+        },
+        "train_mean": {
+          "cell_count_mae": 7.554361820220947,
+          "cell_log_count_mae": 0.7841141819953918,
+          "total_count_ratio": 1.0366239547729492,
+          "occupancy_precision": 0.9116067290306091,
+          "occupancy_recall": 0.9998214840888977,
+          "occupancy_f1": 0.9536784887313843,
+          "occupancy_iou": 0.9114583134651184,
+          "slot_precision": 0.6449258327484131,
+          "slot_recall": 0.6685456037521362,
+          "slot_f1": 0.6565233469009399,
+          "count_correlation": 0.35971874992052716,
+          "predicted_births": 68780.0,
+          "target_births": 66350.0
+        }
+      },
+      "PlayingGuitar": {
+        "correct": {
+          "cell_count_mae": 0.1399739533662796,
+          "cell_log_count_mae": 0.004021008964627981,
+          "total_count_ratio": 0.9988760352134705,
+          "occupancy_precision": 1.0,
+          "occupancy_recall": 1.0,
+          "occupancy_f1": 1.0,
+          "occupancy_iou": 1.0,
+          "slot_precision": 0.9943594932556152,
+          "slot_recall": 0.9932419061660767,
+          "slot_f1": 0.9938004016876221,
+          "count_correlation": 0.9962214430173238,
+          "predicted_births": 69320.0,
+          "target_births": 69398.0
+        },
+        "shuffled": {
+          "cell_count_mae": 7.269856929779053,
+          "cell_log_count_mae": 0.6652082800865173,
+          "total_count_ratio": 0.9804317355155945,
+          "occupancy_precision": 0.9681314826011658,
+          "occupancy_recall": 0.9774767160415649,
+          "occupancy_f1": 0.9727816581726074,
+          "occupancy_iou": 0.9470057487487793,
+          "slot_precision": 0.6817460060119629,
+          "slot_recall": 0.6684054136276245,
+          "slot_f1": 0.6750097870826721,
+          "count_correlation": 0.5171559453010559,
+          "predicted_births": 68040.0,
+          "target_births": 69398.0
+        },
+        "null": {
+          "cell_count_mae": 6.701171875,
+          "cell_log_count_mae": 0.7034605145454407,
+          "total_count_ratio": 0.8265367746353149,
+          "occupancy_precision": 0.9682539701461792,
+          "occupancy_recall": 0.9503810405731201,
+          "occupancy_f1": 0.9592342972755432,
+          "occupancy_iou": 0.9216620326042175,
+          "slot_precision": 0.7460425496101379,
+          "slot_recall": 0.6166316270828247,
+          "slot_f1": 0.6751920580863953,
+          "count_correlation": 0.5366955995559692,
+          "predicted_births": 57360.0,
+          "target_births": 69398.0
+        },
+        "correct_no_carry": {
+          "cell_count_mae": 5.047200679779053,
+          "cell_log_count_mae": 0.356953501701355,
+          "total_count_ratio": 1.2747918367385864,
+          "occupancy_precision": 0.9762144088745117,
+          "occupancy_recall": 0.986960232257843,
+          "occupancy_f1": 0.9815579652786255,
+          "occupancy_iou": 0.9637836813926697,
+          "slot_precision": 0.7169598340988159,
+          "slot_recall": 0.9139744639396667,
+          "slot_f1": 0.80356764793396,
+          "count_correlation": 0.7045272787412008,
+          "predicted_births": 88468.0,
+          "target_births": 69398.0
+        },
+        "train_mean": {
+          "cell_count_mae": 6.136393070220947,
+          "cell_log_count_mae": 0.5980517268180847,
+          "total_count_ratio": 0.9910948276519775,
+          "occupancy_precision": 0.9610939025878906,
+          "occupancy_recall": 0.9998306632041931,
+          "occupancy_f1": 0.9800796508789062,
+          "occupancy_iou": 0.9609375,
+          "slot_precision": 0.7304158210754395,
+          "slot_recall": 0.7239113450050354,
+          "slot_f1": 0.7271490693092346,
+          "count_correlation": 0.559499075015386,
+          "predicted_births": 68780.0,
+          "target_births": 69398.0
+        }
+      },
+      "ApplyEyeMakeup": {
+        "correct": {
+          "cell_count_mae": 0.2047526091337204,
+          "cell_log_count_mae": 0.00552035728469491,
+          "total_count_ratio": 0.997687578201294,
+          "occupancy_precision": 1.0,
+          "occupancy_recall": 1.0,
+          "occupancy_f1": 1.0,
+          "occupancy_iou": 1.0,
+          "slot_precision": 0.9920471906661987,
+          "slot_recall": 0.9897531270980835,
+          "slot_f1": 0.990898847579956,
+          "count_correlation": 0.9957371354103088,
+          "predicted_births": 69032.0,
+          "target_births": 69192.0
+        },
+        "shuffled": {
+          "cell_count_mae": 6.555826663970947,
+          "cell_log_count_mae": 0.5611615180969238,
+          "total_count_ratio": 1.0430541038513184,
+          "occupancy_precision": 0.975970447063446,
+          "occupancy_recall": 0.9822425246238708,
+          "occupancy_f1": 0.9790964722633362,
+          "occupancy_iou": 0.959048867225647,
+          "slot_precision": 0.7003089785575867,
+          "slot_recall": 0.7304601669311523,
+          "slot_f1": 0.7150668501853943,
+          "count_correlation": 0.6714005072911581,
+          "predicted_births": 72171.0,
+          "target_births": 69192.0
+        },
+        "null": {
+          "cell_count_mae": 7.145345211029053,
+          "cell_log_count_mae": 0.701652467250824,
+          "total_count_ratio": 0.8378569483757019,
+          "occupancy_precision": 0.9736796021461487,
+          "occupancy_recall": 0.9446980953216553,
+          "occupancy_f1": 0.9589699506759644,
+          "occupancy_iou": 0.921174168586731,
+          "slot_precision": 0.718127429485321,
+          "slot_recall": 0.601688027381897,
+          "slot_f1": 0.6547713875770569,
+          "count_correlation": 0.54925936460495,
+          "predicted_births": 57973.0,
+          "target_births": 69192.0
+        },
+        "correct_no_carry": {
+          "cell_count_mae": 5.17431640625,
+          "cell_log_count_mae": 0.36840352416038513,
+          "total_count_ratio": 1.270305871963501,
+          "occupancy_precision": 0.9813225865364075,
+          "occupancy_recall": 0.9863013625144958,
+          "occupancy_f1": 0.9838057160377502,
+          "occupancy_iou": 0.9681274890899658,
+          "slot_precision": 0.7127595543861389,
+          "slot_recall": 0.905422568321228,
+          "slot_f1": 0.7976216673851013,
+          "count_correlation": 0.7453943689664205,
+          "predicted_births": 87895.0,
+          "target_births": 69192.0
+        },
+        "train_mean": {
+          "cell_count_mae": 5.65625,
+          "cell_log_count_mae": 0.5212274193763733,
+          "total_count_ratio": 0.9940455555915833,
+          "occupancy_precision": 0.9625589847564697,
+          "occupancy_recall": 1.0,
+          "occupancy_f1": 0.9809223413467407,
+          "occupancy_iou": 0.9625589847564697,
+          "slot_precision": 0.7503634691238403,
+          "slot_recall": 0.745895504951477,
+          "slot_f1": 0.7481228113174438,
+          "count_correlation": 0.7019933263460795,
+          "predicted_births": 68780.0,
+          "target_births": 69192.0
+        }
+      }
+    }
+  },
+  "oracle_rollouts": {
+    "00_basketball_evaluation_00_seed42003__style_reconstruction": {
+      "windows": [
+        {
+          "index": 0,
+          "frontier": 0,
+          "commit_stop": 16,
+          "carried_jewels": 0,
+          "target_births": 30371,
+          "predicted_births": 30296,
+          "oracle_matched_births": 30083,
+          "unmaterialized_false_positive_births": 213
+        },
+        {
+          "index": 1,
+          "frontier": 16,
+          "commit_stop": 32,
+          "carried_jewels": 13973,
+          "target_births": 23303,
+          "predicted_births": 23280,
+          "oracle_matched_births": 23158,
+          "unmaterialized_false_positive_births": 122
+        },
+        {
+          "index": 2,
+          "frontier": 32,
+          "commit_stop": 48,
+          "carried_jewels": 14509,
+          "target_births": 16637,
+          "predicted_births": 16616,
+          "oracle_matched_births": 16586,
+          "unmaterialized_false_positive_births": 30
+        }
+      ],
+      "completed_frames": 48,
+      "emitted_jewels": 69827,
+      "stable_ids_unique": true,
+      "max_carry_feature_error": 0.0,
+      "topology": {
+        "cell_count_mae": 0.13818359375,
+        "cell_log_count_mae": 0.0035470647271722555,
+        "total_count_ratio": 0.9983075261116028,
+        "occupancy_precision": 1.0,
+        "occupancy_recall": 1.0,
+        "occupancy_f1": 1.0,
+        "occupancy_iou": 1.0,
+        "slot_precision": 0.9947999715805054,
+        "slot_recall": 0.9931163191795349,
+        "slot_f1": 0.9939574599266052,
+        "count_correlation": 0.9974700013796488,
+        "predicted_births": 70192.0,
+        "target_births": 70311.0
+      },
+      "oracle_retained_density": {
+        "effective": {
+          "mean": 7523.45556640625,
+          "median": 8031.99658203125,
+          "min": 5616.08935546875,
+          "max": 8371.6015625
+        },
+        "target_effective": {
+          "mean": 7576.623046875,
+          "median": 8089.12890625,
+          "min": 5712.951171875,
+          "max": 8408.9443359375
+        },
+        "effective_mean_ratio": 0.9929826855659485,
+        "above_5_percent_alpha": {
+          "mean": 8855.7919921875,
+          "median": 9343.0,
+          "min": 6622.0,
+          "max": 9823.0
+        },
+        "target_above_5_percent_alpha": {
+          "mean": 8917.125,
+          "median": 9377.0,
+          "min": 6739.0,
+          "max": 9866.0
+        }
+      },
+      "oracle_mark_policy": "Materialize only target marks whose predicted cell/rank exists; report but do not render false-positive ranks. Density is therefore an optimistic topology-recall bound."
+    },
+    "01_horseriding_evaluation_00_seed42103__style_reconstruction": {
+      "windows": [
+        {
+          "index": 0,
+          "frontier": 0,
+          "commit_stop": 16,
+          "carried_jewels": 0,
+          "target_births": 23857,
+          "predicted_births": 23834,
+          "oracle_matched_births": 23794,
+          "unmaterialized_false_positive_births": 40
+        },
+        {
+          "index": 1,
+          "frontier": 16,
+          "commit_stop": 32,
+          "carried_jewels": 7364,
+          "target_births": 23621,
+          "predicted_births": 23586,
+          "oracle_matched_births": 23462,
+          "unmaterialized_false_positive_births": 124
+        },
+        {
+          "index": 2,
+          "frontier": 32,
+          "commit_stop": 48,
+          "carried_jewels": 8687,
+          "target_births": 18872,
+          "predicted_births": 18955,
+          "oracle_matched_births": 18619,
+          "unmaterialized_false_positive_births": 336
+        }
+      ],
+      "completed_frames": 48,
+      "emitted_jewels": 65875,
+      "stable_ids_unique": true,
+      "max_carry_feature_error": 0.0,
+      "topology": {
+        "cell_count_mae": 0.15869140625,
+        "cell_log_count_mae": 0.02135126106441021,
+        "total_count_ratio": 1.00037682056427,
+        "occupancy_precision": 0.998212993144989,
+        "occupancy_recall": 0.9973219037055969,
+        "occupancy_f1": 0.9977672100067139,
+        "occupancy_iou": 0.9955444931983948,
+        "slot_precision": 0.9924670457839966,
+        "slot_recall": 0.9928410053253174,
+        "slot_f1": 0.992654025554657,
+        "count_correlation": 0.9977739055951437,
+        "predicted_births": 66375.0,
+        "target_births": 66350.0
+      },
+      "oracle_retained_density": {
+        "effective": {
+          "mean": 4222.24169921875,
+          "median": 4480.2861328125,
+          "min": 1996.4005126953125,
+          "max": 5189.9736328125
+        },
+        "target_effective": {
+          "mean": 4256.5673828125,
+          "median": 4497.9677734375,
+          "min": 2018.254150390625,
+          "max": 5230.27099609375
+        },
+        "effective_mean_ratio": 0.9919358491897583,
+        "above_5_percent_alpha": {
+          "mean": 5055.33349609375,
+          "median": 5394.0,
+          "min": 2357.0,
+          "max": 6210.0
+        },
+        "target_above_5_percent_alpha": {
+          "mean": 5096.375,
+          "median": 5417.0,
+          "min": 2373.0,
+          "max": 6255.0
+        }
+      },
+      "oracle_mark_policy": "Materialize only target marks whose predicted cell/rank exists; report but do not render false-positive ranks. Density is therefore an optimistic topology-recall bound."
+    },
+    "02_playingguitar_evaluation_00_seed42203__style_reconstruction": {
+      "windows": [
+        {
+          "index": 0,
+          "frontier": 0,
+          "commit_stop": 16,
+          "carried_jewels": 0,
+          "target_births": 29349,
+          "predicted_births": 29306,
+          "oracle_matched_births": 29018,
+          "unmaterialized_false_positive_births": 288
+        },
+        {
+          "index": 1,
+          "frontier": 16,
+          "commit_stop": 32,
+          "carried_jewels": 11316,
+          "target_births": 22270,
+          "predicted_births": 22052,
+          "oracle_matched_births": 21781,
+          "unmaterialized_false_positive_births": 271
+        },
+        {
+          "index": 2,
+          "frontier": 32,
+          "commit_stop": 48,
+          "carried_jewels": 11406,
+          "target_births": 17779,
+          "predicted_births": 17670,
+          "oracle_matched_births": 17378,
+          "unmaterialized_false_positive_births": 292
+        }
+      ],
+      "completed_frames": 48,
+      "emitted_jewels": 68177,
+      "stable_ids_unique": true,
+      "max_carry_feature_error": 0.0,
+      "topology": {
+        "cell_count_mae": 0.3372395932674408,
+        "cell_log_count_mae": 0.029093710705637932,
+        "total_count_ratio": 0.9946684241294861,
+        "occupancy_precision": 0.999829888343811,
+        "occupancy_recall": 0.9954276084899902,
+        "occupancy_f1": 0.997623860836029,
+        "occupancy_iou": 0.9952590465545654,
+        "slot_precision": 0.9876716732978821,
+        "slot_recall": 0.9824058413505554,
+        "slot_f1": 0.9850317239761353,
+        "count_correlation": 0.9926547209421793,
+        "predicted_births": 69028.0,
+        "target_births": 69398.0
+      },
+      "oracle_retained_density": {
+        "effective": {
+          "mean": 6078.26611328125,
+          "median": 6380.30029296875,
+          "min": 4264.69775390625,
+          "max": 6802.4326171875
+        },
+        "target_effective": {
+          "mean": 6191.89990234375,
+          "median": 6515.0634765625,
+          "min": 4375.666015625,
+          "max": 6957.83837890625
+        },
+        "effective_mean_ratio": 0.9816479682922363,
+        "above_5_percent_alpha": {
+          "mean": 7365.3125,
+          "median": 7754.0,
+          "min": 5324.0,
+          "max": 8170.0
+        },
+        "target_above_5_percent_alpha": {
+          "mean": 7503.14599609375,
+          "median": 7892.0,
+          "min": 5461.0,
+          "max": 8313.0
+        }
+      },
+      "oracle_mark_policy": "Materialize only target marks whose predicted cell/rank exists; report but do not render false-positive ranks. Density is therefore an optimistic topology-recall bound."
+    },
+    "03_applyeyemakeup_evaluation_00_seed42303__style_reconstruction": {
+      "windows": [
+        {
+          "index": 0,
+          "frontier": 0,
+          "commit_stop": 16,
+          "carried_jewels": 0,
+          "target_births": 29444,
+          "predicted_births": 29309,
+          "oracle_matched_births": 28930,
+          "unmaterialized_false_positive_births": 379
+        },
+        {
+          "index": 1,
+          "frontier": 16,
+          "commit_stop": 32,
+          "carried_jewels": 10770,
+          "target_births": 21969,
+          "predicted_births": 21908,
+          "oracle_matched_births": 21742,
+          "unmaterialized_false_positive_births": 166
+        },
+        {
+          "index": 2,
+          "frontier": 32,
+          "commit_stop": 48,
+          "carried_jewels": 10815,
+          "target_births": 17779,
+          "predicted_births": 17744,
+          "oracle_matched_births": 17606,
+          "unmaterialized_false_positive_births": 138
+        }
+      ],
+      "completed_frames": 48,
+      "emitted_jewels": 68278,
+      "stable_ids_unique": true,
+      "max_carry_feature_error": 0.0,
+      "topology": {
+        "cell_count_mae": 0.2599283754825592,
+        "cell_log_count_mae": 0.009155050851404667,
+        "total_count_ratio": 0.9966614842414856,
+        "occupancy_precision": 1.0,
+        "occupancy_recall": 0.9998309016227722,
+        "occupancy_f1": 0.9999154210090637,
+        "occupancy_iou": 0.9998309016227722,
+        "slot_precision": 0.990095853805542,
+        "slot_recall": 0.9867903590202332,
+        "slot_f1": 0.9884403347969055,
+        "count_correlation": 0.995322028795878,
+        "predicted_births": 68961.0,
+        "target_births": 69192.0
+      },
+      "oracle_retained_density": {
+        "effective": {
+          "mean": 5756.87060546875,
+          "median": 6215.34228515625,
+          "min": 4085.698974609375,
+          "max": 6366.302734375
+        },
+        "target_effective": {
+          "mean": 5831.52685546875,
+          "median": 6281.837890625,
+          "min": 4144.80322265625,
+          "max": 6427.9091796875
+        },
+        "effective_mean_ratio": 0.9871978163719177,
+        "above_5_percent_alpha": {
+          "mean": 7142.58349609375,
+          "median": 7702.0,
+          "min": 5042.0,
+          "max": 7875.0
+        },
+        "target_above_5_percent_alpha": {
+          "mean": 7233.85400390625,
+          "median": 7770.0,
+          "min": 5093.0,
+          "max": 7949.0
+        }
+      },
+      "oracle_mark_policy": "Materialize only target marks whose predicted cell/rank exists; report but do not render false-positive ranks. Density is therefore an optimistic topology-recall bound."
+    }
+  }
+}

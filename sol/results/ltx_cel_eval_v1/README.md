@@ -79,6 +79,16 @@ broad long-lived jewels for region interiors and narrow motion-aligned jewels fo
 edge-aware sampling or densification. The style remains a promising product wedge if that control
 retains the 35.7% flat-region advantage while removing the 62.3% contour penalty.
 
+At the user's explicit direction, a clearly labelled same-field generator adaptation was run before
+that allocation control. It is retained under `generator_adaptation/` as an adaptation/memorization
+probe, not evidence against this decision or evidence of unseen generalization. The transferred
+topology and stochastic mark models train successfully on all four fields and show strong
+correct-versus-shuffled/null scaffold separation. Their fitted-seed-free three-window rollout
+reaches 15.401 dB / 0.4270 SSIM, versus 12.642 / 0.0571 shuffled and 14.758 / 0.0741 null, while
+holding 6,093 effective contributors per frame. Recognizable structure is real, but quiet temporal
+error remains 5.18x the fitted ceiling, so appearance/stability—not count—is the next generator
+bottleneck.
+
 `fit_gate_72k/contact_sheet.png` stacks all four source/reconstruction/error audits. Each class
 folder contains the full 49-frame comparison GIF, contact sheet, and exact-render report.
 `cel_metrics.json`, `photoreal_metrics.json`, `density.json`, and `summary.json` retain the complete

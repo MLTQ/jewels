@@ -39,6 +39,9 @@ generation and sequential carry, but keeps mark synthesis oracle-controlled.
 - **Does**: Trains batched count fields, records correct/shuffled/null/no-carry controls, saves a
   resumable checkpoint, and performs three-stride oracle-mark LTX rollouts with exact stable-ID
   carry and density audits.
+- **Transfer path**: `--transfer-from` imports only architecture-compatible model weights, starts a
+  fresh optimizer/scaler on the destination field statistics, and serializes source/destination
+  manifest provenance.
 
 ## Contracts
 
@@ -49,6 +52,7 @@ generation and sequential carry, but keeps mark synthesis oracle-controlled.
 | LTX evaluation | 49 frames yield frontiers 0, 16, and 32 | Stride/window policy |
 | Recovery | Checkpoint stores optimizer/scaler/model and exact manifest/grid arguments | Save schema |
 | Next realizer coupling | Decoded counts/ranks share the frozen `16×16×8` topology | Grid semantics |
+| Cross-corpus adaptation | Transfer never imports optimizer momentum or silently changes rank capacity | Initialization policy |
 
 ## Notes
 
