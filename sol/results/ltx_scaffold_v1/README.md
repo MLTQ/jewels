@@ -180,3 +180,13 @@ audit fails: macro-layout visibly regresses versus the UCF-trained arm while pat
 rewards the improved local statistics. The domain gain is real at the feature level, the metric
 divergence is itself a finding, and this arm's entire supervision chain is teacher-generated:
 quality is priced in compute alone. See [`ltx_domain_v1/README.md`](ltx_domain_v1/README.md).
+
+## Layout-divergence diagnosis
+
+A texture-blind layout metric (factor-8 pooled PSNR/SSIM, now in every perceptual report)
+quantifies the domain-matched visual regression: layout ranks UCF > mixed > domain — the exact
+reverse of LPIPS. Matched steps-per-view rules out overexposure; a mixed 24-source stack
+interpolates on every axis, so teacher-domain fits and real-video fields are complementary
+(texture/feature accuracy vs macro-structure). All generated arms remain far below the blur
+baseline on layout, making the structure crossover the scaling program's gating milestone. See
+[`layout_divergence_v1/README.md`](layout_divergence_v1/README.md).

@@ -1193,6 +1193,17 @@ three lenses: the cross-domain tax on the feature objective was large and is now
 every input to this arm's supervision is teacher-generated --- prompt-matched videos, fitted
 fields, and minutes of training, priced in compute alone.
 
+The divergence itself was then diagnosed. A layout signature (average-pooling texture away at
+factor 8 before scoring) quantifies what the contact sheets showed: layout PSNR ranks the
+UCF-trained arm above mixed above domain-matched (15.33 / 14.19 / 13.38) --- the exact reverse
+of LPIPS --- so the battery now reports texture and structure separately. A matched
+steps-per-view retrain worsens layout further, ruling out overexposure; a mixed 24-source stack
+interpolates between the pure corpora on every axis, showing the two supervision sources are
+complementary: teacher-domain fits supply feature and texture accuracy, real-video fields
+supply macro-structure. Every generated arm still sits far below the trivial baseline on layout
+(15.7 versus 22.6 at best), making the structure crossover --- not the texture crossover ---
+the milestone the scaling program gates on per corpus doubling.
+
 \subsection{Foreground weighting exposes lifecycle--appearance coupling}
 
 We initialize four 1,000-update arms from the passing universal flow. Target-derived scaffold
