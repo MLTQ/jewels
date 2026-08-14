@@ -12,6 +12,8 @@ Protects the empty-state initial generation and two subsequent strides of append
   strides, all-rank synthesis, contiguous stable IDs, and zero prior/carry mutation.
 - **Boundary control**: Asserts the default policy is censored only at frontier zero and that the
   matched legacy control can make that first frontier strict.
+- **Topology attribution**: Verifies an externally owned per-window count sequence bypasses the
+  topology predictor, is retained exactly, and still produces append-only generated marks.
 - **Interacts with**: `scaffold_mark_rollout.py`.
 
 ## Contracts
@@ -20,3 +22,4 @@ Protects the empty-state initial generation and two subsequent strides of append
 |---|---|---|
 | Autonomous demo | Three guides create initial plus two continuations | Frontier sequence |
 | Jewel editor | IDs are contiguous and existing features remain bit-identical | Append policy |
+| Paired mark-model gate | Candidate counts/ranks exactly match the base-owned sequence | Ownership |

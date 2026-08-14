@@ -8,6 +8,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+from sol.birth_set_coupling import NeighborhoodBirthSetBlock, rasterize_set_moments
 from sol.latent_prior import timestep_embedding
 from sol.splat_density import temporal_standard_deviation
 from sol.streaming_model import ContextRasterEncoder, ResidualMLP, _rank_basis
@@ -20,20 +21,7 @@ def rasterize_noisy_marks(
     """Pool one noisy variable-cardinality mark set into local raster statistics."""
     if values.ndim != 2 or values.shape[1] != 22:
         raise ValueError("noisy marks must have shape (N,22)")
-    if cell_indices.shape != (len(values),) or cell_indices.dtype != torch.long:
-        raise ValueError("cell_indices must be one int64 value per mark")
-    if n_cells <= 0 or (len(cell_indices) and int(cell_indices.max()) >= n_cells):
-        raise ValueError("cell indices exceed the declared raster")
-    total = values.new_zeros(n_cells, values.shape[1])
-    square = torch.zeros_like(total)
-    count = values.new_zeros(n_cells, 1)
-    expanded = cell_indices[:, None].expand_as(values)
-    total.scatter_add_(0, expanded, values)
-    square.scatter_add_(0, expanded, values.square())
-    count.scatter_add_(0, cell_indices[:, None], values.new_ones(len(values), 1))
-    mean = total / count.clamp_min(1)
-    variance = (square / count.clamp_min(1) - mean.square()).clamp_min(0)
-    return torch.cat((mean, variance, count.log1p(), (count > 0).to(values)), dim=1)
+    return rasterize_set_moments(values, cell_indices, n_cells)
 
 
 class BirthMarkFlowModel(nn.Module):
@@ -55,6 +43,8 @@ class BirthMarkFlowModel(nn.Module):
         guide_dim: int = 0,
         guide_token_dim: int = 0,
         guide_heads: int = 8,
+        set_depth: int = 0,
+        set_raster_depth: int = 0,
     ) -> None:
         super().__init__()
         if feature_dim != 22:
@@ -65,12 +55,18 @@ class BirthMarkFlowModel(nn.Module):
             raise ValueError("text_dim must be positive and guide dimensions non-negative")
         if guide_heads <= 0 or (guide_token_dim and model_dim % guide_heads):
             raise ValueError("guide heads must be positive and divide model_dim")
+        if set_depth < 0 or set_raster_depth < 0:
+            raise ValueError("set depths must be non-negative")
+        if not set_depth and set_raster_depth:
+            raise ValueError("set_raster_depth requires at least one set block")
         self.feature_dim = feature_dim
         self.model_dim = model_dim
         self.grid_spec = grid_spec
         self.text_dim = text_dim
         self.guide_dim = guide_dim
         self.guide_token_dim = guide_token_dim
+        self.set_depth = set_depth
+        self.set_raster_depth = set_raster_depth
         self.context_encoder = ContextRasterEncoder(
             context_dim, model_dim, grid_spec.shape, context_depth
         )
@@ -115,6 +111,14 @@ class BirthMarkFlowModel(nn.Module):
         )
         self.rank_projection = nn.Linear(8, model_dim)
         self.noisy_mark_projection = nn.Linear(feature_dim, model_dim)
+        self.set_blocks = nn.ModuleList(
+            NeighborhoodBirthSetBlock(
+                model_dim,
+                grid_spec.shape,
+                raster_depth=set_raster_depth,
+            )
+            for _ in range(set_depth)
+        )
         self.mark_blocks = nn.ModuleList(
             ResidualMLP(model_dim) for _ in range(mark_depth)
         )
@@ -245,6 +249,8 @@ class BirthMarkFlowModel(nn.Module):
                 need_weights=False,
             )[0][:, 0]
             hidden = self.guide_attention_norm(hidden + attended)
+        for block in self.set_blocks:
+            hidden = block(hidden, cell_indices)
         for block in self.mark_blocks:
             hidden = block(hidden)
         return self.velocity_head(hidden)

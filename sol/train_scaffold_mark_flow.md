@@ -49,6 +49,15 @@ complete stride, removing the continuation-only 512-rank/fitted-prefix limitatio
   `--transfer-from` path imports model-only weights from a compatible corpus and records both
   manifest digests. `--initial-repeat` and optional frontier-anchored render patches support a
   bounded visual correction without restarting the feature-trained flow.
+- **Coupled-set augmentation**: `--set-depth 1 --augment-from ...` adds a zero-residual learned
+  cell/neighborhood set block while loading every shared tensor from the selected same-manifest
+  base. `--freeze-base-on-augment` trains only the new block, making the first experiment an exact
+  architectural attribution rather than an unconstrained full-model fine-tune. That frozen mode
+  rejects `--learn-single-background`, which would otherwise add an unrelated trainable color
+  parameter.
+- **Selection snapshots**: `--snapshot-every N` retains immutable numbered checkpoints while the
+  ordinary latest checkpoint remains resumable. This prevents a late coupled-set regression from
+  erasing the best predeclared evaluation screen.
 - **Contribution correction**: An optional loss matches per-jewel alpha, cell alpha mass, and soft
   5%-visible counts exactly at local frontier time zero, addressing weak lifecycle tails directly.
 - **Single-field background**: `--learn-single-background` optimizes a sigmoid-bounded RGB
@@ -82,6 +91,8 @@ complete stride, removing the continuation-only 512-rank/fitted-prefix limitatio
 | Motion-aware ablation | Saliency fraction and all component weights are checkpointed | Loss policy |
 | Salient feature ablation | Cell saliency is guide-owned and never changes mark topology | Ownership |
 | Cross-corpus adaptation | Transfer validates the exact architecture/grid/rank basis and starts a fresh optimizer | Initialization policy |
+| Coupled-set spike | Augmentation may omit only `set_blocks.*`; base freezing is checkpointed | Partial-load policy |
+| Checkpoint selection | Numbered snapshots carry the same state/provenance as latest | Save cadence |
 | Single-field memorization | Learned background starts from causal guide RGB, not fitted metadata | Gauge ownership |
 
 ## Notes
@@ -89,3 +100,5 @@ complete stride, removing the continuation-only 512-rank/fitted-prefix limitatio
 - This first gate retains the selected cell-RGB guide rather than pre-emptively adding multiscale
   attention. A visual failure can then be attributed before expanding the architecture.
 - Render updates are cadence-corrected so `render_weight` retains its expected scale.
+- Set depth zero omits the new constructor arguments from metadata, preserving exact compatibility
+  with historical v1 checkpoints.

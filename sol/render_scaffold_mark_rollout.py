@@ -75,6 +75,37 @@ def _panel_names(lifecycle_appearance: bool) -> tuple[str, ...]:
     )
 
 
+def _base_lock_report(
+    base_state: dict[str, torch.Tensor],
+    candidate_state: dict[str, torch.Tensor],
+    *,
+    added_prefixes: tuple[str, ...],
+) -> dict[str, int | bool]:
+    """Require every non-augmentation tensor to remain exact."""
+    if not added_prefixes:
+        raise ValueError("base-lock validation requires added state prefixes")
+    shared = {
+        name: value
+        for name, value in candidate_state.items()
+        if not name.startswith(added_prefixes)
+    }
+    added = [name for name in candidate_state if name.startswith(added_prefixes)]
+    if not added:
+        raise ValueError("candidate checkpoint contains no augmented state")
+    if shared.keys() != base_state.keys():
+        raise ValueError("candidate and paired base have different shared state keys")
+    mismatched = [
+        name for name, value in shared.items() if not torch.equal(value, base_state[name])
+    ]
+    if mismatched:
+        raise ValueError("candidate modified tensors owned by the paired base")
+    return {
+        "shared_tensors_exact": True,
+        "shared_tensor_count": len(shared),
+        "added_tensor_count": len(added),
+    }
+
+
 def _correct_panel_names(paired_appearance: bool) -> tuple[str, ...]:
     if not paired_appearance:
         return ("LTX scaffold", "fitted jewel ceiling", "generated correct")
@@ -90,6 +121,10 @@ def _parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--topology", required=True)
     parser.add_argument("--mark-flow", required=True)
+    parser.add_argument(
+        "--paired-base-flow",
+        help="base mark flow that owns exact counts/ranks for an augmented-model audit",
+    )
     parser.add_argument("--appearance-flow")
     parser.add_argument("--appearance-adapter")
     parser.add_argument(
@@ -286,6 +321,10 @@ def main() -> None:
         raise ValueError("appearance strength must lie inside [0,1]")
     if args.appearance_flow and args.appearance_adapter:
         raise ValueError("appearance flow and compact adapter are mutually exclusive")
+    if args.paired_base_flow and (args.appearance_flow or args.appearance_adapter):
+        raise ValueError(
+            "paired base flow and appearance mechanisms are mutually exclusive"
+        )
     device = torch.device(args.device)
     _configure_determinism(args.deterministic, device)
     manifest = json.loads(Path(args.manifest).read_text())
@@ -353,6 +392,59 @@ def main() -> None:
             raise ValueError("reconstructed standardizers differ from the mark flow")
     if flow_meta.get("background_contract") != "initial_scaffold_rgb_mean":
         raise ValueError("mark flow declares an unsupported background contract")
+    paired_base_flow = None
+    paired_base_meta = None
+    base_lock = None
+    if args.paired_base_flow:
+        paired_base_saved = torch.load(
+            args.paired_base_flow, map_location="cpu", weights_only=False
+        )
+        paired_base_meta = paired_base_saved["meta"]
+        if paired_base_meta.get("architecture") != "scaffold_birth_mark_flow_v1":
+            raise ValueError("paired base checkpoint is not a scaffold mark flow")
+        if paired_base_meta.get("manifest_sha256") != prompt_cache.manifest_sha256:
+            raise ValueError("paired base checkpoint does not own this manifest")
+        paired_base_spec = GridSpec(
+            tuple(paired_base_meta["grid_shape"]),
+            int(paired_base_meta["slots_per_cell"]),
+        )
+        candidate_base_args = {
+            name: value
+            for name, value in flow_meta["model_args"].items()
+            if name not in {"set_depth", "set_raster_depth"}
+        }
+        if int(flow_meta["model_args"].get("set_depth", 0)) <= 0:
+            raise ValueError("paired base audit requires an augmented candidate")
+        if paired_base_spec != flow_spec or (
+            paired_base_meta["model_args"] != candidate_base_args
+        ):
+            raise ValueError("candidate and paired base have incompatible models")
+        paired_base_args = paired_base_meta["train_args"]
+        for name in ("stride_frames", "support_sigma"):
+            if paired_base_args[name] != flow_args[name]:
+                raise ValueError(f"candidate and paired base disagree on {name}")
+        for name in ("context_standardizer", "birth_standardizer"):
+            for statistic in ("mean", "std"):
+                if not torch.equal(
+                    paired_base_meta[name][statistic], flow_meta[name][statistic]
+                ):
+                    raise ValueError(
+                        f"candidate and paired base disagree on {name}"
+                    )
+        if paired_base_meta.get("background_contract") != flow_meta.get(
+            "background_contract"
+        ):
+            raise ValueError("candidate and paired base background contracts differ")
+        base_lock = _base_lock_report(
+            paired_base_saved["model"],
+            flow_saved["model"],
+            added_prefixes=("set_blocks.",),
+        )
+        paired_base_flow = BirthMarkFlowModel(
+            grid_spec=paired_base_spec, **paired_base_meta["model_args"]
+        ).to(device)
+        paired_base_flow.load_state_dict(paired_base_saved["model"])
+        paired_base_flow.eval()
     appearance_flow = None
     appearance_meta = None
     if args.appearance_flow:
@@ -496,10 +588,12 @@ def main() -> None:
     predicted_counts = {name: [] for name in controls}
     target_counts = []
     paired_appearance = appearance_flow is not None or appearance_adapter is not None
+    paired_topology = paired_base_flow is not None
+    paired_control = paired_appearance or paired_topology
     panels = (
-        _correct_panel_names(paired_appearance)
+        _correct_panel_names(paired_control)
         if args.correct_only
-        else _panel_names(paired_appearance)
+        else _panel_names(paired_control)
     )
     for source in selected_sources:
         source_id = source.field.source_id
@@ -525,6 +619,7 @@ def main() -> None:
         paired_rollouts: dict[
             str, LifecycleAppearanceRollout | AppearanceAdapterRollout
         ] = {}
+        paired_base_rollouts: dict[str, ScaffoldMarkRollout] = {}
         for name, control_guides in source_guides.items():
             generator = torch.Generator(device=device).manual_seed(
                 source_seed
@@ -540,7 +635,35 @@ def main() -> None:
                 "generator": generator,
                 "allow_initial_prefrontier": not args.strict_initial_boundary,
             }
-            if not paired_appearance:
+            if paired_topology:
+                if paired_base_flow is None:
+                    raise AssertionError("paired topology mode lacks a base flow")
+                paired_base_rollouts[name] = rollout_scaffold_marks(
+                    topology,
+                    paired_base_flow,
+                    control_guides,
+                    text,
+                    context_standardizer,
+                    birth_standardizer,
+                    **rollout_arguments,
+                )
+                candidate_arguments = dict(rollout_arguments)
+                candidate_arguments["generator"] = torch.Generator(
+                    device=device
+                ).manual_seed(source_seed)
+                candidate_arguments["owned_counts"] = paired_base_rollouts[
+                    name
+                ].counts
+                rollouts[name] = rollout_scaffold_marks(
+                    topology,
+                    flow,
+                    control_guides,
+                    text,
+                    context_standardizer,
+                    birth_standardizer,
+                    **candidate_arguments,
+                )
+            elif not paired_appearance:
                 rollouts[name] = rollout_scaffold_marks(
                     topology,
                     flow,
@@ -635,6 +758,15 @@ def main() -> None:
                 height=args.height,
                 width=args.width,
             )
+        elif paired_base_rollouts:
+            rendered["generated frozen base"] = _render_field(
+                paired_base_rollouts["correct"].features,
+                points,
+                background,
+                frames=completed_frames,
+                height=args.height,
+                width=args.width,
+            )
         rendered_controls = (
             (("correct", "generated correct"),)
             if args.correct_only
@@ -699,6 +831,14 @@ def main() -> None:
                 corpus.stride_frames,
                 corpus.support_sigma,
             )
+        elif paired_base_rollouts:
+            density["generated frozen base"] = _density_report(
+                paired_base_rollouts["correct"].features,
+                source.field.frames,
+                completed_frames,
+                corpus.stride_frames,
+                corpus.support_sigma,
+            )
         animation = [
             _row([_panel(rendered[name][frame], name, args.upscale) for name in panels])
             for frame in range(completed_frames)
@@ -734,6 +874,30 @@ def main() -> None:
         contact.save(output_dir / contact_name)
         aggregate_rows.append(animation[2 * corpus.stride_frames])
         field_name = f"{source_id}_generated_field.pt"
+        mark_only_attribution = None
+        if paired_base_rollouts:
+            mark_only_attribution = {}
+            for name in controls:
+                base_rollout = paired_base_rollouts[name]
+                candidate_rollout = rollouts[name]
+                mark_only_attribution[name] = {
+                    "counts_exact": all(
+                        torch.equal(base, candidate)
+                        for base, candidate in zip(
+                            base_rollout.counts, candidate_rollout.counts
+                        )
+                    ),
+                    "birth_budget_exact": len(base_rollout.features)
+                    == len(candidate_rollout.features),
+                    "base_stable_ids_exact": base_rollout.report[
+                        "stable_ids_exact"
+                    ],
+                    "candidate_stable_ids_exact": candidate_rollout.report[
+                        "stable_ids_exact"
+                    ],
+                    "base_topology_contract": base_rollout.topology_contract,
+                    "candidate_topology_contract": candidate_rollout.topology_contract,
+                }
         field_payload = {
             "features": rollouts["correct"].features,
             "global_ids": rollouts["correct"].global_ids,
@@ -748,6 +912,16 @@ def main() -> None:
                     ].base.features,
                     "lifecycle_appearance": paired_rollouts["correct"].report,
                     "appearance_adapter_checkpoint": args.appearance_adapter,
+                }
+            )
+        elif paired_base_rollouts:
+            field_payload.update(
+                {
+                    "frozen_base_features": paired_base_rollouts[
+                        "correct"
+                    ].features,
+                    "mark_only_attribution": mark_only_attribution["correct"],
+                    "paired_base_flow_checkpoint": args.paired_base_flow,
                 }
             )
         torch.save(field_payload, output_dir / field_name)
@@ -775,6 +949,7 @@ def main() -> None:
                 if paired_rollouts
                 else None
             ),
+            "mark_only_attribution": mark_only_attribution,
             "artifacts": {
                 "gif": gif_name,
                 "contact_sheet": contact_name,
@@ -857,14 +1032,38 @@ def main() -> None:
                 else "second_full_flow"
             ),
         }
+    mark_only_report = None
+    if paired_topology:
+        paired = [
+            control
+            for record in records
+            for control in record["mark_only_attribution"].values()
+        ]
+        mark_only_report = {
+            "all_counts_exact": all(item["counts_exact"] for item in paired),
+            "all_birth_budgets_exact": all(
+                item["birth_budget_exact"] for item in paired
+            ),
+            "all_stable_ids_exact": all(
+                item["base_stable_ids_exact"]
+                and item["candidate_stable_ids_exact"]
+                for item in paired
+            ),
+            "controls_audited": len(paired),
+            "base_lock": base_lock,
+        }
     summary = {
         "schema": (
-            "scaffold-mark-rgb-adapter-rollout-v1"
-            if appearance_adapter is not None
+            "scaffold-mark-paired-topology-rollout-v1"
+            if paired_topology
             else (
-                "scaffold-mark-lifecycle-appearance-rollout-v1"
-                if appearance_flow is not None
-                else "scaffold-mark-three-window-rollout-v1"
+                "scaffold-mark-rgb-adapter-rollout-v1"
+                if appearance_adapter is not None
+                else (
+                    "scaffold-mark-lifecycle-appearance-rollout-v1"
+                    if appearance_flow is not None
+                    else "scaffold-mark-three-window-rollout-v1"
+                )
             )
         ),
         "sources": len(records),
@@ -887,6 +1086,11 @@ def main() -> None:
         "inputs": {
             "topology_checkpoint": args.topology,
             "mark_flow_checkpoint": args.mark_flow,
+            "mark_flow_sha256": _sha256(args.mark_flow),
+            "paired_base_flow_checkpoint": args.paired_base_flow,
+            "paired_base_flow_sha256": (
+                _sha256(args.paired_base_flow) if args.paired_base_flow else None
+            ),
             "appearance_flow_checkpoint": args.appearance_flow,
             "appearance_adapter_checkpoint": args.appearance_adapter,
             "appearance_dimension_set": (
@@ -924,6 +1128,7 @@ def main() -> None:
         "macro_seams": macro_seams,
         "macro_effective_density": macro_density,
         "lifecycle_appearance": lifecycle_appearance_report,
+        "mark_only_attribution": mark_only_report,
         "mean_background_mae": sum(record["background"]["mae"] for record in records)
         / len(records),
         "records": records,

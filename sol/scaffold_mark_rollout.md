@@ -25,6 +25,10 @@ continuations whose topology and marks see only the append-only model-generated 
   cell, so the exception cannot leak across generated continuation boundaries.
 - **Matched control**: `allow_initial_prefrontier=False` restores the former strict projection for
   a deterministic boundary ablation without changing continuation behavior.
+- **Topology-owned attribution**: Optional `owned_counts` supplies one complete cell-count raster
+  per stride. Marks and causal context remain candidate-generated, but counts/ranks are expanded
+  from the externally owned sequence. This permits a paired mark-model comparison without the
+  later count drift caused by different generated carry.
 
 ## Contracts
 
@@ -35,6 +39,7 @@ continuations whose topology and marks see only the append-only model-generated 
 | Topology head | Carry raster is derived from generated active marks | State ownership |
 | Mark flow | Every decoded rank is synthesized; no clipping or oracle marks | Capacity policy |
 | Boundary ablation | Only the first local time cell changes under the strict control | Projection policy |
+| Coupled-mark attribution | Externally owned counts are exact in every stride | Topology ownership |
 
 ## Notes
 

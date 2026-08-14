@@ -13,6 +13,7 @@ from sol.scaffold_topology import ScaffoldTopologyModel
 from sol.scaffold_topology_realizer import (
     predict_realizer_topology,
     realize_topology_marks,
+    validate_realizer_topology,
 )
 from sol.streaming_data import FeatureStandardizer
 from sol.streaming_features import to_global_time
@@ -57,6 +58,7 @@ class ScaffoldMarkRollout:
     global_ids: torch.Tensor
     counts: tuple[torch.Tensor, ...]
     windows: tuple[ScaffoldMarkWindowReport, ...]
+    topology_contract: str = "paired_rollout_managed_topology"
 
     @property
     def completed_frames(self) -> int:
@@ -70,6 +72,7 @@ class ScaffoldMarkRollout:
             "stable_ids_exact": torch.equal(
                 self.global_ids, torch.arange(len(self.global_ids))
             ),
+            "topology_contract": self.topology_contract,
             "windows": [window.to_dict() for window in self.windows],
         }
 
@@ -92,10 +95,13 @@ def rollout_scaffold_marks(
     steps: int,
     generator: torch.Generator,
     allow_initial_prefrontier: bool = True,
+    owned_counts: Sequence[torch.Tensor] | None = None,
 ) -> ScaffoldMarkRollout:
     """Generate frontier zero and every later stride from model-produced state."""
     if not guides or len(guides) * stride_frames > total_frames:
         raise ValueError("guides must describe one or more complete strides")
+    if owned_counts is not None and len(owned_counts) != len(guides):
+        raise ValueError("owned topology must provide one count raster per guide")
     if topology_spec.shape != mark_flow.grid_spec.shape:
         raise ValueError("topology and mark flow use different grid shapes")
     if mark_flow.grid_spec.slots_per_cell < topology_spec.slots_per_cell:
@@ -119,19 +125,26 @@ def rollout_scaffold_marks(
             stride_frames=stride_frames,
             support_sigma=support_sigma,
         )
-        topology = predict_realizer_topology(
-            topology_model,
-            guide_cpu,
-            selected.carried_global_features,
-            total_frames=total_frames,
-            frontier=frontier,
-            stride_frames=stride_frames,
-            support_sigma=support_sigma,
-            topology_spec=topology_spec,
-            realizer_spec=mark_flow.grid_spec,
-            occupancy_threshold=occupancy_threshold,
-            device=target_device,
-        )
+        if owned_counts is None:
+            topology = predict_realizer_topology(
+                topology_model,
+                guide_cpu,
+                selected.carried_global_features,
+                total_frames=total_frames,
+                frontier=frontier,
+                stride_frames=stride_frames,
+                support_sigma=support_sigma,
+                topology_spec=topology_spec,
+                realizer_spec=mark_flow.grid_spec,
+                occupancy_threshold=occupancy_threshold,
+                device=target_device,
+            )
+        else:
+            topology = validate_realizer_topology(
+                owned_counts[index].detach().cpu(),
+                topology_spec,
+                mark_flow.grid_spec,
+            )
         context = rasterize_scaffold_context(
             selected.context_features,
             context_standardizer,
@@ -197,4 +210,14 @@ def rollout_scaffold_marks(
         )
     if not torch.equal(global_ids, torch.arange(len(global_ids))):
         raise RuntimeError("generated stable IDs are not append-only and contiguous")
-    return ScaffoldMarkRollout(features, global_ids, tuple(counts), tuple(reports))
+    return ScaffoldMarkRollout(
+        features,
+        global_ids,
+        tuple(counts),
+        tuple(reports),
+        (
+            "self_predicted_from_generated_carry"
+            if owned_counts is None
+            else "externally_owned_cell_counts"
+        ),
+    )

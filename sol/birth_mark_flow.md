@@ -25,6 +25,9 @@ first experiment isolates geometry/appearance generation from topology.
   while allowing ranks in one cell to bind to different scaffold edges and colors.
 - **Hybrid path**: Raster and token guidance may be enabled together. The raster encoder supplies
   cross-cell 3D convolution/global context while token attention supplies within-cell detail.
+- **Coupled-set path**: Optional zero-initialized set blocks pool learned rank/noise hidden states,
+  mix them across the 3D cell neighborhood, and feed shared composition state back to each jewel.
+  Depth zero preserves every historical checkpoint; one block is the bounded coherence spike.
 
 ### `birth_mark_flow_objective`
 - **Does**: Scores an explicit Gaussian-noise-to-target flow path with topology fixed.
@@ -60,6 +63,7 @@ first experiment isolates geometry/appearance generation from topology.
 | Oracle visual gate | Counts/cells/ranks are target-owned; only marks are sampled | Ownership split |
 | Oracle video-guide gate | `guide_dim=3` accepts canonical `(cells,RGB)` future scaffolds | Guide shape |
 | Multiscale realizer | `guide_token_dim>0` accepts `(cells,tokens,features)` scaffolds | Token shape |
+| Coupled-set realizer | `set_blocks.*` is zero-residual at augmentation time | State prefix/init |
 | Future topology model | Emits cells/ranks consumed unchanged by this model | Index convention |
 | Streaming renderer | Projection returns frontier-local canonical 22-D features | Coordinate semantics |
 
@@ -69,3 +73,5 @@ first experiment isolates geometry/appearance generation from topology.
 - Mark-flow success is required before learning a stochastic occupancy/count process.
 - The local noisy raster provides bounded correlation at 20k-jewel scale without quadratic global
   point attention.
+- Learned set coupling is permutation-equivariant and linear-memory; it does not alter decoded
+  topology or introduce padded per-cell attention tensors.

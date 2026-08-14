@@ -21,6 +21,8 @@ Protects the bounded stochastic mark-generation gate chosen after the prompted w
   for time-cell zero; later time cells remain strictly projected.
 - **Gradient check**: Hard projection remains differentiable without in-place autograd version
   conflicts for render-supervised denoised estimates.
+- **Augmentation check**: A one-block coupled model loaded from every shared base tensor produces
+  bit-identical velocities because the new set residual starts at exactly zero.
 - **Interacts with**: `birth_mark_flow.py`, `GridSpec`, and temporal covariance recovery.
 
 ## Contracts
@@ -30,3 +32,4 @@ Protects the bounded stochastic mark-generation gate chosen after the prompted w
 | Oracle-topology experiment | Mark flow trains and samples variable-sized target sets | Flow signature |
 | Future topology head | Sample projection cannot migrate jewels between emitted cells | Projection behavior |
 | Correlated generation | Noisy raster exposes local distribution statistics | Raster channels |
+| Coupled generation | Missing augmented state is confined to `set_blocks.*` | Initialization |

@@ -18,6 +18,15 @@ of whether the destination corpus matches or differs from the checkpoint's origi
   transfer mode, and the fact that optimizer state was not restored.
 - **Interacts with**: The scaffold mark-flow and topology trainers.
 
+### `load_augmented_model_weights`
+
+- **Does**: Loads every shared tensor from a same-manifest base checkpoint while leaving explicitly
+  named new module prefixes at their constructor initialization.
+- **Rationale**: A zero-residual architectural spike should begin exactly at the selected base
+  function without pretending that a partial load is an ordinary compatible checkpoint.
+- **Safety**: Base constructor arguments, grid, ranks, manifest, unexpected keys, and missing
+  shared tensors are all rejected.
+
 ## Contracts
 
 | Dependent | Expects | Breaking changes |
@@ -25,6 +34,7 @@ of whether the destination corpus matches or differs from the checkpoint's origi
 | Mark-flow trainer | Model arguments and `16×16×8`, 1,024-rank basis remain exact | Compatibility checks |
 | Topology trainer | Model-only transfer never imports optimizer momentum | Restore policy |
 | Scientific record | Cross-corpus initialization is named in checkpoint metadata | Provenance schema |
+| Coupled-set trainer | Augmentation loads only `set_blocks.*` as new state | Prefix/argument policy |
 
 ## Notes
 

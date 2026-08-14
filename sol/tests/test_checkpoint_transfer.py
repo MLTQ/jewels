@@ -8,7 +8,10 @@ import unittest
 
 import torch
 
-from sol.checkpoint_transfer import load_compatible_model_weights
+from sol.checkpoint_transfer import (
+    load_augmented_model_weights,
+    load_compatible_model_weights,
+)
 from sol.token_grid import GridSpec
 
 
@@ -83,6 +86,63 @@ class CheckpointTransferTests(unittest.TestCase):
                     destination_manifest_sha256="a" * 64,
                     allow_cross_manifest=False,
                 )
+
+    def test_architecture_augmentation_loads_all_shared_weights(self) -> None:
+        class AugmentedLinear(torch.nn.Module):
+            def __init__(self) -> None:
+                super().__init__()
+                self.base = torch.nn.Linear(2, 2)
+                self.adapter = torch.nn.Linear(2, 2)
+
+        with tempfile.TemporaryDirectory() as root:
+            source = torch.nn.Module()
+            source.base = torch.nn.Linear(2, 2)
+            path = Path(root) / "base.pt"
+            torch.save(
+                {
+                    "model": source.state_dict(),
+                    "step": 23,
+                    "meta": {
+                        "architecture": "augmented_test",
+                        "model_args": {"width": 2},
+                        "grid_shape": (2, 2, 2),
+                        "slots_per_cell": 4,
+                        "manifest_sha256": "c" * 64,
+                    },
+                },
+                path,
+            )
+            destination = AugmentedLinear()
+            adapter_before = {
+                name: value.clone() for name, value in destination.adapter.state_dict().items()
+            }
+            provenance = load_augmented_model_weights(
+                destination,
+                path,
+                map_location="cpu",
+                architecture="augmented_test",
+                model_args={"width": 2, "adapter_depth": 1},
+                added_model_args={"adapter_depth": 1},
+                added_state_prefixes=("adapter.",),
+                grid_spec=GridSpec((2, 2, 2), 4),
+                destination_manifest_sha256="c" * 64,
+            )
+            self.assertEqual(
+                provenance["mode"], "same_manifest_architecture_augmentation"
+            )
+            self.assertEqual(provenance["source_step"], 23)
+            self.assertTrue(
+                all(
+                    torch.equal(destination.base.state_dict()[name], value)
+                    for name, value in source.base.state_dict().items()
+                )
+            )
+            self.assertTrue(
+                all(
+                    torch.equal(destination.adapter.state_dict()[name], value)
+                    for name, value in adapter_before.items()
+                )
+            )
 
 
 if __name__ == "__main__":

@@ -113,13 +113,31 @@ submission-ready benchmark paper.
   quiet limit, and all non-RGB state remains exact. This passes the frozen-base structural gate but
   does not overturn the matched teacher-replacement failure.
 
+### Neighborhood-coupled jewel birth sets
+
+- **Does**: Pools learned post-rank hidden rows into per-cell set moments, mixes them over the 3D
+  cell neighborhood, and broadcasts a shared zero-origin residual to every addressed jewel.
+- **Rationale**: The existing noisy-mark raster shares raw statistics, but the late mark decoder is
+  row-independent. Linear-memory learned set state can coordinate centers, covariances, colors, and
+  short trajectories without padded pairwise attention or any topology/ID ownership change.
+- **Result**: A 414,016-parameter (+19.48%) block trains with the 2.13M base frozen and begins
+  bit-identical to it. Step 2,250 lowers held-out fixed-path error by 0.221%. On the exact old 40x24
+  protocol it gains 0.405 dB PSNR and 0.877 dB foreground PSNR and lowers macro edge, motion, and
+  quiet errors, but SSIM falls by 0.00444. The primary 288x192 autonomous gate gains 0.334 dB
+  PSNR, 0.00300 SSIM, and 0.658 dB foreground PSNR while lowering edge, motion, and quiet errors;
+  the exact base-owned-count audit isolates those gains from later topology feedback. It retains
+  +0.332 dB PSNR and +0.761 dB foreground PSNR with all-class edge/motion/quiet gains, but SSIM
+  improves in only two classes and visual recognition remains subtle. This selects the coupling
+  direction while rejecting the current feature-loss checkpoint as the finished realizer.
+
 ### Limitations and path forward
 
 - **Does**: Prevents unfinished prompt generation or repair quality from being described as solved
   and specifies the gates required for a future novelty claim. It distinguishes the passing
   three-window hybrid rollout from still-open direct jewel-text selectivity, long-horizon rollout,
-  trajectory-level adapter distillation, neighborhood-coupled mark realization, weak rendered
-  topology selectivity, and useful local repair.
+  trajectory-level adapter distillation, richer set-structured mark realization, weak rendered
+  topology selectivity, and useful local repair. The first pooled neighborhood set block produces
+  a broad metric gain but remains visually far from the fitted-field ceiling.
 
 ### Representation rationale and multimodal event language
 

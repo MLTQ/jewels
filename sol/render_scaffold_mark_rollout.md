@@ -5,7 +5,7 @@
 Executes and visualizes fitted-seed-free jewel sequences: initial generation plus two free-running
 continuation strides under correct, shuffled, and null video scaffolds. It also runs the optional
 two-stream lifecycle/appearance control or compact RGB-adapter control against a matched frozen
-base.
+base, and can isolate an augmented mark model under an exact base-owned topology sequence.
 
 ## Components
 
@@ -52,6 +52,10 @@ base.
 - **High-resolution paired gate**: `--correct-only` retains fitted ceiling, frozen base, and correct
   generation while skipping shuffled/null rollout and rendering.  It is reserved for expensive
   native-aspect paired metrics after causal scaffold separation has already been established.
+- **Base-owned topology gate**: `--paired-base-flow` first runs the frozen base normally, then runs
+  the augmented candidate with a fresh identically seeded generator and the base's exact per-cell
+  counts/ranks in every window. Shared checkpoint tensors must be bit-identical. Candidate marks
+  still create their own causal context/carry, isolating mark coupling without count feedback.
 - **Dimension screens**: `--appearance-dimension-set` applies named, checkpoint-independent masks
   after every sampler/projection/coordinate-transform stage, localizing whether geometry, opacity,
   RGB, or spatial/temporal gradients own an improvement or regression.
@@ -85,6 +89,7 @@ base.
 | Correct-only gate | Summary names the evaluated controls and omits no paired base metrics | Control policy |
 | Spatial residual screen | Gate fraction and per-window realized strengths are serialized | Gate policy |
 | Residual calibration | Summary records the global residual multiplier | Strength policy |
+| Coupled-mark attribution | Shared tensors, cell counts, birth budget, and seeds are exact | Pairing policy |
 
 ## Notes
 

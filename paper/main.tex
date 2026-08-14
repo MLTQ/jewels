@@ -123,6 +123,10 @@ zero-initialized 74,067-parameter RGB adapter preserves the same exact ownership
 matched frozen base by 0.0098 dB while lowering macro quiet error, but captures only 29\% of the
 full-flow PSNR gain. It therefore compresses part of the safe correction without passing the
 replacement gate or resolving the native-aspect motion-field noise.
+A zero-residual neighborhood set block then improves exact-count native PSNR by
+\SI{0.332}{dB}, foreground PSNR by \SI{0.761}{dB}, and all three macro error measures with the
+base frozen, but fails the three-class SSIM and visual-recognition criteria. This causally selects
+joint birth reasoning as the next direction without selecting the current checkpoint.
 
 Gaussian reconstruction of video is not new: VeGaS, GSVC, GaussianVideo, GaRV, and related work
 predate this project. The research opportunity evaluated here is narrower: a corpus-level
@@ -175,7 +179,10 @@ run three autonomous windows with exact append-only identity, isolate a lifecycl
 coupling that scalar foreground weighting does not resolve, and pass a conservative factorized
 control whose scaffold-gated RGB residual cannot alter lifecycle, topology, density, or identity.
 We then compress that path into a 74k-parameter base-locked adapter; exact ownership survives, but
-the student reproduces only part of the teacher's fidelity gain. We additionally articulate two
+the student reproduces only part of the teacher's fidelity gain. A frozen-base neighborhood set
+block subsequently produces broad fidelity/error gains under exact base-owned topology, while
+failing the stricter structural/visual gate and selecting rendered set/trajectory supervision as
+the next bounded test. We additionally articulate two
 falsifiable systems hypotheses: that explicit persistent fields offer interaction properties
 unavailable from an opaque raster latent alone, and that a hierarchical field can serve as a
 multimodal visual event language.
@@ -435,6 +442,24 @@ three-channel head, so its initial sample is exactly the frozen sample. Training
 20\% scaffold-saliency gate and a 288-by-192 coordinate grid that preserves the source's 3:2 aspect
 ratio. A teacher-distilled arm transfers only the validated full-flow RGB velocity difference;
 real-video render patches remain an independent target.
+
+\subsection{Neighborhood-coupled jewel birth sets}
+
+The independent mark flow already shares raw noisy-mark moments through a cell raster, but after
+rank, noise, and guide decoding it applies every residual block row-wise. We test whether this
+late independence causes structured speckle by adding one permutation-equivariant set block. For
+hidden rows $h_i$ assigned to birth cell $j(i)$, the block scatters per-cell hidden mean, variance,
+log-count, and occupancy; a 3D convolution mixes those statistics across adjacent space-time
+cells; and the addressed neighborhood state is broadcast back to each row through a residual MLP.
+This costs $O(N+C)$ memory for $N$ jewels and $C$ cells, avoiding padded attention in initial cells
+that may contain hundreds of ranks.
+
+The set block adds 414,016 parameters (+19.48\%) to the 2.13M flow. Every historical tensor is
+loaded from the selected v1 checkpoint and frozen; only the new block trains. Its final projection
+is initialized to exact zero, making the augmented velocity bit-identical to v1 before the first
+update. Counts, rank expansion, Gaussian paths, hard topology projection, append-only carry,
+stable IDs, and rendering remain unchanged. Thus the experiment attributes any difference to
+learned local set coordination rather than a general model fine-tune.
 
 \subsection{Cursor edits and constrained repair}
 
@@ -1196,6 +1221,75 @@ indistinguishable beside the fitted ceiling. A stronger student should be distil
 autonomous sampling trajectories, while the main realizer must couple neighboring births and their
 space-time geometry rather than treating color correction as the dominant missing capacity.
 
+\subsection{A coupled birth-set block produces the first broad autonomous gain}
+
+We train the single zero-residual set block for 3,000 updates on the same 12-source training split,
+using 288-by-192 scaffold preparation and leaving the 2.13M-parameter base frozen. The run takes
+24.58 seconds on the RTX 4090. Step 2,250 minimizes the fixed-path held-out error at 1.53849 versus
+1.54190 for the exact base (0.221\% lower) and slightly increases correct-versus-shuffled scaffold
+separation. The error reduction is modest, so autonomous rendering remains the selection gate.
+
+On the exact historical 40-by-24 protocol, the coupled model improves PSNR in all four classes and
+raises macro PSNR from 14.5700 to 14.9751 dB. Foreground PSNR rises from 10.2252 to 11.1027 dB;
+foreground-edge, motion-boundary, and quiet temporal MAE fall from 0.68952, 0.072349, and 0.021452
+to 0.65655, 0.071758, and 0.020750. Foreground PSNR improves materially in three classes and is
+flat in PlayingGuitar. SSIM falls from 0.63060 to 0.62616 and improves only in Basketball, so this
+aspect-sheared regression is encouraging rather than sufficient. A one-half residual calibration
+reduces the useful gains and still does not restore class-wide SSIM, so the full block proceeds to
+the predeclared native-aspect gate.
+
+At 288-by-192, the self-consistent autonomous comparison is broadly positive
+(Table~\ref{tab:coupledset}). The coupled system gains \SI{0.334}{dB} macro PSNR, 0.00300 SSIM,
+and \SI{0.658}{dB} foreground PSNR while lowering foreground-edge, motion-boundary, and quiet
+temporal error. PSNR improves in all four classes, SSIM in three, foreground PSNR and edge error in
+all four, motion-boundary error in three, and quiet error in all four. ApplyEyeMakeup loses 0.00565
+SSIM; Basketball alone raises motion-boundary error, by 0.000265. Effective density remains in the
+intended regime at 7,797 contributors/frame versus 7,886 for the base.
+
+\begin{table}[H]
+\centering
+\small
+\caption{Native 288-by-192 birth-set screens. ``Self'' lets topology react to each arm's carry;
+``exact count'' gives the candidate the base's complete count/rank sequence. Lower is better for
+the three MAEs.}
+\label{tab:coupledset}
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+Mechanism & PSNR & SSIM & FG PSNR & FG edge & Motion & Quiet \\
+\midrule
+Independent base & 14.1417 & 0.60009 & 9.9783 & 0.25917 & 0.134010 & 0.023303 \\
+Coupled, self & \textbf{14.4753} & \textbf{0.60309} & 10.6366 & \textbf{0.25167} & \textbf{0.133451} & 0.022668 \\
+Coupled, exact count & 14.4742 & 0.59956 & \textbf{10.7390} & 0.25175 & 0.133469 & \textbf{0.022582} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+This comparison allows the frozen topology head to see each arm's own generated carry. Later
+feedback therefore changes the four-class birth total by 0.70\%, even though the topology model,
+budget policy, seeds, prompts, and renderer are shared. We consequently run a stricter attribution
+in which the independent base owns every per-cell count/rank sequence and the coupled candidate
+receives fresh identically seeded noise. All 115 inherited tensors, all 264,870 births, and stable
+IDs are exact between arms. This paired result retains a \SI{0.332}{dB} PSNR gain and raises
+foreground PSNR by \SI{0.761}{dB}; foreground-edge, motion-boundary, and quiet error improve in all
+four classes. It also exposes the limit: SSIM improves only in Basketball and HorseRiding, and
+ApplyEyeMakeup foreground PSNR falls by \SI{0.035}{dB}. Effective density remains inside the
+target regime but falls 2.03\% because opacity, covariance, and lifetime marks change.
+
+Contact review is less dramatic than the metrics: the horse/rider mass and several scene
+boundaries improve, but the paired output is not materially more recognizable in three classes.
+The strict selection gate therefore fails. The experiment validates neighborhood set state as a
+causal direction while rejecting this feature-loss-trained checkpoint as the finished realizer;
+the next test should supervise rendered set/trajectory structure directly.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{../sol/results/ltx_scaffold_v1/coupled_set_v1/paired_native_288x192_contact.png}
+\caption{Exact-count native audit at the third-window frontier. The coupled field (right) shares
+every birth cell/rank and noise seed with the frozen base (center-right). Changes are real but
+subtle relative to the large gap to the fitted-field ceiling.}
+\label{fig:coupledset}
+\end{figure}
+
 \clearpage
 \section{What Has Been Falsified}
 
@@ -1222,6 +1316,7 @@ Scalar render-loss tuning cures washout & Rejected; detail improves at weight 0.
 Scalar foreground weighting separates detail from lifecycle & Rejected; global fidelity rises, but quiet-region temporal error rises 3.8\%. \\
 Exact lifecycle copying alone removes quiet-region flicker & Rejected; full-field appearance still changes rendered motion, so the passing residual is scaffold-gated RGB only. \\
 Single-time RGB distillation fully replaces the second flow & Rejected; the 74k adapter preserves exact state but captures only 29\% of the teacher's gated PSNR gain at the passing strength. \\
+Independent post-guide jewel rows are sufficient & Rejected; one frozen-base neighborhood set block improves exact-count native PSNR and all three error measures in all four classes. \\
 Exact fitted cell/rank overlap measures generated density & Rejected; synthesizing all predicted ranks restores 5,822 effective contributors/frame and oracle-level rendering. \\
 Mask visibility alone teaches repair & Rejected; train explicit edit tuples with protected-jewel summaries. \\
 Further model scaling solves the sparse prior & Deprioritized; the curve saturates on 231 single-scene windows. \\
@@ -1253,9 +1348,9 @@ Further model scaling solves the sparse prior & Deprioritized; the curve saturat
   is nearly dense and the mark flow still sees the correct guide. Finer/adaptive density fields may
   be needed for topology itself to control semantics.
   \item \textbf{Motion-region mark noise.} Learned and oracle topology share blur/noise on moving
-  actors, hands, and thin objects. The full-flow RGB residual gains only 0.034 dB and the passing
-  compact adapter gains 0.010 dB under the matched protocol; neither recovers the 7.24 dB gap to
-  the fitted ceiling.
+  actors, hands, and thin objects. The coupled set block produces a broader 0.334 dB native gain,
+  but reaches only 14.475 dB against a 27.521 dB fitted-field ceiling and remains visibly
+  speckled. Cell mean/variance coupling is therefore useful but insufficient.
   \item \textbf{Pure-PyTorch rendering.} Exact kNN/Mahalanobis evaluation is useful for research but
   slower than a tile CUDA rasterizer. Current reconstruction is optimization-based, not amortized.
   \item \textbf{Edit quality.} Clean-region identity is exact, but dirty-region synthesis is not yet
@@ -1404,7 +1499,12 @@ under a conservative scaffold-gated RGB residual: topology, density, lifecycle, 
 exact, three-class subject metrics improve, and macro quiet error falls, but the gain is just
 0.034 dB. The zero-initialized compact adapter now preserves that ownership with 3.48\% as many
 parameters as the base, but at its passing strength recovers only 0.010 dB and 29\% of the
-teacher's gain. The next visual model should therefore couple local birth sets and their geometry;
+teacher's gain. A first neighborhood-coupled set block now validates the proposed direction: with
+the base frozen and exact base-owned counts it gains 0.332 dB at native aspect, improves foreground
+PSNR by 0.761 dB, and lowers all three macro error measures. Yet it misses the three-class SSIM
+criterion, the contact-sheet change remains subtle, and the fitted-field gap remains 13.05 dB. The
+next realizer step should therefore train richer set geometry or
+trajectory-level rendered structure, not merely extend the same row-wise feature loss;
 complete-trajectory adapter distillation is a secondary compression problem. The hybrid preserves
 the distinctive explicit state while inheriting semantic competence that the current corpus cannot
 teach; prompt semantics still live in the pretrained scaffold, and direct distillation remains a

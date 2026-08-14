@@ -115,3 +115,14 @@ copied into this directory.
 3. Train the text-conditioned raster flow against scene-mean and nearest-window baselines.
 4. Exercise the same flow through dirty-cell clamped inpainting while injecting moved-jewel
    constraints.
+
+## Coupled autonomous realizer
+
+[`ltx_scaffold_v1/coupled_set_v1/README.md`](ltx_scaffold_v1/coupled_set_v1/README.md) evaluates a
+zero-residual, frozen-base neighborhood set block for coherent jewel births. It is the primary
+architectural response to the native-aspect structured-speckle failure found after the compact RGB
+adapter proved appearance correction alone was too small. Its primary 288x192 autonomous gate
+raises macro PSNR by 0.334 dB and foreground PSNR by 0.658 dB while lowering edge, motion, and
+quiet errors. Its exact base-owned-topology audit isolates +0.332 dB PSNR and all-class error
+improvements, but fails the three-class SSIM/visual gate, selecting richer rendered set/trajectory
+supervision rather than this checkpoint.

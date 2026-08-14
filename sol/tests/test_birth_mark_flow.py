@@ -68,6 +68,50 @@ class BirthMarkFlowTests(unittest.TestCase):
         )
         self.assertEqual(sample.shape, target.shape)
 
+    def test_coupled_model_is_exact_base_at_augmentation(self) -> None:
+        torch.manual_seed(7)
+        spec = GridSpec((2, 2, 2), 8)
+        base = BirthMarkFlowModel(
+            model_dim=32,
+            grid_spec=spec,
+            context_depth=0,
+            noisy_depth=0,
+            cell_depth=1,
+            mark_depth=1,
+            text_dim=6,
+        )
+        torch.nn.init.normal_(base.velocity_head.weight, std=0.02)
+        coupled = BirthMarkFlowModel(
+            model_dim=32,
+            grid_spec=spec,
+            context_depth=0,
+            noisy_depth=0,
+            cell_depth=1,
+            mark_depth=1,
+            text_dim=6,
+            set_depth=1,
+            set_raster_depth=0,
+        )
+        incompatible = coupled.load_state_dict(base.state_dict(), strict=False)
+        self.assertFalse(incompatible.unexpected_keys)
+        self.assertTrue(incompatible.missing_keys)
+        self.assertTrue(
+            all(name.startswith("set_blocks.") for name in incompatible.missing_keys)
+        )
+        context = torch.randn(spec.n_cells, 46)
+        values = torch.randn(5, 22)
+        cells = torch.tensor([0, 0, 1, 4, 7])
+        slots = torch.tensor([0, 1, 0, 0, 0])
+        arguments = (
+            context,
+            values,
+            torch.tensor([0.3]),
+            cells,
+            slots,
+            torch.randn(6),
+        )
+        self.assertTrue(torch.equal(base(*arguments), coupled(*arguments)))
+
     def test_optional_video_guide_preserves_flow_shape(self) -> None:
         spec = GridSpec((2, 2, 2), 8)
         model = BirthMarkFlowModel(

@@ -12,7 +12,10 @@ import time
 import torch
 
 from sol.birth_mark_flow import BirthMarkFlowModel, project_birth_topology
-from sol.checkpoint_transfer import load_compatible_model_weights
+from sol.checkpoint_transfer import (
+    load_augmented_model_weights,
+    load_compatible_model_weights,
+)
 from sol.frontier_contribution_loss import frontier_contribution_loss
 from sol.prompt_embeddings import load_prompt_cache
 from sol.realizer_render_loss import (
@@ -72,6 +75,8 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--guide-depth", type=int, default=2)
     parser.add_argument("--cell-depth", type=int, default=2)
     parser.add_argument("--mark-depth", type=int, default=3)
+    parser.add_argument("--set-depth", type=int, default=0)
+    parser.add_argument("--set-raster-depth", type=int, default=0)
     parser.add_argument("--grid", type=int, nargs=3, default=(16, 16, 8))
     parser.add_argument("--slots", type=int, default=1024)
     parser.add_argument("--stride-frames", type=int, default=16)
@@ -117,11 +122,26 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--frontier-visible-threshold", type=float, default=0.05)
     parser.add_argument("--eval-every", type=int, default=1000)
     parser.add_argument("--checkpoint-every", type=int, default=500)
+    parser.add_argument(
+        "--snapshot-every",
+        type=int,
+        default=0,
+        help="retain immutable step checkpoints in addition to the resumable latest file",
+    )
     parser.add_argument("--log-every", type=int, default=50)
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--no-amp", action="store_true")
     parser.add_argument("--resume", action="store_true")
     parser.add_argument("--initialize-from")
+    parser.add_argument(
+        "--augment-from",
+        help="same-manifest base checkpoint for a zero-residual coupled-set model",
+    )
+    parser.add_argument(
+        "--freeze-base-on-augment",
+        action="store_true",
+        help="optimize only the new set blocks after exact base initialization",
+    )
     parser.add_argument(
         "--transfer-from",
         help="model-only initialization from a compatible checkpoint on another manifest",
@@ -302,6 +322,20 @@ def main() -> None:
     args = _parse_args()
     if args.steps <= 0 or args.lr <= 0 or args.warmup < 0:
         raise ValueError("training schedule is outside its valid range")
+    if args.set_depth < 0 or args.set_raster_depth < 0:
+        raise ValueError("set depths must be non-negative")
+    if not args.set_depth and args.set_raster_depth:
+        raise ValueError("set-raster-depth requires set-depth")
+    if args.augment_from and not args.set_depth:
+        raise ValueError("augment-from requires a positive set-depth")
+    if args.freeze_base_on_augment and not (args.augment_from or args.resume):
+        raise ValueError("freeze-base-on-augment requires augment-from or resume")
+    if args.freeze_base_on_augment and args.learn_single_background:
+        raise ValueError(
+            "freeze-base-on-augment cannot optimize a newly learned background"
+        )
+    if args.snapshot_every < 0:
+        raise ValueError("snapshot-every must be non-negative")
     if args.initial_repeat <= 0 or args.feature_weight <= 0:
         raise ValueError("initial repeat and feature weight must be positive")
     if args.feature_saliency_weight < 0:
@@ -327,9 +361,15 @@ def main() -> None:
         raise ValueError("render component weights must be non-negative and not all zero")
     if not 0 <= args.render_saliency_fraction <= 1:
         raise ValueError("render saliency fraction must be in [0,1]")
-    if sum(bool(value) for value in (args.resume, args.initialize_from, args.transfer_from)) > 1:
+    initialization_paths = (
+        args.resume,
+        args.initialize_from,
+        args.transfer_from,
+        args.augment_from,
+    )
+    if sum(bool(value) for value in initialization_paths) > 1:
         raise ValueError(
-            "resume, initialize-from, and transfer-from are mutually exclusive"
+            "resume, initialize-from, transfer-from, and augment-from are mutually exclusive"
         )
     dropouts = (args.text_dropout, args.context_dropout, args.guide_dropout)
     if any(value < 0 or value > 1 for value in dropouts):
@@ -375,12 +415,28 @@ def main() -> None:
         "guide_token_dim": 0,
         "guide_heads": 8,
     }
+    if args.set_depth:
+        model_args.update(
+            {
+                "set_depth": args.set_depth,
+                "set_raster_depth": args.set_raster_depth,
+            }
+        )
     model = BirthMarkFlowModel(grid_spec=spec, **model_args).to(device)
+    if args.freeze_base_on_augment:
+        for parameter in model.parameters():
+            parameter.requires_grad_(False)
+        for parameter in model.set_blocks.parameters():
+            parameter.requires_grad_(True)
     background_logit = None
     if args.learn_single_background:
         initial_background = _single_background_initialization(prepared).to(device)
         background_logit = torch.nn.Parameter(torch.logit(initial_background))
-    model_parameters = list(model.parameters())
+    model_parameters = [
+        parameter for parameter in model.parameters() if parameter.requires_grad
+    ]
+    if not model_parameters:
+        raise ValueError("training configuration has no trainable model parameters")
     trainable_parameters = list(model_parameters)
     parameter_groups = [{"params": model_parameters, "weight_decay": 0.01}]
     if background_logit is not None:
@@ -431,59 +487,92 @@ def main() -> None:
             destination_manifest_sha256=prompt_cache.manifest_sha256,
             allow_cross_manifest=True,
         )
+    elif args.augment_from:
+        initialization = load_augmented_model_weights(
+            model,
+            args.augment_from,
+            map_location=device,
+            architecture="scaffold_birth_mark_flow_v1",
+            model_args=model_args,
+            added_model_args={
+                "set_depth": args.set_depth,
+                "set_raster_depth": args.set_raster_depth,
+            },
+            added_state_prefixes=("set_blocks.",),
+            grid_spec=spec,
+            destination_manifest_sha256=prompt_cache.manifest_sha256,
+        )
 
     def save(step: int, evaluation: dict | None) -> None:
-        _atomic_save(
-            checkpoint_path,
-            {
-                "model": model.state_dict(),
-                "background_logit": (
-                    background_logit.detach().cpu()
+        state = {
+            "model": model.state_dict(),
+            "background_logit": (
+                background_logit.detach().cpu()
+                if background_logit is not None
+                else None
+            ),
+            "optimizer": optimizer.state_dict(),
+            "scaler": scaler.state_dict(),
+            "step": step,
+            "meta": {
+                "architecture": "scaffold_birth_mark_flow_v1",
+                "model_args": model_args,
+                "grid_shape": spec.shape,
+                "slots_per_cell": spec.slots_per_cell,
+                "manifest": args.manifest,
+                "manifest_sha256": prompt_cache.manifest_sha256,
+                "prompt_encoder": prompt_cache.encoder,
+                "training_sources": [source.field.source_id for source in corpus.train],
+                "validation_sources": [
+                    source.field.source_id for source in corpus.validation
+                ],
+                "context_standardizer": corpus.context_standardizer.state_dict(),
+                "birth_standardizer": corpus.birth_standardizer.state_dict(),
+                "background_contract": (
+                    "single_field_learned_rgb"
+                    if background_logit is not None
+                    else "initial_scaffold_rgb_mean"
+                ),
+                "learned_background": (
+                    torch.sigmoid(background_logit).detach().cpu()
                     if background_logit is not None
                     else None
                 ),
-                "optimizer": optimizer.state_dict(),
-                "scaler": scaler.state_dict(),
-                "step": step,
-                "meta": {
-                    "architecture": "scaffold_birth_mark_flow_v1",
-                    "model_args": model_args,
-                    "grid_shape": spec.shape,
-                    "slots_per_cell": spec.slots_per_cell,
-                    "manifest": args.manifest,
-                    "manifest_sha256": prompt_cache.manifest_sha256,
-                    "prompt_encoder": prompt_cache.encoder,
-                    "training_sources": [source.field.source_id for source in corpus.train],
-                    "validation_sources": [
-                        source.field.source_id for source in corpus.validation
-                    ],
-                    "context_standardizer": corpus.context_standardizer.state_dict(),
-                    "birth_standardizer": corpus.birth_standardizer.state_dict(),
-                    "background_contract": (
-                        "single_field_learned_rgb"
-                        if background_logit is not None
-                        else "initial_scaffold_rgb_mean"
-                    ),
-                    "learned_background": (
-                        torch.sigmoid(background_logit).detach().cpu()
-                        if background_logit is not None
+                "initialized_from": args.initialize_from,
+                "transferred_from": args.transfer_from,
+                "augmented_from": (
+                    args.augment_from
+                    or (
+                        initialization.get("path")
+                        if initialization is not None
+                        and initialization.get("mode")
+                        == "same_manifest_architecture_augmentation"
                         else None
-                    ),
-                    "initialized_from": args.initialize_from,
-                    "transferred_from": args.transfer_from,
-                    "initialization": initialization,
-                    "train_args": vars(args),
-                    "latest_evaluation": evaluation,
-                },
+                    )
+                ),
+                "frozen_base_on_augment": args.freeze_base_on_augment,
+                "initialization": initialization,
+                "train_args": vars(args),
+                "latest_evaluation": evaluation,
             },
-        )
+        }
+        _atomic_save(checkpoint_path, state)
+        if args.snapshot_every and step % args.snapshot_every == 0:
+            _atomic_save(
+                output_dir / f"scaffold_mark_flow_step{step:06d}.pt",
+                state,
+            )
 
     parameters = sum(parameter.numel() for parameter in model.parameters())
+    trainable = sum(
+        parameter.numel() for parameter in model.parameters() if parameter.requires_grad
+    )
     print(
         f"train_sources={len(corpus.train)} validation_sources={len(corpus.validation)} "
         f"train_views={len(prepared)} initial_views="
         f"{sum(view.frontier == 0 for view in prepared)} model={parameters / 1e6:.2f}M "
-        f"schedule_views={len(training_schedule)} amp={use_amp}",
+        f"trainable={trainable / 1e6:.2f}M schedule_views={len(training_schedule)} "
+        f"amp={use_amp}",
         flush=True,
     )
     history = []
@@ -729,7 +818,8 @@ def main() -> None:
             _append_json(log_path, record)
             print(json.dumps(record), flush=True)
             model.train()
-        if step % args.checkpoint_every == 0 or step == args.steps:
+        snapshot_step = bool(args.snapshot_every and step % args.snapshot_every == 0)
+        if step % args.checkpoint_every == 0 or snapshot_step or step == args.steps:
             save(step, latest)
     summary = {
         "steps": args.steps,

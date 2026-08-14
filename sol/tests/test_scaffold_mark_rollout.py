@@ -101,6 +101,66 @@ class ScaffoldMarkRolloutTests(unittest.TestCase):
             strict_realize.call_args.kwargs["allow_prefrontier_support"]
         )
 
+    def test_external_topology_counts_bypass_feedback_prediction(self) -> None:
+        torch.manual_seed(3)
+        spec = GridSpec((2, 2, 2), 4)
+        topology = ScaffoldTopologyModel(
+            model_dim=8,
+            grid_spec=spec,
+            encoder_depth=0,
+            cell_depth=0,
+        )
+        flow = BirthMarkFlowModel(
+            model_dim=8,
+            grid_spec=spec,
+            context_depth=0,
+            noisy_depth=0,
+            guide_depth=0,
+            cell_depth=0,
+            mark_depth=0,
+            text_dim=8,
+            guide_dim=3,
+            guide_heads=1,
+        )
+        standardizer = FeatureStandardizer(torch.zeros(22), torch.ones(22))
+        guides = [torch.rand(spec.n_cells, 3) for _ in range(3)]
+        fixed = []
+        for cell in (0, 3, 7):
+            counts = torch.zeros(spec.n_cells, dtype=torch.long)
+            counts[cell] = 1
+            fixed.append(counts)
+        with patch(
+            "sol.scaffold_mark_rollout.predict_realizer_topology",
+            side_effect=AssertionError("topology prediction must be bypassed"),
+        ):
+            rollout = rollout_scaffold_marks(
+                topology,
+                flow,
+                guides,
+                torch.randn(8),
+                standardizer,
+                standardizer,
+                total_frames=24,
+                stride_frames=8,
+                support_sigma=2.0,
+                topology_spec=spec,
+                occupancy_threshold=0.5,
+                device="cpu",
+                steps=1,
+                generator=torch.Generator().manual_seed(9),
+                owned_counts=fixed,
+            )
+        self.assertEqual(
+            rollout.topology_contract, "externally_owned_cell_counts"
+        )
+        self.assertTrue(
+            all(
+                torch.equal(actual, expected)
+                for actual, expected in zip(rollout.counts, fixed)
+            )
+        )
+        self.assertEqual([window.born_jewels for window in rollout.windows], [1, 1, 1])
+
 
 if __name__ == "__main__":
     unittest.main()

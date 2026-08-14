@@ -124,3 +124,19 @@ and fails the native class-level quiet gate. It is retained as a structural proo
 a teacher replacement. Native-aspect contacts also confirm that RGB correction is much smaller
 than the remaining coherent mark-realization problem. See
 [`appearance_adapter_ablation/README.md`](appearance_adapter_ablation/README.md).
+
+## Neighborhood-coupled birth sets
+
+The first coupled-set realizer adds one 414,016-parameter (+19.48%) zero-residual block to the
+frozen v1 flow. It pools learned jewel hidden states by cell, mixes them across the 3D neighborhood,
+and broadcasts shared composition state without changing topology, ranks, carry, IDs, or renderer.
+The selected step-2,250 screen lowers held-out fixed-path error by 0.221%. On the exact old 40x24
+protocol it improves PSNR by 0.405 dB, foreground PSNR by 0.877 dB, and lowers macro edge, motion,
+and quiet errors, though SSIM drops 0.00444. The primary 288x192 autonomous gate is stronger:
+macro PSNR/SSIM improve by 0.334 dB/0.00300, foreground PSNR rises 0.658 dB, all four classes
+improve PSNR, foreground fidelity, edge error, and quiet stability, and three improve SSIM and
+motion-boundary error. Visual gains remain subtle beside the large gap to fitted fields. An exact
+base-owned-count audit retains +0.332 dB PSNR, +0.761 dB foreground PSNR, and all-class
+edge/motion/quiet gains, but SSIM improves in only two classes and the visual-recognition gate
+fails. The coupling direction is retained; the feature-loss checkpoint is not selected. See
+[`coupled_set_v1/README.md`](coupled_set_v1/README.md) for the native-aspect gate and decision.
