@@ -1099,6 +1099,37 @@ baseline structurally lacks: an editable, persistent, object-decomposed field ra
 --- and on closing the temporal-stability gap, since the trivial decode is currently 3.3\(\times\)
 quieter in static regions than the generated field.
 
+Scoring the same arms with per-frame AlexNet LPIPS at native 288\(\times\)192
+(Table~\ref{tab:lpips}) sharpens both consequences. The fitted 72k field reaches 0.098 LPIPS ---
+seven times better than every other arm --- so the representation's perceptual ceiling is nearly
+photoreal and the entire gap lives in generative realization. The perceptual ranking also splits
+where the pixel ranking did not: generated fields beat the blurred baseline on the two
+motion-heavy classes (Basketball 0.727 versus 0.783, HorseRiding 0.703 versus 0.792) and lose on
+the two stable close-up classes, localizing the remaining failure to generated temporal noise on
+smooth content rather than missing detail. The neighborhood-coupled variant improves LPIPS over
+the frozen base in three of four classes, independently confirming the coupling direction. Macro
+LPIPS still favors the baseline by 0.015, so no perceptual victory is claimed; the fitted
+ceiling's headroom identifies realization training --- not the representation --- as where that
+gap closes.
+
+\begin{table}[H]
+\centering
+\small
+\caption{Per-frame AlexNet LPIPS (lower is better) against the LTX target at native
+288\(\times\)192, 48 frames, deterministic seed-31 rollouts.}
+\label{tab:lpips}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+Arm & LPIPS & PSNR & SSIM \\
+\midrule
+Fitted jewel ceiling & \textbf{0.0982} & 27.521 & 0.9831 \\
+Guide upsample baseline & 0.6761 & 19.347 & 0.8596 \\
+Generated coupled birth sets & 0.6911 & 14.475 & 0.6031 \\
+Generated v1 base & 0.6971 & 14.142 & 0.6001 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \subsection{Foreground weighting exposes lifecycle--appearance coupling}
 
 We initialize four 1,000-update arms from the passing universal flow. Target-derived scaffold
