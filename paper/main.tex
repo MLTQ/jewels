@@ -1174,8 +1174,19 @@ source costs about 25 GPU-minutes under the frozen 72k contract, and the frozen 
 supplies prompt-matched source videos without limit ($\sim$3 minutes each). Quality is therefore
 priced directly in fitting compute. Caveats are stated plainly: three points, one seed each,
 four evaluation clips, and a correct-versus-shuffled margin that thins at twelve sources ---
-multi-seed error bars and additional points on the domain-matched LTX-fit axis (twelve training
-clips now fitted under the same contract) are the immediate extension.
+multi-seed error bars and additional points on the domain-matched LTX-fit axis are the immediate
+extension.
+
+The domain axis was then measured directly. The twelve LTX training clips, fitted under the
+same frozen contract (31.14 dB mean replay), replace the twelve real UCF sources with an
+honestly disjoint split, identical recipe, seeds, embeddings, and battery. Despite carrying
+half the training views (36 versus 72, since LTX fields span 49 frames rather than 96),
+domain-matched training cuts held-out velocity loss by 33\% (1.558 to 1.045) and improves
+rollout LPIPS from 0.6971 to 0.6760 --- the first macro parity with the guide-upsample baseline
+--- while PSNR falls from 14.14 to 12.56, the third independent occurrence of the
+blur-rewarding pattern. Every earlier realization number was paying an unmeasured cross-domain
+tax, and every input to this arm's supervision is teacher-generated: prompt-matched videos,
+fitted fields, and minutes of training, all priced in compute alone.
 
 \subsection{Foreground weighting exposes lifecycle--appearance coupling}
 

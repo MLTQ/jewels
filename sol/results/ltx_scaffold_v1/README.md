@@ -170,3 +170,12 @@ near-linearly in log-sources with no flattening, while PSNR stalls after 0.8 dB 
 signature of gained detail under a blur-rewarding metric. Realization is data-starved, one
 fitted source costs ~25 GPU-minutes, and the teacher supplies sources without limit; quality is
 priced directly in fitting compute. See [`data_scaling_v1/README.md`](data_scaling_v1/README.md).
+
+## Domain-matched realizer
+
+Training the same recipe on the twelve overnight-fitted LTX training clips instead of the twelve
+real UCF sources — half the views, honest disjoint split — cuts held-out velocity loss 33%
+(1.558 → 1.045) and improves rollout LPIPS 0.6971 → 0.6760, the first macro parity with the
+blur baseline, while PSNR falls in the established blur-bias pattern. The cross-domain tax was
+enormous, and this arm's entire supervision chain is teacher-generated: quality is priced in
+compute alone. See [`ltx_domain_v1/README.md`](ltx_domain_v1/README.md).
