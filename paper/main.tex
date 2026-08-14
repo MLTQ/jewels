@@ -55,7 +55,7 @@
 
 \title{\vspace{-1.5em}\textbf{Jewels: Toward Text-Conditioned, Streamable, and\\Locally Editable Video as Space-Time Gaussian Fields}}
 \author{The Jewels Project}
-\date{Technical report -- August 13, 2026}
+\date{Technical report -- August 14, 2026}
 
 \begin{document}
 \maketitle
@@ -67,75 +67,38 @@ It separates established results, failed controls, and hypotheses still under te
 \end{center}
 
 \begin{abstract}
-We investigate whether ordinary RGB video can be generated and edited as an explicit field of
-anisotropic Gaussian primitives in normalized image-time coordinates rather than as a sequence of
-pixel frames. Each primitive, or \emph{jewel}, occupies a volume in \uvt, carries opacity and a
-linear color field, and may tilt through time so that motion is represented by oriented space-time
-support. A deterministic additive renderer turns the set into frames. The longer-term model emits
-new jewels in overlapping time windows, retains persistent jewels by stable identity, and repairs
-only dirty latent cells after a user moves selected primitives.
+We investigate representing ordinary RGB video as an explicit field of anisotropic Gaussian
+primitives (\emph{jewels}) in normalized image-time coordinates: each primitive occupies a
+volume in \uvt, carries opacity and a linear color field, and tilts through time so that motion
+is oriented space-time support rather than frame-to-frame change. The goal is a promptable
+text-to-video model whose generation is the \emph{composition} of such primitives --- persistent
+across windows by stable identity, editable by direct manipulation, rendered deterministically
+--- with semantics supplied during training by a frozen pretrained video prior (LTX-2.3) through
+a coarse scaffold raster of about six kilobytes per 16-frame stride.
 
-This report consolidates the feasibility evidence to date. Synthetic tubes reconstruct at about
-\SI{55}{dB}; four finalized 96-frame UCF-101 fields with 120k jewels replay at a mean
-\SI{32.28}{dB}. A density audit shows that raw jewel count is misleading: doubling a UCF field from
-45k to 90k isotropically increases effective per-frame contributors by only 30.3\% and lowers
-full-volume PSNR by \SI{1.07}{dB}, motivating temporal-preserving spatial densification. A local
-$32^3\!\times\!24$ tokenizer is the first held-out configuration to preserve small pedestrians;
-a train-only $2^3$ PCA hierarchy reduces it to $16^3\!\times\!96$ with a \SI{0.224}{dB} penalty.
-An axial rectified-flow prior beats retrieval and mean-collapse distribution baselines but does not
-use its semantic condition. Conversely, a cell-local prefix model reduces future-birth feature
-error by 62.7\% against a disjoint shuffled-prefix control and renders at \SI{19.87}{dB} versus
-\SI{7.30}{dB}. Edit planning and masked sampling preserve every clean latent exactly, although the
-repaired region remains blurry. A four-class direct prompt model changes held-out birth statistics
-but produces washed-out action geometry. Exact target topology improves its mean field PSNR by only
-\SI{0.172}{dB}, rejecting count prediction as the primary cause. Oracle-topology stochastic flow
-recovers edge energy without coherent objects; adding the true future as a \(24\times40\) guide
-raises held-out rendering from 14.232 to \SI{16.555}{dB} and from 59.8\% to 90.5\% of target edge
-energy. This privileged control selects a semantic-video-scaffold-to-jewel architecture; it is not
-a prompt-only generation result. Official distilled LTX-2.3 then produces all 16 balanced prompt
-scaffolds. Four density-matched 49-frame/72k-jewel reconstructions replay at
-\SIrange{28.18}{35.16}{dB}, averaging 5,966 effective contributors/frame. Token-only multiscale,
-raster-plus-token, and two raster-guide render-loss controls fail to dominate the original guide.
-The selected UCF-trained realizer then passes a predeclared cross-domain gate on the four unseen
-LTX scaffolds: guided samples reach 15.342 dB/0.6942 SSIM versus 13.777 dB/0.4160 for deterministic
-continuation, move contrast from 0.426 to 0.743 and edge energy from 0.486 to 0.830, retain 99.08\%
-birth-cell adherence, and preserve a recognizable primary action in three of four classes. Correct
-and shuffled text remain tied once the true LTX video guide is present. The result therefore
-validates privileged scaffold-to-jewel transfer, not free prompt-only jewel generation. A new
-0.88M-parameter scaffold/carry topology head then removes fitted birth cells, counts, and ranks for
-one held-out LTX continuation stride. Correct-scaffold slot F1 is 0.6636 versus 0.6092 shuffled,
-0.6091 null, and 0.6222 train mean. When the frozen flow synthesizes every predicted rank, learned
-topology reaches 15.464 dB/0.6967 SSIM versus 15.492 dB/0.6997 with oracle topology, predicts
-99.68\% of the birth budget, averages 5,822 effective contributors/frame, and copies carried
-features with zero error. A compatible 1,024-rank flow then generates an empty-state initial stride
-and two continuations using only its own append-only field. Correcting a censored clip-start
-projection raises deterministic correct-scaffold PSNR from 12.408 to 14.570 dB and frame-zero
-visible density from 106--244 to 8,586--9,513, while stable IDs and carry remain exact. The selected
-field averages 7,493 effective contributors/frame and beats shuffled scaffolds by 4.116 dB. A
-foreground/motion-aware fine-tune reaches 14.972 dB/0.6610 SSIM but raises quiet-region temporal
-error by 3.8\%; it is rejected under the predeclared stability gate. A two-stream control then
-integrates the selected base independently and copies lifecycle state exactly. Full-field
-appearance retains the fidelity gain but still flickers; restricting its residual to RGB in the
-top 20\% scaffold-salient cells passes the four-class gate at 14.604 dB/0.6314 SSIM, lowers macro
-quiet error, improves foreground PSNR/edge and motion-boundary metrics in three classes, and keeps
-lifecycle coordinates, topology, density, and stable IDs bit-identical across 12 controls. A
-zero-initialized 74,067-parameter RGB adapter preserves the same exact ownership and improves its
-matched frozen base by 0.0098 dB while lowering macro quiet error, but captures only 29\% of the
-full-flow PSNR gain. It therefore compresses part of the safe correction without passing the
-replacement gate or resolving the native-aspect motion-field noise.
-A zero-residual neighborhood set block then improves exact-count native PSNR by
-\SI{0.332}{dB}, foreground PSNR by \SI{0.761}{dB}, and all three macro error measures with the
-base frozen, but fails the three-class SSIM and visual-recognition criteria. This causally selects
-joint birth reasoning as the next direction without selecting the current checkpoint.
+Four results define the current state. First, the representation itself is not the bottleneck:
+optimized 72k-jewel fields replay held-out generated videos at 28--35 dB and 0.098 LPIPS ---
+near-photoreal perceptual quality. Second, the generative stack is real but immature: from an
+empty field, a 0.88M topology head and a 2.13M rectified-flow realizer generate three 16-frame
+windows with exact append-only identity, beating shuffled-scaffold controls by 2.8--4.1 dB, yet
+a no-model trilinear decode of the stack's own scaffold input still wins every reference-based
+fidelity metric --- so we triangulate with perceptual (LPIPS) and texture-blind layout metrics,
+which disagree with PSNR and with each other in instructive ways. Third, quality scales with
+data and is priced in compute: a frozen-protocol curve over 4/8/12 fitted training sources is
+monotone and unsaturated in held-out loss and LPIPS; training on teacher-generated fits removes
+a 33\% cross-domain feature-loss tax; and a mixed real-plus-teacher corpus shows the two
+supervision sources are complementary (texture versus macro-structure). One fitted source costs
+about 25 GPU-minutes and the teacher supplies prompt-matched sources without limit. Fourth,
+direct text selectivity remains open: correct and shuffled prompts tie once the video scaffold
+is present, so prompt semantics currently live in the teacher, and distilling the teacher's
+coarse scaffold into a compact text-conditioned generator is the identified route to prompt-only
+inference.
 
-Gaussian reconstruction of video is not new: VeGaS, GSVC, GaussianVideo, GaRV, and related work
-predate this project. The research opportunity evaluated here is narrower: a corpus-level
-generative distribution that directly emits persistent, editable 2D-video space-time Gaussian
-fields. Because the field is a representation rather than a sampling objective, it can in
-principle be generated by flow matching, diffusion, or next-token prediction. Its hierarchy also
-suggests a structured multimodal event language in which text, persistent visual state, and edit
-operations share one sequence. We state these as provisional systems hypotheses, not priority
-claims.
+Gaussian reconstruction of video is established art (VeGaS, GSVC, GaussianVideo, GaRV); the
+narrower opportunity evaluated here is a corpus-level generative distribution over persistent,
+editable space-time Gaussian fields. This is a progress report: negative results, falsified
+hypotheses, and failed visual audits are reported as first-class evidence, and no claim is made
+that current samples are competitive with raster video generation.
 \end{abstract}
 
 \section{Introduction}
