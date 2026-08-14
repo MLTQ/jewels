@@ -1,0 +1,74 @@
+{
+  "steps": 12000,
+  "seconds": 162.14332818984985,
+  "train_views": 72,
+  "initial_train_views": 12,
+  "latest_evaluation": {
+    "validation_views": 12,
+    "aggregate": {
+      "correct": 1.5582462350527446,
+      "shuffled_scaffold": 1.5667559603850048,
+      "null_scaffold": 1.5596338709195454,
+      "no_context": 1.5690870483716328,
+      "shuffled_minus_correct": 0.008509725332260132,
+      "null_minus_correct": 0.001387635866800796,
+      "no_context_minus_correct": 0.010840813318888198
+    },
+    "initial": {
+      "correct": 1.3928080201148987,
+      "shuffled_scaffold": 1.4000586867332458,
+      "null_scaffold": 1.3945589661598206,
+      "no_context": 1.3928080201148987,
+      "shuffled_minus_correct": 0.007250666618347168,
+      "null_minus_correct": 0.001750946044921875,
+      "no_context_minus_correct": 0.0
+    },
+    "continuation": {
+      "correct": 1.6409653425216675,
+      "shuffled_scaffold": 1.650104597210884,
+      "null_scaffold": 1.642171323299408,
+      "no_context": 1.6572265625,
+      "shuffled_minus_correct": 0.009139254689216614,
+      "null_minus_correct": 0.0012059807777404785,
+      "no_context_minus_correct": 0.01626121997833252
+    },
+    "per_source": {
+      "00_basketball_evaluation_00_seed42003": {
+        "correct": 1.6124790906906128,
+        "shuffled_scaffold": 1.6238460938135784,
+        "null_scaffold": 1.615948994954427,
+        "no_context": 1.647995392481486,
+        "shuffled_minus_correct": 0.011367003122965569,
+        "null_minus_correct": 0.0034699042638142163,
+        "no_context_minus_correct": 0.035516301790873284
+      },
+      "01_horseriding_evaluation_00_seed42103": {
+        "correct": 1.4331849018732707,
+        "shuffled_scaffold": 1.4368263483047485,
+        "null_scaffold": 1.4307036399841309,
+        "no_context": 1.4470188617706299,
+        "shuffled_minus_correct": 0.0036414464314777906,
+        "null_minus_correct": -0.002481261889139885,
+        "no_context_minus_correct": 0.013833959897359138
+      },
+      "02_playingguitar_evaluation_00_seed42203": {
+        "correct": 1.8863074779510498,
+        "shuffled_scaffold": 1.8912517229715984,
+        "null_scaffold": 1.8871463537216187,
+        "no_context": 1.874438206354777,
+        "shuffled_minus_correct": 0.004944245020548577,
+        "null_minus_correct": 0.0008388757705688477,
+        "no_context_minus_correct": -0.011869271596272712
+      },
+      "03_applyeyemakeup_evaluation_00_seed42303": {
+        "correct": 1.301013469696045,
+        "shuffled_scaffold": 1.3150996764500935,
+        "null_scaffold": 1.3047364950180054,
+        "no_context": 1.3068957328796387,
+        "shuffled_minus_correct": 0.014086206754048591,
+        "null_minus_correct": 0.0037230253219604492,
+        "no_context_minus_correct": 0.00588226318359375
+      }
+    }
+  }
+}

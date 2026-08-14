@@ -1,0 +1,1115 @@
+{
+  "schema": "scaffold-mark-three-window-rollout-v1",
+  "sources": 4,
+  "sampling_steps": 20,
+  "sampling_seed": 31,
+  "source_seed_contract": "base_seed_plus_full_validation_order",
+  "deterministic": true,
+  "runtime": {
+    "torch_version": "2.12.0+cu130",
+    "device": "cuda:0",
+    "device_name": "NVIDIA GeForce RTX 4090",
+    "device_capability": [
+      8,
+      9
+    ]
+  },
+  "inputs": {
+    "topology_checkpoint": "/home/m/jewels/topology/scaling_curve_v1/subset_g2/topology_3000/scaffold_topology.pt",
+    "mark_flow_checkpoint": "/home/m/jewels/topology/scaling_curve_v1/subset_g2/mark_12000/scaffold_mark_flow.pt",
+    "mark_flow_sha256": "228920134283d0155f536efc53e3a8f63bce96a859f6a8bc529fd331caed6e86",
+    "paired_base_flow_checkpoint": null,
+    "paired_base_flow_sha256": null,
+    "appearance_flow_checkpoint": null,
+    "appearance_adapter_checkpoint": null,
+    "appearance_dimension_set": null,
+    "appearance_dimensions": null,
+    "appearance_saliency_fraction": null,
+    "appearance_strength": null,
+    "manifest": "/home/m/jewels/topology/scaling_curve_v1/subset_g2/manifest.json",
+    "prompt_cache": "/home/m/jewels/topology/scaling_curve_v1/subset_g2/prompts.pt",
+    "checkpoint_roots": [
+      "/home/m/jewels/corpus/ucf_prompt_smoke/fits_shard0",
+      "/home/m/jewels/corpus/ucf_prompt_smoke/fits_shard1",
+      "/home/m/jewels/corpus/ucf_prompt_smoke/fits_shard2",
+      "/home/m/jewels/corpus/ltx_scaffold_v1_eval_72k"
+    ],
+    "manifest_sha256": "45e3cc67cf66251e761bc5438a97ea58d37bdb99b822d67a51e9ecab8e6cdc0f"
+  },
+  "initial_boundary_contract": "left_censored_clip_start",
+  "completed_strides": 3,
+  "controls": [
+    "correct"
+  ],
+  "occupancy_threshold": 0.95,
+  "topology": {
+    "correct": {
+      "cell_count_mae": 8.016072273254395,
+      "cell_log_count_mae": 0.7592737078666687,
+      "total_count_ratio": 0.9215975403785706,
+      "occupancy_precision": 0.9568746089935303,
+      "occupancy_recall": 0.9379461407661438,
+      "occupancy_f1": 0.9473158121109009,
+      "occupancy_iou": 0.8999050855636597,
+      "slot_precision": 0.6556413173675537,
+      "slot_recall": 0.6042373776435852,
+      "slot_f1": 0.6288906931877136,
+      "count_correlation": 0.43509911994139355,
+      "predicted_births": 254595.0,
+      "target_births": 276254.0
+    }
+  },
+  "macro_render_signatures": {
+    "fitted jewel ceiling": {
+      "psnr": 27.521248817443848,
+      "ssim": 0.9831083714962006,
+      "contrast_ratio": 1.0942817628383636,
+      "edge_ratio": 0.9179112166166306,
+      "saturation_ratio": 1.0508193671703339,
+      "temporal_change_ratio": 1.0243132263422012
+    },
+    "generated correct": {
+      "psnr": 14.264433860778809,
+      "ssim": 0.6040878146886826,
+      "contrast_ratio": 0.855727806687355,
+      "edge_ratio": 0.6604641303420067,
+      "saturation_ratio": 0.985448881983757,
+      "temporal_change_ratio": 0.7227324619889259
+    }
+  },
+  "macro_saliency_signatures": {
+    "fitted jewel ceiling": {
+      "foreground_rgb_mae": 0.056064851582050323,
+      "foreground_psnr": 22.839955941840692,
+      "foreground_edge_mae": 0.12777162436395884,
+      "motion_boundary_mae": 0.0510061695240438,
+      "quiet_temporal_mae": 0.00979313615243882
+    },
+    "generated correct": {
+      "foreground_rgb_mae": 0.23464711382985115,
+      "foreground_psnr": 10.67416604872104,
+      "foreground_edge_mae": 0.2547878101468086,
+      "motion_boundary_mae": 0.1336750891059637,
+      "quiet_temporal_mae": 0.0248970496468246
+    }
+  },
+  "macro_seams": {
+    "fitted jewel ceiling": {
+      "candidate_seam_change": 0.03436521254479885,
+      "target_seam_change": 0.034630956361070275,
+      "candidate_regular_change": 0.03723402228206396,
+      "target_regular_change": 0.03641633130609989,
+      "seam_to_target_ratio": 1.063622534275055,
+      "seam_to_regular_ratio": 0.9159355610609055
+    },
+    "generated correct": {
+      "candidate_seam_change": 0.024245580658316612,
+      "target_seam_change": 0.034630956361070275,
+      "candidate_regular_change": 0.02459020260721445,
+      "target_regular_change": 0.03641633130609989,
+      "seam_to_target_ratio": 1.0035255551338196,
+      "seam_to_regular_ratio": 0.9848286956548691
+    }
+  },
+  "macro_effective_density": {
+    "fitted jewel ceiling": 5988.7779541015625,
+    "generated correct": 7659.76806640625
+  },
+  "lifecycle_appearance": null,
+  "mark_only_attribution": null,
+  "mean_background_mae": 0.03243638016283512,
+  "records": [
+    {
+      "source_id": "00_basketball_evaluation_00_seed42003",
+      "class_name": "Basketball",
+      "sampling_seed": 31,
+      "shuffled_source_id": null,
+      "completed_frames": 48,
+      "background": {
+        "contract": "initial_scaffold_rgb_mean",
+        "predicted": [
+          0.5280423164367676,
+          0.5372797846794128,
+          0.5212037563323975
+        ],
+        "fitted_reference": [
+          0.5137500762939453,
+          0.503560483455658,
+          0.48462849855422974
+        ],
+        "mae": 0.02819559909403324
+      },
+      "render_signatures": {
+        "fitted jewel ceiling": {
+          "psnr": 25.793970108032227,
+          "ssim": 0.9713830947875977,
+          "contrast_ratio": 1.098953366279602,
+          "edge_ratio": 0.8534094095230103,
+          "saturation_ratio": 1.0757211446762085,
+          "temporal_change_ratio": 0.9866390228271484
+        },
+        "generated correct": {
+          "psnr": 15.148616790771484,
+          "ssim": 0.620758593082428,
+          "contrast_ratio": 0.9030309915542603,
+          "edge_ratio": 0.38185933232307434,
+          "saturation_ratio": 1.1359330415725708,
+          "temporal_change_ratio": 0.5038297772407532
+        }
+      },
+      "saliency_signatures": {
+        "fitted jewel ceiling": {
+          "foreground_rgb_mae": 0.06239205598831177,
+          "foreground_psnr": 21.43408854000045,
+          "foreground_edge_mae": 0.22762098908424377,
+          "motion_boundary_mae": 0.07889865338802338,
+          "quiet_temporal_mae": 0.008536500856280327
+        },
+        "generated correct": {
+          "foreground_rgb_mae": 0.2139274924993515,
+          "foreground_psnr": 11.46889549779428,
+          "foreground_edge_mae": 0.36431175470352173,
+          "motion_boundary_mae": 0.16264070570468903,
+          "quiet_temporal_mae": 0.020688794553279877
+        }
+      },
+      "seams": {
+        "fitted jewel ceiling": {
+          "candidate_seam_change": 0.04545755684375763,
+          "target_seam_change": 0.048646435141563416,
+          "candidate_regular_change": 0.04076574370265007,
+          "target_regular_change": 0.04101629555225372,
+          "seam_to_target_ratio": 0.9344478249549866,
+          "seam_to_regular_ratio": 1.1150920391082764
+        },
+        "generated correct": {
+          "candidate_seam_change": 0.021598167717456818,
+          "target_seam_change": 0.048646435141563416,
+          "candidate_regular_change": 0.022854190319776535,
+          "target_regular_change": 0.04101629555225372,
+          "seam_to_target_ratio": 0.4439825415611267,
+          "seam_to_regular_ratio": 0.9450418949127197
+        }
+      },
+      "density": {
+        "fitted jewel ceiling": {
+          "effective": {
+            "mean": 6398.15185546875,
+            "median": 6292.060546875,
+            "min": 5484.6279296875,
+            "max": 7625.72265625
+          },
+          "above_5_percent_alpha": {
+            "mean": 7401.66650390625,
+            "median": 7259.0,
+            "min": 6463.0,
+            "max": 8828.0
+          },
+          "frontier_effective": {
+            "0": 6829.2568359375,
+            "16": 7085.634765625,
+            "32": 5757.64501953125
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 7945,
+            "16": 8004,
+            "32": 6639
+          },
+          "initial_stride_effective": [
+            6829.2568359375,
+            6339.49853515625,
+            6292.060546875,
+            6448.02880859375,
+            6682.181640625,
+            6909.79736328125,
+            7115.66162109375,
+            7327.59423828125,
+            7474.294921875,
+            7553.57275390625,
+            7598.60791015625,
+            7625.72265625,
+            7586.408203125,
+            7486.048828125,
+            7361.97900390625,
+            7226.755859375
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            7945,
+            7390,
+            7259,
+            7409,
+            7649,
+            7967,
+            8234,
+            8445,
+            8595,
+            8688,
+            8775,
+            8828,
+            8749,
+            8657,
+            8542,
+            8278
+          ]
+        },
+        "generated correct": {
+          "effective": {
+            "mean": 6437.90234375,
+            "median": 6654.22509765625,
+            "min": 4870.47802734375,
+            "max": 8146.82373046875
+          },
+          "above_5_percent_alpha": {
+            "mean": 6867.5625,
+            "median": 7087.0,
+            "min": 4969.0,
+            "max": 9102.0
+          },
+          "frontier_effective": {
+            "0": 8146.82373046875,
+            "16": 6681.28759765625,
+            "32": 6725.2451171875
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 9102,
+            "16": 7128,
+            "32": 7135
+          },
+          "initial_stride_effective": [
+            8146.82373046875,
+            7469.53857421875,
+            6681.2216796875,
+            5945.83935546875,
+            5371.9189453125,
+            5008.89453125,
+            4870.47802734375,
+            4879.5634765625,
+            5013.99072265625,
+            5183.6494140625,
+            5383.8828125,
+            5566.15869140625,
+            5772.9111328125,
+            5988.2685546875,
+            6238.10546875,
+            6476.51953125
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            9102,
+            8283,
+            7324,
+            6354,
+            5589,
+            5164,
+            4970,
+            4969,
+            5170,
+            5386,
+            5590,
+            5834,
+            6043,
+            6292,
+            6657,
+            6872
+          ]
+        }
+      },
+      "rollouts": {
+        "correct": {
+          "completed_frames": 48,
+          "total_jewels": 60130,
+          "stable_ids_exact": true,
+          "topology_contract": "self_predicted_from_generated_carry",
+          "windows": [
+            {
+              "index": 0,
+              "frontier": 0,
+              "commit_stop": 16,
+              "context_jewels": 0,
+              "carried_jewels": 0,
+              "born_jewels": 27166,
+              "state_jewels": 27166,
+              "maximum_cell_count": 278,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 1,
+              "frontier": 16,
+              "commit_stop": 32,
+              "context_jewels": 25581,
+              "carried_jewels": 11320,
+              "born_jewels": 16249,
+              "state_jewels": 43415,
+              "maximum_cell_count": 49,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 2,
+              "frontier": 32,
+              "commit_stop": 48,
+              "context_jewels": 27497,
+              "carried_jewels": 11825,
+              "born_jewels": 16715,
+              "state_jewels": 60130,
+              "maximum_cell_count": 50,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            }
+          ]
+        }
+      },
+      "lifecycle_appearance": null,
+      "mark_only_attribution": null,
+      "artifacts": {
+        "gif": "00_basketball_evaluation_00_seed42003_three_window_rollout.gif",
+        "contact_sheet": "00_basketball_evaluation_00_seed42003_three_window_rollout_contact.png",
+        "generated_field": "00_basketball_evaluation_00_seed42003_generated_field.pt"
+      }
+    },
+    {
+      "source_id": "01_horseriding_evaluation_00_seed42103",
+      "class_name": "HorseRiding",
+      "sampling_seed": 32,
+      "shuffled_source_id": null,
+      "completed_frames": 48,
+      "background": {
+        "contract": "initial_scaffold_rgb_mean",
+        "predicted": [
+          0.35475799441337585,
+          0.3463347852230072,
+          0.31608468294143677
+        ],
+        "fitted_reference": [
+          0.28380945324897766,
+          0.2806735038757324,
+          0.239157572388649
+        ],
+        "mae": 0.07117898017168045
+      },
+      "render_signatures": {
+        "fitted jewel ceiling": {
+          "psnr": 28.596708297729492,
+          "ssim": 0.9812951683998108,
+          "contrast_ratio": 1.0972954034805298,
+          "edge_ratio": 0.8973296284675598,
+          "saturation_ratio": 1.0758637189865112,
+          "temporal_change_ratio": 0.9136448502540588
+        },
+        "generated correct": {
+          "psnr": 15.111211776733398,
+          "ssim": 0.5294352769851685,
+          "contrast_ratio": 1.0282319784164429,
+          "edge_ratio": 0.5148506760597229,
+          "saturation_ratio": 0.9399056434631348,
+          "temporal_change_ratio": 0.5503217577934265
+        }
+      },
+      "saliency_signatures": {
+        "fitted jewel ceiling": {
+          "foreground_rgb_mae": 0.04579123482108116,
+          "foreground_psnr": 24.556571352551725,
+          "foreground_edge_mae": 0.11026686429977417,
+          "motion_boundary_mae": 0.04887077212333679,
+          "quiet_temporal_mae": 0.01378125511109829
+        },
+        "generated correct": {
+          "foreground_rgb_mae": 0.2456563115119934,
+          "foreground_psnr": 9.743349069808092,
+          "foreground_edge_mae": 0.270502507686615,
+          "motion_boundary_mae": 0.11205759644508362,
+          "quiet_temporal_mae": 0.029126981273293495
+        }
+      },
+      "seams": {
+        "fitted jewel ceiling": {
+          "candidate_seam_change": 0.031540125608444214,
+          "target_seam_change": 0.03444331884384155,
+          "candidate_regular_change": 0.03449725732207298,
+          "target_regular_change": 0.03773735463619232,
+          "seam_to_target_ratio": 0.915710985660553,
+          "seam_to_regular_ratio": 0.9142792224884033
+        },
+        "generated correct": {
+          "candidate_seam_change": 0.02395806647837162,
+          "target_seam_change": 0.03444331884384155,
+          "candidate_regular_change": 0.02449062094092369,
+          "target_regular_change": 0.03773735463619232,
+          "seam_to_target_ratio": 0.6955795288085938,
+          "seam_to_regular_ratio": 0.9782547354698181
+        }
+      },
+      "density": {
+        "fitted jewel ceiling": {
+          "effective": {
+            "mean": 7181.15771484375,
+            "median": 7483.73779296875,
+            "min": 4802.89892578125,
+            "max": 8064.00830078125
+          },
+          "above_5_percent_alpha": {
+            "mean": 8094.95849609375,
+            "median": 8442.0,
+            "min": 5359.0,
+            "max": 9010.0
+          },
+          "frontier_effective": {
+            "0": 6571.53466796875,
+            "16": 7723.095703125,
+            "32": 7370.2060546875
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 7413,
+            "16": 8605,
+            "32": 8396
+          },
+          "initial_stride_effective": [
+            6571.53466796875,
+            6434.62890625,
+            6699.3544921875,
+            7012.0732421875,
+            7333.59521484375,
+            7667.16259765625,
+            7905.08544921875,
+            7942.498046875,
+            7960.90185546875,
+            7993.29443359375,
+            8034.03662109375,
+            8064.00830078125,
+            7984.99853515625,
+            7949.92431640625,
+            7906.18505859375,
+            7810.0458984375
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            7413,
+            7227,
+            7449,
+            7864,
+            8342,
+            8602,
+            8889,
+            9010,
+            8948,
+            8997,
+            9007,
+            8911,
+            8829,
+            8832,
+            8758,
+            8665
+          ]
+        },
+        "generated correct": {
+          "effective": {
+            "mean": 7795.58837890625,
+            "median": 8223.4296875,
+            "min": 6018.822265625,
+            "max": 9182.3447265625
+          },
+          "above_5_percent_alpha": {
+            "mean": 8552.0,
+            "median": 8992.0,
+            "min": 6405.0,
+            "max": 10598.0
+          },
+          "frontier_effective": {
+            "0": 9182.3447265625,
+            "16": 6776.9072265625,
+            "32": 8296.578125
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 10598,
+            "16": 7354,
+            "32": 9092
+          },
+          "initial_stride_effective": [
+            9182.3447265625,
+            8608.08203125,
+            7937.36962890625,
+            7265.349609375,
+            6695.23193359375,
+            6293.3203125,
+            6103.28759765625,
+            6018.822265625,
+            6045.45166015625,
+            6097.26318359375,
+            6163.89794921875,
+            6232.5068359375,
+            6337.7529296875,
+            6437.46533203125,
+            6550.7978515625,
+            6662.60546875
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            10598,
+            9857,
+            8992,
+            8080,
+            7293,
+            6818,
+            6554,
+            6405,
+            6470,
+            6493,
+            6579,
+            6721,
+            6861,
+            6955,
+            7140,
+            7260
+          ]
+        }
+      },
+      "rollouts": {
+        "correct": {
+          "completed_frames": 48,
+          "total_jewels": 64535,
+          "stable_ids_exact": true,
+          "topology_contract": "self_predicted_from_generated_carry",
+          "windows": [
+            {
+              "index": 0,
+              "frontier": 0,
+              "commit_stop": 16,
+              "context_jewels": 0,
+              "carried_jewels": 0,
+              "born_jewels": 28047,
+              "state_jewels": 28047,
+              "maximum_cell_count": 330,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 1,
+              "frontier": 16,
+              "commit_stop": 32,
+              "context_jewels": 26545,
+              "carried_jewels": 12285,
+              "born_jewels": 17534,
+              "state_jewels": 45581,
+              "maximum_cell_count": 89,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 2,
+              "frontier": 32,
+              "commit_stop": 48,
+              "context_jewels": 29875,
+              "carried_jewels": 14869,
+              "born_jewels": 18954,
+              "state_jewels": 64535,
+              "maximum_cell_count": 86,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            }
+          ]
+        }
+      },
+      "lifecycle_appearance": null,
+      "mark_only_attribution": null,
+      "artifacts": {
+        "gif": "01_horseriding_evaluation_00_seed42103_three_window_rollout.gif",
+        "contact_sheet": "01_horseriding_evaluation_00_seed42103_three_window_rollout_contact.png",
+        "generated_field": "01_horseriding_evaluation_00_seed42103_generated_field.pt"
+      }
+    },
+    {
+      "source_id": "02_playingguitar_evaluation_00_seed42203",
+      "class_name": "PlayingGuitar",
+      "sampling_seed": 33,
+      "shuffled_source_id": null,
+      "completed_frames": 48,
+      "background": {
+        "contract": "initial_scaffold_rgb_mean",
+        "predicted": [
+          0.3589625954627991,
+          0.20350123941898346,
+          0.1794050931930542
+        ],
+        "fitted_reference": [
+          0.36381837725639343,
+          0.2184009999036789,
+          0.1909218728542328
+        ],
+        "mae": 0.010424107313156128
+      },
+      "render_signatures": {
+        "fitted jewel ceiling": {
+          "psnr": 26.86606216430664,
+          "ssim": 0.9862444400787354,
+          "contrast_ratio": 1.1006799936294556,
+          "edge_ratio": 0.9437774419784546,
+          "saturation_ratio": 1.0256304740905762,
+          "temporal_change_ratio": 1.0131531953811646
+        },
+        "generated correct": {
+          "psnr": 13.226405143737793,
+          "ssim": 0.5692625045776367,
+          "contrast_ratio": 0.7413889765739441,
+          "edge_ratio": 0.6905276775360107,
+          "saturation_ratio": 1.0005027055740356,
+          "temporal_change_ratio": 0.4439111053943634
+        }
+      },
+      "saliency_signatures": {
+        "fitted jewel ceiling": {
+          "foreground_rgb_mae": 0.06919258087873459,
+          "foreground_psnr": 21.035731952011915,
+          "foreground_edge_mae": 0.11699092388153076,
+          "motion_boundary_mae": 0.05555370822548866,
+          "quiet_temporal_mae": 0.009798526763916016
+        },
+        "generated correct": {
+          "foreground_rgb_mae": 0.246940478682518,
+          "foreground_psnr": 10.427866725745755,
+          "foreground_edge_mae": 0.2243281602859497,
+          "motion_boundary_mae": 0.1867799311876297,
+          "quiet_temporal_mae": 0.02413349598646164
+        }
+      },
+      "seams": {
+        "fitted jewel ceiling": {
+          "candidate_seam_change": 0.045033469796180725,
+          "target_seam_change": 0.04431931674480438,
+          "candidate_regular_change": 0.0546220988035202,
+          "target_regular_change": 0.05154503881931305,
+          "seam_to_target_ratio": 1.0161137580871582,
+          "seam_to_regular_ratio": 0.8244551420211792
+        },
+        "generated correct": {
+          "candidate_seam_change": 0.025995686650276184,
+          "target_seam_change": 0.04431931674480438,
+          "candidate_regular_change": 0.025675101205706596,
+          "target_regular_change": 0.05154503881931305,
+          "seam_to_target_ratio": 0.5865543484687805,
+          "seam_to_regular_ratio": 1.012486219406128
+        }
+      },
+      "density": {
+        "fitted jewel ceiling": {
+          "effective": {
+            "mean": 4600.171875,
+            "median": 4678.58203125,
+            "min": 2994.375732421875,
+            "max": 5524.64208984375
+          },
+          "above_5_percent_alpha": {
+            "mean": 5343.75,
+            "median": 5461.0,
+            "min": 3401.0,
+            "max": 6318.0
+          },
+          "frontier_effective": {
+            "0": 3029.70068359375,
+            "16": 4325.32666015625,
+            "32": 5323.9013671875
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 3426,
+            "16": 5095,
+            "32": 6143
+          },
+          "initial_stride_effective": [
+            3029.70068359375,
+            2994.375732421875,
+            3254.571533203125,
+            3352.3095703125,
+            3414.58447265625,
+            3620.158447265625,
+            3813.653564453125,
+            3833.361572265625,
+            3761.392578125,
+            3797.440185546875,
+            3864.0400390625,
+            4066.619873046875,
+            4250.521484375,
+            4342.08935546875,
+            4389.58447265625,
+            4334.97119140625
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            3426,
+            3401,
+            3735,
+            3874,
+            4011,
+            4220,
+            4428,
+            4419,
+            4377,
+            4359,
+            4499,
+            4683,
+            4963,
+            5096,
+            5126,
+            5109
+          ]
+        },
+        "generated correct": {
+          "effective": {
+            "mean": 7648.91162109375,
+            "median": 8237.587890625,
+            "min": 5539.82373046875,
+            "max": 8694.0166015625
+          },
+          "above_5_percent_alpha": {
+            "mean": 8376.0,
+            "median": 9027.0,
+            "min": 5885.0,
+            "max": 9570.0
+          },
+          "frontier_effective": {
+            "0": 8132.7744140625,
+            "16": 7094.748046875,
+            "32": 8579.873046875
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 9280,
+            "16": 7833,
+            "32": 9319
+          },
+          "initial_stride_effective": [
+            8132.7744140625,
+            7521.8525390625,
+            6888.58642578125,
+            6308.68408203125,
+            5877.888671875,
+            5630.36279296875,
+            5539.82373046875,
+            5560.634765625,
+            5657.5791015625,
+            5788.8359375,
+            5997.1826171875,
+            6184.90087890625,
+            6410.56494140625,
+            6615.56396484375,
+            6809.94775390625,
+            6957.95751953125
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            9280,
+            8484,
+            7655,
+            6914,
+            6293,
+            5974,
+            5885,
+            5954,
+            6057,
+            6214,
+            6483,
+            6699,
+            6936,
+            7236,
+            7477,
+            7674
+          ]
+        }
+      },
+      "rollouts": {
+        "correct": {
+          "completed_frames": 48,
+          "total_jewels": 62952,
+          "stable_ids_exact": true,
+          "topology_contract": "self_predicted_from_generated_carry",
+          "windows": [
+            {
+              "index": 0,
+              "frontier": 0,
+              "commit_stop": 16,
+              "context_jewels": 0,
+              "carried_jewels": 0,
+              "born_jewels": 27231,
+              "state_jewels": 27231,
+              "maximum_cell_count": 284,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 1,
+              "frontier": 16,
+              "commit_stop": 32,
+              "context_jewels": 25464,
+              "carried_jewels": 12359,
+              "born_jewels": 17598,
+              "state_jewels": 44829,
+              "maximum_cell_count": 47,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 2,
+              "frontier": 32,
+              "commit_stop": 48,
+              "context_jewels": 30001,
+              "carried_jewels": 14851,
+              "born_jewels": 18123,
+              "state_jewels": 62952,
+              "maximum_cell_count": 108,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            }
+          ]
+        }
+      },
+      "lifecycle_appearance": null,
+      "mark_only_attribution": null,
+      "artifacts": {
+        "gif": "02_playingguitar_evaluation_00_seed42203_three_window_rollout.gif",
+        "contact_sheet": "02_playingguitar_evaluation_00_seed42203_three_window_rollout_contact.png",
+        "generated_field": "02_playingguitar_evaluation_00_seed42203_generated_field.pt"
+      }
+    },
+    {
+      "source_id": "03_applyeyemakeup_evaluation_00_seed42303",
+      "class_name": "ApplyEyeMakeup",
+      "sampling_seed": 34,
+      "shuffled_source_id": null,
+      "completed_frames": 48,
+      "background": {
+        "contract": "initial_scaffold_rgb_mean",
+        "predicted": [
+          0.4795738160610199,
+          0.3660086989402771,
+          0.3374980688095093
+        ],
+        "fitted_reference": [
+          0.5141826868057251,
+          0.35871171951293945,
+          0.3195634186267853
+        ],
+        "mae": 0.019946834072470665
+      },
+      "render_signatures": {
+        "fitted jewel ceiling": {
+          "psnr": 28.82825469970703,
+          "ssim": 0.9935107827186584,
+          "contrast_ratio": 1.0801982879638672,
+          "edge_ratio": 0.9771283864974976,
+          "saturation_ratio": 1.0260621309280396,
+          "temporal_change_ratio": 1.183815836906433
+        },
+        "generated correct": {
+          "psnr": 13.571501731872559,
+          "ssim": 0.6968948841094971,
+          "contrast_ratio": 0.750259280204773,
+          "edge_ratio": 1.0546188354492188,
+          "saturation_ratio": 0.8654541373252869,
+          "temporal_change_ratio": 1.3928672075271606
+        }
+      },
+      "saliency_signatures": {
+        "fitted jewel ceiling": {
+          "foreground_rgb_mae": 0.046883534640073776,
+          "foreground_psnr": 24.33343192279868,
+          "foreground_edge_mae": 0.056207720190286636,
+          "motion_boundary_mae": 0.020701544359326363,
+          "quiet_temporal_mae": 0.007056261878460646
+        },
+        "generated correct": {
+          "foreground_rgb_mae": 0.2320641726255417,
+          "foreground_psnr": 11.056552901536032,
+          "foreground_edge_mae": 0.16000881791114807,
+          "motion_boundary_mae": 0.07322212308645248,
+          "quiet_temporal_mae": 0.025638926774263382
+        }
+      },
+      "seams": {
+        "fitted jewel ceiling": {
+          "candidate_seam_change": 0.015429697930812836,
+          "target_seam_change": 0.01111475471407175,
+          "candidate_regular_change": 0.01905098930001259,
+          "target_regular_change": 0.015366636216640472,
+          "seam_to_target_ratio": 1.388217568397522,
+          "seam_to_regular_ratio": 0.8099158406257629
+        },
+        "generated correct": {
+          "candidate_seam_change": 0.025430401787161827,
+          "target_seam_change": 0.01111475471407175,
+          "candidate_regular_change": 0.02534089796245098,
+          "target_regular_change": 0.015366636216640472,
+          "seam_to_target_ratio": 2.2879858016967773,
+          "seam_to_regular_ratio": 1.0035319328308105
+        }
+      },
+      "density": {
+        "fitted jewel ceiling": {
+          "effective": {
+            "mean": 5775.63037109375,
+            "median": 5818.41015625,
+            "min": 4294.7158203125,
+            "max": 6448.81201171875
+          },
+          "above_5_percent_alpha": {
+            "mean": 6793.45849609375,
+            "median": 6919.0,
+            "min": 4920.0,
+            "max": 7536.0
+          },
+          "frontier_effective": {
+            "0": 5304.10791015625,
+            "16": 6448.81201171875,
+            "32": 5752.8701171875
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 6183,
+            "16": 7512,
+            "32": 6870
+          },
+          "initial_stride_effective": [
+            5304.10791015625,
+            4993.37744140625,
+            5099.64501953125,
+            5303.4140625,
+            5526.173828125,
+            5816.17578125,
+            6025.56884765625,
+            6041.95654296875,
+            6071.72607421875,
+            6133.48974609375,
+            6328.892578125,
+            6416.68701171875,
+            6414.40673828125,
+            6379.67041015625,
+            6373.08837890625,
+            6415.654296875
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            6183,
+            5699,
+            5874,
+            6097,
+            6475,
+            6791,
+            7000,
+            7071,
+            7130,
+            7183,
+            7350,
+            7442,
+            7441,
+            7536,
+            7507,
+            7526
+          ]
+        },
+        "generated correct": {
+          "effective": {
+            "mean": 8756.669921875,
+            "median": 9233.0830078125,
+            "min": 6644.7216796875,
+            "max": 9951.69921875
+          },
+          "above_5_percent_alpha": {
+            "mean": 9514.1669921875,
+            "median": 10052.0,
+            "min": 6983.0,
+            "max": 10914.0
+          },
+          "frontier_effective": {
+            "0": 9546.486328125,
+            "16": 8372.48828125,
+            "32": 9430.5224609375
+          },
+          "frontier_above_5_percent_alpha": {
+            "0": 10837,
+            "16": 9115,
+            "32": 10268
+          },
+          "initial_stride_effective": [
+            9546.486328125,
+            8964.05859375,
+            8331.2470703125,
+            7702.6220703125,
+            7184.43603515625,
+            6826.9345703125,
+            6668.00390625,
+            6644.7216796875,
+            6739.353515625,
+            6888.89453125,
+            7140.44384765625,
+            7369.14306640625,
+            7619.19384765625,
+            7821.59619140625,
+            8038.0244140625,
+            8210.91796875
+          ],
+          "initial_stride_above_5_percent_alpha": [
+            10837,
+            10116,
+            9320,
+            8454,
+            7673,
+            7209,
+            7052,
+            6983,
+            7111,
+            7247,
+            7512,
+            7801,
+            8185,
+            8483,
+            8744,
+            8907
+          ]
+        }
+      },
+      "rollouts": {
+        "correct": {
+          "completed_frames": 48,
+          "total_jewels": 66978,
+          "stable_ids_exact": true,
+          "topology_contract": "self_predicted_from_generated_carry",
+          "windows": [
+            {
+              "index": 0,
+              "frontier": 0,
+              "commit_stop": 16,
+              "context_jewels": 0,
+              "carried_jewels": 0,
+              "born_jewels": 30095,
+              "state_jewels": 30095,
+              "maximum_cell_count": 284,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 1,
+              "frontier": 16,
+              "commit_stop": 32,
+              "context_jewels": 28440,
+              "carried_jewels": 14368,
+              "born_jewels": 18421,
+              "state_jewels": 48516,
+              "maximum_cell_count": 86,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            },
+            {
+              "index": 2,
+              "frontier": 32,
+              "commit_stop": 48,
+              "context_jewels": 32821,
+              "carried_jewels": 16561,
+              "born_jewels": 18462,
+              "state_jewels": 66978,
+              "maximum_cell_count": 74,
+              "max_prior_feature_error": 0.0,
+              "max_carried_feature_error": 0.0
+            }
+          ]
+        }
+      },
+      "lifecycle_appearance": null,
+      "mark_only_attribution": null,
+      "artifacts": {
+        "gif": "03_applyeyemakeup_evaluation_00_seed42303_three_window_rollout.gif",
+        "contact_sheet": "03_applyeyemakeup_evaluation_00_seed42303_three_window_rollout_contact.png",
+        "generated_field": "03_applyeyemakeup_evaluation_00_seed42303_generated_field.pt"
+      }
+    }
+  ]
+}

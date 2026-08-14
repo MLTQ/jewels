@@ -1,0 +1,77 @@
+{
+  "steps": 12000,
+  "seconds": 560.5081408023834,
+  "train_views": 48,
+  "schedule_views": 48,
+  "initial_train_views": 8,
+  "latest_evaluation": {
+    "validation_views": 12,
+    "shuffled_scaffold_available": true,
+    "aggregate": {
+      "correct": 1.657882700363795,
+      "null_scaffold": 1.6611215670903523,
+      "no_context": 1.6475030481815338,
+      "shuffled_scaffold": 1.6754658420880635,
+      "shuffled_minus_correct": 0.017583141724268447,
+      "null_minus_correct": 0.0032388667265572657,
+      "no_context_minus_correct": -0.010379652182261223
+    },
+    "initial": {
+      "correct": 1.9772818982601166,
+      "null_scaffold": 1.982282280921936,
+      "no_context": 1.9772820174694061,
+      "shuffled_scaffold": 2.0000281929969788,
+      "shuffled_minus_correct": 0.022746294736862183,
+      "null_minus_correct": 0.005000382661819458,
+      "no_context_minus_correct": 1.1920928955078125e-07
+    },
+    "continuation": {
+      "correct": 1.4981831014156342,
+      "null_scaffold": 1.5005412101745605,
+      "no_context": 1.4826135635375977,
+      "shuffled_scaffold": 1.513184666633606,
+      "shuffled_minus_correct": 0.015001565217971802,
+      "null_minus_correct": 0.0023581087589263916,
+      "no_context_minus_correct": -0.015569537878036499
+    },
+    "per_source": {
+      "00_basketball_evaluation_00_seed42003": {
+        "correct": 1.545543630917867,
+        "null_scaffold": 1.5384868383407593,
+        "no_context": 1.5057433048884075,
+        "shuffled_scaffold": 1.557560920715332,
+        "shuffled_minus_correct": 0.01201728979746508,
+        "null_minus_correct": -0.007056792577107673,
+        "no_context_minus_correct": -0.03980032602945949
+      },
+      "01_horseriding_evaluation_00_seed42103": {
+        "correct": 1.5299047231674194,
+        "null_scaffold": 1.535209059715271,
+        "no_context": 1.5262384414672852,
+        "shuffled_scaffold": 1.546617031097412,
+        "shuffled_minus_correct": 0.016712307929992676,
+        "null_minus_correct": 0.0053043365478515625,
+        "no_context_minus_correct": -0.0036662817001342773
+      },
+      "02_playingguitar_evaluation_00_seed42203": {
+        "correct": 2.1012149254480996,
+        "null_scaffold": 2.1056265433629355,
+        "no_context": 2.05695116519928,
+        "shuffled_scaffold": 2.1239071687062583,
+        "shuffled_minus_correct": 0.022692243258158662,
+        "null_minus_correct": 0.004411617914835908,
+        "no_context_minus_correct": -0.04426376024881984
+      },
+      "03_applyeyemakeup_evaluation_00_seed42303": {
+        "correct": 1.4548675219217937,
+        "null_scaffold": 1.4651638269424438,
+        "no_context": 1.5010792811711628,
+        "shuffled_scaffold": 1.473778247833252,
+        "shuffled_minus_correct": 0.01891072591145826,
+        "null_minus_correct": 0.010296305020650154,
+        "no_context_minus_correct": 0.046211759249369155
+      }
+    }
+  },
+  "learned_background": null
+}

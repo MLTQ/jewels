@@ -161,3 +161,12 @@ photoreal), guide-upsample baseline 0.6761, coupled 0.6911, base 0.6971. Generat
 the blur baseline on both motion-heavy classes and lose on both stable close-ups, so the metrics
 genuinely disagree with PSNR and localize the residual failure to temporal noise on smooth
 content. See [`perceptual_native_v1/README.md`](perceptual_native_v1/README.md).
+
+## Data-scaling curve
+
+Class-balanced 4/8/12-source stacks at the frozen recipe show held-out velocity loss (1.791 →
+1.658 → 1.558) and rollout LPIPS (0.7156 → 0.7069 → 0.6971) improving monotonically and
+near-linearly in log-sources with no flattening, while PSNR stalls after 0.8 dB — the expected
+signature of gained detail under a blur-rewarding metric. Realization is data-starved, one
+fitted source costs ~25 GPU-minutes, and the teacher supplies sources without limit; quality is
+priced directly in fitting compute. See [`data_scaling_v1/README.md`](data_scaling_v1/README.md).

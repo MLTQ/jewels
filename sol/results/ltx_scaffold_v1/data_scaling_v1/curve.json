@@ -1,0 +1,29 @@
+{
+ "schema": "realizer-data-scaling-v1",
+ "points": [
+  {
+   "sources": 4,
+   "correct_feature_loss": 1.7905795673529308,
+   "shuffled_minus_correct": 0.016850630442301284,
+   "rollout_psnr": 13.427049398422241,
+   "rollout_ssim": 0.5125564634799957,
+   "rollout_lpips": 0.7155597132320205
+  },
+  {
+   "sources": 8,
+   "correct_feature_loss": 1.657882700363795,
+   "shuffled_minus_correct": 0.017583141724268447,
+   "rollout_psnr": 14.264433860778809,
+   "rollout_ssim": 0.6040878146886826,
+   "rollout_lpips": 0.7068547513335943
+  },
+  {
+   "sources": 12,
+   "correct_feature_loss": 1.5582462350527446,
+   "shuffled_minus_correct": 0.008509725332260132,
+   "rollout_psnr": 14.141720533370972,
+   "rollout_ssim": 0.600085586309433,
+   "rollout_lpips": 0.6970624464253585
+  }
+ ]
+}
