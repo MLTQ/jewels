@@ -65,6 +65,34 @@ class BuildLtxDomainTrainTests(unittest.TestCase):
             [row["source_group"] for row in manifest["examples"]], [1, 2, 3, 4]
         )
 
+    def test_mixed_corpus_prepends_ucf_train_rows_verbatim(self) -> None:
+        ucf = _ucf_manifest()
+        ucf["examples"] = [
+            {
+                "class_name": "Basketball",
+                "class_id": 0,
+                "source_group": group,
+                "source_id": f"Basketball_g{group:02d}",
+                "split": "train",
+                "video": f"/ucf/g{group:02d}.avi",
+                "frames": 96,
+                "train_prompts": ["a", "b", "c"],
+                "evaluation_prompts": ["z"],
+            }
+            for group in (1, 2)
+        ]
+        manifest = build_domain_manifest(
+            ucf, _ltx_manifest(), {"steps": 9000}, mix_ucf_train=True
+        )
+        splits = [row["split"] for row in manifest["examples"]]
+        self.assertEqual(
+            splits, ["train", "train", "train", "train", "train", "validation"]
+        )
+        self.assertEqual(manifest["examples"][0]["source_id"], "Basketball_g01")
+        self.assertEqual(manifest["examples"][0]["frames"], 96)
+        self.assertEqual(manifest["examples"][2]["frames"], 49)
+        self.assertIn("mixed", manifest["training_domain"])
+
     def test_rejects_prompt_class_mismatch(self) -> None:
         ltx = _ltx_manifest()
         ltx["examples"][0]["source_prompt"] = "not a class prompt"

@@ -16,10 +16,18 @@ number of saved generated fields.
   other sol module keep zero perceptual-net dependencies.
 
 ### `score_arms`
-- **Does**: For each named arm, records per-frame LPIPS, its mean, and the standard
-  `render_signature` on the identical target slice.
+- **Does**: For each named arm, records per-frame LPIPS, its mean, the standard
+  `render_signature`, and a `layout_signature` on the identical target slice.
 - **Interacts with**: `render_signature` in `audit_prompted_washout.py` so PSNR/SSIM stay
   cross-checkable against every rollout report.
+
+### `layout_signature`
+- **Does**: Average-pools texture away (factor 8 at native resolution, adaptive on small
+  inputs) and scores PSNR/SSIM on the pooled videos — where things are, not how they are
+  textured.
+- **Rationale**: The domain-matched audit showed patch-based LPIPS rewarding local texture
+  statistics while macro-layout visibly regressed; the battery needs a metric pointed at
+  exactly the thing LPIPS misses.
 
 ### `main`
 - **Does**: Loads validation sources via `load_prompted_fields`, rebuilds the guide-upsample

@@ -9,6 +9,12 @@ physically disjoint, honestly labelled split — unlike the cel adaptation's sam
 
 ## Components
 
+### `build_domain_manifest` (`mix_ucf_train` option)
+- **Does**: With the flag, each class's original UCF train rows precede its LTX rows verbatim
+  (24 sources, 108 views), keeping first-occurrence prompt order so the cache still rebinds
+  bit-identically. Used by the divergence diagnosis to test whether corpus diversity restores
+  macro-layout.
+
 ### `build_domain_manifest`
 - **Does**: Walks classes in UCF-manifest order, emits three train rows (prompt_index order) and
   one validation row per class from the LTX corpus manifest, validates each generation's source

@@ -8,6 +8,7 @@ import json
 from pathlib import Path
 
 import torch
+import torch.nn.functional as F
 
 from sol.audit_prompted_washout import render_signature
 from sol.guide_upsample_baseline import guide_upsample_baseline
@@ -44,21 +45,48 @@ def lpips_metric(device: torch.device, net: str = "alex"):
     return metric
 
 
+def layout_signature(
+    candidate: torch.Tensor, target: torch.Tensor, factor: int = 8
+) -> dict[str, float]:
+    """Score macro-layout by average-pooling away texture before comparison.
+
+    Patch-based LPIPS rewards local texture statistics and is nearly blind to
+    global structure; pooling to roughly the scaffold's own scale measures the
+    opposite: where things are, not how they are textured.
+    """
+    if candidate.shape != target.shape or candidate.ndim != 4:
+        raise ValueError("videos must share one (T,H,W,3) shape")
+    if factor <= 1 or min(candidate.shape[1], candidate.shape[2]) < 2 * factor:
+        raise ValueError("pool factor must leave at least two cells per axis")
+    pooled = tuple(
+        F.avg_pool2d(video.permute(0, 3, 1, 2).float(), factor).permute(0, 2, 3, 1)
+        for video in (candidate, target)
+    )
+    signature = asdict(render_signature(pooled[0], pooled[1]))
+    return {
+        "pool_factor": float(factor),
+        "layout_psnr": signature["psnr"],
+        "layout_ssim": signature["ssim"],
+    }
+
+
 def score_arms(
     target: torch.Tensor,
     arms: dict[str, torch.Tensor],
     metric,
 ) -> dict[str, dict]:
-    """Return per-arm perceptual and reference-based signatures on one target."""
+    """Return per-arm perceptual, layout, and reference-based signatures."""
     report = {}
     for name, video in arms.items():
         if video.shape != target.shape:
             raise ValueError(f"arm {name!r} does not match the target shape")
         frame_scores = metric(video, target)
+        factor = min(8, target.shape[1] // 2, target.shape[2] // 2)
         report[name] = {
             "lpips_mean": sum(frame_scores) / len(frame_scores),
             "lpips_per_frame": frame_scores,
             "render_signature": asdict(render_signature(video, target)),
+            "layout_signature": layout_signature(video, target, factor),
         }
     return report
 
@@ -204,6 +232,16 @@ def main() -> None:
             / len(records),
             "ssim": sum(
                 record["arms"][name]["render_signature"]["ssim"]
+                for record in records
+            )
+            / len(records),
+            "layout_psnr": sum(
+                record["arms"][name]["layout_signature"]["layout_psnr"]
+                for record in records
+            )
+            / len(records),
+            "layout_ssim": sum(
+                record["arms"][name]["layout_signature"]["layout_ssim"]
                 for record in records
             )
             / len(records),
