@@ -36,10 +36,22 @@ velocity margin is preserved (0.0174).
    (~3 min each), fits (~25 uncontended GPU-min each), training (minutes): quality in this lane
    is priced purely in compute, which is the donated-compute conversion claim made concrete.
 
-Caveats: one seed, four evaluation clips, Basketball regresses slightly (its scaffold is the
-weakest fit at 27.57-28.18 dB replay), and the domain-matched corpus carries half the views of
-the UCF corpus — the next corpus doubling should test whether view count or source diversity
-carries the slope.
+## Visual audit — the decisive caveat
+
+The frame-32 contact sheet (`rollout_contact.png`) fails the visual gate: the domain-matched
+arm loses the recognizable macro-layout (court organization, horse/rider silhouette, guitar
+axis, face structure) that the UCF-trained arm's contacts retain, dissolving into locally rich
+but globally unstructured texture. Patch-based AlexNet LPIPS evidently rewards the improved
+local color/texture statistics while being nearly blind to the layout regression — so this
+record establishes domain matching at the feature and perceptual-statistic level only. The
+33% velocity-loss improvement is real and the compute economics stand, but "better LPIPS" here
+does not mean "looks better", and no visual improvement is claimed. Candidate causes for the
+layout loss (36 views at 12,000 steps = 333 steps/view versus UCF's 167; 49-frame fields
+halving temporal context; different jewel statistics in LTX fits) are follow-up work.
+
+Further caveats: one seed, four evaluation clips, Basketball regresses on LPIPS too (its
+scaffold is the weakest fit at 27.57-28.18 dB replay), and the domain-matched corpus carries
+half the views of the UCF corpus.
 
 Artifacts: `mark_summary.json`, `rollout_summary.json`, `perceptual_report.json`,
 `rollout_contact.png`; Aine: `topology/ltx_domain_v1/`.

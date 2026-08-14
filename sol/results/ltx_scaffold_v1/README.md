@@ -175,7 +175,8 @@ priced directly in fitting compute. See [`data_scaling_v1/README.md`](data_scali
 
 Training the same recipe on the twelve overnight-fitted LTX training clips instead of the twelve
 real UCF sources — half the views, honest disjoint split — cuts held-out velocity loss 33%
-(1.558 → 1.045) and improves rollout LPIPS 0.6971 → 0.6760, the first macro parity with the
-blur baseline, while PSNR falls in the established blur-bias pattern. The cross-domain tax was
-enormous, and this arm's entire supervision chain is teacher-generated: quality is priced in
-compute alone. See [`ltx_domain_v1/README.md`](ltx_domain_v1/README.md).
+(1.558 → 1.045) and reaches macro LPIPS parity with the blur baseline (0.6760), but the visual
+audit fails: macro-layout visibly regresses versus the UCF-trained arm while patch-based LPIPS
+rewards the improved local statistics. The domain gain is real at the feature level, the metric
+divergence is itself a finding, and this arm's entire supervision chain is teacher-generated:
+quality is priced in compute alone. See [`ltx_domain_v1/README.md`](ltx_domain_v1/README.md).

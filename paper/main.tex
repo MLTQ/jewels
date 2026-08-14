@@ -1182,11 +1182,16 @@ same frozen contract (31.14 dB mean replay), replace the twelve real UCF sources
 honestly disjoint split, identical recipe, seeds, embeddings, and battery. Despite carrying
 half the training views (36 versus 72, since LTX fields span 49 frames rather than 96),
 domain-matched training cuts held-out velocity loss by 33\% (1.558 to 1.045) and improves
-rollout LPIPS from 0.6971 to 0.6760 --- the first macro parity with the guide-upsample baseline
---- while PSNR falls from 14.14 to 12.56, the third independent occurrence of the
-blur-rewarding pattern. Every earlier realization number was paying an unmeasured cross-domain
-tax, and every input to this arm's supervision is teacher-generated: prompt-matched videos,
-fitted fields, and minutes of training, all priced in compute alone.
+rollout LPIPS from 0.6971 to 0.6760 --- macro parity with the guide-upsample baseline --- while
+PSNR falls from 14.14 to 12.56. The visual audit, however, fails: the domain-matched contact
+sheets lose the recognizable macro-layout the UCF-trained arm retains, dissolving into locally
+rich but globally unstructured texture. Patch-based LPIPS rewards the improved local statistics
+while being nearly blind to that layout regression, so the domain gain is established at the
+feature and perceptual-statistic level only, and this report treats no single metric ---
+reference-based or perceptual --- as sufficient without the rendered audit. What survives all
+three lenses: the cross-domain tax on the feature objective was large and is now removed, and
+every input to this arm's supervision is teacher-generated --- prompt-matched videos, fitted
+fields, and minutes of training, priced in compute alone.
 
 \subsection{Foreground weighting exposes lifecycle--appearance coupling}
 
