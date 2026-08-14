@@ -152,3 +152,12 @@ target's edge energy (0.515) and temporal change (0.508). The generated field re
 generative stack's contribution; detail/motion-energy restoration and the editable persistent
 field must carry the claim, and perceptual/distribution metrics are required. See
 [`guide_upsample_baseline/README.md`](guide_upsample_baseline/README.md).
+
+## Perceptual arm evaluation
+
+Per-frame AlexNet LPIPS at native 288x192 over the same deterministic arms: fitted ceiling
+0.0982 (7x better than everything else — the representation's perceptual ceiling is nearly
+photoreal), guide-upsample baseline 0.6761, coupled 0.6911, base 0.6971. Generated fields beat
+the blur baseline on both motion-heavy classes and lose on both stable close-ups, so the metrics
+genuinely disagree with PSNR and localize the residual failure to temporal noise on smooth
+content. See [`perceptual_native_v1/README.md`](perceptual_native_v1/README.md).

@@ -56,6 +56,10 @@ under a top-20% RGB gate. Its
 [`74k compact adapter`](ltx_scaffold_v1/appearance_adapter_ablation/README.md) preserves exact state
 ownership but captures only part of the selected full-flow correction, moving the primary visual
 bottleneck to neighborhood-coupled mark realization.
+A native-resolution LPIPS battery ([`perceptual arm evaluation`](ltx_scaffold_v1/perceptual_native_v1/README.md)) then shows the fitted
+field at 0.098 LPIPS — the representation's perceptual ceiling is nearly photoreal — while
+generated fields beat the guide-upsample blur baseline on motion-heavy classes and lose on stable
+close-ups, keeping realization training as the bottleneck.
 
 ## Decision
 
