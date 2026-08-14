@@ -255,6 +255,58 @@ research critical path. It needs:
     full model. Preserve the exact two-stream ownership and scaffold gate, then expand beyond RGB
     only when the four-class quiet-stability gate remains passing. Evaluate longer rollouts and a
     larger held-out scaffold corpus before promoting it beyond a factorization proof.
+17. Measure the fitted-data scaling curve: class-balanced 4/8/12-source realizer+topology stacks
+    at the frozen recipe, deterministic native rollouts, velocity/PSNR/SSIM/LPIPS per point. The
+    curve's shape decides whether the next compute goes to data or to architecture.
+18. Fit the twelve LTX training clips at the frozen 72k contract and retrain the realizer
+    domain-matched, comparing against the UCF-trained transfer under the identical battery. This
+    moves the data axis onto teacher-generated corpus, which is the axis donated compute extends.
+19. Distill the teacher's guide into a compact text-to-scaffold generator trained on harvested
+    (prompt, scaffold-raster) pairs — the smallest new model that makes inference prompt-only —
+    and evaluate correct/shuffled text at the scaffold and at the final render separately.
+
+## Compute conversion — the scaling program (2026-08-14)
+
+Reframe (Max): editability is a supporting property, not the headline. The goal is a promptable
+text-to-video model whose generation is the composition of anisotropic spacetime Gaussians —
+primitives with learned shape in every dimension, motion carried by orientation — and the
+scaffold pathway is how that model trains without pretending one workstation can learn
+open-vocabulary semantics from scratch. What a compute donor needs to see is that additional
+training converts into quality at a measured rate. Three facts make that conversion mechanical:
+
+1. **Teacher supply is unlimited.** LTX-2.3 emits a prompt-matched 49-frame video in about
+   three minutes on the 4090, with seeds, receipts, and balanced prompt manifests already
+   automated (`generate_ltx_corpus.py`).
+2. **Supervision conversion is ~25 GPU-minutes per clip.** The frozen 72k contract turns any
+   such video into a (scaffold, jewel-field) training pair at 28--35 dB replay, with resumable
+   fitting. One 4090 day ≈ 50 new supervised fields including generation; the current realizer
+   corpus is twelve.
+3. **The realization stage is data-starved by construction.** The 2.13M mark flow trains in
+   under three minutes and the 0.88M topology head in under one; both are dwarfed by their own
+   corpus cost. Nothing about the current quality ceiling has ever seen a data axis.
+
+The running experiments make the conversion measurable rather than asserted:
+
+- **Fitted-data scaling curve.** Class-balanced 4-, 8-, and 12-source realizer/topology stacks at
+  the exact frozen recipe/seed/battery, each rolled out deterministically at native 288x192 and
+  scored with velocity loss, PSNR/SSIM, and LPIPS (`topology/scaling_curve_v1`,
+  `sol/results/ltx_scaffold_v1/data_scaling_v1`). A monotone, unsaturated curve is the pitch; a
+  saturating one redirects the next dollar to architecture instead — either answer is useful.
+- **Domain-matched LTX corpus.** The twelve LTX training clips are being fitted at the frozen 72k
+  contract (`corpus/ltx_scaffold_v1_train_72k`), so the realizer can next train in the same
+  domain it is evaluated in, removing the measured UCF-to-LTX transfer penalty and putting the
+  curve on the axis that donated compute actually extends: teacher-generated data.
+
+With donated compute the program is, in order: (a) generate-and-fit at fleet scale — at the
+current fitter, eight datacenter GPUs convert to roughly three thousand supervised fields per
+week, before the already-planned fused-CUDA culling or amortized video-to-jewel encoder removes
+the 25-minute bottleneck; (b) re-train the realizer per corpus doubling under the same frozen
+battery and publish the extended curve; (c) distill the teacher out of inference — the entire
+inference-time teacher signal is a `(16,16,8)` cell-RGB raster per 16-frame stride, about six
+kilobytes, so a compact text-conditioned scaffold generator trained on harvested (prompt,
+scaffold) pairs makes the system prompt-only at inference while the jewel stack stays unchanged;
+(d) scale realizer capacity with the corpus, which is exactly where the coupled birth-set result
+already points.
 
 ## Literature anchors
 
