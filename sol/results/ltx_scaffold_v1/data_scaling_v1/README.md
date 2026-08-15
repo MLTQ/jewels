@@ -36,9 +36,14 @@ fitted ceiling 0.0982 in every report), confirming only the training corpus vari
 4. Caveats: one seed per point, three points, four evaluation clips, and the correct-shuffled
    margin thins at 12 sources (0.0170/0.0176/0.0085) — the margin is measured against
    *class-shuffled* scaffolds while training classes are fixed, so it partly reflects class
-   memorization at small corpus sizes. Multi-seed error bars and additional points on the
-   domain-matched LTX-fit axis (`corpus/ltx_scaffold_v1_train_72k`, fitting now) are the next
-   extension.
+   memorization at small corpus sizes.
+5. **Measured seed sensitivity (first pair):** retraining the 12-source UCF point at seed 24
+   gives held-out velocity 1.633 versus seed 23's 1.558 — a spread (~0.075) of the same order
+   as the curve's per-4-source improvements (0.100--0.133). The curve's slope therefore needs
+   the full multi-seed battery before it can be quoted with confidence intervals; the
+   domain-matched gap (1.045 vs 1.558, 7x the observed spread) stands regardless. The
+   remaining seeds are blocked on host disk space (see project log) and resume when space
+   frees.
 
 ## Provenance
 
