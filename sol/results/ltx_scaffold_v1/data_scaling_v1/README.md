@@ -37,13 +37,17 @@ fitted ceiling 0.0982 in every report), confirming only the training corpus vari
    margin thins at 12 sources (0.0170/0.0176/0.0085) — the margin is measured against
    *class-shuffled* scaffolds while training classes are fixed, so it partly reflects class
    memorization at small corpus sizes.
-5. **Measured seed sensitivity (first pair):** retraining the 12-source UCF point at seed 24
-   gives held-out velocity 1.633 versus seed 23's 1.558 — a spread (~0.075) of the same order
-   as the curve's per-4-source improvements (0.100--0.133). The curve's slope therefore needs
-   the full multi-seed battery before it can be quoted with confidence intervals; the
-   domain-matched gap (1.045 vs 1.558, 7x the observed spread) stands regardless. The
-   remaining seeds are blocked on host disk space (see project log) and resume when space
-   frees.
+5. **Measured seed noise (three seeds per 12-source arm, `seed_variance.json`):** UCF velocity
+   1.608 ± 0.043, LPIPS 0.696 ± 0.009, layout 15.34 ± 0.02; domain velocity 1.072 ± 0.038,
+   LPIPS 0.675 ± 0.013, layout 13.57 ± 0.30 (mean ± sd; topology and rollout seeds fixed).
+   Under this floor the curve's claims re-sort: the 4→8 velocity step (0.133) is ~3 sd and
+   stands; the 8→12 step (0.050 against the multi-seed mean) is ~1.2 sd and is **not
+   individually resolved**; per-step LPIPS improvements (~0.009) are ~1 sd each. The curve is
+   monotone in means but its tail needs multi-seed subset points or larger corpus steps —
+   exactly what corpus scale-up provides. The domain-matching velocity gap (0.536, ~13 sd) and
+   the domain layout regression (1.77, ~6 sd) are decisively significant; the domain LPIPS
+   advantage (0.021, ~1.9 sd) is suggestive only, and "parity with the blur baseline" is the
+   defensible LPIPS claim.
 
 ## Provenance
 

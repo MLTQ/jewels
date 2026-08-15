@@ -55,3 +55,11 @@ half the views of the UCF corpus.
 
 Artifacts: `mark_summary.json`, `rollout_summary.json`, `perceptual_report.json`,
 `rollout_contact.png`; Aine: `topology/ltx_domain_v1/`.
+
+## Multi-seed update
+
+Three training seeds per arm (`../data_scaling_v1/seed_variance.json`): the velocity gap is
+1.608 ± 0.043 vs 1.072 ± 0.038 (~13 sd, decisive), the layout regression 15.34 ± 0.02 vs
+13.57 ± 0.30 (~6 sd, decisive), and the LPIPS advantage 0.696 ± 0.009 vs 0.675 ± 0.013
+(~1.9 sd — claimed as baseline parity, not superiority). Headline numbers above are the seed-23
+member of these distributions.

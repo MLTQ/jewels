@@ -1,0 +1,53 @@
+{
+ "schema": "multi-seed-variance-v1",
+ "seeds": [
+  23,
+  24,
+  25
+ ],
+ "protocol": "identical recipe; topology and rollout seeds fixed; only mark-flow training seed varies",
+ "ucf_12src": {
+  "velocity": [
+   1.5582,
+   1.633,
+   1.6321
+  ],
+  "lpips": [
+   0.6971,
+   0.6871,
+   0.7047
+  ],
+  "psnr": [
+   14.142,
+   14.1718,
+   14.1869
+  ],
+  "layout_psnr": [
+   15.33,
+   15.3646,
+   15.3349
+  ]
+ },
+ "domain_12src": {
+  "velocity": [
+   1.0448,
+   1.1152,
+   1.0546
+  ],
+  "lpips": [
+   0.676,
+   0.6879,
+   0.6612
+  ],
+  "psnr": [
+   12.557,
+   12.6017,
+   12.9615
+  ],
+  "layout_psnr": [
+   13.38,
+   13.4191,
+   13.9192
+  ]
+ }
+}

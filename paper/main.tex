@@ -85,8 +85,9 @@ a no-model trilinear decode of the stack's own scaffold input still wins every r
 fidelity metric --- so we triangulate with perceptual (LPIPS) and texture-blind layout metrics,
 which disagree with PSNR and with each other in instructive ways. Third, quality scales with
 data and is priced in compute: a frozen-protocol curve over 4/8/12 fitted training sources is
-monotone and unsaturated in held-out loss and LPIPS; training on teacher-generated fits removes
-a 33\% cross-domain feature-loss tax; and a mixed real-plus-teacher corpus shows the two
+monotone in the mean, with a measured three-seed noise floor resolving its first step at three
+standard deviations; training on teacher-generated fits removes a cross-domain feature-loss tax
+of one third at thirteen standard deviations; and a mixed real-plus-teacher corpus shows the two
 supervision sources are complementary (texture versus macro-structure). One fitted source costs
 about 25 GPU-minutes and the teacher supplies prompt-matched sources without limit. Fourth,
 direct text selectivity remains open: correct and shuffled prompts tie once the video scaffold
@@ -1130,26 +1131,28 @@ signature of a model gaining detail under a blur-rewarding metric
 \label{fig:datascaling}
 \end{figure}
 
-Two of three metrics --- including the perceptual one --- are monotone and unsaturated, so the
-next fitted source still buys held-out quality at an undiminished rate. The economics make this
-axis actionable: one curve point trains in under ten minutes on a consumer GPU, one fitted
-source costs about 25 GPU-minutes under the frozen 72k contract, and the frozen LTX teacher
-supplies prompt-matched source videos without limit ($\sim$3 minutes each). Quality is therefore
-priced directly in fitting compute. Caveats are stated plainly: three points, one seed each,
-four evaluation clips, and a correct-versus-shuffled margin that thins at twelve sources. A
-first repeated-seed measurement calibrates the noise floor: retraining the 12-source point at a
-second seed shifts held-out velocity loss by 0.075 --- the same order as the curve's
-per-4-source improvements --- so the slope requires full multi-seed error bars before it can be
-quoted with intervals, while the 0.51 domain-matching gap below is seven times this spread and
-stands regardless.
+All three metrics improve monotonically in the mean, and a three-seed noise floor at the
+12-source points (mark-flow training seed varied; topology and rollout seeds fixed) sorts the
+claims by significance: velocity seed-sd is 0.043 (UCF) and 0.038 (domain), LPIPS sd 0.009 and
+0.013. The 4-to-8-source velocity step (0.133) is about three standard deviations and stands;
+the 8-to-12 step (0.050 against the multi-seed mean of 1.608) is about 1.2 and is not
+individually resolved; per-step LPIPS improvements are about one standard deviation each. The
+curve's tail therefore needs multi-seed subset points or larger corpus steps --- which is what
+corpus scale-up provides. The economics make the axis actionable either way: one curve point
+trains in under ten minutes on a consumer GPU, one fitted source costs about 25 GPU-minutes
+under the frozen 72k contract, and the frozen LTX teacher supplies prompt-matched source videos
+without limit ($\sim$3 minutes each). Remaining caveats: four evaluation clips, and a
+correct-versus-shuffled margin that thins at twelve sources.
 
 The domain axis was then measured directly. The twelve LTX training clips, fitted under the
 same frozen contract (31.14 dB mean replay), replace the twelve real UCF sources with an
 honestly disjoint split, identical recipe, seeds, embeddings, and battery. Despite carrying
 half the training views (36 versus 72, since LTX fields span 49 frames rather than 96),
-domain-matched training cuts held-out velocity loss by 33\% (1.558 to 1.045) and improves
-rollout LPIPS from 0.6971 to 0.6760 --- macro parity with the guide-upsample baseline --- while
-PSNR falls from 14.14 to 12.56. The visual audit, however, fails: the domain-matched contact
+domain-matched training cuts held-out velocity loss by a third (three seeds per arm: 1.608
+$\pm$ 0.043 to 1.072 $\pm$ 0.038, a thirteen-standard-deviation gap) and brings rollout LPIPS
+to macro parity with the guide-upsample baseline (0.675 $\pm$ 0.013 versus 0.6761; the 0.021
+advantage over the UCF arm is only $\sim$1.9 sd and is claimed as parity, not superiority),
+while PSNR falls from 14.17 $\pm$ 0.02 to 12.71 $\pm$ 0.22. The visual audit, however, fails: the domain-matched contact
 sheets lose the recognizable macro-layout the UCF-trained arm retains, dissolving into locally
 rich but globally unstructured texture. Patch-based LPIPS rewards the improved local statistics
 while being nearly blind to that layout regression, so the domain gain is established at the
@@ -1161,8 +1164,9 @@ fields, and minutes of training, priced in compute alone.
 
 The divergence itself was then diagnosed. A layout signature (average-pooling texture away at
 factor 8 before scoring) quantifies what the contact sheets showed: layout PSNR ranks the
-UCF-trained arm above mixed above domain-matched (15.33 / 14.19 / 13.38) --- the exact reverse
-of LPIPS --- so the battery now reports texture and structure separately. A matched
+UCF-trained arm above mixed above domain-matched (15.34 $\pm$ 0.02 / 14.19 / 13.57 $\pm$ 0.30
+across training seeds, a six-standard-deviation structure gap) --- the exact reverse of LPIPS
+--- so the battery now reports texture and structure separately. A matched
 steps-per-view retrain worsens layout further, ruling out overexposure; a mixed 24-source stack
 interpolates between the pure corpora on every axis, showing the two supervision sources are
 complementary: teacher-domain fits supply feature and texture accuracy, real-video fields
