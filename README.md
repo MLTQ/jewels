@@ -27,7 +27,7 @@ The encoder is amortized fitting: slots are seeded from the video on a stratifie
 calibrated unity coverage, and a 3D-conv trunk predicts refinements, trained with the fitter's
 own stochastic-voxel render loss on teacher-generated (video, fitted-field) pairs — a
 supervised regression with unlimited manufacturable data. First gate, one-shot on held-out
-clips at native resolution: **23.2 dB / 0.942 SSIM / 0.469 LPIPS with macro-layout at the
+clips at native resolution: **23.4 dB / 0.944 SSIM / 0.405 LPIPS with macro-layout at the
 fitted ceiling** — beating the blur baseline on every metric (the first arm to do so) and the
 best set-generative arm by 8.7 dB, from twelve training windows
 (`sol/results/amortized_encoder_v0/`). Jewels remain the persistent state: stable identity
@@ -116,7 +116,7 @@ those larger sets is what the jewel tokenizer exists to absorb.
 | synthetic tube fit | ~55 dB PSNR |
 | real busy scene fit (160px, ≤10k prims) | ~30 dB PSNR |
 | optimized 72k fit of teacher video (the ceiling) | 27.5 dB / 0.098 LPIPS / 30.5 layout |
-| **one-shot encoder on held-out clips (2026-08-17)** | **23.2 dB / 0.942 SSIM / 0.469 LPIPS / layout at ceiling** |
+| **one-shot encoder on held-out clips (2026-08-17)** | **23.4 dB / 0.944 SSIM / 0.405 LPIPS / layout at ceiling** |
 | best mark-space generative arm (retired path) | 14.5 dB / 0.603 SSIM / 0.691 LPIPS |
 | cross-seed canonicality (chamfer ratio vs random baseline) | 0.62 — weakly canonical: set priors viable, autoregression over the set ruled out |
 | featurization round-trip (log-covariance coords) | 1e-6 max error |

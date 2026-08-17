@@ -4,15 +4,18 @@ One feed-forward pass (~5M params) encodes a never-seen video window into a cano
 73,728-jewel field. Trained on twelve teacher-generated windows with the fitter's own
 stochastic-voxel render loss; slots are video-seeded on a stratified lattice at calibrated
 unity coverage (sigma = spacing/2, opacity logit -2.7), so the network starts near
-blur-baseline quality and learns residual structure. Step-3000 snapshot audited at native
-288x192 over 48 frames while training continues to step 8000.
+blur-baseline quality and learns residual structure. Audited at native 288x192 over 48 frames
+at the step-3000 snapshot and again at the final step-8000 checkpoint
+(`perceptual_audit_final.json`); the final checkpoint improves every axis, with LPIPS down to
+0.33-0.38 on three classes and ApplyEyeMakeup individually crossing the 25 dB bar at 26.09.
 
 ## Full-resolution one-shot audit (`perceptual_audit_step3000.json`)
 
 | Arm | PSNR | SSIM | LPIPS | Layout PSNR |
 |---|---:|---:|---:|---:|
 | Fitted jewel ceiling (9,000 opt steps/clip) | 27.52 | 0.9831 | 0.0982 | 30.46 |
-| **Encoded one-shot (a single forward pass)** | **23.24** | **0.9422** | **0.4693** | **29.98** |
+| **Encoded one-shot, final step 8000** | **23.41** | **0.9436** | **0.4049** | **30.14** |
+| Encoded one-shot, step-3000 snapshot | 23.24 | 0.9422 | 0.4693 | 29.98 |
 | Guide upsample baseline | 19.35 | 0.8596 | 0.6762 | 22.61 |
 | Best generative mark-space arm (reference) | 14.48 | 0.6031 | 0.6911 | 15.75 |
 

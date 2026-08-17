@@ -85,7 +85,7 @@ scaffold input, across every corpus size and domain, a joint-composition failure
 triangulation (reference, perceptual, and texture-blind layout) localizes precisely. The
 selected architecture is instead a dense intermediate: a $\sim$5M feed-forward encoder
 performs amortized fitting of teacher-generated video into jewel fields and one-shots
-held-out clips at 23.2 dB / 0.942 SSIM / 0.469 LPIPS with macro-layout at the fitted ceiling
+held-out clips at 23.4 dB / 0.944 SSIM / 0.405 LPIPS with macro-layout at the fitted ceiling
 --- the first arm to beat that trilinear baseline on every metric, eight decibels beyond the
 best set-generative arm, from twelve training windows. Third, quality scales with
 data and is priced in compute: a frozen-protocol curve over 4/8/12 fitted training sources is
@@ -1441,8 +1441,8 @@ load-bearing: the identical model without it underfits at 12.2 dB.
 \begin{table}[H]
 \centering
 \small
-\caption{One-shot encoding of the four held-out clips at native 288\(\times\)192 (step-3000
-snapshot; training was still improving). The encoder is the first arm to beat the trivial
+\caption{One-shot encoding of the four held-out clips at native 288\(\times\)192 (final step-8000
+checkpoint; the mid-run step-3000 snapshot already scored 23.24 / 0.4693). The encoder is the first arm to beat the trivial
 decode on every metric.}
 \label{tab:encoder}
 \begin{tabular}{@{}lrrrr@{}}
@@ -1450,7 +1450,7 @@ decode on every metric.}
 Arm & PSNR & SSIM & LPIPS & Layout PSNR \\
 \midrule
 Fitted jewel ceiling (9{,}000 opt.\ steps/clip) & 27.52 & 0.9831 & 0.0982 & 30.46 \\
-\textbf{Encoded one-shot (single forward pass)} & \textbf{23.24} & \textbf{0.9422} & \textbf{0.4693} & \textbf{29.98} \\
+\textbf{Encoded one-shot (single forward pass)} & \textbf{23.41} & \textbf{0.9436} & \textbf{0.4049} & \textbf{30.14} \\
 Guide upsample baseline & 19.35 & 0.8596 & 0.6762 & 22.61 \\
 Best mark-space generative arm & 14.48 & 0.6031 & 0.6911 & 15.75 \\
 \bottomrule
