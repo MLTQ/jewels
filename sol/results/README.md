@@ -60,6 +60,10 @@ A native-resolution LPIPS battery ([`perceptual arm evaluation`](ltx_scaffold_v1
 field at 0.098 LPIPS — the representation's perceptual ceiling is nearly photoreal — while
 generated fields beat the guide-upsample blur baseline on motion-heavy classes and lose on stable
 close-ups, keeping realization training as the bottleneck.
+The 2026-08-17 dense-intermediate pivot then replaces mark-space generation outright: a ~5M
+feed-forward encoder one-shots held-out windows to 23.24 dB / 0.9422 SSIM / 29.98 layout PSNR —
+the first arm to beat the blur baseline on every metric, +8.7 dB over the best generative arm —
+see [`amortized_encoder_v0/README.md`](amortized_encoder_v0/README.md).
 
 ## Decision
 

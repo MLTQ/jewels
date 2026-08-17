@@ -28,31 +28,55 @@ def cholesky_render(
     but keeps `torch.linalg.eigh` out of the training graph: the Mahalanobis
     term is ||L^T d||^2 with L the lower-triangular precision factor.
     """
-    outputs = []
-    for start in range(0, len(points), point_chunk):
-        block = points[start : start + point_chunk]
+    def _block(block: torch.Tensor) -> torch.Tensor:
         delta = block[:, None, :] - centers[None, :, :]
         projected = torch.einsum("nij,mnj->mni", cholesky.transpose(1, 2), delta)
         mahalanobis = projected.square().sum(-1)
         logits = -0.5 * mahalanobis + F.logsigmoid(logit_w)[None]
         color = colors[None] + torch.einsum("nij,mnj->mni", color_grads, delta)
         alpha = logits.exp()
-        rendered = (alpha[..., None] * color).sum(dim=1)
-        outputs.append(rendered + background[None])
+        return (alpha[..., None] * color).sum(dim=1) + background[None]
+
+    outputs = []
+    needs_graph = torch.is_grad_enabled() and (
+        centers.requires_grad or cholesky.requires_grad or colors.requires_grad
+    )
+    for start in range(0, len(points), point_chunk):
+        block = points[start : start + point_chunk]
+        if needs_graph:
+            outputs.append(
+                torch.utils.checkpoint.checkpoint(
+                    _block, block, use_reentrant=False
+                )
+            )
+        else:
+            outputs.append(_block(block))
     return torch.cat(outputs)
 
 
-def cholesky_to_log_covariance(cholesky: torch.Tensor) -> torch.Tensor:
-    """Convert precision factors to canonical upper-triangular logSigma features."""
-    precision = cholesky @ cholesky.transpose(1, 2)
-    eigenvalues, eigenvectors = torch.linalg.eigh(precision.double())
-    log_sigma = torch.einsum(
-        "nij,nj,nkj->nik",
-        eigenvectors,
-        -eigenvalues.clamp_min(1e-12).log(),
-        eigenvectors,
-    ).to(cholesky.dtype)
-    return torch.stack([log_sigma[:, i, j] for i, j in _TRIU], dim=1)
+def cholesky_to_log_covariance(
+    cholesky: torch.Tensor, *, chunk: int = 16384
+) -> torch.Tensor:
+    """Convert precision factors to canonical upper-triangular logSigma features.
+
+    Runs on CPU in chunks: batched CUDA eigh requests a per-matrix solver
+    workspace that dwarfs the actual data for large batches of 3x3 matrices.
+    """
+    outputs = []
+    for start in range(0, len(cholesky), chunk):
+        part = cholesky[start : start + chunk].double().cpu()
+        precision = part @ part.transpose(1, 2)
+        eigenvalues, eigenvectors = torch.linalg.eigh(precision)
+        log_sigma = torch.einsum(
+            "nij,nj,nkj->nik",
+            eigenvectors,
+            -eigenvalues.clamp_min(1e-12).log(),
+            eigenvectors,
+        )
+        outputs.append(
+            torch.stack([log_sigma[:, i, j] for i, j in _TRIU], dim=1)
+        )
+    return torch.cat(outputs).to(device=cholesky.device, dtype=cholesky.dtype)
 
 
 class VideoToJewelEncoder(nn.Module):
