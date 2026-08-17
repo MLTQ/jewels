@@ -46,14 +46,16 @@ class AmortizedEncoderTests(unittest.TestCase):
         reference = render_exact(features, points, background=background)
         self.assertTrue(torch.allclose(ours, reference, atol=2e-3))
 
-    def test_encoder_initial_render_is_near_background(self) -> None:
+    def test_encoder_initial_render_tracks_video_structure(self) -> None:
         torch.manual_seed(1)
         model = VideoToJewelEncoder(
-            grid_spec=GridSpec((4, 4, 2), 1024), slots_per_cell=4, model_dim=32
+            grid_spec=GridSpec((4, 4, 2), 1024), slots_per_cell=8, model_dim=32
         )
-        video = torch.rand(6, 24, 32, 3)
+        video = torch.zeros(6, 24, 32, 3)
+        video[:, :, 16:, 0] = 0.9
+        video[:, :, :16, 2] = 0.9
         prediction = model(video)
-        points = torch.rand(50, 3) * 2 - 1
+        points = torch.tensor([[0.5, 0.0, 0.0], [-0.5, 0.0, 0.0]])
         rendered = cholesky_render(
             prediction["centers"],
             prediction["cholesky"],
@@ -63,8 +65,8 @@ class AmortizedEncoderTests(unittest.TestCase):
             points,
             prediction["background"],
         )
-        deviation = (rendered - prediction["background"][None]).abs().max()
-        self.assertLess(float(deviation), 0.15)
+        self.assertGreater(float(rendered[0, 0] - rendered[0, 2]), 0.05)
+        self.assertGreater(float(rendered[1, 2] - rendered[1, 0]), 0.05)
 
     def test_canonical_features_shape_and_gradients_flow(self) -> None:
         model = VideoToJewelEncoder(

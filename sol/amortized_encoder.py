@@ -92,8 +92,7 @@ class VideoToJewelEncoder(nn.Module):
         nn.init.zeros_(self.head.weight)
         self.background_head = nn.Linear(model_dim, 3)
         head_bias = torch.zeros(slots_per_cell, 22)
-        head_bias[:, 3:6] = 2.5
-        head_bias[:, 21] = -4.0
+        head_bias[:, 21] = -2.7
         self.head.bias = nn.Parameter(head_bias.reshape(-1))
         coordinates = torch.stack(
             torch.meshgrid(
@@ -107,7 +106,37 @@ class VideoToJewelEncoder(nn.Module):
         self.register_buffer("cell_centers", coordinates)
         extents = torch.tensor([2.0 / gu, 2.0 / gv, 2.0 / gt])
         self.register_buffer("cell_extents", extents)
+        side = max(1, round(slots_per_cell ** (1 / 3)))
+        self.register_buffer(
+            "log_precision_init", torch.log(2.0 * side / extents)
+        )
         self.initial_scale = initial_scale
+
+    def slot_lattice(self) -> torch.Tensor:
+        """Deterministic stratified slot positions inside every cell."""
+        slots = self.slots_per_cell
+        side = max(1, round(slots ** (1 / 3)))
+        offsets = []
+        for index in range(slots):
+            u = (index % side + 0.5) / side
+            v = ((index // side) % side + 0.5) / side
+            t = ((index // (side * side)) % side + 0.5) / side
+            offsets.append((u, v, t))
+        lattice = torch.tensor(offsets, dtype=torch.float32) * 2 - 1
+        return (
+            self.cell_centers[:, None]
+            + 0.5 * self.cell_extents * lattice[None].to(self.cell_centers)
+        )
+
+    @staticmethod
+    def sample_video_colors(
+        video: torch.Tensor, positions: torch.Tensor
+    ) -> torch.Tensor:
+        """Trilinearly sample the window's RGB at normalized (u,v,t) positions."""
+        volume = video.permute(3, 0, 1, 2)[None]
+        query = positions.reshape(1, -1, 1, 1, 3)
+        sampled = F.grid_sample(volume, query, align_corners=True)
+        return sampled[0, :, :, 0, 0].transpose(0, 1).reshape(*positions.shape)
 
     def forward(self, video: torch.Tensor) -> dict[str, torch.Tensor]:
         """Encode one (T,H,W,3) window into per-slot jewel parameters."""
@@ -120,14 +149,14 @@ class VideoToJewelEncoder(nn.Module):
         raw = self.head(cells).reshape(
             self.grid_spec.n_cells, self.slots_per_cell, 22
         )
-        centers = self.cell_centers[:, None] + 1.5 * self.cell_extents * torch.tanh(
-            raw[..., 0:3]
-        )
-        log_diagonal = (raw[..., 3:6] + torch.log(
-            1.0 / (self.initial_scale * self.cell_extents.mean())
-        )).clamp(-1.0, 7.0)
+        lattice = self.slot_lattice()
+        seeded_colors = self.sample_video_colors(video, lattice).clamp(1e-3, 1 - 1e-3)
+        centers = lattice + 0.75 * self.cell_extents * torch.tanh(raw[..., 0:3])
+        log_diagonal = (raw[..., 3:6] + self.log_precision_init).clamp(-1.0, 7.0)
         off_diagonal = 0.2 * raw[..., 6:9]
-        colors = torch.sigmoid(raw[..., 9:12])
+        colors = torch.sigmoid(
+            raw[..., 9:12] + torch.logit(seeded_colors)
+        )
         color_grads = 0.2 * raw[..., 12:21]
         logit_w = raw[..., 21].clamp(-9.0, 6.0)
         flat = lambda value: value.reshape(-1, *value.shape[2:])  # noqa: E731
