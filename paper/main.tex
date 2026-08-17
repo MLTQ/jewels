@@ -1397,6 +1397,20 @@ The strict selection gate therefore fails. The experiment validates neighborhood
 causal direction while rejecting this feature-loss-trained checkpoint as the finished realizer;
 the next test should supervise rendered set/trajectory structure directly.
 
+The convolutional mixer is not the only way to couple the set. Replacing it with an SSOG-style
+attention field~\citep{pisoni2026ssog} --- per-atom Gaussians over relative cell displacement,
+content steering through bounded cold-started residuals, applied separably with occupancy
+riding the same three 1D passes so the field averages over born cells only --- reproduces the
+exact-count gains at 66k added parameters instead of 414k: foreground PSNR +0.775 versus the
+convolution's +0.761, edge/motion/quiet all improved, PSNR +0.224, with the same family of
+failure (SSIM regresses; not selected). Its held-out screen gain is 2.4\(\times\) the
+convolution's on a matched same-device battery, and the learned geometry is directly readable:
+three of four atoms look backward in time with temporal reach wider than spatial ---
+self-discovered temporal-context gathering --- and all three cold-started steering gates open
+during training, the width gate hardest. One methods caveat these comparisons surfaced:
+seeded evaluation noise paths differ across GPU architectures, offsetting absolute battery
+values by more than typical model deltas, so all screens here are same-device.
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=\linewidth]{../sol/results/ltx_scaffold_v1/coupled_set_v1/paired_native_288x192_contact.png}

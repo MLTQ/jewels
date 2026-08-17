@@ -411,7 +411,14 @@ def main() -> None:
         candidate_base_args = {
             name: value
             for name, value in flow_meta["model_args"].items()
-            if name not in {"set_depth", "set_raster_depth"}
+            if name
+            not in {
+                "set_depth",
+                "set_raster_depth",
+                "set_coupling",
+                "set_atoms",
+                "set_max_offset",
+            }
         }
         if int(flow_meta["model_args"].get("set_depth", 0)) <= 0:
             raise ValueError("paired base audit requires an augmented candidate")

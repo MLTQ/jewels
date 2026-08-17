@@ -80,9 +80,9 @@ class SsogBirthSetBlock(nn.Module):
         self.steer = nn.Linear(model_dim, atoms * 7)
         nn.init.zeros_(self.steer.weight)
         nn.init.zeros_(self.steer.bias)
-        self.gate_mu = nn.Parameter(torch.zeros(()))
-        self.gate_sigma = nn.Parameter(torch.zeros(()))
-        self.gate_lambda = nn.Parameter(torch.zeros(()))
+        self.gate_mu = nn.Parameter(torch.full((), 0.01))
+        self.gate_sigma = nn.Parameter(torch.full((), 0.01))
+        self.gate_lambda = nn.Parameter(torch.full((), 0.01))
         coordinates = torch.stack(
             torch.meshgrid(
                 torch.arange(grid_shape[0], dtype=torch.float32),
@@ -116,7 +116,9 @@ class SsogBirthSetBlock(nn.Module):
             self.log_lambda0[None] + self.gate_lambda * torch.tanh(raw[..., 6]),
             dim=-1,
         )
-        volume = state.reshape(*self.grid_shape, state.shape[-1])
+        occupancy = moments[:, -1:].float()
+        masked = torch.cat((state * occupancy, occupancy), dim=1)
+        volume = masked.reshape(*self.grid_shape, masked.shape[-1])
         context = state.new_zeros(self.n_cells, state.shape[-1])
         for atom in range(self.atoms):
             kernels = []
@@ -135,13 +137,9 @@ class SsogBirthSetBlock(nn.Module):
             gathered = torch.einsum("cu,uvtd->cvtd", kernels[0], volume)
             gathered = torch.einsum("cv,cvtd->ctd", kernels[1], gathered)
             gathered = torch.einsum("ct,ctd->cd", kernels[2], gathered)
-            normalizer = (
-                kernels[0].sum(dim=1)
-                * kernels[1].sum(dim=1)
-                * kernels[2].sum(dim=1)
-            ).clamp_min(1e-6)
+            normalizer = gathered[:, -1:].clamp_min(1e-6)
             context = context + weights[:, atom, None] * (
-                gathered / normalizer[:, None]
+                gathered[:, :-1] / normalizer
             )
         return context
 

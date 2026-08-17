@@ -190,3 +190,13 @@ interpolates on every axis, so teacher-domain fits and real-video fields are com
 (texture/feature accuracy vs macro-structure). All generated arms remain far below the blur
 baseline on layout, making the structure crossover the scaling program's gating milestone. See
 [`layout_divergence_v1/README.md`](layout_divergence_v1/README.md).
+
+## SSOG coupling
+
+An SSOG-style steered separable Gaussian field (66k parameters) replaces the coupled-set
+convolution (414k): 2.4x the same-device screen gain, matched exact-count foreground gains
+(+0.775 vs +0.761 dB), edge/motion/quiet improved, the same SSIM failure family, and directly
+readable learned geometry (three of four atoms gather backward in time; all cold-started gates
+open). Not selected — retained as the preferred coupling substrate for the rendered-structure
+objective. Also records that evaluation batteries are GPU-architecture-bound. See
+[`ssog_coupling_v1/README.md`](ssog_coupling_v1/README.md).

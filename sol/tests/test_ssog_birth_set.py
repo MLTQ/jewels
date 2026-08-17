@@ -51,6 +51,7 @@ class SsogBirthSetTests(unittest.TestCase):
             block.log_lambda0[None] + block.gate_lambda * torch.tanh(raw[..., 6]),
             dim=-1,
         )
+        occupancy = moments[:, -1].float()
         expected = torch.zeros_like(state)
         for destination in range(block.n_cells):
             for atom in range(block.atoms):
@@ -59,7 +60,7 @@ class SsogBirthSetTests(unittest.TestCase):
                     - block.cell_coordinates[destination]
                     - mu[destination, atom]
                 )
-                dense = torch.exp(
+                dense = occupancy * torch.exp(
                     -0.5 * (displacement / sigma[destination, atom]).square().sum(-1)
                 )
                 expected[destination] += weights[destination, atom] * (
