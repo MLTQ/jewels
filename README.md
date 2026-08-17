@@ -1,13 +1,38 @@
 # jewels
 
-**Video as a set of spacetime primitives — and video *generation* as emitting them.**
+**Video as a set of spacetime primitives — persistent, editable, and generated through a
+dense intermediate.**
 
 A video is treated as a 3D volume in (u, v, t), not a frame sequence. It is represented by
 N anisotropic Gaussian primitives ("jewels") whose orientation tilted into the time axis
 encodes velocity — a moving object is one sheared spacetime tube, not a new blob per frame.
-Generation is then a set problem: a permutation-invariant flow-matching transformer emits
-primitive sets from noise, conditioned on CLIP embeddings. Rendering the emitted set into
-frames is deterministic and nearly free.
+Rendering a jewel set into frames is deterministic and nearly free, and optimized fits prove
+the representation's ceiling is near-photoreal (28–35 dB, 0.098 LPIPS on generated video).
+
+## Current architecture (2026-08-17)
+
+Direct generative emission of jewel sets was measured to a wall and retired as the primary
+path: every mark-space sampler rendered *worse macro-structure than trilinear upsampling of
+its own conditioning signal*, across every corpus size and domain — a joint-composition
+failure, not a data shortage (full post-mortem in `sol/results/`). The working system inverts
+the architecture:
+
+```text
+text prompt ─> pretrained video teacher (LTX-2.3) ─> video window
+           ─> feed-forward video-to-jewel encoder (one pass, ~5M params)
+           ─> persistent editable jewel field ─> additive renderer
+```
+
+The encoder is amortized fitting: slots are seeded from the video on a stratified lattice at
+calibrated unity coverage, and a 3D-conv trunk predicts refinements, trained with the fitter's
+own stochastic-voxel render loss on teacher-generated (video, fitted-field) pairs — a
+supervised regression with unlimited manufacturable data. First gate, one-shot on held-out
+clips at native resolution: **23.2 dB / 0.942 SSIM / 0.469 LPIPS with macro-layout at the
+fitted ceiling** — beating the blur baseline on every metric (the first arm to do so) and the
+best set-generative arm by 8.7 dB, from twelve training windows
+(`sol/results/amortized_encoder_v0/`). Jewels remain the persistent state: stable identity
+across windows, bit-exact carry, and object-level editability all ride on the field, not the
+pixels. Set-space emission continues as a research lane in latent-set form.
 
 Why bother, when latent-pixel diffusion works? Because this representation gets structurally
 what frame-based models pay for continuously:
@@ -28,7 +53,7 @@ appears to be an open lane (closest relatives: L3DG and GaussianCube diffuse ove
 Gaussians; the 2025–26 "generative splatting" wave runs the opposite direction, using pixel
 video diffusion as a prior for 3D).
 
-## What works today
+## What works today (earlier eras retained as history)
 
 ### 1. The falsification test
 A moving blob is literally a sheared tube in (u,v,t). If a handful of anisotropic primitives
@@ -90,9 +115,11 @@ those larger sets is what the jewel tokenizer exists to absorb.
 |---|---|
 | synthetic tube fit | ~55 dB PSNR |
 | real busy scene fit (160px, ≤10k prims) | ~30 dB PSNR |
+| optimized 72k fit of teacher video (the ceiling) | 27.5 dB / 0.098 LPIPS / 30.5 layout |
+| **one-shot encoder on held-out clips (2026-08-17)** | **23.2 dB / 0.942 SSIM / 0.469 LPIPS / layout at ceiling** |
+| best mark-space generative arm (retired path) | 14.5 dB / 0.603 SSIM / 0.691 LPIPS |
 | cross-seed canonicality (chamfer ratio vs random baseline) | 0.62 — weakly canonical: set priors viable, autoregression over the set ruled out |
 | featurization round-trip (log-covariance coords) | 1e-6 max error |
-| v0 prior | 6k steps, loss 1.14 vs 2.0 no-skill baseline |
 
 ## Research trajectory
 

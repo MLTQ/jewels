@@ -264,6 +264,29 @@ research critical path. It needs:
 19. Distill the teacher's guide into a compact text-to-scaffold generator trained on harvested
     (prompt, scaffold-raster) pairs — the smallest new model that makes inference prompt-only —
     and evaluate correct/shuffled text at the scaffold and at the final render separately.
+20. ~~Gate a feed-forward amortized encoder against the generative stack.~~ One ~5M encoder
+    one-shots held-out clips to 23.2 dB / 0.942 SSIM / 0.469 LPIPS with layout at the fitted
+    ceiling, beating the blur baseline on every metric and the best generative arm by 8.7 dB;
+    the pivot's architecture is selected (`results/amortized_encoder_v0/`).
+21. Scale the encoder's corpus with the teacher (50–100 windows), audit the final checkpoint,
+    then add carry-conditioned windows so persistence and unbounded length ride on
+    encoder-produced fields; iterate refinement passes toward the fitted ceiling.
+
+## The dense-intermediate pivot (2026-08-17) — supersedes mark-space emission as primary
+
+Visual review of the generated rollouts (Max) forced the step back the metrics gates had been
+circling: every mark-space sampler renders worse macro-structure than trivially upsampling its
+own conditioning, and the layout deficit survived every corpus intervention. The primary path
+is now: **teacher video → feed-forward video-to-jewel encoder → persistent jewel field**, with
+jewels as the state/format and generation quality carried by the dense intermediate. The
+encoder is amortized fitting (video-seeded slots at calibrated unity coverage, fitter-style
+stochastic-voxel render loss on teacher-generated pairs); its first gate one-shots held-out
+clips at 23.2 dB / 0.942 SSIM / 0.469 LPIPS with layout at the fitted ceiling — the first arm
+to beat the blur baseline on every metric (`results/amortized_encoder_v0/`). Consequences for
+this roadmap: Phase-3's amortized-encoder step moves from scale-up optimization to the core
+generative mechanism; the compute conversion below now prices *encoder* quality, and Phases
+4–5 (edit/repair, interactive) attach to encoder-produced fields unchanged. Mark-space
+emission continues as a research lane in latent-set form only.
 
 ## Compute conversion — the scaling program (2026-08-14)
 

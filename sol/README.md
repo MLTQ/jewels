@@ -219,3 +219,11 @@ viable but the weights are fixed-camera/domain-specialized; the remaining blur a
 still require stronger appearance supervision. See
 [`results/transfer/README.md`](results/transfer/README.md) and the direct
 `ucf_frozen_vs_trained.gif` comparison.
+
+**Frontier as of 2026-08-17 — the dense-intermediate pivot.** Mark-space generative emission is
+retired as the primary path after visual review: all samplers rendered worse macro-structure
+than upsampling their own conditioning (full evidence chain under `results/`). The selected
+architecture is teacher video → feed-forward amortized encoder → persistent jewel field:
+`amortized_encoder.py` one-shots held-out clips at 23.2 dB / 0.942 SSIM / 0.469 LPIPS with
+layout at the fitted ceiling from twelve training windows (`results/amortized_encoder_v0/`).
+Set emission continues as a latent-set research lane with the SSOG coupling substrate.

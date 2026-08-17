@@ -78,12 +78,16 @@ a coarse scaffold raster of about six kilobytes per 16-frame stride.
 
 Four results define the current state. First, the representation itself is not the bottleneck:
 optimized 72k-jewel fields replay held-out generated videos at 28--35 dB and 0.098 LPIPS ---
-near-photoreal perceptual quality. Second, the generative stack is real but immature: from an
-empty field, a 0.88M topology head and a 2.13M rectified-flow realizer generate three 16-frame
-windows with exact append-only identity, beating shuffled-scaffold controls by 2.8--4.1 dB, yet
-a no-model trilinear decode of the stack's own scaffold input still wins every reference-based
-fidelity metric --- so we triangulate with perceptual (LPIPS) and texture-blind layout metrics,
-which disagree with PSNR and with each other in instructive ways. Third, quality scales with
+near-photoreal perceptual quality. Second, direct set-space generation was measured to a wall
+and replaced: every mark-space sampler --- deterministic, stochastic, and two coupling
+variants --- rendered worse macro-structure than a no-model trilinear decode of its own
+scaffold input, across every corpus size and domain, a joint-composition failure our metric
+triangulation (reference, perceptual, and texture-blind layout) localizes precisely. The
+selected architecture is instead a dense intermediate: a $\sim$5M feed-forward encoder
+performs amortized fitting of teacher-generated video into jewel fields and one-shots
+held-out clips at 23.2 dB / 0.942 SSIM / 0.469 LPIPS with macro-layout at the fitted ceiling
+--- the first arm to beat that trilinear baseline on every metric, eight decibels beyond the
+best set-generative arm, from twelve training windows. Third, quality scales with
 data and is priced in compute: a frozen-protocol curve over 4/8/12 fitted training sources is
 monotone in the mean, with a measured three-seed noise floor resolving its first step at three
 standard deviations; training on teacher-generated fits removes a cross-domain feature-loss tax
@@ -1419,6 +1423,48 @@ every birth cell/rank and noise seed with the frozen base (center-right). Change
 subtle relative to the large gap to the fitted-field ceiling.}
 \label{fig:coupledset}
 \end{figure}
+
+\subsection{A feed-forward encoder replaces mark-space emission}
+
+The accumulated evidence --- layout below the trivial-decode baseline for every sampler, a
+data curve that moved texture but never structure, and coupling gains an order of magnitude
+too small --- identifies joint composition under additive rendering as the failure mode of
+direct set generation, and a visual review of the rollouts made the verdict operational: the
+mark-space path is retired as primary. The replacement inverts the architecture. A $\sim$5M
+feed-forward encoder performs \emph{amortized fitting}: slots are seeded from the video itself
+on a stratified per-cell lattice with widths and opacities calibrated so the initial field
+renders the video softly at unity coverage, and a 3D-convolutional trunk predicts bounded
+refinements, trained with the fitter's own stochastic-voxel render loss on teacher-generated
+(video, fitted-field) pairs --- a supervised regression with manufacturable data. Seeding is
+load-bearing: the identical model without it underfits at 12.2 dB.
+
+\begin{table}[H]
+\centering
+\small
+\caption{One-shot encoding of the four held-out clips at native 288\(\times\)192 (step-3000
+snapshot; training was still improving). The encoder is the first arm to beat the trivial
+decode on every metric.}
+\label{tab:encoder}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Arm & PSNR & SSIM & LPIPS & Layout PSNR \\
+\midrule
+Fitted jewel ceiling (9{,}000 opt.\ steps/clip) & 27.52 & 0.9831 & 0.0982 & 30.46 \\
+\textbf{Encoded one-shot (single forward pass)} & \textbf{23.24} & \textbf{0.9422} & \textbf{0.4693} & \textbf{29.98} \\
+Guide upsample baseline & 19.35 & 0.8596 & 0.6762 & 22.61 \\
+Best mark-space generative arm & 14.48 & 0.6031 & 0.6911 & 15.75 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Macro-layout reaches the fitted ceiling --- the deficit that defined every generative arm is
+eliminated --- and the remaining 4.3 dB is uniform softness with three supervised levers:
+corpus (twelve windows here; the teacher mints more at $\sim$30 GPU-minutes each), capacity,
+and refinement passes. The system prompt \(\rightarrow\) teacher video \(\rightarrow\)
+encoder \(\rightarrow\) persistent jewel field is thereby end-to-end real: semantics at
+teacher quality, persistence, identity, and editability at the field level. Set-space
+emission continues as a research lane in latent-set form, with the steered Gaussian coupling
+of the previous subsection as its substrate.
 
 \clearpage
 \section{What Has Been Falsified}

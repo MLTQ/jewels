@@ -226,6 +226,29 @@ experiments/canonicalization.py   two-seed chamfer/marginals measurement
   itself is a static-camera filter (global motion makes every primitive shear and PSNR
   collapse).
 
+- **[2026-08-17] Evaluation batteries are device-bound.** Seeded CUDA noise paths differ across
+  GPU architectures: the identical base checkpoint scores 1.5419 on the 4090 battery and 1.6312
+  on the 2070S battery. The ~0.09 offset dwarfs model deltas, so evaluation comparisons are
+  valid same-device only; all pre-discovery comparisons ran uniformly on the 4090 and stand.
+- **[2026-08-17] Mark-space generative emission retired as the primary path (Max, after visual
+  review).** Every direct sampler of jewel sets — deterministic regression, stochastic flows,
+  convolutional and SSOG set coupling — rendered worse macro-structure than trilinear
+  upsampling of its own 6KB conditioning guide (layout PSNR 13.4–15.7 vs 22.6), across every
+  corpus size, domain, and mixture tested. The failure is joint composition under additive
+  rendering, not data supply: matched-density optimized fits are near-photoreal. Set emission
+  continues only as a research lane (latent-set form, per the L3DG/GaussianCube precedent),
+  with the SSOG field retained as its preferred coupling substrate.
+- **[2026-08-17] Dense-intermediate pivot: generation = teacher video + amortized encoder;
+  jewels are the persistent state.** A ~5M feed-forward encoder (video-seeded slots at
+  calibrated unity coverage + 3D-conv refinement, trained with the fitter's stochastic-voxel
+  render loss on teacher-generated pairs) one-shots held-out clips to 23.2 dB / 0.942 SSIM /
+  0.469 LPIPS with macro-layout at the fitted ceiling — first arm to beat the blur baseline on
+  every metric, +8.7 dB over the best generative arm, from twelve training windows
+  (`sol/results/amortized_encoder_v0/`). Seeded initialization is load-bearing: without it the
+  same model underfits at 12.2 dB. Scaling story becomes supervised: compute → teacher
+  (video, fitted-field) pairs → encoder quality. Next: corpus scale-up, refinement passes,
+  carry-conditioned windows for persistence.
+
 ## Sharp Edges
 
 - **`t_scale` is arbitrary.** Nothing in the data fixes the exchange rate between pixels and
