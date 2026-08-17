@@ -8,7 +8,11 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from sol.birth_set_coupling import NeighborhoodBirthSetBlock, rasterize_set_moments
+from sol.birth_set_coupling import (
+    NeighborhoodBirthSetBlock,
+    SsogBirthSetBlock,
+    rasterize_set_moments,
+)
 from sol.latent_prior import timestep_embedding
 from sol.splat_density import temporal_standard_deviation
 from sol.streaming_model import ContextRasterEncoder, ResidualMLP, _rank_basis
@@ -45,6 +49,9 @@ class BirthMarkFlowModel(nn.Module):
         guide_heads: int = 8,
         set_depth: int = 0,
         set_raster_depth: int = 0,
+        set_coupling: str = "neighborhood",
+        set_atoms: int = 4,
+        set_max_offset: float = 4.0,
     ) -> None:
         super().__init__()
         if feature_dim != 22:
@@ -59,6 +66,10 @@ class BirthMarkFlowModel(nn.Module):
             raise ValueError("set depths must be non-negative")
         if not set_depth and set_raster_depth:
             raise ValueError("set_raster_depth requires at least one set block")
+        if set_coupling not in ("neighborhood", "ssog"):
+            raise ValueError("set_coupling must be 'neighborhood' or 'ssog'")
+        if set_coupling == "ssog" and set_raster_depth:
+            raise ValueError("ssog coupling replaces the raster convolution stack")
         self.feature_dim = feature_dim
         self.model_dim = model_dim
         self.grid_spec = grid_spec
@@ -67,6 +78,9 @@ class BirthMarkFlowModel(nn.Module):
         self.guide_token_dim = guide_token_dim
         self.set_depth = set_depth
         self.set_raster_depth = set_raster_depth
+        self.set_coupling = set_coupling
+        self.set_atoms = set_atoms
+        self.set_max_offset = set_max_offset
         self.context_encoder = ContextRasterEncoder(
             context_dim, model_dim, grid_spec.shape, context_depth
         )
@@ -112,10 +126,19 @@ class BirthMarkFlowModel(nn.Module):
         self.rank_projection = nn.Linear(8, model_dim)
         self.noisy_mark_projection = nn.Linear(feature_dim, model_dim)
         self.set_blocks = nn.ModuleList(
-            NeighborhoodBirthSetBlock(
-                model_dim,
-                grid_spec.shape,
-                raster_depth=set_raster_depth,
+            (
+                SsogBirthSetBlock(
+                    model_dim,
+                    grid_spec.shape,
+                    atoms=set_atoms,
+                    max_offset=set_max_offset,
+                )
+                if set_coupling == "ssog"
+                else NeighborhoodBirthSetBlock(
+                    model_dim,
+                    grid_spec.shape,
+                    raster_depth=set_raster_depth,
+                )
             )
             for _ in range(set_depth)
         )

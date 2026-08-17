@@ -77,6 +77,11 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--mark-depth", type=int, default=3)
     parser.add_argument("--set-depth", type=int, default=0)
     parser.add_argument("--set-raster-depth", type=int, default=0)
+    parser.add_argument(
+        "--set-coupling", choices=("neighborhood", "ssog"), default="neighborhood"
+    )
+    parser.add_argument("--set-atoms", type=int, default=4)
+    parser.add_argument("--set-max-offset", type=float, default=4.0)
     parser.add_argument("--grid", type=int, nargs=3, default=(16, 16, 8))
     parser.add_argument("--slots", type=int, default=1024)
     parser.add_argument("--stride-frames", type=int, default=16)
@@ -422,6 +427,14 @@ def main() -> None:
                 "set_raster_depth": args.set_raster_depth,
             }
         )
+        if args.set_coupling != "neighborhood":
+            model_args.update(
+                {
+                    "set_coupling": args.set_coupling,
+                    "set_atoms": args.set_atoms,
+                    "set_max_offset": args.set_max_offset,
+                }
+            )
     model = BirthMarkFlowModel(grid_spec=spec, **model_args).to(device)
     if args.freeze_base_on_augment:
         for parameter in model.parameters():
@@ -497,6 +510,15 @@ def main() -> None:
             added_model_args={
                 "set_depth": args.set_depth,
                 "set_raster_depth": args.set_raster_depth,
+                **(
+                    {
+                        "set_coupling": args.set_coupling,
+                        "set_atoms": args.set_atoms,
+                        "set_max_offset": args.set_max_offset,
+                    }
+                    if args.set_coupling != "neighborhood"
+                    else {}
+                ),
             },
             added_state_prefixes=("set_blocks.",),
             grid_spec=spec,

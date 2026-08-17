@@ -37,3 +37,15 @@ carry, IDs, feature units, or the stochastic flow path.
 
 - Empty cells retain zero input statistics but can receive context from occupied neighbors.
 - One block with raster depth zero is the first bounded gate; deeper stacks require evidence.
+
+### `SsogBirthSetBlock`
+- **Does**: Replaces the fixed 3x3x3 convolution mixing with a steered separable
+  Gaussian-mixture field over the cell raster (SSOG, Pisoni 2026): per-atom relative
+  offset/width/weight, per-cell bounded residual steering through cold-started zero gates, and
+  three 1D kernel passes with an exact separable normalizer — no cell-pair matrix.
+- **Interacts with**: Selected by `BirthMarkFlowModel(set_coupling="ssog")`; keeps the
+  `row_update` naming and zero-init final projection so `calibrate_coupled_set_checkpoint.py`
+  and the augment/freeze harness apply unchanged.
+- **Rationale**: The layout-divergence diagnosis made macro-structure the gating deficit;
+  trained SSOG atoms form long-range bars/strips — reach a local convolution cannot express —
+  at ~60k parameters versus the convolution block's 414k.

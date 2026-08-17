@@ -36,6 +36,130 @@ def rasterize_set_moments(
     return torch.cat((mean, variance, count.log1p(), (count > 0).to(values)), dim=1)
 
 
+class SsogBirthSetBlock(nn.Module):
+    """Steered separable Gaussian-field coupling over the birth-cell raster.
+
+    Each atom is a Gaussian over *relative* cell displacement (offset, width,
+    weight); per-cell content applies bounded, cold-started residuals to all
+    three (SSOG: Pisoni 2026). The field is applied with three 1D passes and an
+    exact separable normalizer, so no cell-pair matrix is ever built, and the
+    learned reach can span the whole raster --- the long-range structure that a
+    fixed 3x3x3 convolution cannot express.
+    """
+
+    def __init__(
+        self,
+        model_dim: int,
+        grid_shape: tuple[int, int, int],
+        *,
+        atoms: int = 4,
+        max_offset: float = 4.0,
+    ) -> None:
+        super().__init__()
+        if model_dim <= 0 or model_dim % 8:
+            raise ValueError("model_dim must be positive and divisible by eight")
+        if atoms <= 0 or max_offset <= 0:
+            raise ValueError("atoms and max_offset must be positive")
+        self.grid_shape = grid_shape
+        self.n_cells = grid_shape[0] * grid_shape[1] * grid_shape[2]
+        self.atoms = atoms
+        self.max_offset = float(max_offset)
+        self.moment_projection = nn.Sequential(
+            nn.LayerNorm(model_dim * 2 + 2),
+            nn.Linear(model_dim * 2 + 2, model_dim),
+            nn.SiLU(),
+        )
+        generator = torch.Generator().manual_seed(atoms * 7919 + model_dim)
+        self.mu0 = nn.Parameter(
+            torch.randn(atoms, 3, generator=generator)
+        )
+        self.log_sigma0 = nn.Parameter(
+            torch.full((atoms, 3), float(torch.log(torch.tensor(1.5))))
+        )
+        self.log_lambda0 = nn.Parameter(torch.zeros(atoms))
+        self.steer = nn.Linear(model_dim, atoms * 7)
+        nn.init.zeros_(self.steer.weight)
+        nn.init.zeros_(self.steer.bias)
+        self.gate_mu = nn.Parameter(torch.zeros(()))
+        self.gate_sigma = nn.Parameter(torch.zeros(()))
+        self.gate_lambda = nn.Parameter(torch.zeros(()))
+        coordinates = torch.stack(
+            torch.meshgrid(
+                torch.arange(grid_shape[0], dtype=torch.float32),
+                torch.arange(grid_shape[1], dtype=torch.float32),
+                torch.arange(grid_shape[2], dtype=torch.float32),
+                indexing="ij",
+            ),
+            dim=-1,
+        ).reshape(self.n_cells, 3)
+        self.register_buffer("cell_coordinates", coordinates)
+        self.row_update = nn.Sequential(
+            nn.LayerNorm(model_dim * 2),
+            nn.Linear(model_dim * 2, model_dim * 4),
+            nn.SiLU(),
+            nn.Linear(model_dim * 4, model_dim),
+        )
+        nn.init.zeros_(self.row_update[-1].weight)
+        nn.init.zeros_(self.row_update[-1].bias)
+
+    def _field_context(self, moments: torch.Tensor) -> torch.Tensor:
+        """Gather one steered Gaussian-mixture context vector per cell."""
+        state = self.moment_projection(moments.float())
+        raw = self.steer(state).reshape(self.n_cells, self.atoms, 7)
+        mu = self.mu0[None] + self.gate_mu * self.max_offset * torch.tanh(
+            raw[..., 0:3]
+        )
+        sigma = torch.exp(
+            self.log_sigma0[None] + self.gate_sigma * torch.tanh(raw[..., 3:6])
+        ).clamp(0.3, float(max(self.grid_shape)))
+        weights = torch.softmax(
+            self.log_lambda0[None] + self.gate_lambda * torch.tanh(raw[..., 6]),
+            dim=-1,
+        )
+        volume = state.reshape(*self.grid_shape, state.shape[-1])
+        context = state.new_zeros(self.n_cells, state.shape[-1])
+        for atom in range(self.atoms):
+            kernels = []
+            for axis, length in enumerate(self.grid_shape):
+                sources = torch.arange(length, device=state.device, dtype=state.dtype)
+                center = self.cell_coordinates[:, axis] + mu[:, atom, axis]
+                kernels.append(
+                    torch.exp(
+                        -0.5
+                        * (
+                            (sources[None] - center[:, None])
+                            / sigma[:, atom, axis][:, None]
+                        ).square()
+                    )
+                )
+            gathered = torch.einsum("cu,uvtd->cvtd", kernels[0], volume)
+            gathered = torch.einsum("cv,cvtd->ctd", kernels[1], gathered)
+            gathered = torch.einsum("ct,ctd->cd", kernels[2], gathered)
+            normalizer = (
+                kernels[0].sum(dim=1)
+                * kernels[1].sum(dim=1)
+                * kernels[2].sum(dim=1)
+            ).clamp_min(1e-6)
+            context = context + weights[:, atom, None] * (
+                gathered / normalizer[:, None]
+            )
+        return context
+
+    def forward(
+        self,
+        hidden: torch.Tensor,
+        cell_indices: torch.Tensor,
+    ) -> torch.Tensor:
+        if hidden.ndim != 2:
+            raise ValueError("hidden birth rows must have shape (N,D)")
+        moments = rasterize_set_moments(hidden, cell_indices, self.n_cells)
+        context = self._field_context(moments).to(hidden.dtype)
+        update = self.row_update(
+            torch.cat((hidden, context[cell_indices]), dim=1)
+        )
+        return hidden + update
+
+
 class NeighborhoodBirthSetBlock(nn.Module):
     """Return a permutation-equivariant residual from cell and neighbor set state."""
 
