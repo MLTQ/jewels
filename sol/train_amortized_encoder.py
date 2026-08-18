@@ -31,6 +31,12 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--slots-per-cell", type=int, default=36)
     parser.add_argument("--model-dim", type=int, default=256)
     parser.add_argument("--points-per-step", type=int, default=4096)
+    parser.add_argument(
+        "--point-chunk",
+        type=int,
+        default=1024,
+        help="render points per checkpointed block; lower it on small-VRAM GPUs",
+    )
     parser.add_argument("--eval-every", type=int, default=500)
     parser.add_argument("--checkpoint-every", type=int, default=500)
     parser.add_argument("--log-every", type=int, default=50)
@@ -112,6 +118,7 @@ def main() -> None:
                 prediction["logit_w"],
                 points,
                 prediction["background"],
+                point_chunk=args.point_chunk,
             )
             mse = float(torch.nn.functional.mse_loss(rendered, target))
             report[source_id] = {
@@ -181,6 +188,7 @@ def main() -> None:
             prediction["logit_w"],
             points,
             prediction["background"],
+            point_chunk=args.point_chunk,
         )
         loss = torch.nn.functional.mse_loss(rendered, target)
         optimizer.zero_grad(set_to_none=True)
