@@ -7,11 +7,44 @@ import json
 from pathlib import Path
 
 
+def subsample_train(examples: list[dict], limit: int) -> list[dict]:
+    """Deterministically keep `limit` train rows, balanced over style and class.
+
+    Round-robin across (style, class) groups so a small curve point still spans
+    every domain: corpus size is the only variable the curve changes.
+    """
+    if limit <= 0:
+        raise ValueError("train limit must be positive")
+    train = [item for item in examples if item["split"] == "train"]
+    held = [item for item in examples if item["split"] != "train"]
+    if limit >= len(train):
+        return examples
+    groups: dict[tuple[str, int], list[dict]] = {}
+    for item in sorted(train, key=lambda i: i["source_id"]):
+        groups.setdefault((item["style"], item["class_id"]), []).append(item)
+    order = sorted(groups)
+    kept: list[dict] = []
+    index = 0
+    while len(kept) < limit:
+        progressed = False
+        for key in order:
+            if index < len(groups[key]):
+                kept.append(groups[key][index])
+                progressed = True
+                if len(kept) == limit:
+                    break
+        if not progressed:
+            break
+        index += 1
+    return kept + held
+
+
 def build_encoder_manifest(
     corpus_manifests: list[dict],
     *,
     frames: int = 49,
     style_tags: list[str] | None = None,
+    train_limit: int = 0,
 ) -> dict:
     """Collect completed clips, holding out one evaluation clip per class/style.
 
@@ -48,10 +81,13 @@ def build_encoder_manifest(
         raise ValueError("no completed clips found in the supplied manifests")
     if not any(item["split"] == "validation" for item in examples):
         raise ValueError("no evaluation clips completed yet; cannot hold out")
+    if train_limit:
+        examples = subsample_train(examples, train_limit)
     return {
         "schema": "jewel-encoder-corpus-v1",
         "frames": frames,
         "styles": sorted({item["style"] for item in examples}),
+        "train_limit": train_limit or None,
         "examples": examples,
     }
 
@@ -62,6 +98,12 @@ def main() -> None:
                         help="style=path/to/corpus/manifest.json")
     parser.add_argument("--out", required=True)
     parser.add_argument("--frames", type=int, default=49)
+    parser.add_argument(
+        "--train-limit",
+        type=int,
+        default=0,
+        help="keep only N train rows (style/class balanced) for a curve point",
+    )
     args = parser.parse_args()
     manifests, tags = [], []
     for entry in args.corpus:
@@ -70,7 +112,9 @@ def main() -> None:
             raise ValueError("--corpus entries must be style=path")
         manifests.append(json.loads(Path(path).read_text()))
         tags.append(style)
-    manifest = build_encoder_manifest(manifests, frames=args.frames, style_tags=tags)
+    manifest = build_encoder_manifest(
+        manifests, frames=args.frames, style_tags=tags, train_limit=args.train_limit
+    )
     Path(args.out).parent.mkdir(parents=True, exist_ok=True)
     Path(args.out).write_text(json.dumps(manifest, indent=1))
     counts: dict[str, int] = {}

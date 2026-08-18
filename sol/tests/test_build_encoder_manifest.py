@@ -62,5 +62,34 @@ class BuildEncoderManifestTests(unittest.TestCase):
             )
 
 
+
+class SubsampleTrainTests(unittest.TestCase):
+    def test_limit_is_style_and_class_balanced(self) -> None:
+        from sol.build_encoder_manifest import subsample_train
+
+        examples = [
+            {"split": "train", "style": style, "class_id": class_id,
+             "source_id": f"{style}_{class_id}_{index}"}
+            for style in ("photoreal", "anime")
+            for class_id in (0, 1)
+            for index in range(5)
+        ] + [{"split": "validation", "style": "photoreal", "class_id": 0,
+              "source_id": "val"}]
+        kept = subsample_train(examples, 8)
+        train = [i for i in kept if i["split"] == "train"]
+        self.assertEqual(len(train), 8)
+        groups = {(i["style"], i["class_id"]) for i in train}
+        self.assertEqual(len(groups), 4)
+        self.assertEqual(sum(1 for i in kept if i["split"] == "validation"), 1)
+
+    def test_limit_above_corpus_keeps_everything(self) -> None:
+        from sol.build_encoder_manifest import subsample_train
+
+        examples = [
+            {"split": "train", "style": "photoreal", "class_id": 0, "source_id": "a"},
+            {"split": "validation", "style": "photoreal", "class_id": 0, "source_id": "v"},
+        ]
+        self.assertEqual(len(subsample_train(examples, 99)), 2)
+
 if __name__ == "__main__":
     unittest.main()
