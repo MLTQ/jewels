@@ -162,19 +162,39 @@ class VideoToJewelEncoder(nn.Module):
         sampled = F.grid_sample(volume, query, align_corners=True)
         return sampled[0, :, :, 0, 0].transpose(0, 1).reshape(*positions.shape)
 
-    def forward(self, video: torch.Tensor) -> dict[str, torch.Tensor]:
-        """Encode one (T,H,W,3) window into per-slot jewel parameters."""
+    def encode(self, video: torch.Tensor) -> dict[str, torch.Tensor]:
+        """Map a window to the generatable latent: cell features plus slot seeds.
+
+        Both parts are video-derived, so a text-conditioned generator must emit
+        both to synthesize without a video. The seed tensor is effectively a
+        coarse RGB volume sampled on the slot lattice.
+        """
         if video.ndim != 4 or video.shape[-1] != 3:
             raise ValueError("video must have shape (T,H,W,3)")
         volume = video.permute(3, 0, 1, 2)[None]
         hidden = self.trunk(volume)[0]
-        gu, gv, gt = self.grid_spec.shape
         cells = hidden.permute(3, 2, 1, 0).reshape(self.grid_spec.n_cells, -1)
+        seed = self.sample_video_colors(video, self.slot_lattice()).clamp(
+            1e-3, 1 - 1e-3
+        )
+        return {"cells": cells, "seed": seed}
+
+    def decode(self, latent: dict[str, torch.Tensor]) -> dict[str, torch.Tensor]:
+        """Turn a latent into jewel parameters without touching a video."""
+        cells, seeded_colors = latent["cells"], latent["seed"]
+        if cells.shape[0] != self.grid_spec.n_cells:
+            raise ValueError("latent cells do not match the encoder grid")
+        if seeded_colors.shape != (
+            self.grid_spec.n_cells,
+            self.slots_per_cell,
+            3,
+        ):
+            raise ValueError("latent seed colors do not match the slot lattice")
         raw = self.head(cells).reshape(
             self.grid_spec.n_cells, self.slots_per_cell, 22
         )
         lattice = self.slot_lattice()
-        seeded_colors = self.sample_video_colors(video, lattice).clamp(1e-3, 1 - 1e-3)
+        seeded_colors = seeded_colors.clamp(1e-3, 1 - 1e-3)
         centers = lattice + 0.75 * self.cell_extents * torch.tanh(raw[..., 0:3])
         log_diagonal = (raw[..., 3:6] + self.log_precision_init).clamp(-1.0, 7.0)
         off_diagonal = 0.2 * raw[..., 6:9]
@@ -188,8 +208,8 @@ class VideoToJewelEncoder(nn.Module):
             self.grid_spec.n_cells * self.slots_per_cell,
             3,
             3,
-            device=video.device,
-            dtype=video.dtype,
+            device=cells.device,
+            dtype=cells.dtype,
         )
         diagonal = flat(log_diagonal).exp()
         offdiag = flat(off_diagonal)
@@ -208,6 +228,10 @@ class VideoToJewelEncoder(nn.Module):
             "logit_w": flat(logit_w).reshape(-1),
             "background": background,
         }
+
+    def forward(self, video: torch.Tensor) -> dict[str, torch.Tensor]:
+        """Encode one (T,H,W,3) window into per-slot jewel parameters."""
+        return self.decode(self.encode(video))
 
     def canonical_features(self, prediction: dict[str, torch.Tensor]) -> torch.Tensor:
         """Assemble the canonical 22-D feature matrix for saving and exact audits."""

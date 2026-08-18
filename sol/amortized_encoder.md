@@ -9,6 +9,15 @@ with the fitter's own loss), supervised by unlimited teacher-generated (video, f
 
 ## Components
 
+### `encode` / `decode`
+- **Does**: `encode` maps a window to the generatable latent — `cells` (per-cell trunk features,
+  `(n_cells, model_dim)`) and `seed` (per-slot RGB sampled on the fixed lattice,
+  `(n_cells, slots, 3)`); `decode` turns any such latent into jewel parameters with no video in
+  scope. `forward` is exactly `decode(encode(video))`, verified bit-exact by test.
+- **Rationale**: Both latent parts are video-derived, so a text-conditioned generator must emit
+  both (Stage 1). The `seed` tensor is effectively a coarse RGB volume on the slot lattice,
+  which makes the generation target a small structured volume rather than an opaque code.
+
 ### `VideoToJewelEncoder`
 - **Does**: One 3D-conv trunk pools a `(T,H,W,3)` window to the birth-cell grid; a zero-init
   linear head emits a fixed budget of jewels per cell (centers cell-anchored via bounded tanh,

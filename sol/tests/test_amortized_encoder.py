@@ -97,5 +97,39 @@ class AmortizedEncoderTests(unittest.TestCase):
         self.assertEqual(features.shape, (4 * 4 * 2 * 3, 22))
 
 
+
+class EncodeDecodeSplitTests(unittest.TestCase):
+    def _model(self) -> VideoToJewelEncoder:
+        torch.manual_seed(4)
+        return VideoToJewelEncoder(
+            grid_spec=GridSpec((4, 4, 2), 1024), slots_per_cell=8, model_dim=32
+        )
+
+    def test_decode_of_encode_equals_forward_exactly(self) -> None:
+        model = self._model()
+        video = torch.rand(6, 24, 32, 3)
+        direct = model(video)
+        split = model.decode(model.encode(video))
+        for key in direct:
+            self.assertTrue(torch.equal(direct[key], split[key]), key)
+
+    def test_latent_shapes_are_generator_ready(self) -> None:
+        model = self._model()
+        latent = model.encode(torch.rand(6, 24, 32, 3))
+        self.assertEqual(latent["cells"].shape, (32, 32))
+        self.assertEqual(latent["seed"].shape, (32, 8, 3))
+
+    def test_decode_needs_no_video_and_rejects_bad_latents(self) -> None:
+        model = self._model()
+        latent = model.encode(torch.rand(6, 24, 32, 3))
+        synthetic = {
+            "cells": torch.randn_like(latent["cells"]),
+            "seed": torch.rand_like(latent["seed"]),
+        }
+        prediction = model.decode(synthetic)
+        self.assertEqual(prediction["centers"].shape[0], 32 * 8)
+        with self.assertRaisesRegex(ValueError, "seed colors"):
+            model.decode({"cells": latent["cells"], "seed": latent["seed"][:, :2]})
+
 if __name__ == "__main__":
     unittest.main()
