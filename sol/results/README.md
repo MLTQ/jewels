@@ -64,6 +64,11 @@ The 2026-08-17 dense-intermediate pivot then replaces mark-space generation outr
 feed-forward encoder one-shots held-out windows to 23.24 dB / 0.9422 SSIM / 29.98 layout PSNR —
 the first arm to beat the blur baseline on every metric, +8.7 dB over the best generative arm —
 see [`amortized_encoder_v0/README.md`](amortized_encoder_v0/README.md).
+Stage 1 v0 then tested text conditioning directly in that latent and FAILED its gate: correct
+versus shuffled prompts differ by +0.04 dB across a style-stratified held-out set (9/15, chance),
+because a permutation test shows the latent carries style at 11.8x chance but prompt detail at
+1.1x — ~90% of its variance is text-unpredictable, so the flow washes out to the conditional mean.
+See [`latent_text_prior_v0/README.md`](latent_text_prior_v0/README.md).
 
 ## Decision
 

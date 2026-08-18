@@ -1,0 +1,487 @@
+{
+ "schema": "latent-text-prior-render-gate-v1",
+ "protocol": {
+  "frames": 16,
+  "height": 96,
+  "width": 144,
+  "sampling_steps": 32,
+  "guidance": 1.0,
+  "seed": 31,
+  "note": "correct vs shuffled prompt, identical noise seed per pair"
+ },
+ "inputs": {
+  "prior": "/home/m/jewels/latent_gen/prior_v0/prior.pt",
+  "latents": "/home/m/jewels/latent_gen/five_domain/latents.pt"
+ },
+ "macro": {
+  "correct": {
+   "psnr": 10.694745461146036,
+   "ssim": 0.02321132450985412,
+   "layout_psnr": 12.595316966374716
+  },
+  "shuffled": {
+   "psnr": 10.45814299583435,
+   "ssim": 0.021169909198457997,
+   "layout_psnr": 12.266558329264322
+  },
+  "correct_minus_shuffled_psnr": 0.2366024653116856
+ },
+ "records": [
+  {
+   "source_id": "photoreal__00_cooking_evaluation_00_seed50007",
+   "style": "photoreal",
+   "class_name": "Cooking",
+   "prompt": "a video of a person preparing a meal in a kitchen",
+   "arms": {
+    "correct": {
+     "render_signature": {
+      "psnr": 10.890188217163086,
+      "ssim": -0.05496661737561226,
+      "contrast_ratio": 0.7339931726455688,
+      "edge_ratio": 1.7995156049728394,
+      "saturation_ratio": 1.6184779405593872,
+      "temporal_change_ratio": 3.294003486633301
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 12.830281257629395,
+      "layout_ssim": -0.08959565311670303
+     }
+    },
+    "shuffled": {
+     "render_signature": {
+      "psnr": 10.744768142700195,
+      "ssim": -0.054612863808870316,
+      "contrast_ratio": 0.685168445110321,
+      "edge_ratio": 1.7534579038619995,
+      "saturation_ratio": 1.777475118637085,
+      "temporal_change_ratio": 3.2126543521881104
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 12.5126371383667,
+      "layout_ssim": -0.08774956315755844
+     }
+    }
+   }
+  },
+  {
+   "source_id": "photoreal__01_dogpark_evaluation_00_seed50107",
+   "style": "photoreal",
+   "class_name": "DogPark",
+   "prompt": "a video of dogs playing fetch in a park",
+   "arms": {
+    "correct": {
+     "render_signature": {
+      "psnr": 11.775224685668945,
+      "ssim": 0.03837619349360466,
+      "contrast_ratio": 0.7336347699165344,
+      "edge_ratio": 0.8275371193885803,
+      "saturation_ratio": 1.2870820760726929,
+      "temporal_change_ratio": 4.435608863830566
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 15.044902801513672,
+      "layout_ssim": 0.10059821605682373
+     }
+    },
+    "shuffled": {
+     "render_signature": {
+      "psnr": 11.563185691833496,
+      "ssim": 0.03773730620741844,
+      "contrast_ratio": 0.7787463068962097,
+      "edge_ratio": 0.8441762328147888,
+      "saturation_ratio": 1.2927203178405762,
+      "temporal_change_ratio": 4.542732238769531
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 14.759099960327148,
+      "layout_ssim": 0.09938312321901321
+     }
+    }
+   }
+  },
+  {
+   "source_id": "photoreal__02_streetmarket_evaluation_00_seed50207",
+   "style": "photoreal",
+   "class_name": "StreetMarket",
+   "prompt": "a video of a bustling street market",
+   "arms": {
+    "correct": {
+     "render_signature": {
+      "psnr": 7.902048110961914,
+      "ssim": 0.03769345209002495,
+      "contrast_ratio": 0.4182024300098419,
+      "edge_ratio": 0.9652838110923767,
+      "saturation_ratio": 1.9442408084869385,
+      "temporal_change_ratio": 1.7788188457489014
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 9.27419376373291,
+      "layout_ssim": 0.049559056758880615
+     }
+    },
+    "shuffled": {
+     "render_signature": {
+      "psnr": 7.920445442199707,
+      "ssim": 0.03469349071383476,
+      "contrast_ratio": 0.4262433648109436,
+      "edge_ratio": 0.9642961621284485,
+      "saturation_ratio": 2.169990301132202,
+      "temporal_change_ratio": 1.7850943803787231
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 9.311991691589355,
+      "layout_ssim": 0.045046254992485046
+     }
+    }
+   }
+  },
+  {
+   "source_id": "photoreal__03_surfing_evaluation_00_seed50307",
+   "style": "photoreal",
+   "class_name": "Surfing",
+   "prompt": "a video of a surfer riding waves",
+   "arms": {
+    "correct": {
+     "render_signature": {
+      "psnr": 11.7791166305542,
+      "ssim": -0.019011104479432106,
+      "contrast_ratio": 0.7338145971298218,
+      "edge_ratio": 1.906905174255371,
+      "saturation_ratio": 1.5643846988677979,
+      "temporal_change_ratio": 3.037708282470703
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 13.42055892944336,
+      "layout_ssim": -0.027012111619114876
+     }
+    },
+    "shuffled": {
+     "render_signature": {
+      "psnr": 11.608081817626953,
+      "ssim": -0.030263317748904228,
+      "contrast_ratio": 0.7442353367805481,
+      "edge_ratio": 1.9088371992111206,
+      "saturation_ratio": 1.6226321458816528,
+      "temporal_change_ratio": 3.0391204357147217
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 13.187092781066895,
+      "layout_ssim": -0.04399404302239418
+     }
+    }
+   }
+  },
+  {
+   "source_id": "photoreal__04_workshop_evaluation_00_seed50407",
+   "style": "photoreal",
+   "class_name": "Workshop",
+   "prompt": "a video of a craftsman working in a workshop",
+   "arms": {
+    "correct": {
+     "render_signature": {
+      "psnr": 8.875351905822754,
+      "ssim": -0.038722872734069824,
+      "contrast_ratio": 0.4904117286205292,
+      "edge_ratio": 0.9148390889167786,
+      "saturation_ratio": 1.6025629043579102,
+      "temporal_change_ratio": 17.1713924407959
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 10.552274703979492,
+      "layout_ssim": -0.07583361119031906
+     }
+    },
+    "shuffled": {
+     "render_signature": {
+      "psnr": 8.762117385864258,
+      "ssim": -0.03659088537096977,
+      "contrast_ratio": 0.507141649723053,
+      "edge_ratio": 0.9298189282417297,
+      "saturation_ratio": 1.641121506690979,
+      "temporal_change_ratio": 17.455127716064453
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 10.415387153625488,
+      "layout_ssim": -0.07119731605052948
+     }
+    }
+   }
+  },
+  {
+   "source_id": "photoreal__05_ballet_evaluation_00_seed50507",
+   "style": "photoreal",
+   "class_name": "Ballet",
+   "prompt": "a video of a ballet dancer performing",
+   "arms": {
+    "correct": {
+     "render_signature": {
+      "psnr": 11.071257591247559,
+      "ssim": -0.1138080283999443,
+      "contrast_ratio": 0.7467540502548218,
+      "edge_ratio": 2.2680866718292236,
+      "saturation_ratio": 2.90061354637146,
+      "temporal_change_ratio": 3.1237080097198486
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 12.738740921020508,
+      "layout_ssim": -0.1771799921989441
+     }
+    },
+    "shuffled": {
+     "render_signature": {
+      "psnr": 10.845703125,
+      "ssim": -0.11406192928552628,
+      "contrast_ratio": 0.7218629717826843,
+      "edge_ratio": 2.223874568939209,
+      "saturation_ratio": 3.439331293106079,
+      "temporal_change_ratio": 3.05348801612854
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 12.345523834228516,
+      "layout_ssim": -0.17755897343158722
+     }
+    }
+   }
+  },
+  {
+   "source_id": "photoreal__06_basketball_evaluation_00_seed50607",
+   "style": "photoreal",
+   "class_name": "Basketball",
+   "prompt": "a video of people playing basketball on a court",
+   "arms": {
+    "correct": {
+     "render_signature": {
+      "psnr": 11.38041877746582,
+      "ssim": 0.009024986065924168,
+      "contrast_ratio": 0.7383948564529419,
+      "edge_ratio": 1.7494198083877563,
+      "saturation_ratio": 2.2481918334960938,
+      "temporal_change_ratio": 4.915445804595947
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 13.056021690368652,
+      "layout_ssim": 0.020824622362852097
+     }
+    },
+    "shuffled": {
+     "render_signature": {
+      "psnr": 10.86971378326416,
+      "ssim": 0.012170040048658848,
+      "contrast_ratio": 0.7883279919624329,
+      "edge_ratio": 1.7581840753555298,
+      "saturation_ratio": 2.1159307956695557,
+      "temporal_change_ratio": 4.961342811584473
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 12.39820384979248,
+      "layout_ssim": 0.026050394400954247
+     }
+    }
+   }
+  },
+  {
+   "source_id": "photoreal__07_campfire_evaluation_00_seed50707",
+   "style": "photoreal",
+   "class_name": "Campfire",
+   "prompt": "a video of a campfire burning at night",
+   "arms": {
+    "correct": {
+     "render_signature": {
+      "psnr": 10.247940063476562,
+      "ssim": 0.09970507770776749,
+      "contrast_ratio": 0.6843447089195251,
+      "edge_ratio": 2.116454601287842,
+      "saturation_ratio": 1.0194348096847534,
+      "temporal_change_ratio": 4.3984904289245605
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 11.616692543029785,
+      "layout_ssim": 0.14258991181850433
+     }
+    },
+    "shuffled": {
+     "render_signature": {
+      "psnr": 9.465149879455566,
+      "ssim": 0.07947950810194016,
+      "contrast_ratio": 0.6213424801826477,
+      "edge_ratio": 2.0714731216430664,
+      "saturation_ratio": 1.070340871810913,
+      "temporal_change_ratio": 4.266056060791016
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 10.495739936828613,
+      "layout_ssim": 0.11141487956047058
+     }
+    }
+   }
+  },
+  {
+   "source_id": "photoreal__08_traffic_evaluation_00_seed50807",
+   "style": "photoreal",
+   "class_name": "Traffic",
+   "prompt": "a video of traffic moving through a city street",
+   "arms": {
+    "correct": {
+     "render_signature": {
+      "psnr": 11.162334442138672,
+      "ssim": 0.046611759811639786,
+      "contrast_ratio": 0.5946742296218872,
+      "edge_ratio": 1.316339135169983,
+      "saturation_ratio": 1.8913261890411377,
+      "temporal_change_ratio": 4.074060440063477
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 12.990017890930176,
+      "layout_ssim": 0.07234620302915573
+     }
+    },
+    "shuffled": {
+     "render_signature": {
+      "psnr": 10.950093269348145,
+      "ssim": 0.05384485423564911,
+      "contrast_ratio": 0.6573814749717712,
+      "edge_ratio": 1.3671972751617432,
+      "saturation_ratio": 1.9270726442337036,
+      "temporal_change_ratio": 4.269379138946533
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 12.82947063446045,
+      "layout_ssim": 0.0839289054274559
+     }
+    }
+   }
+  },
+  {
+   "source_id": "photoreal__09_waterfall_evaluation_00_seed50907",
+   "style": "photoreal",
+   "class_name": "Waterfall",
+   "prompt": "a video of a waterfall in a forest",
+   "arms": {
+    "correct": {
+     "render_signature": {
+      "psnr": 10.563844680786133,
+      "ssim": 0.06611546874046326,
+      "contrast_ratio": 0.6421446800231934,
+      "edge_ratio": 1.0404413938522339,
+      "saturation_ratio": 1.22179114818573,
+      "temporal_change_ratio": 10.406543731689453
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 12.32800006866455,
+      "layout_ssim": 0.10391903668642044
+     }
+    },
+    "shuffled": {
+     "render_signature": {
+      "psnr": 10.469518661499023,
+      "ssim": 0.06401824206113815,
+      "contrast_ratio": 0.610704779624939,
+      "edge_ratio": 1.0175886154174805,
+      "saturation_ratio": 1.331712007522583,
+      "temporal_change_ratio": 10.140412330627441
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 12.113685607910156,
+      "layout_ssim": 0.10047844052314758
+     }
+    }
+   }
+  },
+  {
+   "source_id": "photoreal__10_painting_evaluation_00_seed51007",
+   "style": "photoreal",
+   "class_name": "Painting",
+   "prompt": "a video of an artist painting on a canvas",
+   "arms": {
+    "correct": {
+     "render_signature": {
+      "psnr": 10.967676162719727,
+      "ssim": 0.09786096960306168,
+      "contrast_ratio": 0.5913293361663818,
+      "edge_ratio": 2.3166310787200928,
+      "saturation_ratio": 2.9859328269958496,
+      "temporal_change_ratio": 57.453407287597656
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 13.025959968566895,
+      "layout_ssim": 0.14847932755947113
+     }
+    },
+    "shuffled": {
+     "render_signature": {
+      "psnr": 10.517183303833008,
+      "ssim": 0.09379591792821884,
+      "contrast_ratio": 0.6387441158294678,
+      "edge_ratio": 2.416130542755127,
+      "saturation_ratio": 3.1483347415924072,
+      "temporal_change_ratio": 60.24989318847656
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 12.462621688842773,
+      "layout_ssim": 0.1438683420419693
+     }
+    }
+   }
+  },
+  {
+   "source_id": "photoreal__11_gymnastics_evaluation_00_seed51107",
+   "style": "photoreal",
+   "class_name": "Gymnastics",
+   "prompt": "a video of a gymnast performing a routine",
+   "arms": {
+    "correct": {
+     "render_signature": {
+      "psnr": 11.72154426574707,
+      "ssim": 0.10965660959482193,
+      "contrast_ratio": 0.6658398509025574,
+      "edge_ratio": 1.3462872505187988,
+      "saturation_ratio": 3.1439273357391357,
+      "temporal_change_ratio": 1.3437631130218506
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 14.266159057617188,
+      "layout_ssim": 0.17261220514774323
+     }
+    },
+    "shuffled": {
+     "render_signature": {
+      "psnr": 11.781755447387695,
+      "ssim": 0.11382854729890823,
+      "contrast_ratio": 0.6643494367599487,
+      "edge_ratio": 1.3417229652404785,
+      "saturation_ratio": 2.9745888710021973,
+      "temporal_change_ratio": 1.336674690246582
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 14.3672456741333,
+      "layout_ssim": 0.1797775775194168
+     }
+    }
+   }
+  }
+ ]
+}

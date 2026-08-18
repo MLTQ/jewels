@@ -1,0 +1,601 @@
+{
+ "schema": "latent-text-prior-render-gate-v1",
+ "protocol": {
+  "frames": 16,
+  "height": 96,
+  "width": 144,
+  "sampling_steps": 32,
+  "guidance": 1.0,
+  "seed": 31,
+  "note": "correct vs shuffled prompt, identical noise seed per pair"
+ },
+ "inputs": {
+  "prior": "/home/m/jewels/latent_gen/prior_v0/prior.pt",
+  "latents": "/home/m/jewels/latent_gen/five_domain/latents.pt"
+ },
+ "macro": {
+  "correct": {
+   "psnr": 10.13186305363973,
+   "ssim": 0.02974540727833907,
+   "layout_psnr": 11.787754249572753
+  },
+  "shuffled": {
+   "psnr": 10.090208276112874,
+   "ssim": 0.028660204727202654,
+   "layout_psnr": 11.674906285603841
+  },
+  "correct_minus_shuffled_psnr": 0.041654777526856535
+ },
+ "records": [
+  {
+   "source_id": "anime__00_cooking_evaluation_00_seed60002",
+   "style": "anime",
+   "class_name": "Cooking",
+   "prompt": "a video of a person preparing a meal in a kitchen",
+   "arms": {
+    "correct": {
+     "render_signature": {
+      "psnr": 9.438589096069336,
+      "ssim": 0.05094797909259796,
+      "contrast_ratio": 0.8096369504928589,
+      "edge_ratio": 1.1146196126937866,
+      "saturation_ratio": 0.8236844539642334,
+      "temporal_change_ratio": 20.163373947143555
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 10.844922065734863,
+      "layout_ssim": 0.0965508297085762
+     }
+    },
+    "shuffled": {
+     "render_signature": {
+      "psnr": 9.314367294311523,
+      "ssim": 0.042470842599868774,
+      "contrast_ratio": 0.7310032844543457,
+      "edge_ratio": 1.0650320053100586,
+      "saturation_ratio": 0.8187026977539062,
+      "temporal_change_ratio": 19.195173263549805
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 10.566082954406738,
+      "layout_ssim": 0.07980639487504959
+     }
+    }
+   }
+  },
+  {
+   "source_id": "cartoon__00_cooking_evaluation_00_seed61002",
+   "style": "cartoon",
+   "class_name": "Cooking",
+   "prompt": "a video of a person preparing a meal in a kitchen",
+   "arms": {
+    "correct": {
+     "render_signature": {
+      "psnr": 7.992424488067627,
+      "ssim": -0.013022190891206264,
+      "contrast_ratio": 1.042351245880127,
+      "edge_ratio": 2.225381851196289,
+      "saturation_ratio": 0.33306756615638733,
+      "temporal_change_ratio": 28.54139518737793
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 8.662641525268555,
+      "layout_ssim": -0.02068345621228218
+     }
+    },
+    "shuffled": {
+     "render_signature": {
+      "psnr": 7.732224941253662,
+      "ssim": -0.004452585708349943,
+      "contrast_ratio": 0.9411159157752991,
+      "edge_ratio": 2.126378297805786,
+      "saturation_ratio": 0.33105310797691345,
+      "temporal_change_ratio": 27.170900344848633
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 8.298002243041992,
+      "layout_ssim": -0.006240964401513338
+     }
+    }
+   }
+  },
+  {
+   "source_id": "clay__00_cooking_evaluation_00_seed63002",
+   "style": "clay",
+   "class_name": "Cooking",
+   "prompt": "a video of a person preparing a meal in a kitchen",
+   "arms": {
+    "correct": {
+     "render_signature": {
+      "psnr": 10.743556022644043,
+      "ssim": 0.08169097453355789,
+      "contrast_ratio": 0.7837468981742859,
+      "edge_ratio": 2.0272815227508545,
+      "saturation_ratio": 0.46286556124687195,
+      "temporal_change_ratio": 8.556015014648438
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 12.36343002319336,
+      "layout_ssim": 0.1352565437555313
+     }
+    },
+    "shuffled": {
+     "render_signature": {
+      "psnr": 10.610485076904297,
+      "ssim": 0.07689888030290604,
+      "contrast_ratio": 0.7076277732849121,
+      "edge_ratio": 1.9370908737182617,
+      "saturation_ratio": 0.4600660800933838,
+      "temporal_change_ratio": 8.145174980163574
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 12.028505325317383,
+      "layout_ssim": 0.127623051404953
+     }
+    }
+   }
+  },
+  {
+   "source_id": "photoreal__00_cooking_evaluation_00_seed50007",
+   "style": "photoreal",
+   "class_name": "Cooking",
+   "prompt": "a video of a person preparing a meal in a kitchen",
+   "arms": {
+    "correct": {
+     "render_signature": {
+      "psnr": 10.890188217163086,
+      "ssim": -0.05496661737561226,
+      "contrast_ratio": 0.7339931726455688,
+      "edge_ratio": 1.7995156049728394,
+      "saturation_ratio": 1.6184779405593872,
+      "temporal_change_ratio": 3.294003486633301
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 12.830281257629395,
+      "layout_ssim": -0.08959565311670303
+     }
+    },
+    "shuffled": {
+     "render_signature": {
+      "psnr": 10.744768142700195,
+      "ssim": -0.054612863808870316,
+      "contrast_ratio": 0.685168445110321,
+      "edge_ratio": 1.7534579038619995,
+      "saturation_ratio": 1.777475118637085,
+      "temporal_change_ratio": 3.2126543521881104
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 12.5126371383667,
+      "layout_ssim": -0.08774956315755844
+     }
+    }
+   }
+  },
+  {
+   "source_id": "render3d__00_cooking_evaluation_00_seed62002",
+   "style": "render3d",
+   "class_name": "Cooking",
+   "prompt": "a video of a person preparing a meal in a kitchen",
+   "arms": {
+    "correct": {
+     "render_signature": {
+      "psnr": 9.943883895874023,
+      "ssim": -0.013225379399955273,
+      "contrast_ratio": 0.7133895754814148,
+      "edge_ratio": 2.0298709869384766,
+      "saturation_ratio": 0.7438924312591553,
+      "temporal_change_ratio": 82.77842712402344
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 11.162336349487305,
+      "layout_ssim": -0.01679110899567604
+     }
+    },
+    "shuffled": {
+     "render_signature": {
+      "psnr": 9.794672012329102,
+      "ssim": -0.02325350232422352,
+      "contrast_ratio": 0.6441037058830261,
+      "edge_ratio": 1.9395653009414673,
+      "saturation_ratio": 0.7393932938575745,
+      "temporal_change_ratio": 78.8035888671875
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 10.855989456176758,
+      "layout_ssim": -0.031133033335208893
+     }
+    }
+   }
+  },
+  {
+   "source_id": "anime__01_dogpark_evaluation_00_seed60102",
+   "style": "anime",
+   "class_name": "DogPark",
+   "prompt": "a video of dogs playing fetch in a park",
+   "arms": {
+    "correct": {
+     "render_signature": {
+      "psnr": 12.108804702758789,
+      "ssim": 0.0973212942481041,
+      "contrast_ratio": 0.970116138458252,
+      "edge_ratio": 1.5690290927886963,
+      "saturation_ratio": 0.6141698360443115,
+      "temporal_change_ratio": 63.727046966552734
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 14.222169876098633,
+      "layout_ssim": 0.19011585414409637
+     }
+    },
+    "shuffled": {
+     "render_signature": {
+      "psnr": 12.031209945678711,
+      "ssim": 0.09527186304330826,
+      "contrast_ratio": 0.8587732315063477,
+      "edge_ratio": 1.463740587234497,
+      "saturation_ratio": 0.6064717173576355,
+      "temporal_change_ratio": 58.9193000793457
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 13.804677963256836,
+      "layout_ssim": 0.18776865303516388
+     }
+    }
+   }
+  },
+  {
+   "source_id": "cartoon__01_dogpark_evaluation_00_seed61102",
+   "style": "cartoon",
+   "class_name": "DogPark",
+   "prompt": "a video of dogs playing fetch in a park",
+   "arms": {
+    "correct": {
+     "render_signature": {
+      "psnr": 9.195133209228516,
+      "ssim": 0.04520925506949425,
+      "contrast_ratio": 1.1418735980987549,
+      "edge_ratio": 2.122915267944336,
+      "saturation_ratio": 0.3538345992565155,
+      "temporal_change_ratio": 16.8662166595459
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 10.12208366394043,
+      "layout_ssim": 0.07994396984577179
+     }
+    },
+    "shuffled": {
+     "render_signature": {
+      "psnr": 8.264822959899902,
+      "ssim": 0.04164963215589523,
+      "contrast_ratio": 1.010817527770996,
+      "edge_ratio": 1.9804586172103882,
+      "saturation_ratio": 0.3493995666503906,
+      "temporal_change_ratio": 15.593782424926758
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 8.904495239257812,
+      "layout_ssim": 0.07493170350790024
+     }
+    }
+   }
+  },
+  {
+   "source_id": "clay__01_dogpark_evaluation_00_seed63102",
+   "style": "clay",
+   "class_name": "DogPark",
+   "prompt": "a video of dogs playing fetch in a park",
+   "arms": {
+    "correct": {
+     "render_signature": {
+      "psnr": 11.48622989654541,
+      "ssim": 0.022426120936870575,
+      "contrast_ratio": 1.0304512977600098,
+      "edge_ratio": 1.3787978887557983,
+      "saturation_ratio": 0.5877543687820435,
+      "temporal_change_ratio": 16.23114776611328
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 13.417195320129395,
+      "layout_ssim": 0.0551716648042202
+     }
+    },
+    "shuffled": {
+     "render_signature": {
+      "psnr": 11.764671325683594,
+      "ssim": 0.025952113792300224,
+      "contrast_ratio": 0.9121835231781006,
+      "edge_ratio": 1.2862746715545654,
+      "saturation_ratio": 0.5803873538970947,
+      "temporal_change_ratio": 15.00662612915039
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 13.5831937789917,
+      "layout_ssim": 0.0655711442232132
+     }
+    }
+   }
+  },
+  {
+   "source_id": "photoreal__01_dogpark_evaluation_00_seed50107",
+   "style": "photoreal",
+   "class_name": "DogPark",
+   "prompt": "a video of dogs playing fetch in a park",
+   "arms": {
+    "correct": {
+     "render_signature": {
+      "psnr": 11.775224685668945,
+      "ssim": 0.03837619349360466,
+      "contrast_ratio": 0.7336347699165344,
+      "edge_ratio": 0.8275371193885803,
+      "saturation_ratio": 1.2870820760726929,
+      "temporal_change_ratio": 4.435608863830566
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 15.044902801513672,
+      "layout_ssim": 0.10059821605682373
+     }
+    },
+    "shuffled": {
+     "render_signature": {
+      "psnr": 11.563185691833496,
+      "ssim": 0.03773730620741844,
+      "contrast_ratio": 0.7787463068962097,
+      "edge_ratio": 0.8441762328147888,
+      "saturation_ratio": 1.2927203178405762,
+      "temporal_change_ratio": 4.542732238769531
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 14.759099960327148,
+      "layout_ssim": 0.09938312321901321
+     }
+    }
+   }
+  },
+  {
+   "source_id": "render3d__01_dogpark_evaluation_00_seed62102",
+   "style": "render3d",
+   "class_name": "DogPark",
+   "prompt": "a video of dogs playing fetch in a park",
+   "arms": {
+    "correct": {
+     "render_signature": {
+      "psnr": 11.440427780151367,
+      "ssim": 0.0722917690873146,
+      "contrast_ratio": 0.9945594668388367,
+      "edge_ratio": 1.538444995880127,
+      "saturation_ratio": 0.9956544637680054,
+      "temporal_change_ratio": 10.606611251831055
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 13.194645881652832,
+      "layout_ssim": 0.1297779679298401
+     }
+    },
+    "shuffled": {
+     "render_signature": {
+      "psnr": 12.439960479736328,
+      "ssim": 0.07969990372657776,
+      "contrast_ratio": 0.8804110884666443,
+      "edge_ratio": 1.435208797454834,
+      "saturation_ratio": 0.9831748008728027,
+      "temporal_change_ratio": 9.806419372558594
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 14.458330154418945,
+      "layout_ssim": 0.142880380153656
+     }
+    }
+   }
+  },
+  {
+   "source_id": "anime__02_streetmarket_evaluation_00_seed60202",
+   "style": "anime",
+   "class_name": "StreetMarket",
+   "prompt": "a video of a bustling street market",
+   "arms": {
+    "correct": {
+     "render_signature": {
+      "psnr": 9.552543640136719,
+      "ssim": 0.015940245240926743,
+      "contrast_ratio": 0.5163550972938538,
+      "edge_ratio": 0.9556825160980225,
+      "saturation_ratio": 1.9386181831359863,
+      "temporal_change_ratio": 16.394126892089844
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 11.1568603515625,
+      "layout_ssim": 0.02520662732422352
+     }
+    },
+    "shuffled": {
+     "render_signature": {
+      "psnr": 9.618047714233398,
+      "ssim": 0.020889049395918846,
+      "contrast_ratio": 0.5398375391960144,
+      "edge_ratio": 0.973298192024231,
+      "saturation_ratio": 1.916438102722168,
+      "temporal_change_ratio": 16.787601470947266
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 11.301122665405273,
+      "layout_ssim": 0.032254643738269806
+     }
+    }
+   }
+  },
+  {
+   "source_id": "cartoon__02_streetmarket_evaluation_00_seed61202",
+   "style": "cartoon",
+   "class_name": "StreetMarket",
+   "prompt": "a video of a bustling street market",
+   "arms": {
+    "correct": {
+     "render_signature": {
+      "psnr": 9.514711380004883,
+      "ssim": 0.03074129857122898,
+      "contrast_ratio": 0.6339415311813354,
+      "edge_ratio": 1.1309040784835815,
+      "saturation_ratio": 0.5750071406364441,
+      "temporal_change_ratio": 24.126020431518555
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 11.011147499084473,
+      "layout_ssim": 0.05642290040850639
+     }
+    },
+    "shuffled": {
+     "render_signature": {
+      "psnr": 9.61532211303711,
+      "ssim": 0.033656928688287735,
+      "contrast_ratio": 0.6627715229988098,
+      "edge_ratio": 1.1517494916915894,
+      "saturation_ratio": 0.5684283375740051,
+      "temporal_change_ratio": 24.705066680908203
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 11.203936576843262,
+      "layout_ssim": 0.06135177984833717
+     }
+    }
+   }
+  },
+  {
+   "source_id": "clay__02_streetmarket_evaluation_00_seed63202",
+   "style": "clay",
+   "class_name": "StreetMarket",
+   "prompt": "a video of a bustling street market",
+   "arms": {
+    "correct": {
+     "render_signature": {
+      "psnr": 10.907411575317383,
+      "ssim": 0.023155687376856804,
+      "contrast_ratio": 0.7052457928657532,
+      "edge_ratio": 1.0695921182632446,
+      "saturation_ratio": 0.6802703738212585,
+      "temporal_change_ratio": 15.115721702575684
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 12.996034622192383,
+      "layout_ssim": 0.037904489785432816
+     }
+    },
+    "shuffled": {
+     "render_signature": {
+      "psnr": 10.811996459960938,
+      "ssim": 0.015146605670452118,
+      "contrast_ratio": 0.7373185157775879,
+      "edge_ratio": 1.089307427406311,
+      "saturation_ratio": 0.6724872589111328,
+      "temporal_change_ratio": 15.478513717651367
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 12.919692039489746,
+      "layout_ssim": 0.022681938484311104
+     }
+    }
+   }
+  },
+  {
+   "source_id": "photoreal__02_streetmarket_evaluation_00_seed50207",
+   "style": "photoreal",
+   "class_name": "StreetMarket",
+   "prompt": "a video of a bustling street market",
+   "arms": {
+    "correct": {
+     "render_signature": {
+      "psnr": 7.902048110961914,
+      "ssim": 0.03769345209002495,
+      "contrast_ratio": 0.4182024300098419,
+      "edge_ratio": 0.9652838110923767,
+      "saturation_ratio": 1.9442408084869385,
+      "temporal_change_ratio": 1.7788188457489014
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 9.27419376373291,
+      "layout_ssim": 0.049559056758880615
+     }
+    },
+    "shuffled": {
+     "render_signature": {
+      "psnr": 7.920445442199707,
+      "ssim": 0.03469349071383476,
+      "contrast_ratio": 0.4262433648109436,
+      "edge_ratio": 0.9642961621284485,
+      "saturation_ratio": 2.169990301132202,
+      "temporal_change_ratio": 1.7850943803787231
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 9.311991691589355,
+      "layout_ssim": 0.045046254992485046
+     }
+    }
+   }
+  },
+  {
+   "source_id": "render3d__02_streetmarket_evaluation_00_seed62202",
+   "style": "render3d",
+   "class_name": "StreetMarket",
+   "prompt": "a video of a bustling street market",
+   "arms": {
+    "correct": {
+     "render_signature": {
+      "psnr": 9.086769104003906,
+      "ssim": 0.011601027101278305,
+      "contrast_ratio": 0.5072508454322815,
+      "edge_ratio": 0.949351966381073,
+      "saturation_ratio": 0.7604606747627258,
+      "temporal_change_ratio": 23.824573516845703
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 10.513468742370605,
+      "layout_ssim": 0.01584305800497532
+     }
+    },
+    "shuffled": {
+     "render_signature": {
+      "psnr": 9.126944541931152,
+      "ssim": 0.008155406452715397,
+      "contrast_ratio": 0.5303192734718323,
+      "edge_ratio": 0.9668509364128113,
+      "saturation_ratio": 0.7517601251602173,
+      "temporal_change_ratio": 24.396387100219727
+     },
+     "layout_signature": {
+      "pool_factor": 8.0,
+      "layout_psnr": 10.615837097167969,
+      "layout_ssim": 0.01116989552974701
+     }
+    }
+   }
+  }
+ ]
+}

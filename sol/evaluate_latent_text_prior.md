@@ -16,6 +16,9 @@ dominates the latent; rendered output can.
 ### `main`
 - **Does**: For each held-out window, generates the correct/shuffled pair, renders both, and
   reports render and texture-blind layout signatures plus the macro correct-minus-shuffled gap.
+- **Selection**: Held-out windows are drawn round-robin across styles, not in manifest order —
+  otherwise the sample collapses onto one domain and never tests the style axis, which the
+  latent-variance analysis identifies as the strongest text signal.
 
 ## Contracts
 

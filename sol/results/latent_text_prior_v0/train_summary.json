@@ -1,0 +1,12 @@
+{
+  "steps": 8000,
+  "seconds": 433.1710035800934,
+  "parameters": 8447084,
+  "latest_evaluation": {
+    "correct": 0.4518137276172638,
+    "shuffled": 0.45201560854911804,
+    "null": 0.45174673199653625,
+    "shuffled_minus_correct": 0.00020188093185424805,
+    "null_minus_correct": -6.699562072753906e-05
+  }
+}

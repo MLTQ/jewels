@@ -97,9 +97,19 @@ def main() -> None:
     records = cache["records"]
     text_tokens = cache["text_tokens"].float().to(device)
     text_mask = cache["text_mask"].to(device)
-    validation = [
-        (i, r) for i, r in enumerate(records) if r["split"] != "train"
-    ][: args.limit]
+    held_out = [(i, r) for i, r in enumerate(records) if r["split"] != "train"]
+    by_style: dict[str, list] = {}
+    for entry in held_out:
+        by_style.setdefault(entry[1]["style"], []).append(entry)
+    validation = []
+    depth = 0
+    while len(validation) < args.limit and any(
+        depth < len(v) for v in by_style.values()
+    ):
+        for style in sorted(by_style):
+            if depth < len(by_style[style]) and len(validation) < args.limit:
+                validation.append(by_style[style][depth])
+        depth += 1
     slots = int(encoder_meta["slots_per_cell"])
     cell_dim = int(meta["model_args"]["cell_dim"])
 
