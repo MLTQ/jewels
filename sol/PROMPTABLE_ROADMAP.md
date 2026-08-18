@@ -288,6 +288,47 @@ generative mechanism; the compute conversion below now prices *encoder* quality,
 4–5 (edit/repair, interactive) attach to encoder-produced fields unchanged. Mark-space
 emission continues as a research lane in latent-set form only.
 
+## The staged route to prompt-only text-to-video (2026-08-17)
+
+The pivot makes text-to-video real today as teacher-carried generation; this plan pulls the
+generative capability progressively into our own stack while keeping what only jewels give.
+Each stage carries falsifiable gates in the house style.
+
+**Stage 0 — industrialize the encoder (current GPUs).** Teacher-generate a diverse corpus
+(96-clip, 12-class harvest running under `corpus/diverse_prompt_bank_v1.json`, seeds 50000+),
+retrain, and plot the encoder data curve. Two structural unlocks: the encoder is
+self-supervised (render loss against the video — no fits or captions required), so any real
+video is training data; and the fixed-camera constraint dies with the fitter dependency.
+Add iterative refinement passes and capacity. **G1: >=26 dB / <=0.25 LPIPS one-shot on held-out
+clips.** Add carry-conditioned windows (encode window N given carried jewels from N-1,
+supervised by overlapping-window fits). **G2: two-window encode with seams at fitted level and
+exact stable IDs.** At G1 the encoder replaces the 25-minute fitter as labeler and the data
+factory becomes seconds per clip.
+
+**Stage 1 — text conditioning moves into our latent (first donated compute).** Harvest
+10k-50k (prompt, video, encoder-latent) triples from the teacher with an LLM-authored prompt
+bank. Train a small text-conditioned DiT/flow over the encoder's cell-latent volume
+(token cross-attention, classifier-free guidance): generation in a structured latent with a
+proven decoder — the L3DG/GaussianCube form of set generation, with joint composition owned by
+the decoder rather than the sampler. Run the matched-compute fork against a small distilled
+pixel-latent generator feeding the encoder; keep the winner. **G3: correct-versus-shuffled
+TEXT separates at the rendered level (>=1 dB and a clear LPIPS margin)** — the selectivity
+every prior architecture failed.
+
+**Stage 2 — remove the teacher from inference (scaled compute).** **G4: prompt-only
+generation beats the guide-upsample baseline on every metric with no teacher at runtime.**
+Diversify supervision past one teacher (open video models; real video on the encoder side) so
+quality is not ceilinged by LTX's distribution. Generate window N's latent conditioned on
+carried jewels. **G5: 30+ second generations with stable identity throughout.**
+
+**Stage 3 — the differentiated endgame.** Unbounded, streaming, object-persistent, editable
+text-to-video with content-proportional decode; drag-and-heal returns as masked generation in
+our own latent; a VQ'd latent is the entry point for the LLM-modality thesis in PROJECT.md.
+
+Compute mapping: Stage 0 fits on Aine; Stage 1's harvest is ~500-2,500 4090-hours plus the
+first real generator-training ask; Stage 2 consumes the donation. Every tranche buys a
+measured curve under frozen protocols.
+
 ## Compute conversion — the scaling program (2026-08-14)
 
 Reframe (Max): editability is a supporting property, not the headline. The goal is a promptable
