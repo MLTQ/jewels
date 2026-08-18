@@ -295,12 +295,19 @@ generative capability progressively into our own stack while keeping what only j
 Each stage carries falsifiable gates in the house style.
 
 **Stage 0 — industrialize the encoder (current GPUs).** Teacher-generate a diverse corpus
-(96-clip, 12-class harvest running under `corpus/diverse_prompt_bank_v1.json`, seeds 50000+),
+(96-clip, 12-class photoreal harvest under `corpus/diverse_prompt_bank_v1.json`, seeds 50000+,
+plus four 36-clip style passes over the same prompts — anime, 2D cartoon, 3D render,
+claymation, seeds 60000/61000/62000/63000 — for 240 clips across five visual domains),
 retrain, and plot the encoder data curve. Two structural unlocks: the encoder is
 self-supervised (render loss against the video — no fits or captions required), so any real
 video is training data; and the fixed-camera constraint dies with the fitter dependency.
 Add iterative refinement passes and capacity. **G1: >=26 dB / <=0.25 LPIPS one-shot on held-out
-clips.** Add carry-conditioned windows (encode window N given carried jewels from N-1,
+clips**, reported per style so no domain hides behind a macro mean. Style coverage is
+deliberate risk control: the cel-shading gate showed fitted jewels behave differently on flat
+ink-contour content than on photoreal texture (flat-region error down 35.7%, contour error up
+62.3%), so an encoder trained on photoreal statistics alone would carry an unmeasured domain
+prior into every later stage — and stylized content is exactly where licensed-character work
+would live. Add carry-conditioned windows (encode window N given carried jewels from N-1,
 supervised by overlapping-window fits). **G2: two-window encode with seams at fitted level and
 exact stable IDs.** At G1 the encoder replaces the 25-minute fitter as labeler and the data
 factory becomes seconds per clip.

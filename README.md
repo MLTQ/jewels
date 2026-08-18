@@ -128,7 +128,8 @@ the roadmap pulls generation progressively into this stack. Each stage has falsi
 (full detail in `sol/PROMPTABLE_ROADMAP.md`):
 
 - **Stage 0 — industrialize the encoder** *(current GPUs; in progress)*: diverse teacher
-  corpus (96-clip harvest running), encoder data curve, refinement passes.
+  corpus (240 clips across five visual domains — photoreal, anime, 2D cartoon, 3D render,
+  claymation — generating now), encoder data curve, refinement passes.
   **G1** ≥26 dB / ≤0.25 LPIPS one-shot. Carry-conditioned windows: **G2** seamless two-window
   encode with exact stable IDs. The encoder is self-supervised — any real video is training
   data, and the fixed-camera constraint is gone.
