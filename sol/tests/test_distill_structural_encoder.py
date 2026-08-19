@@ -6,7 +6,12 @@ import unittest
 
 import torch
 
-from sol.distill_structural_encoder import chamfer, teacher_descriptors
+from sol.distill_structural_encoder import (
+    chamfer,
+    orientation_loss,
+    principal_axis,
+    teacher_descriptors,
+)
 
 
 class DistillHelperTests(unittest.TestCase):
@@ -31,16 +36,40 @@ class DistillHelperTests(unittest.TestCase):
         partial, _ = chamfer(one_sided, teacher, chunk=16)
         self.assertGreater(float(partial), float(full))
 
-    def test_teacher_descriptors_return_centres_and_spreads(self) -> None:
+    def test_teacher_descriptors_return_centres_spreads_and_axes(self) -> None:
         torch.manual_seed(0)
         features = torch.randn(500, 22)
         features[:, 3:9] *= 0.3
-        centres, spread = teacher_descriptors(
+        centres, spread, axis = teacher_descriptors(
             features, 100, torch.Generator().manual_seed(0)
         )
         self.assertEqual(centres.shape, (100, 3))
         self.assertEqual(spread.shape, (100,))
+        self.assertEqual(axis.shape, (100, 3))
         self.assertTrue(bool((spread >= 0).all()))
+        self.assertTrue(torch.allclose(axis.norm(dim=-1), torch.ones(100), atol=1e-5))
+
+
+class OrientationTests(unittest.TestCase):
+    def test_principal_axis_follows_the_largest_scale(self) -> None:
+        quaternion = torch.tensor([[1.0, 0.0, 0.0, 0.0]])
+        for largest, expected in ((0, [1, 0, 0]), (1, [0, 1, 0]), (2, [0, 0, 1])):
+            log_scale = torch.full((1, 3), -2.0)
+            log_scale[0, largest] = 1.0
+            axis = principal_axis(quaternion, log_scale)
+            self.assertTrue(
+                torch.allclose(axis.abs(), torch.tensor([expected], dtype=torch.float), atol=1e-5)
+            )
+
+    def test_orientation_loss_is_zero_when_aligned_and_sign_invariant(self) -> None:
+        axis = torch.nn.functional.normalize(torch.randn(20, 3), dim=-1)
+        self.assertLess(float(orientation_loss(axis, axis)), 1e-6)
+        self.assertLess(float(orientation_loss(axis, -axis)), 1e-6)
+
+    def test_orientation_loss_penalises_perpendicular_axes(self) -> None:
+        a = torch.tensor([[1.0, 0.0, 0.0]])
+        b = torch.tensor([[0.0, 1.0, 0.0]])
+        self.assertGreater(float(orientation_loss(a, b)), 0.9)
 
 
 if __name__ == "__main__":

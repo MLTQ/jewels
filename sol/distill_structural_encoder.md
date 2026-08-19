@@ -16,6 +16,14 @@ feed-forward student, which is what PROMPTABLE_ROADMAP Phase 3 specified from th
 - **Rationale**: The student holds 10k jewels against the teacher's 72k, so its primitives must
   be larger; matching absolute size would be wrong, matching shape character is not.
 
+### `principal_axis` / `orientation_loss`
+- **Does**: Extracts the rotation column belonging to the largest scale (the direction a tube
+  points) and scores `1 - |cos|` against the nearest teacher's principal axis; absolute because
+  an axis has no sign.
+- **Rationale**: Supervising spread alone produced elongation *without direction* — visible in
+  contact sheets as horizontal smearing rather than object-tracking tubes. Anisotropy measured
+  6.29 while the renders streaked, so magnitude was learned and purpose was not.
+
 ### `chamfer`
 - **Does**: Symmetric squared-distance Chamfer plus student->teacher nearest indices.
 - **Rationale**: The teacher->student direction is the one that forces clustering — every region

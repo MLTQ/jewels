@@ -33,6 +33,7 @@ from sol.render import covariance_terms
 from sol.structural_encoder import (
     ARCHITECTURE,
     StructuralJewelEncoder,
+    quaternion_to_matrix,
     render_structural,
 )
 from sol.token_grid import GridSpec
@@ -42,8 +43,13 @@ from stprim.data.video_io import load_video
 
 def teacher_descriptors(
     features: torch.Tensor, keep: int, generator: torch.Generator
-) -> tuple[torch.Tensor, torch.Tensor]:
-    """Opacity-weighted subsample: returns centres and log-eigenvalue spreads."""
+) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+    """Opacity-weighted subsample: centres, log-eigenvalue spreads, principal axes.
+
+    The axis is the eigenvector of the largest eigenvalue — the direction a
+    sheared tube points. Supervising spread alone produced elongation without
+    direction (visible as horizontal smearing), so orientation is carried too.
+    """
     weight = torch.sigmoid(features[:, 21])
     index = torch.multinomial(
         weight.clamp_min(1e-6), min(keep, len(features)), replacement=False,
@@ -51,10 +57,30 @@ def teacher_descriptors(
     )
     chosen = features[index]
     covariance, _ = covariance_terms(chosen)
-    eigenvalues = torch.linalg.eigvalsh(covariance.double()).clamp_min(1e-12)
+    eigenvalues, eigenvectors = torch.linalg.eigh(covariance.double())
+    eigenvalues = eigenvalues.clamp_min(1e-12)
     log_scale = 0.5 * eigenvalues.log()
     spread = (log_scale[:, -1] - log_scale[:, 0]).to(chosen.dtype)
-    return chosen[:, :3], spread
+    axis = eigenvectors[:, :, -1].to(chosen.dtype)
+    return chosen[:, :3], spread, axis
+
+
+def principal_axis(
+    quaternion: torch.Tensor, log_scale: torch.Tensor
+) -> torch.Tensor:
+    """The rotation column belonging to the largest scale."""
+    rotation = quaternion_to_matrix(quaternion)
+    largest = log_scale.argmax(dim=1)
+    index = largest.view(-1, 1, 1).expand(-1, 3, 1)
+    return torch.gather(rotation, 2, index).squeeze(-1)
+
+
+def orientation_loss(
+    student_axis: torch.Tensor, teacher_axis: torch.Tensor
+) -> torch.Tensor:
+    """1 - |cos| between axes; absolute because an axis has no sign."""
+    cosine = (student_axis * teacher_axis).sum(dim=-1).abs().clamp(max=1.0)
+    return (1.0 - cosine).mean()
 
 
 def chamfer(a: torch.Tensor, b: torch.Tensor, chunk: int = 2048) -> tuple[torch.Tensor, torch.Tensor]:
@@ -87,13 +113,14 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--height", type=int, default=160)
     parser.add_argument("--width", type=int, default=240)
     parser.add_argument("--grid", type=int, nargs=3, default=(16, 16, 8))
-    parser.add_argument("--slots-per-cell", type=int, default=5)
+    parser.add_argument("--slots-per-cell", type=int, default=10)
     parser.add_argument("--model-dim", type=int, default=256)
     parser.add_argument("--points-per-step", type=int, default=8192)
     parser.add_argument("--point-chunk", type=int, default=1024)
     parser.add_argument("--teacher-sample", type=int, default=12000)
     parser.add_argument("--chamfer-weight", type=float, default=3.0)
     parser.add_argument("--spread-weight", type=float, default=0.05)
+    parser.add_argument("--orientation-weight", type=float, default=1.0)
     parser.add_argument("--eval-every", type=int, default=1000)
     parser.add_argument("--log-every", type=int, default=200)
     parser.add_argument("--seed", type=int, default=0)
@@ -133,10 +160,12 @@ def main() -> None:
         )
         fitted = torch.load(fits[name], map_location="cpu", weights_only=False)
         features = state_to_features(fitted["state"]).float()
-        centres, spread = teacher_descriptors(
+        centres, spread, axis = teacher_descriptors(
             features, args.teacher_sample, cpu_generator
         )
-        teachers[example["source_id"]] = (centres.to(device), spread.to(device))
+        teachers[example["source_id"]] = (
+            centres.to(device), spread.to(device), axis.to(device)
+        )
         print("loaded teacher", example["source_id"], flush=True)
 
     train_ids = [k for k, (_, s) in videos.items() if s == "train"]
@@ -184,7 +213,7 @@ def main() -> None:
         flush=True,
     )
     latest = None
-    history: list[tuple[float, float, float]] = []
+    history: list[tuple[float, float, float, float]] = []
     started = time.time()
     model.train()
     for step in range(1, args.steps + 1):
@@ -192,7 +221,7 @@ def main() -> None:
             int(torch.randint(0, len(train_ids), (1,), generator=generator, device=device))
         ]
         video = videos[source_id][0]
-        teacher_centres, teacher_spread = teachers[source_id]
+        teacher_centres, teacher_spread, teacher_axis = teachers[source_id]
         if step <= args.warmup:
             rate = args.lr * step / max(args.warmup, 1)
         else:
@@ -212,27 +241,38 @@ def main() -> None:
         spread_loss = torch.nn.functional.mse_loss(
             student_spread, teacher_spread[nearest]
         )
+        axis_loss = orientation_loss(
+            principal_axis(prediction["quaternion"], prediction["log_scale"]),
+            teacher_axis[nearest],
+        )
         loss = (
             render_loss
             + args.chamfer_weight * chamfer_loss
             + args.spread_weight * spread_loss
+            + args.orientation_weight * axis_loss
         )
         optimizer.zero_grad(set_to_none=True)
         loss.backward()
         gradient_norm = torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
         optimizer.step()
         history.append(
-            (float(render_loss.detach()), float(chamfer_loss.detach()), float(spread_loss.detach()))
+            (
+                float(render_loss.detach()),
+                float(chamfer_loss.detach()),
+                float(spread_loss.detach()),
+                float(axis_loss.detach()),
+            )
         )
         if step % args.log_every == 0 or step == args.steps:
             recent = history[-args.log_every :]
-            render_mean = sum(r for r, _, _ in recent) / len(recent)
+            render_mean = sum(r for r, _, _, _ in recent) / len(recent)
             record = {
                 "step": step,
                 "render_loss": render_mean,
                 "train_psnr": -10.0 * math.log10(max(render_mean, 1e-10)),
-                "chamfer": sum(c for _, c, _ in recent) / len(recent),
-                "spread": sum(s for _, _, s in recent) / len(recent),
+                "chamfer": sum(c for _, c, _, _ in recent) / len(recent),
+                "spread": sum(s for _, _, s, _ in recent) / len(recent),
+                "orientation": sum(a for _, _, _, a in recent) / len(recent),
                 "gradient_norm": float(gradient_norm),
                 "lr": rate,
             }
