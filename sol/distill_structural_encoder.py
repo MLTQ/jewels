@@ -157,6 +157,22 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--points-per-step", type=int, default=8192)
     parser.add_argument("--point-chunk", type=int, default=1024)
     parser.add_argument("--teacher-sample", type=int, default=12000)
+    parser.add_argument(
+        "--chamfer-sample",
+        type=int,
+        default=0,
+        help=(
+            "random student jewels used for the correspondence terms each step "
+            "(0 = all). Autograd retains the full pairwise distance matrix, so "
+            "this bounds memory independently of the jewel budget."
+        ),
+    )
+    parser.add_argument(
+        "--chamfer-chunk",
+        type=int,
+        default=2048,
+        help="rows per cdist block; scales memory with jewel count",
+    )
     parser.add_argument("--chamfer-weight", type=float, default=3.0)
     parser.add_argument("--spread-weight", type=float, default=0.05)
     parser.add_argument("--orientation-weight", type=float, default=1.0)
@@ -275,16 +291,22 @@ def main() -> None:
         points, target = sample_voxels(video, args.points_per_step, generator)
         rendered = render_structural(prediction, points, point_chunk=args.point_chunk)
         render_loss = torch.nn.functional.mse_loss(rendered, target)
-        chamfer_loss, nearest = chamfer(prediction["centers"], teacher_centres)
-        student_spread = (
-            prediction["log_scale"].max(dim=1).values
-            - prediction["log_scale"].min(dim=1).values
+        if args.chamfer_sample and args.chamfer_sample < len(prediction["centers"]):
+            subset = torch.randperm(
+                len(prediction["centers"]), generator=generator, device=device
+            )[: args.chamfer_sample]
+        else:
+            subset = slice(None)
+        chamfer_loss, nearest = chamfer(
+            prediction["centers"][subset], teacher_centres, chunk=args.chamfer_chunk
         )
+        log_scale = prediction["log_scale"][subset]
+        student_spread = log_scale.max(dim=1).values - log_scale.min(dim=1).values
         spread_loss = torch.nn.functional.mse_loss(
             student_spread, teacher_spread[nearest]
         )
         axis_loss = orientation_loss(
-            principal_axis(prediction["quaternion"], prediction["log_scale"]),
+            principal_axis(prediction["quaternion"][subset], log_scale),
             teacher_axis[nearest],
         )
         occupancy_loss = (
