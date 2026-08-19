@@ -1,0 +1,91 @@
+{
+ "schema": "field-structure-comparison-v1",
+ "macro": {
+  "fitted": {
+   "jewels_total": 72000.0,
+   "jewels_above_2pct_opacity": 72000.0,
+   "anisotropy_median": 10.253194882840473,
+   "anisotropy_p90": 29.879636505423015,
+   "temporal_tilt_median": 0.9481376338642971,
+   "extent_median": 0.018850112020430736,
+   "extent_iqr_ratio": 2.2817089031547124,
+   "opacity_median": 0.2862991839647293,
+   "occupancy_entropy": 5.245943307876587,
+   "occupancy_entropy_max": 5.545177444479562,
+   "occupancy_uniformity": 0.9460370493822746
+  },
+  "encoder": {
+   "jewels_total": 73728.0,
+   "jewels_above_2pct_opacity": 73728.0,
+   "anisotropy_median": 2.2102951015384162,
+   "anisotropy_p90": 2.4125605913073933,
+   "temporal_tilt_median": 0.9982057740724551,
+   "extent_median": 0.025959963196321552,
+   "extent_iqr_ratio": 1.070968832961431,
+   "opacity_median": 0.4342722147703171,
+   "occupancy_entropy": 5.540501117706299,
+   "occupancy_entropy_max": 5.545177444479562,
+   "occupancy_uniformity": 0.9991566858193295
+  }
+ },
+ "records": [
+  {
+   "video": "/home/m/LTX-2/corpora/jewels_ucf_prompt_v1/00_basketball_train_00_seed42000.mp4",
+   "fitted": {
+    "jewels_total": 72000,
+    "jewels_above_2pct_opacity": 72000,
+    "anisotropy_median": 9.73937745768403,
+    "anisotropy_p90": 31.951301935405915,
+    "temporal_tilt_median": 0.9242702042969275,
+    "extent_median": 0.017542042968440377,
+    "extent_iqr_ratio": 2.4314553938844483,
+    "opacity_median": 0.2786569595336914,
+    "occupancy_entropy": 5.214653968811035,
+    "occupancy_entropy_max": 5.545177444479562,
+    "occupancy_uniformity": 0.940394427594454
+   },
+   "encoder": {
+    "jewels_total": 73728,
+    "jewels_above_2pct_opacity": 73728,
+    "anisotropy_median": 2.2164637963314107,
+    "anisotropy_p90": 2.428291071688216,
+    "temporal_tilt_median": 0.9984716992768894,
+    "extent_median": 0.02660884836629106,
+    "extent_iqr_ratio": 1.0676153952761673,
+    "opacity_median": 0.41546034812927246,
+    "occupancy_entropy": 5.540427207946777,
+    "occupancy_entropy_max": 5.545177444479562,
+    "occupancy_uniformity": 0.9991433571638877
+   }
+  },
+  {
+   "video": "/home/m/LTX-2/corpora/jewels_ucf_prompt_v1/01_horseriding_train_00_seed42100.mp4",
+   "fitted": {
+    "jewels_total": 72000,
+    "jewels_above_2pct_opacity": 72000,
+    "anisotropy_median": 10.767012307996916,
+    "anisotropy_p90": 27.80797107544011,
+    "temporal_tilt_median": 0.9720050634316665,
+    "extent_median": 0.020158181072421094,
+    "extent_iqr_ratio": 2.1319624124249765,
+    "opacity_median": 0.2939414083957672,
+    "occupancy_entropy": 5.277232646942139,
+    "occupancy_entropy_max": 5.545177444479562,
+    "occupancy_uniformity": 0.9516796711700952
+   },
+   "encoder": {
+    "jewels_total": 73728,
+    "jewels_above_2pct_opacity": 73728,
+    "anisotropy_median": 2.204126406745422,
+    "anisotropy_p90": 2.39683011092657,
+    "temporal_tilt_median": 0.9979398488680209,
+    "extent_median": 0.025311078026352043,
+    "extent_iqr_ratio": 1.0743222706466948,
+    "opacity_median": 0.4530840814113617,
+    "occupancy_entropy": 5.54057502746582,
+    "occupancy_entropy_max": 5.545177444479562,
+    "occupancy_uniformity": 0.9991700144747714
+   }
+  }
+ ]
+}

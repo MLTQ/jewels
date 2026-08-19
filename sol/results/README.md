@@ -69,6 +69,10 @@ versus shuffled prompts differ by +0.04 dB across a style-stratified held-out se
 because a permutation test shows the latent carries style at 11.8x chance but prompt detail at
 1.1x — ~90% of its variance is text-unpredictable, so the flow washes out to the conditional mean.
 See [`latent_text_prior_v0/README.md`](latent_text_prior_v0/README.md).
+A structural comparison then showed why: the encoder's jewels have median anisotropy 2.21 and
+occupancy uniformity 0.9992 (a lattice of round blobs) against the fitter's 10.25 and 0.946
+(sheared tubes clustered on content) — the encoder samples the video rather than describing it.
+See [`field_structure_v1/README.md`](field_structure_v1/README.md).
 
 ## Decision
 
