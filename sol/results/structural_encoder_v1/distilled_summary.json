@@ -1,0 +1,26 @@
+{
+  "steps": 6000,
+  "seconds": 2340.985114812851,
+  "jewels_per_window": 10240,
+  "latest_evaluation": {
+    "00_basketball_evaluation_00_seed42003": {
+      "psnr": 16.034244722546237
+    },
+    "01_horseriding_evaluation_00_seed42103": {
+      "psnr": 15.608514320828322
+    },
+    "02_playingguitar_evaluation_00_seed42203": {
+      "psnr": 16.0766648417709
+    },
+    "03_applyeyemakeup_evaluation_00_seed42303": {
+      "psnr": 16.138788145002472
+    },
+    "macro_psnr": 15.964553007536983,
+    "structure": {
+      "anisotropy_median": 6.28923483628936,
+      "anisotropy_p90": 14.004687894832411,
+      "extent_iqr_ratio": 1.8418191742342347,
+      "occupancy_uniformity": 0.9908618120833967
+    }
+  }
+}

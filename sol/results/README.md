@@ -73,6 +73,11 @@ A structural comparison then showed why: the encoder's jewels have median anisot
 occupancy uniformity 0.9992 (a lattice of round blobs) against the fitter's 10.25 and 0.946
 (sheared tubes clustered on content) — the encoder samples the video rather than describing it.
 See [`field_structure_v1/README.md`](field_structure_v1/README.md).
+Path B then built a scarce (10,240-jewel), tube-capable encoder with no colour lookup and ran two
+controlled arms: render loss alone degrades structure monotonically as quality rises (extent IQR
+2.10 -> 1.31, uniformity -> 0.9994), while distilling the fitter's structure via Chamfer plus
+anisotropy matching holds structure as quality rises and reaches 61% of the fitter's anisotropy
+in one forward pass. See [`structural_encoder_v1/README.md`](structural_encoder_v1/README.md).
 
 ## Decision
 
