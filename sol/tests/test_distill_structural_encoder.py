@@ -74,3 +74,39 @@ class OrientationTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class DensityMatchingTests(unittest.TestCase):
+    def test_soft_occupancy_sums_to_one(self) -> None:
+        from sol.distill_structural_encoder import soft_occupancy
+        from sol.token_grid import GridSpec
+
+        grid = GridSpec((4, 4, 2), 1)
+        occupancy = soft_occupancy(torch.rand(200, 3) * 2 - 1, grid)
+        self.assertEqual(occupancy.shape, (grid.n_cells,))
+        self.assertAlmostEqual(float(occupancy.sum()), 1.0, places=4)
+
+    def test_density_loss_is_small_for_matching_distributions(self) -> None:
+        from sol.distill_structural_encoder import density_loss
+        from sol.token_grid import GridSpec
+
+        grid = GridSpec((4, 4, 2), 1)
+        torch.manual_seed(0)
+        points = torch.rand(400, 3) * 2 - 1
+        same = float(density_loss(points, points.clone(), grid))
+        clustered = torch.rand(400, 3) * 0.3 - 1.0
+        different = float(density_loss(clustered, points, grid))
+        self.assertLess(same, 1e-4)
+        self.assertGreater(different, same + 0.5)
+
+    def test_density_loss_gradient_pushes_toward_teacher(self) -> None:
+        from sol.distill_structural_encoder import density_loss
+        from sol.token_grid import GridSpec
+
+        grid = GridSpec((4, 4, 2), 1)
+        torch.manual_seed(1)
+        teacher = torch.rand(500, 3) * 0.4 + 0.5      # teacher clustered high
+        student = (torch.rand(500, 3) * 2 - 1).requires_grad_(True)
+        density_loss(student, teacher, grid).backward()
+        self.assertIsNotNone(student.grad)
+        self.assertGreater(float(student.grad.abs().sum()), 0.0)

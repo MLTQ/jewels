@@ -24,6 +24,16 @@ feed-forward student, which is what PROMPTABLE_ROADMAP Phase 3 specified from th
   contact sheets as horizontal smearing rather than object-tracking tubes. Anisotropy measured
   6.29 while the renders streaked, so magnitude was learned and purpose was not.
 
+### `soft_occupancy` / `density_loss`
+- **Does**: Differentiably bins jewel centres into per-cell occupancy shares (softmax over
+  distance to cell centres, so gradients flow to positions) and scores symmetric KL between the
+  student's and teacher's distributions. Enabled with `--density-weight`.
+- **Rationale**: Chamfer taught shape but not placement — measured across v1 and v2, occupancy
+  uniformity stalled near 0.996 against the fitter's 0.946 while every shape metric improved.
+  With enough students the nearest-teacher distance is already small everywhere, so Chamfer has
+  no gradient pushing mass into dense regions; matching binned densities penalises exactly the
+  "too few jewels where the fitter put many" error that correspondence losses miss.
+
 ### `chamfer`
 - **Does**: Symmetric squared-distance Chamfer plus student->teacher nearest indices.
 - **Rationale**: The teacher->student direction is the one that forces clustering — every region

@@ -83,6 +83,45 @@ def orientation_loss(
     return (1.0 - cosine).mean()
 
 
+def soft_occupancy(
+    centres: torch.Tensor, grid: GridSpec, temperature: float = 0.35
+) -> torch.Tensor:
+    """Differentiable per-cell occupancy share via soft trilinear-style binning.
+
+    Chamfer correspondence teaches shape but not placement: with enough students
+    the nearest-teacher distance is small everywhere, so nothing pushes mass into
+    dense regions. Matching binned densities penalises exactly that — too few
+    jewels where the fitter put many.
+    """
+    gu, gv, gt = grid.shape
+    scaled = (centres.clamp(-1, 1) + 1) * 0.5
+    axes = []
+    for axis, count in enumerate((gu, gv, gt)):
+        edges = (torch.arange(count, device=centres.device, dtype=centres.dtype) + 0.5) / count
+        distance = (scaled[:, axis : axis + 1] - edges[None]).abs()
+        axes.append(torch.softmax(-distance / (temperature / count), dim=1))
+    weights = (
+        axes[0][:, :, None, None] * axes[1][:, None, :, None] * axes[2][:, None, None, :]
+    )
+    occupancy = weights.reshape(len(centres), -1).sum(dim=0)
+    return occupancy / occupancy.sum().clamp_min(1e-8)
+
+
+def density_loss(
+    student_centres: torch.Tensor,
+    teacher_centres: torch.Tensor,
+    grid: GridSpec,
+) -> torch.Tensor:
+    """Symmetric KL between student and teacher occupancy distributions."""
+    student = soft_occupancy(student_centres, grid).clamp_min(1e-8)
+    with torch.no_grad():
+        teacher = soft_occupancy(teacher_centres, grid).clamp_min(1e-8)
+    return 0.5 * (
+        (student * (student / teacher).log()).sum()
+        + (teacher * (teacher / student).log()).sum()
+    )
+
+
 def chamfer(a: torch.Tensor, b: torch.Tensor, chunk: int = 2048) -> tuple[torch.Tensor, torch.Tensor]:
     """Symmetric squared-distance Chamfer plus a->b nearest indices."""
     forward, indices = [], []
@@ -121,6 +160,8 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--chamfer-weight", type=float, default=3.0)
     parser.add_argument("--spread-weight", type=float, default=0.05)
     parser.add_argument("--orientation-weight", type=float, default=1.0)
+    parser.add_argument("--density-weight", type=float, default=0.0)
+    parser.add_argument("--density-grid", type=int, nargs=3, default=(16, 16, 8))
     parser.add_argument("--eval-every", type=int, default=1000)
     parser.add_argument("--log-every", type=int, default=200)
     parser.add_argument("--seed", type=int, default=0)
@@ -142,6 +183,7 @@ def main() -> None:
             fits.setdefault(path.name, path)
     manifest = json.loads(Path(args.manifest).read_text())
     spec = GridSpec(tuple(args.grid), 1024)
+    density_grid = GridSpec(tuple(args.density_grid), 1)
 
     videos, teachers = {}, {}
     for example in manifest["examples"]:
@@ -213,7 +255,7 @@ def main() -> None:
         flush=True,
     )
     latest = None
-    history: list[tuple[float, float, float, float]] = []
+    history: list[tuple[float, float, float, float, float]] = []
     started = time.time()
     model.train()
     for step in range(1, args.steps + 1):
@@ -245,11 +287,17 @@ def main() -> None:
             principal_axis(prediction["quaternion"], prediction["log_scale"]),
             teacher_axis[nearest],
         )
+        occupancy_loss = (
+            density_loss(prediction["centers"], teacher_centres, density_grid)
+            if args.density_weight
+            else torch.zeros((), device=device)
+        )
         loss = (
             render_loss
             + args.chamfer_weight * chamfer_loss
             + args.spread_weight * spread_loss
             + args.orientation_weight * axis_loss
+            + args.density_weight * occupancy_loss
         )
         optimizer.zero_grad(set_to_none=True)
         loss.backward()
@@ -261,18 +309,20 @@ def main() -> None:
                 float(chamfer_loss.detach()),
                 float(spread_loss.detach()),
                 float(axis_loss.detach()),
+                float(occupancy_loss.detach()),
             )
         )
         if step % args.log_every == 0 or step == args.steps:
             recent = history[-args.log_every :]
-            render_mean = sum(r for r, _, _, _ in recent) / len(recent)
+            render_mean = sum(r for r, _, _, _, _ in recent) / len(recent)
             record = {
                 "step": step,
                 "render_loss": render_mean,
                 "train_psnr": -10.0 * math.log10(max(render_mean, 1e-10)),
-                "chamfer": sum(c for _, c, _, _ in recent) / len(recent),
-                "spread": sum(s for _, _, s, _ in recent) / len(recent),
-                "orientation": sum(a for _, _, _, a in recent) / len(recent),
+                "chamfer": sum(c for _, c, _, _, _ in recent) / len(recent),
+                "spread": sum(s for _, _, s, _, _ in recent) / len(recent),
+                "orientation": sum(a for _, _, _, a, _ in recent) / len(recent),
+                "density": sum(o for _, _, _, _, o in recent) / len(recent),
                 "gradient_norm": float(gradient_norm),
                 "lr": rate,
             }
