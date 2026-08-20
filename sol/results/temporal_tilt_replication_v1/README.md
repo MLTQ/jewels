@@ -44,6 +44,25 @@ The axis-aligned controls have 0.000 mixed spacetime tilt. Free fields have mean
 Every predeclared gate in `report.json` is true: source/pair counts, 7/9 consistency, ≥0.5 dB macro
 advantage, confidence interval excluding zero, matched counts/bytes, and successful tilt removal.
 
+## Qualitative check
+
+The matched PlayingGuitar seed-0 pair is preserved as contact sheets and animations. Contact-sheet
+rows are ground truth, reconstruction, and 5× RGB error; columns are frames 0, 4, 8, 12, and 15.
+Both fields contain exactly 791 primitives. These images support visual inspection but do not replace
+the paired multi-clip statistics above.
+
+### Free spacetime tilt — 26.573 dB
+
+![Free spacetime-tilt contact sheet](qualitative_free_seed0.png)
+
+![Free spacetime-tilt reconstruction animation](qualitative_free_seed0.gif)
+
+### Axis-aligned control — 25.796 dB
+
+![Axis-aligned contact sheet](qualitative_axis_aligned_seed0.png)
+
+![Axis-aligned reconstruction animation](qualitative_axis_aligned_seed0.gif)
+
 ## Bounds
 
 - Clips are short and all come from UCF-101; longer shots, camera motion, and broader domains remain

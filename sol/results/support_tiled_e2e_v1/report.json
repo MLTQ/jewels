@@ -1,0 +1,80 @@
+{
+  "schema": "support-correct-scaling-v1",
+  "source": "/home/m/jewels/data/corpora/ucf101/UCF-101/PlayingGuitar/v_PlayingGuitar_g19_c05.avi",
+  "shape": [
+    16,
+    80,
+    107,
+    3
+  ],
+  "records": [
+    {
+      "cull_mode": "support",
+      "steps": 100,
+      "voxel_evaluations": 819200,
+      "fit_seconds": 3.7285099029541016,
+      "n_final": 500,
+      "training_eval_psnr_db": 19.416349411010742,
+      "support_eval_psnr_db": 19.416349411010742,
+      "renderer_gap_mean_abs": 0.0,
+      "renderer_gap_max_abs": 0.0,
+      "structure": {
+        "anisotropy_median": 1.0631828308105469,
+        "anisotropy_p90": 1.2150248289108276,
+        "principal_temporal_alignment_median": 0.539713978767395,
+        "principal_temporal_alignment_p90": 0.992624819278717,
+        "mixed_spacetime_tilt_median": 0.45230919122695923,
+        "mixed_spacetime_tilt_p90": 0.9374579787254333,
+        "five_sigma_lifespan_frames_median": 8.722298622131348,
+        "five_sigma_lifespan_frames_p90": 10.847211837768555,
+        "opacity_median": 0.47569650411605835
+      }
+    },
+    {
+      "cull_mode": "support_tiled",
+      "steps": 100,
+      "voxel_evaluations": 819200,
+      "fit_seconds": 0.6938714981079102,
+      "n_final": 500,
+      "training_eval_psnr_db": 19.416362762451172,
+      "support_eval_psnr_db": 19.416362762451172,
+      "renderer_gap_mean_abs": 1.935127258434477e-08,
+      "renderer_gap_max_abs": 3.5762786865234375e-07,
+      "structure": {
+        "anisotropy_median": 1.063184380531311,
+        "anisotropy_p90": 1.2150213718414307,
+        "principal_temporal_alignment_median": 0.5397168397903442,
+        "principal_temporal_alignment_p90": 0.9926104545593262,
+        "mixed_spacetime_tilt_median": 0.4522201716899872,
+        "mixed_spacetime_tilt_p90": 0.9374309182167053,
+        "five_sigma_lifespan_frames_median": 8.722332000732422,
+        "five_sigma_lifespan_frames_p90": 10.847224235534668,
+        "opacity_median": 0.4756965637207031
+      }
+    }
+  ],
+  "summary": {
+    "support": {
+      "support_psnr_gain_db": 0.0,
+      "wall_time_ratio": 1.0,
+      "largest_run_support_psnr_db": 19.416349411010742,
+      "largest_run_renderer_gap_max_abs": 0.0,
+      "largest_run_anisotropy_median": 1.0631828308105469,
+      "largest_run_temporal_alignment_p90": 0.992624819278717
+    },
+    "support_tiled": {
+      "support_psnr_gain_db": 0.0,
+      "wall_time_ratio": 1.0,
+      "largest_run_support_psnr_db": 19.416362762451172,
+      "largest_run_renderer_gap_max_abs": 3.5762786865234375e-07,
+      "largest_run_anisotropy_median": 1.063184380531311,
+      "largest_run_temporal_alignment_p90": 0.9926104545593262
+    },
+    "initial_proof_gate": {
+      "support_arm_present": true,
+      "positive_compute_slope": false,
+      "largest_support_run_reaches_25db": false,
+      "learns_nontrivial_anisotropy": false
+    }
+  }
+}

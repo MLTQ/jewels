@@ -46,10 +46,17 @@ over a learned constant background.
 - **Rationale**: operates on a flat point list rather than a grid, so the same path serves both
   stochastic-voxel training and full-volume inference. Computes `y = S^-1 R^T d` and takes
   `|y|^2` rather than materializing (M,K,3,3) inverse covariances — same result, far less memory.
-- `cull_mode="knn"` is the legacy approximation, `"support"` is finite-support correct with an
-  explicit candidate budget, and `"exact"` renders all primitives for tiny reference audits.
+- `cull_mode="knn"` is the legacy approximation, `"support"` is the all-center finite-support
+  reference, `"support_tiled"` uses the support-complete multilevel index in `tiled_support.py`,
+  and `"exact"` renders all primitives for tiny reference audits.
 - Support rendering chunks query points before gathering parameters, bounding the large
   `(points, candidates, parameters)` workspace while preserving gradients.
+- Tiled support uses the exact world-axis bounding box of each rotated support ellipsoid before
+  gathering full primitive parameters, then reduces ragged pairs with `index_add`. The true
+  Mahalanobis test is applied once with detached index geometry before the autograd gather and again
+  with live parameters in this file. The AABB is much tighter than a longest-axis sphere for
+  elongated spacetime splats, and the detached exact filter removes its remaining false positives;
+  neither step weakens completeness.
 
 ### `render_volume(field, grid, chunk)`
 - **Does**: chunked full-grid render for inference/eval
@@ -66,14 +73,22 @@ over a learned constant background.
   Euclidean center-KNN a safe superset. A constructed elongated-splat counterexample disproves
   that claim. Five-sigma conservative-sphere culling is now the correctness path; KNN is retained
   only to make matched A/B tests and old checkpoints reproducible.
+- **[2026-08-19] Multilevel tiled path added.** Radius-matched center bins preserve support
+  completeness while storing each primitive once. The all-center support mode remains the oracle
+  until tiled output, gradients, memory, and end-to-end throughput pass the scale gate.
+- **[2026-08-19] Exact pre-gather filtering.** A spherical first version passed correctness but was
+  12.71× KNN at 72k because 95.5% of its candidates were false positives for elongated ellipsoids.
+  A support AABB plus detached exact test reduces the measured 72k set from 2,228 to 100 candidates
+  per voxel and passes the separate 2× training-step gate. This comparison is implementation-specific,
+  not a negative conclusion about spherical indexing in other representations.
 
 ## Contracts
 
 | Dependent | Expects | Breaking changes |
 |-----------|---------|------------------|
 | `fit/fitter.py` | `render_points(...) -> (M,3)`, differentiable wrt all field params | Signature, return shape |
+| `models/tiled_support.py` | Ragged candidates are conservatively complete; this file applies true q and sums contributions | Pair semantics |
 
 ## Notes
-- Pure PyTorch, no tile rasterizer. This is the throughput bottleneck and the obvious first
-  optimization now that the representation question is settled (GSVC-family CUDA rasterizers
-  are the reference point).
+- The tiled path is pure PyTorch. Passing correctness does not imply it reaches the 2× KNN
+  throughput gate; benchmark before selecting it for corpus generation.

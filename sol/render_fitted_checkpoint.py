@@ -23,6 +23,11 @@ from fit.fitter import FitConfig  # noqa: E402
 def _parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--checkpoint", required=True)
+    parser.add_argument(
+        "--video",
+        help="source override for experiment checkpoints without embedded provenance",
+    )
+    parser.add_argument("--start-frame", type=int, default=0)
     parser.add_argument("--out", required=True)
     parser.add_argument("--device", default="cuda:1")
     parser.add_argument("--upscale", type=int, default=2)
@@ -35,11 +40,15 @@ def main() -> None:
     if args.upscale <= 0:
         raise ValueError("upscale must be positive")
     checkpoint = torch.load(args.checkpoint, map_location="cpu", weights_only=False)
-    if "source" not in checkpoint:
-        raise ValueError("checkpoint does not identify its source video window")
+    source = checkpoint.get("source")
+    if args.video:
+        source = {"video": args.video, "start_frame": args.start_frame}
+    if source is None:
+        raise ValueError(
+            "checkpoint does not identify its source video window; pass --video"
+        )
     cfg = FitConfig(**checkpoint["cfg"])
     info = checkpoint["info"]
-    source = checkpoint["source"]
     frames, height, width = info["shape"]
     video = load_video(
         source["video"],

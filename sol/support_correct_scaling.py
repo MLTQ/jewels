@@ -98,6 +98,8 @@ def render_field(field, info: dict, cfg: FitConfig, *, mode: str) -> torch.Tenso
             support_sigma=cfg.support_sigma,
             support_capacity=cfg.support_capacity,
             support_point_chunk=cfg.support_point_chunk,
+            support_base_resolution=cfg.support_base_resolution,
+            support_level_scale=cfg.support_level_scale,
             background=background,
         )
     return rendered.reshape(*info["shape"], 3)
@@ -153,7 +155,7 @@ def main() -> None:
     parser.add_argument(
         "--modes",
         nargs="+",
-        choices=("knn", "support"),
+        choices=("knn", "support", "support_tiled"),
         default=["knn", "support"],
     )
     parser.add_argument("--num-init", type=int, default=300)
@@ -163,6 +165,8 @@ def main() -> None:
     parser.add_argument("--support-sigma", type=float, default=5.0)
     parser.add_argument("--support-capacity", type=int, default=512)
     parser.add_argument("--support-point-chunk", type=int, default=512)
+    parser.add_argument("--support-base-resolution", type=int, default=32)
+    parser.add_argument("--support-level-scale", type=float, default=1.55)
     parser.add_argument("--adapt-every", type=int, default=100)
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--device", default="cuda")
@@ -195,6 +199,8 @@ def main() -> None:
                 support_sigma=args.support_sigma,
                 support_capacity=args.support_capacity,
                 support_point_chunk=args.support_point_chunk,
+                support_base_resolution=args.support_base_resolution,
+                support_level_scale=args.support_level_scale,
                 seed=args.seed,
                 adapt_every=args.adapt_every,
                 log_every=max(1, steps // 5),

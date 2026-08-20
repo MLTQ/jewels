@@ -22,6 +22,7 @@ The defensible claim is:
 | Synthetic temporal-tilt intervention | Free beats axis-aligned by 0.97 and 1.05 dB at equal counts | Single-source causal signal |
 | Real temporal-tilt intervention | Free 36.28 dB vs axis-aligned 34.70 dB at equal count/runtime | Single-source causal signal |
 | Multi-source temporal-tilt replication | 9/9 wins; +0.772 dB paired mean, 95% CI [+0.573, +0.971], matched counts/bytes | Decision-grade representation evidence |
+| Sparse support-complete renderer | Exact pixels/gradients; 1.953×/1.965×/1.990× KNN step time at 10k/45k/72k on RTX 4090 | Implementation scaling evidence |
 
 These results establish that the corrected stage-1 mechanism works and benefits from compute. They
 do not yet establish promptability or broad generalization.
@@ -48,6 +49,14 @@ error reduction in high-motion regions. Evidence: `sol/results/temporal_tilt_rep
   fatal overflow or an equivalent proof of completeness.
 - Reach within 2× of KNN fitting throughput at the intended 10k–72k primitive regime. The current
   corrected Python/PyTorch path is 5–9× slower and is evidence code, not a corpus engine.
+
+**Status: passed on the target RTX 4090.** The support-complete multilevel index uses rotated-
+ellipsoid AABBs and an exact detached pre-gather test, matches all-center outputs and every parameter
+gradient, and preserves loud overflow plus the time-tilted counterexample. Median forward/loss/
+backward ratios are 1.953×, 1.965×, and 1.990× KNN at 10k, 45k, and 72k, with 8.01 GB peak allocation
+at 72k on the 24 GB device. A matched 100-step real-video fit reaches the oracle's PSNR within
+0.000014 dB while taking 0.69 versus 3.73 seconds. Evidence:
+`sol/results/support_renderer_benchmark_v1` and `sol/results/support_tiled_e2e_v1`.
 
 ### G3 — amortized jewel production scales
 
@@ -80,11 +89,11 @@ error reduction in high-motion regions. Evidence: `sol/results/temporal_tilt_rep
 
 ## Immediate sequence
 
-1. Implement the G2 tiled support-safe renderer before generating a corrected teacher corpus.
-2. Refit a small teacher subset and run a convergence-based encoder scaling curve for G3.
-3. Assemble the safest promptable demo through a pretrained scaffold, then measure correct versus
+1. Refit a small support-correct teacher subset with the tiled renderer and run the
+   convergence-based encoder scaling curve for G3.
+2. Assemble the safest promptable demo through a pretrained scaffold, then measure correct versus
    shuffled/null prompt selectivity at the rendered jewel output.
-4. Only after that end-to-end signal exists, compare direct hierarchical/factorized prompt-to-jewel
+3. Only after that end-to-end signal exists, compare direct hierarchical/factorized prompt-to-jewel
    priors and scale the winning route.
 
 Interpret every step under `sol/EVIDENCE_POLICY.md`. A failed arm narrows a configuration; it does

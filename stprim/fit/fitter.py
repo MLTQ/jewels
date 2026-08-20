@@ -33,6 +33,8 @@ class FitConfig:
     support_sigma: float = 5.0
     support_capacity: int = 512
     support_point_chunk: int = 4096
+    support_base_resolution: int = 32
+    support_level_scale: float = 1.55
     geometry_constraint: str = "free"
     p1_color: bool = True
     t_scale: float = 1.0
@@ -171,6 +173,8 @@ def fit_volume(
             support_sigma=cfg.support_sigma,
             support_capacity=cfg.support_capacity,
             support_point_chunk=cfg.support_point_chunk,
+            support_base_resolution=cfg.support_base_resolution,
+            support_level_scale=cfg.support_level_scale,
             background=background,
         )
 

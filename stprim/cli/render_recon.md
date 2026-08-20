@@ -37,7 +37,7 @@ Depends on `fit_volume` returning `info["background"]` and `info["shape"]`.
   experiment, one seed.
 - Reported PSNR here is true full-volume PSNR — comparable across runs, unlike the noisy
   sampled-batch PSNR in the fit loop (see fitter.md).
-- The CLI exposes the same `--cull-mode`, `--support-sigma`, `--support-capacity`, and
-  `--support-point-chunk` controls as the fitter.
+- The CLI exposes the same culling, support budget, and tiled-index controls as the fitter, so
+  checkpointed sparse-support behavior is reproducible during full-volume rendering.
 - `--geometry-constraint` can render a field trained under the matching free, axis-aligned, or
   isotropic causal arm; the constraint is enforced during fitting, not applied after the fact.

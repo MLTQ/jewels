@@ -14,8 +14,12 @@ claimed correctness approximation.
 
 ### `ProductionRenderTests`
 - Verifies support mode matches the all-primitive oracle on the counterexample.
+- Verifies multilevel tiled support retains the same time-tilted counterexample.
 - Verifies an insufficient conservative candidate capacity raises `SupportOverflowError`.
 - Verifies support selection remains differentiable with respect to selected primitive parameters.
+- Verifies tiled and all-center support agree on random P1 output and every parameter gradient.
+- Verifies the rotated-ellipsoid world-axis bound used before tiled parameter gathering.
+- Verifies the declared five-sigma boundary survives the detached exact prefilter.
 - Verifies axis-aligned and isotropic causal controls project exactly, while invalid controls fail.
 
 ## Contracts

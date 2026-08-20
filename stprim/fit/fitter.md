@@ -10,10 +10,12 @@ and reproducibility over last-dB quality.
 ### `FitConfig`
 - **Does**: all hyperparameters for a fit, including explicit isotropic versus temporal-preserving
   spatial densification and the renderer's culling contract
-- `cull_mode="knn"` preserves historical behavior. `"support"` uses a declared finite Gaussian
-  support and fails on candidate overflow; `"exact"` exists only for tiny correctness probes.
-- `support_sigma`, `support_capacity`, and `support_point_chunk` are checkpointed, so recovery and
-  downstream evaluation cannot silently change the renderer used by a fit.
+- `cull_mode="knn"` preserves historical behavior. `"support"` is the all-center finite-support
+  oracle, `"support_tiled"` is its support-complete sparse implementation, and `"exact"` exists
+  only for tiny correctness probes. Both support modes fail on candidate overflow.
+- `support_sigma`, `support_capacity`, `support_point_chunk`, `support_base_resolution`, and
+  `support_level_scale` are checkpointed, so recovery and downstream evaluation cannot silently
+  change the renderer used by a fit.
 - `geometry_constraint` is `free` for the actual representation. `axis_aligned` projects every
   quaternion to identity while retaining distinct spatial/temporal scales; `isotropic` also ties
   the three scales. Both are experiment controls for measuring the causal value of spacetime tilt.
@@ -50,6 +52,9 @@ and reproducibility over last-dB quality.
 - **[2026-08-19] Culling is an experimental variable**: fitting now forwards the complete renderer
   policy from `FitConfig`. Support-mode candidate overflow is fatal by design; increasing capacity
   and restarting is preferable to training on an unknown, geometry-dependent truncation.
+- **[2026-08-19] Sparse support policy is reproducible**: tiled base resolution and geometric
+  level spacing travel with every checkpoint and recovery snapshot instead of living as hidden
+  renderer defaults.
 - **[2026-08-19] Geometry constraints are causal controls**: free, axis-aligned, and isotropic arms
   share the fitter. The constraints are stored in checkpoints/recovery configs and are enforced
   after adaptation so split children cannot escape the ablation.

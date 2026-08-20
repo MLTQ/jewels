@@ -20,10 +20,11 @@ from __future__ import annotations
 import torch
 
 from core.params import PrimitiveField
-
-
-class SupportOverflowError(RuntimeError):
-    """Raised when a support-safe candidate budget cannot be proven sufficient."""
+from models.tiled_support import (
+    SupportOverflowError,
+    build_support_tile_index,
+    query_support_pairs,
+)
 
 
 def cull_knn(
@@ -137,6 +138,47 @@ def _render_candidates(
     return (logits.exp()[..., None] * color).sum(1)
 
 
+def _render_candidate_pairs(
+    field: PrimitiveField,
+    points: torch.Tensor,
+    owners: torch.Tensor,
+    primitive_indices: torch.Tensor,
+    *,
+    support_sigma: float,
+) -> torch.Tensor:
+    """Evaluate ragged query/primitive pairs and reduce them by query."""
+    if owners.numel() == 0:
+        return torch.zeros(
+            points.shape[0], 3, dtype=points.dtype, device=points.device
+        )
+    p = field.gather(primitive_indices)
+    d = points[owners] - p["mu"]
+    rt_d = torch.einsum("pji,pj->pi", p["rot"], d)
+    y = rt_d / (p["scale"] + 1e-8)
+    q = y.square().sum(dim=-1)
+    logits = -0.5 * q + torch.nn.functional.logsigmoid(p["logit_w"])
+    logits = logits.masked_fill(q > support_sigma * support_sigma, -torch.inf)
+    color = p["color"]
+    if field.p1_color:
+        color = color + torch.einsum("pij,pj->pi", p["color_grad"], d)
+    contribution = logits.exp()[:, None] * color
+    return torch.zeros(
+        points.shape[0], 3, dtype=contribution.dtype, device=points.device
+    ).index_add(0, owners, contribution)
+
+
+def support_aabb_half_extent(
+    scale: torch.Tensor,
+    rotation: torch.Tensor,
+    *,
+    support_sigma: float,
+) -> torch.Tensor:
+    """World-axis AABB half extents for finite-support ellipsoids."""
+    return support_sigma * torch.sqrt(
+        (rotation.square() * scale[:, None, :].square()).sum(dim=2)
+    )
+
+
 def render_points(
     field: PrimitiveField,
     points: torch.Tensor,
@@ -146,6 +188,8 @@ def render_points(
     support_sigma: float = 5.0,
     support_capacity: int = 512,
     support_point_chunk: int = 4096,
+    support_base_resolution: int = 32,
+    support_level_scale: float = 1.55,
     background: torch.Tensor | None = None,
 ) -> torch.Tensor:
     """Evaluate the field at arbitrary (M, 3) query points -> (M, 3) RGB.
@@ -181,6 +225,41 @@ def render_points(
                     query,
                     idx,
                     candidate_mask=candidate_mask,
+                    support_sigma=support_sigma,
+                )
+            )
+        out = torch.cat(outs, 0)
+    elif cull_mode == "support_tiled":
+        if support_point_chunk <= 0:
+            raise ValueError("support_point_chunk must be positive")
+        detached_scale = field.scales().detach()
+        detached_rotation = field.rotations().detach()
+        tile_index = build_support_tile_index(
+            field.mu.detach(),
+            detached_scale.amax(dim=1),
+            half_extent=support_aabb_half_extent(
+                detached_scale,
+                detached_rotation,
+                support_sigma=support_sigma,
+            ),
+            metric_scale=detached_scale,
+            metric_rotation=detached_rotation,
+            support_sigma=support_sigma,
+            base_resolution=support_base_resolution,
+            level_scale=support_level_scale,
+        )
+        outs = []
+        for start in range(0, points.shape[0], support_point_chunk):
+            query = points[start : start + support_point_chunk]
+            owners, primitive_indices = query_support_pairs(
+                tile_index, query, capacity=support_capacity
+            )
+            outs.append(
+                _render_candidate_pairs(
+                    field,
+                    query,
+                    owners,
+                    primitive_indices,
                     support_sigma=support_sigma,
                 )
             )

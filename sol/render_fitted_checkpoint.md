@@ -11,6 +11,8 @@ expensive optimization run.
 
 - **Does**: restores fit configuration, field, background, and source window; computes true
   full-volume PSNR; writes a comparison GIF, contact sheet, and JSON report
+- `--video` and `--start-frame` can supply provenance for controlled experiment checkpoints that
+  predate embedded `source` metadata. An explicit override is recorded in the output report.
 - **Interacts with**: `stprim/cli/render_recon.py`, `PrimitiveField`, and `load_video`
 - **Rationale**: density sweeps must compare identical render/metric code and must never refit merely
   to obtain visual artifacts
@@ -24,5 +26,6 @@ expensive optimization run.
 
 ## Notes
 
-- The source video must remain at the path stored in the checkpoint.
+- The source video must remain at the path stored in the checkpoint, or be passed explicitly with
+  `--video` for experiment checkpoints that do not carry a `source` key.
 - Full-volume PSNR uses the fitter's kNN setting and learned background.

@@ -45,6 +45,8 @@ def reconstruct(field, info, cfg, *, device) -> torch.Tensor:
             support_sigma=cfg.support_sigma,
             support_capacity=cfg.support_capacity,
             support_point_chunk=cfg.support_point_chunk,
+            support_base_resolution=cfg.support_base_resolution,
+            support_level_scale=cfg.support_level_scale,
             background=background,
         )
     return out.reshape(T, H, W, 3).clamp(0.0, 1.0)
@@ -101,12 +103,16 @@ def main() -> None:
     ap.add_argument("--voxels", type=int, default=65536)
     ap.add_argument("--knn", type=int, default=64)
     ap.add_argument(
-        "--cull-mode", choices=("knn", "support", "exact"), default="knn",
-        help="support is finite-support correct; exact is for tiny audits only",
+        "--cull-mode",
+        choices=("knn", "support", "support_tiled", "exact"),
+        default="knn",
+        help="support modes are finite-support correct; exact is for tiny audits only",
     )
     ap.add_argument("--support-sigma", type=float, default=5.0)
     ap.add_argument("--support-capacity", type=int, default=512)
     ap.add_argument("--support-point-chunk", type=int, default=4096)
+    ap.add_argument("--support-base-resolution", type=int, default=32)
+    ap.add_argument("--support-level-scale", type=float, default=1.55)
     ap.add_argument(
         "--geometry-constraint",
         choices=("free", "axis_aligned", "isotropic"),
@@ -140,6 +146,8 @@ def main() -> None:
         support_sigma=args.support_sigma,
         support_capacity=args.support_capacity,
         support_point_chunk=args.support_point_chunk,
+        support_base_resolution=args.support_base_resolution,
+        support_level_scale=args.support_level_scale,
         geometry_constraint=args.geometry_constraint,
         t_scale=args.t_scale, seed=args.seed,
     )

@@ -11,8 +11,8 @@ not a universal claim about the representation.
 
 ## Experiment
 
-- Fits the same clip, initialization seed, primitive budget, and sampled voxels with legacy KNN and
-  conservative finite-support culling.
+- Fits the same clip, initialization seed, primitive budget, and sampled voxels with legacy KNN,
+  the all-center conservative finite-support oracle, or the support-complete tiled implementation.
 - Repeats each arm across optimizer-step budgets.
 - Evaluates every field with the support-correct renderer, even when it was trained with KNN.
 - Also reports the pixel gap between the training renderer and the support renderer.
@@ -41,5 +41,6 @@ it says the corrected stage-1 substrate responds to compute without collapsing t
 
 - `--cull-mode exact` is intentionally absent from the matrix. It is an oracle for tiny unit tests,
   not a practical training arm.
-- Candidate overflow from support mode is allowed to terminate the run. That is a measured capacity
-  failure, not an error the experiment should hide.
+- Candidate overflow from either support mode is allowed to terminate the run. That is a measured
+  capacity failure, not an error the experiment should hide. Tiled resolution and level spacing are
+  stored in each checkpoint.
