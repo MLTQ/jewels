@@ -18,7 +18,8 @@ training sizes and three independent seeds.
 - Runs each size/seed pair sequentially on the declared device, skips only runs with completed
   summaries, and appends completed results to the protocol after each run.
 - Optionally resumes every arm from a matching first-stage root while freezing a new learning rate
-  and warmup schedule in the continuation protocol.
+  and warmup schedule in the continuation protocol. `latest.pt` is the matched-exposure choice;
+  `encoder.pt` is available when continuation should start from each seed's best validation state.
 
 ## Contracts
 

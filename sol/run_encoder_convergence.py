@@ -44,6 +44,11 @@ def main() -> None:
     parser.add_argument("--seeds", type=int, nargs="+", default=(0, 1, 2))
     parser.add_argument("--device", default="cuda:0")
     parser.add_argument("--resume-root")
+    parser.add_argument(
+        "--resume-checkpoint",
+        choices=("encoder.pt", "latest.pt"),
+        default="encoder.pt",
+    )
     parser.add_argument("--lr", type=float, default=3e-4)
     parser.add_argument("--warmup-epochs", type=float, default=2.0)
     parser.add_argument("--max-epochs", type=int, default=120)
@@ -65,6 +70,7 @@ def main() -> None:
             "seeds": args.seeds,
             "renderer": "support_tiled",
             "resume_root": args.resume_root,
+            "resume_checkpoint": args.resume_checkpoint,
             "lr": args.lr,
             "warmup_epochs": args.warmup_epochs,
             "support_sigma": 5.0,
@@ -112,7 +118,7 @@ def main() -> None:
                     command.extend([
                         "--resume",
                         str(Path(args.resume_root) / f"n{size}" / f"seed{seed}"
-                            / "encoder.pt"),
+                            / args.resume_checkpoint),
                     ])
                 print("run", f"n{size}", f"seed{seed}", flush=True)
                 subprocess.run(command, check=True)

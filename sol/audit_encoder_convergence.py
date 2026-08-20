@@ -68,7 +68,7 @@ def main() -> None:
     parser.add_argument("--root", required=True)
     parser.add_argument("--out", required=True)
     parser.add_argument("--device", default="cuda:0")
-    parser.add_argument("--sizes", type=int, nargs="+", default=(12, 60, 180))
+    parser.add_argument("--sizes", type=int, nargs="+", default=(12, 60, 120))
     parser.add_argument("--seeds", type=int, nargs="+", default=(0, 1, 2))
     parser.add_argument("--height", type=int, default=160)
     parser.add_argument("--width", type=int, default=240)

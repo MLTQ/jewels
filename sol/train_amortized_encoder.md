@@ -31,7 +31,10 @@ exposures per clip.
   improvement; the larger minimum-delta threshold is used only to reset plateau patience.
 - **Does**: `--resume` validates architecture and manifest ownership, restores model and optimizer,
   and keeps global step/epoch provenance while applying a fresh, explicitly declared continuation
-  schedule. This supports a common low-rate convergence phase without rewriting first-stage data.
+  schedule. Checkpoints persist the dedicated training generator state for exact future recovery;
+  legacy checkpoints without it derive a non-repeating continuation stream from seed plus prior
+  step. Validation sampling remains frozen to the original seed. This supports a common low-rate
+  convergence phase without rewriting first-stage data.
 - **Does**: Defaults to the five-sigma support-complete tiled renderer; the all-center renderer
   remains available as an oracle for small correctness checks.
 

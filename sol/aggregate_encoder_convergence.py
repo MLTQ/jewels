@@ -22,6 +22,23 @@ def confidence(values: list[float]) -> dict[str, float]:
             "ci95_high": mean + radius}
 
 
+def carry_forward_curves(
+    seed_curves: dict[int, dict[float, float]],
+) -> dict[float, list[float]]:
+    """Align early-stopped runs without changing the selected checkpoint value."""
+    epochs = sorted({epoch for curve in seed_curves.values() for epoch in curve})
+    aligned: dict[float, list[float]] = {}
+    for epoch in epochs:
+        values = []
+        for curve in seed_curves.values():
+            eligible = [seen for seen in curve if seen <= epoch]
+            if eligible:
+                values.append(curve[max(eligible)])
+        if len(values) == len(seed_curves):
+            aligned[epoch] = values
+    return aligned
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", required=True)
@@ -30,7 +47,9 @@ def main() -> None:
     root, output = Path(args.root), Path(args.out)
     protocol = json.loads((root / "protocol.json").read_text())
     runs = []
-    curves: dict[int, dict[float, list[float]]] = defaultdict(lambda: defaultdict(list))
+    seed_curves: dict[int, dict[int, dict[float, float]]] = defaultdict(
+        lambda: defaultdict(dict)
+    )
     for size in protocol["train_sizes"]:
         for seed in protocol["seeds"]:
             run = root / f"n{size}" / f"seed{seed}"
@@ -53,10 +72,11 @@ def main() -> None:
             for line in (run / "train_log.jsonl").read_text().splitlines():
                 record = json.loads(line)
                 if "evaluation" in record:
-                    curves[size][float(record["epoch"])].append(
-                        record["evaluation"]["macro_psnr"]
-                    )
+                    seed_curves[size][seed][float(record["epoch"])] = record[
+                        "evaluation"
+                    ]["macro_psnr"]
     sizes = protocol["train_sizes"]
+    curves = {size: carry_forward_curves(seed_curves[size]) for size in sizes}
     scaling = {
         str(size): confidence([run["macro_psnr"] for run in runs
                                if run["train_size"] == size])

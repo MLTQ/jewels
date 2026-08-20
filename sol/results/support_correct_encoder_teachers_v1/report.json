@@ -1,0 +1,580 @@
+{
+  "schema": "support-correct-encoder-teachers-v1",
+  "protocol": {
+    "styles": [
+      "anime",
+      "cartoon",
+      "clay",
+      "photoreal",
+      "render3d"
+    ],
+    "steps": 3000,
+    "renderer": "support_tiled",
+    "support_sigma": 5.0,
+    "seed": 0
+  },
+  "macro": {
+    "psnr": 27.69931640625,
+    "ssim": 0.9680012345314026,
+    "lpips": 0.17201069125107354,
+    "anisotropy_median": 2.4306891918182374,
+    "mixed_spacetime_tilt_median": 0.3966488718986511
+  },
+  "records": [
+    {
+      "style": "anime",
+      "source_id": "anime__00_cooking_evaluation_00_seed60002",
+      "checkpoint": "sol/results/support_correct_encoder_teachers_v1/anime_teacher.pt",
+      "fit_seconds": 88.7073426246643,
+      "n_final": 72000,
+      "fit_history": [
+        {
+          "step": 0,
+          "loss": 55.470787048339844,
+          "psnr": -17.440645217895508,
+          "n": 10000
+        },
+        {
+          "step": 300,
+          "loss": 0.013123815879225731,
+          "psnr": 18.819400787353516,
+          "n": 15208
+        },
+        {
+          "step": 600,
+          "loss": 0.010607841424643993,
+          "psnr": 19.743730545043945,
+          "n": 23128
+        },
+        {
+          "step": 900,
+          "loss": 0.010180395096540451,
+          "psnr": 19.92235565185547,
+          "n": 35173
+        },
+        {
+          "step": 1200,
+          "loss": 0.010296372696757317,
+          "psnr": 19.873157501220703,
+          "n": 53492
+        },
+        {
+          "step": 1500,
+          "loss": 0.009937260299921036,
+          "psnr": 20.027334213256836,
+          "n": 72000
+        },
+        {
+          "step": 1800,
+          "loss": 0.008362654596567154,
+          "psnr": 20.77655792236328,
+          "n": 72000
+        },
+        {
+          "step": 2100,
+          "loss": 0.00703780259937048,
+          "psnr": 21.525630950927734,
+          "n": 72000
+        },
+        {
+          "step": 2400,
+          "loss": 0.0066967010498046875,
+          "psnr": 21.741390228271484,
+          "n": 72000
+        },
+        {
+          "step": 2700,
+          "loss": 0.006610468029975891,
+          "psnr": 21.797677993774414,
+          "n": 72000
+        },
+        {
+          "step": 2999,
+          "loss": 0.005851165857166052,
+          "psnr": 22.32757568359375,
+          "n": 72000
+        }
+      ],
+      "structure": {
+        "anisotropy_median": 2.796111583709717,
+        "anisotropy_p90": 6.59624719619751,
+        "principal_temporal_alignment_median": 0.951458752155304,
+        "principal_temporal_alignment_p90": 0.9966673254966736,
+        "mixed_spacetime_tilt_median": 0.4375303089618683,
+        "mixed_spacetime_tilt_p90": 0.8950845003128052,
+        "five_sigma_lifespan_frames_median": 4.405240058898926,
+        "five_sigma_lifespan_frames_p90": 20.19838523864746,
+        "opacity_median": 0.3478408753871918
+      },
+      "perceptual": {
+        "lpips_mean": 0.23041677900723048,
+        "lpips_per_frame": [
+          0.26555517315864563,
+          0.22269131243228912,
+          0.2024582475423813,
+          0.20891505479812622,
+          0.22627118229866028,
+          0.22096732258796692,
+          0.26605916023254395
+        ],
+        "render_signature": {
+          "psnr": 22.228248596191406,
+          "ssim": 0.9238821864128113,
+          "contrast_ratio": 0.9089270830154419,
+          "edge_ratio": 0.6387224793434143,
+          "saturation_ratio": 0.9919612407684326,
+          "temporal_change_ratio": 1.3609342575073242
+        },
+        "layout_signature": {
+          "pool_factor": 8.0,
+          "layout_psnr": 34.43196487426758,
+          "layout_ssim": 0.9937351942062378
+        }
+      }
+    },
+    {
+      "style": "cartoon",
+      "source_id": "cartoon__00_cooking_evaluation_00_seed61002",
+      "checkpoint": "sol/results/support_correct_encoder_teachers_v1/cartoon_teacher.pt",
+      "fit_seconds": 81.91506147384644,
+      "n_final": 72000,
+      "fit_history": [
+        {
+          "step": 0,
+          "loss": 55.46135711669922,
+          "psnr": -17.439905166625977,
+          "n": 10000
+        },
+        {
+          "step": 300,
+          "loss": 0.004469176754355431,
+          "psnr": 23.497724533081055,
+          "n": 15208
+        },
+        {
+          "step": 600,
+          "loss": 0.0036412205081433058,
+          "psnr": 24.387531280517578,
+          "n": 23128
+        },
+        {
+          "step": 900,
+          "loss": 0.0033900472335517406,
+          "psnr": 24.69794273376465,
+          "n": 35173
+        },
+        {
+          "step": 1200,
+          "loss": 0.003195693716406822,
+          "psnr": 24.954349517822266,
+          "n": 53492
+        },
+        {
+          "step": 1500,
+          "loss": 0.0031064930371940136,
+          "psnr": 25.07729721069336,
+          "n": 72000
+        },
+        {
+          "step": 1800,
+          "loss": 0.0026470012962818146,
+          "psnr": 25.772459030151367,
+          "n": 72000
+        },
+        {
+          "step": 2100,
+          "loss": 0.0022610961459577084,
+          "psnr": 26.456811904907227,
+          "n": 72000
+        },
+        {
+          "step": 2400,
+          "loss": 0.001995285041630268,
+          "psnr": 26.99995231628418,
+          "n": 72000
+        },
+        {
+          "step": 2700,
+          "loss": 0.0017583102453500032,
+          "psnr": 27.54904556274414,
+          "n": 72000
+        },
+        {
+          "step": 2999,
+          "loss": 0.0016832677647471428,
+          "psnr": 27.738468170166016,
+          "n": 72000
+        }
+      ],
+      "structure": {
+        "anisotropy_median": 2.3527040481567383,
+        "anisotropy_p90": 5.007978916168213,
+        "principal_temporal_alignment_median": 0.960091769695282,
+        "principal_temporal_alignment_p90": 0.9968716502189636,
+        "mixed_spacetime_tilt_median": 0.39582377672195435,
+        "mixed_spacetime_tilt_p90": 0.842441737651825,
+        "five_sigma_lifespan_frames_median": 4.300288200378418,
+        "five_sigma_lifespan_frames_p90": 18.227628707885742,
+        "opacity_median": 0.3170449137687683
+      },
+      "perceptual": {
+        "lpips_mean": 0.19899388083389827,
+        "lpips_per_frame": [
+          0.24215368926525116,
+          0.18983548879623413,
+          0.18302321434020996,
+          0.18905708193778992,
+          0.17455321550369263,
+          0.17975151538848877,
+          0.23458296060562134
+        ],
+        "render_signature": {
+          "psnr": 27.75590705871582,
+          "ssim": 0.959227979183197,
+          "contrast_ratio": 0.9614871144294739,
+          "edge_ratio": 0.656194806098938,
+          "saturation_ratio": 0.999141275882721,
+          "temporal_change_ratio": 1.2743678092956543
+        },
+        "layout_signature": {
+          "pool_factor": 8.0,
+          "layout_psnr": 38.346134185791016,
+          "layout_ssim": 0.995547354221344
+        }
+      }
+    },
+    {
+      "style": "clay",
+      "source_id": "clay__00_cooking_evaluation_00_seed63002",
+      "checkpoint": "sol/results/support_correct_encoder_teachers_v1/clay_teacher.pt",
+      "fit_seconds": 83.8441596031189,
+      "n_final": 72000,
+      "fit_history": [
+        {
+          "step": 0,
+          "loss": 55.414669036865234,
+          "psnr": -17.436248779296875,
+          "n": 10000
+        },
+        {
+          "step": 300,
+          "loss": 0.0039111552760005,
+          "psnr": 24.076950073242188,
+          "n": 15208
+        },
+        {
+          "step": 600,
+          "loss": 0.002385586965829134,
+          "psnr": 26.224048614501953,
+          "n": 23128
+        },
+        {
+          "step": 900,
+          "loss": 0.0021987182553857565,
+          "psnr": 26.578304290771484,
+          "n": 35173
+        },
+        {
+          "step": 1200,
+          "loss": 0.0020567819010466337,
+          "psnr": 26.86811637878418,
+          "n": 53492
+        },
+        {
+          "step": 1500,
+          "loss": 0.0021103578619658947,
+          "psnr": 26.756439208984375,
+          "n": 72000
+        },
+        {
+          "step": 1800,
+          "loss": 0.0015658047050237656,
+          "psnr": 28.05262565612793,
+          "n": 72000
+        },
+        {
+          "step": 2100,
+          "loss": 0.0011797398328781128,
+          "psnr": 29.28213882446289,
+          "n": 72000
+        },
+        {
+          "step": 2400,
+          "loss": 0.0011846040142700076,
+          "psnr": 29.26426887512207,
+          "n": 72000
+        },
+        {
+          "step": 2700,
+          "loss": 0.0010477898176759481,
+          "psnr": 29.797258377075195,
+          "n": 72000
+        },
+        {
+          "step": 2999,
+          "loss": 0.0009981630137190223,
+          "psnr": 30.00798797607422,
+          "n": 72000
+        }
+      ],
+      "structure": {
+        "anisotropy_median": 2.2827727794647217,
+        "anisotropy_p90": 4.499080657958984,
+        "principal_temporal_alignment_median": 0.9440522193908691,
+        "principal_temporal_alignment_p90": 0.9968386888504028,
+        "mixed_spacetime_tilt_median": 0.39485374093055725,
+        "mixed_spacetime_tilt_p90": 0.872316837310791,
+        "five_sigma_lifespan_frames_median": 4.542352676391602,
+        "five_sigma_lifespan_frames_p90": 18.886703491210938,
+        "opacity_median": 0.3168899118900299
+      },
+      "perceptual": {
+        "lpips_mean": 0.12454193617616381,
+        "lpips_per_frame": [
+          0.10809129476547241,
+          0.12268371880054474,
+          0.13522939383983612,
+          0.11560395359992981,
+          0.13702604174613953,
+          0.112071692943573,
+          0.14108745753765106
+        ],
+        "render_signature": {
+          "psnr": 30.25139045715332,
+          "ssim": 0.9848076701164246,
+          "contrast_ratio": 0.9868436455726624,
+          "edge_ratio": 0.8684559464454651,
+          "saturation_ratio": 0.9977107644081116,
+          "temporal_change_ratio": 1.1597603559494019
+        },
+        "layout_signature": {
+          "pool_factor": 8.0,
+          "layout_psnr": 37.75950622558594,
+          "layout_ssim": 0.9967667460441589
+        }
+      }
+    },
+    {
+      "style": "photoreal",
+      "source_id": "photoreal__00_cooking_evaluation_00_seed50007",
+      "checkpoint": "sol/results/support_correct_encoder_teachers_v1/photoreal_teacher.pt",
+      "fit_seconds": 85.83457922935486,
+      "n_final": 72000,
+      "fit_history": [
+        {
+          "step": 0,
+          "loss": 55.45609664916992,
+          "psnr": -17.43949317932129,
+          "n": 10000
+        },
+        {
+          "step": 300,
+          "loss": 0.006321410648524761,
+          "psnr": 21.99186134338379,
+          "n": 15208
+        },
+        {
+          "step": 600,
+          "loss": 0.003907212521880865,
+          "psnr": 24.081329345703125,
+          "n": 23128
+        },
+        {
+          "step": 900,
+          "loss": 0.003679221495985985,
+          "psnr": 24.34244155883789,
+          "n": 35173
+        },
+        {
+          "step": 1200,
+          "loss": 0.003436241764575243,
+          "psnr": 24.639163970947266,
+          "n": 53492
+        },
+        {
+          "step": 1500,
+          "loss": 0.003684700932353735,
+          "psnr": 24.335979461669922,
+          "n": 72000
+        },
+        {
+          "step": 1800,
+          "loss": 0.002610818948596716,
+          "psnr": 25.832233428955078,
+          "n": 72000
+        },
+        {
+          "step": 2100,
+          "loss": 0.0021439329721033573,
+          "psnr": 26.687889099121094,
+          "n": 72000
+        },
+        {
+          "step": 2400,
+          "loss": 0.0017620737198740244,
+          "psnr": 27.539758682250977,
+          "n": 72000
+        },
+        {
+          "step": 2700,
+          "loss": 0.001636593951843679,
+          "psnr": 27.860591888427734,
+          "n": 72000
+        },
+        {
+          "step": 2999,
+          "loss": 0.001540602883324027,
+          "psnr": 28.12309455871582,
+          "n": 72000
+        }
+      ],
+      "structure": {
+        "anisotropy_median": 2.232985734939575,
+        "anisotropy_p90": 4.623373985290527,
+        "principal_temporal_alignment_median": 0.4577465057373047,
+        "principal_temporal_alignment_p90": 0.9933885931968689,
+        "mixed_spacetime_tilt_median": 0.3808954656124115,
+        "mixed_spacetime_tilt_p90": 0.8926481008529663,
+        "five_sigma_lifespan_frames_median": 3.404970645904541,
+        "five_sigma_lifespan_frames_p90": 16.732667922973633,
+        "opacity_median": 0.3378031253814697
+      },
+      "perceptual": {
+        "lpips_mean": 0.1556232145854405,
+        "lpips_per_frame": [
+          0.21998491883277893,
+          0.14292243123054504,
+          0.1327490508556366,
+          0.1486491858959198,
+          0.13210643827915192,
+          0.12851175665855408,
+          0.18443872034549713
+        ],
+        "render_signature": {
+          "psnr": 28.027362823486328,
+          "ssim": 0.9823429584503174,
+          "contrast_ratio": 0.9820915460586548,
+          "edge_ratio": 0.8388415575027466,
+          "saturation_ratio": 0.9921801686286926,
+          "temporal_change_ratio": 1.0758649110794067
+        },
+        "layout_signature": {
+          "pool_factor": 8.0,
+          "layout_psnr": 35.153953552246094,
+          "layout_ssim": 0.9960308074951172
+        }
+      }
+    },
+    {
+      "style": "render3d",
+      "source_id": "render3d__00_cooking_evaluation_00_seed62002",
+      "checkpoint": "sol/results/support_correct_encoder_teachers_v1/render3d_teacher.pt",
+      "fit_seconds": 88.9525294303894,
+      "n_final": 72000,
+      "fit_history": [
+        {
+          "step": 0,
+          "loss": 55.41181564331055,
+          "psnr": -17.436023712158203,
+          "n": 10000
+        },
+        {
+          "step": 300,
+          "loss": 0.004065996501594782,
+          "psnr": 23.9083309173584,
+          "n": 15208
+        },
+        {
+          "step": 600,
+          "loss": 0.002482702722772956,
+          "psnr": 26.05075454711914,
+          "n": 23128
+        },
+        {
+          "step": 900,
+          "loss": 0.0022721325512975454,
+          "psnr": 26.4356632232666,
+          "n": 35173
+        },
+        {
+          "step": 1200,
+          "loss": 0.0024727561976760626,
+          "psnr": 26.068187713623047,
+          "n": 53492
+        },
+        {
+          "step": 1500,
+          "loss": 0.0024556629359722137,
+          "psnr": 26.098312377929688,
+          "n": 72000
+        },
+        {
+          "step": 1800,
+          "loss": 0.0019223237177357078,
+          "psnr": 27.161733627319336,
+          "n": 72000
+        },
+        {
+          "step": 2100,
+          "loss": 0.0013940002536401153,
+          "psnr": 28.557373046875,
+          "n": 72000
+        },
+        {
+          "step": 2400,
+          "loss": 0.0011042722035199404,
+          "psnr": 29.56924057006836,
+          "n": 72000
+        },
+        {
+          "step": 2700,
+          "loss": 0.0010493514128029346,
+          "psnr": 29.790790557861328,
+          "n": 72000
+        },
+        {
+          "step": 2999,
+          "loss": 0.0009165829396806657,
+          "psnr": 30.37828254699707,
+          "n": 72000
+        }
+      ],
+      "structure": {
+        "anisotropy_median": 2.4888718128204346,
+        "anisotropy_p90": 5.217657566070557,
+        "principal_temporal_alignment_median": 0.9719078540802002,
+        "principal_temporal_alignment_p90": 0.9978986978530884,
+        "mixed_spacetime_tilt_median": 0.37414106726646423,
+        "mixed_spacetime_tilt_p90": 0.8134394288063049,
+        "five_sigma_lifespan_frames_median": 4.697806358337402,
+        "five_sigma_lifespan_frames_p90": 19.679677963256836,
+        "opacity_median": 0.31806281208992004
+      },
+      "perceptual": {
+        "lpips_mean": 0.15047764565263475,
+        "lpips_per_frame": [
+          0.19453853368759155,
+          0.14157143235206604,
+          0.13389021158218384,
+          0.1430286169052124,
+          0.12639597058296204,
+          0.13507413864135742,
+          0.17884461581707
+        ],
+        "render_signature": {
+          "psnr": 30.233673095703125,
+          "ssim": 0.9897453784942627,
+          "contrast_ratio": 0.9908506274223328,
+          "edge_ratio": 0.8210278153419495,
+          "saturation_ratio": 0.9979537725448608,
+          "temporal_change_ratio": 2.0053963661193848
+        },
+        "layout_signature": {
+          "pool_factor": 8.0,
+          "layout_psnr": 39.138973236083984,
+          "layout_ssim": 0.9985295534133911
+        }
+      }
+    }
+  ]
+}

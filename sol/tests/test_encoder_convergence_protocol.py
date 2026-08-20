@@ -7,7 +7,7 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from sol.aggregate_encoder_convergence import confidence
+from sol.aggregate_encoder_convergence import carry_forward_curves, confidence
 from sol.run_encoder_convergence import validate_nested_manifests
 
 
@@ -50,6 +50,15 @@ class EncoderConvergenceProtocolTests(unittest.TestCase):
         self.assertEqual(report["mean"], 22.0)
         self.assertLess(report["ci95_low"], report["mean"])
         self.assertGreater(report["ci95_high"], report["mean"])
+
+    def test_early_stopped_curves_keep_all_seeds(self) -> None:
+        aligned = carry_forward_curves({
+            0: {10.0: 1.0, 20.0: 2.0},
+            1: {10.0: 3.0, 20.0: 4.0, 30.0: 5.0},
+            2: {10.0: 6.0, 20.0: 7.0, 30.0: 8.0},
+        })
+        self.assertEqual(aligned[30.0], [2.0, 5.0, 8.0])
+        self.assertTrue(all(len(values) == 3 for values in aligned.values()))
 
 
 if __name__ == "__main__":

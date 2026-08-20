@@ -23,9 +23,13 @@ The defensible claim is:
 | Real temporal-tilt intervention | Free 36.28 dB vs axis-aligned 34.70 dB at equal count/runtime | Single-source causal signal |
 | Multi-source temporal-tilt replication | 9/9 wins; +0.772 dB paired mean, 95% CI [+0.573, +0.971], matched counts/bytes | Decision-grade representation evidence |
 | Sparse support-complete renderer | Exact pixels/gradients; 1.953×/1.965×/1.990× KNN step time at 10k/45k/72k on RTX 4090 | Implementation scaling evidence |
+| Balanced amortized-encoder curve | 21.876 → 22.399 → 22.628 dB at 12/60/120 examples; every largest-budget seed beats every middle-budget seed | Decision-grade bottleneck scaling evidence |
+| Full-frame perceptual/structure audit | LPIPS 0.4728 → 0.4651 → 0.3916; mixed tilt 0.0479 → 0.0725 → 0.1875 | Decision-grade bottleneck evidence |
+| Prompt semantic retention | Correct beats shuffled 12/12; +0.1913 cosine margin; 91.4% source alignment retained | Scaffold-path evidence |
 
-These results establish that the corrected stage-1 mechanism works and benefits from compute. They
-do not yet establish promptability or broad generalization.
+These results establish that the corrected representation and shared video-to-splat bottleneck work
+and benefit from compute. They establish prompt retention through a pretrained video scaffold, but
+do not yet establish direct prompt-to-splat generation or broad generalization.
 
 ## Pitch gate
 
@@ -67,6 +71,13 @@ at 72k on the 24 GB device. A matched 100-step real-video fit reaches the oracle
 - Preserve the successful video-seeded initialization as an existence proof, while retesting prior
   negative architectural conclusions under the project evidence policy.
 
+**Status: passed at 12/60/120 examples.** Across three seeds, mean held-out PSNR rises at both
+budget increases and every 120-example seed beats every 60-example seed. LPIPS falls 15.8% from 60
+to 120 while layout fidelity, anisotropy, and mixed spacetime tilt remain nontrivial or improve.
+Five support-correct direct-fit teachers establish additional headroom at 27.699 dB and LPIPS
+0.1720. Evidence: `sol/results/encoder_convergence_v2_continued` and
+`sol/results/support_correct_encoder_teachers_v1`.
+
 ### G4 — prompt selectivity survives rendering
 
 - Use the lowest-risk end-to-end path first: prompt → pretrained video scaffold → jewel
@@ -77,6 +88,13 @@ at 72k on the 24 GB device. A matched 100-step real-video fit reaches the oracle
   chance, while rendered videos remain recognizably above the trivial scaffold/blur controls.
 - Previously documented prompt-prior failures are hypotheses about those configurations, not laws;
   rerun only the highest-value factorized or hierarchical variants with adequate convergence.
+
+**Status: passed narrowly for semantic retention through the pretrained-scaffold route; direct
+generation remains open.** On 12 held-out photoreal action prompts, the largest encoder's rendered
+output matches correct text better than shuffled text in 12/12 cases, with a +0.1913 mean cosine
+margin and 91.4% retention of source-video alignment. This localizes the next risk to predicting
+the latent from text, rather than semantic destruction by the encoder/renderer. Evidence:
+`sol/results/encoder_convergence_v2_continued/prompt_smoke`.
 
 ### G5 — extrapolatable scaling curve
 
@@ -89,12 +107,12 @@ at 72k on the 24 GB device. A matched 100-step real-video fit reaches the oracle
 
 ## Immediate sequence
 
-1. Refit a small support-correct teacher subset with the tiled renderer and run the
-   convergence-based encoder scaling curve for G3.
-2. Assemble the safest promptable demo through a pretrained scaffold, then measure correct versus
-   shuffled/null prompt selectivity at the rendered jewel output.
-3. Only after that end-to-end signal exists, compare direct hierarchical/factorized prompt-to-jewel
-   priors and scale the winning route.
+1. Freeze the selected 120-example encoder and train a prompt-conditioned flow/diffusion model over
+   its structured splat latent, with correct/shuffled/null controls and rendered evaluation.
+2. Scale the balanced corpus to 600 and then 1,200 examples, retaining held-out source ownership and
+   replicated seeds at the largest decision points.
+3. Distill direct-fit teacher geometry and add sparse slot/count prediction to narrow the LPIPS and
+   mixed-tilt gap without relying on all 73,728 slots.
 
 Interpret every step under `sol/EVIDENCE_POLICY.md`. A failed arm narrows a configuration; it does
 not retire a mechanism without the required replication and convergence checks.

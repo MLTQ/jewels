@@ -12,7 +12,9 @@ claim and a pitch-readable convergence figure.
 
 ### `main`
 - Reads best frozen-validation checkpoints, retains per-seed and per-style results, aggregates
-  matched-epoch learning curves, and reports the largest-two-budget delta.
+  matched-epoch learning curves, and reports the largest-two-budget delta. Early-stopped seeds are
+  carried forward at their final selected checkpoint, so every displayed curve point retains the
+  complete seed count instead of silently narrowing late in training.
 - Writes `report.json` plus a two-panel PNG of data scaling and convergence over corpus passes.
 
 ## Contracts
@@ -21,3 +23,4 @@ claim and a pitch-readable convergence figure.
 |---|---|---|
 | Feasibility report | Seed-level results remain visible beneath aggregate intervals | Report schema |
 | Pitch visual | Axes identify videos, epochs, PSNR, and 95% interval meaning | Plot semantics |
+| Curve reader | Every reported epoch contains all declared seeds | Early-stop alignment |

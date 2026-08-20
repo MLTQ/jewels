@@ -1,0 +1,139 @@
+{
+  "schema": "prompt-splat-smoke-v1",
+  "scope": "prompt identity through pretrained video scaffold -> encoder -> support renderer; not direct text-latent generation",
+  "checkpoint": "sol/results/encoder_convergence_v2_continued/n120/seed0/encoder.pt",
+  "style": "photoreal",
+  "examples": 12,
+  "frames_per_example": 7,
+  "summary": {
+    "target_correct_mean": 0.3654677818218867,
+    "render_correct_mean": 0.33394505207737285,
+    "render_shuffled_mean": 0.14265145361423492,
+    "render_null_mean": 0.2096402868628502,
+    "correct_minus_shuffled": 0.19129359846313795,
+    "correct_beats_shuffled_fraction": 1,
+    "semantic_retention_ratio": 0.9137468983247429
+  },
+  "records": [
+    {
+      "source_id": "photoreal__00_cooking_evaluation_00_seed50007",
+      "class_name": "Cooking",
+      "prompt": "a video of a person preparing a meal in a kitchen",
+      "shuffled_prompt": "a video of dogs playing fetch in a park",
+      "target_correct": 0.374215304851532,
+      "render_correct": 0.36844494938850403,
+      "render_shuffled": 0.1034497544169426,
+      "render_null": 0.2012256383895874
+    },
+    {
+      "source_id": "photoreal__01_dogpark_evaluation_00_seed50107",
+      "class_name": "DogPark",
+      "prompt": "a video of dogs playing fetch in a park",
+      "shuffled_prompt": "a video of a bustling street market",
+      "target_correct": 0.3666492700576782,
+      "render_correct": 0.3709089159965515,
+      "render_shuffled": 0.20654696226119995,
+      "render_null": 0.1950063705444336
+    },
+    {
+      "source_id": "photoreal__02_streetmarket_evaluation_00_seed50207",
+      "class_name": "StreetMarket",
+      "prompt": "a video of a bustling street market",
+      "shuffled_prompt": "a video of a surfer riding waves",
+      "target_correct": 0.39305198192596436,
+      "render_correct": 0.3635566234588623,
+      "render_shuffled": 0.15151412785053253,
+      "render_null": 0.20414043962955475
+    },
+    {
+      "source_id": "photoreal__03_surfing_evaluation_00_seed50307",
+      "class_name": "Surfing",
+      "prompt": "a video of a surfer riding waves",
+      "shuffled_prompt": "a video of a craftsman working in a workshop",
+      "target_correct": 0.3545018434524536,
+      "render_correct": 0.3298649191856384,
+      "render_shuffled": 0.09137669205665588,
+      "render_null": 0.23684477806091309
+    },
+    {
+      "source_id": "photoreal__04_workshop_evaluation_00_seed50407",
+      "class_name": "Workshop",
+      "prompt": "a video of a craftsman working in a workshop",
+      "shuffled_prompt": "a video of a ballet dancer performing",
+      "target_correct": 0.3201867938041687,
+      "render_correct": 0.3456861972808838,
+      "render_shuffled": 0.1816198229789734,
+      "render_null": 0.21704086661338806
+    },
+    {
+      "source_id": "photoreal__05_ballet_evaluation_00_seed50507",
+      "class_name": "Ballet",
+      "prompt": "a video of a ballet dancer performing",
+      "shuffled_prompt": "a video of people playing basketball on a court",
+      "target_correct": 0.3622410297393799,
+      "render_correct": 0.33510643243789673,
+      "render_shuffled": 0.19787105917930603,
+      "render_null": 0.21225962042808533
+    },
+    {
+      "source_id": "photoreal__06_basketball_evaluation_00_seed50607",
+      "class_name": "Basketball",
+      "prompt": "a video of people playing basketball on a court",
+      "shuffled_prompt": "a video of a campfire burning at night",
+      "target_correct": 0.3876135051250458,
+      "render_correct": 0.3512517213821411,
+      "render_shuffled": 0.1001938208937645,
+      "render_null": 0.22096270322799683
+    },
+    {
+      "source_id": "photoreal__07_campfire_evaluation_00_seed50707",
+      "class_name": "Campfire",
+      "prompt": "a video of a campfire burning at night",
+      "shuffled_prompt": "a video of traffic moving through a city street",
+      "target_correct": 0.3614804744720459,
+      "render_correct": 0.3306520879268646,
+      "render_shuffled": 0.12092508375644684,
+      "render_null": 0.22525958716869354
+    },
+    {
+      "source_id": "photoreal__08_traffic_evaluation_00_seed50807",
+      "class_name": "Traffic",
+      "prompt": "a video of traffic moving through a city street",
+      "shuffled_prompt": "a video of a waterfall in a forest",
+      "target_correct": 0.38650965690612793,
+      "render_correct": 0.34902697801589966,
+      "render_shuffled": 0.09955675899982452,
+      "render_null": 0.17978304624557495
+    },
+    {
+      "source_id": "photoreal__09_waterfall_evaluation_00_seed50907",
+      "class_name": "Waterfall",
+      "prompt": "a video of a waterfall in a forest",
+      "shuffled_prompt": "a video of an artist painting on a canvas",
+      "target_correct": 0.3704207241535187,
+      "render_correct": 0.3560405373573303,
+      "render_shuffled": 0.1526695340871811,
+      "render_null": 0.21092583239078522
+    },
+    {
+      "source_id": "photoreal__10_painting_evaluation_00_seed51007",
+      "class_name": "Painting",
+      "prompt": "a video of an artist painting on a canvas",
+      "shuffled_prompt": "a video of a gymnast performing a routine",
+      "target_correct": 0.33582615852355957,
+      "render_correct": 0.24919353425502777,
+      "render_shuffled": 0.21914184093475342,
+      "render_null": 0.2034720480442047
+    },
+    {
+      "source_id": "photoreal__11_gymnastics_evaluation_00_seed51107",
+      "class_name": "Gymnastics",
+      "prompt": "a video of a gymnast performing a routine",
+      "shuffled_prompt": "a video of a person preparing a meal in a kitchen",
+      "target_correct": 0.37291663885116577,
+      "render_correct": 0.25760772824287415,
+      "render_shuffled": 0.08695198595523834,
+      "render_null": 0.2087625116109848
+    }
+  ]
+}

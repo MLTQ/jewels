@@ -1,0 +1,122 @@
+/home/m/LTX-2/.venv/lib/python3.13/site-packages/torchvision/models/_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
+  warnings.warn(
+/home/m/LTX-2/.venv/lib/python3.13/site-packages/torchvision/models/_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=AlexNet_Weights.IMAGENET1K_V1`. You can also use `weights=AlexNet_Weights.DEFAULT` to get the most up-to-date weights.
+  warnings.warn(msg)
+audited 12 0 anime
+audited 12 0 cartoon
+audited 12 0 clay
+audited 12 0 photoreal
+audited 12 0 render3d
+audited 60 0 anime
+audited 60 0 cartoon
+audited 60 0 clay
+audited 60 0 photoreal
+audited 60 0 render3d
+audited 120 0 anime
+audited 120 0 cartoon
+audited 120 0 clay
+audited 120 0 photoreal
+audited 120 0 render3d
+{
+  "perceptual_macro": {
+    "12": {
+      "lpips_mean": 0.472758150100708,
+      "psnr": 23.045669555664062,
+      "ssim": 0.911751127243042,
+      "layout_psnr": 29.811907958984374,
+      "layout_ssim": 0.9747194886207581
+    },
+    "60": {
+      "lpips_mean": 0.4651214165346963,
+      "psnr": 23.437150955200195,
+      "ssim": 0.9193808078765869,
+      "layout_psnr": 30.726360321044922,
+      "layout_ssim": 0.9800907254219056
+    },
+    "120": {
+      "lpips_mean": 0.3916400568825858,
+      "psnr": 23.868314361572267,
+      "ssim": 0.9267429709434509,
+      "layout_psnr": 31.533461380004884,
+      "layout_ssim": 0.9828635334968567
+    }
+  },
+  "structure_macro": {
+    "12": {
+      "active_fraction": 1.0,
+      "anisotropy_median": 3.853975770820573,
+      "anisotropy_p90": 4.500603074919327,
+      "mixed_spacetime_tilt_median": 0.04793176050481857,
+      "mixed_spacetime_tilt_p90": 0.09997001778443958,
+      "opacity_median": 0.23303316632906595
+    },
+    "60": {
+      "active_fraction": 1.0,
+      "anisotropy_median": 2.318822582579544,
+      "anisotropy_p90": 2.6354208887278956,
+      "mixed_spacetime_tilt_median": 0.0725432685359031,
+      "mixed_spacetime_tilt_p90": 0.16621980936821038,
+      "opacity_median": 0.4126183350880941
+    },
+    "120": {
+      "active_fraction": 1.0,
+      "anisotropy_median": 2.4553380178199395,
+      "anisotropy_p90": 2.9883293741851427,
+      "mixed_spacetime_tilt_median": 0.18747213180020392,
+      "mixed_spacetime_tilt_p90": 0.349070955684553,
+      "opacity_median": 0.39412399133046466
+    }
+  }
+}
+embedded Cooking
+embedded DogPark
+embedded StreetMarket
+embedded Surfing
+embedded Workshop
+embedded Ballet
+embedded Basketball
+embedded Campfire
+embedded Traffic
+embedded Waterfall
+embedded Painting
+embedded Gymnastics
+{
+  "target_correct_mean": 0.3654677818218867,
+  "render_correct_mean": 0.33394505207737285,
+  "render_shuffled_mean": 0.14265145361423492,
+  "render_null_mean": 0.2096402868628502,
+  "correct_minus_shuffled": 0.19129359846313795,
+  "correct_beats_shuffled_fraction": 1,
+  "semantic_retention_ratio": 0.9137468983247429
+}
+{
+  "schema": "encoder-support-benchmark-v1",
+  "checkpoint": "/home/m/jewels/encoder/curve/n180/encoder.pt",
+  "video": "/home/m/LTX-2/corpora/jewels_diverse_v1/00_cooking_train_00_seed50000.mp4",
+  "points": 4096,
+  "support_sigma": 5.0,
+  "support_capacity": 1024,
+  "max_abs_vs_infinite_oracle": 1.1920928955078125e-05,
+  "results": {
+    "exact": {
+      "seconds": [
+        0.8561754650145303,
+        0.8560532040137332,
+        0.8543453079764731
+      ],
+      "median_seconds": 0.8560532331466675,
+      "peak_allocated_gib": 5.962442398071289
+    },
+    "support_tiled": {
+      "seconds": [
+        0.040783053991617635,
+        0.03435887399245985,
+        0.034748927981127053
+      ],
+      "median_seconds": 0.034748926758766174,
+      "peak_allocated_gib": 0.7835121154785156
+    }
+  },
+  "speedup": 24.6353862693244,
+  "gpu": "NVIDIA GeForce RTX 4090"
+}

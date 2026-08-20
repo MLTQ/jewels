@@ -1,0 +1,31 @@
+{
+  "schema": "encoder-support-benchmark-v1",
+  "checkpoint": "/home/m/jewels/encoder/curve/n180/encoder.pt",
+  "video": "/home/m/LTX-2/corpora/jewels_diverse_v1/00_cooking_train_00_seed50000.mp4",
+  "points": 4096,
+  "support_sigma": 5.0,
+  "support_capacity": 1024,
+  "max_abs_vs_infinite_oracle": 1.1920928955078125e-05,
+  "results": {
+    "exact": {
+      "seconds": [
+        0.8561754650145303,
+        0.8560532040137332,
+        0.8543453079764731
+      ],
+      "median_seconds": 0.8560532331466675,
+      "peak_allocated_gib": 5.962442398071289
+    },
+    "support_tiled": {
+      "seconds": [
+        0.040783053991617635,
+        0.03435887399245985,
+        0.034748927981127053
+      ],
+      "median_seconds": 0.034748926758766174,
+      "peak_allocated_gib": 0.7835121154785156
+    }
+  },
+  "speedup": 24.6353862693244,
+  "gpu": "NVIDIA GeForce RTX 4090"
+}

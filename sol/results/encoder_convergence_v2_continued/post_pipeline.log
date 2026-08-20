@@ -1,0 +1,72 @@
+{
+  "scaling": {
+    "12": {
+      "mean": 21.875826809867668,
+      "sd": 0.05009759116748763,
+      "ci95_low": 21.751367449985334,
+      "ci95_high": 22.00028616975
+    },
+    "60": {
+      "mean": 22.398674267303214,
+      "sd": 0.02183736424116586,
+      "ci95_low": 22.34442286894982,
+      "ci95_high": 22.452925665656608
+    },
+    "120": {
+      "mean": 22.62816262345392,
+      "sd": 0.06812849667097665,
+      "ci95_low": 22.45890839609861,
+      "ci95_high": 22.79741685080923
+    }
+  },
+  "largest_two_delta_db": 0.22948835615070706
+}
+/home/m/LTX-2/.venv/lib/python3.13/site-packages/torchvision/models/_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
+  warnings.warn(
+/home/m/LTX-2/.venv/lib/python3.13/site-packages/torchvision/models/_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=AlexNet_Weights.IMAGENET1K_V1`. You can also use `weights=AlexNet_Weights.DEFAULT` to get the most up-to-date weights.
+  warnings.warn(msg)
+fitted teacher anime 72000 88.7073426246643
+fitted teacher cartoon 72000 81.91506147384644
+fitted teacher clay 72000 83.8441596031189
+fitted teacher photoreal 72000 85.83457922935486
+fitted teacher render3d 72000 88.9525294303894
+{
+  "psnr": 27.69931640625,
+  "ssim": 0.9680012345314026,
+  "lpips": 0.17201069125107354,
+  "anisotropy_median": 2.4306891918182374,
+  "mixed_spacetime_tilt_median": 0.3966488718986511
+}
+/home/m/LTX-2/.venv/lib/python3.13/site-packages/torchvision/models/_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
+  warnings.warn(
+/home/m/LTX-2/.venv/lib/python3.13/site-packages/torchvision/models/_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=AlexNet_Weights.IMAGENET1K_V1`. You can also use `weights=AlexNet_Weights.DEFAULT` to get the most up-to-date weights.
+  warnings.warn(msg)
+audited 12 0 anime
+audited 12 0 cartoon
+audited 12 0 clay
+audited 12 0 photoreal
+audited 12 0 render3d
+audited 60 0 anime
+audited 60 0 cartoon
+audited 60 0 clay
+audited 60 0 photoreal
+audited 60 0 render3d
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/m/jewels-codex-support/sol/audit_encoder_convergence.py", line 184, in <module>
+    main()
+    ~~~~^^
+  File "/home/m/jewels-codex-support/sol/audit_encoder_convergence.py", line 91, in main
+    model = _load_model(root / f"n{size}" / f"seed{seed}" / "encoder.pt", device)
+  File "/home/m/jewels-codex-support/sol/audit_encoder_convergence.py", line 48, in _load_model
+    saved = torch.load(checkpoint, map_location=device, weights_only=False)
+  File "/home/m/LTX-2/.venv/lib/python3.13/site-packages/torch/serialization.py", line 1484, in load
+    with _open_file_like(f, "rb") as opened_file:
+         ~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/m/LTX-2/.venv/lib/python3.13/site-packages/torch/serialization.py", line 759, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+  File "/home/m/LTX-2/.venv/lib/python3.13/site-packages/torch/serialization.py", line 740, in __init__
+    super().__init__(open(name, mode))
+                     ~~~~^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'sol/results/encoder_convergence_v2_continued/n180/seed0/encoder.pt'

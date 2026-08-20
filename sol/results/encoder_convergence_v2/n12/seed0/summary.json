@@ -1,0 +1,496 @@
+{
+  "steps": 1440,
+  "epochs": 120.0,
+  "seconds": 179.90089297294617,
+  "parameters": 5259163,
+  "latest_evaluation": {
+    "photoreal__00_cooking_evaluation_00_seed50007": {
+      "mse": 0.008258596062660217,
+      "psnr": 20.830937752053046
+    },
+    "photoreal__01_dogpark_evaluation_00_seed50107": {
+      "mse": 0.012944990769028664,
+      "psnr": 18.87898254920986
+    },
+    "photoreal__02_streetmarket_evaluation_00_seed50207": {
+      "mse": 0.02187265083193779,
+      "psnr": 16.600985799290534
+    },
+    "photoreal__03_surfing_evaluation_00_seed50307": {
+      "mse": 0.0034211778547614813,
+      "psnr": 24.65824347816192
+    },
+    "photoreal__04_workshop_evaluation_00_seed50407": {
+      "mse": 0.010118831880390644,
+      "psnr": 19.948696196287564
+    },
+    "photoreal__05_ballet_evaluation_00_seed50507": {
+      "mse": 0.00463000638410449,
+      "psnr": 23.344184101527937
+    },
+    "photoreal__06_basketball_evaluation_00_seed50607": {
+      "mse": 0.004608853254467249,
+      "psnr": 23.364071195582085
+    },
+    "photoreal__07_campfire_evaluation_00_seed50707": {
+      "mse": 0.0064874677918851376,
+      "psnr": 21.879247852654554
+    },
+    "photoreal__08_traffic_evaluation_00_seed50807": {
+      "mse": 0.0063009113073349,
+      "psnr": 22.005966335424887
+    },
+    "photoreal__09_waterfall_evaluation_00_seed50907": {
+      "mse": 0.00777006521821022,
+      "psnr": 21.095753359236742
+    },
+    "photoreal__10_painting_evaluation_00_seed51007": {
+      "mse": 0.004195413552224636,
+      "psnr": 23.772252232508066
+    },
+    "photoreal__11_gymnastics_evaluation_00_seed51107": {
+      "mse": 0.012261616997420788,
+      "psnr": 19.114522535736928
+    },
+    "anime__00_cooking_evaluation_00_seed60002": {
+      "mse": 0.011061224155128002,
+      "psnr": 19.561968066301215
+    },
+    "anime__01_dogpark_evaluation_00_seed60102": {
+      "mse": 0.004745145794004202,
+      "psnr": 23.237504393886805
+    },
+    "anime__02_streetmarket_evaluation_00_seed60202": {
+      "mse": 0.012170778587460518,
+      "psnr": 19.146816382512867
+    },
+    "anime__03_surfing_evaluation_00_seed60302": {
+      "mse": 0.009088067337870598,
+      "psnr": 20.415284637240244
+    },
+    "anime__04_workshop_evaluation_00_seed60402": {
+      "mse": 0.02847279980778694,
+      "psnr": 15.455698253965327
+    },
+    "anime__05_ballet_evaluation_00_seed60502": {
+      "mse": 0.0321572870016098,
+      "psnr": 14.927205982920842
+    },
+    "anime__06_basketball_evaluation_00_seed60602": {
+      "mse": 0.013685433194041252,
+      "psnr": 18.637414510266662
+    },
+    "anime__07_campfire_evaluation_00_seed60702": {
+      "mse": 0.011010624468326569,
+      "psnr": 19.58188049288234
+    },
+    "anime__08_traffic_evaluation_00_seed60802": {
+      "mse": 0.02254987508058548,
+      "psnr": 16.46855859638024
+    },
+    "anime__09_waterfall_evaluation_00_seed60902": {
+      "mse": 0.007959118112921715,
+      "psnr": 20.99135050341415
+    },
+    "anime__10_painting_evaluation_00_seed61002": {
+      "mse": 0.004838831722736359,
+      "psnr": 23.152594808378065
+    },
+    "anime__11_gymnastics_evaluation_00_seed61102": {
+      "mse": 0.01271019410341978,
+      "psnr": 18.958478170777425
+    },
+    "cartoon__00_cooking_evaluation_00_seed61002": {
+      "mse": 0.0037859752774238586,
+      "psnr": 24.218222263240055
+    },
+    "cartoon__01_dogpark_evaluation_00_seed61102": {
+      "mse": 0.006528080906718969,
+      "psnr": 21.852144717290948
+    },
+    "cartoon__02_streetmarket_evaluation_00_seed61202": {
+      "mse": 0.01146918348968029,
+      "psnr": 19.40467499147421
+    },
+    "cartoon__03_surfing_evaluation_00_seed61302": {
+      "mse": 0.0036293361335992813,
+      "psnr": 24.401728074381666
+    },
+    "cartoon__04_workshop_evaluation_00_seed61402": {
+      "mse": 0.007226060144603252,
+      "psnr": 21.410984279934873
+    },
+    "cartoon__05_ballet_evaluation_00_seed61502": {
+      "mse": 0.008712802082300186,
+      "psnr": 20.598421511720716
+    },
+    "cartoon__06_basketball_evaluation_00_seed61602": {
+      "mse": 0.012915324419736862,
+      "psnr": 18.88894680320554
+    },
+    "cartoon__07_campfire_evaluation_00_seed61702": {
+      "mse": 0.00540261110290885,
+      "psnr": 22.673962932306356
+    },
+    "cartoon__08_traffic_evaluation_00_seed61802": {
+      "mse": 0.02295542322099209,
+      "psnr": 16.391146958908976
+    },
+    "cartoon__09_waterfall_evaluation_00_seed61902": {
+      "mse": 0.007415504660457373,
+      "psnr": 21.298592878191624
+    },
+    "cartoon__10_painting_evaluation_00_seed62002": {
+      "mse": 0.0036773669999092817,
+      "psnr": 24.34463025534493
+    },
+    "cartoon__11_gymnastics_evaluation_00_seed62102": {
+      "mse": 0.00808488018810749,
+      "psnr": 20.92326411630101
+    },
+    "clay__00_cooking_evaluation_00_seed63002": {
+      "mse": 0.002856329781934619,
+      "psnr": 25.441916518657045
+    },
+    "clay__01_dogpark_evaluation_00_seed63102": {
+      "mse": 0.003741598455235362,
+      "psnr": 24.269428224032982
+    },
+    "clay__02_streetmarket_evaluation_00_seed63202": {
+      "mse": 0.006583125796169043,
+      "psnr": 21.815678459469503
+    },
+    "clay__03_surfing_evaluation_00_seed63302": {
+      "mse": 0.007506760768592358,
+      "psnr": 21.245474243541757
+    },
+    "clay__04_workshop_evaluation_00_seed63402": {
+      "mse": 0.0038230828940868378,
+      "psnr": 24.175862852783293
+    },
+    "clay__05_ballet_evaluation_00_seed63502": {
+      "mse": 0.005280095152556896,
+      "psnr": 22.773582509779217
+    },
+    "clay__06_basketball_evaluation_00_seed63602": {
+      "mse": 0.00396896805614233,
+      "psnr": 24.013223964561384
+    },
+    "clay__07_campfire_evaluation_00_seed63702": {
+      "mse": 0.015601108781993389,
+      "psnr": 18.068445349282733
+    },
+    "clay__08_traffic_evaluation_00_seed63802": {
+      "mse": 0.0049771275371313095,
+      "psnr": 23.030212304710254
+    },
+    "clay__09_waterfall_evaluation_00_seed63902": {
+      "mse": 0.00603590440005064,
+      "psnr": 22.192576474350947
+    },
+    "clay__10_painting_evaluation_00_seed64002": {
+      "mse": 0.0066192420199513435,
+      "psnr": 21.791917394726333
+    },
+    "clay__11_gymnastics_evaluation_00_seed64102": {
+      "mse": 0.004682657774537802,
+      "psnr": 23.295075808599766
+    },
+    "render3d__00_cooking_evaluation_00_seed62002": {
+      "mse": 0.002836603205651045,
+      "psnr": 25.472014106434866
+    },
+    "render3d__01_dogpark_evaluation_00_seed62102": {
+      "mse": 0.0039438409730792046,
+      "psnr": 24.040806053704298
+    },
+    "render3d__02_streetmarket_evaluation_00_seed62202": {
+      "mse": 0.009566206485033035,
+      "psnr": 20.192602491861305
+    },
+    "render3d__03_surfing_evaluation_00_seed62302": {
+      "mse": 0.0037211752496659756,
+      "psnr": 24.2931987629111
+    },
+    "render3d__04_workshop_evaluation_00_seed62402": {
+      "mse": 0.0039984192699193954,
+      "psnr": 23.981116681805368
+    },
+    "render3d__05_ballet_evaluation_00_seed62502": {
+      "mse": 0.0018073113169521093,
+      "psnr": 27.42967031949808
+    },
+    "render3d__06_basketball_evaluation_00_seed62602": {
+      "mse": 0.003220880404114723,
+      "psnr": 24.92025400854733
+    },
+    "render3d__07_campfire_evaluation_00_seed62702": {
+      "mse": 0.003805966582149267,
+      "psnr": 24.1953502930488
+    },
+    "render3d__08_traffic_evaluation_00_seed62802": {
+      "mse": 0.007290839683264494,
+      "psnr": 21.37222451269396
+    },
+    "render3d__09_waterfall_evaluation_00_seed62902": {
+      "mse": 0.006394032388925552,
+      "psnr": 21.94225168143152
+    },
+    "render3d__10_painting_evaluation_00_seed63002": {
+      "mse": 0.0029788552783429623,
+      "psnr": 25.25950595591201
+    },
+    "render3d__11_gymnastics_evaluation_00_seed63102": {
+      "mse": 0.004168245941400528,
+      "psnr": 23.800466640266833
+    },
+    "macro_psnr": 21.690802893025197
+  },
+  "best_step": 1440,
+  "best_epoch": 120.0,
+  "best_evaluation": {
+    "photoreal__00_cooking_evaluation_00_seed50007": {
+      "mse": 0.008258596062660217,
+      "psnr": 20.830937752053046
+    },
+    "photoreal__01_dogpark_evaluation_00_seed50107": {
+      "mse": 0.012944990769028664,
+      "psnr": 18.87898254920986
+    },
+    "photoreal__02_streetmarket_evaluation_00_seed50207": {
+      "mse": 0.02187265083193779,
+      "psnr": 16.600985799290534
+    },
+    "photoreal__03_surfing_evaluation_00_seed50307": {
+      "mse": 0.0034211778547614813,
+      "psnr": 24.65824347816192
+    },
+    "photoreal__04_workshop_evaluation_00_seed50407": {
+      "mse": 0.010118831880390644,
+      "psnr": 19.948696196287564
+    },
+    "photoreal__05_ballet_evaluation_00_seed50507": {
+      "mse": 0.00463000638410449,
+      "psnr": 23.344184101527937
+    },
+    "photoreal__06_basketball_evaluation_00_seed50607": {
+      "mse": 0.004608853254467249,
+      "psnr": 23.364071195582085
+    },
+    "photoreal__07_campfire_evaluation_00_seed50707": {
+      "mse": 0.0064874677918851376,
+      "psnr": 21.879247852654554
+    },
+    "photoreal__08_traffic_evaluation_00_seed50807": {
+      "mse": 0.0063009113073349,
+      "psnr": 22.005966335424887
+    },
+    "photoreal__09_waterfall_evaluation_00_seed50907": {
+      "mse": 0.00777006521821022,
+      "psnr": 21.095753359236742
+    },
+    "photoreal__10_painting_evaluation_00_seed51007": {
+      "mse": 0.004195413552224636,
+      "psnr": 23.772252232508066
+    },
+    "photoreal__11_gymnastics_evaluation_00_seed51107": {
+      "mse": 0.012261616997420788,
+      "psnr": 19.114522535736928
+    },
+    "anime__00_cooking_evaluation_00_seed60002": {
+      "mse": 0.011061224155128002,
+      "psnr": 19.561968066301215
+    },
+    "anime__01_dogpark_evaluation_00_seed60102": {
+      "mse": 0.004745145794004202,
+      "psnr": 23.237504393886805
+    },
+    "anime__02_streetmarket_evaluation_00_seed60202": {
+      "mse": 0.012170778587460518,
+      "psnr": 19.146816382512867
+    },
+    "anime__03_surfing_evaluation_00_seed60302": {
+      "mse": 0.009088067337870598,
+      "psnr": 20.415284637240244
+    },
+    "anime__04_workshop_evaluation_00_seed60402": {
+      "mse": 0.02847279980778694,
+      "psnr": 15.455698253965327
+    },
+    "anime__05_ballet_evaluation_00_seed60502": {
+      "mse": 0.0321572870016098,
+      "psnr": 14.927205982920842
+    },
+    "anime__06_basketball_evaluation_00_seed60602": {
+      "mse": 0.013685433194041252,
+      "psnr": 18.637414510266662
+    },
+    "anime__07_campfire_evaluation_00_seed60702": {
+      "mse": 0.011010624468326569,
+      "psnr": 19.58188049288234
+    },
+    "anime__08_traffic_evaluation_00_seed60802": {
+      "mse": 0.02254987508058548,
+      "psnr": 16.46855859638024
+    },
+    "anime__09_waterfall_evaluation_00_seed60902": {
+      "mse": 0.007959118112921715,
+      "psnr": 20.99135050341415
+    },
+    "anime__10_painting_evaluation_00_seed61002": {
+      "mse": 0.004838831722736359,
+      "psnr": 23.152594808378065
+    },
+    "anime__11_gymnastics_evaluation_00_seed61102": {
+      "mse": 0.01271019410341978,
+      "psnr": 18.958478170777425
+    },
+    "cartoon__00_cooking_evaluation_00_seed61002": {
+      "mse": 0.0037859752774238586,
+      "psnr": 24.218222263240055
+    },
+    "cartoon__01_dogpark_evaluation_00_seed61102": {
+      "mse": 0.006528080906718969,
+      "psnr": 21.852144717290948
+    },
+    "cartoon__02_streetmarket_evaluation_00_seed61202": {
+      "mse": 0.01146918348968029,
+      "psnr": 19.40467499147421
+    },
+    "cartoon__03_surfing_evaluation_00_seed61302": {
+      "mse": 0.0036293361335992813,
+      "psnr": 24.401728074381666
+    },
+    "cartoon__04_workshop_evaluation_00_seed61402": {
+      "mse": 0.007226060144603252,
+      "psnr": 21.410984279934873
+    },
+    "cartoon__05_ballet_evaluation_00_seed61502": {
+      "mse": 0.008712802082300186,
+      "psnr": 20.598421511720716
+    },
+    "cartoon__06_basketball_evaluation_00_seed61602": {
+      "mse": 0.012915324419736862,
+      "psnr": 18.88894680320554
+    },
+    "cartoon__07_campfire_evaluation_00_seed61702": {
+      "mse": 0.00540261110290885,
+      "psnr": 22.673962932306356
+    },
+    "cartoon__08_traffic_evaluation_00_seed61802": {
+      "mse": 0.02295542322099209,
+      "psnr": 16.391146958908976
+    },
+    "cartoon__09_waterfall_evaluation_00_seed61902": {
+      "mse": 0.007415504660457373,
+      "psnr": 21.298592878191624
+    },
+    "cartoon__10_painting_evaluation_00_seed62002": {
+      "mse": 0.0036773669999092817,
+      "psnr": 24.34463025534493
+    },
+    "cartoon__11_gymnastics_evaluation_00_seed62102": {
+      "mse": 0.00808488018810749,
+      "psnr": 20.92326411630101
+    },
+    "clay__00_cooking_evaluation_00_seed63002": {
+      "mse": 0.002856329781934619,
+      "psnr": 25.441916518657045
+    },
+    "clay__01_dogpark_evaluation_00_seed63102": {
+      "mse": 0.003741598455235362,
+      "psnr": 24.269428224032982
+    },
+    "clay__02_streetmarket_evaluation_00_seed63202": {
+      "mse": 0.006583125796169043,
+      "psnr": 21.815678459469503
+    },
+    "clay__03_surfing_evaluation_00_seed63302": {
+      "mse": 0.007506760768592358,
+      "psnr": 21.245474243541757
+    },
+    "clay__04_workshop_evaluation_00_seed63402": {
+      "mse": 0.0038230828940868378,
+      "psnr": 24.175862852783293
+    },
+    "clay__05_ballet_evaluation_00_seed63502": {
+      "mse": 0.005280095152556896,
+      "psnr": 22.773582509779217
+    },
+    "clay__06_basketball_evaluation_00_seed63602": {
+      "mse": 0.00396896805614233,
+      "psnr": 24.013223964561384
+    },
+    "clay__07_campfire_evaluation_00_seed63702": {
+      "mse": 0.015601108781993389,
+      "psnr": 18.068445349282733
+    },
+    "clay__08_traffic_evaluation_00_seed63802": {
+      "mse": 0.0049771275371313095,
+      "psnr": 23.030212304710254
+    },
+    "clay__09_waterfall_evaluation_00_seed63902": {
+      "mse": 0.00603590440005064,
+      "psnr": 22.192576474350947
+    },
+    "clay__10_painting_evaluation_00_seed64002": {
+      "mse": 0.0066192420199513435,
+      "psnr": 21.791917394726333
+    },
+    "clay__11_gymnastics_evaluation_00_seed64102": {
+      "mse": 0.004682657774537802,
+      "psnr": 23.295075808599766
+    },
+    "render3d__00_cooking_evaluation_00_seed62002": {
+      "mse": 0.002836603205651045,
+      "psnr": 25.472014106434866
+    },
+    "render3d__01_dogpark_evaluation_00_seed62102": {
+      "mse": 0.0039438409730792046,
+      "psnr": 24.040806053704298
+    },
+    "render3d__02_streetmarket_evaluation_00_seed62202": {
+      "mse": 0.009566206485033035,
+      "psnr": 20.192602491861305
+    },
+    "render3d__03_surfing_evaluation_00_seed62302": {
+      "mse": 0.0037211752496659756,
+      "psnr": 24.2931987629111
+    },
+    "render3d__04_workshop_evaluation_00_seed62402": {
+      "mse": 0.0039984192699193954,
+      "psnr": 23.981116681805368
+    },
+    "render3d__05_ballet_evaluation_00_seed62502": {
+      "mse": 0.0018073113169521093,
+      "psnr": 27.42967031949808
+    },
+    "render3d__06_basketball_evaluation_00_seed62602": {
+      "mse": 0.003220880404114723,
+      "psnr": 24.92025400854733
+    },
+    "render3d__07_campfire_evaluation_00_seed62702": {
+      "mse": 0.003805966582149267,
+      "psnr": 24.1953502930488
+    },
+    "render3d__08_traffic_evaluation_00_seed62802": {
+      "mse": 0.007290839683264494,
+      "psnr": 21.37222451269396
+    },
+    "render3d__09_waterfall_evaluation_00_seed62902": {
+      "mse": 0.006394032388925552,
+      "psnr": 21.94225168143152
+    },
+    "render3d__10_painting_evaluation_00_seed63002": {
+      "mse": 0.0029788552783429623,
+      "psnr": 25.25950595591201
+    },
+    "render3d__11_gymnastics_evaluation_00_seed63102": {
+      "mse": 0.004168245941400528,
+      "psnr": 23.800466640266833
+    },
+    "macro_psnr": 21.690802893025197
+  },
+  "stopped_early": false,
+  "renderer": "support_tiled"
+}

@@ -150,6 +150,11 @@ def main() -> None:
         initial_step = int(resumed["step"])
         initial_epochs = initial_step / len(train_ids)
         resume_evaluation = resume_meta.get("latest_evaluation")
+        saved_generator = resumed.get("rng", {}).get("training_generator")
+        if saved_generator is None:
+            generator.manual_seed(args.seed + initial_step)
+        else:
+            generator.set_state(saved_generator.to(device="cpu"))
     output_dir = Path(args.out)
     output_dir.mkdir(parents=True, exist_ok=True)
     log_path = output_dir / "train_log.jsonl"
@@ -196,6 +201,7 @@ def main() -> None:
             {
                 "model": model.state_dict(),
                 "optimizer": optimizer.state_dict(),
+                "rng": {"training_generator": generator.get_state().cpu()},
                 "step": initial_step + step,
                 "meta": {
                     "architecture": "video_to_jewel_encoder_v0",
