@@ -1,0 +1,36 @@
+{
+  "schema": "temporal-tilt-replication-manifest-v1",
+  "protocol": {
+    "frames": 16,
+    "size": 80,
+    "steps": [900],
+    "constraints": ["free", "axis_aligned"],
+    "seeds": [0, 1, 2],
+    "num_init": 500,
+    "max_primitives": 2000,
+    "voxels": 8192,
+    "support_capacity": 1024,
+    "support_point_chunk": 512,
+    "adapt_every": 100
+  },
+  "sources": [
+    {
+      "id": "playing_guitar_g19_c05",
+      "path": "/home/m/jewels/data/corpora/ucf101/UCF-101/PlayingGuitar/v_PlayingGuitar_g19_c05.avi",
+      "start_frame": 0,
+      "motion_note": "fine hand, instrument, and upper-body motion"
+    },
+    {
+      "id": "pole_vault_g01_c01",
+      "path": "/home/m/jewels/data/corpora/ucf101/UCF-101/PoleVault/v_PoleVault_g01_c01.avi",
+      "start_frame": 0,
+      "motion_note": "large ballistic translation and articulated motion"
+    },
+    {
+      "id": "salsa_spin_g01_c01",
+      "path": "/home/m/jewels/data/corpora/ucf101/UCF-101/SalsaSpin/v_SalsaSpin_g01_c01.avi",
+      "start_frame": 0,
+      "motion_note": "high frame-change coupled articulated motion"
+    }
+  ]
+}

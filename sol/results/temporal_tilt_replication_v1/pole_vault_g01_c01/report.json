@@ -1,0 +1,371 @@
+{
+  "schema": "temporal-tilt-ablation-v2",
+  "source": "/home/m/jewels/data/corpora/ucf101/UCF-101/PoleVault/v_PoleVault_g01_c01.avi",
+  "source_fingerprint": {
+    "path": "/home/m/jewels/data/corpora/ucf101/UCF-101/PoleVault/v_PoleVault_g01_c01.avi",
+    "bytes": 438702,
+    "sha256": "d9fb6325d07d3773f7479d80bcd2be4fb4a99d1a68e0e81ca7da16918d80ae94"
+  },
+  "environment": {
+    "torch_version": "2.12.1+cu130",
+    "device": "cuda",
+    "accelerator": "NVIDIA GeForce RTX 4090"
+  },
+  "shape": [
+    16,
+    80,
+    107,
+    3
+  ],
+  "protocol": {
+    "frames": 16,
+    "size": 80,
+    "start_frame": 0,
+    "steps": [
+      900
+    ],
+    "constraints": [
+      "axis_aligned",
+      "free"
+    ],
+    "num_init": 500,
+    "max_primitives": 2000,
+    "voxels": 8192,
+    "support_capacity": 1024,
+    "support_point_chunk": 512,
+    "adapt_every": 100
+  },
+  "records": [
+    {
+      "geometry_constraint": "free",
+      "steps": 900,
+      "seed": 0,
+      "environment": {
+        "torch_version": "2.12.1+cu130",
+        "device": "cuda",
+        "accelerator": "NVIDIA GeForce RTX 4090"
+      },
+      "voxel_evaluations": 7372800,
+      "fit_seconds": 43.56114053726196,
+      "n_final": 791,
+      "support_eval_psnr_db": 26.521717071533203,
+      "psnr_db_per_1000_primitives": 33.52935154428976,
+      "psnr_db_per_parameter_megabyte": 364.3893860124918,
+      "storage": {
+        "parameter_bytes": 72784,
+        "parameter_megabytes": 0.072784,
+        "raw_uint8_video_bytes": 410880,
+        "raw_uint8_to_parameter_ratio": 5.6451967465377,
+        "video_voxels_per_primitive": 173.14791403286978
+      },
+      "error": {
+        "rgb_mae": 0.029820319265127182,
+        "pixel_mae_p95": 0.09964249283075333,
+        "pixel_mae_max": 0.4542027711868286,
+        "worst_frame_rgb_mae": 0.03189511224627495,
+        "motion_top20_rgb_mae": 0.049644578248262405
+      },
+      "structure": {
+        "anisotropy_median": 3.121647357940674,
+        "anisotropy_p90": 7.266077995300293,
+        "principal_temporal_alignment_median": 0.7775509357452393,
+        "principal_temporal_alignment_p90": 0.9984747171401978,
+        "mixed_spacetime_tilt_median": 0.3207540810108185,
+        "mixed_spacetime_tilt_p90": 0.8812091946601868,
+        "five_sigma_lifespan_frames_median": 10.461311340332031,
+        "five_sigma_lifespan_frames_p90": 18.143049240112305,
+        "opacity_median": 0.5292013883590698
+      }
+    },
+    {
+      "geometry_constraint": "axis_aligned",
+      "steps": 900,
+      "seed": 0,
+      "environment": {
+        "torch_version": "2.12.1+cu130",
+        "device": "cuda",
+        "accelerator": "NVIDIA GeForce RTX 4090"
+      },
+      "voxel_evaluations": 7372800,
+      "fit_seconds": 43.134817123413086,
+      "n_final": 791,
+      "support_eval_psnr_db": 26.192092895507812,
+      "psnr_db_per_1000_primitives": 33.112633243372706,
+      "psnr_db_per_parameter_megabyte": 359.8605860561087,
+      "storage": {
+        "parameter_bytes": 72784,
+        "parameter_megabytes": 0.072784,
+        "raw_uint8_video_bytes": 410880,
+        "raw_uint8_to_parameter_ratio": 5.6451967465377,
+        "video_voxels_per_primitive": 173.14791403286978
+      },
+      "error": {
+        "rgb_mae": 0.03114119917154312,
+        "pixel_mae_p95": 0.10547544062137604,
+        "pixel_mae_max": 0.37317976355552673,
+        "worst_frame_rgb_mae": 0.03348388895392418,
+        "motion_top20_rgb_mae": 0.052042897790670395
+      },
+      "structure": {
+        "anisotropy_median": 3.068007230758667,
+        "anisotropy_p90": 7.15993595123291,
+        "principal_temporal_alignment_median": 1.0,
+        "principal_temporal_alignment_p90": 1.0,
+        "mixed_spacetime_tilt_median": 0.0,
+        "mixed_spacetime_tilt_p90": 0.0,
+        "five_sigma_lifespan_frames_median": 10.513336181640625,
+        "five_sigma_lifespan_frames_p90": 19.20484161376953,
+        "opacity_median": 0.5293759703636169
+      }
+    },
+    {
+      "geometry_constraint": "free",
+      "steps": 900,
+      "seed": 1,
+      "environment": {
+        "torch_version": "2.12.1+cu130",
+        "device": "cuda",
+        "accelerator": "NVIDIA GeForce RTX 4090"
+      },
+      "voxel_evaluations": 7372800,
+      "fit_seconds": 43.185107707977295,
+      "n_final": 791,
+      "support_eval_psnr_db": 26.55622673034668,
+      "psnr_db_per_1000_primitives": 33.57297943153815,
+      "psnr_db_per_parameter_megabyte": 364.8635239935519,
+      "storage": {
+        "parameter_bytes": 72784,
+        "parameter_megabytes": 0.072784,
+        "raw_uint8_video_bytes": 410880,
+        "raw_uint8_to_parameter_ratio": 5.6451967465377,
+        "video_voxels_per_primitive": 173.14791403286978
+      },
+      "error": {
+        "rgb_mae": 0.029595997184515,
+        "pixel_mae_p95": 0.09965580701828003,
+        "pixel_mae_max": 0.4013809561729431,
+        "worst_frame_rgb_mae": 0.032244421541690826,
+        "motion_top20_rgb_mae": 0.04892623797059059
+      },
+      "structure": {
+        "anisotropy_median": 3.086045980453491,
+        "anisotropy_p90": 7.473929405212402,
+        "principal_temporal_alignment_median": 0.8555512428283691,
+        "principal_temporal_alignment_p90": 0.9988822340965271,
+        "mixed_spacetime_tilt_median": 0.2911708950996399,
+        "mixed_spacetime_tilt_p90": 0.8738217949867249,
+        "five_sigma_lifespan_frames_median": 10.629860877990723,
+        "five_sigma_lifespan_frames_p90": 17.494142532348633,
+        "opacity_median": 0.526334285736084
+      }
+    },
+    {
+      "geometry_constraint": "axis_aligned",
+      "steps": 900,
+      "seed": 1,
+      "environment": {
+        "torch_version": "2.12.1+cu130",
+        "device": "cuda",
+        "accelerator": "NVIDIA GeForce RTX 4090"
+      },
+      "voxel_evaluations": 7372800,
+      "fit_seconds": 43.17955684661865,
+      "n_final": 791,
+      "support_eval_psnr_db": 26.045522689819336,
+      "psnr_db_per_1000_primitives": 32.927335891048465,
+      "psnr_db_per_parameter_megabyte": 357.8468164681707,
+      "storage": {
+        "parameter_bytes": 72784,
+        "parameter_megabytes": 0.072784,
+        "raw_uint8_video_bytes": 410880,
+        "raw_uint8_to_parameter_ratio": 5.6451967465377,
+        "video_voxels_per_primitive": 173.14791403286978
+      },
+      "error": {
+        "rgb_mae": 0.03133367374539375,
+        "pixel_mae_p95": 0.10629727691411972,
+        "pixel_mae_max": 0.4595683813095093,
+        "worst_frame_rgb_mae": 0.03347647190093994,
+        "motion_top20_rgb_mae": 0.05239111930131912
+      },
+      "structure": {
+        "anisotropy_median": 3.02752685546875,
+        "anisotropy_p90": 6.79821252822876,
+        "principal_temporal_alignment_median": 1.0,
+        "principal_temporal_alignment_p90": 1.0,
+        "mixed_spacetime_tilt_median": 0.0,
+        "mixed_spacetime_tilt_p90": 0.0,
+        "five_sigma_lifespan_frames_median": 10.649640083312988,
+        "five_sigma_lifespan_frames_p90": 16.846792221069336,
+        "opacity_median": 0.5287238359451294
+      }
+    },
+    {
+      "geometry_constraint": "free",
+      "steps": 900,
+      "seed": 2,
+      "environment": {
+        "torch_version": "2.12.1+cu130",
+        "device": "cuda",
+        "accelerator": "NVIDIA GeForce RTX 4090"
+      },
+      "voxel_evaluations": 7372800,
+      "fit_seconds": 43.197731256484985,
+      "n_final": 791,
+      "support_eval_psnr_db": 26.589019775390625,
+      "psnr_db_per_1000_primitives": 33.61443713702987,
+      "psnr_db_per_parameter_megabyte": 365.3140769316144,
+      "storage": {
+        "parameter_bytes": 72784,
+        "parameter_megabytes": 0.072784,
+        "raw_uint8_video_bytes": 410880,
+        "raw_uint8_to_parameter_ratio": 5.6451967465377,
+        "video_voxels_per_primitive": 173.14791403286978
+      },
+      "error": {
+        "rgb_mae": 0.029642358422279358,
+        "pixel_mae_p95": 0.0999186635017395,
+        "pixel_mae_max": 0.38515421748161316,
+        "worst_frame_rgb_mae": 0.03183329477906227,
+        "motion_top20_rgb_mae": 0.0495213121175766
+      },
+      "structure": {
+        "anisotropy_median": 3.0463669300079346,
+        "anisotropy_p90": 7.301843643188477,
+        "principal_temporal_alignment_median": 0.8448938727378845,
+        "principal_temporal_alignment_p90": 0.9984408617019653,
+        "mixed_spacetime_tilt_median": 0.31109803915023804,
+        "mixed_spacetime_tilt_p90": 0.8845719695091248,
+        "five_sigma_lifespan_frames_median": 10.417963027954102,
+        "five_sigma_lifespan_frames_p90": 17.41848373413086,
+        "opacity_median": 0.5316144227981567
+      }
+    },
+    {
+      "geometry_constraint": "axis_aligned",
+      "steps": 900,
+      "seed": 2,
+      "environment": {
+        "torch_version": "2.12.1+cu130",
+        "device": "cuda",
+        "accelerator": "NVIDIA GeForce RTX 4090"
+      },
+      "voxel_evaluations": 7372800,
+      "fit_seconds": 43.20447659492493,
+      "n_final": 791,
+      "support_eval_psnr_db": 26.065601348876953,
+      "psnr_db_per_1000_primitives": 32.95271978366239,
+      "psnr_db_per_parameter_megabyte": 358.1226828544316,
+      "storage": {
+        "parameter_bytes": 72784,
+        "parameter_megabytes": 0.072784,
+        "raw_uint8_video_bytes": 410880,
+        "raw_uint8_to_parameter_ratio": 5.6451967465377,
+        "video_voxels_per_primitive": 173.14791403286978
+      },
+      "error": {
+        "rgb_mae": 0.031184758991003036,
+        "pixel_mae_p95": 0.10671461373567581,
+        "pixel_mae_max": 0.4337848126888275,
+        "worst_frame_rgb_mae": 0.033782847225666046,
+        "motion_top20_rgb_mae": 0.053124770522117615
+      },
+      "structure": {
+        "anisotropy_median": 3.0745205879211426,
+        "anisotropy_p90": 7.072324752807617,
+        "principal_temporal_alignment_median": 1.0,
+        "principal_temporal_alignment_p90": 1.0,
+        "mixed_spacetime_tilt_median": 0.0,
+        "mixed_spacetime_tilt_p90": 0.0,
+        "five_sigma_lifespan_frames_median": 10.53322982788086,
+        "five_sigma_lifespan_frames_p90": 18.256359100341797,
+        "opacity_median": 0.5327452421188354
+      }
+    }
+  ],
+  "summary": {
+    "comparisons": [
+      {
+        "steps": 900,
+        "seed": 0,
+        "control": "axis_aligned",
+        "free_support_psnr_db": 26.521717071533203,
+        "control_support_psnr_db": 26.192092895507812,
+        "free_minus_control_psnr_db": 0.3296241760253906,
+        "free_primitives": 791,
+        "control_primitives": 791,
+        "free_minus_control_primitives": 0,
+        "free_parameter_bytes": 72784,
+        "control_parameter_bytes": 72784,
+        "free_psnr_db_per_1000_primitives": 33.52935154428976,
+        "control_psnr_db_per_1000_primitives": 33.112633243372706,
+        "free_psnr_db_per_parameter_megabyte": 364.3893860124918,
+        "control_psnr_db_per_parameter_megabyte": 359.8605860561087,
+        "free_mixed_tilt_median": 0.3207540810108185,
+        "control_mixed_tilt_median": 0.0,
+        "control_minus_free_rgb_mae": 0.0013208799064159393,
+        "control_minus_free_motion_top20_rgb_mae": 0.0023983195424079895
+      },
+      {
+        "steps": 900,
+        "seed": 1,
+        "control": "axis_aligned",
+        "free_support_psnr_db": 26.55622673034668,
+        "control_support_psnr_db": 26.045522689819336,
+        "free_minus_control_psnr_db": 0.5107040405273438,
+        "free_primitives": 791,
+        "control_primitives": 791,
+        "free_minus_control_primitives": 0,
+        "free_parameter_bytes": 72784,
+        "control_parameter_bytes": 72784,
+        "free_psnr_db_per_1000_primitives": 33.57297943153815,
+        "control_psnr_db_per_1000_primitives": 32.927335891048465,
+        "free_psnr_db_per_parameter_megabyte": 364.8635239935519,
+        "control_psnr_db_per_parameter_megabyte": 357.8468164681707,
+        "free_mixed_tilt_median": 0.2911708950996399,
+        "control_mixed_tilt_median": 0.0,
+        "control_minus_free_rgb_mae": 0.0017376765608787537,
+        "control_minus_free_motion_top20_rgb_mae": 0.003464881330728531
+      },
+      {
+        "steps": 900,
+        "seed": 2,
+        "control": "axis_aligned",
+        "free_support_psnr_db": 26.589019775390625,
+        "control_support_psnr_db": 26.065601348876953,
+        "free_minus_control_psnr_db": 0.5234184265136719,
+        "free_primitives": 791,
+        "control_primitives": 791,
+        "free_minus_control_primitives": 0,
+        "free_parameter_bytes": 72784,
+        "control_parameter_bytes": 72784,
+        "free_psnr_db_per_1000_primitives": 33.61443713702987,
+        "control_psnr_db_per_1000_primitives": 32.95271978366239,
+        "free_psnr_db_per_parameter_megabyte": 365.3140769316144,
+        "control_psnr_db_per_parameter_megabyte": 358.1226828544316,
+        "free_mixed_tilt_median": 0.31109803915023804,
+        "control_mixed_tilt_median": 0.0,
+        "control_minus_free_rgb_mae": 0.0015424005687236786,
+        "control_minus_free_motion_top20_rgb_mae": 0.0036034584045410156
+      }
+    ],
+    "largest_budget_axis_aligned": {
+      "steps": 900,
+      "paired_psnr_delta_db": {
+        "n": 3,
+        "mean": 0.45458221435546875,
+        "sample_std": 0.10840340128533002,
+        "ci95_low": 0.18527150263015713,
+        "ci95_high": 0.7238929260807804
+      },
+      "free_wins": 3,
+      "pair_count": 3
+    },
+    "causal_tilt_gate": {
+      "matched_axis_aligned_control_present": true,
+      "free_geometry_advantage_at_least_0_5db": false,
+      "free_geometry_uses_mixed_tilt": true,
+      "projection_removes_mixed_tilt": true
+    }
+  }
+}

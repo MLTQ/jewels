@@ -15,7 +15,8 @@ better than axis-aligned geometry that cannot represent a sheared trajectory wit
 - Same seed, voxel samples, optimizer, adaptation, and primitive counts.
 - Predeclared gate: at least 0.5 dB free-geometry advantage, median free mixed tilt at least 0.2,
   and numerically zero mixed tilt in the projected control.
-- Hardware: RTX 4090.
+- Hardware: RTX 2070 Super. A later UUID audit corrected the original 4090 attribution: CUDA
+  logical device 1 is the 2070 Super on this host.
 
 ## Result
 

@@ -21,6 +21,7 @@ The defensible claim is:
 | Real corrected compute curve | 24.67 → 30.04 → 36.28 dB; median anisotropy 1.02 → 1.32 → 2.22 | Single-source scaling signal |
 | Synthetic temporal-tilt intervention | Free beats axis-aligned by 0.97 and 1.05 dB at equal counts | Single-source causal signal |
 | Real temporal-tilt intervention | Free 36.28 dB vs axis-aligned 34.70 dB at equal count/runtime | Single-source causal signal |
+| Multi-source temporal-tilt replication | 9/9 wins; +0.772 dB paired mean, 95% CI [+0.573, +0.971], matched counts/bytes | Decision-grade representation evidence |
 
 These results establish that the corrected stage-1 mechanism works and benefits from compute. They
 do not yet establish promptability or broad generalization.
@@ -35,6 +36,10 @@ All five gates below should pass before presenting “more compute can make this
   motion-diverse clips.
 - Free geometry wins in at least seven of nine matched pairs and by at least 0.5 dB macro PSNR.
 - Report mixed-tilt distributions, quality per primitive/byte, local error, and confidence intervals.
+
+**Status: passed.** Three UCF motion classes × three seeds produce 9/9 wins, +0.772 dB macro
+advantage, a wholly positive paired interval, matched 791-primitive/72,784-byte budgets, and larger
+error reduction in high-motion regions. Evidence: `sol/results/temporal_tilt_replication_v1`.
 
 ### G2 — support-safe throughput
 
@@ -75,12 +80,11 @@ All five gates below should pass before presenting “more compute can make this
 
 ## Immediate sequence
 
-1. Replicate G1 using `temporal_tilt_ablation.py` on motion-diverse local clips and three seeds.
-2. Implement the G2 tiled support-safe renderer before generating a corrected teacher corpus.
-3. Refit a small teacher subset and run a convergence-based encoder scaling curve for G3.
-4. Assemble the safest promptable demo through a pretrained scaffold, then measure correct versus
+1. Implement the G2 tiled support-safe renderer before generating a corrected teacher corpus.
+2. Refit a small teacher subset and run a convergence-based encoder scaling curve for G3.
+3. Assemble the safest promptable demo through a pretrained scaffold, then measure correct versus
    shuffled/null prompt selectivity at the rendered jewel output.
-5. Only after that end-to-end signal exists, compare direct hierarchical/factorized prompt-to-jewel
+4. Only after that end-to-end signal exists, compare direct hierarchical/factorized prompt-to-jewel
    priors and scale the winning route.
 
 Interpret every step under `sol/EVIDENCE_POLICY.md`. A failed arm narrows a configuration; it does

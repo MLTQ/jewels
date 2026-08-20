@@ -1,0 +1,445 @@
+{
+  "schema": "temporal-tilt-replication-v1",
+  "protocol": {
+    "frames": 16,
+    "size": 80,
+    "start_frame": 0,
+    "steps": [
+      900
+    ],
+    "constraints": [
+      "axis_aligned",
+      "free"
+    ],
+    "num_init": 500,
+    "max_primitives": 2000,
+    "voxels": 8192,
+    "support_capacity": 1024,
+    "support_point_chunk": 512,
+    "adapt_every": 100
+  },
+  "sources": [
+    {
+      "source": "/home/m/jewels/data/corpora/ucf101/UCF-101/PlayingGuitar/v_PlayingGuitar_g19_c05.avi",
+      "source_label": "v_PlayingGuitar_g19_c05",
+      "source_fingerprint": {
+        "path": "/home/m/jewels/data/corpora/ucf101/UCF-101/PlayingGuitar/v_PlayingGuitar_g19_c05.avi",
+        "bytes": 518576,
+        "sha256": "cd3bba83bee5494af0e4a2d93af5712cd12bca5a3971ac34df230b3e21d0b296"
+      },
+      "environment": {
+        "torch_version": "2.12.1+cu130",
+        "device": "cuda",
+        "accelerator": "NVIDIA GeForce RTX 4090"
+      }
+    },
+    {
+      "source": "/home/m/jewels/data/corpora/ucf101/UCF-101/PoleVault/v_PoleVault_g01_c01.avi",
+      "source_label": "v_PoleVault_g01_c01",
+      "source_fingerprint": {
+        "path": "/home/m/jewels/data/corpora/ucf101/UCF-101/PoleVault/v_PoleVault_g01_c01.avi",
+        "bytes": 438702,
+        "sha256": "d9fb6325d07d3773f7479d80bcd2be4fb4a99d1a68e0e81ca7da16918d80ae94"
+      },
+      "environment": {
+        "torch_version": "2.12.1+cu130",
+        "device": "cuda",
+        "accelerator": "NVIDIA GeForce RTX 4090"
+      }
+    },
+    {
+      "source": "/home/m/jewels/data/corpora/ucf101/UCF-101/SalsaSpin/v_SalsaSpin_g01_c01.avi",
+      "source_label": "v_SalsaSpin_g01_c01",
+      "source_fingerprint": {
+        "path": "/home/m/jewels/data/corpora/ucf101/UCF-101/SalsaSpin/v_SalsaSpin_g01_c01.avi",
+        "bytes": 492230,
+        "sha256": "b339b49daf3fc519a904d8a6019abfc2fe65a69138835527a4ddd8af87e420e1"
+      },
+      "environment": {
+        "torch_version": "2.12.1+cu130",
+        "device": "cuda",
+        "accelerator": "NVIDIA GeForce RTX 4090"
+      }
+    }
+  ],
+  "source_count": 3,
+  "pair_count": 9,
+  "pairs": [
+    {
+      "source": "/home/m/jewels/data/corpora/ucf101/UCF-101/PlayingGuitar/v_PlayingGuitar_g19_c05.avi",
+      "source_label": "v_PlayingGuitar_g19_c05",
+      "steps": 900,
+      "seed": 0,
+      "control": "axis_aligned",
+      "free_support_psnr_db": 26.57339859008789,
+      "control_support_psnr_db": 25.795791625976562,
+      "free_minus_control_psnr_db": 0.7776069641113281,
+      "free_primitives": 791,
+      "control_primitives": 791,
+      "free_minus_control_primitives": 0,
+      "free_parameter_bytes": 72784,
+      "control_parameter_bytes": 72784,
+      "free_psnr_db_per_1000_primitives": 33.59468848304411,
+      "control_psnr_db_per_1000_primitives": 32.6116202604002,
+      "free_psnr_db_per_parameter_megabyte": 365.09945304033704,
+      "control_psnr_db_per_parameter_megabyte": 354.4156906184953,
+      "free_mixed_tilt_median": 0.3827531337738037,
+      "control_mixed_tilt_median": 0.0,
+      "control_minus_free_rgb_mae": 0.0032882969826459885,
+      "control_minus_free_motion_top20_rgb_mae": 0.003678891807794571
+    },
+    {
+      "source": "/home/m/jewels/data/corpora/ucf101/UCF-101/PlayingGuitar/v_PlayingGuitar_g19_c05.avi",
+      "source_label": "v_PlayingGuitar_g19_c05",
+      "steps": 900,
+      "seed": 1,
+      "control": "axis_aligned",
+      "free_support_psnr_db": 26.704160690307617,
+      "control_support_psnr_db": 25.845401763916016,
+      "free_minus_control_psnr_db": 0.8587589263916016,
+      "free_primitives": 791,
+      "control_primitives": 791,
+      "free_minus_control_primitives": 0,
+      "free_parameter_bytes": 72784,
+      "control_parameter_bytes": 72784,
+      "free_psnr_db_per_1000_primitives": 33.76000087270242,
+      "control_psnr_db_per_1000_primitives": 32.67433851316816,
+      "free_psnr_db_per_parameter_megabyte": 366.89603058787117,
+      "control_psnr_db_per_parameter_megabyte": 355.09729836112353,
+      "free_mixed_tilt_median": 0.3645341694355011,
+      "control_mixed_tilt_median": 0.0,
+      "control_minus_free_rgb_mae": 0.003533625975251198,
+      "control_minus_free_motion_top20_rgb_mae": 0.004010703414678574
+    },
+    {
+      "source": "/home/m/jewels/data/corpora/ucf101/UCF-101/PlayingGuitar/v_PlayingGuitar_g19_c05.avi",
+      "source_label": "v_PlayingGuitar_g19_c05",
+      "steps": 900,
+      "seed": 2,
+      "control": "axis_aligned",
+      "free_support_psnr_db": 26.61064910888672,
+      "control_support_psnr_db": 25.67190933227539,
+      "free_minus_control_psnr_db": 0.9387397766113281,
+      "free_primitives": 791,
+      "control_primitives": 791,
+      "free_minus_control_primitives": 0,
+      "free_parameter_bytes": 72784,
+      "control_parameter_bytes": 72784,
+      "free_psnr_db_per_1000_primitives": 33.64178142716399,
+      "control_psnr_db_per_1000_primitives": 32.45500547696004,
+      "free_psnr_db_per_parameter_megabyte": 365.6112484733831,
+      "control_psnr_db_per_parameter_megabyte": 352.7136366821745,
+      "free_mixed_tilt_median": 0.343258261680603,
+      "control_mixed_tilt_median": 0.0,
+      "control_minus_free_rgb_mae": 0.0036844052374362946,
+      "control_minus_free_motion_top20_rgb_mae": 0.004034217447042465
+    },
+    {
+      "source": "/home/m/jewels/data/corpora/ucf101/UCF-101/PoleVault/v_PoleVault_g01_c01.avi",
+      "source_label": "v_PoleVault_g01_c01",
+      "steps": 900,
+      "seed": 0,
+      "control": "axis_aligned",
+      "free_support_psnr_db": 26.521717071533203,
+      "control_support_psnr_db": 26.192092895507812,
+      "free_minus_control_psnr_db": 0.3296241760253906,
+      "free_primitives": 791,
+      "control_primitives": 791,
+      "free_minus_control_primitives": 0,
+      "free_parameter_bytes": 72784,
+      "control_parameter_bytes": 72784,
+      "free_psnr_db_per_1000_primitives": 33.52935154428976,
+      "control_psnr_db_per_1000_primitives": 33.112633243372706,
+      "free_psnr_db_per_parameter_megabyte": 364.3893860124918,
+      "control_psnr_db_per_parameter_megabyte": 359.8605860561087,
+      "free_mixed_tilt_median": 0.3207540810108185,
+      "control_mixed_tilt_median": 0.0,
+      "control_minus_free_rgb_mae": 0.0013208799064159393,
+      "control_minus_free_motion_top20_rgb_mae": 0.0023983195424079895
+    },
+    {
+      "source": "/home/m/jewels/data/corpora/ucf101/UCF-101/PoleVault/v_PoleVault_g01_c01.avi",
+      "source_label": "v_PoleVault_g01_c01",
+      "steps": 900,
+      "seed": 1,
+      "control": "axis_aligned",
+      "free_support_psnr_db": 26.55622673034668,
+      "control_support_psnr_db": 26.045522689819336,
+      "free_minus_control_psnr_db": 0.5107040405273438,
+      "free_primitives": 791,
+      "control_primitives": 791,
+      "free_minus_control_primitives": 0,
+      "free_parameter_bytes": 72784,
+      "control_parameter_bytes": 72784,
+      "free_psnr_db_per_1000_primitives": 33.57297943153815,
+      "control_psnr_db_per_1000_primitives": 32.927335891048465,
+      "free_psnr_db_per_parameter_megabyte": 364.8635239935519,
+      "control_psnr_db_per_parameter_megabyte": 357.8468164681707,
+      "free_mixed_tilt_median": 0.2911708950996399,
+      "control_mixed_tilt_median": 0.0,
+      "control_minus_free_rgb_mae": 0.0017376765608787537,
+      "control_minus_free_motion_top20_rgb_mae": 0.003464881330728531
+    },
+    {
+      "source": "/home/m/jewels/data/corpora/ucf101/UCF-101/PoleVault/v_PoleVault_g01_c01.avi",
+      "source_label": "v_PoleVault_g01_c01",
+      "steps": 900,
+      "seed": 2,
+      "control": "axis_aligned",
+      "free_support_psnr_db": 26.589019775390625,
+      "control_support_psnr_db": 26.065601348876953,
+      "free_minus_control_psnr_db": 0.5234184265136719,
+      "free_primitives": 791,
+      "control_primitives": 791,
+      "free_minus_control_primitives": 0,
+      "free_parameter_bytes": 72784,
+      "control_parameter_bytes": 72784,
+      "free_psnr_db_per_1000_primitives": 33.61443713702987,
+      "control_psnr_db_per_1000_primitives": 32.95271978366239,
+      "free_psnr_db_per_parameter_megabyte": 365.3140769316144,
+      "control_psnr_db_per_parameter_megabyte": 358.1226828544316,
+      "free_mixed_tilt_median": 0.31109803915023804,
+      "control_mixed_tilt_median": 0.0,
+      "control_minus_free_rgb_mae": 0.0015424005687236786,
+      "control_minus_free_motion_top20_rgb_mae": 0.0036034584045410156
+    },
+    {
+      "source": "/home/m/jewels/data/corpora/ucf101/UCF-101/SalsaSpin/v_SalsaSpin_g01_c01.avi",
+      "source_label": "v_SalsaSpin_g01_c01",
+      "steps": 900,
+      "seed": 0,
+      "control": "axis_aligned",
+      "free_support_psnr_db": 25.77743911743164,
+      "control_support_psnr_db": 24.853687286376953,
+      "free_minus_control_psnr_db": 0.9237518310546875,
+      "free_primitives": 791,
+      "control_primitives": 791,
+      "free_minus_control_primitives": 0,
+      "free_parameter_bytes": 72784,
+      "control_parameter_bytes": 72784,
+      "free_psnr_db_per_1000_primitives": 32.58841860610827,
+      "control_psnr_db_per_1000_primitives": 31.420590753953164,
+      "free_psnr_db_per_parameter_megabyte": 354.1635403032485,
+      "control_psnr_db_per_parameter_megabyte": 341.4718521430116,
+      "free_mixed_tilt_median": 0.38848379254341125,
+      "control_mixed_tilt_median": 0.0,
+      "control_minus_free_rgb_mae": 0.003431849181652069,
+      "control_minus_free_motion_top20_rgb_mae": 0.008080419152975082
+    },
+    {
+      "source": "/home/m/jewels/data/corpora/ucf101/UCF-101/SalsaSpin/v_SalsaSpin_g01_c01.avi",
+      "source_label": "v_SalsaSpin_g01_c01",
+      "steps": 900,
+      "seed": 1,
+      "control": "axis_aligned",
+      "free_support_psnr_db": 25.805776596069336,
+      "control_support_psnr_db": 24.809892654418945,
+      "free_minus_control_psnr_db": 0.9958839416503906,
+      "free_primitives": 791,
+      "control_primitives": 791,
+      "free_minus_control_primitives": 0,
+      "free_parameter_bytes": 72784,
+      "control_parameter_bytes": 72784,
+      "free_psnr_db_per_1000_primitives": 32.624243484284875,
+      "control_psnr_db_per_1000_primitives": 31.365224594714213,
+      "free_psnr_db_per_parameter_megabyte": 354.55287695193084,
+      "control_psnr_db_per_parameter_megabyte": 340.87014528493825,
+      "free_mixed_tilt_median": 0.3535199463367462,
+      "control_mixed_tilt_median": 0.0,
+      "control_minus_free_rgb_mae": 0.003764115273952484,
+      "control_minus_free_motion_top20_rgb_mae": 0.008066035807132721
+    },
+    {
+      "source": "/home/m/jewels/data/corpora/ucf101/UCF-101/SalsaSpin/v_SalsaSpin_g01_c01.avi",
+      "source_label": "v_SalsaSpin_g01_c01",
+      "steps": 900,
+      "seed": 2,
+      "control": "axis_aligned",
+      "free_support_psnr_db": 25.897991180419922,
+      "control_support_psnr_db": 24.80879020690918,
+      "free_minus_control_psnr_db": 1.0892009735107422,
+      "free_primitives": 791,
+      "control_primitives": 791,
+      "free_minus_control_primitives": 0,
+      "free_parameter_bytes": 72784,
+      "control_parameter_bytes": 72784,
+      "free_psnr_db_per_1000_primitives": 32.74082323694048,
+      "control_psnr_db_per_1000_primitives": 31.363830855763815,
+      "free_psnr_db_per_parameter_megabyte": 355.8198392561541,
+      "control_psnr_db_per_parameter_megabyte": 340.8549984462132,
+      "free_mixed_tilt_median": 0.35737019777297974,
+      "control_mixed_tilt_median": 0.0,
+      "control_minus_free_rgb_mae": 0.003979001194238663,
+      "control_minus_free_motion_top20_rgb_mae": 0.008459270000457764
+    }
+  ],
+  "per_source": {
+    "v_PlayingGuitar_g19_c05": {
+      "source": "/home/m/jewels/data/corpora/ucf101/UCF-101/PlayingGuitar/v_PlayingGuitar_g19_c05.avi",
+      "pair_count": 3,
+      "free_wins": 3,
+      "paired_psnr_delta_db": {
+        "n": 3,
+        "mean": 0.8583685557047526,
+        "sample_std": 0.08056711554967635,
+        "ci95_low": 0.6582125922103207,
+        "ci95_high": 1.0585245191991843
+      },
+      "control_minus_free_rgb_mae": {
+        "n": 3,
+        "mean": 0.0035021093984444938,
+        "sample_std": 0.00019992600715881159,
+        "ci95_low": 0.0030054255800224085,
+        "ci95_high": 0.003998793216866579
+      },
+      "control_minus_free_motion_top20_rgb_mae": {
+        "n": 3,
+        "mean": 0.003907937556505203,
+        "sample_std": 0.0001987075581886938,
+        "ci95_low": 0.0034142807774144735,
+        "ci95_high": 0.004401594335595933
+      }
+    },
+    "v_PoleVault_g01_c01": {
+      "source": "/home/m/jewels/data/corpora/ucf101/UCF-101/PoleVault/v_PoleVault_g01_c01.avi",
+      "pair_count": 3,
+      "free_wins": 3,
+      "paired_psnr_delta_db": {
+        "n": 3,
+        "mean": 0.45458221435546875,
+        "sample_std": 0.10840340128533002,
+        "ci95_low": 0.18527150263015713,
+        "ci95_high": 0.7238929260807804
+      },
+      "control_minus_free_rgb_mae": {
+        "n": 3,
+        "mean": 0.0015336523453394573,
+        "sample_std": 0.00020853599533925514,
+        "ci95_low": 0.001015578404307487,
+        "ci95_high": 0.0020517262863714277
+      },
+      "control_minus_free_motion_top20_rgb_mae": {
+        "n": 3,
+        "mean": 0.003155553092559179,
+        "sample_std": 0.000659433763506645,
+        "ci95_low": 0.0015172965980214139,
+        "ci95_high": 0.0047938095870969435
+      }
+    },
+    "v_SalsaSpin_g01_c01": {
+      "source": "/home/m/jewels/data/corpora/ucf101/UCF-101/SalsaSpin/v_SalsaSpin_g01_c01.avi",
+      "pair_count": 3,
+      "free_wins": 3,
+      "paired_psnr_delta_db": {
+        "n": 3,
+        "mean": 1.0029455820719402,
+        "sample_std": 0.08295031500207468,
+        "ci95_low": 0.7968689451198608,
+        "ci95_high": 1.2090222190240196
+      },
+      "control_minus_free_rgb_mae": {
+        "n": 3,
+        "mean": 0.0037249885499477386,
+        "sample_std": 0.00027566647713840294,
+        "ci95_low": 0.0030401397880390167,
+        "ci95_high": 0.004409837311856461
+      },
+      "control_minus_free_motion_top20_rgb_mae": {
+        "n": 3,
+        "mean": 0.008201908320188522,
+        "sample_std": 0.00022299774889594884,
+        "ci95_low": 0.007647906492236308,
+        "ci95_high": 0.008755910148140738
+      }
+    }
+  },
+  "aggregate": {
+    "free_wins": 9,
+    "paired_psnr_delta_db": {
+      "n": 9,
+      "mean": 0.7719654507107205,
+      "sample_std": 0.25857652001416864,
+      "ci95_low": 0.5732062989931629,
+      "ci95_high": 0.9707246024282782
+    },
+    "control_minus_free_rgb_mae": {
+      "n": 9,
+      "mean": 0.002920250097910563,
+      "sample_std": 0.0010633292058634634,
+      "ci95_low": 0.0021029043816701808,
+      "ci95_high": 0.0037375958141509453
+    },
+    "control_minus_free_motion_top20_rgb_mae": {
+      "n": 9,
+      "mean": 0.005088466323084301,
+      "sample_std": 0.002385322293230767,
+      "ci95_low": 0.0032549485870209185,
+      "ci95_high": 0.006921984059147684
+    },
+    "free_mixed_tilt_median_mean": 0.34588250186708236,
+    "free_psnr_db_per_1000_primitives_mean": 33.29630269145577,
+    "control_psnr_db_per_1000_primitives_mean": 32.32036659700479,
+    "free_psnr_db_per_parameter_megabyte_mean": 361.8566639500648,
+    "control_psnr_db_per_parameter_megabyte_mean": 351.25041187940747,
+    "primitive_counts_matched": true,
+    "parameter_bytes_matched": true
+  },
+  "decision_gate": {
+    "at_least_three_sources": true,
+    "at_least_nine_pairs": true,
+    "free_wins_at_least_seven_pairs": true,
+    "macro_advantage_at_least_0_5db": true,
+    "paired_ci95_excludes_zero": true,
+    "primitive_counts_matched": true,
+    "parameter_bytes_matched": true,
+    "projection_removes_mixed_tilt": true
+  },
+  "manifest": {
+    "path": "/home/m/jewels-codex-support/sol/temporal_tilt_replication_v1.json",
+    "contents": {
+      "schema": "temporal-tilt-replication-manifest-v1",
+      "protocol": {
+        "frames": 16,
+        "size": 80,
+        "steps": [
+          900
+        ],
+        "constraints": [
+          "free",
+          "axis_aligned"
+        ],
+        "seeds": [
+          0,
+          1,
+          2
+        ],
+        "num_init": 500,
+        "max_primitives": 2000,
+        "voxels": 8192,
+        "support_capacity": 1024,
+        "support_point_chunk": 512,
+        "adapt_every": 100
+      },
+      "sources": [
+        {
+          "id": "playing_guitar_g19_c05",
+          "path": "/home/m/jewels/data/corpora/ucf101/UCF-101/PlayingGuitar/v_PlayingGuitar_g19_c05.avi",
+          "start_frame": 0,
+          "motion_note": "fine hand, instrument, and upper-body motion"
+        },
+        {
+          "id": "pole_vault_g01_c01",
+          "path": "/home/m/jewels/data/corpora/ucf101/UCF-101/PoleVault/v_PoleVault_g01_c01.avi",
+          "start_frame": 0,
+          "motion_note": "large ballistic translation and articulated motion"
+        },
+        {
+          "id": "salsa_spin_g01_c01",
+          "path": "/home/m/jewels/data/corpora/ucf101/UCF-101/SalsaSpin/v_SalsaSpin_g01_c01.avi",
+          "start_frame": 0,
+          "motion_note": "high frame-change coupled articulated motion"
+        }
+      ]
+    }
+  }
+}

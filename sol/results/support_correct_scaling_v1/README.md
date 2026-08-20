@@ -14,7 +14,9 @@ silently omitting elongated contributors?
 - Corrected arm: complete candidate set inside a five-sigma Mahalanobis support, with capacity 512
   and fatal overflow.
 - Every checkpoint is evaluated using the corrected renderer.
-- Hardware: RTX 4090.
+- Hardware: RTX 2070 Super. The original README said RTX 4090 because the launch used
+  `CUDA_VISIBLE_DEVICES=1`; a later UUID audit established that CUDA logical index 1 maps to the
+  2070 Super on this host even though `nvidia-smi` labels the 4090 as GPU 1.
 
 ## Result
 

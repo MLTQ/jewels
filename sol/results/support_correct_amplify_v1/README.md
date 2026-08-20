@@ -13,7 +13,9 @@ time-oriented primitives on real footage?
 - Legacy arm: 64 nearest Euclidean centers.
 - Corrected arm: complete five-sigma candidates with capacity 1,024 and fatal overflow.
 - Every checkpoint is evaluated using the corrected renderer.
-- Hardware: RTX 4090.
+- Hardware: RTX 2070 Super. The original README said RTX 4090 because CUDA and `nvidia-smi` use
+  different device ordering on this host; the launch's logical device 1 was later UUID-verified as
+  the 2070 Super.
 
 ## Result
 

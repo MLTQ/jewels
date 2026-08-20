@@ -10,7 +10,9 @@ fit relative to axis-aligned spatial/temporal Gaussians?
 - Source: first 16 frames of `amplify.mp4`, resized to 80×153.
 - Both arms use complete five-sigma support rendering.
 - 900 optimizer steps, 7.37 million sampled-voxel evaluations, seed 0.
-- Both arms end with exactly 791 primitives and take about 133 seconds on an RTX 4090.
+- Both arms end with exactly 791 primitives and take about 133 seconds on an RTX 2070 Super. A
+  later UUID audit corrected the original 4090 attribution: CUDA logical device 1 is the 2070
+  Super on this host.
 - The control retains anisotropic spatial/temporal scales but has every quaternion projected to
   identity throughout fitting.
 - The causal gate was declared before the run: at least 0.5 dB advantage, median free mixed tilt at
