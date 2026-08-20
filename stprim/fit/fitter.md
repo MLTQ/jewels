@@ -9,7 +9,21 @@ and reproducibility over last-dB quality.
 
 ### `FitConfig`
 - **Does**: all hyperparameters for a fit, including explicit isotropic versus temporal-preserving
-  spatial densification
+  spatial densification and the renderer's culling contract
+- `cull_mode="knn"` preserves historical behavior. `"support"` uses a declared finite Gaussian
+  support and fails on candidate overflow; `"exact"` exists only for tiny correctness probes.
+- `support_sigma`, `support_capacity`, and `support_point_chunk` are checkpointed, so recovery and
+  downstream evaluation cannot silently change the renderer used by a fit.
+- `geometry_constraint` is `free` for the actual representation. `axis_aligned` projects every
+  quaternion to identity while retaining distinct spatial/temporal scales; `isotropic` also ties
+  the three scales. Both are experiment controls for measuring the causal value of spacetime tilt.
+
+### `project_geometry_(field, constraint)`
+- **Does**: applies the selected causal geometry projection after initialization/resume, every
+  optimizer step, and every densification event.
+- **Rationale**: projecting only at evaluation would test checkpoint damage, not whether the fitter
+  can compensate under the constrained representation. Projected training gives each control its
+  best fit at the same optimizer and primitive budget.
 
 ### `fit_volume(video, cfg, device, resume_state, checkpoint_every, checkpoint_callback)`
 - **Does**: (T,H,W,3) in [0,1] -> (PrimitiveField, info dict)
@@ -33,6 +47,12 @@ and reproducibility over last-dB quality.
 - **[2026-08-04] Spatial split control**: the opt-in split policy preserves the most time-aligned
   principal scale. The default remains isotropic so historical checkpoints and recovery probes do
   not silently change meaning.
+- **[2026-08-19] Culling is an experimental variable**: fitting now forwards the complete renderer
+  policy from `FitConfig`. Support-mode candidate overflow is fatal by design; increasing capacity
+  and restarting is preferable to training on an unknown, geometry-dependent truncation.
+- **[2026-08-19] Geometry constraints are causal controls**: free, axis-aligned, and isotropic arms
+  share the fitter. The constraints are stored in checkpoints/recovery configs and are enforced
+  after adaptation so split children cannot escape the ablation.
 - **[2026-07-31]** The voronoi mode and its steelman knobs (tau anneal, bg pseudo-cell, Lloyd)
   were removed with the branch — see PROJECT.md decision log. `FitConfig` no longer has a
   `mode` field; checkpoints made before this date carry one.

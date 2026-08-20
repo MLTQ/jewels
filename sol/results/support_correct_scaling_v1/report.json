@@ -1,0 +1,156 @@
+{
+  "schema": "support-correct-scaling-v1",
+  "source": "synthetic_tube",
+  "shape": [
+    16,
+    64,
+    64,
+    3
+  ],
+  "records": [
+    {
+      "cull_mode": "knn",
+      "steps": 100,
+      "voxel_evaluations": 819200,
+      "fit_seconds": 2.0610148906707764,
+      "n_final": 300,
+      "training_eval_psnr_db": 32.06215286254883,
+      "support_eval_psnr_db": 32.0621337890625,
+      "renderer_gap_mean_abs": 1.2539605904748896e-06,
+      "renderer_gap_max_abs": 1.6570091247558594e-05,
+      "structure": {
+        "anisotropy_median": 1.0498501062393188,
+        "anisotropy_p90": 1.125907301902771,
+        "principal_temporal_alignment_median": 0.46252310276031494,
+        "principal_temporal_alignment_p90": 0.9418747425079346,
+        "five_sigma_lifespan_frames_median": 8.619139671325684,
+        "five_sigma_lifespan_frames_p90": 9.712540626525879,
+        "opacity_median": 0.45670899748802185
+      }
+    },
+    {
+      "cull_mode": "knn",
+      "steps": 300,
+      "voxel_evaluations": 2457600,
+      "fit_seconds": 5.265683174133301,
+      "n_final": 349,
+      "training_eval_psnr_db": 48.265296936035156,
+      "support_eval_psnr_db": 48.264923095703125,
+      "renderer_gap_mean_abs": 2.0680081433965825e-06,
+      "renderer_gap_max_abs": 0.0002442598342895508,
+      "structure": {
+        "anisotropy_median": 1.2318685054779053,
+        "anisotropy_p90": 1.4640926122665405,
+        "principal_temporal_alignment_median": 0.31236889958381653,
+        "principal_temporal_alignment_p90": 0.9220550656318665,
+        "five_sigma_lifespan_frames_median": 10.438545227050781,
+        "five_sigma_lifespan_frames_p90": 12.422694206237793,
+        "opacity_median": 0.38323384523391724
+      }
+    },
+    {
+      "cull_mode": "knn",
+      "steps": 900,
+      "voxel_evaluations": 7372800,
+      "fit_seconds": 15.364731788635254,
+      "n_final": 473,
+      "training_eval_psnr_db": 53.38645935058594,
+      "support_eval_psnr_db": 42.50954055786133,
+      "renderer_gap_mean_abs": 0.0015536518767476082,
+      "renderer_gap_max_abs": 0.34039223194122314,
+      "structure": {
+        "anisotropy_median": 1.3026928901672363,
+        "anisotropy_p90": 1.7295488119125366,
+        "principal_temporal_alignment_median": 0.28878358006477356,
+        "principal_temporal_alignment_p90": 0.8021547198295593,
+        "five_sigma_lifespan_frames_median": 9.281099319458008,
+        "five_sigma_lifespan_frames_p90": 14.461657524108887,
+        "opacity_median": 0.408862441778183
+      }
+    },
+    {
+      "cull_mode": "support",
+      "steps": 100,
+      "voxel_evaluations": 819200,
+      "fit_seconds": 7.093698501586914,
+      "n_final": 300,
+      "training_eval_psnr_db": 32.06232452392578,
+      "support_eval_psnr_db": 32.06232452392578,
+      "renderer_gap_mean_abs": 0.0,
+      "renderer_gap_max_abs": 0.0,
+      "structure": {
+        "anisotropy_median": 1.0498603582382202,
+        "anisotropy_p90": 1.1259263753890991,
+        "principal_temporal_alignment_median": 0.4624481201171875,
+        "principal_temporal_alignment_p90": 0.9418614506721497,
+        "five_sigma_lifespan_frames_median": 8.619220733642578,
+        "five_sigma_lifespan_frames_p90": 9.712648391723633,
+        "opacity_median": 0.4567089080810547
+      }
+    },
+    {
+      "cull_mode": "support",
+      "steps": 300,
+      "voxel_evaluations": 2457600,
+      "fit_seconds": 22.838069915771484,
+      "n_final": 349,
+      "training_eval_psnr_db": 48.26465606689453,
+      "support_eval_psnr_db": 48.26465606689453,
+      "renderer_gap_mean_abs": 0.0,
+      "renderer_gap_max_abs": 0.0,
+      "structure": {
+        "anisotropy_median": 1.2320868968963623,
+        "anisotropy_p90": 1.4643330574035645,
+        "principal_temporal_alignment_median": 0.3122771084308624,
+        "principal_temporal_alignment_p90": 0.9220196008682251,
+        "five_sigma_lifespan_frames_median": 10.438801765441895,
+        "five_sigma_lifespan_frames_p90": 12.421539306640625,
+        "opacity_median": 0.3832310736179352
+      }
+    },
+    {
+      "cull_mode": "support",
+      "steps": 900,
+      "voxel_evaluations": 7372800,
+      "fit_seconds": 82.83621668815613,
+      "n_final": 473,
+      "training_eval_psnr_db": 58.007232666015625,
+      "support_eval_psnr_db": 58.007232666015625,
+      "renderer_gap_mean_abs": 0.0,
+      "renderer_gap_max_abs": 0.0,
+      "structure": {
+        "anisotropy_median": 1.3044899702072144,
+        "anisotropy_p90": 1.742794394493103,
+        "principal_temporal_alignment_median": 0.2790449559688568,
+        "principal_temporal_alignment_p90": 0.8035852313041687,
+        "five_sigma_lifespan_frames_median": 9.230998039245605,
+        "five_sigma_lifespan_frames_p90": 14.399138450622559,
+        "opacity_median": 0.4057252109050751
+      }
+    }
+  ],
+  "summary": {
+    "knn": {
+      "support_psnr_gain_db": 10.447406768798828,
+      "wall_time_ratio": 7.454934876105946,
+      "largest_run_support_psnr_db": 42.50954055786133,
+      "largest_run_renderer_gap_max_abs": 0.34039223194122314,
+      "largest_run_anisotropy_median": 1.3026928901672363,
+      "largest_run_temporal_alignment_p90": 0.8021547198295593
+    },
+    "support": {
+      "support_psnr_gain_db": 25.944908142089844,
+      "wall_time_ratio": 11.677436906801866,
+      "largest_run_support_psnr_db": 58.007232666015625,
+      "largest_run_renderer_gap_max_abs": 0.0,
+      "largest_run_anisotropy_median": 1.3044899702072144,
+      "largest_run_temporal_alignment_p90": 0.8035852313041687
+    },
+    "initial_proof_gate": {
+      "support_arm_present": true,
+      "positive_compute_slope": true,
+      "largest_support_run_reaches_25db": true,
+      "learns_nontrivial_anisotropy": false
+    }
+  }
+}

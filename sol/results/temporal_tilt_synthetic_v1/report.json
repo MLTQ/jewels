@@ -1,0 +1,114 @@
+{
+  "schema": "temporal-tilt-ablation-v1",
+  "source": "synthetic_tube",
+  "shape": [
+    16,
+    64,
+    64,
+    3
+  ],
+  "records": [
+    {
+      "geometry_constraint": "free",
+      "steps": 300,
+      "voxel_evaluations": 2457600,
+      "fit_seconds": 23.032522439956665,
+      "n_final": 349,
+      "support_eval_psnr_db": 48.26465606689453,
+      "structure": {
+        "anisotropy_median": 1.2320868968963623,
+        "anisotropy_p90": 1.4643330574035645,
+        "principal_temporal_alignment_median": 0.3122771084308624,
+        "principal_temporal_alignment_p90": 0.9220196008682251,
+        "mixed_spacetime_tilt_median": 0.5189712047576904,
+        "mixed_spacetime_tilt_p90": 0.9615143537521362,
+        "five_sigma_lifespan_frames_median": 10.438801765441895,
+        "five_sigma_lifespan_frames_p90": 12.421539306640625,
+        "opacity_median": 0.3832310736179352
+      }
+    },
+    {
+      "geometry_constraint": "free",
+      "steps": 900,
+      "voxel_evaluations": 7372800,
+      "fit_seconds": 82.63708710670471,
+      "n_final": 473,
+      "support_eval_psnr_db": 58.007232666015625,
+      "structure": {
+        "anisotropy_median": 1.3044899702072144,
+        "anisotropy_p90": 1.742794394493103,
+        "principal_temporal_alignment_median": 0.2790449559688568,
+        "principal_temporal_alignment_p90": 0.8035852313041687,
+        "mixed_spacetime_tilt_median": 0.5083730816841125,
+        "mixed_spacetime_tilt_p90": 0.9500765204429626,
+        "five_sigma_lifespan_frames_median": 9.230998039245605,
+        "five_sigma_lifespan_frames_p90": 14.399138450622559,
+        "opacity_median": 0.4057252109050751
+      }
+    },
+    {
+      "geometry_constraint": "axis_aligned",
+      "steps": 300,
+      "voxel_evaluations": 2457600,
+      "fit_seconds": 23.17233943939209,
+      "n_final": 349,
+      "support_eval_psnr_db": 47.290504455566406,
+      "structure": {
+        "anisotropy_median": 1.1908506155014038,
+        "anisotropy_p90": 1.4574556350708008,
+        "principal_temporal_alignment_median": 0.0,
+        "principal_temporal_alignment_p90": 1.0,
+        "mixed_spacetime_tilt_median": 0.0,
+        "mixed_spacetime_tilt_p90": 0.0,
+        "five_sigma_lifespan_frames_median": 10.330720901489258,
+        "five_sigma_lifespan_frames_p90": 12.525666236877441,
+        "opacity_median": 0.382085919380188
+      }
+    },
+    {
+      "geometry_constraint": "axis_aligned",
+      "steps": 900,
+      "voxel_evaluations": 7372800,
+      "fit_seconds": 83.45372557640076,
+      "n_final": 473,
+      "support_eval_psnr_db": 56.96186828613281,
+      "structure": {
+        "anisotropy_median": 1.2764796018600464,
+        "anisotropy_p90": 1.7048144340515137,
+        "principal_temporal_alignment_median": 0.0,
+        "principal_temporal_alignment_p90": 1.0,
+        "mixed_spacetime_tilt_median": 0.0,
+        "mixed_spacetime_tilt_p90": 0.0,
+        "five_sigma_lifespan_frames_median": 8.490574836730957,
+        "five_sigma_lifespan_frames_p90": 14.560678482055664,
+        "opacity_median": 0.40268975496292114
+      }
+    }
+  ],
+  "summary": {
+    "comparisons": [
+      {
+        "steps": 300,
+        "control": "axis_aligned",
+        "free_minus_control_psnr_db": 0.974151611328125,
+        "free_minus_control_primitives": 0,
+        "free_mixed_tilt_median": 0.5189712047576904,
+        "control_mixed_tilt_median": 0.0
+      },
+      {
+        "steps": 900,
+        "control": "axis_aligned",
+        "free_minus_control_psnr_db": 1.0453643798828125,
+        "free_minus_control_primitives": 0,
+        "free_mixed_tilt_median": 0.5083730816841125,
+        "control_mixed_tilt_median": 0.0
+      }
+    ],
+    "causal_tilt_gate": {
+      "matched_axis_aligned_control_present": true,
+      "free_geometry_advantage_at_least_0_5db": true,
+      "free_geometry_uses_mixed_tilt": true,
+      "projection_removes_mixed_tilt": true
+    }
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "schema": "temporal-tilt-ablation-v1",
+  "source": "/home/m/jewels/data/amplify.mp4",
+  "shape": [
+    16,
+    80,
+    153,
+    3
+  ],
+  "records": [
+    {
+      "geometry_constraint": "free",
+      "steps": 900,
+      "voxel_evaluations": 7372800,
+      "fit_seconds": 133.17577695846558,
+      "n_final": 791,
+      "support_eval_psnr_db": 36.278282165527344,
+      "structure": {
+        "anisotropy_median": 2.219176769256592,
+        "anisotropy_p90": 5.669429779052734,
+        "principal_temporal_alignment_median": 0.6639759540557861,
+        "principal_temporal_alignment_p90": 0.9968376159667969,
+        "mixed_spacetime_tilt_median": 0.37212347984313965,
+        "mixed_spacetime_tilt_p90": 0.9398442506790161,
+        "five_sigma_lifespan_frames_median": 8.999914169311523,
+        "five_sigma_lifespan_frames_p90": 13.558967590332031,
+        "opacity_median": 0.48493480682373047
+      }
+    },
+    {
+      "geometry_constraint": "axis_aligned",
+      "steps": 900,
+      "voxel_evaluations": 7372800,
+      "fit_seconds": 133.89224767684937,
+      "n_final": 791,
+      "support_eval_psnr_db": 34.703514099121094,
+      "structure": {
+        "anisotropy_median": 2.0770936012268066,
+        "anisotropy_p90": 5.81682825088501,
+        "principal_temporal_alignment_median": 1.0,
+        "principal_temporal_alignment_p90": 1.0,
+        "mixed_spacetime_tilt_median": 0.0,
+        "mixed_spacetime_tilt_p90": 0.0,
+        "five_sigma_lifespan_frames_median": 9.248777389526367,
+        "five_sigma_lifespan_frames_p90": 14.92802906036377,
+        "opacity_median": 0.49398544430732727
+      }
+    }
+  ],
+  "summary": {
+    "comparisons": [
+      {
+        "steps": 900,
+        "control": "axis_aligned",
+        "free_minus_control_psnr_db": 1.57476806640625,
+        "free_minus_control_primitives": 0,
+        "free_mixed_tilt_median": 0.37212347984313965,
+        "control_mixed_tilt_median": 0.0
+      }
+    ],
+    "causal_tilt_gate": {
+      "matched_axis_aligned_control_present": true,
+      "free_geometry_advantage_at_least_0_5db": true,
+      "free_geometry_uses_mixed_tilt": true,
+      "projection_removes_mixed_tilt": true
+    }
+  }
+}

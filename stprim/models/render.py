@@ -22,6 +22,10 @@ import torch
 from core.params import PrimitiveField
 
 
+class SupportOverflowError(RuntimeError):
+    """Raised when a support-safe candidate budget cannot be proven sufficient."""
+
+
 def cull_knn(
     points: torch.Tensor, mu: torch.Tensor, k: int, *, chunk: int = 16384
 ) -> torch.Tensor:
@@ -29,10 +33,10 @@ def cull_knn(
 
     points (M, 3), mu (N, 3) -> (M, k) long.
 
-    Euclidean rather than Mahalanobis on purpose: culling only needs a safe
-    superset, and computing the full metric for all N would defeat the point.
-    Far primitives have astronomically negative logits, so excluding them is
-    numerically free.
+    This is the historical fast path. It is not support-safe for anisotropic
+    primitives: an elongated primitive can contribute far from its center and
+    still be omitted by center-distance KNN. Use ``cull_mode="support"`` when
+    correctness of the candidate set matters.
 
     Chunked over points: identical indices, but peak memory is chunk x N
     instead of M x N — the full 65536 x 10000 distance matrix was the
@@ -57,11 +61,91 @@ def cull_knn(
     return torch.cat(outs, 0)
 
 
+def cull_support_sphere(
+    points: torch.Tensor,
+    mu: torch.Tensor,
+    max_scale: torch.Tensor,
+    *,
+    support_sigma: float = 5.0,
+    capacity: int = 512,
+) -> tuple[torch.Tensor, torch.Tensor]:
+    """Return a provably complete finite-support candidate set.
+
+    For every primitive, ``||x-mu|| / max(scale)`` is a lower bound on its
+    Mahalanobis radius. Therefore every primitive inside ``support_sigma`` is
+    inside this conservative sphere. The returned boolean mask removes loose
+    sphere candidates after gathering. If more than ``capacity`` candidates
+    can be inside the sphere, fail loudly instead of silently truncating.
+    """
+    if support_sigma <= 0:
+        raise ValueError("support_sigma must be positive")
+    if capacity <= 0:
+        raise ValueError("support capacity must be positive")
+    if mu.shape[0] == 0:
+        raise ValueError("cannot render an empty primitive field")
+    if max_scale.shape != (mu.shape[0],):
+        raise ValueError("max_scale must have shape (num_primitives,)")
+
+    capacity = min(capacity, mu.shape[0])
+    probe_k = min(capacity + 1, mu.shape[0])
+    normalized_distance = torch.cdist(points, mu) / max_scale.clamp_min(1e-8)[None]
+    distance, idx = normalized_distance.topk(
+        probe_k, dim=1, largest=False, sorted=True
+    )
+    if mu.shape[0] > capacity:
+        overflow = distance[:, capacity] <= support_sigma
+        if bool(overflow.any()):
+            count = int(overflow.sum())
+            raise SupportOverflowError(
+                f"support candidate capacity {capacity} is insufficient for "
+                f"{count}/{points.shape[0]} query points; increase "
+                "support_capacity or reduce support_sigma"
+            )
+
+    return idx[:, :capacity], distance[:, :capacity] <= support_sigma
+
+
+def _render_candidates(
+    field: PrimitiveField,
+    points: torch.Tensor,
+    idx: torch.Tensor,
+    *,
+    candidate_mask: torch.Tensor | None = None,
+    support_sigma: float | None = None,
+) -> torch.Tensor:
+    """Evaluate already-selected candidates without adding a background."""
+    p = field.gather(idx)
+
+    d = points[:, None, :] - p["mu"]
+
+    # y = S^-1 R^T d  ->  q = |y|^2. Avoids materializing (M,K,3,3) inverses.
+    rt_d = torch.einsum("mkji,mkj->mki", p["rot"], d)
+    y = rt_d / (p["scale"] + 1e-8)
+    q = (y * y).sum(-1)
+
+    logits = -0.5 * q + torch.nn.functional.logsigmoid(p["logit_w"])
+    if support_sigma is not None:
+        inside = q <= support_sigma * support_sigma
+        if candidate_mask is not None:
+            inside = inside & candidate_mask
+        logits = logits.masked_fill(~inside, -torch.inf)
+
+    color = p["color"]
+    if field.p1_color:
+        color = color + torch.einsum("mkij,mkj->mki", p["color_grad"], d)
+
+    return (logits.exp()[..., None] * color).sum(1)
+
+
 def render_points(
     field: PrimitiveField,
     points: torch.Tensor,
     *,
     knn: int = 64,
+    cull_mode: str = "knn",
+    support_sigma: float = 5.0,
+    support_capacity: int = 512,
+    support_point_chunk: int = 4096,
     background: torch.Tensor | None = None,
 ) -> torch.Tensor:
     """Evaluate the field at arbitrary (M, 3) query points -> (M, 3) RGB.
@@ -69,24 +153,41 @@ def render_points(
     Works on a flat point list, not a grid, so the same path serves full-volume
     reconstruction and random-voxel stochastic training.
     """
-    idx = cull_knn(points, field.mu.detach(), knn)  # (M, K)
-    p = field.gather(idx)
+    if cull_mode == "knn":
+        idx = cull_knn(points, field.mu.detach(), knn)
+        out = _render_candidates(field, points, idx)
+    elif cull_mode == "exact":
+        idx = torch.arange(len(field), device=points.device).expand(
+            points.shape[0], -1
+        )
+        out = _render_candidates(field, points, idx)
+    elif cull_mode == "support":
+        if support_point_chunk <= 0:
+            raise ValueError("support_point_chunk must be positive")
+        max_scale = field.scales().detach().amax(dim=1)
+        outs = []
+        for start in range(0, points.shape[0], support_point_chunk):
+            query = points[start : start + support_point_chunk]
+            idx, candidate_mask = cull_support_sphere(
+                query,
+                field.mu.detach(),
+                max_scale,
+                support_sigma=support_sigma,
+                capacity=support_capacity,
+            )
+            outs.append(
+                _render_candidates(
+                    field,
+                    query,
+                    idx,
+                    candidate_mask=candidate_mask,
+                    support_sigma=support_sigma,
+                )
+            )
+        out = torch.cat(outs, 0)
+    else:
+        raise ValueError(f"unknown cull_mode {cull_mode!r}")
 
-    d = points[:, None, :] - p["mu"]  # (M, K, 3)
-
-    # y = S^-1 R^T d  ->  q = |y|^2. Avoids materializing (M,K,3,3) inverses.
-    rt_d = torch.einsum("mkji,mkj->mki", p["rot"], d)
-    y = rt_d / (p["scale"] + 1e-8)
-    q = (y * y).sum(-1)  # (M, K) squared Mahalanobis
-
-    logits = -0.5 * q + torch.nn.functional.logsigmoid(p["logit_w"])
-
-    color = p["color"]
-    if field.p1_color:
-        # P1 element: linear color ramp within the primitive's support.
-        color = color + torch.einsum("mkij,mkj->mki", p["color_grad"], d)
-
-    out = (logits.exp()[..., None] * color).sum(1)
     if background is not None:
         out = out + background
     return out

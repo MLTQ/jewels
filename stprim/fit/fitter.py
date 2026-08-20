@@ -29,6 +29,11 @@ class FitConfig:
     lr: float = 0.01
     voxels_per_step: int = 65536
     knn: int = 64
+    cull_mode: str = "knn"
+    support_sigma: float = 5.0
+    support_capacity: int = 512
+    support_point_chunk: int = 4096
+    geometry_constraint: str = "free"
     p1_color: bool = True
     t_scale: float = 1.0
     seed: int = 0
@@ -39,6 +44,24 @@ class FitConfig:
     split_mode: str = "isotropic"
     log_every: int = 200
     history: list = dc_field(default_factory=list)
+
+
+@torch.no_grad()
+def project_geometry_(field: PrimitiveField, constraint: str) -> None:
+    """Project a field onto a geometry ablation manifold in place.
+
+    ``axis_aligned`` removes spacetime tilt while retaining independent spatial
+    and temporal scales. ``isotropic`` additionally forces all three scales to
+    match. These are causal controls, not proposed production modes.
+    """
+    if constraint == "free":
+        return
+    if constraint not in {"axis_aligned", "isotropic"}:
+        raise ValueError(f"unknown geometry_constraint {constraint!r}")
+    field.quat.zero_()
+    field.quat[:, 0] = 1.0
+    if constraint == "isotropic":
+        field.log_scale[:] = field.log_scale.mean(dim=1, keepdim=True)
 
 
 def fit_volume(
@@ -123,6 +146,8 @@ def fit_volume(
         elapsed_before = float(resume_state["elapsed_seconds"])
         g.set_state(resume_state["generator_state"].cpu())
 
+    project_geometry_(field, cfg.geometry_constraint)
+
     t0 = time.time()
     adapt_until = int(cfg.steps * cfg.adapt_until_frac)
 
@@ -138,7 +163,16 @@ def fit_volume(
         pts = grid[idx]
         gt = target[idx]
 
-        pred = render_points(field, pts, knn=cfg.knn, background=background)
+        pred = render_points(
+            field,
+            pts,
+            knn=cfg.knn,
+            cull_mode=cfg.cull_mode,
+            support_sigma=cfg.support_sigma,
+            support_capacity=cfg.support_capacity,
+            support_point_chunk=cfg.support_point_chunk,
+            background=background,
+        )
 
         loss = torch.nn.functional.mse_loss(pred, gt)
 
@@ -146,6 +180,7 @@ def fit_volume(
         loss.backward()
         tracker.update(field)
         opt.step()
+        project_geometry_(field, cfg.geometry_constraint)
 
         if (
             cfg.adapt_every
@@ -161,6 +196,7 @@ def fit_volume(
                 split_mode=cfg.split_mode,
                 generator=g,
             )
+            project_geometry_(field, cfg.geometry_constraint)
             opt = build_opt()
             if verbose:
                 print(

@@ -37,7 +37,16 @@ def reconstruct(field, info, cfg, *, device) -> torch.Tensor:
     grid = make_grid((T, H, W), t_scale=cfg.t_scale, device=device)
     background = torch.tensor(info["background"], device=device)
     with torch.no_grad():
-        out = render_volume(field, grid, knn=cfg.knn, background=background)
+        out = render_volume(
+            field,
+            grid,
+            knn=cfg.knn,
+            cull_mode=cfg.cull_mode,
+            support_sigma=cfg.support_sigma,
+            support_capacity=cfg.support_capacity,
+            support_point_chunk=cfg.support_point_chunk,
+            background=background,
+        )
     return out.reshape(T, H, W, 3).clamp(0.0, 1.0)
 
 
@@ -90,6 +99,20 @@ def main() -> None:
     ap.add_argument("--num-init", type=int, default=1500)
     ap.add_argument("--max-primitives", type=int, default=6000)
     ap.add_argument("--voxels", type=int, default=65536)
+    ap.add_argument("--knn", type=int, default=64)
+    ap.add_argument(
+        "--cull-mode", choices=("knn", "support", "exact"), default="knn",
+        help="support is finite-support correct; exact is for tiny audits only",
+    )
+    ap.add_argument("--support-sigma", type=float, default=5.0)
+    ap.add_argument("--support-capacity", type=int, default=512)
+    ap.add_argument("--support-point-chunk", type=int, default=4096)
+    ap.add_argument(
+        "--geometry-constraint",
+        choices=("free", "axis_aligned", "isotropic"),
+        default="free",
+        help="causal geometry ablation; free is the production representation",
+    )
     ap.add_argument("--t-scale", type=float, default=1.0)
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--device", type=str, default="cuda")
@@ -113,6 +136,11 @@ def main() -> None:
     cfg = FitConfig(
         steps=args.steps, num_init=args.num_init,
         max_primitives=args.max_primitives, voxels_per_step=args.voxels,
+        knn=args.knn, cull_mode=args.cull_mode,
+        support_sigma=args.support_sigma,
+        support_capacity=args.support_capacity,
+        support_point_chunk=args.support_point_chunk,
+        geometry_constraint=args.geometry_constraint,
         t_scale=args.t_scale, seed=args.seed,
     )
     field, info = fit_volume(gt, cfg, device=device, verbose=False)

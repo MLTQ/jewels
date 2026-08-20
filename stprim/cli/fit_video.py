@@ -31,6 +31,19 @@ def main() -> None:
     ap.add_argument("--steps", type=int, default=3000)
     ap.add_argument("--voxels", type=int, default=65536)
     ap.add_argument("--knn", type=int, default=64)
+    ap.add_argument(
+        "--cull-mode", choices=("knn", "support", "exact"), default="knn",
+        help="support is finite-support correct; exact is for tiny audits only",
+    )
+    ap.add_argument("--support-sigma", type=float, default=5.0)
+    ap.add_argument("--support-capacity", type=int, default=512)
+    ap.add_argument("--support-point-chunk", type=int, default=4096)
+    ap.add_argument(
+        "--geometry-constraint",
+        choices=("free", "axis_aligned", "isotropic"),
+        default="free",
+        help="causal geometry ablation; free is the production representation",
+    )
     ap.add_argument("--t-scale", type=float, default=1.0)
     ap.add_argument("--no-p1", action="store_true",
                     help="constant color per primitive (P0) instead of linear ramp")
@@ -59,6 +72,11 @@ def main() -> None:
         steps=args.steps,
         voxels_per_step=args.voxels,
         knn=args.knn,
+        cull_mode=args.cull_mode,
+        support_sigma=args.support_sigma,
+        support_capacity=args.support_capacity,
+        support_point_chunk=args.support_point_chunk,
+        geometry_constraint=args.geometry_constraint,
         p1_color=not args.no_p1,
         t_scale=args.t_scale,
         seed=args.seed,

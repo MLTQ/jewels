@@ -31,6 +31,11 @@ training set for the generative prior.
   back to its pixels.
 - `--split-mode spatial` opts into temporal-preserving spatial densification. The mode is stored in
   `FitConfig`, so recovery rejects attempts to resume under a different split policy.
+- Renderer culling controls are also stored in `FitConfig`. Support-mode corpus jobs fail loudly if
+  `--support-capacity` cannot cover the conservative five-sigma spheres; they never silently fall
+  back to KNN or truncate the candidate set.
+- `--geometry-constraint` is recorded and recovery-checked. Non-`free` modes are ablations and
+  should use separate corpus output directories.
 
 ## Contracts
 

@@ -11,6 +11,8 @@ representation actually looks like.
 - **Does**: full-volume render -> (T,H,W,3) clamped to [0,1]
 - **Rationale**: re-adds `info["background"]` (see fitter.md — the background is not in the
   field's `state_dict`).
+- Reuses the checkpointed culling mode and support budget. A fit and its displayed reconstruction
+  therefore share the same renderer contract instead of accidentally evaluating with legacy KNN.
 
 ### `heat(err)` / `to_pil` / `hstack` / `vstack`
 - **Does**: minimal black->red->yellow error map and PIL montage helpers
@@ -35,3 +37,7 @@ Depends on `fit_volume` returning `info["background"]` and `info["shape"]`.
   experiment, one seed.
 - Reported PSNR here is true full-volume PSNR — comparable across runs, unlike the noisy
   sampled-batch PSNR in the fit loop (see fitter.md).
+- The CLI exposes the same `--cull-mode`, `--support-sigma`, `--support-capacity`, and
+  `--support-point-chunk` controls as the fitter.
+- `--geometry-constraint` can render a field trained under the matching free, axis-aligned, or
+  isotropic causal arm; the constraint is enforced during fitting, not applied after the fact.

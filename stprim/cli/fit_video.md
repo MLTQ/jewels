@@ -13,6 +13,11 @@ stage-2 training data.
 ## Decisions
 - Saves full `state_dict` + cfg + info per run. `info["background"]` is part of the model —
   see fitter.md.
+- Exposes `--cull-mode` and all finite-support budget controls. This keeps the fast historical KNN
+  baseline available while allowing a checkpoint to record that it was trained with support-safe
+  candidates. `--cull-mode exact` is intentionally limited to tiny audit cases.
+- `--geometry-constraint axis_aligned|isotropic` exposes the fitter's causal controls. The default
+  `free` is the only production representation.
 
 ## Contracts
 
