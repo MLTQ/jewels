@@ -31,6 +31,11 @@ with the fitter's own loss), supervised by unlimited teacher-generated (video, f
 - **Does**: The training-path renderer — identical math to `sol.render.render_exact` (additive
   alpha, P1 color, background) but parameterized by the precision Cholesky factor so
   `torch.linalg.eigh` never enters the gradient graph.
+- **Does**: Offers an all-center oracle and a five-sigma `support_tiled` path. The sparse path
+  derives exact world-axis bounds from the inverse precision Cholesky, queries the shared
+  support-complete multilevel index, and recomputes the live Mahalanobis test after selection.
+- **Rationale**: Encoder scaling experiments can be support-correct without paying the
+  73,728-jewel all-pairs cost at every sampled voxel.
 - **Interacts with**: Unit-verified equivalent to `render_exact` after
   `cholesky_to_log_covariance` conversion.
 

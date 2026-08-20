@@ -13,9 +13,11 @@ contract.
 
 ### `TileLevel` / `SupportTileIndex`
 - **Does**: immutable detached geometry index: one sorted center bin per primitive at one support
-  level, plus tight world-axis and detached ellipsoid geometry (or a spherical fallback).
+  level, plus tight world-axis and detached ellipsoid geometry (or a spherical fallback). The
+  ellipsoid may be supplied either as scale/rotation or as a direct metric transform such as a
+  precision Cholesky transpose.
 
-### `build_support_tile_index(mu, max_scale, half_extent, support_sigma, base_resolution, level_scale)`
+### `build_support_tile_index(mu, max_scale, half_extent, metric_*, support_sigma, base_resolution, level_scale)`
 - **Does**: assigns every primitive to the smallest geometric cell width not smaller than the
   largest component of its support AABB (or its conservative sphere without an AABB).
 - **Proof**: an ellipsoid is contained by half-extent
@@ -24,6 +26,9 @@ contract.
   Querying the 27 neighboring cells and filtering by the AABB therefore cannot omit the ellipsoid.
 - **Rationale**: each primitive is stored exactly once. Broad primitives move to coarse levels
   instead of being duplicated into thousands of fine tiles.
+- **Rationale**: accepting a direct metric matrix lets the amortized encoder use the same proven
+  support index without converting its trainable precision-Cholesky representation through an
+  eigendecomposition.
 
 ### `query_support_pairs(index, points, capacity)`
 - **Does**: uses packed signed xyz keys and `searchsorted` to retrieve neighboring bins, applies the

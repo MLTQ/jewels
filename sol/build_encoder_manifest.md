@@ -9,6 +9,14 @@ training pipeline against a still-running harvest.
 
 ## Components
 
+### `subsample_train`
+- **Does**: Creates deterministic nested prefixes while retaining every validation row.
+- **Rationale**: Class-major, style-rotated ordering makes the first 12 rows span all 12 semantic
+  classes and rotate across all five visual styles. Continued prefixes cover every style/class
+  pairing before taking a second example from any pairing, including when the requested limit is
+  the entire corpus. This fixes the former lexicographic ordering bug, where a 12-example subset
+  silently contained only anime clips, and makes the full point share the same prefix order.
+
 ### `build_encoder_manifest`
 - **Does**: Keeps only `status == "complete"` clips, maps the corpus's `evaluation` prompt role
   to the validation split (one held-out clip per class per style), tags every example with its

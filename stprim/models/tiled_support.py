@@ -30,6 +30,7 @@ class SupportTileIndex:
     half_extent: torch.Tensor | None
     metric_scale: torch.Tensor | None
     metric_rotation: torch.Tensor | None
+    metric_matrix: torch.Tensor | None
     support_sigma: float
     levels: tuple[TileLevel, ...]
 
@@ -71,6 +72,7 @@ def build_support_tile_index(
     half_extent: torch.Tensor | None = None,
     metric_scale: torch.Tensor | None = None,
     metric_rotation: torch.Tensor | None = None,
+    metric_matrix: torch.Tensor | None = None,
     support_sigma: float = 5.0,
     base_resolution: int = 32,
     level_scale: float = 1.55,
@@ -84,12 +86,20 @@ def build_support_tile_index(
         raise ValueError("half_extent must have shape (num_primitives, 3)")
     if (metric_scale is None) != (metric_rotation is None):
         raise ValueError("metric_scale and metric_rotation must be supplied together")
+    if metric_matrix is not None and metric_scale is not None:
+        raise ValueError(
+            "metric_matrix and metric_scale/metric_rotation are alternative forms"
+        )
     if metric_scale is not None and metric_scale.shape != mu.shape:
         raise ValueError("metric_scale must have shape (num_primitives, 3)")
     if metric_rotation is not None and metric_rotation.shape != (
         mu.shape[0], 3, 3
     ):
         raise ValueError("metric_rotation must have shape (num_primitives, 3, 3)")
+    if metric_matrix is not None and metric_matrix.shape != (
+        mu.shape[0], 3, 3
+    ):
+        raise ValueError("metric_matrix must have shape (num_primitives, 3, 3)")
     if mu.shape[0] == 0:
         raise ValueError("cannot index an empty primitive field")
     if support_sigma <= 0:
@@ -139,6 +149,9 @@ def build_support_tile_index(
         metric_scale=(metric_scale.detach() if metric_scale is not None else None),
         metric_rotation=(
             metric_rotation.detach() if metric_rotation is not None else None
+        ),
+        metric_matrix=(
+            metric_matrix.detach() if metric_matrix is not None else None
         ),
         support_sigma=support_sigma,
         levels=tuple(groups),
@@ -223,6 +236,16 @@ def query_support_pairs(
             "pji,pj->pi", index.metric_rotation[primitive_indices], displacement
         )
         normalized = rotated / (index.metric_scale[primitive_indices] + 1e-8)
+        inside_ellipsoid = normalized.square().sum(dim=1) <= (
+            index.support_sigma * index.support_sigma
+        )
+        owners = owners[inside_ellipsoid]
+        primitive_indices = primitive_indices[inside_ellipsoid]
+    elif index.metric_matrix is not None and owners.numel():
+        displacement = points[owners] - index.mu[primitive_indices]
+        normalized = torch.einsum(
+            "pij,pj->pi", index.metric_matrix[primitive_indices], displacement
+        )
         inside_ellipsoid = normalized.square().sum(dim=1) <= (
             index.support_sigma * index.support_sigma
         )

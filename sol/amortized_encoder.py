@@ -7,6 +7,10 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 from sol.token_grid import GridSpec
+from stprim.models.tiled_support import (
+    build_support_tile_index,
+    query_support_pairs,
+)
 
 _TRIU = ((0, 0), (0, 1), (0, 2), (1, 1), (1, 2), (2, 2))
 
@@ -21,6 +25,11 @@ def cholesky_render(
     background: torch.Tensor,
     *,
     point_chunk: int = 1024,
+    cull_mode: str = "exact",
+    support_sigma: float = 5.0,
+    support_capacity: int = 1024,
+    support_base_resolution: int = 32,
+    support_level_scale: float = 1.55,
 ) -> torch.Tensor:
     """Additively render jewels parameterized by a precision Cholesky factor.
 
@@ -28,7 +37,7 @@ def cholesky_render(
     but keeps `torch.linalg.eigh` out of the training graph: the Mahalanobis
     term is ||L^T d||^2 with L the lower-triangular precision factor.
     """
-    def _block(block: torch.Tensor) -> torch.Tensor:
+    def _exact_block(block: torch.Tensor) -> torch.Tensor:
         delta = block[:, None, :] - centers[None, :, :]
         projected = torch.einsum("nij,mnj->mni", cholesky.transpose(1, 2), delta)
         mahalanobis = projected.square().sum(-1)
@@ -37,20 +46,73 @@ def cholesky_render(
         alpha = logits.exp()
         return (alpha[..., None] * color).sum(dim=1) + background[None]
 
+    def _support_block(
+        block: torch.Tensor,
+        owners: torch.Tensor,
+        primitive_indices: torch.Tensor,
+    ) -> torch.Tensor:
+        if owners.numel() == 0:
+            return background[None].expand(len(block), -1).clone()
+        delta = block[owners] - centers[primitive_indices]
+        projected = torch.einsum(
+            "pji,pj->pi", cholesky[primitive_indices], delta
+        )
+        mahalanobis = projected.square().sum(-1)
+        logits = -0.5 * mahalanobis + F.logsigmoid(
+            logit_w[primitive_indices]
+        )
+        logits = logits.masked_fill(
+            mahalanobis > support_sigma * support_sigma, -torch.inf
+        )
+        color = colors[primitive_indices] + torch.einsum(
+            "pij,pj->pi", color_grads[primitive_indices], delta
+        )
+        contribution = logits.exp()[:, None] * color
+        return torch.zeros(
+            len(block), 3, dtype=contribution.dtype, device=block.device
+        ).index_add(0, owners, contribution) + background[None]
+
+    if point_chunk <= 0:
+        raise ValueError("point_chunk must be positive")
+    if cull_mode not in {"exact", "support_tiled"}:
+        raise ValueError(f"unknown cull_mode {cull_mode!r}")
+
+    tile_index = None
+    if cull_mode == "support_tiled":
+        detached_cholesky = cholesky.detach()
+        inverse = torch.linalg.inv(detached_cholesky)
+        half_extent = support_sigma * torch.sqrt(
+            inverse.square().sum(dim=1).clamp_min(1e-16)
+        )
+        tile_index = build_support_tile_index(
+            centers.detach(),
+            half_extent.amax(dim=1) / support_sigma,
+            half_extent=half_extent,
+            metric_matrix=detached_cholesky.transpose(1, 2),
+            support_sigma=support_sigma,
+            base_resolution=support_base_resolution,
+            level_scale=support_level_scale,
+        )
+
     outputs = []
     needs_graph = torch.is_grad_enabled() and (
         centers.requires_grad or cholesky.requires_grad or colors.requires_grad
     )
     for start in range(0, len(points), point_chunk):
         block = points[start : start + point_chunk]
-        if needs_graph:
+        if cull_mode == "support_tiled":
+            owners, primitive_indices = query_support_pairs(
+                tile_index, block, capacity=support_capacity
+            )
+            outputs.append(_support_block(block, owners, primitive_indices))
+        elif needs_graph:
             outputs.append(
                 torch.utils.checkpoint.checkpoint(
-                    _block, block, use_reentrant=False
+                    _exact_block, block, use_reentrant=False
                 )
             )
         else:
-            outputs.append(_block(block))
+            outputs.append(_exact_block(block))
     return torch.cat(outputs)
 
 

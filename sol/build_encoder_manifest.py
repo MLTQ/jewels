@@ -17,12 +17,19 @@ def subsample_train(examples: list[dict], limit: int) -> list[dict]:
         raise ValueError("train limit must be positive")
     train = [item for item in examples if item["split"] == "train"]
     held = [item for item in examples if item["split"] != "train"]
-    if limit >= len(train):
-        return examples
+    limit = min(limit, len(train))
     groups: dict[tuple[str, int], list[dict]] = {}
     for item in sorted(train, key=lambda i: i["source_id"]):
         groups.setdefault((item["style"], item["class_id"]), []).append(item)
-    order = sorted(groups)
+    styles = sorted({key[0] for key in groups})
+    classes = sorted({key[1] for key in groups})
+    order = []
+    for offset in range(len(styles)):
+        for class_index, class_id in enumerate(classes):
+            key = (styles[(class_index + offset) % len(styles)], class_id)
+            if key in groups:
+                order.append(key)
+    order.extend(key for key in sorted(groups) if key not in order)
     kept: list[dict] = []
     index = 0
     while len(kept) < limit:

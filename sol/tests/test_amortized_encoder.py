@@ -46,6 +46,52 @@ class AmortizedEncoderTests(unittest.TestCase):
         reference = render_exact(features, points, background=background)
         self.assertTrue(torch.allclose(ours, reference, atol=2e-3))
 
+    def test_support_tiled_matches_five_sigma_oracle_and_gradients(self) -> None:
+        torch.manual_seed(12)
+        count = 48
+        base = {
+            "centers": (torch.rand(count, 3) * 2 - 1).requires_grad_(),
+            "cholesky": torch.diag_embed(
+                torch.rand(count, 3) * 3 + 3
+            ).requires_grad_(),
+            "colors": torch.rand(count, 3).requires_grad_(),
+            "color_grads": (torch.randn(count, 3, 3) * 0.1).requires_grad_(),
+            "logit_w": torch.randn(count).requires_grad_(),
+            "background": torch.rand(3).requires_grad_(),
+        }
+        sparse = {
+            key: value.detach().clone().requires_grad_()
+            for key, value in base.items()
+        }
+        points = torch.rand(73, 3) * 2 - 1
+
+        delta = points[:, None] - base["centers"][None]
+        projected = torch.einsum(
+            "nij,mnj->mni", base["cholesky"].transpose(1, 2), delta
+        )
+        q = projected.square().sum(-1)
+        logits = -0.5 * q + torch.nn.functional.logsigmoid(base["logit_w"])[None]
+        logits = logits.masked_fill(q > 25.0, -torch.inf)
+        color = base["colors"][None] + torch.einsum(
+            "nij,mnj->mni", base["color_grads"], delta
+        )
+        oracle = (logits.exp()[..., None] * color).sum(1) + base["background"]
+        actual = cholesky_render(
+            sparse["centers"], sparse["cholesky"], sparse["colors"],
+            sparse["color_grads"], sparse["logit_w"], points,
+            sparse["background"], cull_mode="support_tiled",
+            support_capacity=count, point_chunk=19,
+        )
+        torch.testing.assert_close(actual, oracle, atol=2e-6, rtol=2e-6)
+
+        oracle.square().sum().backward()
+        actual.square().sum().backward()
+        for key in base:
+            torch.testing.assert_close(
+                sparse[key].grad, base[key].grad, atol=2e-5, rtol=2e-5,
+                msg=key,
+            )
+
     def test_encoder_initial_render_tracks_video_structure(self) -> None:
         torch.manual_seed(1)
         model = VideoToJewelEncoder(

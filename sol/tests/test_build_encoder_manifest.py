@@ -91,5 +91,41 @@ class SubsampleTrainTests(unittest.TestCase):
         ]
         self.assertEqual(len(subsample_train(examples, 99)), 2)
 
+    def test_small_nested_prefix_spans_classes_and_rotates_styles(self) -> None:
+        from sol.build_encoder_manifest import subsample_train
+
+        examples = [
+            {
+                "split": "train",
+                "style": style,
+                "class_id": class_id,
+                "source_id": f"{style}_{class_id}_{index}",
+            }
+            for style in ("anime", "cartoon", "clay", "photoreal", "render3d")
+            for class_id in range(12)
+            for index in range(2)
+        ] + [
+            {"split": "validation", "style": "anime", "class_id": 0,
+             "source_id": "val"}
+        ]
+        small = [
+            item for item in subsample_train(examples, 12)
+            if item["split"] == "train"
+        ]
+        medium = [
+            item for item in subsample_train(examples, 60)
+            if item["split"] == "train"
+        ]
+        self.assertEqual({item["class_id"] for item in small}, set(range(12)))
+        self.assertEqual({item["style"] for item in small}, {
+            "anime", "cartoon", "clay", "photoreal", "render3d"
+        })
+        self.assertEqual(len({(item["style"], item["class_id"])
+                              for item in medium}), 60)
+        self.assertEqual(
+            [item["source_id"] for item in medium[:12]],
+            [item["source_id"] for item in small],
+        )
+
 if __name__ == "__main__":
     unittest.main()
