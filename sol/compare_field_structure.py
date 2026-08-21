@@ -39,6 +39,9 @@ def structure_report(features: torch.Tensor, *, sample: int = 20000) -> dict:
     principal = eigenvectors[:, :, -1]
     anisotropy = (eigenvalues[:, -1] / eigenvalues[:, 0]).sqrt()
     temporal_tilt = principal[:, 2].abs()
+    mixed_spacetime_tilt = 2.0 * temporal_tilt * torch.sqrt(
+        (1.0 - temporal_tilt.square()).clamp_min(0.0)
+    )
     volume = eigenvalues.prod(dim=1).pow(1 / 6)
     centers = kept[:, :3]
     grid = GridSpec((8, 8, 4), 1)
@@ -53,6 +56,8 @@ def structure_report(features: torch.Tensor, *, sample: int = 20000) -> dict:
         "anisotropy_median": float(anisotropy.median()),
         "anisotropy_p90": float(anisotropy.quantile(0.9)),
         "temporal_tilt_median": float(temporal_tilt.median()),
+        "mixed_spacetime_tilt_median": float(mixed_spacetime_tilt.median()),
+        "mixed_spacetime_tilt_p90": float(mixed_spacetime_tilt.quantile(0.9)),
         "extent_median": float(volume.median()),
         "extent_iqr_ratio": float(
             volume.quantile(0.75) / volume.quantile(0.25).clamp_min(1e-9)

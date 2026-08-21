@@ -12,6 +12,7 @@ from sol.structural_encoder import (
     precision_factor,
     quaternion_to_matrix,
     render_structural,
+    stratified_slot_offsets,
 )
 from sol.token_grid import GridSpec
 
@@ -52,12 +53,80 @@ class StructuralEncoderTests(unittest.TestCase):
         )
         self.assertTrue(torch.allclose(ours, reference, atol=3e-3))
 
+    def test_support_render_matches_five_sigma_oracle_and_gradients(self) -> None:
+        torch.manual_seed(14)
+        model = _model(slots=2)
+        prediction = model(torch.rand(6, 24, 32, 3))
+        first = {
+            key: value.detach().clone().requires_grad_()
+            for key, value in prediction.items()
+        }
+        sparse = {
+            key: value.detach().clone().requires_grad_()
+            for key, value in first.items()
+        }
+        points = torch.rand(51, 3) * 2 - 1
+        delta = points[:, None] - first["centers"][None]
+        projected = torch.einsum(
+            "nij,mnj->mni", first["precision_factor"].transpose(1, 2), delta
+        )
+        mahalanobis = projected.square().sum(-1)
+        logits = (
+            -0.5 * mahalanobis
+            + torch.nn.functional.logsigmoid(first["logit_w"])[None]
+        ).masked_fill(mahalanobis > 25.0, -torch.inf)
+        colour = first["colors"][None] + torch.einsum(
+            "nij,mnj->mni", first["color_grads"], delta
+        )
+        oracle = (
+            logits.exp()[..., None] * colour
+        ).sum(1) + first["background"]
+        actual = render_structural(
+            sparse,
+            points,
+            point_chunk=17,
+            cull_mode="support_tiled",
+            support_capacity=model.n_jewels,
+        )
+        torch.testing.assert_close(actual, oracle, atol=2e-6, rtol=2e-6)
+        oracle.square().sum().backward()
+        actual.square().sum().backward()
+        for key in first:
+            torch.testing.assert_close(
+                sparse[key].grad,
+                first[key].grad,
+                atol=2e-5,
+                rtol=2e-5,
+                msg=key,
+            )
+
     def test_budget_is_scarce_and_shapes_are_right(self) -> None:
         model = _model(slots=5)
         prediction = model(torch.rand(6, 24, 32, 3))
         self.assertEqual(model.n_jewels, 4 * 4 * 2 * 5)
         self.assertEqual(prediction["centers"].shape, (model.n_jewels, 3))
         self.assertEqual(prediction["precision_factor"].shape, (model.n_jewels, 3, 3))
+
+    def test_non_cubic_slot_offsets_stay_inside_cell(self) -> None:
+        offsets = stratified_slot_offsets(36)
+        self.assertEqual(offsets.shape, (36, 3))
+        self.assertTrue(bool((offsets.abs() < 0.5).all()))
+        self.assertEqual(len(torch.unique(offsets, dim=0)), 36)
+
+    def test_video_seeded_colour_tracks_continuous_centres(self) -> None:
+        model = StructuralJewelEncoder(
+            grid_spec=GridSpec((4, 4, 2), 1024),
+            slots_per_cell=5,
+            model_dim=32,
+            seed_video_colors=True,
+        )
+        video = torch.zeros(6, 24, 32, 3)
+        video[..., :16, 2] = 0.9
+        video[..., 16:, 0] = 0.9
+        prediction = model(video)
+        left = prediction["centers"][:, 0] < 0
+        self.assertGreater(float(prediction["colors"][left, 2].mean().detach()), 0.6)
+        self.assertGreater(float(prediction["colors"][~left, 0].mean().detach()), 0.6)
 
     def test_no_video_colour_lookup(self) -> None:
         """Colours must come from the network, not from sampling the video."""

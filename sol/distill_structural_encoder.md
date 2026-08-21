@@ -11,8 +11,9 @@ feed-forward student, which is what PROMPTABLE_ROADMAP Phase 3 specified from th
 ## Components
 
 ### `teacher_descriptors`
-- **Does**: Opacity-weighted subsample of a fitted field, returning centres and each jewel's
-  log-eigenvalue **spread** (a scale-invariant anisotropy descriptor).
+- **Does**: Opacity-weighted subsample of a fitted field, returning centres, each jewel's
+  log-eigenvalue **spread** (a scale-invariant anisotropy descriptor), principal axes, and
+  opacity weights.
 - **Rationale**: The student holds 10k jewels against the teacher's 72k, so its primitives must
   be larger; matching absolute size would be wrong, matching shape character is not.
 
@@ -23,16 +24,52 @@ feed-forward student, which is what PROMPTABLE_ROADMAP Phase 3 specified from th
 - **Rationale**: Supervising spread alone produced elongation *without direction* — visible in
   contact sheets as horizontal smearing rather than object-tracking tubes. Anisotropy measured
   6.29 while the renders streaked, so magnitude was learned and purpose was not.
+- **Scheduling**: Axis pressure has its own delayed linear ramp. The irregular seed-0 audit measured
+  anisotropy `5.48` but mixed spacetime tilt only `0.073`, proving that elongation without a strong
+  direction term becomes horizontal smear rather than a time-distorted tube.
+
+### `mixed_spacetime_tilt`
+- **Does**: Computes the gate quantity directly from each principal axis and allows a smooth-L1
+  student/teacher tilt match with `--tilt-weight`.
+- **Rationale**: Raising nearest-axis cosine supervision 5× left held-out mixed tilt unchanged
+  (`0.084`); the indirect loss can be low while the field still chooses nearly pure spatial or
+  temporal axes. Direct supervision tests the actual trajectory property instead.
 
 ### `soft_occupancy` / `density_loss`
 - **Does**: Differentiably bins jewel centres into per-cell occupancy shares (softmax over
-  distance to cell centres, so gradients flow to positions) and scores symmetric KL between the
-  student's and teacher's distributions. Enabled with `--density-weight`.
+  distance to cell centres, so gradients flow to positions), weights both fields by opacity, and
+  scores symmetric KL between the student's and teacher's distributions. Enabled with
+  `--density-weight`.
 - **Rationale**: Chamfer taught shape but not placement — measured across v1 and v2, occupancy
   uniformity stalled near 0.996 against the fitter's 0.946 while every shape metric improved.
   With enough students the nearest-teacher distance is already small everywhere, so Chamfer has
   no gradient pushing mass into dense regions; matching binned densities penalises exactly the
   "too few jewels where the fitter put many" error that correspondence losses miss.
+- **Scheduling**: Density pressure can use its own delayed linear ramp. The first selected 6k arm
+  proved fidelity/sparsity but stopped at `0.9894` occupancy uniformity because its `0.2 * KL`
+  contribution fell below `0.002`; the exact training and validation teachers measured `0.9610`
+  and `0.9646`, so a stronger delayed arm tests a real remaining gap rather than a stale target.
+
+### `soft_active_fraction`
+- **Does**: Smoothly counts proposals above the canonical 2% opacity floor so a declared target
+  active fraction and gate-polarization penalty can train actual sparsity.
+- **Rationale**: A fixed proposal grid is harmless only if unused proposals become inactive; the
+  lattice encoder's measured 100% active fraction showed ordinary render loss does not do it.
+
+### `schedule_multiplier`
+- **Does**: Delays and linearly ramps sparsity/polarization pressure while render supervision first
+  establishes colour and shape.
+- **Rationale**: The matched 200-step screens measured the causal tradeoff: immediate sparsity
+  de-gridded the field (`0.9788` uniformity, `0.540` active) but cost 1.90 dB versus the 100%-active
+  control. Scheduling preserves the necessary mechanism without starving reconstruction at warm-up.
+
+### `freeze_geometry_state` / `mask_geometry_gradients` / `restore_geometry_state`
+- **Does**: Freezes the shared trunk, masks the mixed head's center/quaternion/scale/opacity rows,
+  and restores those rows after AdamW so decoupled weight decay cannot move them.
+- **Rationale**: The direct-tilt arm passed every geometry threshold at step 2,000, then moved back
+  toward uniform coverage while gaining fidelity. An exact appearance-only continuation tests
+  whether colour, colour-gradient, and background learning can recover detail without sacrificing
+  that already-successful geometry state.
 
 ### `chamfer`
 - **Does**: Symmetric squared-distance Chamfer plus student->teacher nearest indices.
@@ -41,17 +78,32 @@ feed-forward student, which is what PROMPTABLE_ROADMAP Phase 3 specified from th
   space. Tested explicitly for the uncovered-cluster case.
 
 ### `main`
-- **Does**: Trains with render loss plus weighted Chamfer and spread-matching terms, reporting
-  the same structure battery as the render-only run for a controlled comparison.
+- **Does**: Loads a manifest with partial fitted-teacher coverage, oversamples declared teacher
+  examples without hiding broad render training, and combines support-complete render, Chamfer,
+  spread/orientation, opacity-weighted density, sparsity, and polarization terms.
+- **Does**: Retains the corpus on CPU and stages one source at a time, so corpus size does not consume
+  accelerator memory and smaller local GPUs can run the same declared protocol.
+- **Does**: Allows an explicit ordered validation subset for bounded screens while leaving the full
+  training corpus unchanged; unknown source IDs are rejected instead of silently substituted.
+- **Does**: Records colour seeding, centre mobility, renderer capacity, teacher sampling, and
+  sparsity settings in the checkpoint.
+- **Does**: Preserves every numbered evaluation checkpoint as well as `encoder.pt`, so a
+  multi-objective audit cannot silently lose an intermediate result.
+- **Does**: Can initialize a declared continuation only from an architecture/grid/model-compatible
+  checkpoint; the source checkpoint is recorded in descendant metadata.
+- **Does**: With `--freeze-geometry`, trains only colour, colour-gradient, and background parameters;
+  correspondence computation is skipped when every teacher-structure weight is zero.
 
 ## Contracts
 
 | Dependent | Expects | Breaking changes |
 |---|---|---|
 | Path B comparison | Same structure metrics as `train_structural_encoder.py` | Report schema |
-| Teacher fields | Fitted checkpoints named `<video stem>_w000000.pt` | Naming |
+| Teacher fields | Source-owned support-correct checkpoints or legacy `<video stem>_w000000.pt` fits | Naming |
+| Prompt-prior gate | `structural_jewel_encoder_v2` identifies sparse irregular checkpoints | Architecture ID |
+| Frozen-geometry continuation | Center, covariance, and opacity predictions remain bitwise fixed for each video | Freeze mask |
 
 ## Notes
 
-- Runs on `ltx_domain_v1` (12 train + 4 validation) because only those windows have fitted
-  fields; the 240-clip diverse corpus is unfitted. Small, but the question is mechanistic.
+- A failure on limited teacher coverage narrows the declared weighting/capacity configuration; it
+  does not rule out irregular amortized fields. Positive arms must be replicated before selection.

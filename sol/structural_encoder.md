@@ -13,12 +13,20 @@ form the sheared spacetime tubes that are the project's founding premise.
 1. **Scarcity** — 10,240 jewels/window (2,048 cells x 5 slots) versus 73,728, sized from the
    image-splatting literature's 5-10k per still adjusted for temporal coherence. A primitive
    must stretch to cover structure instead of tiling a patch.
-2. **No content lookup** — colours are pure network outputs; nothing samples the video.
+2. **Optional continuous colour seeding** — a declared arm can seed colour from the video at
+   each predicted mobile centre. Unlike the baseline, this does not pin colour to a fixed slot
+   lattice; the later generative model must emit the equivalent colour information.
 3. **Tube-capable shape** — quaternion plus three independent log scales (the fitter's own
    parameterization) instead of a near-diagonal Cholesky whose `0.2 *` off-diagonals capped
    anisotropy near 2.
 4. **Free positions** — centres may migrate +/-2 cell extents from their anchor, so density can
    follow content rather than being pinned to a grid.
+5. **Versioned irregular proposals** — new checkpoints use deterministic irrational-rotation
+   offsets that remain inside every cell for arbitrary slot counts. This avoids the legacy
+   36-slot cube-rounding duplication without changing old lattice checkpoints.
+6. **Optional video-seeded colour** — the irregular-field gate may seed colour at the predicted
+   continuous centres to preserve the successful amortized encoder's fidelity. This is declared in
+   checkpoint metadata because a later text prior must generate the seed information.
 
 Geometric initialization is *retained* (lattice anchors, coverage-calibrated scales): the
 v0 lesson was that geometry init matters, and the fork is about content lookup, not init.
@@ -32,12 +40,19 @@ v0 lesson was that geometry init matters, and the fork is about content lookup, 
 
 ### `StructuralJewelEncoder`
 - **Does**: 3D-conv trunk to the cell grid, then per-slot centre offset, quaternion, log scales,
-  colour, colour gradient, and opacity. `canonical_features` emits the standard 22-D layout so
-  every existing audit tool applies unchanged.
+  colour, colour gradient, and opacity. Centre mobility is configurable in cell extents, and colour
+  may optionally be sampled at the predicted continuous centres. `canonical_features` emits the
+  standard 22-D layout so every existing audit tool applies unchanged.
+
+### `stratified_slot_offsets`
+- **Does**: Produces any requested number of deterministic, non-grid proposal anchors strictly
+  inside a cell.
+- **Rationale**: A rounded cubic side silently wraps and duplicates positions whenever the slot
+  count exceeds the rounded cube's capacity (including the old 36-slot configuration).
 
 ### `render_structural`
-- **Does**: Additive render matching `sol.render.render_exact` semantics, unit-verified, with
-  gradient checkpointing per point block.
+- **Does**: Delegates arbitrary rotation/scale precision factors to the exact or support-complete
+  tiled training renderer, retaining the canonical additive/P1 semantics and gradient checks.
 
 ## Contracts
 
@@ -45,6 +60,7 @@ v0 lesson was that geometry init matters, and the fork is about content lookup, 
 |---|---|---|
 | `train_structural_encoder.py` | Prediction dict keys incl. `precision_factor` | Output contract |
 | `compare_field_structure.py` | Canonical 22-D features | Feature layout |
+| Irregular-field trainer | Seed-colour and mobility choices survive checkpoint metadata | Model arguments |
 
 ## Notes
 
