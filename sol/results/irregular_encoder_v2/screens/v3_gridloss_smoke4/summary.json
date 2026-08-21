@@ -1,0 +1,21 @@
+{
+  "steps": 4,
+  "seconds": 1.9793651103973389,
+  "jewels_per_window": 40960,
+  "latest_evaluation": {
+    "photoreal__00_cooking_evaluation_00_seed50007": {
+      "psnr": 16.45285768367677
+    },
+    "macro_psnr": 16.45285768367677,
+    "structure": {
+      "anisotropy_median": 2.1063121706942978,
+      "anisotropy_p90": 2.3899521854502916,
+      "extent_iqr_ratio": 1.5435384837961288,
+      "occupancy_uniformity": 0.9548167207131583,
+      "jewels_above_2pct_opacity": 23402.0,
+      "mixed_spacetime_tilt_median": 0.5233346370321397,
+      "mixed_spacetime_tilt_p90": 0.561851100080163,
+      "active_fraction": 0.571337890625
+    }
+  }
+}

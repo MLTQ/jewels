@@ -10,6 +10,7 @@ from sol.distill_structural_encoder import (
     chamfer,
     freeze_geometry_state,
     mask_geometry_gradients,
+    multiscale_image_loss,
     mixed_spacetime_tilt,
     orientation_loss,
     principal_axis,
@@ -50,13 +51,14 @@ class DistillHelperTests(unittest.TestCase):
         torch.manual_seed(0)
         features = torch.randn(500, 22)
         features[:, 3:9] *= 0.3
-        centres, spread, axis, weight = teacher_descriptors(
+        centres, spread, axis, weight, size = teacher_descriptors(
             features, 100, torch.Generator().manual_seed(0)
         )
         self.assertEqual(centres.shape, (100, 3))
         self.assertEqual(spread.shape, (100,))
         self.assertEqual(axis.shape, (100, 3))
         self.assertEqual(weight.shape, (100,))
+        self.assertEqual(size.shape, (100,))
         self.assertTrue(bool((spread >= 0).all()))
         self.assertTrue(torch.allclose(axis.norm(dim=-1), torch.ones(100), atol=1e-5))
 
@@ -191,6 +193,21 @@ class FrozenGeometryTests(unittest.TestCase):
         torch.testing.assert_close(
             model.head.weight[~rows], before_appearance + 1.0
         )
+
+
+class AppearanceImageLossTests(unittest.TestCase):
+    def test_matching_images_have_only_charbonnier_floor(self) -> None:
+        image = torch.rand(2, 16, 20, 3)
+        self.assertLess(float(multiscale_image_loss(image, image)), 0.0011)
+
+    def test_edge_and_colour_errors_increase_loss_and_backpropagate(self) -> None:
+        target = torch.zeros(1, 16, 20, 3)
+        target[:, :, 10:] = 1.0
+        rendered = torch.full_like(target, 0.5, requires_grad=True)
+        value = multiscale_image_loss(rendered, target)
+        self.assertGreater(float(value.detach()), 0.4)
+        value.backward()
+        self.assertGreater(float(rendered.grad.abs().sum()), 0.0)
 
 
 if __name__ == "__main__":

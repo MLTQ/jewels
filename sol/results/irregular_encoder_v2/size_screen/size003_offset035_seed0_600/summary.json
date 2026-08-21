@@ -1,0 +1,34 @@
+{
+  "steps": 600,
+  "seconds": 44.577415466308594,
+  "jewels_per_window": 40960,
+  "latest_evaluation": {
+    "photoreal__00_cooking_evaluation_00_seed50007": {
+      "psnr": 17.241506901573654
+    },
+    "anime__00_cooking_evaluation_00_seed60002": {
+      "psnr": 16.460817244367238
+    },
+    "cartoon__00_cooking_evaluation_00_seed61002": {
+      "psnr": 18.586852045359098
+    },
+    "clay__00_cooking_evaluation_00_seed63002": {
+      "psnr": 19.451147560015446
+    },
+    "render3d__00_cooking_evaluation_00_seed62002": {
+      "psnr": 18.303130095102727
+    },
+    "macro_psnr": 18.008690769283632,
+    "structure": {
+      "anisotropy_median": 2.114213785650205,
+      "anisotropy_p90": 2.418004409863681,
+      "extent_median": 0.0362155092114914,
+      "extent_iqr_ratio": 1.8597919215442666,
+      "occupancy_uniformity": 0.9762649694727656,
+      "jewels_above_2pct_opacity": 27639.0,
+      "mixed_spacetime_tilt_median": 0.5258932455164397,
+      "mixed_spacetime_tilt_p90": 0.5630026634270033,
+      "active_fraction": 0.6747802734375
+    }
+  }
+}

@@ -29,9 +29,14 @@ import time
 import torch
 
 from sol.compare_field_structure import structure_report
+from sol.factorized_structural_encoder import (
+    ARCHITECTURE as FACTORIZED_ARCHITECTURE,
+    FactorizedStructuralJewelEncoder,
+)
 from sol.render import covariance_terms
+from sol.render_streaming_continuation import frame_points
 from sol.structural_encoder import (
-    ARCHITECTURE,
+    ARCHITECTURE as STRUCTURAL_ARCHITECTURE,
     StructuralJewelEncoder,
     quaternion_to_matrix,
     render_structural,
@@ -43,7 +48,7 @@ from stprim.data.video_io import load_video
 
 def teacher_descriptors(
     features: torch.Tensor, keep: int, generator: torch.Generator
-) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
+) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
     """Opacity-weighted subsample: centres, log-eigenvalue spreads, principal axes.
 
     The axis is the eigenvector of the largest eigenvalue — the direction a
@@ -61,8 +66,9 @@ def teacher_descriptors(
     eigenvalues = eigenvalues.clamp_min(1e-12)
     log_scale = 0.5 * eigenvalues.log()
     spread = (log_scale[:, -1] - log_scale[:, 0]).to(chosen.dtype)
+    size = log_scale.mean(dim=1).to(chosen.dtype)
     axis = eigenvectors[:, :, -1].to(chosen.dtype)
-    return chosen[:, :3], spread, axis, weight[index]
+    return chosen[:, :3], spread, axis, weight[index], size
 
 
 def principal_axis(
@@ -233,6 +239,37 @@ def restore_geometry_state(
     model.head.bias[rows] = frozen["bias"]
 
 
+def multiscale_image_loss(
+    rendered: torch.Tensor, target: torch.Tensor
+) -> torch.Tensor:
+    """Charbonnier image pyramids plus first-order edges for appearance detail."""
+    if rendered.shape != target.shape or rendered.ndim != 4 or rendered.shape[-1] != 3:
+        raise ValueError("rendered and target must share NHWC image shapes")
+    prediction = rendered.permute(0, 3, 1, 2)
+    reference = target.permute(0, 3, 1, 2)
+    loss = torch.zeros((), device=rendered.device, dtype=rendered.dtype)
+    weight_sum = 0.0
+    for weight in (1.0, 0.5, 0.25):
+        difference = prediction - reference
+        loss = loss + weight * torch.sqrt(difference.square() + 1e-6).mean()
+        weight_sum += weight
+        if min(prediction.shape[-2:]) < 2:
+            break
+        prediction = torch.nn.functional.avg_pool2d(prediction, 2)
+        reference = torch.nn.functional.avg_pool2d(reference, 2)
+    prediction = rendered.permute(0, 3, 1, 2)
+    reference = target.permute(0, 3, 1, 2)
+    horizontal = torch.nn.functional.l1_loss(
+        prediction[..., 1:] - prediction[..., :-1],
+        reference[..., 1:] - reference[..., :-1],
+    )
+    vertical = torch.nn.functional.l1_loss(
+        prediction[..., 1:, :] - prediction[..., :-1, :],
+        reference[..., 1:, :] - reference[..., :-1, :],
+    )
+    return loss / weight_sum + 0.25 * (horizontal + vertical)
+
+
 def chamfer(a: torch.Tensor, b: torch.Tensor, chunk: int = 2048) -> tuple[torch.Tensor, torch.Tensor]:
     """Symmetric squared-distance Chamfer plus a->b nearest indices."""
     forward, indices = [], []
@@ -256,6 +293,11 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--manifest", required=True)
     parser.add_argument("--checkpoint-root", action="append", required=True)
     parser.add_argument("--init-checkpoint")
+    parser.add_argument("--init-geometry-checkpoint")
+    parser.add_argument(
+        "--factorized", action="store_true",
+        help="use the v3 disjoint geometry/appearance architecture",
+    )
     parser.add_argument(
         "--freeze-geometry", action="store_true",
         help=(
@@ -275,6 +317,13 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--model-dim", type=int, default=256)
     parser.add_argument("--max-offset-cells", type=float, default=4.0)
     parser.add_argument("--seed-video-colors", action="store_true")
+    parser.add_argument("--appearance-dim", type=int, default=32)
+    parser.add_argument("--appearance-hidden", type=int, default=64)
+    parser.add_argument("--appearance-grid-weight", type=float, default=0.0)
+    parser.add_argument("--appearance-grid-every", type=int, default=4)
+    parser.add_argument("--appearance-grid-frames", type=int, default=2)
+    parser.add_argument("--appearance-grid-height", type=int, default=64)
+    parser.add_argument("--appearance-grid-width", type=int, default=96)
     parser.add_argument("--points-per-step", type=int, default=8192)
     parser.add_argument("--point-chunk", type=int, default=1024)
     parser.add_argument("--teacher-sample", type=int, default=12000)
@@ -296,6 +345,11 @@ def _parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--chamfer-weight", type=float, default=3.0)
     parser.add_argument("--spread-weight", type=float, default=0.05)
+    parser.add_argument("--size-weight", type=float, default=0.0)
+    parser.add_argument(
+        "--size-offset", type=float, default=0.0,
+        help="additive log-scale offset applied to nearest-teacher absolute size",
+    )
     parser.add_argument("--orientation-weight", type=float, default=1.0)
     parser.add_argument("--tilt-weight", type=float, default=0.0)
     parser.add_argument("--orientation-start-step", type=int, default=0)
@@ -324,6 +378,13 @@ def _parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = _parse_args()
+    if args.appearance_grid_weight < 0 or min(
+        args.appearance_grid_every,
+        args.appearance_grid_frames,
+        args.appearance_grid_height,
+        args.appearance_grid_width,
+    ) <= 0:
+        raise ValueError("appearance-grid settings must be positive and weight non-negative")
     torch.manual_seed(args.seed)
     device = torch.device(args.device)
     generator = torch.Generator(device=device).manual_seed(args.seed)
@@ -361,12 +422,12 @@ def main() -> None:
             continue
         fitted = torch.load(fit_path, map_location="cpu", weights_only=False)
         features = state_to_features(fitted["state"]).float()
-        centres, spread, axis, teacher_weight = teacher_descriptors(
+        centres, spread, axis, teacher_weight, size = teacher_descriptors(
             features, args.teacher_sample, cpu_generator
         )
         teachers[example["source_id"]] = (
             centres.to(device), spread.to(device), axis.to(device),
-            teacher_weight.to(device),
+            teacher_weight.to(device), size.to(device),
         )
         print("loaded teacher", example["source_id"], flush=True)
 
@@ -377,25 +438,40 @@ def main() -> None:
     teacher_train_ids = [source_id for source_id in train_ids if source_id in teachers]
     if not teacher_train_ids:
         raise ValueError("at least one training example needs a fitted teacher")
-    model = StructuralJewelEncoder(
-        grid_spec=spec,
-        slots_per_cell=args.slots_per_cell,
-        model_dim=args.model_dim,
-        max_offset_cells=args.max_offset_cells,
-        seed_video_colors=args.seed_video_colors,
-    ).to(device)
-    if args.init_checkpoint:
-        initialized = torch.load(
-            args.init_checkpoint, map_location=device, weights_only=False
-        )
-        meta = initialized.get("meta", {})
+    if args.init_checkpoint and args.init_geometry_checkpoint:
+        raise ValueError("full and geometry-only initialization are mutually exclusive")
+    if args.factorized:
+        model = FactorizedStructuralJewelEncoder(
+            grid_spec=spec,
+            slots_per_cell=args.slots_per_cell,
+            model_dim=args.model_dim,
+            max_offset_cells=args.max_offset_cells,
+            appearance_dim=args.appearance_dim,
+            appearance_hidden=args.appearance_hidden,
+        ).to(device)
+        checkpoint_architecture = FACTORIZED_ARCHITECTURE
+        expected_args = model.model_args
+    else:
+        model = StructuralJewelEncoder(
+            grid_spec=spec,
+            slots_per_cell=args.slots_per_cell,
+            model_dim=args.model_dim,
+            max_offset_cells=args.max_offset_cells,
+            seed_video_colors=args.seed_video_colors,
+        ).to(device)
+        checkpoint_architecture = STRUCTURAL_ARCHITECTURE
         expected_args = {
             "slots_per_cell": args.slots_per_cell,
             "model_dim": args.model_dim,
             "max_offset_cells": args.max_offset_cells,
             "seed_video_colors": args.seed_video_colors,
         }
-        if meta.get("architecture") != ARCHITECTURE:
+    if args.init_checkpoint:
+        initialized = torch.load(
+            args.init_checkpoint, map_location=device, weights_only=False
+        )
+        meta = initialized.get("meta", {})
+        if meta.get("architecture") != checkpoint_architecture:
             raise ValueError("initial checkpoint architecture does not match")
         if tuple(meta.get("grid_shape", ())) != spec.shape:
             raise ValueError("initial checkpoint grid does not match")
@@ -406,7 +482,32 @@ def main() -> None:
             f"initialized from {args.init_checkpoint} step={initialized.get('step')}",
             flush=True,
         )
-    frozen_geometry = freeze_geometry_state(model) if args.freeze_geometry else None
+    if args.init_geometry_checkpoint:
+        if not args.factorized:
+            raise ValueError("geometry-only initialization requires --factorized")
+        initialized_geometry = torch.load(
+            args.init_geometry_checkpoint, map_location=device, weights_only=False
+        )
+        meta = initialized_geometry.get("meta", {})
+        source_args = meta.get("model_args", {})
+        if meta.get("architecture") != STRUCTURAL_ARCHITECTURE:
+            raise ValueError("geometry source is not a v2 structural checkpoint")
+        if tuple(meta.get("grid_shape", ())) != spec.shape:
+            raise ValueError("geometry source grid does not match")
+        for key in ("slots_per_cell", "model_dim", "max_offset_cells"):
+            if source_args.get(key) != expected_args[key]:
+                raise ValueError(f"geometry source {key} does not match")
+        model.load_v2_geometry(initialized_geometry["model"])
+        print(
+            f"initialized geometry from {args.init_geometry_checkpoint} "
+            f"step={initialized_geometry.get('step')}", flush=True,
+        )
+    frozen_geometry = None
+    if args.freeze_geometry:
+        if args.factorized:
+            model.freeze_geometry()
+        else:
+            frozen_geometry = freeze_geometry_state(model)
     optimizer = torch.optim.AdamW(
         (parameter for parameter in model.parameters() if parameter.requires_grad),
         lr=args.lr, weight_decay=0.01,
@@ -440,6 +541,7 @@ def main() -> None:
             for key in (
                 "anisotropy_median",
                 "anisotropy_p90",
+                "extent_median",
                 "extent_iqr_ratio",
                 "occupancy_uniformity",
                 "jewels_above_2pct_opacity",
@@ -460,7 +562,12 @@ def main() -> None:
         flush=True,
     )
     latest = None
-    history: list[tuple[float, float, float, float, float, float, float, float]] = []
+    history: list[
+        tuple[
+            float, float, float, float, float,
+            float, float, float, float, float,
+        ]
+    ] = []
     started = time.time()
     model.train()
     for step in range(1, args.steps + 1):
@@ -487,18 +594,47 @@ def main() -> None:
         )
         render_loss = torch.nn.functional.mse_loss(rendered, target)
         zero = torch.zeros((), device=device)
-        chamfer_loss = spread_loss = axis_loss = tilt_loss = occupancy_loss = zero
+        image_loss = zero
+        if args.appearance_grid_weight and step % args.appearance_grid_every == 0:
+            stride = max(len(video) // args.appearance_grid_frames, 1)
+            frame_indices = (
+                torch.arange(args.appearance_grid_frames) * stride + step
+            ).remainder(len(video)).sort().values
+            grid_points = frame_points(
+                len(video), frame_indices,
+                args.appearance_grid_height, args.appearance_grid_width,
+                device=device,
+            )
+            grid_rendered = render_structural(
+                prediction, grid_points, point_chunk=args.point_chunk,
+                cull_mode=args.renderer, support_capacity=args.support_capacity,
+            ).reshape(
+                args.appearance_grid_frames,
+                args.appearance_grid_height,
+                args.appearance_grid_width,
+                3,
+            )
+            grid_target = torch.nn.functional.interpolate(
+                video[frame_indices].permute(0, 3, 1, 2),
+                size=(args.appearance_grid_height, args.appearance_grid_width),
+                mode="bilinear", align_corners=True,
+            ).permute(0, 2, 3, 1)
+            image_loss = multiscale_image_loss(grid_rendered, grid_target)
+        chamfer_loss = spread_loss = size_loss = axis_loss = tilt_loss = zero
+        occupancy_loss = zero
         needs_teacher_structure = any((
             args.chamfer_weight,
             args.spread_weight,
+            args.size_weight,
             args.orientation_weight,
             args.tilt_weight,
             args.density_weight,
         ))
         if source_id in teachers and needs_teacher_structure:
-            teacher_centres, teacher_spread, teacher_axis, teacher_weight = teachers[
-                source_id
-            ]
+            (
+                teacher_centres, teacher_spread, teacher_axis,
+                teacher_weight, teacher_size,
+            ) = teachers[source_id]
             opacity = torch.sigmoid(prediction["logit_w"])
             if args.chamfer_sample and args.chamfer_sample < len(prediction["centers"]):
                 subset = torch.multinomial(
@@ -515,6 +651,9 @@ def main() -> None:
             student_spread = log_scale.max(dim=1).values - log_scale.min(dim=1).values
             spread_loss = torch.nn.functional.mse_loss(
                 student_spread, teacher_spread[nearest]
+            )
+            size_loss = torch.nn.functional.smooth_l1_loss(
+                log_scale.mean(dim=1), teacher_size[nearest] + args.size_offset
             )
             student_axis = principal_axis(
                 prediction["quaternion"][subset], log_scale
@@ -547,8 +686,10 @@ def main() -> None:
         )
         loss = (
             render_loss
+            + args.appearance_grid_weight * image_loss
             + args.chamfer_weight * chamfer_loss
             + args.spread_weight * spread_loss
+            + args.size_weight * size_loss
             + orientation_multiplier * args.orientation_weight * axis_loss
             + orientation_multiplier * args.tilt_weight * tilt_loss
             + density_multiplier * args.density_weight * occupancy_loss
@@ -569,8 +710,10 @@ def main() -> None:
         history.append(
             (
                 float(render_loss.detach()),
+                float(image_loss.detach()),
                 float(chamfer_loss.detach()),
                 float(spread_loss.detach()),
+                float(size_loss.detach()),
                 float(axis_loss.detach()),
                 float(tilt_loss.detach()),
                 float(occupancy_loss.detach()),
@@ -585,13 +728,15 @@ def main() -> None:
                 "step": step,
                 "render_loss": render_mean,
                 "train_psnr": -10.0 * math.log10(max(render_mean, 1e-10)),
-                "chamfer": sum(row[1] for row in recent) / len(recent),
-                "spread": sum(row[2] for row in recent) / len(recent),
-                "orientation": sum(row[3] for row in recent) / len(recent),
-                "tilt": sum(row[4] for row in recent) / len(recent),
-                "density": sum(row[5] for row in recent) / len(recent),
-                "sparsity": sum(row[6] for row in recent) / len(recent),
-                "active_fraction": sum(row[7] for row in recent) / len(recent),
+                "appearance_grid": sum(row[1] for row in recent) / len(recent),
+                "chamfer": sum(row[2] for row in recent) / len(recent),
+                "spread": sum(row[3] for row in recent) / len(recent),
+                "size": sum(row[4] for row in recent) / len(recent),
+                "orientation": sum(row[5] for row in recent) / len(recent),
+                "tilt": sum(row[6] for row in recent) / len(recent),
+                "density": sum(row[7] for row in recent) / len(recent),
+                "sparsity": sum(row[8] for row in recent) / len(recent),
+                "active_fraction": sum(row[9] for row in recent) / len(recent),
                 "sparsity_multiplier": sparsity_multiplier,
                 "density_multiplier": density_multiplier,
                 "orientation_multiplier": orientation_multiplier,
@@ -619,19 +764,15 @@ def main() -> None:
                 "model": model.state_dict(),
                 "step": step,
                 "meta": {
-                    "architecture": ARCHITECTURE,
+                    "architecture": checkpoint_architecture,
                     "grid_shape": spec.shape,
                     "slots_per_cell": args.slots_per_cell,
-                    "model_args": {
-                        "slots_per_cell": args.slots_per_cell,
-                        "model_dim": args.model_dim,
-                        "max_offset_cells": args.max_offset_cells,
-                        "seed_video_colors": args.seed_video_colors,
-                    },
+                    "model_args": expected_args,
                     "distilled": True,
                     "train_args": vars(args),
                     "latest_evaluation": latest,
                     "initialized_from": args.init_checkpoint,
+                    "initialized_geometry_from": args.init_geometry_checkpoint,
                 },
             }
             torch.save(checkpoint, output_dir / "encoder.pt")

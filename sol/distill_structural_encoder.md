@@ -13,9 +13,12 @@ feed-forward student, which is what PROMPTABLE_ROADMAP Phase 3 specified from th
 ### `teacher_descriptors`
 - **Does**: Opacity-weighted subsample of a fitted field, returning centres, each jewel's
   log-eigenvalue **spread** (a scale-invariant anisotropy descriptor), principal axes, and
-  opacity weights.
+  opacity weights, plus mean log scale as an absolute extent target.
 - **Rationale**: The student holds 10k jewels against the teacher's 72k, so its primitives must
   be larger; matching absolute size would be wrong, matching shape character is not.
+- **Update**: The 40,960-proposal v3 arm measured median extent `0.0516` against teacher `0.01285`
+  despite matched anisotropy. `--size-weight` and an explicitly declared log `--size-offset` now
+  test whether excessive absolute extent—not proposal count—is the causal blur source.
 
 ### `principal_axis` / `orientation_loss`
 - **Does**: Extracts the rotation column belonging to the largest scale (the direction a tube
@@ -71,6 +74,13 @@ feed-forward student, which is what PROMPTABLE_ROADMAP Phase 3 specified from th
   whether colour, colour-gradient, and background learning can recover detail without sacrificing
   that already-successful geometry state.
 
+### `multiscale_image_loss`
+- **Does**: Scores full low-resolution frame renders with a three-level Charbonnier pyramid and
+  horizontal/vertical first-order edge differences.
+- **Rationale**: Random voxel MSE improved sampled PSNR while leaving broad, perceptually poor
+  renders. A bounded image-grid term gives the appearance branch spatial context and explicit edge
+  pressure without changing the exact held-out LPIPS gate.
+
 ### `chamfer`
 - **Does**: Symmetric squared-distance Chamfer plus student->teacher nearest indices.
 - **Rationale**: The teacher->student direction is the one that forces clustering — every region
@@ -93,6 +103,14 @@ feed-forward student, which is what PROMPTABLE_ROADMAP Phase 3 specified from th
   checkpoint; the source checkpoint is recorded in descendant metadata.
 - **Does**: With `--freeze-geometry`, trains only colour, colour-gradient, and background parameters;
   correspondence computation is skipped when every teacher-structure weight is zero.
+- **Does**: Selects the versioned factorized-v3 architecture without changing v2 checkpoint
+  semantics, records its appearance dimensions, and can transplant only compatible v2 geometry.
+- **Does**: Factorized freezing uses ordinary module ownership; v2 retains its exact mixed-row
+  masking/restoration path for backward-compatible causal controls.
+- **Does**: Optionally renders a deterministic rotating subset of low-resolution full frames every
+  declared number of steps and records the image-grid loss separately from sampled-voxel MSE.
+- **Does**: Optionally matches nearest-teacher absolute mean log scale in addition to scale-invariant
+  spread; the separate offset declares any coverage compensation for a lower active jewel count.
 
 ## Contracts
 
@@ -102,6 +120,9 @@ feed-forward student, which is what PROMPTABLE_ROADMAP Phase 3 specified from th
 | Teacher fields | Source-owned support-correct checkpoints or legacy `<video stem>_w000000.pt` fits | Naming |
 | Prompt-prior gate | `structural_jewel_encoder_v2` identifies sparse irregular checkpoints | Architecture ID |
 | Frozen-geometry continuation | Center, covariance, and opacity predictions remain bitwise fixed for each video | Freeze mask |
+| Factorized-v3 checkpoints | Architecture-specific constructor arguments and optional v2 geometry source are recorded | Metadata |
+| Appearance-grid objective | Positive dimensions/frequency and an explicitly weighted loss | Training semantics |
+| Absolute-size experiment | Teacher mean log scale and declared offset retain physical scale meaning | Descriptor schema |
 
 ## Notes
 

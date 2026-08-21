@@ -14,11 +14,15 @@ import torch
 
 from sol.amortized_encoder import VideoToJewelEncoder, cholesky_render
 from sol.compare_field_structure import structure_report
+from sol.factorized_structural_encoder import (
+    ARCHITECTURE as FACTORIZED_ARCHITECTURE,
+    FactorizedStructuralJewelEncoder,
+)
 from sol.perceptual_eval import lpips_metric, score_arms
 from sol.render import covariance_terms
 from sol.render_streaming_continuation import frame_points
 from sol.structural_encoder import (
-    ARCHITECTURE,
+    ARCHITECTURE as STRUCTURAL_ARCHITECTURE,
     StructuralJewelEncoder,
     render_structural,
 )
@@ -45,14 +49,22 @@ def load_baseline(path: Path, device: torch.device) -> VideoToJewelEncoder:
     return model.eval()
 
 
-def load_candidate(path: Path, device: torch.device) -> StructuralJewelEncoder:
+def load_candidate(
+    path: Path, device: torch.device
+) -> StructuralJewelEncoder | FactorizedStructuralJewelEncoder:
     """Restore one declared irregular structural checkpoint."""
     saved = torch.load(path, map_location=device, weights_only=False)
     meta = saved["meta"]
-    if meta["architecture"] != ARCHITECTURE:
-        raise ValueError(f"candidate {path} is not {ARCHITECTURE}")
-    model = StructuralJewelEncoder(
-        grid_spec=GridSpec(tuple(meta["grid_shape"]), 1024), **meta["model_args"]
+    architecture = meta["architecture"]
+    constructors = {
+        STRUCTURAL_ARCHITECTURE: StructuralJewelEncoder,
+        FACTORIZED_ARCHITECTURE: FactorizedStructuralJewelEncoder,
+    }
+    if architecture not in constructors:
+        raise ValueError(f"candidate {path} has unsupported architecture {architecture}")
+    model = constructors[architecture](
+        grid_spec=GridSpec(tuple(meta["grid_shape"]), 1024),
+        **meta["model_args"],
     ).to(device)
     model.load_state_dict(saved["model"])
     return model.eval()
@@ -138,6 +150,17 @@ def labeled(frame: torch.Tensor, label: str) -> Image.Image:
     canvas.paste(image, (0, 24))
     ImageDraw.Draw(canvas).text((5, 6), label, fill="white")
     return canvas
+
+
+def audit_arm_labels(candidate_count: int) -> list[str]:
+    """Return the stable visual/report order for every audited arm."""
+    if candidate_count < 1:
+        raise ValueError("an audit needs at least one candidate")
+    return [
+        "lattice",
+        *(f"irregular_seed{seed}" for seed in range(candidate_count)),
+        "teacher",
+    ]
 
 
 def layout_slice(
@@ -236,8 +259,8 @@ def main() -> None:
                     "arm": "irregular", "seed": seed, "source_id": source_id,
                     **structure(candidate.canonical_features(prediction).cpu()),
                 })
-                if seed == 0 and "irregular" not in layout_features:
-                    layout_features["irregular"] = candidate.canonical_features(
+                if label not in layout_features:
+                    layout_features[label] = candidate.canonical_features(
                         prediction
                     ).cpu()
             teacher, teacher_saved = load_teacher(teacher_paths[source_id], device)
@@ -266,7 +289,7 @@ def main() -> None:
             })
         middle = args.frames // 2
         panels = [labeled(target[middle], f"{item.get('style')}: target")]
-        for arm in ("lattice", "irregular_seed0", "teacher"):
+        for arm in audit_arm_labels(len(candidates)):
             panels.append(labeled(arms[arm][middle], f"{item.get('style')}: {arm}"))
         row_image = Image.new(
             "RGB", (sum(panel.width for panel in panels), panels[0].height), "white"
@@ -344,8 +367,7 @@ def main() -> None:
 
     import matplotlib.pyplot as plt  # noqa: PLC0415
 
-    candidate_labels = [f"irregular_seed{seed}" for seed in range(len(candidates))]
-    labels = ["lattice", *candidate_labels, "teacher"]
+    labels = audit_arm_labels(len(candidates))
     figure, axes = plt.subplots(1, 4, figsize=(14, 3.8))
     axes[0].bar(labels, [perceptual_macro[label]["lpips"] for label in labels])
     axes[0].set_ylabel("LPIPS (lower is better)")
@@ -379,8 +401,11 @@ def main() -> None:
         axis.tick_params(axis="x", rotation=20)
     figure.tight_layout(); figure.savefig(output / "comparison.png", dpi=180)
 
-    layout_figure, layout_axes = plt.subplots(2, 3, figsize=(11, 7.2))
-    for column, arm in enumerate(("lattice", "irregular", "teacher")):
+    layout_arms = audit_arm_labels(len(candidates))
+    layout_figure, layout_axes = plt.subplots(
+        2, len(layout_arms), figsize=(3.65 * len(layout_arms), 7.2), squeeze=False,
+    )
+    for column, arm in enumerate(layout_arms):
         xy = layout_slice(layout_features[arm], fixed_axis=2)
         xt = layout_slice(layout_features[arm], fixed_axis=1)
         layout_axes[0, column].scatter(

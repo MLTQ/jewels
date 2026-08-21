@@ -2,14 +2,52 @@
 
 from __future__ import annotations
 
+from pathlib import Path
+import tempfile
 import unittest
 
 import torch
 
-from sol.audit_irregular_encoder import layout_slice, structure, summarize_gate
+from sol.audit_irregular_encoder import (
+    audit_arm_labels,
+    layout_slice,
+    load_candidate,
+    structure,
+    summarize_gate,
+)
+from sol.factorized_structural_encoder import (
+    ARCHITECTURE as FACTORIZED_ARCHITECTURE,
+    FactorizedStructuralJewelEncoder,
+)
+from sol.token_grid import GridSpec
 
 
 class IrregularAuditTests(unittest.TestCase):
+    def test_audit_arm_labels_include_every_candidate(self) -> None:
+        self.assertEqual(audit_arm_labels(2), [
+            "lattice", "irregular_seed0", "irregular_seed1", "teacher",
+        ])
+        with self.assertRaises(ValueError):
+            audit_arm_labels(0)
+
+    def test_candidate_loader_accepts_factorized_architecture(self) -> None:
+        model = FactorizedStructuralJewelEncoder(
+            grid_spec=GridSpec((2, 2, 2), 1), slots_per_cell=2,
+            model_dim=8, appearance_dim=8, appearance_hidden=16,
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "candidate.pt"
+            torch.save({
+                "model": model.state_dict(),
+                "meta": {
+                    "architecture": FACTORIZED_ARCHITECTURE,
+                    "grid_shape": (2, 2, 2),
+                    "model_args": model.model_args,
+                },
+            }, path)
+            loaded = load_candidate(path, torch.device("cpu"))
+        self.assertIsInstance(loaded, FactorizedStructuralJewelEncoder)
+
     def test_layout_slice_filters_opacity_plane_and_bounds_count(self) -> None:
         features = torch.zeros(12, 22)
         features[:, 0] = torch.linspace(-1, 1, 12)

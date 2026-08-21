@@ -3,13 +3,14 @@
 ## Purpose
 
 Protects the set-correspondence, tube-orientation, opacity-weighted placement, and differentiable
-sparsity helpers used by structural teacher distillation.
+sparsity helpers used by structural teacher distillation. Architecture separation itself is covered
+by `test_factorized_structural_encoder.py`; this file retains the v2 mixed-head freeze contract.
 
 ## Components
 
 ### `DistillHelperTests` / `OrientationTests`
 - **Does**: Verifies symmetric Chamfer coverage, teacher descriptor shapes/weights, and sign-invariant
-  principal-axis matching.
+  principal-axis matching, including the absolute mean-log-scale target.
 - **Does**: Verifies mixed tilt is zero for pure space/time axes and one at a 45-degree trajectory.
 
 ### `DensityMatchingTests` / `ValidationSelectionTests`
@@ -24,6 +25,10 @@ sparsity helpers used by structural teacher distillation.
   opacity rows, restores those rows exactly after an optimizer-like mutation, and leaves appearance
   rows trainable.
 
+### `AppearanceImageLossTests`
+- **Does**: Locks the near-zero matching-image floor and verifies colour/edge disagreement produces
+  a larger differentiable multiscale loss.
+
 ## Contracts
 
 | Dependent | Expects | Breaking changes |
@@ -31,3 +36,4 @@ sparsity helpers used by structural teacher distillation.
 | Irregular-field trainer | Density gradients reach centres and opacity weights | Loss semantics |
 | Structural audits | Active means opacity above 2% | Threshold policy |
 | Appearance-only continuation | Trunk and geometry/opacity head rows do not move | Freeze semantics |
+| Factorized appearance training | Full-image multiscale/edge loss is differentiable | Objective semantics |
