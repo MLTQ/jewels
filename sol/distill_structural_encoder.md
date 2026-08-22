@@ -81,6 +81,14 @@ feed-forward student, which is what PROMPTABLE_ROADMAP Phase 3 specified from th
   renders. A bounded image-grid term gives the appearance branch spatial context and explicit edge
   pressure without changing the exact held-out LPIPS gate.
 
+### Local teacher attributes
+- **Does**: Uses detached soft correspondence from `local_teacher_distillation.py` to supervise
+  ordered local scales, sign-invariant axes, opacity optical mass, base color, and color gradients.
+- **Rationale**: Factorized v3 learned irregular placement but rendered broad misplaced color.
+  Global density/spread/size statistics cannot tell the student which covariance and appearance
+  belong to a particular content region.
+- **Scheduling**: Local losses have an independent delayed ramp and separately logged weights.
+
 ### `chamfer`
 - **Does**: Symmetric squared-distance Chamfer plus student->teacher nearest indices.
 - **Rationale**: The teacher->student direction is the one that forces clustering — every region
@@ -111,6 +119,9 @@ feed-forward student, which is what PROMPTABLE_ROADMAP Phase 3 specified from th
   declared number of steps and records the image-grid loss separately from sampled-voxel MSE.
 - **Does**: Optionally matches nearest-teacher absolute mean log scale in addition to scale-invariant
   spread; the separate offset declares any coverage compensation for a lower active jewel count.
+- **Does**: Optionally applies local fitted-teacher scale/axis/optical-mass/RGB/RGB-gradient losses
+  over the same bounded student subset. Correspondence is detached from centers, and opacity mass
+  is compensated by full-teacher active count divided by the declared student target count.
 
 ## Contracts
 
@@ -123,6 +134,7 @@ feed-forward student, which is what PROMPTABLE_ROADMAP Phase 3 specified from th
 | Factorized-v3 checkpoints | Architecture-specific constructor arguments and optional v2 geometry source are recorded | Metadata |
 | Appearance-grid objective | Positive dimensions/frequency and an explicitly weighted loss | Training semantics |
 | Absolute-size experiment | Teacher mean log scale and declared offset retain physical scale meaning | Descriptor schema |
+| Local attribute experiment | Weights, neighbor kernel, schedule, and active-count compensation are checkpointed | Local-loss semantics |
 
 ## Notes
 

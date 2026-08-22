@@ -33,7 +33,11 @@ from sol.factorized_structural_encoder import (
     ARCHITECTURE as FACTORIZED_ARCHITECTURE,
     FactorizedStructuralJewelEncoder,
 )
-from sol.render import covariance_terms
+from sol.local_teacher_distillation import (
+    LocalTeacherAttributes,
+    extract_local_teacher_attributes,
+    local_teacher_attribute_losses,
+)
 from sol.render_streaming_continuation import frame_points
 from sol.structural_encoder import (
     ARCHITECTURE as STRUCTURAL_ARCHITECTURE,
@@ -55,20 +59,10 @@ def teacher_descriptors(
     sheared tube points. Supervising spread alone produced elongation without
     direction (visible as horizontal smearing), so orientation is carried too.
     """
-    weight = torch.sigmoid(features[:, 21])
-    index = torch.multinomial(
-        weight.clamp_min(1e-6), min(keep, len(features)), replacement=False,
-        generator=generator,
-    )
-    chosen = features[index]
-    covariance, _ = covariance_terms(chosen)
-    eigenvalues, eigenvectors = torch.linalg.eigh(covariance.double())
-    eigenvalues = eigenvalues.clamp_min(1e-12)
-    log_scale = 0.5 * eigenvalues.log()
-    spread = (log_scale[:, -1] - log_scale[:, 0]).to(chosen.dtype)
-    size = log_scale.mean(dim=1).to(chosen.dtype)
-    axis = eigenvectors[:, :, -1].to(chosen.dtype)
-    return chosen[:, :3], spread, axis, weight[index], size
+    teacher = extract_local_teacher_attributes(features, keep, generator)
+    spread = teacher.log_scale[:, -1] - teacher.log_scale[:, 0]
+    size = teacher.log_scale.mean(dim=1)
+    return teacher.centers, spread, teacher.axis, teacher.opacity, size
 
 
 def principal_axis(
@@ -350,6 +344,15 @@ def _parse_args() -> argparse.Namespace:
         "--size-offset", type=float, default=0.0,
         help="additive log-scale offset applied to nearest-teacher absolute size",
     )
+    parser.add_argument("--local-neighbors", type=int, default=4)
+    parser.add_argument("--local-temperature", type=float, default=0.08)
+    parser.add_argument("--local-scale-weight", type=float, default=0.0)
+    parser.add_argument("--local-axis-weight", type=float, default=0.0)
+    parser.add_argument("--local-opacity-weight", type=float, default=0.0)
+    parser.add_argument("--local-color-weight", type=float, default=0.0)
+    parser.add_argument("--local-gradient-weight", type=float, default=0.0)
+    parser.add_argument("--local-start-step", type=int, default=0)
+    parser.add_argument("--local-ramp-steps", type=int, default=0)
     parser.add_argument("--orientation-weight", type=float, default=1.0)
     parser.add_argument("--tilt-weight", type=float, default=0.0)
     parser.add_argument("--orientation-start-step", type=int, default=0)
@@ -385,6 +388,21 @@ def main() -> None:
         args.appearance_grid_width,
     ) <= 0:
         raise ValueError("appearance-grid settings must be positive and weight non-negative")
+    local_weights = (
+        args.local_scale_weight,
+        args.local_axis_weight,
+        args.local_opacity_weight,
+        args.local_color_weight,
+        args.local_gradient_weight,
+    )
+    if (
+        min(local_weights) < 0
+        or args.local_neighbors <= 0
+        or args.local_temperature <= 0
+    ):
+        raise ValueError(
+            "local teacher weights must be non-negative and matching settings positive"
+        )
     torch.manual_seed(args.seed)
     device = torch.device(args.device)
     generator = torch.Generator(device=device).manual_seed(args.seed)
@@ -404,7 +422,8 @@ def main() -> None:
     spec = GridSpec(tuple(args.grid), 1024)
     density_grid = GridSpec(tuple(args.density_grid), 1)
 
-    videos, teachers = {}, {}
+    videos: dict[str, tuple[torch.Tensor, str]] = {}
+    teachers: dict[str, LocalTeacherAttributes] = {}
     for example in manifest["examples"]:
         videos[example["source_id"]] = (
             load_video(
@@ -422,13 +441,10 @@ def main() -> None:
             continue
         fitted = torch.load(fit_path, map_location="cpu", weights_only=False)
         features = state_to_features(fitted["state"]).float()
-        centres, spread, axis, teacher_weight, size = teacher_descriptors(
+        teacher = extract_local_teacher_attributes(
             features, args.teacher_sample, cpu_generator
         )
-        teachers[example["source_id"]] = (
-            centres.to(device), spread.to(device), axis.to(device),
-            teacher_weight.to(device), size.to(device),
-        )
+        teachers[example["source_id"]] = teacher.to(device)
         print("loaded teacher", example["source_id"], flush=True)
 
     train_ids = [k for k, (_, s) in videos.items() if s == "train"]
@@ -562,12 +578,7 @@ def main() -> None:
         flush=True,
     )
     latest = None
-    history: list[
-        tuple[
-            float, float, float, float, float,
-            float, float, float, float, float,
-        ]
-    ] = []
+    history: list[tuple[float, ...]] = []
     started = time.time()
     model.train()
     for step in range(1, args.steps + 1):
@@ -622,6 +633,13 @@ def main() -> None:
             image_loss = multiscale_image_loss(grid_rendered, grid_target)
         chamfer_loss = spread_loss = size_loss = axis_loss = tilt_loss = zero
         occupancy_loss = zero
+        local_losses = {
+            "scale": zero,
+            "axis": zero,
+            "opacity": zero,
+            "color": zero,
+            "gradient": zero,
+        }
         needs_teacher_structure = any((
             args.chamfer_weight,
             args.spread_weight,
@@ -629,12 +647,15 @@ def main() -> None:
             args.orientation_weight,
             args.tilt_weight,
             args.density_weight,
+            *local_weights,
         ))
         if source_id in teachers and needs_teacher_structure:
-            (
-                teacher_centres, teacher_spread, teacher_axis,
-                teacher_weight, teacher_size,
-            ) = teachers[source_id]
+            teacher = teachers[source_id]
+            teacher_centres = teacher.centers
+            teacher_spread = teacher.log_scale[:, -1] - teacher.log_scale[:, 0]
+            teacher_axis = teacher.axis
+            teacher_weight = teacher.opacity
+            teacher_size = teacher.log_scale.mean(dim=1)
             opacity = torch.sigmoid(prediction["logit_w"])
             if args.chamfer_sample and args.chamfer_sample < len(prediction["centers"]):
                 subset = torch.multinomial(
@@ -669,6 +690,23 @@ def main() -> None:
                     prediction["centers"], teacher_centres, density_grid,
                     student_weights=opacity, teacher_weights=teacher_weight,
                 )
+            if any(local_weights):
+                local_losses = local_teacher_attribute_losses(
+                    student_centers=prediction["centers"][subset],
+                    student_log_scale=log_scale,
+                    student_axis=student_axis,
+                    student_opacity=opacity[subset],
+                    student_colors=prediction["colors"][subset],
+                    student_color_grads=prediction["color_grads"][subset],
+                    teacher=teacher,
+                    neighbors=args.local_neighbors,
+                    temperature=args.local_temperature,
+                    size_offset=args.size_offset,
+                    opacity_mass_ratio=(
+                        teacher.active_count
+                        / (model.n_jewels * args.target_active_fraction)
+                    ),
+                )
         active_fraction = soft_active_fraction(prediction["logit_w"])
         sparsity_loss = (active_fraction - args.target_active_fraction).square()
         soft_presence = torch.sigmoid(
@@ -684,6 +722,9 @@ def main() -> None:
         orientation_multiplier = schedule_multiplier(
             step, args.orientation_start_step, args.orientation_ramp_steps
         )
+        local_multiplier = schedule_multiplier(
+            step, args.local_start_step, args.local_ramp_steps
+        )
         loss = (
             render_loss
             + args.appearance_grid_weight * image_loss
@@ -693,6 +734,11 @@ def main() -> None:
             + orientation_multiplier * args.orientation_weight * axis_loss
             + orientation_multiplier * args.tilt_weight * tilt_loss
             + density_multiplier * args.density_weight * occupancy_loss
+            + local_multiplier * args.local_scale_weight * local_losses["scale"]
+            + local_multiplier * args.local_axis_weight * local_losses["axis"]
+            + local_multiplier * args.local_opacity_weight * local_losses["opacity"]
+            + local_multiplier * args.local_color_weight * local_losses["color"]
+            + local_multiplier * args.local_gradient_weight * local_losses["gradient"]
             + sparsity_multiplier * args.sparsity_weight * sparsity_loss
             + sparsity_multiplier * args.polarization_weight * polarization_loss
         )
@@ -717,6 +763,11 @@ def main() -> None:
                 float(axis_loss.detach()),
                 float(tilt_loss.detach()),
                 float(occupancy_loss.detach()),
+                float(local_losses["scale"].detach()),
+                float(local_losses["axis"].detach()),
+                float(local_losses["opacity"].detach()),
+                float(local_losses["color"].detach()),
+                float(local_losses["gradient"].detach()),
                 float(sparsity_loss.detach()),
                 float(active_fraction.detach()),
             )
@@ -735,11 +786,17 @@ def main() -> None:
                 "orientation": sum(row[5] for row in recent) / len(recent),
                 "tilt": sum(row[6] for row in recent) / len(recent),
                 "density": sum(row[7] for row in recent) / len(recent),
-                "sparsity": sum(row[8] for row in recent) / len(recent),
-                "active_fraction": sum(row[9] for row in recent) / len(recent),
+                "local_scale": sum(row[8] for row in recent) / len(recent),
+                "local_axis": sum(row[9] for row in recent) / len(recent),
+                "local_opacity": sum(row[10] for row in recent) / len(recent),
+                "local_color": sum(row[11] for row in recent) / len(recent),
+                "local_gradient": sum(row[12] for row in recent) / len(recent),
+                "sparsity": sum(row[13] for row in recent) / len(recent),
+                "active_fraction": sum(row[14] for row in recent) / len(recent),
                 "sparsity_multiplier": sparsity_multiplier,
                 "density_multiplier": density_multiplier,
                 "orientation_multiplier": orientation_multiplier,
+                "local_multiplier": local_multiplier,
                 "gradient_norm": float(gradient_norm),
                 "lr": rate,
             }
