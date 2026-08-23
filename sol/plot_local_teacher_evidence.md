@@ -2,9 +2,11 @@
 
 ## Purpose
 
-Turns the preregistered local-teacher screen and exact-render audit into one pitch-readable figure.
-The plot keeps sampled screening, exact perceptual metrics, and irregular-field constraints visibly
-separate so a proxy improvement cannot be mistaken for an exact-render result.
+Turns a preregistered matched teacher-distillation screen and exact-render audit into one
+pitch-readable figure. The plot keeps sampled screening, exact perceptual metrics, and
+irregular-field constraints visibly separate so a proxy improvement cannot be mistaken for an
+exact-render result. Optional title and arm labels allow the same schema to compare position-only
+and renderer-responsibility experiments without changing metric semantics.
 
 ## Components
 
@@ -27,11 +29,14 @@ separate so a proxy improvement cannot be mistaken for an exact-render result.
 - Uses separate panels for PSNR and LPIPS because their units and preferred directions differ.
 - Labels the load-bearing bars with their exact values so the figure remains useful outside the
   surrounding report text.
+- Accepts presentation-only title and arm labels while retaining the frozen control/appearance/full
+  directory and audit mapping.
 
 ## Contracts
 
 | Dependent | Expects | Breaking changes |
 |---|---|---|
 | Local-teacher report | Screen directories use `<arm>_seed0_600/summary.json` | Run naming |
+| Responsibility report | Reuses the same matched arm and audit schema | Candidate order or schema |
 | Exact audit | Candidate order is control, appearance, full | Audit CLI order |
 | Gate interpretation | Thresholds match `PROTOCOL.md` | Protocol revision |

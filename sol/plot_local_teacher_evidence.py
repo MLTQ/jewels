@@ -1,4 +1,4 @@
-"""Plot matched local-teacher distillation screens and exact-render evidence."""
+"""Plot matched teacher-distillation screens and exact-render evidence."""
 
 from __future__ import annotations
 
@@ -88,6 +88,12 @@ def main() -> None:
     parser.add_argument("--screens", required=True)
     parser.add_argument("--audit", required=True)
     parser.add_argument("--out", required=True)
+    parser.add_argument(
+        "--title",
+        default="Local teacher distillation: matched seed-0 continuation (600 steps)",
+    )
+    parser.add_argument("--appearance-label", default="appearance\nlocal")
+    parser.add_argument("--full-label", default="full local")
     args = parser.parse_args()
 
     screens = load_screen_metrics(Path(args.screens))
@@ -95,7 +101,7 @@ def main() -> None:
 
     import matplotlib.pyplot as plt  # noqa: PLC0415
 
-    labels = ["control", "appearance\nlocal", "full local"]
+    labels = ["control", args.appearance_label, args.full_label]
     colors = ["#6b7280", "#2a6fbb", "#d97706"]
     positions = list(range(len(ARM_ORDER)))
     figure, axes = plt.subplots(2, 3, figsize=(13.5, 7.5))
@@ -188,10 +194,7 @@ def main() -> None:
 
     for axis in axes.flat:
         axis.grid(axis="y", alpha=0.22)
-    figure.suptitle(
-        "Local teacher distillation: matched seed-0 continuation (600 steps)",
-        fontsize=14,
-    )
+    figure.suptitle(args.title, fontsize=14)
     figure.tight_layout()
     figure.savefig(args.out, dpi=200)
 

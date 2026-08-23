@@ -89,6 +89,18 @@ feed-forward student, which is what PROMPTABLE_ROADMAP Phase 3 specified from th
   belong to a particular content region.
 - **Scheduling**: Local losses have an independent delayed ramp and separately logged weights.
 
+### Renderer-weighted teacher responsibilities
+- **Does**: Uniformly samples active fitted jewels with an independent RNG, then asks
+  `local_teacher_distillation.py` for opacity/Mahalanobis contribution moments at the same bounded
+  student subset used by the structural losses.
+- **Does**: Applies separately scheduled scale, axis, optical-density, local rendered-color, and
+  local color-Jacobian losses, while logging support and effective responsibility counts.
+- **Rationale**: Position-only raw attributes improved LPIPS on all five styles but lost PSNR even
+  after equal relaxation. Responsibility moments preserve the signal while making the target about
+  the jointly rendered local field rather than an arbitrary nearest fitted jewel.
+- **Matching**: The active-uniform sample has its own CPU generator so enabling this arm cannot
+  perturb the opacity-sampled teacher set or GPU training sequence used by its matched control.
+
 ### `chamfer`
 - **Does**: Symmetric squared-distance Chamfer plus student->teacher nearest indices.
 - **Rationale**: The teacher->student direction is the one that forces clustering — every region
@@ -122,6 +134,8 @@ feed-forward student, which is what PROMPTABLE_ROADMAP Phase 3 specified from th
 - **Does**: Optionally applies local fitted-teacher scale/axis/optical-mass/RGB/RGB-gradient losses
   over the same bounded student subset. Correspondence is detached from centers, and opacity mass
   is compensated by full-teacher active count divided by the declared student target count.
+- **Does**: Optionally applies renderer-responsibility moment losses from a separate active-uniform
+  teacher sample, with independent support, temperature, size offset, schedule, weights, and logs.
 
 ## Contracts
 
@@ -135,6 +149,7 @@ feed-forward student, which is what PROMPTABLE_ROADMAP Phase 3 specified from th
 | Appearance-grid objective | Positive dimensions/frequency and an explicitly weighted loss | Training semantics |
 | Absolute-size experiment | Teacher mean log scale and declared offset retain physical scale meaning | Descriptor schema |
 | Local attribute experiment | Weights, neighbor kernel, schedule, and active-count compensation are checkpointed | Local-loss semantics |
+| Responsibility experiment | Active sample, finite support, temperature, offset, weights, schedule, and diagnostics are checkpointed | Responsibility semantics |
 
 ## Notes
 

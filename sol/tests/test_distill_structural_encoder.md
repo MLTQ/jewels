@@ -6,6 +6,7 @@ Protects the set-correspondence, tube-orientation, opacity-weighted placement, a
 sparsity helpers used by structural teacher distillation. Architecture separation is covered by
 `test_factorized_structural_encoder.py`, local correspondence by
 `test_local_teacher_distillation.py`; this file retains the v2 mixed-head freeze contract.
+Renderer-responsibility moment math and detached targets are likewise isolated there.
 
 ## Components
 

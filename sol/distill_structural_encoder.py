@@ -37,6 +37,7 @@ from sol.local_teacher_distillation import (
     LocalTeacherAttributes,
     extract_local_teacher_attributes,
     local_teacher_attribute_losses,
+    responsibility_teacher_moment_losses,
 )
 from sol.render_streaming_continuation import frame_points
 from sol.structural_encoder import (
@@ -353,6 +354,17 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--local-gradient-weight", type=float, default=0.0)
     parser.add_argument("--local-start-step", type=int, default=0)
     parser.add_argument("--local-ramp-steps", type=int, default=0)
+    parser.add_argument("--responsibility-teacher-sample", type=int, default=4000)
+    parser.add_argument("--responsibility-support-sigma", type=float, default=5.0)
+    parser.add_argument("--responsibility-temperature", type=float, default=1.0)
+    parser.add_argument("--responsibility-size-offset", type=float, default=0.0)
+    parser.add_argument("--responsibility-scale-weight", type=float, default=0.0)
+    parser.add_argument("--responsibility-axis-weight", type=float, default=0.0)
+    parser.add_argument("--responsibility-opacity-weight", type=float, default=0.0)
+    parser.add_argument("--responsibility-color-weight", type=float, default=0.0)
+    parser.add_argument("--responsibility-gradient-weight", type=float, default=0.0)
+    parser.add_argument("--responsibility-start-step", type=int, default=0)
+    parser.add_argument("--responsibility-ramp-steps", type=int, default=0)
     parser.add_argument("--orientation-weight", type=float, default=1.0)
     parser.add_argument("--tilt-weight", type=float, default=0.0)
     parser.add_argument("--orientation-start-step", type=int, default=0)
@@ -403,10 +415,27 @@ def main() -> None:
         raise ValueError(
             "local teacher weights must be non-negative and matching settings positive"
         )
+    responsibility_weights = (
+        args.responsibility_scale_weight,
+        args.responsibility_axis_weight,
+        args.responsibility_opacity_weight,
+        args.responsibility_color_weight,
+        args.responsibility_gradient_weight,
+    )
+    if (
+        min(responsibility_weights) < 0
+        or args.responsibility_teacher_sample <= 0
+        or args.responsibility_support_sigma <= 0
+        or args.responsibility_temperature <= 0
+    ):
+        raise ValueError(
+            "responsibility weights must be non-negative and settings positive"
+        )
     torch.manual_seed(args.seed)
     device = torch.device(args.device)
     generator = torch.Generator(device=device).manual_seed(args.seed)
     cpu_generator = torch.Generator().manual_seed(args.seed)
+    responsibility_generator = torch.Generator().manual_seed(args.seed + 100003)
     sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "stprim"))
     from prior.featurize import state_to_features  # noqa: PLC0415
 
@@ -424,6 +453,7 @@ def main() -> None:
 
     videos: dict[str, tuple[torch.Tensor, str]] = {}
     teachers: dict[str, LocalTeacherAttributes] = {}
+    responsibility_teachers: dict[str, LocalTeacherAttributes] = {}
     for example in manifest["examples"]:
         videos[example["source_id"]] = (
             load_video(
@@ -445,6 +475,16 @@ def main() -> None:
             features, args.teacher_sample, cpu_generator
         )
         teachers[example["source_id"]] = teacher.to(device)
+        if any(responsibility_weights):
+            responsibility_teacher = extract_local_teacher_attributes(
+                features,
+                args.responsibility_teacher_sample,
+                responsibility_generator,
+                sampling="active_uniform",
+            )
+            responsibility_teachers[example["source_id"]] = (
+                responsibility_teacher.to(device)
+            )
         print("loaded teacher", example["source_id"], flush=True)
 
     train_ids = [k for k, (_, s) in videos.items() if s == "train"]
@@ -640,6 +680,14 @@ def main() -> None:
             "color": zero,
             "gradient": zero,
         }
+        responsibility_losses = {
+            "scale": zero,
+            "axis": zero,
+            "opacity": zero,
+            "color": zero,
+            "gradient": zero,
+        }
+        responsibility_effective = responsibility_support = zero
         needs_teacher_structure = any((
             args.chamfer_weight,
             args.spread_weight,
@@ -648,6 +696,7 @@ def main() -> None:
             args.tilt_weight,
             args.density_weight,
             *local_weights,
+            *responsibility_weights,
         ))
         if source_id in teachers and needs_teacher_structure:
             teacher = teachers[source_id]
@@ -707,6 +756,27 @@ def main() -> None:
                         / (model.n_jewels * args.target_active_fraction)
                     ),
                 )
+            if any(responsibility_weights):
+                responsibility_losses, responsibility_targets = (
+                    responsibility_teacher_moment_losses(
+                        student_centers=prediction["centers"][subset],
+                        student_log_scale=log_scale,
+                        student_axis=student_axis,
+                        student_opacity=opacity[subset],
+                        student_colors=prediction["colors"][subset],
+                        student_color_grads=prediction["color_grads"][subset],
+                        teacher=responsibility_teachers[source_id],
+                        support_sigma=args.responsibility_support_sigma,
+                        temperature=args.responsibility_temperature,
+                        size_offset=args.responsibility_size_offset,
+                        opacity_mass_ratio=(
+                            teacher.active_count
+                            / (model.n_jewels * args.target_active_fraction)
+                        ),
+                    )
+                )
+                responsibility_effective = responsibility_targets.effective_count.mean()
+                responsibility_support = responsibility_targets.support_count.mean()
         active_fraction = soft_active_fraction(prediction["logit_w"])
         sparsity_loss = (active_fraction - args.target_active_fraction).square()
         soft_presence = torch.sigmoid(
@@ -725,6 +795,9 @@ def main() -> None:
         local_multiplier = schedule_multiplier(
             step, args.local_start_step, args.local_ramp_steps
         )
+        responsibility_multiplier = schedule_multiplier(
+            step, args.responsibility_start_step, args.responsibility_ramp_steps
+        )
         loss = (
             render_loss
             + args.appearance_grid_weight * image_loss
@@ -739,6 +812,16 @@ def main() -> None:
             + local_multiplier * args.local_opacity_weight * local_losses["opacity"]
             + local_multiplier * args.local_color_weight * local_losses["color"]
             + local_multiplier * args.local_gradient_weight * local_losses["gradient"]
+            + responsibility_multiplier
+            * args.responsibility_scale_weight * responsibility_losses["scale"]
+            + responsibility_multiplier
+            * args.responsibility_axis_weight * responsibility_losses["axis"]
+            + responsibility_multiplier
+            * args.responsibility_opacity_weight * responsibility_losses["opacity"]
+            + responsibility_multiplier
+            * args.responsibility_color_weight * responsibility_losses["color"]
+            + responsibility_multiplier
+            * args.responsibility_gradient_weight * responsibility_losses["gradient"]
             + sparsity_multiplier * args.sparsity_weight * sparsity_loss
             + sparsity_multiplier * args.polarization_weight * polarization_loss
         )
@@ -768,6 +851,13 @@ def main() -> None:
                 float(local_losses["opacity"].detach()),
                 float(local_losses["color"].detach()),
                 float(local_losses["gradient"].detach()),
+                float(responsibility_losses["scale"].detach()),
+                float(responsibility_losses["axis"].detach()),
+                float(responsibility_losses["opacity"].detach()),
+                float(responsibility_losses["color"].detach()),
+                float(responsibility_losses["gradient"].detach()),
+                float(responsibility_effective.detach()),
+                float(responsibility_support.detach()),
                 float(sparsity_loss.detach()),
                 float(active_fraction.detach()),
             )
@@ -791,12 +881,20 @@ def main() -> None:
                 "local_opacity": sum(row[10] for row in recent) / len(recent),
                 "local_color": sum(row[11] for row in recent) / len(recent),
                 "local_gradient": sum(row[12] for row in recent) / len(recent),
-                "sparsity": sum(row[13] for row in recent) / len(recent),
-                "active_fraction": sum(row[14] for row in recent) / len(recent),
+                "responsibility_scale": sum(row[13] for row in recent) / len(recent),
+                "responsibility_axis": sum(row[14] for row in recent) / len(recent),
+                "responsibility_opacity": sum(row[15] for row in recent) / len(recent),
+                "responsibility_color": sum(row[16] for row in recent) / len(recent),
+                "responsibility_gradient": sum(row[17] for row in recent) / len(recent),
+                "responsibility_effective": sum(row[18] for row in recent) / len(recent),
+                "responsibility_support": sum(row[19] for row in recent) / len(recent),
+                "sparsity": sum(row[20] for row in recent) / len(recent),
+                "active_fraction": sum(row[21] for row in recent) / len(recent),
                 "sparsity_multiplier": sparsity_multiplier,
                 "density_multiplier": density_multiplier,
                 "orientation_multiplier": orientation_multiplier,
                 "local_multiplier": local_multiplier,
+                "responsibility_multiplier": responsibility_multiplier,
                 "gradient_norm": float(gradient_norm),
                 "lr": rate,
             }
