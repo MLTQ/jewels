@@ -28,6 +28,14 @@ import time
 
 import torch
 
+from sol.appearance_objective import (
+    AppearanceObjective,
+    appearance_objective,
+    multiscale_image_loss,
+    range_diagnostics,
+    range_excess_loss,
+    residual_energy,
+)
 from sol.compare_field_structure import structure_report
 from sol.factorized_structural_encoder import (
     ARCHITECTURE as FACTORIZED_ARCHITECTURE,
@@ -235,35 +243,44 @@ def restore_geometry_state(
     model.head.bias[rows] = frozen["bias"]
 
 
-def multiscale_image_loss(
-    rendered: torch.Tensor, target: torch.Tensor
+def appearance_frame_indices(
+    total_frames: int,
+    count: int,
+    step: int,
+    *,
+    contiguous: bool,
 ) -> torch.Tensor:
-    """Charbonnier image pyramids plus first-order edges for appearance detail."""
-    if rendered.shape != target.shape or rendered.ndim != 4 or rendered.shape[-1] != 3:
-        raise ValueError("rendered and target must share NHWC image shapes")
-    prediction = rendered.permute(0, 3, 1, 2)
-    reference = target.permute(0, 3, 1, 2)
-    loss = torch.zeros((), device=rendered.device, dtype=rendered.dtype)
-    weight_sum = 0.0
-    for weight in (1.0, 0.5, 0.25):
-        difference = prediction - reference
-        loss = loss + weight * torch.sqrt(difference.square() + 1e-6).mean()
-        weight_sum += weight
-        if min(prediction.shape[-2:]) < 2:
-            break
-        prediction = torch.nn.functional.avg_pool2d(prediction, 2)
-        reference = torch.nn.functional.avg_pool2d(reference, 2)
-    prediction = rendered.permute(0, 3, 1, 2)
-    reference = target.permute(0, 3, 1, 2)
-    horizontal = torch.nn.functional.l1_loss(
-        prediction[..., 1:] - prediction[..., :-1],
-        reference[..., 1:] - reference[..., :-1],
-    )
-    vertical = torch.nn.functional.l1_loss(
-        prediction[..., 1:, :] - prediction[..., :-1, :],
-        reference[..., 1:, :] - reference[..., :-1, :],
-    )
-    return loss / weight_sum + 0.25 * (horizontal + vertical)
+    """Choose deterministic CPU frame indices without consuming RNG state."""
+    if total_frames <= 0 or count <= 0 or step < 0:
+        raise ValueError("frame selection arguments must be positive")
+    if contiguous:
+        if count > total_frames:
+            raise ValueError("contiguous appearance frames exceed the video")
+        start = step % (total_frames - count + 1)
+        return torch.arange(start, start + count)
+    stride = max(total_frames // count, 1)
+    return (
+        torch.arange(count) * stride + step
+    ).remainder(total_frames).sort().values
+
+
+def frozen_geometry_report(
+    reference: dict[str, torch.Tensor], prediction: dict[str, torch.Tensor]
+) -> dict[str, float | bool]:
+    """Verify canonical geometry outputs remain bitwise equal to their frozen source."""
+    keys = ("centers", "log_scale", "quaternion", "logit_w")
+    if any(key not in reference or key not in prediction for key in keys):
+        raise ValueError("frozen geometry report requires canonical prediction keys")
+    exact = True
+    maximum = 0.0
+    for key in keys:
+        source = reference[key]
+        candidate = prediction[key].detach().cpu()
+        if source.shape != candidate.shape:
+            raise ValueError(f"frozen geometry shape changed for {key}")
+        exact = exact and torch.equal(source, candidate)
+        maximum = max(maximum, float((source - candidate).abs().max()))
+    return {"bitwise_exact": exact, "max_abs_change": maximum}
 
 
 def chamfer(a: torch.Tensor, b: torch.Tensor, chunk: int = 2048) -> tuple[torch.Tensor, torch.Tensor]:
@@ -323,6 +340,19 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--appearance-grid-frames", type=int, default=2)
     parser.add_argument("--appearance-grid-height", type=int, default=64)
     parser.add_argument("--appearance-grid-width", type=int, default=96)
+    parser.add_argument("--appearance-grid-rgb-weight", type=float, default=1.0)
+    parser.add_argument("--appearance-grid-spatial-weight", type=float, default=0.5)
+    parser.add_argument("--appearance-grid-temporal-weight", type=float, default=0.0)
+    parser.add_argument("--appearance-grid-structure-weight", type=float, default=0.0)
+    parser.add_argument("--appearance-grid-range-weight", type=float, default=0.0)
+    parser.add_argument("--appearance-grid-contiguous", action="store_true")
+    parser.add_argument(
+        "--appearance-grid-frequency-correct", action="store_true",
+        help="multiply scheduled grid updates by their interval",
+    )
+    parser.add_argument("--render-range-weight", type=float, default=0.0)
+    parser.add_argument("--residual-color-weight", type=float, default=0.0)
+    parser.add_argument("--residual-gradient-weight", type=float, default=0.0)
     parser.add_argument("--points-per-step", type=int, default=8192)
     parser.add_argument("--point-chunk", type=int, default=1024)
     parser.add_argument("--teacher-sample", type=int, default=12000)
@@ -402,13 +432,35 @@ def _parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = _parse_args()
-    if args.appearance_grid_weight < 0 or min(
+    appearance_weights = (
+        args.appearance_grid_rgb_weight,
+        args.appearance_grid_spatial_weight,
+        args.appearance_grid_temporal_weight,
+        args.appearance_grid_structure_weight,
+        args.appearance_grid_range_weight,
+        args.render_range_weight,
+        args.residual_color_weight,
+        args.residual_gradient_weight,
+    )
+    if args.appearance_grid_weight < 0 or min(appearance_weights) < 0 or min(
         args.appearance_grid_every,
         args.appearance_grid_frames,
         args.appearance_grid_height,
         args.appearance_grid_width,
     ) <= 0:
         raise ValueError("appearance-grid settings must be positive and weight non-negative")
+    if args.appearance_grid_temporal_weight and not args.appearance_grid_contiguous:
+        raise ValueError("temporal appearance loss requires contiguous grid frames")
+    if (
+        args.appearance_grid_weight
+        and not any(appearance_weights[:5])
+    ):
+        raise ValueError("appearance-grid objective weights cannot all be zero")
+    if (
+        (args.residual_color_weight or args.residual_gradient_weight)
+        and (not args.factorized or args.appearance_contract != "residual")
+    ):
+        raise ValueError("residual energy penalties require the residual factorized contract")
     local_weights = (
         args.local_scale_weight,
         args.local_axis_weight,
@@ -588,11 +640,21 @@ def main() -> None:
             f"step={initialized_geometry.get('step')}", flush=True,
         )
     frozen_geometry = None
+    frozen_validation_geometry: dict[str, dict[str, torch.Tensor]] = {}
     if args.freeze_geometry:
         if args.factorized:
             model.freeze_geometry()
         else:
             frozen_geometry = freeze_geometry_state(model)
+        model.eval()
+        with torch.no_grad():
+            for source_id in validation_ids:
+                initial_prediction = model(videos[source_id][0].to(device))
+                frozen_validation_geometry[source_id] = {
+                    key: initial_prediction[key].detach().cpu().clone()
+                    for key in ("centers", "log_scale", "quaternion", "logit_w")
+                }
+        model.train()
     optimizer = torch.optim.AdamW(
         (parameter for parameter in model.parameters() if parameter.requires_grad),
         lr=args.lr, weight_decay=0.01,
@@ -607,6 +669,7 @@ def main() -> None:
         report: dict = {}
         evaluation_generator = torch.Generator(device=device).manual_seed(args.seed + 1)
         structures = []
+        geometry_reports = []
         for source_id in validation_ids:
             video = videos[source_id][0].to(device)
             prediction = model(video)
@@ -618,6 +681,12 @@ def main() -> None:
             mse = float(torch.nn.functional.mse_loss(rendered, target))
             report[source_id] = {"psnr": -10.0 * math.log10(max(mse, 1e-10))}
             structures.append(structure_report(model.canonical_features(prediction).cpu()))
+            if frozen_validation_geometry:
+                geometry = frozen_geometry_report(
+                    frozen_validation_geometry[source_id], prediction
+                )
+                report[source_id]["frozen_geometry"] = geometry
+                geometry_reports.append(geometry)
         report["macro_psnr"] = sum(
             v["psnr"] for v in report.values() if isinstance(v, dict)
         ) / len(validation_ids)
@@ -637,6 +706,12 @@ def main() -> None:
         report["structure"]["active_fraction"] = (
             report["structure"]["jewels_above_2pct_opacity"] / model.n_jewels
         )
+        if geometry_reports:
+            report["frozen_geometry"] = {
+                "bitwise_exact": all(row["bitwise_exact"] for row in geometry_reports),
+                "max_abs_change": max(row["max_abs_change"] for row in geometry_reports),
+                "sources": len(geometry_reports),
+            }
         model.train()
         return report
 
@@ -674,12 +749,16 @@ def main() -> None:
         )
         render_loss = torch.nn.functional.mse_loss(rendered, target)
         zero = torch.zeros((), device=device)
-        image_loss = zero
+        image_terms = AppearanceObjective(
+            total=zero, rgb=zero, spatial=zero, temporal=zero,
+            structure=zero, range=zero,
+        )
+        grid_frequency_multiplier = 1
         if args.appearance_grid_weight and step % args.appearance_grid_every == 0:
-            stride = max(len(video) // args.appearance_grid_frames, 1)
-            frame_indices = (
-                torch.arange(args.appearance_grid_frames) * stride + step
-            ).remainder(len(video)).sort().values
+            frame_indices = appearance_frame_indices(
+                len(video), args.appearance_grid_frames, step,
+                contiguous=args.appearance_grid_contiguous,
+            )
             grid_points = frame_points(
                 len(video), frame_indices,
                 args.appearance_grid_height, args.appearance_grid_width,
@@ -699,7 +778,25 @@ def main() -> None:
                 size=(args.appearance_grid_height, args.appearance_grid_width),
                 mode="bilinear", align_corners=True,
             ).permute(0, 2, 3, 1)
-            image_loss = multiscale_image_loss(grid_rendered, grid_target)
+            image_terms = appearance_objective(
+                grid_rendered,
+                grid_target,
+                rgb_weight=args.appearance_grid_rgb_weight,
+                spatial_weight=args.appearance_grid_spatial_weight,
+                temporal_weight=args.appearance_grid_temporal_weight,
+                structure_weight=args.appearance_grid_structure_weight,
+                range_weight=args.appearance_grid_range_weight,
+            )
+            if args.appearance_grid_frequency_correct:
+                grid_frequency_multiplier = args.appearance_grid_every
+        render_range_loss = range_excess_loss(rendered)
+        rendered_range = range_diagnostics(rendered)
+        if "appearance_residual" in prediction:
+            residual_color_loss, residual_gradient_loss = residual_energy(
+                prediction["appearance_residual"]
+            )
+        else:
+            residual_color_loss = residual_gradient_loss = zero
         chamfer_loss = spread_loss = size_loss = axis_loss = tilt_loss = zero
         occupancy_loss = zero
         local_losses = {
@@ -832,7 +929,11 @@ def main() -> None:
         )
         loss = (
             render_loss
-            + args.appearance_grid_weight * image_loss
+            + args.appearance_grid_weight
+            * grid_frequency_multiplier * image_terms.total
+            + args.render_range_weight * render_range_loss
+            + args.residual_color_weight * residual_color_loss
+            + args.residual_gradient_weight * residual_gradient_loss
             + args.chamfer_weight * chamfer_loss
             + args.spread_weight * spread_loss
             + args.size_weight * size_loss
@@ -871,7 +972,7 @@ def main() -> None:
         history.append(
             (
                 float(render_loss.detach()),
-                float(image_loss.detach()),
+                float(image_terms.total.detach()),
                 float(chamfer_loss.detach()),
                 float(spread_loss.detach()),
                 float(size_loss.detach()),
@@ -892,6 +993,22 @@ def main() -> None:
                 float(responsibility_support.detach()),
                 float(sparsity_loss.detach()),
                 float(active_fraction.detach()),
+                float(image_terms.rgb.detach()),
+                float(image_terms.spatial.detach()),
+                float(image_terms.temporal.detach()),
+                float(image_terms.structure.detach()),
+                float(image_terms.range.detach()),
+                float(render_range_loss.detach()),
+                float(rendered_range["out_of_range_fraction"].detach()),
+                float(rendered_range["below_zero_fraction"].detach()),
+                float(rendered_range["above_one_fraction"].detach()),
+                float(residual_color_loss.detach()),
+                float(residual_gradient_loss.detach()),
+                float(
+                    args.appearance_grid_weight
+                    * grid_frequency_multiplier
+                    * image_terms.total.detach()
+                ),
             )
         )
         if step % args.log_every == 0 or step == args.steps:
@@ -922,6 +1039,20 @@ def main() -> None:
                 "responsibility_support": sum(row[19] for row in recent) / len(recent),
                 "sparsity": sum(row[20] for row in recent) / len(recent),
                 "active_fraction": sum(row[21] for row in recent) / len(recent),
+                "appearance_rgb": sum(row[22] for row in recent) / len(recent),
+                "appearance_spatial": sum(row[23] for row in recent) / len(recent),
+                "appearance_temporal": sum(row[24] for row in recent) / len(recent),
+                "appearance_structure": sum(row[25] for row in recent) / len(recent),
+                "appearance_range": sum(row[26] for row in recent) / len(recent),
+                "render_range": sum(row[27] for row in recent) / len(recent),
+                "render_out_of_range_fraction": (
+                    sum(row[28] for row in recent) / len(recent)
+                ),
+                "render_below_zero_fraction": sum(row[29] for row in recent) / len(recent),
+                "render_above_one_fraction": sum(row[30] for row in recent) / len(recent),
+                "residual_color_energy": sum(row[31] for row in recent) / len(recent),
+                "residual_gradient_energy": sum(row[32] for row in recent) / len(recent),
+                "appearance_grid_weighted": sum(row[33] for row in recent) / len(recent),
                 "sparsity_multiplier": sparsity_multiplier,
                 "density_multiplier": density_multiplier,
                 "orientation_multiplier": orientation_multiplier,

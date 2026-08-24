@@ -24,6 +24,8 @@ class FactorizedStructuralEncoderTests(unittest.TestCase):
         prediction = model(self.video)
         self.assertEqual(prediction["centers"].shape, (24, 3))
         self.assertEqual(prediction["color_grads"].shape, (24, 3, 3))
+        self.assertEqual(prediction["appearance_residual"].shape, (24, 12))
+        self.assertEqual(float(prediction["appearance_residual"].abs().sum()), 0.0)
         self.assertEqual(model.canonical_features(prediction).shape, (24, 22))
 
     def test_appearance_loss_does_not_reach_geometry(self) -> None:
@@ -100,6 +102,7 @@ class FactorizedStructuralEncoderTests(unittest.TestCase):
         prediction = model(self.video)
         self.assertTrue(bool((prediction["colors"] > 1.0).all()))
         self.assertTrue(bool((prediction["color_grads"] > 0.25).all()))
+        self.assertTrue(bool((prediction["appearance_residual"][:, :3] == 2.0).all()))
         self.assertEqual(model.model_args["appearance_contract"], "residual")
 
 

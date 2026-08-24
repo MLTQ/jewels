@@ -231,10 +231,11 @@ class FactorizedStructuralJewelEncoder(nn.Module):
         appearance = self.appearance_head(appearance_input)
         colors = torch.sigmoid(torch.logit(seed) + appearance[:, :3])
         color_grads = 0.25 * torch.tanh(appearance[:, 3:].reshape(-1, 3, 3))
+        appearance_residual = torch.zeros_like(appearance)
         if self.appearance_contract == "residual":
-            residual = self.appearance_residual_head(appearance_input)
-            colors = colors + residual[:, :3]
-            color_grads = color_grads + residual[:, 3:].reshape(-1, 3, 3)
+            appearance_residual = self.appearance_residual_head(appearance_input)
+            colors = colors + appearance_residual[:, :3]
+            color_grads = color_grads + appearance_residual[:, 3:].reshape(-1, 3, 3)
         base_background = video.mean(dim=(0, 1, 2)).clamp(1e-3, 1 - 1e-3)
         background = torch.sigmoid(
             torch.logit(base_background) + self.background_head(coarse.mean(dim=(0, 2, 3, 4)))
@@ -248,6 +249,7 @@ class FactorizedStructuralJewelEncoder(nn.Module):
             "quaternion": flat(quaternion),
             "colors": colors,
             "color_grads": color_grads,
+            "appearance_residual": appearance_residual,
             "logit_w": flat(logit_w).reshape(-1),
             "background": background,
         }

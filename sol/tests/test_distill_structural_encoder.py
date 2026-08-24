@@ -7,8 +7,10 @@ import unittest
 import torch
 
 from sol.distill_structural_encoder import (
+    appearance_frame_indices,
     chamfer,
     freeze_geometry_state,
+    frozen_geometry_report,
     mask_geometry_gradients,
     multiscale_image_loss,
     mixed_spacetime_tilt,
@@ -208,6 +210,31 @@ class AppearanceImageLossTests(unittest.TestCase):
         self.assertGreater(float(value.detach()), 0.4)
         value.backward()
         self.assertGreater(float(rendered.grad.abs().sum()), 0.0)
+
+    def test_contiguous_frame_selection_is_deterministic(self) -> None:
+        selected = appearance_frame_indices(
+            12, 4, 5, contiguous=True
+        )
+        torch.testing.assert_close(selected, torch.tensor((5, 6, 7, 8)))
+        with self.assertRaisesRegex(ValueError, "exceed"):
+            appearance_frame_indices(
+                3, 4, 0, contiguous=True
+            )
+
+    def test_frozen_geometry_report_requires_bitwise_identity(self) -> None:
+        reference = {
+            "centers": torch.zeros(2, 3),
+            "log_scale": torch.zeros(2, 3),
+            "quaternion": torch.zeros(2, 4),
+            "logit_w": torch.zeros(2),
+        }
+        exact = frozen_geometry_report(reference, reference)
+        self.assertTrue(exact["bitwise_exact"])
+        changed = {key: value.clone() for key, value in reference.items()}
+        changed["centers"][0, 0] = torch.finfo(torch.float32).eps
+        report = frozen_geometry_report(reference, changed)
+        self.assertFalse(report["bitwise_exact"])
+        self.assertGreater(report["max_abs_change"], 0.0)
 
 
 if __name__ == "__main__":

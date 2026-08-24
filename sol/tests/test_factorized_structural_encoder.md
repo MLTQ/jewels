@@ -15,6 +15,8 @@ encoder.
 - **Does**: Verifies explicit geometry freeze leaves the appearance MLP trainable.
 - **Does**: Proves bounded-to-residual expansion preserves every initial prediction exactly.
 - **Does**: Proves the residual contract can emit RGB and Jacobians outside the legacy bounds.
+- **Does**: Verifies the separately exposed residual is zero under the bounded contract and carries
+  the declared unconstrained contribution under the residual contract.
 
 ## Contracts
 

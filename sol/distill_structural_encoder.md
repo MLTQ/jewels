@@ -74,12 +74,23 @@ feed-forward student, which is what PROMPTABLE_ROADMAP Phase 3 specified from th
   whether colour, colour-gradient, and background learning can recover detail without sacrificing
   that already-successful geometry state.
 
-### `multiscale_image_loss`
-- **Does**: Scores full low-resolution frame renders with a three-level Charbonnier pyramid and
-  horizontal/vertical first-order edge differences.
+### `frozen_geometry_report`
+
+- **Does**: Compares center, log-scale, quaternion, and opacity-logit predictions against the
+  source snapshot with `torch.equal`, and reports the maximum absolute change.
+- **Rationale**: A stable aggregate occupancy score is weaker than proving the actual time-distorted
+  field stayed bitwise fixed.
+
+### `appearance_frame_indices` / full-frame objective
+- **Does**: Selects deterministic CPU-owned spaced or contiguous low-resolution frame indices and delegates named
+  RGB, spatial-edge, temporal-edge, spatiotemporal-structure, and range terms to
+  `appearance_objective.py`. The legacy `multiscale_image_loss` remains re-exported.
 - **Rationale**: Random voxel MSE improved sampled PSNR while leaving broad, perceptually poor
-  renders. A bounded image-grid term gives the appearance branch spatial context and explicit edge
-  pressure without changing the exact held-out LPIPS gate.
+  renders. Contiguous full-frame terms give the appearance branch spatial and temporal context
+  without using held-out LPIPS during training.
+- **Diagnostics**: Every step logs rendered below-zero/above-one fractions and separate residual
+  RGB/Jacobian energy. Optional penalties remain independently weighted rather than silently
+  clipping the unconstrained contract.
 
 ### Local teacher attributes
 - **Does**: Uses detached soft correspondence from `local_teacher_distillation.py` to supervise
@@ -132,6 +143,10 @@ feed-forward student, which is what PROMPTABLE_ROADMAP Phase 3 specified from th
   masking/restoration path for backward-compatible causal controls.
 - **Does**: Optionally renders a deterministic rotating subset of low-resolution full frames every
   declared number of steps and records the image-grid loss separately from sampled-voxel MSE.
+- **Does**: Can frequency-correct intermittent grid updates, use contiguous frames for temporal
+  supervision, penalize sampled rendered-range excess, and regularize residual RGB/Jacobian energy.
+- **Does**: Under `--freeze-geometry`, snapshots all held-out geometry predictions before the first
+  optimizer step and writes a bitwise equality report into every evaluation and checkpoint.
 - **Does**: Optionally matches nearest-teacher absolute mean log scale in addition to scale-invariant
   spread; the separate offset declares any coverage compensation for a lower active jewel count.
 - **Does**: Optionally applies local fitted-teacher scale/axis/optical-mass/RGB/RGB-gradient losses
@@ -152,6 +167,8 @@ feed-forward student, which is what PROMPTABLE_ROADMAP Phase 3 specified from th
 | Frozen-geometry continuation | Center, covariance, and opacity predictions remain bitwise fixed for each video | Freeze mask |
 | Factorized-v3 checkpoints | Architecture-specific constructor arguments and optional v2 geometry source are recorded | Metadata |
 | Appearance-grid objective | Positive dimensions/frequency and an explicitly weighted loss | Training semantics |
+| Frozen geometry proof | Every held-out center/scale/quaternion/opacity tensor is bitwise source-equal | Evaluation schema |
+| Residual diagnostics | Range and residual-energy terms retain separate weights and log fields | Appearance semantics |
 | Absolute-size experiment | Teacher mean log scale and declared offset retain physical scale meaning | Descriptor schema |
 | Local attribute experiment | Weights, neighbor kernel, schedule, and active-count compensation are checkpointed | Local-loss semantics |
 | Responsibility experiment | Active sample, finite support, temperature, offset, weights, schedule, and diagnostics are checkpointed | Responsibility semantics |

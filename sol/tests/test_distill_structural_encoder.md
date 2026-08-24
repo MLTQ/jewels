@@ -30,6 +30,9 @@ Renderer-responsibility moment math and detached targets are likewise isolated t
 ### `AppearanceImageLossTests`
 - **Does**: Locks the near-zero matching-image floor and verifies colour/edge disagreement produces
   a larger differentiable multiscale loss.
+- **Does**: Verifies deterministic contiguous-frame selection and rejects a frame request longer
+  than its source video.
+- **Does**: Proves the frozen-geometry report distinguishes exact equality from a one-ULP change.
 
 ## Contracts
 
@@ -39,3 +42,4 @@ Renderer-responsibility moment math and detached targets are likewise isolated t
 | Structural audits | Active means opacity above 2% | Threshold policy |
 | Appearance-only continuation | Trunk and geometry/opacity head rows do not move | Freeze semantics |
 | Factorized appearance training | Full-image multiscale/edge loss is differentiable | Objective semantics |
+| Frozen geometry audit | Equality is bitwise, not tolerance-based | Gate semantics |

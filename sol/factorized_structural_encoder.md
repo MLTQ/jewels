@@ -25,6 +25,8 @@ coverage, while old v2 geometry can be transplanted exactly for causal continuat
   layout.
 - **Does**: Supports the legacy `bounded` appearance contract and an explicit `residual` contract
   that adds unconstrained RGB/Jacobian residuals after the bounded prediction.
+- **Does**: Exposes the 12-D residual contribution separately as `appearance_residual` so training
+  and audits can measure color and Jacobian energy without reverse-engineering the composed output.
 - **Rationale**: Fitted responsibility targets frequently exceed sigmoid RGB and bounded-gradient
   ranges; a zero-initialized residual tests that bottleneck without changing the source render.
 
@@ -48,4 +50,5 @@ coverage, while old v2 geometry can be transplanted exactly for causal continuat
 | Irregular-field audit | `canonical_features` returns 22 columns | Feature layout |
 | Checkpoint loader | Architecture is `factorized_structural_jewel_encoder_v3` and `model_args` is complete | Metadata |
 | Appearance expansion | `appearance_contract` is checkpointed; missing legacy values mean `bounded` | Contract semantics |
+| Appearance diagnostics | `appearance_residual` is zero for bounded models and `N x 12` for every model | Prediction dictionary |
 | Geometry transplant | v2 trunk topology and 23-channel-per-slot head order remain stable | v2 compatibility |

@@ -1,0 +1,28 @@
+{
+  "schema": "frozen-geometry-checkpoint-comparison-v1",
+  "source": "/home/m/jewels-codex-support/sol/results/appearance_contract_v1/continuation_2070/control_total1200/encoder.pt",
+  "all_bitwise_exact": true,
+  "candidates": [
+    {
+      "checkpoint": "/home/m/jewels-codex-support/sol/results/frozen_appearance_v1/continuation/frozen_render_total1200/encoder.pt",
+      "bitwise_exact": true,
+      "max_abs_change": 0.0,
+      "tensor_count": 20,
+      "mismatched_tensors": []
+    },
+    {
+      "checkpoint": "/home/m/jewels-codex-support/sol/results/frozen_appearance_v1/replication/seed1_total1200/encoder.pt",
+      "bitwise_exact": true,
+      "max_abs_change": 0.0,
+      "tensor_count": 20,
+      "mismatched_tensors": []
+    },
+    {
+      "checkpoint": "/home/m/jewels-codex-support/sol/results/frozen_appearance_v1/replication/seed2_total1200/encoder.pt",
+      "bitwise_exact": true,
+      "max_abs_change": 0.0,
+      "tensor_count": 20,
+      "mismatched_tensors": []
+    }
+  ]
+}

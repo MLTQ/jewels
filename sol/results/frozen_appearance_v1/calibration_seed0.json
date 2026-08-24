@@ -1,0 +1,50 @@
+{
+  "schema": "frozen-appearance-calibration-v1",
+  "checkpoint": "/home/m/jewels-codex-support/sol/results/appearance_contract_v1/continuation_2070/control_total1200/encoder.pt",
+  "source_id": "anime__00_cooking_train_00_seed60000",
+  "seed": 0,
+  "frame_indices": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "losses": {
+    "sampled_render": 0.01549094170331955,
+    "grid_rgb": 0.07701132446527481,
+    "grid_spatial": 0.07861930131912231,
+    "grid_temporal": 0.03144514560699463,
+    "grid_structure": 0.17965757846832275,
+    "grid_range": 8.519132279616315e-06,
+    "sampled_range": 3.4989350297109922e-06,
+    "residual_color": 0.04748733341693878,
+    "residual_gradient": 0.01233712863177061
+  },
+  "appearance_gradient_l2": {
+    "sampled_render": 0.019134610891342163,
+    "grid_rgb": 0.17381104826927185,
+    "grid_spatial": 0.04402749612927437,
+    "grid_temporal": 0.06587126106023788,
+    "grid_structure": 0.8545144200325012,
+    "grid_range": 0.0007403773488476872,
+    "sampled_range": 0.0010607060976326466,
+    "residual_color": 1.0009742975234985,
+    "residual_gradient": 0.2219218611717224
+  },
+  "sampled_render_range": {
+    "below_zero_fraction": 0.007486979477107525,
+    "above_one_fraction": 0.0006510416860692203,
+    "out_of_range_fraction": 0.00813802145421505,
+    "range_excess": 3.4989350297109922e-06
+  },
+  "grid_render_range": {
+    "below_zero_fraction": 0.005160108208656311,
+    "above_one_fraction": 0.0009886188199743629,
+    "out_of_range_fraction": 0.006148726679384708,
+    "range_excess": 8.519132279616315e-06
+  },
+  "geometry_trainable_parameters": 0,
+  "appearance_trainable_parameters": 64223,
+  "optimizer_constructed": false,
+  "optimizer_steps": 0
+}
