@@ -45,6 +45,8 @@ trainer and deliberately prevents appearance or covariance targets from moving c
   responsibility moments and returns effective/support counts for diagnostics.
 - **Does**: Projects targets to the v3 student's declared feasible ranges (log scale `[-9,1]`,
   optical density at most `6`, RGB `[0,1]`, and RGB Jacobian `[-0.25,0.25]`).
+- **Does**: Can leave RGB and Jacobian moments raw for an explicitly unbounded appearance contract;
+  geometry and optical targets retain their existing feasible projections.
 
 ## Contracts
 
@@ -55,4 +57,5 @@ trainer and deliberately prevents appearance or covariance targets from moving c
 | Factorized-v3 experiment | Correspondence has no gradient path into student centers | Removing detach/no-grad |
 | Opacity supervision | Active count uses the canonical 2% threshold | Threshold policy |
 | Responsibility experiment | Active-uniform teacher sampling applies opacity exactly once in contribution logits | Sampling/weight semantics |
+| Expanded appearance experiment | Raw appearance targets are opt-in; bounded projection remains the default | Projection semantics |
 | Renderer consistency | Contribution logits use the canonical covariance precision and five-sigma-style support | Feature/support semantics |

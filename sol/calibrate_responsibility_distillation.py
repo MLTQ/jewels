@@ -10,7 +10,10 @@ import sys
 
 import torch
 
-from sol.factorized_structural_encoder import FactorizedStructuralJewelEncoder
+from sol.factorized_structural_encoder import (
+    APPEARANCE_CONTRACTS,
+    FactorizedStructuralJewelEncoder,
+)
 from sol.local_teacher_distillation import (
     extract_local_teacher_attributes,
     responsibility_teacher_moment_losses,
@@ -52,6 +55,14 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--support-sigma", type=float, default=5.0)
     parser.add_argument("--temperature", type=float, default=1.0)
     parser.add_argument("--size-offset", type=float, default=0.0)
+    parser.add_argument(
+        "--appearance-contract", choices=APPEARANCE_CONTRACTS, default="bounded"
+    )
+    parser.add_argument(
+        "--responsibility-appearance-target",
+        choices=("bounded", "raw"),
+        default="bounded",
+    )
     parser.add_argument("--target-active-fraction", type=float, default=0.58)
     parser.add_argument("--support-capacity", type=int, default=8192)
     parser.add_argument("--seed", type=int, default=0)
@@ -69,11 +80,21 @@ def main() -> None:
     )
     checkpoint = torch.load(args.checkpoint, map_location=device, weights_only=False)
     meta = checkpoint["meta"]
+    source_args = dict(meta["model_args"])
+    source_args.setdefault("appearance_contract", "bounded")
+    target_args = {**source_args, "appearance_contract": args.appearance_contract}
     model = FactorizedStructuralJewelEncoder(
         grid_spec=GridSpec(tuple(meta["grid_shape"]), 1024),
-        **meta["model_args"],
+        **target_args,
     ).to(device)
-    model.load_state_dict(checkpoint["model"])
+    if source_args == target_args:
+        model.load_state_dict(checkpoint["model"])
+    elif source_args["appearance_contract"] == "bounded" and (
+        args.appearance_contract == "residual"
+    ):
+        model.load_bounded_appearance_expansion(checkpoint["model"])
+    else:
+        raise ValueError("unsupported checkpoint appearance-contract conversion")
     video = load_video(
         example["video"],
         max_frames=int(example["frames"]),
@@ -127,6 +148,7 @@ def main() -> None:
         opacity_mass_ratio=(
             teacher.active_count / (model.n_jewels * args.target_active_fraction)
         ),
+        project_appearance=args.responsibility_appearance_target == "bounded",
     )
     points, target = sample_voxels(video, args.points, generator)
     rendered = render_structural(
@@ -143,6 +165,8 @@ def main() -> None:
         + list(model.appearance_head.parameters())
         + list(model.background_head.parameters())
     )
+    if args.appearance_contract == "residual":
+        appearance += list(model.appearance_residual_head.parameters())
     report = {
         "source_id": args.source_id,
         "checkpoint": args.checkpoint,
@@ -151,6 +175,8 @@ def main() -> None:
         "student_sample": count,
         "support_sigma": args.support_sigma,
         "temperature": args.temperature,
+        "appearance_contract": args.appearance_contract,
+        "responsibility_appearance_target": args.responsibility_appearance_target,
         "losses": {},
         "targets": {
             "support_count_mean": float(targets.support_count.mean()),
@@ -163,6 +189,14 @@ def main() -> None:
             ),
             "gradient_clip_fraction": float(
                 (targets.color_grads.abs() > 0.25).float().mean()
+            ),
+            "color_projection_fraction": (
+                float(((targets.colors < 0) | (targets.colors > 1)).float().mean())
+                if args.responsibility_appearance_target == "bounded" else 0.0
+            ),
+            "gradient_projection_fraction": (
+                float((targets.color_grads.abs() > 0.25).float().mean())
+                if args.responsibility_appearance_target == "bounded" else 0.0
             ),
             "scale_clip_fraction": float(
                 (

@@ -197,6 +197,42 @@ class LocalTeacherDistillationTests(unittest.TestCase):
         self.assertEqual(float(targets.effective_count), 1.0)
         self.assertEqual(float(targets.support_count), 1.0)
 
+    def test_raw_responsibility_appearance_avoids_feasible_projection(self) -> None:
+        teacher = LocalTeacherAttributes(
+            centers=torch.zeros(1, 3),
+            covariance=torch.eye(3)[None],
+            precision=torch.eye(3)[None],
+            log_scale=torch.zeros(1, 3),
+            axis=torch.tensor([[0.0, 0.0, 1.0]]),
+            opacity=torch.tensor([0.5]),
+            colors=torch.tensor([[1.5, -0.5, 0.5]]),
+            color_grads=torch.full((1, 3, 3), 0.75),
+            active_count=1.0,
+        )
+        common = {
+            "student_centers": torch.zeros(1, 3),
+            "student_log_scale": torch.zeros(1, 3),
+            "student_axis": teacher.axis,
+            "student_opacity": teacher.opacity,
+            "student_colors": teacher.colors,
+            "student_color_grads": teacher.color_grads,
+            "teacher": teacher,
+            "support_sigma": 5.0,
+            "temperature": 1.0,
+            "size_offset": 0.0,
+            "opacity_mass_ratio": 1.0,
+        }
+        raw, _ = responsibility_teacher_moment_losses(
+            **common, project_appearance=False
+        )
+        bounded, _ = responsibility_teacher_moment_losses(
+            **common, project_appearance=True
+        )
+        self.assertLess(float(raw["color"]), 1e-6)
+        self.assertLess(float(raw["gradient"]), 1e-6)
+        self.assertGreater(float(bounded["color"]), 0.0)
+        self.assertGreater(float(bounded["gradient"]), 0.0)
+
     def test_responsibility_marks_nearest_mahalanobis_fallback(self) -> None:
         teacher = LocalTeacherAttributes(
             centers=torch.zeros(1, 3),

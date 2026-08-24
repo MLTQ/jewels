@@ -100,6 +100,9 @@ feed-forward student, which is what PROMPTABLE_ROADMAP Phase 3 specified from th
   the jointly rendered local field rather than an arbitrary nearest fitted jewel.
 - **Matching**: The active-uniform sample has its own CPU generator so enabling this arm cannot
   perturb the opacity-sampled teacher set or GPU training sequence used by its matched control.
+- **Appearance contract**: `--appearance-contract residual` expands a bounded checkpoint with a
+  zero-initialized unconstrained head. `--responsibility-appearance-target raw` is accepted only for
+  that contract, preventing an impossible raw target from being paired with the bounded encoder.
 
 ### `chamfer`
 - **Does**: Symmetric squared-distance Chamfer plus student->teacher nearest indices.
@@ -136,6 +139,8 @@ feed-forward student, which is what PROMPTABLE_ROADMAP Phase 3 specified from th
   is compensated by full-teacher active count divided by the declared student target count.
 - **Does**: Optionally applies renderer-responsibility moment losses from a separate active-uniform
   teacher sample, with independent support, temperature, size offset, schedule, weights, and logs.
+- **Does**: Explicitly transfers a legacy bounded v3 checkpoint into the shape-compatible residual
+  contract only when every pre-existing model argument matches.
 
 ## Contracts
 
@@ -150,6 +155,7 @@ feed-forward student, which is what PROMPTABLE_ROADMAP Phase 3 specified from th
 | Absolute-size experiment | Teacher mean log scale and declared offset retain physical scale meaning | Descriptor schema |
 | Local attribute experiment | Weights, neighbor kernel, schedule, and active-count compensation are checkpointed | Local-loss semantics |
 | Responsibility experiment | Active sample, finite support, temperature, offset, weights, schedule, and diagnostics are checkpointed | Responsibility semantics |
+| Residual appearance experiment | Source/target contracts and raw-vs-bounded responsibility targets are checkpointed | Appearance semantics |
 
 ## Notes
 

@@ -20,6 +20,8 @@ attribute-loss and renderer-responsibility semantics used by the v3 follow-up ex
 - **Does**: Verifies analytic single-teacher color/Jacobian targets and zero-loss moment matching.
 - **Does**: Verifies out-of-support queries are explicitly marked when nearest-Mahalanobis fallback
   is required.
+- **Does**: Verifies raw composited appearance targets avoid feasible projection while the legacy
+  bounded mode retains it.
 
 ## Contracts
 
@@ -28,3 +30,4 @@ attribute-loss and renderer-responsibility semantics used by the v3 follow-up ex
 | Local-distillation trainer | Correspondence is detached and loss keys stay stable | Gradient/key semantics |
 | Experiment protocol | Optical mass ratio is teacher active count / student target active count | Ratio definition |
 | Responsibility gate | Target covariance, color, gradients, and diagnostics retain composited meanings | Moment schema |
+| Residual appearance gate | Raw target mode scores the unprojected teacher response | Projection semantics |

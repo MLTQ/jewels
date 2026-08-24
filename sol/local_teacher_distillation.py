@@ -269,6 +269,7 @@ def responsibility_teacher_moment_losses(
     temperature: float,
     size_offset: float,
     opacity_mass_ratio: float,
+    project_appearance: bool = True,
 ) -> tuple[dict[str, torch.Tensor], TeacherResponsibilityTargets]:
     """Score student attributes against composited teacher responsibility moments."""
     if opacity_mass_ratio <= 0:
@@ -289,10 +290,13 @@ def responsibility_teacher_moment_losses(
     opacity = F.smooth_l1_loss(
         student_tau, (opacity_mass_ratio * targets.optical_tau).clamp(max=6.0)
     )
-    color = F.smooth_l1_loss(student_colors, targets.colors.clamp(0.0, 1.0))
-    gradient = F.smooth_l1_loss(
-        student_color_grads, targets.color_grads.clamp(-0.25, 0.25)
+    target_colors = targets.colors.clamp(0.0, 1.0) if project_appearance else targets.colors
+    target_color_grads = (
+        targets.color_grads.clamp(-0.25, 0.25)
+        if project_appearance else targets.color_grads
     )
+    color = F.smooth_l1_loss(student_colors, target_colors)
+    gradient = F.smooth_l1_loss(student_color_grads, target_color_grads)
     return {
         "scale": scale,
         "axis": axis,

@@ -31,6 +31,7 @@ import torch
 from sol.compare_field_structure import structure_report
 from sol.factorized_structural_encoder import (
     ARCHITECTURE as FACTORIZED_ARCHITECTURE,
+    APPEARANCE_CONTRACTS,
     FactorizedStructuralJewelEncoder,
 )
 from sol.local_teacher_distillation import (
@@ -314,6 +315,9 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--seed-video-colors", action="store_true")
     parser.add_argument("--appearance-dim", type=int, default=32)
     parser.add_argument("--appearance-hidden", type=int, default=64)
+    parser.add_argument(
+        "--appearance-contract", choices=APPEARANCE_CONTRACTS, default="bounded"
+    )
     parser.add_argument("--appearance-grid-weight", type=float, default=0.0)
     parser.add_argument("--appearance-grid-every", type=int, default=4)
     parser.add_argument("--appearance-grid-frames", type=int, default=2)
@@ -363,6 +367,11 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--responsibility-opacity-weight", type=float, default=0.0)
     parser.add_argument("--responsibility-color-weight", type=float, default=0.0)
     parser.add_argument("--responsibility-gradient-weight", type=float, default=0.0)
+    parser.add_argument(
+        "--responsibility-appearance-target",
+        choices=("bounded", "raw"),
+        default="bounded",
+    )
     parser.add_argument("--responsibility-start-step", type=int, default=0)
     parser.add_argument("--responsibility-ramp-steps", type=int, default=0)
     parser.add_argument("--orientation-weight", type=float, default=1.0)
@@ -430,6 +439,13 @@ def main() -> None:
     ):
         raise ValueError(
             "responsibility weights must be non-negative and settings positive"
+        )
+    if (
+        args.responsibility_appearance_target == "raw"
+        and (not args.factorized or args.appearance_contract != "residual")
+    ):
+        raise ValueError(
+            "raw responsibility appearance requires the residual factorized contract"
         )
     torch.manual_seed(args.seed)
     device = torch.device(args.device)
@@ -504,6 +520,7 @@ def main() -> None:
             max_offset_cells=args.max_offset_cells,
             appearance_dim=args.appearance_dim,
             appearance_hidden=args.appearance_hidden,
+            appearance_contract=args.appearance_contract,
         ).to(device)
         checkpoint_architecture = FACTORIZED_ARCHITECTURE
         expected_args = model.model_args
@@ -531,9 +548,21 @@ def main() -> None:
             raise ValueError("initial checkpoint architecture does not match")
         if tuple(meta.get("grid_shape", ())) != spec.shape:
             raise ValueError("initial checkpoint grid does not match")
-        if meta.get("model_args") != expected_args:
+        source_args = dict(meta.get("model_args", {}))
+        if args.factorized:
+            source_args.setdefault("appearance_contract", "bounded")
+        if source_args == expected_args:
+            model.load_state_dict(initialized["model"])
+        elif (
+            args.factorized
+            and args.appearance_contract == "residual"
+            and source_args
+            == {**expected_args, "appearance_contract": "bounded"}
+        ):
+            model.load_bounded_appearance_expansion(initialized["model"])
+            print("expanded bounded appearance with a zero residual head", flush=True)
+        else:
             raise ValueError("initial checkpoint model arguments do not match")
-        model.load_state_dict(initialized["model"])
         print(
             f"initialized from {args.init_checkpoint} step={initialized.get('step')}",
             flush=True,
@@ -772,6 +801,9 @@ def main() -> None:
                         opacity_mass_ratio=(
                             teacher.active_count
                             / (model.n_jewels * args.target_active_fraction)
+                        ),
+                        project_appearance=(
+                            args.responsibility_appearance_target == "bounded"
                         ),
                     )
                 )

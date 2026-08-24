@@ -16,6 +16,7 @@ from sol.token_grid import GridSpec
 
 ARCHITECTURE = "factorized_structural_jewel_encoder_v3"
 GEOMETRY_CHANNELS = (*range(10), 22)
+APPEARANCE_CONTRACTS = ("bounded", "residual")
 
 
 def spacetime_trunk(model_dim: int, shape: tuple[int, int, int]) -> nn.Sequential:
@@ -60,18 +61,24 @@ class FactorizedStructuralJewelEncoder(nn.Module):
         max_offset_cells: float = 4.0,
         appearance_dim: int = 32,
         appearance_hidden: int = 64,
+        appearance_contract: str = "bounded",
     ) -> None:
         super().__init__()
         if slots_per_cell <= 0 or model_dim % 8 or appearance_dim % 8:
             raise ValueError("slots must be positive and feature dimensions divisible by 8")
         if max_offset_cells <= 0 or appearance_hidden <= 0:
             raise ValueError("mobility and appearance hidden size must be positive")
+        if appearance_contract not in APPEARANCE_CONTRACTS:
+            raise ValueError(
+                f"appearance contract must be one of {APPEARANCE_CONTRACTS}"
+            )
         self.grid_spec = grid_spec
         self.slots_per_cell = slots_per_cell
         self.n_jewels = grid_spec.n_cells * slots_per_cell
         self.max_offset_cells = float(max_offset_cells)
         self.appearance_dim = int(appearance_dim)
         self.appearance_hidden = int(appearance_hidden)
+        self.appearance_contract = appearance_contract
         gu, gv, gt = grid_spec.shape
 
         self.geometry_trunk = spacetime_trunk(model_dim, grid_spec.shape)
@@ -110,6 +117,12 @@ class FactorizedStructuralJewelEncoder(nn.Module):
         nn.init.zeros_(self.appearance_head[-1].bias)
         nn.init.zeros_(self.background_head.weight)
         nn.init.zeros_(self.background_head.bias)
+        if appearance_contract == "residual":
+            self.appearance_residual_head = nn.Linear(
+                2 * appearance_dim + 3, 12
+            )
+            nn.init.zeros_(self.appearance_residual_head.weight)
+            nn.init.zeros_(self.appearance_residual_head.bias)
 
         coordinates = torch.stack(
             torch.meshgrid(
@@ -130,7 +143,7 @@ class FactorizedStructuralJewelEncoder(nn.Module):
         )
 
     @property
-    def model_args(self) -> dict[str, int | float]:
+    def model_args(self) -> dict[str, int | float | str]:
         """Constructor arguments that define checkpoint compatibility."""
         return {
             "slots_per_cell": self.slots_per_cell,
@@ -138,6 +151,7 @@ class FactorizedStructuralJewelEncoder(nn.Module):
             "max_offset_cells": self.max_offset_cells,
             "appearance_dim": self.appearance_dim,
             "appearance_hidden": self.appearance_hidden,
+            "appearance_contract": self.appearance_contract,
         }
 
     def freeze_geometry(self) -> None:
@@ -165,6 +179,24 @@ class FactorizedStructuralJewelEncoder(nn.Module):
         self.geometry_head.bias.copy_(
             source_bias[:, GEOMETRY_CHANNELS].reshape_as(self.geometry_head.bias)
         )
+
+    def load_bounded_appearance_expansion(
+        self, state: dict[str, torch.Tensor]
+    ) -> None:
+        """Load a bounded v3 state while retaining a zero residual expansion."""
+        if self.appearance_contract != "residual":
+            raise ValueError("bounded appearance expansion requires residual contract")
+        incompatible = self.load_state_dict(state, strict=False)
+        expected_missing = {
+            "appearance_residual_head.weight",
+            "appearance_residual_head.bias",
+        }
+        if set(incompatible.missing_keys) != expected_missing or incompatible.unexpected_keys:
+            raise RuntimeError(
+                "bounded checkpoint differs beyond the declared residual head: "
+                f"missing={incompatible.missing_keys}, "
+                f"unexpected={incompatible.unexpected_keys}"
+            )
 
     def forward(self, video: torch.Tensor) -> dict[str, torch.Tensor]:
         if video.ndim != 4 or video.shape[-1] != 3:
@@ -195,11 +227,14 @@ class FactorizedStructuralJewelEncoder(nn.Module):
         seed = VideoToJewelEncoder.sample_video_colors(
             video, appearance_centers
         ).reshape(-1, 3).clamp(1e-3, 1 - 1e-3)
-        appearance = self.appearance_head(
-            torch.cat((fine_sample, coarse_sample, seed), dim=1)
-        )
+        appearance_input = torch.cat((fine_sample, coarse_sample, seed), dim=1)
+        appearance = self.appearance_head(appearance_input)
         colors = torch.sigmoid(torch.logit(seed) + appearance[:, :3])
         color_grads = 0.25 * torch.tanh(appearance[:, 3:].reshape(-1, 3, 3))
+        if self.appearance_contract == "residual":
+            residual = self.appearance_residual_head(appearance_input)
+            colors = colors + residual[:, :3]
+            color_grads = color_grads + residual[:, 3:].reshape(-1, 3, 3)
         base_background = video.mean(dim=(0, 1, 2)).clamp(1e-3, 1 - 1e-3)
         background = torch.sigmoid(
             torch.logit(base_background) + self.background_head(coarse.mean(dim=(0, 2, 3, 4)))

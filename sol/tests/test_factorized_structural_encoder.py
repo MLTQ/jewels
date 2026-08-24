@@ -69,6 +69,39 @@ class FactorizedStructuralEncoderTests(unittest.TestCase):
             parameter.requires_grad for parameter in model.appearance_head.parameters()
         ))
 
+    def test_residual_expansion_preserves_bounded_checkpoint_exactly(self) -> None:
+        torch.manual_seed(11)
+        bounded = FactorizedStructuralJewelEncoder(
+            grid_spec=self.spec, slots_per_cell=2, model_dim=8,
+            appearance_dim=8, appearance_hidden=16,
+        ).eval()
+        expanded = FactorizedStructuralJewelEncoder(
+            grid_spec=self.spec, slots_per_cell=2, model_dim=8,
+            appearance_dim=8, appearance_hidden=16,
+            appearance_contract="residual",
+        ).eval()
+        expanded.load_bounded_appearance_expansion(bounded.state_dict())
+        bounded_prediction = bounded(self.video)
+        expanded_prediction = expanded(self.video)
+        for key in bounded_prediction:
+            torch.testing.assert_close(
+                expanded_prediction[key], bounded_prediction[key], rtol=0, atol=0
+            )
+
+    def test_residual_contract_can_exceed_old_appearance_bounds(self) -> None:
+        model = FactorizedStructuralJewelEncoder(
+            grid_spec=self.spec, slots_per_cell=2, model_dim=8,
+            appearance_dim=8, appearance_hidden=16,
+            appearance_contract="residual",
+        )
+        with torch.no_grad():
+            model.appearance_residual_head.bias[:3].fill_(2.0)
+            model.appearance_residual_head.bias[3:].fill_(0.75)
+        prediction = model(self.video)
+        self.assertTrue(bool((prediction["colors"] > 1.0).all()))
+        self.assertTrue(bool((prediction["color_grads"] > 0.25).all()))
+        self.assertEqual(model.model_args["appearance_contract"], "residual")
+
 
 if __name__ == "__main__":
     unittest.main()

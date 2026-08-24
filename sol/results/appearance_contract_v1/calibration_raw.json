@@ -1,0 +1,55 @@
+{
+  "source_id": "anime__00_cooking_train_00_seed60000",
+  "checkpoint": "sol/results/local_teacher_distillation_v1/relaxation/control_total1200/encoder.pt",
+  "teacher_checkpoint": "sol/results/irregular_teacher_train_v1/anime__00_cooking_train_00_seed60000.pt",
+  "teacher_sample": 4000,
+  "student_sample": 1024,
+  "support_sigma": 5.0,
+  "temperature": 1.0,
+  "appearance_contract": "residual",
+  "responsibility_appearance_target": "raw",
+  "losses": {
+    "render": {
+      "value": 0.01913895085453987,
+      "geometry_gradient": 0.17220598018672037,
+      "appearance_gradient": 0.06937519493376348
+    },
+    "scale": {
+      "value": 0.6301521062850952,
+      "geometry_gradient": 3.6812335287609677,
+      "appearance_gradient": 0.0
+    },
+    "axis": {
+      "value": 0.36217811703681946,
+      "geometry_gradient": 0.27232211004569484,
+      "appearance_gradient": 0.0
+    },
+    "opacity": {
+      "value": 0.4594065546989441,
+      "geometry_gradient": 0.8097486495112446,
+      "appearance_gradient": 0.0
+    },
+    "color": {
+      "value": 0.1449129283428192,
+      "geometry_gradient": 0.0,
+      "appearance_gradient": 1.3300702827211215
+    },
+    "gradient": {
+      "value": 1.906079649925232,
+      "geometry_gradient": 0.0,
+      "appearance_gradient": 0.10479819420211275
+    }
+  },
+  "targets": {
+    "support_count_mean": 6.5244140625,
+    "support_count_min": 1.0,
+    "effective_count_mean": 1.7297980785369873,
+    "effective_count_median": 1.5125384330749512,
+    "fallback_fraction": 0.005859375,
+    "color_clip_fraction": 0.4410807490348816,
+    "gradient_clip_fraction": 0.7548828125,
+    "color_projection_fraction": 0.0,
+    "gradient_projection_fraction": 0.0,
+    "scale_clip_fraction": 0.0
+  }
+}
