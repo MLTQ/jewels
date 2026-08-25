@@ -11,6 +11,8 @@ decisive irregular encoder audit.
 - **Does**: Verifies checkpoint dispatch restores the factorized-v3 architecture from declared
   metadata.
 - **Does**: Verifies multi-candidate audits retain every candidate in visual/report order.
+- **Does**: Verifies optional human-readable candidate labels preserve stable internal keys and
+  reject mismatched checkpoint counts.
 - **Does**: Verifies the layout selector applies opacity and coordinate-plane filters, then bounds
   plot size deterministically.
 - **Does**: Verifies canonical 2% opacity filtering produces the expected active fraction and a

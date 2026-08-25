@@ -31,6 +31,14 @@ replicated sparse structural candidates, and source-matched support-correct fitt
   `results/irregular_encoder_v1/PROTOCOL.md`; a favorable mean cannot hide a failed seed.
 - **Does**: Draws frozen gate thresholds on the comparison chart and expands the occupancy axis so
   a small but real departure from a near-one lattice score remains visible.
+- **Does**: Accepts one optional `--candidate-label` per checkpoint for human-readable progress or
+  causal-arm labels in images and charts while retaining stable `irregular_seedN` report keys.
+
+### `audit_display_labels`
+- **Does**: Validates optional visual-label cardinality and maps stable report keys to display-only
+  names.
+- **Rationale**: Pitch figures need labels such as `400 updates` without rewriting metric keys or
+  breaking audit provenance.
 
 ## Contracts
 
@@ -40,3 +48,4 @@ replicated sparse structural candidates, and source-matched support-correct fitt
 | Prompt-prior decision | Candidate architecture is versioned v2 or factorized v3 | Architecture ID |
 | Visual review | Sheet columns remain target/lattice/all candidates/teacher | Layout |
 | Center-layout review | Only jewels above 2% opacity and within the declared coordinate band are plotted | Plot semantics |
+| Machine-readable reports | Candidate metrics retain stable `irregular_seedN` keys regardless of display labels | Report-key semantics |

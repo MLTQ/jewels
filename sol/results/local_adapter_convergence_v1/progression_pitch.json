@@ -1,0 +1,23 @@
+{
+  "styles": [
+    "anime",
+    "cartoon",
+    "clay",
+    "photoreal",
+    "render3d"
+  ],
+  "candidate_labels": [
+    "frozen source",
+    "400 updates",
+    "800 updates",
+    "1,600 updates",
+    "3,200 updates",
+    "4,000 updates",
+    "8,000 updates",
+    "12,000 updates"
+  ],
+  "tile_width": 240,
+  "tile_height": 184,
+  "output_width": 2400,
+  "output_height": 1022
+}

@@ -1,0 +1,64 @@
+{
+  "steps": 12000,
+  "seconds": 3666.763684272766,
+  "jewels_per_window": 40960,
+  "latest_evaluation": {
+    "photoreal__00_cooking_evaluation_00_seed50007": {
+      "psnr": 19.978934788928072,
+      "frozen_geometry": {
+        "bitwise_exact": true,
+        "max_abs_change": 0.0
+      }
+    },
+    "anime__00_cooking_evaluation_00_seed60002": {
+      "psnr": 18.51763499665057,
+      "frozen_geometry": {
+        "bitwise_exact": true,
+        "max_abs_change": 0.0
+      }
+    },
+    "cartoon__00_cooking_evaluation_00_seed61002": {
+      "psnr": 21.630802866624673,
+      "frozen_geometry": {
+        "bitwise_exact": true,
+        "max_abs_change": 0.0
+      }
+    },
+    "clay__00_cooking_evaluation_00_seed63002": {
+      "psnr": 22.020789792060036,
+      "frozen_geometry": {
+        "bitwise_exact": true,
+        "max_abs_change": 0.0
+      }
+    },
+    "render3d__00_cooking_evaluation_00_seed62002": {
+      "psnr": 22.253601716674495,
+      "frozen_geometry": {
+        "bitwise_exact": true,
+        "max_abs_change": 0.0
+      }
+    },
+    "macro_psnr": 20.88035283218757,
+    "structure": {
+      "anisotropy_median": 2.115914773676757,
+      "anisotropy_p90": 2.4985997360862,
+      "extent_median": 0.03319364280746776,
+      "extent_iqr_ratio": 1.8907906884007482,
+      "occupancy_uniformity": 0.9845876055081139,
+      "jewels_above_2pct_opacity": 25729.0,
+      "mixed_spacetime_tilt_median": 0.5210920566593049,
+      "mixed_spacetime_tilt_p90": 0.5653170698550742,
+      "active_fraction": 0.6281494140625
+    },
+    "frozen_geometry": {
+      "bitwise_exact": true,
+      "max_abs_change": 0.0,
+      "sources": 5
+    },
+    "frozen_base_parameters": {
+      "bitwise_exact": true,
+      "max_abs_change": 0.0,
+      "parameter_tensors": 40
+    }
+  }
+}

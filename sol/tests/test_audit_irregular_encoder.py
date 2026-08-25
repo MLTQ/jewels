@@ -10,6 +10,7 @@ import torch
 
 from sol.audit_irregular_encoder import (
     audit_arm_labels,
+    audit_display_labels,
     layout_slice,
     load_candidate,
     structure,
@@ -29,6 +30,19 @@ class IrregularAuditTests(unittest.TestCase):
         ])
         with self.assertRaises(ValueError):
             audit_arm_labels(0)
+
+    def test_audit_display_labels_are_visual_only_and_cardinality_checked(self) -> None:
+        self.assertEqual(
+            audit_display_labels(2, ["400 updates", "4,000 updates"]),
+            {
+                "lattice": "lattice",
+                "irregular_seed0": "400 updates",
+                "irregular_seed1": "4,000 updates",
+                "teacher": "teacher",
+            },
+        )
+        with self.assertRaises(ValueError):
+            audit_display_labels(2, ["source only"])
 
     def test_candidate_loader_accepts_factorized_architecture(self) -> None:
         model = FactorizedStructuralJewelEncoder(

@@ -1,10 +1,18 @@
 # Frozen-base native local appearance adapter v1
 
+> **Convergence correction (2026-08-25):** this report faithfully records a 400-update screen but
+> generalized that short screen too far. A subsequent preregistered convergence study trained the
+> same arms to 12k–16k updates. The derivative-x32 arm crossed the `LPIPS < 0.70` gate by 3.2k,
+> reached `0.65895 LPIPS / 20.83538 dB` at 12k, and independently replicated at
+> `0.65953 / 20.83497`. The recommendation below not to train longer is retracted. See
+> [`../local_adapter_convergence_v1/README.md`](../local_adapter_convergence_v1/README.md).
+
 ## Outcome
 
-Direct train-only LPIPS supervision improves the frozen irregular Jewelfield without moving its
-geometry or rewriting its proven appearance base, but the tested per-jewel color/Jacobian adapters
-do **not** reach the registered `LPIPS < 0.70` pitch gate or visibly recover sharp boundaries.
+At 400 updates, direct train-only LPIPS supervision improves the frozen irregular Jewelfield
+without moving its geometry or rewriting its proven appearance base, but the tested per-jewel
+color/Jacobian adapters have **not yet** reached the registered `LPIPS < 0.70` pitch gate or visibly
+recovered sharp boundaries.
 
 The strongest LPIPS arm reaches exact `20.08715 dB / 0.716935 LPIPS`, versus the frozen source at
 `20.08200 / 0.722011`. The forced-evidence derivative arm reaches the best adapter PSNR,
@@ -107,16 +115,15 @@ progression, and sampled range/Jacobian diagnostics. `evidence.json` contains it
 
 ## Decision and next gate
 
-Do not spend the next compute tranche on a larger per-jewel color MLP or a longer version of these
-arms. The fitted ceiling (`27.699 dB / 0.172 LPIPS`) and lattice (`23.652 / 0.428`) show that the video
-and renderer contain far more recoverable detail, while the frozen irregular field's broad existing
-support cannot express it through color/Jacobian changes alone.
+The original instruction not to train these arms longer was disproved by the convergence study and
+is withdrawn. The fitted ceiling (`27.699 dB / 0.172 LPIPS`) and lattice (`23.652 / 0.428`) still show
+that the video and renderer contain far more recoverable detail, but the derivative adapter itself
+was undertrained at 400 updates and remains the selected appearance mechanism.
 
-The next experiment should zero-add one or two **appearance-only child splats** per active frozen
-parent. Their offsets remain continuous and parent-relative (never a global grid); covariance is a
-small fraction of the parent; opacity starts at an exact zero contribution; and a native patch
-encoder predicts child offset, scale, opacity, color, and color Jacobian. Freeze and audit every
-parent/base tensor. Train with the proven direct LPIPS term plus small range/Jacobian guardrails.
+Child splats remain a possible later capacity experiment, not the immediate conclusion of this
+screen. The selected derivative adapter should first be tested on a fresh selection set, a third
+training seed, and explicit RGB-range guardrails; then its encoder/data scaling curve should be
+measured before adding representation capacity.
 
 A useful next gate is exact PSNR at least `20`, LPIPS below `0.70`, improvement in at least four of
 five styles, and visible boundary/detail recovery. Radius-zero/no-child and shuffled-patch controls

@@ -163,6 +163,25 @@ def audit_arm_labels(candidate_count: int) -> list[str]:
     ]
 
 
+def audit_display_labels(
+    candidate_count: int, candidate_labels: list[str] | None = None
+) -> dict[str, str]:
+    """Map stable report keys to optional human-readable visual labels."""
+    labels = candidate_labels or []
+    if labels and len(labels) != candidate_count:
+        raise ValueError("candidate labels must match candidate checkpoints")
+    return {
+        "lattice": "lattice",
+        **{
+            f"irregular_seed{seed}": (
+                labels[seed] if labels else f"irregular_seed{seed}"
+            )
+            for seed in range(candidate_count)
+        },
+        "teacher": "teacher",
+    }
+
+
 def layout_slice(
     features: torch.Tensor,
     fixed_axis: int,
@@ -183,6 +202,7 @@ def main() -> None:
     parser.add_argument("--manifest", required=True)
     parser.add_argument("--baseline", required=True)
     parser.add_argument("--candidate", action="append", required=True)
+    parser.add_argument("--candidate-label", action="append")
     parser.add_argument("--teacher-root", required=True)
     parser.add_argument("--out", required=True)
     parser.add_argument("--device", default="cuda:0")
@@ -212,6 +232,7 @@ def main() -> None:
 
     baseline = load_baseline(Path(args.baseline), device)
     candidates = [load_candidate(Path(path), device) for path in args.candidate]
+    display_labels = audit_display_labels(len(candidates), args.candidate_label)
     metric = lpips_metric(device)
     perceptual_records, structure_records = [], []
     qualitative_rows = []
@@ -290,7 +311,9 @@ def main() -> None:
         middle = args.frames // 2
         panels = [labeled(target[middle], f"{item.get('style')}: target")]
         for arm in audit_arm_labels(len(candidates)):
-            panels.append(labeled(arms[arm][middle], f"{item.get('style')}: {arm}"))
+            panels.append(labeled(
+                arms[arm][middle], f"{item.get('style')}: {display_labels[arm]}"
+            ))
         row_image = Image.new(
             "RGB", (sum(panel.width for panel in panels), panels[0].height), "white"
         )
@@ -345,6 +368,7 @@ def main() -> None:
         "protocol": {
             "sources": sorted(teacher_paths), "frames": args.frames,
             "candidate_checkpoints": args.candidate,
+            "candidate_labels": args.candidate_label,
             "renderer": "support_tiled", "support_sigma": 5.0,
         },
         "perceptual_macro": perceptual_macro,
@@ -368,11 +392,16 @@ def main() -> None:
     import matplotlib.pyplot as plt  # noqa: PLC0415
 
     labels = audit_arm_labels(len(candidates))
+    visual_labels = [display_labels[label] for label in labels]
     figure, axes = plt.subplots(1, 4, figsize=(14, 3.8))
-    axes[0].bar(labels, [perceptual_macro[label]["lpips"] for label in labels])
+    axes[0].bar(
+        visual_labels, [perceptual_macro[label]["lpips"] for label in labels]
+    )
     axes[0].set_ylabel("LPIPS (lower is better)")
     axes[0].axhline(0.40, color="tab:red", linestyle="--", linewidth=1)
-    axes[1].bar(labels, [perceptual_macro[label]["psnr"] for label in labels])
+    axes[1].bar(
+        visual_labels, [perceptual_macro[label]["psnr"] for label in labels]
+    )
     axes[1].set_ylabel("PSNR (dB)")
     axes[1].axhline(20.0, color="tab:red", linestyle="--", linewidth=1)
     structure_labels = ["lattice", *structure_by_seed]
@@ -416,7 +445,7 @@ def main() -> None:
             xt[:, 0], xt[:, 2], c=xt[:, 1], s=2, alpha=0.35,
             cmap="viridis", rasterized=True,
         )
-        layout_axes[0, column].set_title(arm)
+        layout_axes[0, column].set_title(display_labels[arm])
         layout_axes[0, column].set_xlabel("x")
         layout_axes[0, column].set_ylabel("y")
         layout_axes[1, column].set_xlabel("x")
