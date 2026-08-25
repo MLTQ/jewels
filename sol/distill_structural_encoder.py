@@ -48,6 +48,10 @@ from sol.local_teacher_distillation import (
     local_teacher_attribute_losses,
     responsibility_teacher_moment_losses,
 )
+from sol.perceptual_objective import (
+    build_lpips_training_metric,
+    perceptual_training_loss,
+)
 from sol.render_streaming_continuation import frame_points
 from sol.structural_encoder import (
     ARCHITECTURE as STRUCTURAL_ARCHITECTURE,
@@ -283,6 +287,28 @@ def frozen_geometry_report(
     return {"bitwise_exact": exact, "max_abs_change": maximum}
 
 
+def frozen_parameter_report(
+    reference: dict[str, torch.Tensor], model: torch.nn.Module
+) -> dict[str, float | bool | int]:
+    """Verify every declared frozen parameter remains bitwise source-equal."""
+    current = dict(model.named_parameters())
+    if set(reference) - set(current):
+        raise ValueError("frozen parameter names are missing from the model")
+    exact = True
+    maximum = 0.0
+    for name, source in reference.items():
+        candidate = current[name].detach().cpu()
+        if source.shape != candidate.shape:
+            raise ValueError(f"frozen parameter shape changed for {name}")
+        exact = exact and torch.equal(source, candidate)
+        maximum = max(maximum, float((source - candidate).abs().max()))
+    return {
+        "bitwise_exact": exact,
+        "max_abs_change": maximum,
+        "parameter_tensors": len(reference),
+    }
+
+
 def chamfer(a: torch.Tensor, b: torch.Tensor, chunk: int = 2048) -> tuple[torch.Tensor, torch.Tensor]:
     """Symmetric squared-distance Chamfer plus a->b nearest indices."""
     forward, indices = [], []
@@ -318,6 +344,10 @@ def _parse_args() -> argparse.Namespace:
             "colour, colour-gradient, and background parameters"
         ),
     )
+    parser.add_argument(
+        "--freeze-base-appearance", action="store_true",
+        help="under local_adapter, train only the zero-expanded adapter tensors",
+    )
     parser.add_argument("--out", required=True)
     parser.add_argument("--device", default="cuda:0")
     parser.add_argument("--steps", type=int, default=6000)
@@ -335,6 +365,14 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--appearance-contract", choices=APPEARANCE_CONTRACTS, default="bounded"
     )
+    parser.add_argument("--appearance-adapter-hidden", type=int, default=64)
+    parser.add_argument("--appearance-adapter-radius", type=float, default=2.0)
+    parser.add_argument(
+        "--appearance-adapter-temporal-radius", type=float, default=1.0
+    )
+    parser.add_argument(
+        "--appearance-adapter-derivative-scale", type=float, default=32.0
+    )
     parser.add_argument("--appearance-grid-weight", type=float, default=0.0)
     parser.add_argument("--appearance-grid-every", type=int, default=4)
     parser.add_argument("--appearance-grid-frames", type=int, default=2)
@@ -345,6 +383,8 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--appearance-grid-temporal-weight", type=float, default=0.0)
     parser.add_argument("--appearance-grid-structure-weight", type=float, default=0.0)
     parser.add_argument("--appearance-grid-range-weight", type=float, default=0.0)
+    parser.add_argument("--appearance-lpips-weight", type=float, default=0.0)
+    parser.add_argument("--appearance-lpips-net", default="alex")
     parser.add_argument("--appearance-grid-contiguous", action="store_true")
     parser.add_argument(
         "--appearance-grid-frequency-correct", action="store_true",
@@ -441,6 +481,7 @@ def main() -> None:
         args.render_range_weight,
         args.residual_color_weight,
         args.residual_gradient_weight,
+        args.appearance_lpips_weight,
     )
     if args.appearance_grid_weight < 0 or min(appearance_weights) < 0 or min(
         args.appearance_grid_every,
@@ -451,6 +492,10 @@ def main() -> None:
         raise ValueError("appearance-grid settings must be positive and weight non-negative")
     if args.appearance_grid_temporal_weight and not args.appearance_grid_contiguous:
         raise ValueError("temporal appearance loss requires contiguous grid frames")
+    if args.appearance_lpips_weight and min(
+        args.appearance_grid_height, args.appearance_grid_width
+    ) < 64:
+        raise ValueError("LPIPS appearance frames must be at least 64 pixels per axis")
     if (
         args.appearance_grid_weight
         and not any(appearance_weights[:5])
@@ -458,9 +503,21 @@ def main() -> None:
         raise ValueError("appearance-grid objective weights cannot all be zero")
     if (
         (args.residual_color_weight or args.residual_gradient_weight)
-        and (not args.factorized or args.appearance_contract != "residual")
+        and (
+            not args.factorized
+            or args.appearance_contract not in ("residual", "local_adapter")
+        )
     ):
         raise ValueError("residual energy penalties require the residual factorized contract")
+    if args.freeze_base_appearance and (
+        not args.factorized
+        or args.appearance_contract not in ("local_adapter", "derivative_adapter")
+        or not args.init_checkpoint
+        or not args.freeze_geometry
+    ):
+        raise ValueError(
+            "base-appearance freezing requires initialized, frozen-geometry local_adapter"
+        )
     local_weights = (
         args.local_scale_weight,
         args.local_axis_weight,
@@ -573,6 +630,14 @@ def main() -> None:
             appearance_dim=args.appearance_dim,
             appearance_hidden=args.appearance_hidden,
             appearance_contract=args.appearance_contract,
+            appearance_adapter_hidden=args.appearance_adapter_hidden,
+            appearance_adapter_radius=args.appearance_adapter_radius,
+            appearance_adapter_temporal_radius=(
+                args.appearance_adapter_temporal_radius
+            ),
+            appearance_adapter_derivative_scale=(
+                args.appearance_adapter_derivative_scale
+            ),
         ).to(device)
         checkpoint_architecture = FACTORIZED_ARCHITECTURE
         expected_args = model.model_args
@@ -613,6 +678,19 @@ def main() -> None:
         ):
             model.load_bounded_appearance_expansion(initialized["model"])
             print("expanded bounded appearance with a zero residual head", flush=True)
+        elif args.factorized and args.appearance_contract in (
+            "local_adapter", "derivative_adapter"
+        ):
+            residual_args = {
+                key: value
+                for key, value in expected_args.items()
+                if not key.startswith("appearance_adapter_")
+            }
+            residual_args["appearance_contract"] = "residual"
+            if source_args != residual_args:
+                raise ValueError("initial checkpoint model arguments do not match")
+            model.load_local_adapter_expansion(initialized["model"])
+            print("expanded residual appearance with a zero local adapter", flush=True)
         else:
             raise ValueError("initial checkpoint model arguments do not match")
         print(
@@ -640,6 +718,7 @@ def main() -> None:
             f"step={initialized_geometry.get('step')}", flush=True,
         )
     frozen_geometry = None
+    frozen_base_parameters: dict[str, torch.Tensor] = {}
     frozen_validation_geometry: dict[str, dict[str, torch.Tensor]] = {}
     if args.freeze_geometry:
         if args.factorized:
@@ -655,6 +734,18 @@ def main() -> None:
                     for key in ("centers", "log_scale", "quaternion", "logit_w")
                 }
         model.train()
+    if args.freeze_base_appearance:
+        model.freeze_base_for_local_adapter()
+        frozen_base_parameters = {
+            name: parameter.detach().cpu().clone()
+            for name, parameter in model.named_parameters()
+            if not name.startswith("appearance_local_adapter.")
+        }
+    perceptual_metric = None
+    if args.appearance_lpips_weight:
+        perceptual_metric = build_lpips_training_metric(
+            device, args.appearance_lpips_net
+        )
     optimizer = torch.optim.AdamW(
         (parameter for parameter in model.parameters() if parameter.requires_grad),
         lr=args.lr, weight_decay=0.01,
@@ -712,6 +803,10 @@ def main() -> None:
                 "max_abs_change": max(row["max_abs_change"] for row in geometry_reports),
                 "sources": len(geometry_reports),
             }
+        if frozen_base_parameters:
+            report["frozen_base_parameters"] = frozen_parameter_report(
+                frozen_base_parameters, model
+            )
         model.train()
         return report
 
@@ -753,8 +848,12 @@ def main() -> None:
             total=zero, rgb=zero, spatial=zero, temporal=zero,
             structure=zero, range=zero,
         )
+        appearance_lpips_loss = zero
         grid_frequency_multiplier = 1
-        if args.appearance_grid_weight and step % args.appearance_grid_every == 0:
+        if (
+            (args.appearance_grid_weight or args.appearance_lpips_weight)
+            and step % args.appearance_grid_every == 0
+        ):
             frame_indices = appearance_frame_indices(
                 len(video), args.appearance_grid_frames, step,
                 contiguous=args.appearance_grid_contiguous,
@@ -778,15 +877,20 @@ def main() -> None:
                 size=(args.appearance_grid_height, args.appearance_grid_width),
                 mode="bilinear", align_corners=True,
             ).permute(0, 2, 3, 1)
-            image_terms = appearance_objective(
-                grid_rendered,
-                grid_target,
-                rgb_weight=args.appearance_grid_rgb_weight,
-                spatial_weight=args.appearance_grid_spatial_weight,
-                temporal_weight=args.appearance_grid_temporal_weight,
-                structure_weight=args.appearance_grid_structure_weight,
-                range_weight=args.appearance_grid_range_weight,
-            )
+            if args.appearance_grid_weight:
+                image_terms = appearance_objective(
+                    grid_rendered,
+                    grid_target,
+                    rgb_weight=args.appearance_grid_rgb_weight,
+                    spatial_weight=args.appearance_grid_spatial_weight,
+                    temporal_weight=args.appearance_grid_temporal_weight,
+                    structure_weight=args.appearance_grid_structure_weight,
+                    range_weight=args.appearance_grid_range_weight,
+                )
+            if perceptual_metric is not None:
+                appearance_lpips_loss = perceptual_training_loss(
+                    grid_rendered, grid_target, perceptual_metric
+                )
             if args.appearance_grid_frequency_correct:
                 grid_frequency_multiplier = args.appearance_grid_every
         render_range_loss = range_excess_loss(rendered)
@@ -931,6 +1035,8 @@ def main() -> None:
             render_loss
             + args.appearance_grid_weight
             * grid_frequency_multiplier * image_terms.total
+            + args.appearance_lpips_weight
+            * grid_frequency_multiplier * appearance_lpips_loss
             + args.render_range_weight * render_range_loss
             + args.residual_color_weight * residual_color_loss
             + args.residual_gradient_weight * residual_gradient_loss
@@ -1009,6 +1115,12 @@ def main() -> None:
                     * grid_frequency_multiplier
                     * image_terms.total.detach()
                 ),
+                float(appearance_lpips_loss.detach()),
+                float(
+                    args.appearance_lpips_weight
+                    * grid_frequency_multiplier
+                    * appearance_lpips_loss.detach()
+                ),
             )
         )
         if step % args.log_every == 0 or step == args.steps:
@@ -1053,6 +1165,10 @@ def main() -> None:
                 "residual_color_energy": sum(row[31] for row in recent) / len(recent),
                 "residual_gradient_energy": sum(row[32] for row in recent) / len(recent),
                 "appearance_grid_weighted": sum(row[33] for row in recent) / len(recent),
+                "appearance_lpips": sum(row[34] for row in recent) / len(recent),
+                "appearance_lpips_weighted": (
+                    sum(row[35] for row in recent) / len(recent)
+                ),
                 "sparsity_multiplier": sparsity_multiplier,
                 "density_multiplier": density_multiplier,
                 "orientation_multiplier": orientation_multiplier,

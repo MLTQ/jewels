@@ -33,6 +33,7 @@ Renderer-responsibility moment math and detached targets are likewise isolated t
 - **Does**: Verifies deterministic contiguous-frame selection and rejects a frame request longer
   than its source video.
 - **Does**: Proves the frozen-geometry report distinguishes exact equality from a one-ULP change.
+- **Does**: Proves the all-base-parameter audit distinguishes exact equality from a one-ULP change.
 
 ## Contracts
 
@@ -43,3 +44,4 @@ Renderer-responsibility moment math and detached targets are likewise isolated t
 | Appearance-only continuation | Trunk and geometry/opacity head rows do not move | Freeze semantics |
 | Factorized appearance training | Full-image multiscale/edge loss is differentiable | Objective semantics |
 | Frozen geometry audit | Equality is bitwise, not tolerance-based | Gate semantics |
+| Frozen adapter base audit | Every non-adapter parameter is bitwise source-equal | Optimizer ownership |

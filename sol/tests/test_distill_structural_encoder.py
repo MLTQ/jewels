@@ -10,6 +10,7 @@ from sol.distill_structural_encoder import (
     appearance_frame_indices,
     chamfer,
     freeze_geometry_state,
+    frozen_parameter_report,
     frozen_geometry_report,
     mask_geometry_gradients,
     multiscale_image_loss,
@@ -195,6 +196,21 @@ class FrozenGeometryTests(unittest.TestCase):
         torch.testing.assert_close(
             model.head.weight[~rows], before_appearance + 1.0
         )
+
+    def test_frozen_parameter_report_requires_bitwise_identity(self) -> None:
+        model = torch.nn.Linear(3, 2)
+        reference = {
+            name: parameter.detach().clone()
+            for name, parameter in model.named_parameters()
+        }
+        exact = frozen_parameter_report(reference, model)
+        self.assertTrue(exact["bitwise_exact"])
+        self.assertEqual(exact["parameter_tensors"], 2)
+        with torch.no_grad():
+            model.bias[0] += torch.finfo(model.bias.dtype).eps
+        changed = frozen_parameter_report(reference, model)
+        self.assertFalse(changed["bitwise_exact"])
+        self.assertGreater(changed["max_abs_change"], 0.0)
 
 
 class AppearanceImageLossTests(unittest.TestCase):

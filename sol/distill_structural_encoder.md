@@ -81,6 +81,13 @@ feed-forward student, which is what PROMPTABLE_ROADMAP Phase 3 specified from th
 - **Rationale**: A stable aggregate occupancy score is weaker than proving the actual time-distorted
   field stayed bitwise fixed.
 
+### `frozen_parameter_report`
+
+- **Does**: Proves every base tensor excluded from a local-adapter optimizer remains bitwise equal
+  to its source value and reports the maximum absolute change.
+- **Rationale**: Geometry equality alone cannot distinguish a genuinely additive adapter from an
+  apparent gain paid for by rewriting the proven appearance base.
+
 ### `appearance_frame_indices` / full-frame objective
 - **Does**: Selects deterministic CPU-owned spaced or contiguous low-resolution frame indices and delegates named
   RGB, spatial-edge, temporal-edge, spatiotemporal-structure, and range terms to
@@ -91,6 +98,8 @@ feed-forward student, which is what PROMPTABLE_ROADMAP Phase 3 specified from th
 - **Diagnostics**: Every step logs rendered below-zero/above-one fractions and separate residual
   RGB/Jacobian energy. Optional penalties remain independently weighted rather than silently
   clipping the unconstrained contract.
+- **Perceptual extension**: A frozen LPIPS network may supervise the same deterministic train-only
+  frame renders. Its parameters remain fixed; held-out LPIPS is still an audit, never a target.
 
 ### Local teacher attributes
 - **Does**: Uses detached soft correspondence from `local_teacher_distillation.py` to supervise
@@ -156,6 +165,12 @@ feed-forward student, which is what PROMPTABLE_ROADMAP Phase 3 specified from th
   teacher sample, with independent support, temperature, size offset, schedule, weights, and logs.
 - **Does**: Explicitly transfers a legacy bounded v3 checkpoint into the shape-compatible residual
   contract only when every pre-existing model argument matches.
+- **Does**: Explicitly transfers a residual v3 checkpoint into `local_adapter`, can freeze every
+  base tensor, and trains direct LPIPS on native-resolution train-only frames at the declared
+  intermittent frequency.
+- **Does**: Runs the same exact expansion/freeze path for `derivative_adapter`, whose no-bias local
+  finite-difference input rules out gains from generic adapter capacity. Its explicit derivative
+  scale corrects measured gradient units and is saved in checkpoint metadata.
 
 ## Contracts
 
@@ -173,6 +188,8 @@ feed-forward student, which is what PROMPTABLE_ROADMAP Phase 3 specified from th
 | Local attribute experiment | Weights, neighbor kernel, schedule, and active-count compensation are checkpointed | Local-loss semantics |
 | Responsibility experiment | Active sample, finite support, temperature, offset, weights, schedule, and diagnostics are checkpointed | Responsibility semantics |
 | Residual appearance experiment | Source/target contracts and raw-vs-bounded responsibility targets are checkpointed | Appearance semantics |
+| Local-adapter experiment | Residual source arguments match exactly; only adapter parameters train; base audit is bitwise | Expansion or ownership semantics |
+| Perceptual appearance experiment | LPIPS weights are frozen and only training frames enter the objective | Metric or data-split semantics |
 
 ## Notes
 

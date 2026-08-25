@@ -16,7 +16,9 @@ from sol.token_grid import GridSpec
 
 ARCHITECTURE = "factorized_structural_jewel_encoder_v3"
 GEOMETRY_CHANNELS = (*range(10), 22)
-APPEARANCE_CONTRACTS = ("bounded", "residual")
+APPEARANCE_CONTRACTS = (
+    "bounded", "residual", "local_adapter", "derivative_adapter"
+)
 
 
 def spacetime_trunk(model_dim: int, shape: tuple[int, int, int]) -> nn.Sequential:
@@ -47,6 +49,62 @@ def sample_feature_volume(volume: torch.Tensor, centers: torch.Tensor) -> torch.
     return sampled[0, :, :, 0, 0].transpose(0, 1)
 
 
+def sample_native_neighborhood(
+    video: torch.Tensor,
+    centers: torch.Tensor,
+    *,
+    spatial_radius_pixels: float,
+    temporal_radius_frames: float,
+) -> torch.Tensor:
+    """Sample a native-resolution 7-point cross around continuous jewel centers."""
+    if video.ndim != 4 or video.shape[-1] != 3:
+        raise ValueError("video must have shape (T,H,W,3)")
+    if centers.ndim != 2 or centers.shape[1] != 3:
+        raise ValueError("centers must have shape (N,3)")
+    if spatial_radius_pixels < 0 or temporal_radius_frames < 0:
+        raise ValueError("neighborhood radii must be non-negative")
+    frames, height, width, _ = video.shape
+    dx = 2.0 * spatial_radius_pixels / max(width - 1, 1)
+    dy = 2.0 * spatial_radius_pixels / max(height - 1, 1)
+    dt = 2.0 * temporal_radius_frames / max(frames - 1, 1)
+    offsets = centers.new_tensor(
+        (
+            (0.0, 0.0, 0.0),
+            (-dx, 0.0, 0.0),
+            (dx, 0.0, 0.0),
+            (0.0, -dy, 0.0),
+            (0.0, dy, 0.0),
+            (0.0, 0.0, -dt),
+            (0.0, 0.0, dt),
+        )
+    )
+    query = (centers[:, None] + offsets[None]).clamp(-1.0, 1.0)
+    volume = video.permute(3, 0, 1, 2)[None]
+    sampled = F.grid_sample(
+        volume,
+        query.reshape(1, -1, 1, 1, 3),
+        align_corners=True,
+        padding_mode="border",
+    )
+    return sampled[0, :, :, 0, 0].transpose(0, 1).reshape(len(centers), 7, 3)
+
+
+def native_neighborhood_derivatives(samples: torch.Tensor) -> torch.Tensor:
+    """Convert a 7-point RGB cross into central differences and local contrast."""
+    if samples.ndim != 3 or samples.shape[1:] != (7, 3):
+        raise ValueError("native neighborhood must have shape (N,7,3)")
+    derivatives = torch.stack(
+        (
+            samples[:, 2] - samples[:, 1],
+            samples[:, 4] - samples[:, 3],
+            samples[:, 6] - samples[:, 5],
+        ),
+        dim=-1,
+    ).reshape(len(samples), 9)
+    contrast = (samples[:, 1:] - samples[:, :1]).mean(dim=1)
+    return torch.cat((derivatives, contrast), dim=1)
+
+
 class FactorizedStructuralJewelEncoder(nn.Module):
     """Emit geometry and appearance through disjoint parameter branches."""
 
@@ -62,11 +120,22 @@ class FactorizedStructuralJewelEncoder(nn.Module):
         appearance_dim: int = 32,
         appearance_hidden: int = 64,
         appearance_contract: str = "bounded",
+        appearance_adapter_hidden: int = 64,
+        appearance_adapter_radius: float = 2.0,
+        appearance_adapter_temporal_radius: float = 1.0,
+        appearance_adapter_derivative_scale: float = 1.0,
     ) -> None:
         super().__init__()
         if slots_per_cell <= 0 or model_dim % 8 or appearance_dim % 8:
             raise ValueError("slots must be positive and feature dimensions divisible by 8")
-        if max_offset_cells <= 0 or appearance_hidden <= 0:
+        if (
+            max_offset_cells <= 0
+            or appearance_hidden <= 0
+            or appearance_adapter_hidden <= 0
+            or appearance_adapter_radius < 0
+            or appearance_adapter_temporal_radius < 0
+            or appearance_adapter_derivative_scale <= 0
+        ):
             raise ValueError("mobility and appearance hidden size must be positive")
         if appearance_contract not in APPEARANCE_CONTRACTS:
             raise ValueError(
@@ -79,6 +148,14 @@ class FactorizedStructuralJewelEncoder(nn.Module):
         self.appearance_dim = int(appearance_dim)
         self.appearance_hidden = int(appearance_hidden)
         self.appearance_contract = appearance_contract
+        self.appearance_adapter_hidden = int(appearance_adapter_hidden)
+        self.appearance_adapter_radius = float(appearance_adapter_radius)
+        self.appearance_adapter_temporal_radius = float(
+            appearance_adapter_temporal_radius
+        )
+        self.appearance_adapter_derivative_scale = float(
+            appearance_adapter_derivative_scale
+        )
         gu, gv, gt = grid_spec.shape
 
         self.geometry_trunk = spacetime_trunk(model_dim, grid_spec.shape)
@@ -117,12 +194,29 @@ class FactorizedStructuralJewelEncoder(nn.Module):
         nn.init.zeros_(self.appearance_head[-1].bias)
         nn.init.zeros_(self.background_head.weight)
         nn.init.zeros_(self.background_head.bias)
-        if appearance_contract == "residual":
+        if appearance_contract in (
+            "residual", "local_adapter", "derivative_adapter"
+        ):
             self.appearance_residual_head = nn.Linear(
                 2 * appearance_dim + 3, 12
             )
             nn.init.zeros_(self.appearance_residual_head.weight)
             nn.init.zeros_(self.appearance_residual_head.bias)
+        if appearance_contract == "local_adapter":
+            self.appearance_local_adapter = nn.Sequential(
+                nn.Linear(2 * appearance_dim + 3 + 7 * 3, appearance_adapter_hidden),
+                nn.SiLU(),
+                nn.Linear(appearance_adapter_hidden, 12),
+            )
+            nn.init.zeros_(self.appearance_local_adapter[-1].weight)
+            nn.init.zeros_(self.appearance_local_adapter[-1].bias)
+        if appearance_contract == "derivative_adapter":
+            self.appearance_local_adapter = nn.Sequential(
+                nn.Linear(12, appearance_adapter_hidden, bias=False),
+                nn.SiLU(),
+                nn.Linear(appearance_adapter_hidden, 12, bias=False),
+            )
+            nn.init.zeros_(self.appearance_local_adapter[-1].weight)
 
         coordinates = torch.stack(
             torch.meshgrid(
@@ -145,7 +239,7 @@ class FactorizedStructuralJewelEncoder(nn.Module):
     @property
     def model_args(self) -> dict[str, int | float | str]:
         """Constructor arguments that define checkpoint compatibility."""
-        return {
+        arguments: dict[str, int | float | str] = {
             "slots_per_cell": self.slots_per_cell,
             "model_dim": self.geometry_head.in_features,
             "max_offset_cells": self.max_offset_cells,
@@ -153,12 +247,34 @@ class FactorizedStructuralJewelEncoder(nn.Module):
             "appearance_hidden": self.appearance_hidden,
             "appearance_contract": self.appearance_contract,
         }
+        if self.appearance_contract in ("local_adapter", "derivative_adapter"):
+            arguments.update({
+                "appearance_adapter_hidden": self.appearance_adapter_hidden,
+                "appearance_adapter_radius": self.appearance_adapter_radius,
+                "appearance_adapter_temporal_radius": (
+                    self.appearance_adapter_temporal_radius
+                ),
+            })
+            if self.appearance_contract == "derivative_adapter":
+                arguments["appearance_adapter_derivative_scale"] = (
+                    self.appearance_adapter_derivative_scale
+                )
+        return arguments
 
     def freeze_geometry(self) -> None:
         """Make the geometry path immutable while appearance remains trainable."""
         for module in (self.geometry_trunk, self.geometry_head):
             for parameter in module.parameters():
                 parameter.requires_grad_(False)
+
+    def freeze_base_for_local_adapter(self) -> None:
+        """Freeze every proven base tensor and train only the local adapter."""
+        if self.appearance_contract not in ("local_adapter", "derivative_adapter"):
+            raise ValueError("adapter-only training requires an adapter contract")
+        for parameter in self.parameters():
+            parameter.requires_grad_(False)
+        for parameter in self.appearance_local_adapter.parameters():
+            parameter.requires_grad_(True)
 
     @torch.no_grad()
     def load_v2_geometry(self, state: dict[str, torch.Tensor]) -> None:
@@ -198,6 +314,24 @@ class FactorizedStructuralJewelEncoder(nn.Module):
                 f"unexpected={incompatible.unexpected_keys}"
             )
 
+    def load_local_adapter_expansion(
+        self, state: dict[str, torch.Tensor]
+    ) -> None:
+        """Load a residual v3 state while retaining a zero local adapter."""
+        if self.appearance_contract not in ("local_adapter", "derivative_adapter"):
+            raise ValueError("local expansion requires an adapter contract")
+        incompatible = self.load_state_dict(state, strict=False)
+        expected_missing = {
+            key for key in self.state_dict()
+            if key.startswith("appearance_local_adapter.")
+        }
+        if set(incompatible.missing_keys) != expected_missing or incompatible.unexpected_keys:
+            raise RuntimeError(
+                "residual checkpoint differs beyond the declared local adapter: "
+                f"missing={incompatible.missing_keys}, "
+                f"unexpected={incompatible.unexpected_keys}"
+            )
+
     def forward(self, video: torch.Tensor) -> dict[str, torch.Tensor]:
         if video.ndim != 4 or video.shape[-1] != 3:
             raise ValueError("video must have shape (T,H,W,3)")
@@ -232,10 +366,37 @@ class FactorizedStructuralJewelEncoder(nn.Module):
         colors = torch.sigmoid(torch.logit(seed) + appearance[:, :3])
         color_grads = 0.25 * torch.tanh(appearance[:, 3:].reshape(-1, 3, 3))
         appearance_residual = torch.zeros_like(appearance)
-        if self.appearance_contract == "residual":
+        if self.appearance_contract in (
+            "residual", "local_adapter", "derivative_adapter"
+        ):
             appearance_residual = self.appearance_residual_head(appearance_input)
             colors = colors + appearance_residual[:, :3]
             color_grads = color_grads + appearance_residual[:, 3:].reshape(-1, 3, 3)
+        appearance_adapter_residual = torch.zeros_like(appearance)
+        if self.appearance_contract in ("local_adapter", "derivative_adapter"):
+            neighborhood = sample_native_neighborhood(
+                video,
+                appearance_centers,
+                spatial_radius_pixels=self.appearance_adapter_radius,
+                temporal_radius_frames=self.appearance_adapter_temporal_radius,
+            )
+            if self.appearance_contract == "derivative_adapter":
+                adapter_input = (
+                    self.appearance_adapter_derivative_scale
+                    * native_neighborhood_derivatives(neighborhood)
+                )
+            else:
+                adapter_input = torch.cat(
+                    (appearance_input, neighborhood.reshape(len(neighborhood), -1)),
+                    dim=1,
+                )
+            appearance_adapter_residual = self.appearance_local_adapter(adapter_input)
+            appearance_residual = appearance_residual + appearance_adapter_residual
+            colors = colors + appearance_adapter_residual[:, :3]
+            color_grads = (
+                color_grads
+                + appearance_adapter_residual[:, 3:].reshape(-1, 3, 3)
+            )
         base_background = video.mean(dim=(0, 1, 2)).clamp(1e-3, 1 - 1e-3)
         background = torch.sigmoid(
             torch.logit(base_background) + self.background_head(coarse.mean(dim=(0, 2, 3, 4)))
@@ -250,6 +411,7 @@ class FactorizedStructuralJewelEncoder(nn.Module):
             "colors": colors,
             "color_grads": color_grads,
             "appearance_residual": appearance_residual,
+            "appearance_adapter_residual": appearance_adapter_residual,
             "logit_w": flat(logit_w).reshape(-1),
             "background": background,
         }

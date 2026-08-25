@@ -1,0 +1,88 @@
+{
+  "arms": {
+    "frozen source": {
+      "lpips": 0.7220106090818132,
+      "psnr": 20.082002258300783,
+      "ssim": 0.8392546534538269,
+      "layout_psnr": 23.88871040344238,
+      "layout_ssim": 0.9267810940742492
+    },
+    "radius-0 render": {
+      "lpips": 0.7203288163457598,
+      "psnr": 20.112162017822264,
+      "ssim": 0.8411940455436706,
+      "layout_psnr": 23.96474380493164,
+      "layout_ssim": 0.9282855153083801
+    },
+    "radius-2 render": {
+      "lpips": 0.7203158906527928,
+      "psnr": 20.112195205688476,
+      "ssim": 0.8411857962608338,
+      "layout_psnr": 23.964912796020506,
+      "layout_ssim": 0.9282842397689819
+    },
+    "radius-0 LPIPS .01": {
+      "lpips": 0.7186341881752014,
+      "psnr": 20.11232795715332,
+      "ssim": 0.8418954372406006,
+      "layout_psnr": 23.969196701049803,
+      "layout_ssim": 0.9286626815795899
+    },
+    "radius-2 LPIPS .01": {
+      "lpips": 0.7186601570674351,
+      "psnr": 20.11232795715332,
+      "ssim": 0.8418769717216492,
+      "layout_psnr": 23.969474029541015,
+      "layout_ssim": 0.9286552906036377
+    },
+    "raw local LPIPS .05": {
+      "lpips": 0.7169351271220616,
+      "psnr": 20.087150192260744,
+      "ssim": 0.8419748544692993,
+      "layout_psnr": 23.91685371398926,
+      "layout_ssim": 0.9282934665679932
+    },
+    "derivative x1 LPIPS .05": {
+      "lpips": 0.7216490949903216,
+      "psnr": 20.084313583374023,
+      "ssim": 0.8393542408943176,
+      "layout_psnr": 23.891988372802736,
+      "layout_ssim": 0.9268576264381408
+    },
+    "derivative x32 LPIPS .05": {
+      "lpips": 0.7174509661538261,
+      "psnr": 20.118517303466795,
+      "ssim": 0.8411790609359742,
+      "layout_psnr": 23.925608444213868,
+      "layout_ssim": 0.9278503060340881
+    }
+  },
+  "causal_radius2_minus_radius0": {
+    "render": {
+      "psnr_millidb": 0.03318786621164804,
+      "lpips_improvement_milli": 0.01292569296706958
+    },
+    "LPIPS .01": {
+      "psnr_millidb": 0.0,
+      "lpips_improvement_milli": -0.025968892233718677
+    }
+  },
+  "diagnostics": {
+    "radius-2 render": {
+      "out_of_range_percent": 3.119791724573588,
+      "residual_gradient_energy": 0.05678423451259732
+    },
+    "raw LPIPS .01": {
+      "out_of_range_percent": 3.1930339534883387,
+      "residual_gradient_energy": 0.055508427154272795
+    },
+    "raw LPIPS .05": {
+      "out_of_range_percent": 3.3548177751363255,
+      "residual_gradient_energy": 0.0536809004470706
+    },
+    "derivative x32": {
+      "out_of_range_percent": 3.0911459305207245,
+      "residual_gradient_energy": 0.10267217207700013
+    }
+  }
+}

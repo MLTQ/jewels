@@ -1,0 +1,1460 @@
+{
+  "schema": "irregular-encoder-audit-v1",
+  "protocol": {
+    "sources": [
+      "anime__00_cooking_evaluation_00_seed60002",
+      "cartoon__00_cooking_evaluation_00_seed61002",
+      "clay__00_cooking_evaluation_00_seed63002",
+      "photoreal__00_cooking_evaluation_00_seed50007",
+      "render3d__00_cooking_evaluation_00_seed62002"
+    ],
+    "frames": 7,
+    "candidate_checkpoints": [
+      "/home/m/jewels-codex-support/sol/results/frozen_appearance_v1/continuation/frozen_render_total1200/encoder.pt",
+      "/home/m/jewels-codex-support/sol/results/local_adapter_v1/screens/radius0_render_seed0_400/encoder.pt",
+      "/home/m/jewels-codex-support/sol/results/local_adapter_v1/screens/radius2_render_seed0_400/encoder.pt",
+      "/home/m/jewels-codex-support/sol/results/local_adapter_v1/screens/radius2_lpips001_seed0_400/encoder.pt"
+    ],
+    "renderer": "support_tiled",
+    "support_sigma": 5.0
+  },
+  "perceptual_macro": {
+    "irregular_seed0": {
+      "lpips": 0.7220104336738586,
+      "psnr": 20.082002258300783,
+      "ssim": 0.8392547011375427,
+      "layout_psnr": 23.88871040344238,
+      "layout_ssim": 0.9267810940742492
+    },
+    "irregular_seed1": {
+      "lpips": 0.7203288163457598,
+      "psnr": 20.112162017822264,
+      "ssim": 0.8411940455436706,
+      "layout_psnr": 23.96474380493164,
+      "layout_ssim": 0.9282855153083801
+    },
+    "irregular_seed2": {
+      "lpips": 0.7203158906527928,
+      "psnr": 20.112195205688476,
+      "ssim": 0.8411857962608338,
+      "layout_psnr": 23.964912796020506,
+      "layout_ssim": 0.9282842397689819
+    },
+    "irregular_seed3": {
+      "lpips": 0.7186589751924787,
+      "psnr": 20.112328338623048,
+      "ssim": 0.8418769598007202,
+      "layout_psnr": 23.96947364807129,
+      "layout_ssim": 0.9286552906036377
+    },
+    "lattice": {
+      "lpips": 0.42823770046234133,
+      "psnr": 23.652351760864256,
+      "ssim": 0.9235019683837891,
+      "layout_psnr": 31.340365600585937,
+      "layout_ssim": 0.9824156165122986
+    },
+    "teacher": {
+      "lpips": 0.17201046432767594,
+      "psnr": 27.69931640625,
+      "ssim": 0.9680012464523315,
+      "layout_psnr": 36.96610717773437,
+      "layout_ssim": 0.9961218953132629
+    }
+  },
+  "structure_macro": {
+    "lattice": {
+      "active_fraction": 1.0,
+      "anisotropy_median": 2.396431385565201,
+      "anisotropy_p90": 2.7394369724229395,
+      "extent_iqr_ratio": 1.0936928375205541,
+      "occupancy_uniformity": 0.9991891905403426,
+      "mixed_spacetime_tilt_median": 0.1409434165874343,
+      "mixed_spacetime_tilt_p90": 0.23878959281097006
+    },
+    "irregular": {
+      "active_fraction": 0.628154296875,
+      "anisotropy_median": 2.115648306789578,
+      "anisotropy_p90": 2.4971156813395474,
+      "extent_iqr_ratio": 1.8924180042104153,
+      "occupancy_uniformity": 0.984621520486864,
+      "mixed_spacetime_tilt_median": 0.5210572975594957,
+      "mixed_spacetime_tilt_p90": 0.5653263579237504
+    }
+  },
+  "structure_by_seed": {
+    "seed0": {
+      "active_fraction": 0.628154296875,
+      "anisotropy_median": 2.115648306789578,
+      "anisotropy_p90": 2.4971156813395474,
+      "extent_iqr_ratio": 1.8924180042104153,
+      "occupancy_uniformity": 0.984621520486864,
+      "mixed_spacetime_tilt_median": 0.5210572975594957,
+      "mixed_spacetime_tilt_p90": 0.5653263579237504
+    },
+    "seed1": {
+      "active_fraction": 0.628154296875,
+      "anisotropy_median": 2.115648306789578,
+      "anisotropy_p90": 2.4971156813395474,
+      "extent_iqr_ratio": 1.8924180042104153,
+      "occupancy_uniformity": 0.984621520486864,
+      "mixed_spacetime_tilt_median": 0.5210572975594957,
+      "mixed_spacetime_tilt_p90": 0.5653263579237504
+    },
+    "seed2": {
+      "active_fraction": 0.628154296875,
+      "anisotropy_median": 2.115648306789578,
+      "anisotropy_p90": 2.4971156813395474,
+      "extent_iqr_ratio": 1.8924180042104153,
+      "occupancy_uniformity": 0.984621520486864,
+      "mixed_spacetime_tilt_median": 0.5210572975594957,
+      "mixed_spacetime_tilt_p90": 0.5653263579237504
+    },
+    "seed3": {
+      "active_fraction": 0.628154296875,
+      "anisotropy_median": 2.115648306789578,
+      "anisotropy_p90": 2.4971156813395474,
+      "extent_iqr_ratio": 1.8924180042104153,
+      "occupancy_uniformity": 0.984621520486864,
+      "mixed_spacetime_tilt_median": 0.5210572975594957,
+      "mixed_spacetime_tilt_p90": 0.5653263579237504
+    }
+  },
+  "gate": {
+    "passed": false,
+    "checks": {
+      "each_seed_occupancy_at_most_0.985": true,
+      "each_seed_less_uniform_than_lattice": true,
+      "mean_active_fraction_at_most_0.70": true,
+      "mean_mixed_tilt_at_least_0.25": true,
+      "mean_psnr_at_least_20db": true,
+      "mean_lpips_at_most_0.40": false
+    },
+    "candidate_perceptual": {
+      "lpips": 0.7203285289662225,
+      "psnr": 20.104671955108643,
+      "ssim": 0.8408778756856918,
+      "layout_psnr": 23.946960163116454,
+      "layout_ssim": 0.9280015349388122
+    }
+  },
+  "perceptual_records": [
+    {
+      "source_id": "anime__00_cooking_evaluation_00_seed60002",
+      "style": "anime",
+      "arm": "lattice",
+      "lpips_mean": 0.5525813017572675,
+      "lpips_per_frame": [
+        0.558963418006897,
+        0.5443664789199829,
+        0.5400848388671875,
+        0.5533552765846252,
+        0.5503393411636353,
+        0.5484890937805176,
+        0.5724706649780273
+      ],
+      "render_signature": {
+        "psnr": 19.57855987548828,
+        "ssim": 0.8539716005325317,
+        "contrast_ratio": 0.8698635101318359,
+        "edge_ratio": 0.41426268219947815,
+        "saturation_ratio": 0.9683499932289124,
+        "temporal_change_ratio": 0.7917523980140686
+      },
+      "layout_signature": {
+        "pool_factor": 8.0,
+        "layout_psnr": 29.513385772705078,
+        "layout_ssim": 0.980606734752655
+      }
+    },
+    {
+      "source_id": "anime__00_cooking_evaluation_00_seed60002",
+      "style": "anime",
+      "arm": "irregular_seed0",
+      "lpips_mean": 0.8734661766460964,
+      "lpips_per_frame": [
+        0.914658784866333,
+        0.8729042410850525,
+        0.8638424277305603,
+        0.872259259223938,
+        0.8624696135520935,
+        0.8465303778648376,
+        0.8815985321998596
+      ],
+      "render_signature": {
+        "psnr": 18.03289222717285,
+        "ssim": 0.771738588809967,
+        "contrast_ratio": 0.7675550580024719,
+        "edge_ratio": 0.20470981299877167,
+        "saturation_ratio": 0.9563798904418945,
+        "temporal_change_ratio": 1.3257319927215576
+      },
+      "layout_signature": {
+        "pool_factor": 8.0,
+        "layout_psnr": 24.414840698242188,
+        "layout_ssim": 0.9350792169570923
+      }
+    },
+    {
+      "source_id": "anime__00_cooking_evaluation_00_seed60002",
+      "style": "anime",
+      "arm": "irregular_seed1",
+      "lpips_mean": 0.8710490890911647,
+      "lpips_per_frame": [
+        0.9118698239326477,
+        0.8705623149871826,
+        0.8615527153015137,
+        0.8697556853294373,
+        0.8601444959640503,
+        0.8446285128593445,
+        0.878830075263977
+      ],
+      "render_signature": {
+        "psnr": 18.06129264831543,
+        "ssim": 0.7743707299232483,
+        "contrast_ratio": 0.774876058101654,
+        "edge_ratio": 0.2067158967256546,
+        "saturation_ratio": 0.9495197534561157,
+        "temporal_change_ratio": 1.3380049467086792
+      },
+      "layout_signature": {
+        "pool_factor": 8.0,
+        "layout_psnr": 24.538272857666016,
+        "layout_ssim": 0.9370160102844238
+      }
+    },
+    {
+      "source_id": "anime__00_cooking_evaluation_00_seed60002",
+      "style": "anime",
+      "arm": "irregular_seed2",
+      "lpips_mean": 0.8710364529064724,
+      "lpips_per_frame": [
+        0.9118726253509521,
+        0.8705575466156006,
+        0.8614746332168579,
+        0.8697896599769592,
+        0.8601412177085876,
+        0.8445701003074646,
+        0.8788493871688843
+      ],
+      "render_signature": {
+        "psnr": 18.061445236206055,
+        "ssim": 0.7743618488311768,
+        "contrast_ratio": 0.7747662663459778,
+        "edge_ratio": 0.2066728174686432,
+        "saturation_ratio": 0.949428141117096,
+        "temporal_change_ratio": 1.3376168012619019
+      },
+      "layout_signature": {
+        "pool_factor": 8.0,
+        "layout_psnr": 24.538877487182617,
+        "layout_ssim": 0.9370204210281372
+      }
+    },
+    {
+      "source_id": "anime__00_cooking_evaluation_00_seed60002",
+      "style": "anime",
+      "arm": "irregular_seed3",
+      "lpips_mean": 0.8695677774293082,
+      "lpips_per_frame": [
+        0.9117152690887451,
+        0.8692535758018494,
+        0.8599439859390259,
+        0.8672126531600952,
+        0.8584495782852173,
+        0.8427284955978394,
+        0.8776708841323853
+      ],
+      "render_signature": {
+        "psnr": 18.076719284057617,
+        "ssim": 0.7755830883979797,
+        "contrast_ratio": 0.7814107537269592,
+        "edge_ratio": 0.2077058106660843,
+        "saturation_ratio": 0.9567336440086365,
+        "temporal_change_ratio": 1.3450783491134644
+      },
+      "layout_signature": {
+        "pool_factor": 8.0,
+        "layout_psnr": 24.60384178161621,
+        "layout_ssim": 0.937988817691803
+      }
+    },
+    {
+      "source_id": "anime__00_cooking_evaluation_00_seed60002",
+      "style": "anime",
+      "arm": "teacher",
+      "lpips_mean": 0.23041760069983347,
+      "lpips_per_frame": [
+        0.26555439829826355,
+        0.2226903736591339,
+        0.2024594396352768,
+        0.20892050862312317,
+        0.22627033293247223,
+        0.22096851468086243,
+        0.26605963706970215
+      ],
+      "render_signature": {
+        "psnr": 22.228248596191406,
+        "ssim": 0.9238820672035217,
+        "contrast_ratio": 0.9089270830154419,
+        "edge_ratio": 0.6387224793434143,
+        "saturation_ratio": 0.9919612407684326,
+        "temporal_change_ratio": 1.3609343767166138
+      },
+      "layout_signature": {
+        "pool_factor": 8.0,
+        "layout_psnr": 34.43196487426758,
+        "layout_ssim": 0.9937351942062378
+      }
+    },
+    {
+      "source_id": "cartoon__00_cooking_evaluation_00_seed61002",
+      "style": "cartoon",
+      "arm": "lattice",
+      "lpips_mean": 0.4303924952234541,
+      "lpips_per_frame": [
+        0.4266372323036194,
+        0.426358699798584,
+        0.4280089735984802,
+        0.4234955310821533,
+        0.42816564440727234,
+        0.43536946177482605,
+        0.44471192359924316
+      ],
+      "render_signature": {
+        "psnr": 24.352462768554688,
+        "ssim": 0.9061765074729919,
+        "contrast_ratio": 0.9215705394744873,
+        "edge_ratio": 0.5361332893371582,
+        "saturation_ratio": 1.0012025833129883,
+        "temporal_change_ratio": 0.8348449468612671
+      },
+      "layout_signature": {
+        "pool_factor": 8.0,
+        "layout_psnr": 32.87209701538086,
+        "layout_ssim": 0.9840226173400879
+      }
+    },
+    {
+      "source_id": "cartoon__00_cooking_evaluation_00_seed61002",
+      "style": "cartoon",
+      "arm": "irregular_seed0",
+      "lpips_mean": 0.7534964169774737,
+      "lpips_per_frame": [
+        0.7944016456604004,
+        0.7278850674629211,
+        0.7418830990791321,
+        0.7402053475379944,
+        0.755612850189209,
+        0.7364490032196045,
+        0.7780379056930542
+      ],
+      "render_signature": {
+        "psnr": 21.187252044677734,
+        "ssim": 0.803101658821106,
+        "contrast_ratio": 0.789303183555603,
+        "edge_ratio": 0.3359472155570984,
+        "saturation_ratio": 1.0982838869094849,
+        "temporal_change_ratio": 1.6825058460235596
+      },
+      "layout_signature": {
+        "pool_factor": 8.0,
+        "layout_psnr": 24.940889358520508,
+        "layout_ssim": 0.9137847423553467
+      }
+    },
+    {
+      "source_id": "cartoon__00_cooking_evaluation_00_seed61002",
+      "style": "cartoon",
+      "arm": "irregular_seed1",
+      "lpips_mean": 0.7515503253255572,
+      "lpips_per_frame": [
+        0.7919027805328369,
+        0.7252596616744995,
+        0.7402455806732178,
+        0.7385173439979553,
+        0.753858208656311,
+        0.735639214515686,
+        0.7754294872283936
+      ],
+      "render_signature": {
+        "psnr": 21.228652954101562,
+        "ssim": 0.805249810218811,
+        "contrast_ratio": 0.7937148809432983,
+        "edge_ratio": 0.3382117748260498,
+        "saturation_ratio": 1.0934975147247314,
+        "temporal_change_ratio": 1.6906671524047852
+      },
+      "layout_signature": {
+        "pool_factor": 8.0,
+        "layout_psnr": 25.0430908203125,
+        "layout_ssim": 0.9155555963516235
+      }
+    },
+    {
+      "source_id": "cartoon__00_cooking_evaluation_00_seed61002",
+      "style": "cartoon",
+      "arm": "irregular_seed2",
+      "lpips_mean": 0.7515334827559335,
+      "lpips_per_frame": [
+        0.7918989658355713,
+        0.7252461910247803,
+        0.7402029633522034,
+        0.7384827136993408,
+        0.7538434863090515,
+        0.7356226444244385,
+        0.7754374146461487
+      ],
+      "render_signature": {
+        "psnr": 21.22875213623047,
+        "ssim": 0.8052435517311096,
+        "contrast_ratio": 0.7936581969261169,
+        "edge_ratio": 0.33818307518959045,
+        "saturation_ratio": 1.093456506729126,
+        "temporal_change_ratio": 1.6905525922775269
+      },
+      "layout_signature": {
+        "pool_factor": 8.0,
+        "layout_psnr": 25.04340362548828,
+        "layout_ssim": 0.9155555963516235
+      }
+    },
+    {
+      "source_id": "cartoon__00_cooking_evaluation_00_seed61002",
+      "style": "cartoon",
+      "arm": "irregular_seed3",
+      "lpips_mean": 0.7511794311659676,
+      "lpips_per_frame": [
+        0.7918767929077148,
+        0.7253162264823914,
+        0.7389753460884094,
+        0.7379356026649475,
+        0.7539371252059937,
+        0.734674334526062,
+        0.7755405902862549
+      ],
+      "render_signature": {
+        "psnr": 21.234153747558594,
+        "ssim": 0.806429922580719,
+        "contrast_ratio": 0.7993459105491638,
+        "edge_ratio": 0.33854255080223083,
+        "saturation_ratio": 1.0918058156967163,
+        "temporal_change_ratio": 1.689037561416626
+      },
+      "layout_signature": {
+        "pool_factor": 8.0,
+        "layout_psnr": 25.05702781677246,
+        "layout_ssim": 0.9158937335014343
+      }
+    },
+    {
+      "source_id": "cartoon__00_cooking_evaluation_00_seed61002",
+      "style": "cartoon",
+      "arm": "teacher",
+      "lpips_mean": 0.1989937275648117,
+      "lpips_per_frame": [
+        0.24214887619018555,
+        0.18983756005764008,
+        0.1830240786075592,
+        0.18906013667583466,
+        0.17455491423606873,
+        0.17974914610385895,
+        0.2345813810825348
+      ],
+      "render_signature": {
+        "psnr": 27.75590705871582,
+        "ssim": 0.959227979183197,
+        "contrast_ratio": 0.9614871144294739,
+        "edge_ratio": 0.656194806098938,
+        "saturation_ratio": 0.9991411566734314,
+        "temporal_change_ratio": 1.2743678092956543
+      },
+      "layout_signature": {
+        "pool_factor": 8.0,
+        "layout_psnr": 38.346134185791016,
+        "layout_ssim": 0.995547354221344
+      }
+    },
+    {
+      "source_id": "clay__00_cooking_evaluation_00_seed63002",
+      "style": "clay",
+      "arm": "lattice",
+      "lpips_mean": 0.3429728959287916,
+      "lpips_per_frame": [
+        0.305996298789978,
+        0.32008498907089233,
+        0.34806323051452637,
+        0.34618672728538513,
+        0.35980647802352905,
+        0.3643205165863037,
+        0.3563520312309265
+      ],
+      "render_signature": {
+        "psnr": 26.830156326293945,
+        "ssim": 0.9662026762962341,
+        "contrast_ratio": 0.9543330073356628,
+        "edge_ratio": 0.7594469785690308,
+        "saturation_ratio": 1.0038880109786987,
+        "temporal_change_ratio": 1.016471028327942
+      },
+      "layout_signature": {
+        "pool_factor": 8.0,
+        "layout_psnr": 34.759422302246094,
+        "layout_ssim": 0.9939486384391785
+      }
+    },
+    {
+      "source_id": "clay__00_cooking_evaluation_00_seed63002",
+      "style": "clay",
+      "arm": "irregular_seed0",
+      "lpips_mean": 0.6224599140030997,
+      "lpips_per_frame": [
+        0.648133397102356,
+        0.6041818261146545,
+        0.5905210971832275,
+        0.612700343132019,
+        0.6213992238044739,
+        0.6157560348510742,
+        0.6645274758338928
+      ],
+      "render_signature": {
+        "psnr": 21.01017189025879,
+        "ssim": 0.8742436170578003,
+        "contrast_ratio": 0.877903401851654,
+        "edge_ratio": 0.5164968371391296,
+        "saturation_ratio": 0.9928793907165527,
+        "temporal_change_ratio": 1.1600450277328491
+      },
+      "layout_signature": {
+        "pool_factor": 8.0,
+        "layout_psnr": 24.01318359375,
+        "layout_ssim": 0.9316948652267456
+      }
+    },
+    {
+      "source_id": "clay__00_cooking_evaluation_00_seed63002",
+      "style": "clay",
+      "arm": "irregular_seed1",
+      "lpips_mean": 0.620050345148359,
+      "lpips_per_frame": [
+        0.6443343162536621,
+        0.6024054288864136,
+        0.5879217386245728,
+        0.609611988067627,
+        0.6193448901176453,
+        0.6142286062240601,
+        0.6625054478645325
+      ],
+      "render_signature": {
+        "psnr": 21.038375854492188,
+        "ssim": 0.8761759996414185,
+        "contrast_ratio": 0.8874557018280029,
+        "edge_ratio": 0.5223106145858765,
+        "saturation_ratio": 0.9882640242576599,
+        "temporal_change_ratio": 1.1738855838775635
+      },
+      "layout_signature": {
+        "pool_factor": 8.0,
+        "layout_psnr": 24.066240310668945,
+        "layout_ssim": 0.9331380128860474
+      }
+    },
+    {
+      "source_id": "clay__00_cooking_evaluation_00_seed63002",
+      "style": "clay",
+      "arm": "irregular_seed2",
+      "lpips_mean": 0.6200333663395473,
+      "lpips_per_frame": [
+        0.6443171501159668,
+        0.6023924350738525,
+        0.5878927707672119,
+        0.6096408367156982,
+        0.619320809841156,
+        0.6141909956932068,
+        0.6624785661697388
+      ],
+      "render_signature": {
+        "psnr": 21.03828239440918,
+        "ssim": 0.8761655688285828,
+        "contrast_ratio": 0.8873977065086365,
+        "edge_ratio": 0.5222294330596924,
+        "saturation_ratio": 0.9882732033729553,
+        "temporal_change_ratio": 1.1737419366836548
+      },
+      "layout_signature": {
+        "pool_factor": 8.0,
+        "layout_psnr": 24.06610107421875,
+        "layout_ssim": 0.9331341981887817
+      }
+    },
+    {
+      "source_id": "clay__00_cooking_evaluation_00_seed63002",
+      "style": "clay",
+      "arm": "irregular_seed3",
+      "lpips_mean": 0.6170676180294582,
+      "lpips_per_frame": [
+        0.6410195231437683,
+        0.5991761684417725,
+        0.5852123498916626,
+        0.6059368252754211,
+        0.6166421175003052,
+        0.610283613204956,
+        0.6612027287483215
+      ],
+      "render_signature": {
+        "psnr": 21.02952003479004,
+        "ssim": 0.8762900829315186,
+        "contrast_ratio": 0.8914688229560852,
+        "edge_ratio": 0.5249245762825012,
+        "saturation_ratio": 0.9857680201530457,
+        "temporal_change_ratio": 1.1803392171859741
+      },
+      "layout_signature": {
+        "pool_factor": 8.0,
+        "layout_psnr": 24.04344367980957,
+        "layout_ssim": 0.9331229329109192
+      }
+    },
+    {
+      "source_id": "clay__00_cooking_evaluation_00_seed63002",
+      "style": "clay",
+      "arm": "teacher",
+      "lpips_mean": 0.12454103359154292,
+      "lpips_per_frame": [
+        0.1080906093120575,
+        0.12268166244029999,
+        0.13522940874099731,
+        0.11560417711734772,
+        0.13702520728111267,
+        0.11206908524036407,
+        0.14108708500862122
+      ],
+      "render_signature": {
+        "psnr": 30.25139045715332,
+        "ssim": 0.9848078489303589,
+        "contrast_ratio": 0.9868436455726624,
+        "edge_ratio": 0.8684559464454651,
+        "saturation_ratio": 0.9977107644081116,
+        "temporal_change_ratio": 1.1597603559494019
+      },
+      "layout_signature": {
+        "pool_factor": 8.0,
+        "layout_psnr": 37.75950622558594,
+        "layout_ssim": 0.9967666864395142
+      }
+    },
+    {
+      "source_id": "photoreal__00_cooking_evaluation_00_seed50007",
+      "style": "photoreal",
+      "arm": "lattice",
+      "lpips_mean": 0.43790862389973234,
+      "lpips_per_frame": [
+        0.4644196331501007,
+        0.44593244791030884,
+        0.4457363486289978,
+        0.4192054271697998,
+        0.4300316572189331,
+        0.4400014877319336,
+        0.42003336548805237
+      ],
+      "render_signature": {
+        "psnr": 21.62322998046875,
+        "ssim": 0.9199267029762268,
+        "contrast_ratio": 0.9258671402931213,
+        "edge_ratio": 0.6829742789268494,
+        "saturation_ratio": 0.978073000907898,
+        "temporal_change_ratio": 0.8155244588851929
+      },
+      "layout_signature": {
+        "pool_factor": 8.0,
+        "layout_psnr": 24.952716827392578,
+        "layout_ssim": 0.9576554894447327
+      }
+    },
+    {
+      "source_id": "photoreal__00_cooking_evaluation_00_seed50007",
+      "style": "photoreal",
+      "arm": "irregular_seed0",
+      "lpips_mean": 0.6610532828739711,
+      "lpips_per_frame": [
+        0.6918478608131409,
+        0.6756346821784973,
+        0.659135103225708,
+        0.6361069679260254,
+        0.6453844308853149,
+        0.6561607122421265,
+        0.6631032228469849
+      ],
+      "render_signature": {
+        "psnr": 19.017074584960938,
+        "ssim": 0.8379775285720825,
+        "contrast_ratio": 0.8154129385948181,
+        "edge_ratio": 0.4614277482032776,
+        "saturation_ratio": 0.8308982849121094,
+        "temporal_change_ratio": 0.7822946906089783
+      },
+      "layout_signature": {
+        "pool_factor": 8.0,
+        "layout_psnr": 21.60906219482422,
+        "layout_ssim": 0.9000144004821777
+      }
+    },
+    {
+      "source_id": "photoreal__00_cooking_evaluation_00_seed50007",
+      "style": "photoreal",
+      "arm": "irregular_seed1",
+      "lpips_mean": 0.6610402294567653,
+      "lpips_per_frame": [
+        0.691552996635437,
+        0.6771085858345032,
+        0.659432053565979,
+        0.6355381608009338,
+        0.6454041004180908,
+        0.6561065912246704,
+        0.6621391177177429
+      ],
+      "render_signature": {
+        "psnr": 19.03280258178711,
+        "ssim": 0.8396306037902832,
+        "contrast_ratio": 0.8208058476448059,
+        "edge_ratio": 0.46526896953582764,
+        "saturation_ratio": 0.852752149105072,
+        "temporal_change_ratio": 0.7883524298667908
+      },
+      "layout_signature": {
+        "pool_factor": 8.0,
+        "layout_psnr": 21.63602638244629,
+        "layout_ssim": 0.901367723941803
+      }
+    },
+    {
+      "source_id": "photoreal__00_cooking_evaluation_00_seed50007",
+      "style": "photoreal",
+      "arm": "irregular_seed2",
+      "lpips_mean": 0.6610372917992728,
+      "lpips_per_frame": [
+        0.6915466785430908,
+        0.6770960092544556,
+        0.6594254970550537,
+        0.6355500817298889,
+        0.6454101204872131,
+        0.6561266779899597,
+        0.6621059775352478
+      ],
+      "render_signature": {
+        "psnr": 19.032915115356445,
+        "ssim": 0.8396220207214355,
+        "contrast_ratio": 0.8207476735115051,
+        "edge_ratio": 0.46519067883491516,
+        "saturation_ratio": 0.8526480793952942,
+        "temporal_change_ratio": 0.7882259488105774
+      },
+      "layout_signature": {
+        "pool_factor": 8.0,
+        "layout_psnr": 21.636226654052734,
+        "layout_ssim": 0.9013644456863403
+      }
+    },
+    {
+      "source_id": "photoreal__00_cooking_evaluation_00_seed50007",
+      "style": "photoreal",
+      "arm": "irregular_seed3",
+      "lpips_mean": 0.6593063984598432,
+      "lpips_per_frame": [
+        0.6903623342514038,
+        0.6749643683433533,
+        0.6578196287155151,
+        0.6332076191902161,
+        0.6436312794685364,
+        0.6542407870292664,
+        0.6609187722206116
+      ],
+      "render_signature": {
+        "psnr": 19.037843704223633,
+        "ssim": 0.8402827978134155,
+        "contrast_ratio": 0.8234561681747437,
+        "edge_ratio": 0.466878205537796,
+        "saturation_ratio": 0.8653411865234375,
+        "temporal_change_ratio": 0.7913486957550049
+      },
+      "layout_signature": {
+        "pool_factor": 8.0,
+        "layout_psnr": 21.64228630065918,
+        "layout_ssim": 0.9019221067428589
+      }
+    },
+    {
+      "source_id": "photoreal__00_cooking_evaluation_00_seed50007",
+      "style": "photoreal",
+      "arm": "teacher",
+      "lpips_mean": 0.15562227155481065,
+      "lpips_per_frame": [
+        0.21998512744903564,
+        0.14292222261428833,
+        0.13274744153022766,
+        0.14864864945411682,
+        0.13210612535476685,
+        0.12850917875766754,
+        0.18443715572357178
+      ],
+      "render_signature": {
+        "psnr": 28.027362823486328,
+        "ssim": 0.9823429584503174,
+        "contrast_ratio": 0.9820915460586548,
+        "edge_ratio": 0.8388416767120361,
+        "saturation_ratio": 0.9921801686286926,
+        "temporal_change_ratio": 1.0758649110794067
+      },
+      "layout_signature": {
+        "pool_factor": 8.0,
+        "layout_psnr": 35.153953552246094,
+        "layout_ssim": 0.9960306882858276
+      }
+    },
+    {
+      "source_id": "render3d__00_cooking_evaluation_00_seed62002",
+      "style": "render3d",
+      "arm": "lattice",
+      "lpips_mean": 0.37733318550246103,
+      "lpips_per_frame": [
+        0.39442455768585205,
+        0.37267595529556274,
+        0.36562877893447876,
+        0.3696916699409485,
+        0.3704291880130768,
+        0.37020033597946167,
+        0.3982818126678467
+      ],
+      "render_signature": {
+        "psnr": 25.877349853515625,
+        "ssim": 0.9712323546409607,
+        "contrast_ratio": 0.9582465291023254,
+        "edge_ratio": 0.7207445502281189,
+        "saturation_ratio": 0.9900811314582825,
+        "temporal_change_ratio": 1.2036744356155396
+      },
+      "layout_signature": {
+        "pool_factor": 8.0,
+        "layout_psnr": 34.60420608520508,
+        "layout_ssim": 0.9958446025848389
+      }
+    },
+    {
+      "source_id": "render3d__00_cooking_evaluation_00_seed62002",
+      "style": "render3d",
+      "arm": "irregular_seed0",
+      "lpips_mean": 0.6995763778686523,
+      "lpips_per_frame": [
+        0.7458745837211609,
+        0.6945692300796509,
+        0.6951727867126465,
+        0.6637237668037415,
+        0.6793276071548462,
+        0.6916146278381348,
+        0.7267520427703857
+      ],
+      "render_signature": {
+        "psnr": 21.162620544433594,
+        "ssim": 0.9092121124267578,
+        "contrast_ratio": 0.9139066338539124,
+        "edge_ratio": 0.46049901843070984,
+        "saturation_ratio": 0.9342272877693176,
+        "temporal_change_ratio": 3.563192844390869
+      },
+      "layout_signature": {
+        "pool_factor": 8.0,
+        "layout_psnr": 24.465576171875,
+        "layout_ssim": 0.953332245349884
+      }
+    },
+    {
+      "source_id": "render3d__00_cooking_evaluation_00_seed62002",
+      "style": "render3d",
+      "arm": "irregular_seed1",
+      "lpips_mean": 0.6979540927069527,
+      "lpips_per_frame": [
+        0.7408700585365295,
+        0.6930089592933655,
+        0.6934113502502441,
+        0.6625049710273743,
+        0.6781389713287354,
+        0.6912118792533875,
+        0.7265324592590332
+      ],
+      "render_signature": {
+        "psnr": 21.19968605041504,
+        "ssim": 0.9105430841445923,
+        "contrast_ratio": 0.9189038276672363,
+        "edge_ratio": 0.4640202224254608,
+        "saturation_ratio": 0.9325990080833435,
+        "temporal_change_ratio": 3.5844926834106445
+      },
+      "layout_signature": {
+        "pool_factor": 8.0,
+        "layout_psnr": 24.540088653564453,
+        "layout_ssim": 0.9543502330780029
+      }
+    },
+    {
+      "source_id": "render3d__00_cooking_evaluation_00_seed62002",
+      "style": "render3d",
+      "arm": "irregular_seed2",
+      "lpips_mean": 0.697938859462738,
+      "lpips_per_frame": [
+        0.7408861517906189,
+        0.6929882168769836,
+        0.6934109926223755,
+        0.6624892950057983,
+        0.6781333684921265,
+        0.6911813020706177,
+        0.7264826893806458
+      ],
+      "render_signature": {
+        "psnr": 21.199581146240234,
+        "ssim": 0.910535991191864,
+        "contrast_ratio": 0.9188544154167175,
+        "edge_ratio": 0.46397197246551514,
+        "saturation_ratio": 0.932528555393219,
+        "temporal_change_ratio": 3.5842485427856445
+      },
+      "layout_signature": {
+        "pool_factor": 8.0,
+        "layout_psnr": 24.539955139160156,
+        "layout_ssim": 0.9543465375900269
+      }
+    },
+    {
+      "source_id": "render3d__00_cooking_evaluation_00_seed62002",
+      "style": "render3d",
+      "arm": "irregular_seed3",
+      "lpips_mean": 0.6961736508778164,
+      "lpips_per_frame": [
+        0.7395291924476624,
+        0.6915993690490723,
+        0.6915113925933838,
+        0.6605153679847717,
+        0.675373911857605,
+        0.6892186403274536,
+        0.7254676818847656
+      ],
+      "render_signature": {
+        "psnr": 21.18340492248535,
+        "ssim": 0.9107989072799683,
+        "contrast_ratio": 0.9252209663391113,
+        "edge_ratio": 0.46652907133102417,
+        "saturation_ratio": 0.9318419098854065,
+        "temporal_change_ratio": 3.6019251346588135
+      },
+      "layout_signature": {
+        "pool_factor": 8.0,
+        "layout_psnr": 24.500768661499023,
+        "layout_ssim": 0.9543488621711731
+      }
+    },
+    {
+      "source_id": "render3d__00_cooking_evaluation_00_seed62002",
+      "style": "render3d",
+      "arm": "teacher",
+      "lpips_mean": 0.15047768822738103,
+      "lpips_per_frame": [
+        0.1945400983095169,
+        0.14157065749168396,
+        0.1338883340358734,
+        0.1430284082889557,
+        0.12639722228050232,
+        0.13507530093193054,
+        0.17884379625320435
+      ],
+      "render_signature": {
+        "psnr": 30.233673095703125,
+        "ssim": 0.9897453784942627,
+        "contrast_ratio": 0.9908506274223328,
+        "edge_ratio": 0.8210278153419495,
+        "saturation_ratio": 0.9979537725448608,
+        "temporal_change_ratio": 2.0053963661193848
+      },
+      "layout_signature": {
+        "pool_factor": 8.0,
+        "layout_psnr": 39.13897705078125,
+        "layout_ssim": 0.9985295534133911
+      }
+    }
+  ],
+  "structure_records": [
+    {
+      "arm": "lattice",
+      "seed": 0,
+      "source_id": "anime__00_cooking_evaluation_00_seed60002",
+      "jewels_total": 73728,
+      "jewels_above_2pct_opacity": 73728,
+      "anisotropy_median": 2.4907283901385258,
+      "anisotropy_p90": 2.8890662167411905,
+      "temporal_tilt_median": 0.998133528780843,
+      "mixed_spacetime_tilt_median": 0.12165946681035564,
+      "mixed_spacetime_tilt_p90": 0.20917000341111994,
+      "extent_median": 0.02736220367685371,
+      "extent_iqr_ratio": 1.085627277004379,
+      "opacity_median": 0.36188173294067383,
+      "occupancy_entropy": 5.5406813621521,
+      "occupancy_entropy_max": 5.545177444479562,
+      "occupancy_uniformity": 0.9991891905403426,
+      "active_fraction": 1.0
+    },
+    {
+      "arm": "irregular",
+      "seed": 0,
+      "source_id": "anime__00_cooking_evaluation_00_seed60002",
+      "jewels_total": 40960,
+      "jewels_above_2pct_opacity": 26958,
+      "anisotropy_median": 2.097662359745526,
+      "anisotropy_p90": 2.458751579812739,
+      "temporal_tilt_median": 0.9623320034143046,
+      "mixed_spacetime_tilt_median": 0.5231288817926281,
+      "mixed_spacetime_tilt_p90": 0.563570270581372,
+      "extent_median": 0.032729985270466395,
+      "extent_iqr_ratio": 1.7748630336990787,
+      "opacity_median": 0.07425447553396225,
+      "occupancy_entropy": 5.480841159820557,
+      "occupancy_entropy_max": 5.545177444479562,
+      "occupancy_uniformity": 0.9883977951466539,
+      "active_fraction": 0.658154296875
+    },
+    {
+      "arm": "irregular",
+      "seed": 1,
+      "source_id": "anime__00_cooking_evaluation_00_seed60002",
+      "jewels_total": 40960,
+      "jewels_above_2pct_opacity": 26958,
+      "anisotropy_median": 2.097662359745526,
+      "anisotropy_p90": 2.458751579812739,
+      "temporal_tilt_median": 0.9623320034143046,
+      "mixed_spacetime_tilt_median": 0.5231288817926281,
+      "mixed_spacetime_tilt_p90": 0.563570270581372,
+      "extent_median": 0.032729985270466395,
+      "extent_iqr_ratio": 1.7748630336990787,
+      "opacity_median": 0.07425447553396225,
+      "occupancy_entropy": 5.480841159820557,
+      "occupancy_entropy_max": 5.545177444479562,
+      "occupancy_uniformity": 0.9883977951466539,
+      "active_fraction": 0.658154296875
+    },
+    {
+      "arm": "irregular",
+      "seed": 2,
+      "source_id": "anime__00_cooking_evaluation_00_seed60002",
+      "jewels_total": 40960,
+      "jewels_above_2pct_opacity": 26958,
+      "anisotropy_median": 2.097662359745526,
+      "anisotropy_p90": 2.458751579812739,
+      "temporal_tilt_median": 0.9623320034143046,
+      "mixed_spacetime_tilt_median": 0.5231288817926281,
+      "mixed_spacetime_tilt_p90": 0.563570270581372,
+      "extent_median": 0.032729985270466395,
+      "extent_iqr_ratio": 1.7748630336990787,
+      "opacity_median": 0.07425447553396225,
+      "occupancy_entropy": 5.480841159820557,
+      "occupancy_entropy_max": 5.545177444479562,
+      "occupancy_uniformity": 0.9883977951466539,
+      "active_fraction": 0.658154296875
+    },
+    {
+      "arm": "irregular",
+      "seed": 3,
+      "source_id": "anime__00_cooking_evaluation_00_seed60002",
+      "jewels_total": 40960,
+      "jewels_above_2pct_opacity": 26958,
+      "anisotropy_median": 2.097662359745526,
+      "anisotropy_p90": 2.458751579812739,
+      "temporal_tilt_median": 0.9623320034143046,
+      "mixed_spacetime_tilt_median": 0.5231288817926281,
+      "mixed_spacetime_tilt_p90": 0.563570270581372,
+      "extent_median": 0.032729985270466395,
+      "extent_iqr_ratio": 1.7748630336990787,
+      "opacity_median": 0.07425447553396225,
+      "occupancy_entropy": 5.480841159820557,
+      "occupancy_entropy_max": 5.545177444479562,
+      "occupancy_uniformity": 0.9883977951466539,
+      "active_fraction": 0.658154296875
+    },
+    {
+      "arm": "lattice",
+      "seed": 0,
+      "source_id": "cartoon__00_cooking_evaluation_00_seed61002",
+      "jewels_total": 73728,
+      "jewels_above_2pct_opacity": 73728,
+      "anisotropy_median": 2.3415412694578155,
+      "anisotropy_p90": 2.6437515050211307,
+      "temporal_tilt_median": 0.9980063658813367,
+      "mixed_spacetime_tilt_median": 0.125270650662982,
+      "mixed_spacetime_tilt_p90": 0.20539289273183275,
+      "extent_median": 0.027829944914391832,
+      "extent_iqr_ratio": 1.074580851688381,
+      "opacity_median": 0.35131168365478516,
+      "occupancy_entropy": 5.5406813621521,
+      "occupancy_entropy_max": 5.545177444479562,
+      "occupancy_uniformity": 0.9991891905403426,
+      "active_fraction": 1.0
+    },
+    {
+      "arm": "irregular",
+      "seed": 0,
+      "source_id": "cartoon__00_cooking_evaluation_00_seed61002",
+      "jewels_total": 40960,
+      "jewels_above_2pct_opacity": 24069,
+      "anisotropy_median": 1.9632723315782252,
+      "anisotropy_p90": 2.3958001237159414,
+      "temporal_tilt_median": 0.9625691710380756,
+      "mixed_spacetime_tilt_median": 0.5208183585456092,
+      "mixed_spacetime_tilt_p90": 0.5824482955424635,
+      "extent_median": 0.031578984137288754,
+      "extent_iqr_ratio": 1.9485708128141812,
+      "opacity_median": 0.07442469149827957,
+      "occupancy_entropy": 5.430013179779053,
+      "occupancy_entropy_max": 5.545177444479562,
+      "occupancy_uniformity": 0.9792316358036188,
+      "active_fraction": 0.5876220703125
+    },
+    {
+      "arm": "irregular",
+      "seed": 1,
+      "source_id": "cartoon__00_cooking_evaluation_00_seed61002",
+      "jewels_total": 40960,
+      "jewels_above_2pct_opacity": 24069,
+      "anisotropy_median": 1.9632723315782252,
+      "anisotropy_p90": 2.3958001237159414,
+      "temporal_tilt_median": 0.9625691710380756,
+      "mixed_spacetime_tilt_median": 0.5208183585456092,
+      "mixed_spacetime_tilt_p90": 0.5824482955424635,
+      "extent_median": 0.031578984137288754,
+      "extent_iqr_ratio": 1.9485708128141812,
+      "opacity_median": 0.07442469149827957,
+      "occupancy_entropy": 5.430013179779053,
+      "occupancy_entropy_max": 5.545177444479562,
+      "occupancy_uniformity": 0.9792316358036188,
+      "active_fraction": 0.5876220703125
+    },
+    {
+      "arm": "irregular",
+      "seed": 2,
+      "source_id": "cartoon__00_cooking_evaluation_00_seed61002",
+      "jewels_total": 40960,
+      "jewels_above_2pct_opacity": 24069,
+      "anisotropy_median": 1.9632723315782252,
+      "anisotropy_p90": 2.3958001237159414,
+      "temporal_tilt_median": 0.9625691710380756,
+      "mixed_spacetime_tilt_median": 0.5208183585456092,
+      "mixed_spacetime_tilt_p90": 0.5824482955424635,
+      "extent_median": 0.031578984137288754,
+      "extent_iqr_ratio": 1.9485708128141812,
+      "opacity_median": 0.07442469149827957,
+      "occupancy_entropy": 5.430013179779053,
+      "occupancy_entropy_max": 5.545177444479562,
+      "occupancy_uniformity": 0.9792316358036188,
+      "active_fraction": 0.5876220703125
+    },
+    {
+      "arm": "irregular",
+      "seed": 3,
+      "source_id": "cartoon__00_cooking_evaluation_00_seed61002",
+      "jewels_total": 40960,
+      "jewels_above_2pct_opacity": 24069,
+      "anisotropy_median": 1.9632723315782252,
+      "anisotropy_p90": 2.3958001237159414,
+      "temporal_tilt_median": 0.9625691710380756,
+      "mixed_spacetime_tilt_median": 0.5208183585456092,
+      "mixed_spacetime_tilt_p90": 0.5824482955424635,
+      "extent_median": 0.031578984137288754,
+      "extent_iqr_ratio": 1.9485708128141812,
+      "opacity_median": 0.07442469149827957,
+      "occupancy_entropy": 5.430013179779053,
+      "occupancy_entropy_max": 5.545177444479562,
+      "occupancy_uniformity": 0.9792316358036188,
+      "active_fraction": 0.5876220703125
+    },
+    {
+      "arm": "lattice",
+      "seed": 0,
+      "source_id": "clay__00_cooking_evaluation_00_seed63002",
+      "jewels_total": 73728,
+      "jewels_above_2pct_opacity": 73728,
+      "anisotropy_median": 2.3911127930919562,
+      "anisotropy_p90": 2.70356512321066,
+      "temporal_tilt_median": 0.9957799375629974,
+      "mixed_spacetime_tilt_median": 0.18188067631980254,
+      "mixed_spacetime_tilt_p90": 0.3137425673682467,
+      "extent_median": 0.025685987035171998,
+      "extent_iqr_ratio": 1.1009472989512472,
+      "opacity_median": 0.4604440927505493,
+      "occupancy_entropy": 5.5406813621521,
+      "occupancy_entropy_max": 5.545177444479562,
+      "occupancy_uniformity": 0.9991891905403426,
+      "active_fraction": 1.0
+    },
+    {
+      "arm": "irregular",
+      "seed": 0,
+      "source_id": "clay__00_cooking_evaluation_00_seed63002",
+      "jewels_total": 40960,
+      "jewels_above_2pct_opacity": 26849,
+      "anisotropy_median": 2.2539706194281015,
+      "anisotropy_p90": 2.6526524154515965,
+      "temporal_tilt_median": 0.9639849561785339,
+      "mixed_spacetime_tilt_median": 0.5125385788815272,
+      "mixed_spacetime_tilt_p90": 0.5493974712261515,
+      "extent_median": 0.035243804289058725,
+      "extent_iqr_ratio": 1.927722849234983,
+      "opacity_median": 0.07365219295024872,
+      "occupancy_entropy": 5.510195732116699,
+      "occupancy_entropy_max": 5.545177444479562,
+      "occupancy_uniformity": 0.9936915071315366,
+      "active_fraction": 0.6554931640625
+    },
+    {
+      "arm": "irregular",
+      "seed": 1,
+      "source_id": "clay__00_cooking_evaluation_00_seed63002",
+      "jewels_total": 40960,
+      "jewels_above_2pct_opacity": 26849,
+      "anisotropy_median": 2.2539706194281015,
+      "anisotropy_p90": 2.6526524154515965,
+      "temporal_tilt_median": 0.9639849561785339,
+      "mixed_spacetime_tilt_median": 0.5125385788815272,
+      "mixed_spacetime_tilt_p90": 0.5493974712261515,
+      "extent_median": 0.035243804289058725,
+      "extent_iqr_ratio": 1.927722849234983,
+      "opacity_median": 0.07365219295024872,
+      "occupancy_entropy": 5.510195732116699,
+      "occupancy_entropy_max": 5.545177444479562,
+      "occupancy_uniformity": 0.9936915071315366,
+      "active_fraction": 0.6554931640625
+    },
+    {
+      "arm": "irregular",
+      "seed": 2,
+      "source_id": "clay__00_cooking_evaluation_00_seed63002",
+      "jewels_total": 40960,
+      "jewels_above_2pct_opacity": 26849,
+      "anisotropy_median": 2.2539706194281015,
+      "anisotropy_p90": 2.6526524154515965,
+      "temporal_tilt_median": 0.9639849561785339,
+      "mixed_spacetime_tilt_median": 0.5125385788815272,
+      "mixed_spacetime_tilt_p90": 0.5493974712261515,
+      "extent_median": 0.035243804289058725,
+      "extent_iqr_ratio": 1.927722849234983,
+      "opacity_median": 0.07365219295024872,
+      "occupancy_entropy": 5.510195732116699,
+      "occupancy_entropy_max": 5.545177444479562,
+      "occupancy_uniformity": 0.9936915071315366,
+      "active_fraction": 0.6554931640625
+    },
+    {
+      "arm": "irregular",
+      "seed": 3,
+      "source_id": "clay__00_cooking_evaluation_00_seed63002",
+      "jewels_total": 40960,
+      "jewels_above_2pct_opacity": 26849,
+      "anisotropy_median": 2.2539706194281015,
+      "anisotropy_p90": 2.6526524154515965,
+      "temporal_tilt_median": 0.9639849561785339,
+      "mixed_spacetime_tilt_median": 0.5125385788815272,
+      "mixed_spacetime_tilt_p90": 0.5493974712261515,
+      "extent_median": 0.035243804289058725,
+      "extent_iqr_ratio": 1.927722849234983,
+      "opacity_median": 0.07365219295024872,
+      "occupancy_entropy": 5.510195732116699,
+      "occupancy_entropy_max": 5.545177444479562,
+      "occupancy_uniformity": 0.9936915071315366,
+      "active_fraction": 0.6554931640625
+    },
+    {
+      "arm": "lattice",
+      "seed": 0,
+      "source_id": "photoreal__00_cooking_evaluation_00_seed50007",
+      "jewels_total": 73728,
+      "jewels_above_2pct_opacity": 73728,
+      "anisotropy_median": 2.307605573805086,
+      "anisotropy_p90": 2.6356828163036163,
+      "temporal_tilt_median": 0.9976030998476803,
+      "mixed_spacetime_tilt_median": 0.13765511329179134,
+      "mixed_spacetime_tilt_p90": 0.23575231497070925,
+      "extent_median": 0.025252022450615093,
+      "extent_iqr_ratio": 1.109138055113394,
+      "opacity_median": 0.465401291847229,
+      "occupancy_entropy": 5.5406813621521,
+      "occupancy_entropy_max": 5.545177444479562,
+      "occupancy_uniformity": 0.9991891905403426,
+      "active_fraction": 1.0
+    },
+    {
+      "arm": "irregular",
+      "seed": 0,
+      "source_id": "photoreal__00_cooking_evaluation_00_seed50007",
+      "jewels_total": 40960,
+      "jewels_above_2pct_opacity": 24950,
+      "anisotropy_median": 2.1554986401974414,
+      "anisotropy_p90": 2.504345976201867,
+      "temporal_tilt_median": 0.9627187156195854,
+      "mixed_spacetime_tilt_median": 0.5209915562023898,
+      "mixed_spacetime_tilt_p90": 0.5614694216765885,
+      "extent_median": 0.03318274707825989,
+      "extent_iqr_ratio": 1.9460335165450506,
+      "opacity_median": 0.08037564903497696,
+      "occupancy_entropy": 5.424490451812744,
+      "occupancy_entropy_max": 5.545177444479562,
+      "occupancy_uniformity": 0.9782356842724723,
+      "active_fraction": 0.609130859375
+    },
+    {
+      "arm": "irregular",
+      "seed": 1,
+      "source_id": "photoreal__00_cooking_evaluation_00_seed50007",
+      "jewels_total": 40960,
+      "jewels_above_2pct_opacity": 24950,
+      "anisotropy_median": 2.1554986401974414,
+      "anisotropy_p90": 2.504345976201867,
+      "temporal_tilt_median": 0.9627187156195854,
+      "mixed_spacetime_tilt_median": 0.5209915562023898,
+      "mixed_spacetime_tilt_p90": 0.5614694216765885,
+      "extent_median": 0.03318274707825989,
+      "extent_iqr_ratio": 1.9460335165450506,
+      "opacity_median": 0.08037564903497696,
+      "occupancy_entropy": 5.424490451812744,
+      "occupancy_entropy_max": 5.545177444479562,
+      "occupancy_uniformity": 0.9782356842724723,
+      "active_fraction": 0.609130859375
+    },
+    {
+      "arm": "irregular",
+      "seed": 2,
+      "source_id": "photoreal__00_cooking_evaluation_00_seed50007",
+      "jewels_total": 40960,
+      "jewels_above_2pct_opacity": 24950,
+      "anisotropy_median": 2.1554986401974414,
+      "anisotropy_p90": 2.504345976201867,
+      "temporal_tilt_median": 0.9627187156195854,
+      "mixed_spacetime_tilt_median": 0.5209915562023898,
+      "mixed_spacetime_tilt_p90": 0.5614694216765885,
+      "extent_median": 0.03318274707825989,
+      "extent_iqr_ratio": 1.9460335165450506,
+      "opacity_median": 0.08037564903497696,
+      "occupancy_entropy": 5.424490451812744,
+      "occupancy_entropy_max": 5.545177444479562,
+      "occupancy_uniformity": 0.9782356842724723,
+      "active_fraction": 0.609130859375
+    },
+    {
+      "arm": "irregular",
+      "seed": 3,
+      "source_id": "photoreal__00_cooking_evaluation_00_seed50007",
+      "jewels_total": 40960,
+      "jewels_above_2pct_opacity": 24950,
+      "anisotropy_median": 2.1554986401974414,
+      "anisotropy_p90": 2.504345976201867,
+      "temporal_tilt_median": 0.9627187156195854,
+      "mixed_spacetime_tilt_median": 0.5209915562023898,
+      "mixed_spacetime_tilt_p90": 0.5614694216765885,
+      "extent_median": 0.03318274707825989,
+      "extent_iqr_ratio": 1.9460335165450506,
+      "opacity_median": 0.08037564903497696,
+      "occupancy_entropy": 5.424490451812744,
+      "occupancy_entropy_max": 5.545177444479562,
+      "occupancy_uniformity": 0.9782356842724723,
+      "active_fraction": 0.609130859375
+    },
+    {
+      "arm": "lattice",
+      "seed": 0,
+      "source_id": "render3d__00_cooking_evaluation_00_seed62002",
+      "jewels_total": 73728,
+      "jewels_above_2pct_opacity": 73728,
+      "anisotropy_median": 2.45116890133262,
+      "anisotropy_p90": 2.8251192008381008,
+      "temporal_tilt_median": 0.9975843967383098,
+      "mixed_spacetime_tilt_median": 0.13825117585223998,
+      "mixed_spacetime_tilt_p90": 0.22989018557294166,
+      "extent_median": 0.02689598099959556,
+      "extent_iqr_ratio": 1.098170704845369,
+      "opacity_median": 0.40054449439048767,
+      "occupancy_entropy": 5.5406813621521,
+      "occupancy_entropy_max": 5.545177444479562,
+      "occupancy_uniformity": 0.9991891905403426,
+      "active_fraction": 1.0
+    },
+    {
+      "arm": "irregular",
+      "seed": 0,
+      "source_id": "render3d__00_cooking_evaluation_00_seed62002",
+      "jewels_total": 40960,
+      "jewels_above_2pct_opacity": 25820,
+      "anisotropy_median": 2.1078375829985947,
+      "anisotropy_p90": 2.4740283115155934,
+      "temporal_tilt_median": 0.9616464608261861,
+      "mixed_spacetime_tilt_median": 0.5278091123753244,
+      "mixed_spacetime_tilt_p90": 0.5697463305921765,
+      "extent_median": 0.033143060411668326,
+      "extent_iqr_ratio": 1.864899808758783,
+      "opacity_median": 0.07846732437610626,
+      "occupancy_entropy": 5.453964710235596,
+      "occupancy_entropy_max": 5.545177444479562,
+      "occupancy_uniformity": 0.9835509800800383,
+      "active_fraction": 0.63037109375
+    },
+    {
+      "arm": "irregular",
+      "seed": 1,
+      "source_id": "render3d__00_cooking_evaluation_00_seed62002",
+      "jewels_total": 40960,
+      "jewels_above_2pct_opacity": 25820,
+      "anisotropy_median": 2.1078375829985947,
+      "anisotropy_p90": 2.4740283115155934,
+      "temporal_tilt_median": 0.9616464608261861,
+      "mixed_spacetime_tilt_median": 0.5278091123753244,
+      "mixed_spacetime_tilt_p90": 0.5697463305921765,
+      "extent_median": 0.033143060411668326,
+      "extent_iqr_ratio": 1.864899808758783,
+      "opacity_median": 0.07846732437610626,
+      "occupancy_entropy": 5.453964710235596,
+      "occupancy_entropy_max": 5.545177444479562,
+      "occupancy_uniformity": 0.9835509800800383,
+      "active_fraction": 0.63037109375
+    },
+    {
+      "arm": "irregular",
+      "seed": 2,
+      "source_id": "render3d__00_cooking_evaluation_00_seed62002",
+      "jewels_total": 40960,
+      "jewels_above_2pct_opacity": 25820,
+      "anisotropy_median": 2.1078375829985947,
+      "anisotropy_p90": 2.4740283115155934,
+      "temporal_tilt_median": 0.9616464608261861,
+      "mixed_spacetime_tilt_median": 0.5278091123753244,
+      "mixed_spacetime_tilt_p90": 0.5697463305921765,
+      "extent_median": 0.033143060411668326,
+      "extent_iqr_ratio": 1.864899808758783,
+      "opacity_median": 0.07846732437610626,
+      "occupancy_entropy": 5.453964710235596,
+      "occupancy_entropy_max": 5.545177444479562,
+      "occupancy_uniformity": 0.9835509800800383,
+      "active_fraction": 0.63037109375
+    },
+    {
+      "arm": "irregular",
+      "seed": 3,
+      "source_id": "render3d__00_cooking_evaluation_00_seed62002",
+      "jewels_total": 40960,
+      "jewels_above_2pct_opacity": 25820,
+      "anisotropy_median": 2.1078375829985947,
+      "anisotropy_p90": 2.4740283115155934,
+      "temporal_tilt_median": 0.9616464608261861,
+      "mixed_spacetime_tilt_median": 0.5278091123753244,
+      "mixed_spacetime_tilt_p90": 0.5697463305921765,
+      "extent_median": 0.033143060411668326,
+      "extent_iqr_ratio": 1.864899808758783,
+      "opacity_median": 0.07846732437610626,
+      "occupancy_entropy": 5.453964710235596,
+      "occupancy_entropy_max": 5.545177444479562,
+      "occupancy_uniformity": 0.9835509800800383,
+      "active_fraction": 0.63037109375
+    }
+  ]
+}
