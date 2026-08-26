@@ -1,0 +1,14 @@
+[Unit]
+Description=Prompt-to-Jewel proof demo
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/m/jewels-codex-support
+ExecStart=/home/m/LTX-2/.venv/bin/python -u -m sol.prompt_video_demo --project-root /home/m/jewels-codex-support --output-dir /home/m/jewels-codex-support/sol/results/jewel_prompt_demo_v1/generated --host 0.0.0.0 --port 7860 --device cuda:0
+Restart=on-failure
+RestartSec=3
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=default.target

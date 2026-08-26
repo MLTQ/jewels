@@ -1,0 +1,76 @@
+{
+  "schema": "prompt-video-demo-v1",
+  "prompt": "an illustrated dog leaps for a red ball in a sunny park",
+  "mode": "learned",
+  "seed": 20260914,
+  "realization_seed": 20860914,
+  "program": {
+    "scene_token": 1,
+    "foreground_token": 11,
+    "background_token": 7,
+    "prompt": "an illustrated dog leaps for a red ball in a sunny park",
+    "seed": 20260914,
+    "condition": "learned free-form extrapolation"
+  },
+  "program_scene_label": "cartoon",
+  "foreground_source_id": "cartoon_exact__00_dogpark_train_05_seed72005",
+  "background_source_id": "cartoon_exact__00_dogpark_train_01_seed72001",
+  "realization": {
+    "scene_token": 1,
+    "foreground_scene_token": 1,
+    "foreground_training_field": 11,
+    "background_training_field": 7,
+    "foreground_unadjusted_jewels": 36000,
+    "background_unadjusted_jewels": 36000,
+    "foreground_fraction": 0.5,
+    "background_fraction": 0.5,
+    "unadjusted_jewels": 72000,
+    "requested_jewels": 72000,
+    "emitted_jewels": 72000,
+    "adjustment_fraction": 0.0,
+    "foreground_boundary_radius": 0.8914560079574585,
+    "background_boundary_radius": 0.6208128929138184,
+    "tube_centers": [
+      [
+        -0.019912350922822952,
+        0.04068195819854736
+      ],
+      [
+        -0.01817268878221512,
+        0.05693858861923218
+      ],
+      [
+        -0.009400024078786373,
+        0.0650179535150528
+      ],
+      [
+        0.004606730304658413,
+        0.06077824905514717
+      ],
+      [
+        0.015053502283990383,
+        0.05185198038816452
+      ],
+      [
+        0.018926234915852547,
+        0.0518035888671875
+      ],
+      [
+        0.013015486299991608,
+        0.05734258517622948
+      ],
+      [
+        0.0019339057616889477,
+        0.05641154572367668
+      ]
+    ]
+  },
+  "render": {
+    "frames": 49,
+    "height": 144,
+    "width": 216,
+    "fps": 12,
+    "jewels": 72000
+  },
+  "limitations": "Exact mode is the passing three-prompt proof. Learned mode is a bounded three-scene extrapolator, not a general open-vocabulary text-to-video model."
+}
