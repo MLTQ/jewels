@@ -1,6 +1,6 @@
-# Episode 3: Turning Jewels into a native language
+# Episode 3: Giving the model a Jewel vocabulary
 
-Gauge-free features, factor tokens, and continuous positions
+Reusable words for shape and appearance
 
 ## Claim sources
 
@@ -9,44 +9,44 @@ Gauge-free features, factor tokens, and continuous positions
 - `sol/prompt_jewel_caster.py`
 - `sol/results/jewel_casting_language_v0/hierarchical_v1/gate0f_individual/report.json`
 
-## 1. Why tokenization is nontrivial
+## 1. Why make tokens at all?
 
-A language needs recurring symbols, but fitted Gaussian parameters are not naturally unique. Two optimization runs can describe the same visual field with different row order, slightly shifted centers, and different rotation parameterizations. Quantizing raw parameter tuples would spend vocabulary capacity on accidental coordinate choices. The first job is therefore not compression. It is to define a stable physical alphabet whose tokens preserve rendering and spacetime structure.
+A language model works with reusable choices called tokens: words or word-like symbols from a fixed vocabulary. We want similar Jewel shapes and colors to reuse the same tokens across many videos. This is not an attempt to compress a finished video. The goal is to give a future generator a stable set of physical words it can speak into an empty spacetime volume.
 
-**On screen:** The target is a stable physical alphabet—not a codec bit rate.
+**On screen:** Tokens are reusable physical choices, not a video compression format.
 
-## 2. Rotation has gauge ambiguity
+## 2. One shape can have many spellings
 
-A unit quaternion q and its negation represent exactly the same rotation. Even after choosing quaternion sign, covariance eigenvectors may permute when their eigenvalues are reordered, and each eigenvector admits a sign flip. Feeding scale plus quaternion to a prior makes identical ellipsoids appear far apart. This is pure representational noise: it changes parameter coordinates without changing a single rendered pixel.
+The same tilted ellipsoid can be written with several different rotation-number combinations. The picture does not change, but the numbers do. A learner would mistake those spellings for different shapes and waste vocabulary space. Before creating tokens, we convert every Jewel to one consistent numerical spelling. In mathematics this removes a gauge ambiguity; in plain language, it removes meaningless aliases.
 
-**On screen:** q and −q render identically; covariance axes also permute and flip.
+**On screen:** First give every visible shape one consistent numerical spelling.
 
-## 3. Log-covariance removes the gauge
+## 3. A stable six-number shape
 
-The canonical representation stores the matrix logarithm of the symmetric positive-definite covariance. A symmetric three-by-three matrix needs six unique numbers. The logarithm maps multiplicative scale differences into a well-behaved Euclidean coordinate chart. Decoding exponentiates, eigendecomposes, and converts one valid rotation back to the renderer. Any sign or axis choice made during that last factorization renders the same covariance.
+We store each shape as a symmetric three-by-three table, which needs six unique numbers. We also take a matrix logarithm, a standard transformation that makes large and small scales easier to compare. The important result is simple: identical visible shapes now receive identical stored features. The later renderer can convert that stable spelling back into widths and tilt.
 
-**On screen:** log Σ is unique and symmetric; six numbers replace scale-plus-quaternion gauge.
+**On screen:** A unique six-number shape description replaces ambiguous rotations.
 
-## 4. One joint token was too rigid
+## 4. Separate the physical choices
 
-The first vocabulary treated an eight-Jewel constellation as one joint one-hundred-and-seventy-six-dimensional prototype. That couples layout, covariance, surface color, and color gradient into one indivisible choice. Gate zero-a falsified that design. The successful language assigns independent codebooks to physical roles, then composes their aligned prototypes back into the same constellation. Factorization lets reusable geometry combine with reusable appearance.
+Our first attempt bundled layout, shape, color, and color change into one enormous choice. That was like printing every possible sentence as a single dictionary entry. It failed. The stronger design gives each role its own list of prototypes. A prototype is simply a learned representative example. The model can then combine a familiar shape with a familiar color in a new way.
 
-**On screen:** Reject one 176-D joint token; compose independent physical roles.
+**On screen:** Choose layout, shape, color, and color change separately.
 
-## 5. Combinatorial capacity
+## 5. Mix-and-match creates range
 
-Four one-thousand-and-twenty-four-way decisions expose up to one-thousand-and-twenty-four to the fourth role combinations without fitting that impossibly large joint table. For individual generated Jewels, the centroid remains continuous and the three nonconstant roles—covariance, surface, and gradient—are active tokens. Layout becomes the spoken centroid itself. The codebooks share normalization and preserve the canonical twenty-two-feature contract.
+Four lists of one thousand twenty-four choices can describe far more combinations than one list of the same size. We do not build a table containing every combination; we compose the roles when needed. For an individual Jewel, position remains continuous while shape, color, and color change come from their learned vocabularies. This gives the speaker reusable parts without forcing every result to copy a stored whole.
 
-**On screen:** 4 codebooks × K=1024 expose compositional capacity without a K^4 table.
+**On screen:** A few reusable lists can be mixed into many Jewel combinations.
 
-## 6. Addresses are internal; centers are continuous
+## 6. A map is not a parking space
 
-Cells are useful for learning local histograms and addressed phrases, but an address is not an emitted coordinate. The generator outputs centroids in continuous normalized space. Internal cell indices answer questions like which local token distribution applies here. They do not snap a Jewel to the cell center. This separation directly addresses the grid-quantization artifact: routing may be discrete while geometry remains irregular.
+The learner uses coarse boxes to ask which tokens are common in each neighborhood. Those boxes are addresses for routing information, like postal codes. They are not the final Jewel positions, just as a postal code is not a chair inside a house. The model still emits a continuous center that can land anywhere. Discrete routing and irregular geometry can safely coexist.
 
-**On screen:** discrete routing cell ≠ emitted centroid; μ stays continuous.
+**On screen:** A routing box selects context; it does not snap the Jewel's center.
 
-## 7. Gate zero-f: the physical alphabet survives
+## 7. The vocabulary keeps the signal
 
-At the selected individual-Jewel language gate, decoded irregular fields retain twenty-two-point-eight-six-five-seven decibels against the continuous source on the frozen random-volume audit, preserve mixed spacetime tilt at one-point-zero-four-one-five times the source, and show zero center locking. These numbers do not prove promptability. They prove that the physical token vocabulary is not the bottleneck preventing a higher-level speaker from producing renderable continuous fields.
+We tested whether replacing continuous features with vocabulary choices destroyed the field. The reconstructed images reached about twenty-two point nine decibels of peak signal-to-noise ratio, a standard image-similarity measure where higher is better. Spacetime tilt was preserved, and no centers locked to the routing grid. This does not prove promptable generation. It shows the physical vocabulary is usable enough for the next level.
 
-**On screen:** 22.8657 dB · 1.0415× tilt retention · 0% grid locking
+**On screen:** Useful image fidelity, preserved motion tilt, and zero center locking.

@@ -1,6 +1,6 @@
-# Episode 1: From words to a spacetime program
+# Episode 1: How a prompt becomes a video
 
-The exact inference path, without an input video
+A direct tour from words to moving pixels
 
 ## Claim sources
 
@@ -9,44 +9,44 @@ The exact inference path, without an input video
 - `sol/prompt_video_runtime.py`
 - `sol/results/jewel_casting_language_v0/PROTOCOL_PROMPT_TRAJECTORY_SPEAKER_V1.md`
 
-## 1. The claim, stated precisely
+## 1. Start with the whole idea
 
-The current result is a bounded existence proof, not a general text-to-video model. Given one of three registered prompts and an integer seed, the system emits a finite native program, expands that program into exactly seventy-two thousand irregular Jewels, and renders forty-nine video frames. The important point is causal direction. At inference, information flows from text to program to a continuous spacetime field to pixels. It does not flow from a target video backward into an encoding.
+Our prototype takes a short text prompt and a random seed. It turns them into a small plan, expands that plan into seventy-two thousand colored shapes called Jewels, and renders forty-nine frames. No finished video is supplied at generation time. The path really runs from words to a plan to a field of Jewels to moving pixels.
 
-**On screen:** prompt + seed → typed program → 72,000 Jewels → 49 rendered frames
+**On screen:** prompt + seed → short plan → Jewel field → video
 
-## 2. What the generator is forbidden to see
+## 2. What goes in—and what does not
 
-A reconstruction system can look generative while secretly receiving most of the answer. So Gate two-b-zero explicitly removes four channels: no input video, no fitted target field, no target-derived block program, and no held-out latent. The only semantic input is the exact prompt string. The only stochastic input is the declared integer seed. Training-owned source tokens remain in the vocabulary; that is a limitation we will return to, but no test target participates in compilation or casting.
+A system can appear creative while quietly copying most of its answer. We block that shortcut. Generation receives only the prompt and the declared random seed. It does not receive an input video, a fitted version of the target, a hidden target plan, or a saved target code. Some building blocks still come from training examples; that is an important limit, but the test video itself never enters the process.
 
-**On screen:** No video, target field, target program, or hidden latent enters inference.
+**On screen:** Only text and a seed enter generation; no target video is hidden inside.
 
-## 3. The exact compiler
+## 3. The prompt becomes a recipe
 
-The exact speaker normalizes whitespace, looks up the prompt's dense scene index, and then creates a deterministic random generator from the declared seed plus one-thousand-and-nine times the scene. A seeded permutation of the six source tokens owned by that scene chooses two distinct entries. The first becomes the foreground trajectory token; the second becomes the background token. Therefore prompt plus seed uniquely determines the program, while changing the seed changes the donor pair without consulting any pixels.
+Think of the first stage as a tiny recipe writer. It recognizes one of the three prompts the prototype currently knows, then uses the seed to choose two different training-owned ingredients. One ingredient will supply the moving subject and the other will supply the surroundings. The same prompt and seed always produce the same recipe, which makes every result reproducible.
 
-**On screen:** scene = lookup(prompt); order = randperm(seed + 1009 * scene)
+**On screen:** The prompt chooses the scene; the seed chooses two ingredients.
 
-## 4. One three-token utterance
+## 4. The recipe stays small
 
-A compiled utterance contains a semantic scene token, a foreground token, a background token, the seed, and an audit condition. Scene is not a pixel class. It selects a persistent semantic path through the entire spacetime window. Foreground and background are not individual Gaussians either. They name coherent, source-backed macro programs containing tens of thousands of physical Jewel tokens. This hierarchy is the central design decision: the small program owns global coherence; local Jewels own rendering detail.
+The recipe does not list seventy-two thousand Jewels one by one. It names a scene, a subject ingredient, a setting ingredient, and a seed. Those names act like instructions for whole regions of the video, not individual pixels. This hierarchy matters: the short recipe keeps the subject consistent across time, while the many Jewels provide the visual detail.
 
-**On screen:** scene / foreground / background are persistent program tokens—not pixels.
+**On screen:** A few persistent instructions control many local details.
 
-## 5. Casting through a moving tube
+## 5. Build a tube through time
 
-For every time slab, the realizer stores a two-dimensional semantic path. It computes each donor Jewel's squared distance from that path. The foreground contribution is the thirty-six thousand closest Jewels from the foreground donor. The background contribution is the thirty-six thousand farthest Jewels from the background donor. This rank-balanced construction is deliberately count-exact. It avoids assuming that two valid fields have the same density inside one fixed radius, while forcing both donors to own exactly half of the final field.
+Imagine drawing the subject's path through a stack of video frames. The path forms a tube: a connected region that moves through space and time. We take the thirty-six thousand Jewels closest to that tube from the subject ingredient. We take thirty-six thousand far-away Jewels from the setting ingredient. The result has an exact size and a clear division of responsibility.
 
-**On screen:** closest 36,000 foreground + farthest 36,000 background = 72,000
+**On screen:** 36,000 subject Jewels + 36,000 setting Jewels = one field
 
-## 6. Physical tokens become Jewels
+## 6. Place the Jewels irregularly
 
-Each selected row carries a continuous centroid and three active physical token identifiers: covariance, surface color, and color gradient. Every active vocabulary contains one-thousand-and-twenty-four prototypes. Decoding substitutes the selected prototype values into the canonical twenty-two-dimensional feature layout while leaving the centroid continuous. A small Gaussian jitter is applied and clamped strictly inside normalized volume bounds. The result is an irregular set, not a Cartesian output grid.
+Each Jewel has a continuous position, a shape choice, a base-color choice, and a color-change choice. Continuous means its center can land anywhere inside the volume, not only at fixed grid points. A small random nudge prevents repeated positions from lining up. The output is therefore an irregular cloud of soft colored shapes rather than a blocky three-dimensional pixel grid.
 
-**On screen:** continuous μ + covariance token + surface token + gradient token → one Jewel
+**On screen:** continuous center + shape + color + color change → one Jewel
 
-## 7. A bounded but genuine generation path
+## 7. What this proves
 
-The support-correct renderer evaluates that field on every requested frame grid and encodes the result as an H.264 video. The proof passes because text controls which coherent programs are cast: across nine exact programs, intended prompt retrieval is eight of nine, and correct prompt programs beat both cyclic-shuffled and null generations in all nine matched cases. But the vocabulary is still three prompts and eighteen source-backed macro tokens. This proves the mechanism, not the final scale.
+The renderer turns the field into a normal video. In nine matched tests, the intended prompt was identified eight times, and correct prompts beat wrong or empty prompts in every comparison. That is real evidence that text controls the generated field. It is not yet a general text-to-video model: the vocabulary contains only three prompts and eighteen training-owned ingredients. We have proved the route, not the scale.
 
-**On screen:** The path is genuinely generative; the vocabulary is deliberately tiny.
+**On screen:** The route works; the vocabulary is still deliberately tiny.

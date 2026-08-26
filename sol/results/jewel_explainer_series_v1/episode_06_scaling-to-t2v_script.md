@@ -1,6 +1,6 @@
-# Episode 6: From bounded proof to full text-to-video
+# Episode 6: What would turn this into text-to-video?
 
-The concrete data-and-compute program
+The next data, model, and evaluation steps
 
 ## Claim sources
 
@@ -8,44 +8,44 @@ The concrete data-and-compute program
 - `sol/results/jewel_casting_language_v0/PROTOCOL_PROMPT_TRAJECTORY_SPEAKER_V1.md`
 - `.beads/issues.jsonl`
 
-## 1. What the proof buys us
+## 1. What we have—and what is missing
 
-The project now demonstrates every boundary of a hierarchical native speaker except one. Text and seed can choose a finite program. Persistent tokens can own a coherent trajectory. A program can expand to exact-count continuous Jewels. A factorized physical vocabulary can render an irregular spacetime field. Causal text controls beat shuffled and null generations. The missing step is replacing source-backed macro tokens with reusable learned object, motion, and background prototypes.
+We now have a connected path from text to a short persistent plan, from that plan to continuous Jewels, and from Jewels to video. We also know that persistent trajectories can preserve recognizable subjects. The missing piece is breadth. Today's subject and setting instructions still point back to specific training fields. A real model needs reusable ideas such as dog, walking, beach, and camera pan that can combine beyond their source videos.
 
-**On screen:** The mechanism is connected end-to-end; macro-token reuse is the missing scale step.
+**On screen:** The full route exists; reusable, broad concepts are the missing piece.
 
-## 2. The source-token bottleneck
+## 2. Do not scale source labels
 
-Today, foreground token seven ultimately expands to a constellation derived from one training field. Composing it with a distinct background proves that the system is not retrieving one complete video, but it still limits novelty. Scaling eighteen source identifiers to eighteen thousand would memorize more examples, not discover a language. The next vocabulary must pool recurring connected spacetime tubes across many videos and assign prototypes independent of source identity.
+Today, an instruction such as subject seven ultimately means material taken from one fitted training field. Adding thousands of source numbers would only build a larger filing cabinet of examples. Instead, we must discover patterns repeated across many videos and give those patterns shared names. A walking-dog instruction should be learned from many dogs and many walks, not tied to one clip.
 
-**On screen:** Do not scale source IDs; learn reusable connected trajectory prototypes.
+**On screen:** Replace source labels with concepts learned across many videos.
 
-## 3. Learn sixty-four to two-hundred-fifty-six prototypes
+## 3. The next decisive experiment
 
-The next experiment fits at least one hundred prompted fields spanning ten to twenty compositional prompts. It learns sixty-four to two-hundred-fifty-six foreground and background trajectory prototypes. Each prototype owns a connected tube, but decodes through the existing one-thousand-and-twenty-four-way covariance, surface, and gradient vocabularies. A no-copy audit rejects any generated macro token that references a source identifier or inherits more than a preregistered fraction from one field.
+Fit Jewel fields for at least one hundred videos covering ten to twenty prompts with useful combinations. Then learn sixty-four to two hundred fifty-six recurring subject and setting patterns. Each pattern should own a connected path through time while reusing the existing shape and color vocabularies. Finally, reject any generated result that copies too much from one source. Passing this test would show genuine reusable building blocks.
 
-**On screen:** 100+ fields · 10–20 prompts · 64–256 reusable trajectory prototypes
+**On screen:** 100+ fields → recurring paths → reusable concepts → no-copy test
 
-## 4. A typed program transformer
+## 4. Speak plans, not seventy-two thousand rows
 
-The full speaker should not autoregress seventy-two thousand independent Jewels. It should emit a typed hierarchy: scene, style, and camera; persistent object and background identities; trajectory anchors and derivatives; addressed local constellation phrases; then continuous centroids and physical tokens. A small transformer can model the discrete program. Specialized differentiable realizers can enforce geometry, exact counts, and support-safe rendering. This division spends sequence-model capacity on semantic dependencies instead of raster-like repetition.
+A future language model should not recite every Jewel one at a time. It should speak a hierarchy, like a film crew's plan: scene and camera first, then persistent objects, then their paths, then local appearance details. Smaller specialist modules can expand that plan into exact Jewel positions and shapes. This lets the language model spend its capacity on meaning and long-range consistency rather than repetitive rendering instructions.
 
-**On screen:** scene → objects → path derivatives → local phrases → continuous Jewels
+**On screen:** scene → objects → paths → local detail → continuous Jewels
 
-## 5. Derivatives make motion compositional
+## 5. Carry motion into the next window
 
-A class-level path is too rigid for a complete model. Instead the speaker should emit trajectory anchors together with velocity, and eventually acceleration or spline control points. Position in the next window is predicted from carried state rather than reset from a template. Derivatives compactly express direction and continuity, while local Jewel phrases decorate the moving tube with appearance and geometry. This is why the derivative method outperformed raw local coordinates in the earlier experiments: it assigns the model the temporally stable quantity.
+Long video will be generated in neighboring time windows. The model must carry state from one window to the next: object identity, position, direction, speed, and style. Speed and direction are derivatives, meaning measurements of how position is changing. Predicting those changes worked better than predicting every next position independently. It is the difference between continuing a thrown ball's flight and guessing a fresh location every frame.
 
-**On screen:** carry state: position, velocity, identity, style—not a fresh independent window.
+**On screen:** Carry identity, position, direction, speed, and style across windows.
 
-## 6. The next gate must test composition and carry
+## 6. Make the next test hard to fake
 
-Training and evaluation prompts must be split by object-action combination, not random video. Correct text must beat cyclic object and action swaps on held-out compositions. Every prompt needs at least two recognizable but structurally distinct samples. A second window must continue identity and velocity from generated carry alone, with no target field or teacher scaffold. These gates distinguish real language scaling from memorization, evaluator bias, and single-window tricks.
+Training and evaluation should split whole combinations, such as an object doing an action, instead of randomly splitting similar videos. Correct text must beat swapped-object and swapped-action controls. One prompt should produce several recognizable but genuinely different samples. A second time window must continue from the model's own carried state, without peeking at a target video. These checks separate composition from memorization.
 
-**On screen:** Held-out compositions, diverse samples, no source copying, generated second-window carry.
+**On screen:** Hold out combinations, demand diversity, and continue without target help.
 
 ## 7. The honest compute pitch
 
-More compute is useful only after the representation assigns it the right job. Data buys repeated examples of objects, actions, cameras, and trajectories. Prototype learning converts those repetitions into reusable macro tokens. Program-model compute learns prompt-to-token composition and long-range dependencies. Rendering compute improves local Jewel realization and support indexing. The pitch is therefore not that a larger model will rescue independent splats. It is that every interface is now demonstrated, and scale targets the one unproven interface: reusable vocabulary breadth and cross-window program modeling.
+More compute matters only when paired with the right data and structure. More varied videos reveal which objects, actions, cameras, and paths repeat. More training can turn those repetitions into shared concepts and learn how prompts combine them. More rendering compute can improve local detail. The pitch is not that size will magically repair random splats. It is that the full route now works at toy scale, and the next uncertainty can be attacked directly with data and compute.
 
-**On screen:** Compute → paired fields → reusable prototypes → broader programs → longer coherent video
+**On screen:** More varied data + reusable concepts + a larger plan model = the next proof.

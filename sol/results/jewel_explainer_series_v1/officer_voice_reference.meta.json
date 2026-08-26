@@ -1,0 +1,18 @@
+{
+  "schema": "jewel-officer-voice-reference-v1",
+  "file": "officer_voice_reference.wav",
+  "voice_style": "original warm American first-officer archetype",
+  "source": "Qwen VoiceDesign",
+  "is_imitation": false,
+  "design_description": "An original, warm, confident, middle-aged American baritone with measured first-officer authority, conversational precision, and no announcer affect.",
+  "transcript": "The current result is a bounded existence proof, not a general text-to-video model. The important point is causal direction: text becomes a program, the program becomes a continuous spacetime field, and the field becomes pixels.",
+  "seed": 20260927,
+  "temperature": 0.45,
+  "top_p": 0.8,
+  "max_new_tokens": 768,
+  "duration_seconds": 13.84,
+  "sample_rate_hz": 24000,
+  "channels": 1,
+  "sample_format": "PCM signed 16-bit little-endian",
+  "sha256": "7dd69dce6bc0e2da0d996ad7b3c0de057548fad167eb1ea114579cde7c4a2a86"
+}

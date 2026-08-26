@@ -5,7 +5,7 @@ from __future__ import annotations
 import math
 from typing import Any, Callable
 
-from PIL import Image
+from PIL import Image, ImageDraw
 
 from sol.jewel_explainer_episodes import Episode, Shot
 from sol.jewel_explainer_style import (
@@ -20,6 +20,7 @@ from sol.jewel_explainer_style import (
     PURPLE,
     RED,
     TEAL,
+    WIDTH,
     YELLOW,
     JewelCanvas,
     blend_hex,
@@ -31,6 +32,11 @@ from sol.jewel_explainer_style import (
 
 
 PALETTE = (BLUE, TEAL, YELLOW, PINK, ORANGE, PURPLE, RED)
+
+# Diagrams are composited only inside this band.  The header and footer are
+# deliberately outside it so an animated shape can never cover explanatory copy.
+CONTENT_TOP = 170
+CONTENT_BOTTOM = 630
 
 
 def _node(
@@ -423,6 +429,12 @@ def draw_shot(
         raise ValueError(f"unknown explainer visual {shot.visual!r}")
     canvas = JewelCanvas()
     canvas.header(episode.number, episode.title, shot.title)
-    SCENE_RENDERERS[shot.visual](canvas, shot, clamp(shot_progress), assets)
+    diagram = JewelCanvas()
+    SCENE_RENDERERS[shot.visual](diagram, shot, clamp(shot_progress), assets)
+    canvas.image.paste(
+        diagram.image.crop((0, CONTENT_TOP, WIDTH, CONTENT_BOTTOM)),
+        (0, CONTENT_TOP),
+    )
+    canvas.draw = ImageDraw.Draw(canvas.image)
     canvas.footer(shot.caption, episode_progress)
     return canvas.image

@@ -1,139 +1,123 @@
 1
-00:00:00,000 --> 00:00:05,210
-The current result is a bounded existence proof, not a general text-to-video model.
+00:00:00,000 --> 00:00:03,480
+Our prototype takes a short text prompt and a random seed.
 
 2
-00:00:05,210 --> 00:00:18,393
-Given one of three registered prompts and an integer seed, the system emits a finite native program, expands that program into exactly seventy-two thousand irregular Jewels, and renders forty-nine video frames.
+00:00:03,480 --> 00:00:11,700
+It turns them into a small plan, expands that plan into seventy-two thousand colored shapes called Jewels, and renders forty-nine frames.
 
 3
-00:00:18,393 --> 00:00:20,904
-The important point is causal direction.
+00:00:11,700 --> 00:00:14,640
+No finished video is supplied at generation time.
 
 4
-00:00:20,904 --> 00:00:26,867
-At inference, information flows from text to program to a continuous spacetime field to pixels.
+00:00:14,640 --> 00:00:19,440
+The path really runs from words to a plan to a field of Jewels to moving pixels.
 
 5
-00:00:26,867 --> 00:00:30,822
-It does not flow from a target video backward into an encoding.
+00:00:20,140 --> 00:00:24,223
+A system can appear creative while quietly copying most of its answer.
 
 6
-00:00:31,522 --> 00:00:37,090
-A reconstruction system can look generative while secretly receiving most of the answer.
+00:00:24,223 --> 00:00:25,564
+We block that shortcut.
 
 7
-00:00:37,090 --> 00:00:46,519
-So Gate two-b-zero explicitly removes four channels: no input video, no fitted target field, no target-derived block program, and no held-out latent.
+00:00:25,564 --> 00:00:29,355
+Generation receives only the prompt and the declared random seed.
 
 8
-00:00:46,519 --> 00:00:49,746
-The only semantic input is the exact prompt string.
+00:00:29,355 --> 00:00:35,946
+It does not receive an input video, a fitted version of the target, a hidden target plan, or a saved target code.
 
 9
-00:00:49,746 --> 00:00:53,226
-The only stochastic input is the declared integer seed.
+00:00:35,946 --> 00:00:43,820
+Some building blocks still come from training examples; that is an important limit, but the test video itself never enters the process.
 
 10
-00:00:53,226 --> 00:01:02,907
-Training-owned source tokens remain in the vocabulary; that is a limitation we will return to, but no test target participates in compilation or casting.
+00:00:44,520 --> 00:00:47,242
+Think of the first stage as a tiny recipe writer.
 
 11
-00:01:03,607 --> 00:01:15,347
-The exact speaker normalizes whitespace, looks up the prompt's dense scene index, and then creates a deterministic random generator from the declared seed plus one-thousand-and-nine times the scene.
+00:00:47,242 --> 00:00:55,019
+It recognizes one of the three prompts the prototype currently knows, then uses the seed to choose two different training-owned ingredients.
 
 12
-00:01:15,347 --> 00:01:20,980
-A seeded permutation of the six source tokens owned by that scene chooses two distinct entries.
+00:00:55,019 --> 00:00:59,963
+One ingredient will supply the moving subject and the other will supply the surroundings.
 
 13
-00:01:20,980 --> 00:01:26,376
-The first becomes the foreground trajectory token; the second becomes the background token.
+00:00:59,963 --> 00:01:05,240
+The same prompt and seed always produce the same recipe, which makes every result reproducible.
 
 14
-00:01:26,376 --> 00:01:34,499
-Therefore prompt plus seed uniquely determines the program, while changing the seed changes the donor pair without consulting any pixels.
+00:01:05,940 --> 00:01:09,737
+The recipe does not list seventy-two thousand Jewels one by one.
 
 15
-00:01:35,199 --> 00:01:43,291
-A compiled utterance contains a semantic scene token, a foreground token, a background token, the seed, and an audit condition.
+00:01:09,737 --> 00:01:14,068
+It names a scene, a subject ingredient, a setting ingredient, and a seed.
 
 16
-00:01:43,291 --> 00:01:45,011
-Scene is not a pixel class.
+00:01:14,068 --> 00:01:19,288
+Those names act like instructions for whole regions of the video, not individual pixels.
 
 17
-00:01:45,011 --> 00:01:49,726
-It selects a persistent semantic path through the entire spacetime window.
+00:01:19,288 --> 00:01:27,060
+This hierarchy matters: the short recipe keeps the subject consistent across time, while the many Jewels provide the visual detail.
 
 18
-00:01:49,726 --> 00:01:53,676
-Foreground and background are not individual Gaussians either.
+00:01:27,760 --> 00:01:31,502
+Imagine drawing the subject's path through a stack of video frames.
 
 19
-00:01:53,676 --> 00:02:00,239
-They name coherent, source-backed macro programs containing tens of thousands of physical Jewel tokens.
+00:01:31,502 --> 00:01:35,746
+The path forms a tube: a connected region that moves through space and time.
 
 20
-00:02:00,239 --> 00:02:08,012
-This hierarchy is the central design decision: the small program owns global coherence; local Jewels own rendering detail.
+00:01:35,746 --> 00:01:40,661
+We take the thirty-six thousand Jewels closest to that tube from the subject ingredient.
 
 21
-00:02:08,712 --> 00:02:13,108
-For every time slab, the realizer stores a two-dimensional semantic path.
+00:01:40,661 --> 00:01:44,682
+We take thirty-six thousand far-away Jewels from the setting ingredient.
 
 22
-00:02:13,108 --> 00:02:16,902
-It computes each donor Jewel's squared distance from that path.
+00:01:44,682 --> 00:01:48,480
+The result has an exact size and a clear division of responsibility.
 
 23
-00:02:16,902 --> 00:02:22,683
-The foreground contribution is the thirty-six thousand closest Jewels from the foreground donor.
+00:01:49,180 --> 00:01:55,004
+Each Jewel has a continuous position, a shape choice, a base-color choice, and a color-change choice.
 
 24
-00:02:22,683 --> 00:02:28,525
-The background contribution is the thirty-six thousand farthest Jewels from the background donor.
+00:01:55,004 --> 00:02:00,481
+Continuous means its center can land anywhere inside the volume, not only at fixed grid points.
 
 25
-00:02:28,525 --> 00:02:32,138
-This rank-balanced construction is deliberately count-exact.
+00:02:00,481 --> 00:02:04,171
+A small random nudge prevents repeated positions from lining up.
 
 26
-00:02:32,138 --> 00:02:41,352
-It avoids assuming that two valid fields have the same density inside one fixed radius, while forcing both donors to own exactly half of the final field.
+00:02:04,171 --> 00:02:10,860
+The output is therefore an irregular cloud of soft colored shapes rather than a blocky three-dimensional pixel grid.
 
 27
-00:02:42,052 --> 00:02:50,710
-Each selected row carries a continuous centroid and three active physical token identifiers: covariance, surface color, and color gradient.
+00:02:11,560 --> 00:02:14,380
+The renderer turns the field into a normal video.
 
 28
-00:02:50,710 --> 00:02:55,257
-Every active vocabulary contains one-thousand-and-twenty-four prototypes.
+00:02:14,380 --> 00:02:22,380
+In nine matched tests, the intended prompt was identified eight times, and correct prompts beat wrong or empty prompts in every comparison.
 
 29
-00:02:55,257 --> 00:03:04,351
-Decoding substitutes the selected prototype values into the canonical twenty-two-dimensional feature layout while leaving the centroid continuous.
+00:02:22,380 --> 00:02:25,891
+That is real evidence that text controls the generated field.
 
 30
-00:03:04,351 --> 00:03:09,833
-A small Gaussian jitter is applied and clamped strictly inside normalized volume bounds.
+00:02:25,891 --> 00:02:33,258
+It is not yet a general text-to-video model: the vocabulary contains only three prompts and eighteen training-owned ingredients.
 
 31
-00:03:09,833 --> 00:03:13,570
-The result is an irregular set, not a Cartesian output grid.
-
-32
-00:03:14,270 --> 00:03:22,042
-The support-correct renderer evaluates that field on every requested frame grid and encodes the result as an H.264 video.
-
-33
-00:03:22,042 --> 00:03:37,842
-The proof passes because text controls which coherent programs are cast: across nine exact programs, intended prompt retrieval is eight of nine, and correct prompt programs beat both cyclic-shuffled and null generations in all nine matched cases.
-
-34
-00:03:37,842 --> 00:03:43,109
-But the vocabulary is still three prompts and eighteen source-backed macro tokens.
-
-35
-00:03:43,109 --> 00:03:46,128
-This proves the mechanism, not the final scale.
+00:02:33,258 --> 00:02:35,560
+We have proved the route, not the scale.

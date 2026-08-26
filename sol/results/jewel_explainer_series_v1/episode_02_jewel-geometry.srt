@@ -1,139 +1,151 @@
 1
-00:00:00,000 --> 00:00:07,293
-A Jewel lives in normalized u, v, t coordinates: horizontal image position, vertical image position, and time.
+00:00:00,000 --> 00:00:04,299
+Picture a video as a stack of transparent sheets, one sheet per frame.
 
 2
-00:00:07,293 --> 00:00:10,277
-This is a three-dimensional spacetime volume.
+00:00:04,299 --> 00:00:08,353
+A Jewel is a soft three-dimensional blob placed inside that stack.
 
 3
-00:00:10,277 --> 00:00:13,924
-RGB is attached appearance, not a fourth Gaussian axis.
+00:00:08,353 --> 00:00:12,161
+Its three directions are left-to-right, up-and-down, and time.
 
 4
-00:00:13,924 --> 00:00:21,814
-To render frame t-zero, we slice the volume with a plane at that time and evaluate every pixel coordinate on the plane.
+00:00:12,161 --> 00:00:19,225
+Mathematicians call its smooth bell-shaped fade a Gaussian: it is strongest at the center and gradually fades away.
 
 5
-00:00:21,814 --> 00:00:28,842
-Time distortion comes from an anisotropic covariance whose principal axes may tilt between space and time.
+00:00:19,225 --> 00:00:22,480
+A visible frame is simply one slice through the blob.
 
 6
-00:00:29,542 --> 00:00:33,807
-The generative boundary represents each Jewel as twenty-two numbers.
+00:00:23,180 --> 00:00:24,746
+A Jewel stores five things.
 
 7
-00:00:33,807 --> 00:00:36,065
-Three numbers store the centroid mu.
+00:00:24,746 --> 00:00:27,065
+Its center says where and when it lives.
 
 8
-00:00:36,065 --> 00:00:39,891
-Six store the upper triangle of the symmetric log-covariance.
+00:00:27,065 --> 00:00:33,212
+A shape table says how wide it is and which way it tilts; the technical name for that table is covariance.
 
 9
-00:00:39,891 --> 00:00:41,459
-Three store constant RGB.
+00:00:33,212 --> 00:00:36,054
+Base color says what it looks like at the center.
 
 10
-00:00:41,459 --> 00:00:45,348
-Nine store the full three-by-three world-frame color Jacobian.
+00:00:36,054 --> 00:00:39,243
+A color-change table says how that color varies nearby.
 
 11
-00:00:45,348 --> 00:00:47,104
-One stores the weight logit.
+00:00:39,243 --> 00:00:42,896
+Finally, a strength value says how much this Jewel contributes.
 
 12
-00:00:47,104 --> 00:00:57,892
-This layout is gauge-free: appearance gradients are expressed in world coordinates, and covariance is stored as a unique symmetric matrix rather than a rotation convention.
+00:00:42,896 --> 00:00:45,100
+Together these use twenty-two numbers.
 
 13
-00:00:58,592 --> 00:01:04,990
-Internally the renderer factorizes covariance into a proper rotation R and positive principal scales S.
+00:00:45,800 --> 00:00:50,290
+Imagine pushing a cucumber through that stack of frame sheets at an angle.
 
 14
-00:01:04,990 --> 00:01:08,283
-A Jewel elongated along u paints a horizontal region.
+00:00:50,290 --> 00:00:56,540
+Each sheet cuts the cucumber at a slightly different horizontal position, so the slice appears to move.
 
 15
-00:01:08,283 --> 00:01:11,078
-One elongated along t persists across frames.
+00:00:56,540 --> 00:00:58,602
+A tilted Jewel works the same way.
 
 16
-00:01:11,078 --> 00:01:16,545
-A principal axis tilted jointly through u and t moves across the image as time advances.
+00:00:58,602 --> 00:01:01,576
+If it stretches mostly through time, it persists.
 
 17
-00:01:16,545 --> 00:01:24,311
-That mixed spacetime tilt is not post-hoc optical flow; it is literally encoded in the orientation of the Gaussian ellipsoid.
+00:01:01,576 --> 00:01:06,854
+If it tilts across both space and time, its visible position moves from frame to frame.
 
 18
-00:01:25,011 --> 00:01:28,686
-For a query point x, displacement d equals x minus mu.
+00:01:06,854 --> 00:01:09,160
+Motion is built into the shape itself.
 
 19
-00:01:28,686 --> 00:01:38,417
-The renderer rotates that displacement into the Jewel's principal frame with R-transpose, divides componentwise by scale, and sums the squares.
+00:01:09,860 --> 00:01:12,506
+A round blob measures distance the usual way.
 
 20
-00:01:38,417 --> 00:01:41,683
-This yields q, the squared Mahalanobis distance.
+00:01:12,506 --> 00:01:14,270
+A long tilted blob should not.
 
 21
-00:01:41,683 --> 00:01:49,373
-Computing y equals S inverse R-transpose d avoids materializing an inverse covariance for every pixel-Jewel pair.
+00:01:14,270 --> 00:01:18,975
+A point far along its long direction may still be close in the blob's own terms.
 
 22
-00:01:49,373 --> 00:01:53,796
-The Gaussian contribution decays as exponential minus one-half q.
+00:01:18,975 --> 00:01:24,444
+The renderer therefore stretches and rotates the coordinate system before measuring distance.
 
 23
-00:01:54,496 --> 00:02:00,015
-A constant-color Gaussian would need many small primitives to express a smooth color ramp.
+00:01:24,444 --> 00:01:29,501
+The technical name is Mahalanobis distance; here it simply means shape-aware distance.
 
 24
-00:02:00,015 --> 00:02:04,736
-Instead, the default P-one appearance model stores a three-by-three Jacobian.
+00:01:29,501 --> 00:01:32,500
+That distance controls how quickly the Jewel fades.
 
 25
-00:02:04,736 --> 00:02:09,765
-Local color is base color plus that Jacobian times displacement from the centroid.
+00:01:33,200 --> 00:01:35,811
+The base color describes the exact center.
 
 26
-00:02:09,765 --> 00:02:15,713
-One row describes how red changes with u, v, and t; the next rows do the same for green and blue.
+00:01:35,811 --> 00:01:42,836
+A small three-by-three table describes how red, green, and blue change when we move left, up, or forward in time.
 
 27
-00:02:15,713 --> 00:02:21,109
-Temporal entries can therefore change a Jewel's color as a frame slice moves through it.
+00:01:42,836 --> 00:01:45,198
+That table is called a color Jacobian.
 
 28
-00:02:21,809 --> 00:02:27,831
-The final pixel is the learned constant background plus a sum of every supported Jewel contribution.
+00:01:45,198 --> 00:01:48,866
+We will use the full name instead of unexplained shorthand.
 
 29
-00:02:27,831 --> 00:02:34,455
-Each weight is sigmoid of its stored logit, multiplied by the Gaussian exponential, multiplied by local color.
+00:01:48,866 --> 00:01:53,280
+Think of it as three tiny color slopes, including a slope through time.
 
 30
-00:02:34,455 --> 00:02:38,911
-There is no softmax normalization forcing Jewels to compete for ownership.
+00:01:53,980 --> 00:01:57,916
+At each pixel, every nearby Jewel paints a small amount of color.
 
 31
-00:02:38,911 --> 00:02:48,185
-An earlier soft-Voronoi model was implemented and steelmanned, but lost both reconstruction and canonicality, so the evidence path is explicitly additive.
+00:01:57,916 --> 00:02:02,578
+Strong, close Jewels contribute more; weak or distant Jewels contribute less.
 
 32
-00:02:48,885 --> 00:02:53,470
-Nearest-center culling is not mathematically safe for anisotropic splats.
+00:02:02,578 --> 00:02:06,454
+We simply add those contributions to a learned background color.
 
 33
-00:02:53,470 --> 00:02:59,376
-A long tilted ellipsoid may cover a pixel even when many narrow Gaussians have closer centers.
+00:02:06,454 --> 00:02:12,812
+This is called an additive renderer because the contributions are added, like overlapping pools of light.
 
 34
-00:02:59,376 --> 00:03:15,395
-The evidence renderer truncates at five standard deviations, builds an exact world-axis bounding box for each support ellipsoid, assigns every primitive to one multilevel tile, queries twenty-seven neighboring cells, and applies the true Mahalanobis test.
+00:02:12,812 --> 00:02:15,900
+No Jewel must win exclusive ownership of the pixel.
 
 35
-00:03:15,395 --> 00:03:21,488
-Beyond five sigma, boundary weight is approximately three-point-seven times ten to the minus six.
+00:02:16,600 --> 00:02:22,082
+A Jewel fades forever in theory, but after five of its own widths the remaining effect is tiny.
+
+36
+00:02:22,082 --> 00:02:25,025
+We call the region where it can matter its support.
+
+37
+00:02:25,025 --> 00:02:31,258
+The renderer divides the volume into boxes so it can quickly find every Jewel whose support reaches a pixel.
+
+38
+00:02:31,258 --> 00:02:38,760
+This is a filing system, not a placement grid: Jewel centers remain irregular, and long tilted shapes are not accidentally missed.

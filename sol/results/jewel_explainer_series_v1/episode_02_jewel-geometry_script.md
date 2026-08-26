@@ -1,6 +1,6 @@
-# Episode 2: A Jewel is a Gaussian in spacetime
+# Episode 2: What is a spacetime Gaussian Jewel?
 
-Geometry, appearance, and the exact additive renderer
+A soft shape that exists across position and time
 
 ## Claim sources
 
@@ -9,44 +9,44 @@ Geometry, appearance, and the exact additive renderer
 - `stprim/models/render.py`
 - `stprim/models/tiled_support.py`
 
-## 1. Three coordinates, not four
+## 1. A soft blob through time
 
-A Jewel lives in normalized u, v, t coordinates: horizontal image position, vertical image position, and time. This is a three-dimensional spacetime volume. RGB is attached appearance, not a fourth Gaussian axis. To render frame t-zero, we slice the volume with a plane at that time and evaluate every pixel coordinate on the plane. Time distortion comes from an anisotropic covariance whose principal axes may tilt between space and time.
+Picture a video as a stack of transparent sheets, one sheet per frame. A Jewel is a soft three-dimensional blob placed inside that stack. Its three directions are left-to-right, up-and-down, and time. Mathematicians call its smooth bell-shaped fade a Gaussian: it is strongest at the center and gradually fades away. A visible frame is simply one slice through the blob.
 
-**On screen:** Jewel geometry lives in (u, v, t); a video frame is a time slice.
+**On screen:** A Jewel is a soft Gaussian blob in left-right, up-down, and time.
 
-## 2. The twenty-two canonical features
+## 2. Five kinds of information
 
-The generative boundary represents each Jewel as twenty-two numbers. Three numbers store the centroid mu. Six store the upper triangle of the symmetric log-covariance. Three store constant RGB. Nine store the full three-by-three world-frame color Jacobian. One stores the weight logit. This layout is gauge-free: appearance gradients are expressed in world coordinates, and covariance is stored as a unique symmetric matrix rather than a rotation convention.
+A Jewel stores five things. Its center says where and when it lives. A shape table says how wide it is and which way it tilts; the technical name for that table is covariance. Base color says what it looks like at the center. A color-change table says how that color varies nearby. Finally, a strength value says how much this Jewel contributes. Together these use twenty-two numbers.
 
-**On screen:** μ(3) | log Σ upper triangle(6) | RGB(3) | color Jacobian(9) | logit weight(1)
+**On screen:** center(3) | shape(6) | base color(3) | color change(9) | strength(1)
 
-## 3. Covariance controls time distortion
+## 3. Tilt creates motion
 
-Internally the renderer factorizes covariance into a proper rotation R and positive principal scales S. A Jewel elongated along u paints a horizontal region. One elongated along t persists across frames. A principal axis tilted jointly through u and t moves across the image as time advances. That mixed spacetime tilt is not post-hoc optical flow; it is literally encoded in the orientation of the Gaussian ellipsoid.
+Imagine pushing a cucumber through that stack of frame sheets at an angle. Each sheet cuts the cucumber at a slightly different horizontal position, so the slice appears to move. A tilted Jewel works the same way. If it stretches mostly through time, it persists. If it tilts across both space and time, its visible position moves from frame to frame. Motion is built into the shape itself.
 
-**On screen:** Sigma = R diag(s^2) R^T; tilted eigenvectors couple position and time.
+**On screen:** A tilted spacetime shape becomes motion when sliced into frames.
 
-## 4. Mahalanobis distance
+## 4. Distance measured by the blob
 
-For a query point x, displacement d equals x minus mu. The renderer rotates that displacement into the Jewel's principal frame with R-transpose, divides componentwise by scale, and sums the squares. This yields q, the squared Mahalanobis distance. Computing y equals S inverse R-transpose d avoids materializing an inverse covariance for every pixel-Jewel pair. The Gaussian contribution decays as exponential minus one-half q.
+A round blob measures distance the usual way. A long tilted blob should not. A point far along its long direction may still be close in the blob's own terms. The renderer therefore stretches and rotates the coordinate system before measuring distance. The technical name is Mahalanobis distance; here it simply means shape-aware distance. That distance controls how quickly the Jewel fades.
 
-**On screen:** d = x - mu; y = S^-1 R^T d; q = ||y||^2
+**On screen:** Shape-aware distance asks: how far is this point in the Jewel's own frame?
 
-## 5. Appearance is locally linear
+## 5. Color can vary nearby
 
-A constant-color Gaussian would need many small primitives to express a smooth color ramp. Instead, the default P-one appearance model stores a three-by-three Jacobian. Local color is base color plus that Jacobian times displacement from the centroid. One row describes how red changes with u, v, and t; the next rows do the same for green and blue. Temporal entries can therefore change a Jewel's color as a frame slice moves through it.
+The base color describes the exact center. A small three-by-three table describes how red, green, and blue change when we move left, up, or forward in time. That table is called a color Jacobian. We will use the full name instead of unexplained shorthand. Think of it as three tiny color slopes, including a slope through time.
 
-**On screen:** c_i(x) = c_i^0 + J_i(x - mu_i)
+**On screen:** color Jacobian = how red, green, and blue change across space and time
 
-## 6. The field is additive
+## 6. Many Jewels paint one pixel
 
-The final pixel is the learned constant background plus a sum of every supported Jewel contribution. Each weight is sigmoid of its stored logit, multiplied by the Gaussian exponential, multiplied by local color. There is no softmax normalization forcing Jewels to compete for ownership. An earlier soft-Voronoi model was implemented and steelmanned, but lost both reconstruction and canonicality, so the evidence path is explicitly additive.
+At each pixel, every nearby Jewel paints a small amount of color. Strong, close Jewels contribute more; weak or distant Jewels contribute less. We simply add those contributions to a learned background color. This is called an additive renderer because the contributions are added, like overlapping pools of light. No Jewel must win exclusive ownership of the pixel.
 
-**On screen:** value(x) = background + sum_i exp(-q_i/2) * sigmoid(a_i) * c_i(x)
+**On screen:** background + all nearby Jewel contributions = the final pixel
 
-## 7. Support-complete rendering
+## 7. Check only where a Jewel matters
 
-Nearest-center culling is not mathematically safe for anisotropic splats. A long tilted ellipsoid may cover a pixel even when many narrow Gaussians have closer centers. The evidence renderer truncates at five standard deviations, builds an exact world-axis bounding box for each support ellipsoid, assigns every primitive to one multilevel tile, queries twenty-seven neighboring cells, and applies the true Mahalanobis test. Beyond five sigma, boundary weight is approximately three-point-seven times ten to the minus six.
+A Jewel fades forever in theory, but after five of its own widths the remaining effect is tiny. We call the region where it can matter its support. The renderer divides the volume into boxes so it can quickly find every Jewel whose support reaches a pixel. This is a filing system, not a placement grid: Jewel centers remain irregular, and long tilted shapes are not accidentally missed.
 
-**On screen:** Five-sigma tiled support is complete; Euclidean center KNN is not.
+**On screen:** A box index speeds up lookup without snapping Jewels to a grid.

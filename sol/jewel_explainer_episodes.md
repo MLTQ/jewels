@@ -2,8 +2,8 @@
 
 ## Purpose
 
-Freezes the six-episode technical narrative, shot captions, visual specifications, and local claim
-sources. It is the editorial source of truth for narration, subtitles, and animation content.
+Freezes the six-episode plain-language narrative, shot captions, visual specifications, and local
+claim sources. It is the editorial source of truth for narration, subtitles, and animation content.
 
 ## Components
 
@@ -19,10 +19,12 @@ sources. It is the editorial source of truth for narration, subtitles, and anima
 
 ### `EPISODES`
 
-- **Does**: Defines six chapters: prompt compilation, Gaussian spacetime geometry, physical
+- **Does**: Defines six chapters: prompt-to-video flow, Gaussian spacetime geometry, physical
   vocabulary, coherence/trajectories, evidence gates, and the scaling program.
 - **Rationale**: Claims explicitly retain failures and scope boundaries; narration cannot silently
   promote the learned near-pass or source-backed vocabulary.
+- **Audience contract**: Introduces necessary technical terms on first use, prefers ordinary words
+  afterward, uses analogies for geometry and hierarchy, and keeps each shot to one main idea.
 
 ### `episode_by_number`
 
@@ -38,5 +40,11 @@ sources. It is the editorial source of truth for narration, subtitles, and anima
 
 ## Notes
 
-- “Three-dimensional spacetime Gaussian” is used deliberately: `(u,v,t)` is the Gaussian domain;
-  RGB is attached appearance, not a fourth geometric axis.
+- Episode 2 defines a Gaussian as a soft bell-shaped fade, spacetime as left-right/up-down/time,
+  covariance as the shape-and-tilt table, Mahalanobis distance as shape-aware distance, the color
+  Jacobian as a local color-change table, additive rendering as overlapping light, and support as
+  the region where a Jewel can matter.
+- `JRGB` is intentionally absent from public labels. The earlier shorthand meant the three-by-three
+  color Jacobian, but the full term or the plain phrase “color-change table” is clearer.
+- “Three-dimensional spacetime Gaussian” remains precise: `(u,v,t)` is the Gaussian domain; RGB is
+  attached appearance, not a fourth geometric axis.

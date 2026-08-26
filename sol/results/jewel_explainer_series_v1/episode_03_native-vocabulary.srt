@@ -1,123 +1,131 @@
 1
-00:00:00,000 --> 00:00:05,668
-A language needs recurring symbols, but fitted Gaussian parameters are not naturally unique.
+00:00:00,000 --> 00:00:06,076
+A language model works with reusable choices called tokens: words or word-like symbols from a fixed vocabulary.
 
 2
-00:00:05,668 --> 00:00:14,908
-Two optimization runs can describe the same visual field with different row order, slightly shifted centers, and different rotation parameterizations.
+00:00:06,076 --> 00:00:10,674
+We want similar Jewel shapes and colors to reuse the same tokens across many videos.
 
 3
-00:00:14,908 --> 00:00:20,884
-Quantizing raw parameter tuples would spend vocabulary capacity on accidental coordinate choices.
+00:00:10,674 --> 00:00:13,520
+This is not an attempt to compress a finished video.
 
 4
-00:00:20,884 --> 00:00:23,533
-The first job is therefore not compression.
+00:00:13,520 --> 00:00:19,760
+The goal is to give a future generator a stable set of physical words it can speak into an empty spacetime volume.
 
 5
-00:00:23,533 --> 00:00:29,632
-It is to define a stable physical alphabet whose tokens preserve rendering and spacetime structure.
+00:00:20,460 --> 00:00:25,632
+The same tilted ellipsoid can be written with several different rotation-number combinations.
 
 6
-00:00:30,332 --> 00:00:34,849
-A unit quaternion q and its negation represent exactly the same rotation.
+00:00:25,632 --> 00:00:28,301
+The picture does not change, but the numbers do.
 
 7
-00:00:34,849 --> 00:00:44,191
-Even after choosing quaternion sign, covariance eigenvectors may permute when their eigenvalues are reordered, and each eigenvector admits a sign flip.
+00:00:28,301 --> 00:00:33,195
+A learner would mistake those spellings for different shapes and waste vocabulary space.
 
 8
-00:00:44,191 --> 00:00:49,450
-Feeding scale plus quaternion to a prior makes identical ellipsoids appear far apart.
+00:00:33,195 --> 00:00:37,866
+Before creating tokens, we convert every Jewel to one consistent numerical spelling.
 
 9
-00:00:49,450 --> 00:00:56,318
-This is pure representational noise: it changes parameter coordinates without changing a single rendered pixel.
+00:00:37,866 --> 00:00:43,260
+In mathematics this removes a gauge ambiguity; in plain language, it removes meaningless aliases.
 
 10
-00:00:57,018 --> 00:01:03,599
-The canonical representation stores the matrix logarithm of the symmetric positive-definite covariance.
+00:00:43,960 --> 00:00:49,089
+We store each shape as a symmetric three-by-three table, which needs six unique numbers.
 
 11
-00:01:03,599 --> 00:01:07,368
-A symmetric three-by-three matrix needs six unique numbers.
+00:00:49,089 --> 00:00:55,558
+We also take a matrix logarithm, a standard transformation that makes large and small scales easier to compare.
 
 12
-00:01:07,368 --> 00:01:13,693
-The logarithm maps multiplicative scale differences into a well-behaved Euclidean coordinate chart.
+00:00:55,558 --> 00:01:01,094
+The important result is simple: identical visible shapes now receive identical stored features.
 
 13
-00:01:13,693 --> 00:01:19,699
-Decoding exponentiates, eigendecomposes, and converts one valid rotation back to the renderer.
+00:01:01,094 --> 00:01:05,640
+The later renderer can convert that stable spelling back into widths and tilt.
 
 14
-00:01:19,699 --> 00:01:25,321
-Any sign or axis choice made during that last factorization renders the same covariance.
+00:01:06,340 --> 00:01:11,880
+Our first attempt bundled layout, shape, color, and color change into one enormous choice.
 
 15
-00:01:26,021 --> 00:01:33,791
-The first vocabulary treated an eight-Jewel constellation as one joint one-hundred-and-seventy-six-dimensional prototype.
+00:01:11,880 --> 00:01:16,558
+That was like printing every possible sentence as a single dictionary entry.
 
 16
-00:01:33,791 --> 00:01:39,891
-That couples layout, covariance, surface color, and color gradient into one indivisible choice.
+00:01:16,558 --> 00:01:17,174
+It failed.
 
 17
-00:01:39,891 --> 00:01:42,074
-Gate zero-a falsified that design.
+00:01:17,174 --> 00:01:21,052
+The stronger design gives each role its own list of prototypes.
 
 18
-00:01:42,074 --> 00:01:51,385
-The successful language assigns independent codebooks to physical roles, then composes their aligned prototypes back into the same constellation.
+00:01:21,052 --> 00:01:24,437
+A prototype is simply a learned representative example.
 
 19
-00:01:51,385 --> 00:01:55,880
-Factorization lets reusable geometry combine with reusable appearance.
+00:01:24,437 --> 00:01:29,300
+The model can then combine a familiar shape with a familiar color in a new way.
 
 20
-00:01:56,580 --> 00:02:07,071
-Four one-thousand-and-twenty-four-way decisions expose up to one-thousand-and-twenty-four to the fourth role combinations without fitting that impossibly large joint table.
+00:01:30,000 --> 00:01:36,200
+Four lists of one thousand twenty-four choices can describe far more combinations than one list of the same size.
 
 21
-00:02:07,071 --> 00:02:16,160
-For individual generated Jewels, the centroid remains continuous and the three nonconstant roles—covariance, surface, and gradient—are active tokens.
+00:01:36,200 --> 00:01:40,974
+We do not build a table containing every combination; we compose the roles when needed.
 
 22
-00:02:16,160 --> 00:02:18,722
-Layout becomes the spoken centroid itself.
+00:01:40,974 --> 00:01:47,942
+For an individual Jewel, position remains continuous while shape, color, and color change come from their learned vocabularies.
 
 23
-00:02:18,722 --> 00:02:24,151
-The codebooks share normalization and preserve the canonical twenty-two-feature contract.
+00:01:47,942 --> 00:01:52,880
+This gives the speaker reusable parts without forcing every result to copy a stored whole.
 
 24
-00:02:24,851 --> 00:02:31,704
-Cells are useful for learning local histograms and addressed phrases, but an address is not an emitted coordinate.
+00:01:53,580 --> 00:01:58,585
+The learner uses coarse boxes to ask which tokens are common in each neighborhood.
 
 25
-00:02:31,704 --> 00:02:35,492
-The generator outputs centroids in continuous normalized space.
+00:01:58,585 --> 00:02:02,796
+Those boxes are addresses for routing information, like postal codes.
 
 26
-00:02:35,492 --> 00:02:40,782
-Internal cell indices answer questions like which local token distribution applies here.
+00:02:02,796 --> 00:02:08,412
+They are not the final Jewel positions, just as a postal code is not a chair inside a house.
 
 27
-00:02:40,782 --> 00:02:43,427
-They do not snap a Jewel to the cell center.
+00:02:08,412 --> 00:02:12,379
+The model still emits a continuous center that can land anywhere.
 
 28
-00:02:43,427 --> 00:02:50,881
-This separation directly addresses the grid-quantization artifact: routing may be discrete while geometry remains irregular.
+00:02:12,379 --> 00:02:15,980
+Discrete routing and irregular geometry can safely coexist.
 
 29
-00:02:51,581 --> 00:03:09,235
-At the selected individual-Jewel language gate, decoded irregular fields retain twenty-two-point-eight-six-five-seven decibels against the continuous source on the frozen random-volume audit, preserve mixed spacetime tilt at one-point-zero-four-one-five times the source, and show zero center locking.
+00:02:16,680 --> 00:02:21,857
+We tested whether replacing continuous features with vocabulary choices destroyed the field.
 
 30
-00:03:09,235 --> 00:03:11,640
-These numbers do not prove promptability.
+00:02:21,857 --> 00:02:30,862
+The reconstructed images reached about twenty-two point nine decibels of peak signal-to-noise ratio, a standard image-similarity measure where higher is better.
 
 31
-00:03:11,640 --> 00:03:20,203
-They prove that the physical token vocabulary is not the bottleneck preventing a higher-level speaker from producing renderable continuous fields.
+00:02:30,862 --> 00:02:34,913
+Spacetime tilt was preserved, and no centers locked to the routing grid.
+
+32
+00:02:34,913 --> 00:02:37,277
+This does not prove promptable generation.
+
+33
+00:02:37,277 --> 00:02:41,160
+It shows the physical vocabulary is usable enough for the next level.

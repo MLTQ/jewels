@@ -1,6 +1,6 @@
-# Episode 5: What the experiments actually prove
+# Episode 5: How we decide whether it really works
 
-Exact gate, learned speaker, plateau, and honest failure scope
+Tests designed to resist wishful thinking
 
 ## Claim sources
 
@@ -9,44 +9,44 @@ Exact gate, learned speaker, plateau, and honest failure scope
 - `sol/audit_learned_trajectory_speaker.py`
 - `sol/results/jewel_casting_language_v0/TRAJECTORY_SPEAKER_REPORT.md`
 
-## 1. Freeze the gate before looking
+## 1. Write the rules before the run
 
-The exact audit freezes prompts, seeds, field size, renderer, frame indices, semantic evaluator, and pass thresholds before execution. It renders frames zero, twenty-four, and forty-eight at one-forty-four by two-sixteen. OpenCLIP ViT-B thirty-two embeds each frame, normalized frame embeddings are mean-pooled, and the resulting video vector is compared against the three exact prompts. The preregistration prevents a visually appealing seed from redefining success.
+Before generating results, we freeze the prompts, seeds, renderer, sampled frames, scoring method, and pass thresholds. This is called preregistration: deciding what counts as success before seeing which samples look good. We test three prompts, three seeds, and three prompt conditions. An automatic text-image scorer compares three frames from each video with the intended text.
 
-**On screen:** 3 prompts × 3 seeds × 3 causal conditions; frozen before execution.
+**On screen:** Freeze the test and pass line before looking at the results.
 
-## 2. Retrieval and generation margins test different things
+## 2. Ask two different questions
 
-Top-one retrieval asks whether a correct generated field is closest to its intended prompt among three choices. The shuffled generation margin instead holds the intended text fixed and compares a correctly conditioned field against a field actually generated from wrong text. Null margin does the same with no semantic prompt. Pairwise win counts retain seed-level information that a mean could hide. All are needed because any one semantic score can be fooled by class imbalance or evaluator bias.
+The first test asks whether a generated video matches its intended prompt better than the other two prompt labels. The second asks whether correct text produces a better video than wrong or empty text, while keeping the intended meaning fixed for scoring. The first checks recognition. The second checks causal control. We also count individual wins so a good average cannot hide repeated failures.
 
-**On screen:** retrieval: rank text for one field; margin: change the generated field itself.
+**On screen:** Recognition ranks labels; causal testing compares separately generated videos.
 
-## 3. Exact Gate two-b-zero passes
+## 3. The exact recipe passes
 
-Across nine exact prompt programs, intended retrieval succeeds eight times. Every prompt class has majority retrieval. Mean correct-minus-shuffled generation similarity is plus zero-point-zero-five-six-four-eight, above the frozen plus zero-point-zero-two threshold. Correct-minus-null is plus zero-point-zero-three-three-four-eight, above plus zero-point-zero-one. Correct wins all nine shuffled and all nine null pairs. Counts, donor distinction, finite rendering, and continuous-center checks also pass.
+Across nine videos made by the exact recipe writer, eight were matched to the intended prompt. Correctly prompted videos beat wrong-prompt videos in all nine comparisons and beat empty-prompt videos in all nine. The average margins cleared the thresholds we set in advance. The field-size, rendering, and irregular-position checks also passed.
 
-**On screen:** 8/9 retrieval · +0.05648 shuffled · +0.03348 null · 9/9 wins
+**On screen:** 8 of 9 recognized · 9 of 9 beat wrong prompts · 9 of 9 beat empty prompts
 
-## 4. The learned speaker is deliberately small
+## 4. Then replace rules with learning
 
-Gate two-b-one replaces exact lookup with a five-hundred-forty-one-thousand-two-hundred-twenty-three-parameter autoregressive network. Frozen text embeddings enter a two-layer projection. A scene head predicts one of three semantic tokens. Scene embedding conditions the foreground head. Text, scene, and sampled foreground condition the background head. Source logits are not masked by scene; only exact foreground-background repetition is forbidden. Scene-consistent donors must therefore be learned rather than imposed.
+The exact writer uses hand-built prompt lookup. Our next test replaced it with a small learned network containing about five hundred forty-one thousand adjustable numbers. The network reads a text embedding, which is a numerical summary of the sentence. It predicts the scene first, then the subject source, then the setting source. Only choosing the exact same source twice is forbidden; scene-consistent choices must be learned.
 
-**On screen:** text → scene → foreground → background; only donor repetition is masked.
+**On screen:** text summary → scene choice → subject choice → setting choice
 
-## 5. Held-out wording and held-out donor pairs
+## 5. Test unfamiliar wording and pairings
 
-Training uses two authored paraphrases plus the exact prompt for each class and enumerates ordered donor pairs, while reserving cyclic pairs for evaluation. The held-out set changes both wording and foreground-background combination. Ten percent empty-text dropout teaches a null condition. Correct, cyclic-shuffled, and empty embeddings score the identical target programs, which makes token negative log likelihood a clean conditional test before any renderer or CLIP model enters the loop.
+We hold back both a new paraphrase and specific subject-setting combinations. Held out means the learner does not see those examples during training. At evaluation, it must understand different wording and choose a source pair it did not memorize as a pair. Empty-text examples teach the network what no prompt looks like. This makes the test stricter than repeating the training phrases.
 
-**On screen:** Evaluation changes both paraphrase and donor combination.
+**On screen:** Evaluation changes both the wording and the source pairing.
 
-## 6. Longer training did not solve the learned gate
+## 6. More training reached a plateau
 
-The best correct-condition negative log likelihood occurs at step one hundred. Evaluation continues every one hundred updates. Ten consecutive evaluations through step eleven hundred fail to improve it, satisfying the frozen plateau rule. Correct held-out NLL is two-point-two-zero-zero-five, compared with four-point-three-eight-seven under cyclic-shuffled wording and two-point-five-three-nine-one for null. Scene accuracy is one hundred percent for correct unseen paraphrases. This is evidence of early overfit, not evidence that the run was simply too short.
+We continued training and measured the held-out error every one hundred steps. The best result appeared at step one hundred. Ten later measurements, through step eleven hundred, did not improve it. That flat stretch is a plateau: more of the same training was no longer helping. The network separated correct wording from wrong wording, but it also began fitting the tiny training set too closely.
 
-**On screen:** best step 100; ten stale evaluations; stopped at 1,100 by the frozen rule.
+**On screen:** Best at step 100; no improvement through step 1,100.
 
-## 7. The learned result is a scoped near-pass
+## 7. Keep the near-pass honest
 
-All nine correct-text samples predict the right scene and emit both unmasked donors from that scene. Rendered correct-minus-shuffled and correct-minus-null margins pass, and correct beats shuffled in seven of nine. But raw three-way OpenCLIP top-one is only four of nine, below the required six, with majority retrieval in only one class. We retain that failure. The learned network understands the tiny program syntax and causal scene conditioning; it does not yet establish robust open-vocabulary semantic generation.
+The learned writer chose the correct scene for all nine held-out prompts and usually beat the causal controls. But only four of nine raw videos were matched to the right prompt, below our required six. So the learned gate fails. The useful conclusion is narrower: the network learned the tiny recipe syntax and responded to text, but the data and vocabulary were too small for robust prompt-to-video meaning.
 
-**On screen:** Token syntax and causal margins pass; strict learned retrieval remains 4/9 and fails.
+**On screen:** The learned writer responds to text, but strict recognition is only 4 of 9.

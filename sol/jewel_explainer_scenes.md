@@ -23,6 +23,9 @@ keep six long episodes visually consistent while allowing their data, equations,
 
 - **Does**: Creates one 1280×720 frame with episode chrome, the selected animated diagram, key
   caption, and episode progress.
+- **Layout guarantee**: Renders the animated diagram onto a separate canvas and composites only
+  rows 170 through 629. This makes the title and footer protected safe zones even when a scene
+  accidentally draws outside its intended bounds.
 
 ## Contracts
 
@@ -36,3 +39,4 @@ keep six long episodes visually consistent while allowing their data, equations,
 
 - Actual proof MP4 frames are decoded as assets and placed inside the vector diagrams; they are not
   recreated or simulated.
+- `CONTENT_TOP` and `CONTENT_BOTTOM` are the single safe-area contract shared by every scene.

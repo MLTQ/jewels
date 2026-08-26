@@ -2,13 +2,28 @@
 
 from __future__ import annotations
 
+import math
 from pathlib import Path
 import unittest
 
+from PIL import Image
+
 from sol.jewel_explainer_episodes import EPISODES
-from sol.jewel_explainer_scenes import SCENE_RENDERERS, draw_shot
-from sol.jewel_explainer_style import HEIGHT, WIDTH, reveal, smooth
-from sol.render_jewel_explainer import format_srt_time, subtitle_rows, validate_specs
+from sol.jewel_explainer_scenes import (
+    CONTENT_TOP,
+    SCENE_RENDERERS,
+    draw_shot,
+)
+from sol.jewel_explainer_style import HEIGHT, WIDTH, JewelCanvas, reveal, smooth
+from sol.render_jewel_explainer import (
+    format_srt_time,
+    focus_evidence_asset,
+    merge_episode_records,
+    narration_duration_bounds,
+    qwen_token_ceiling,
+    subtitle_rows,
+    validate_specs,
+)
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -40,6 +55,20 @@ class JewelExplainerTests(unittest.TestCase):
         unsupported = set("ᵢₖₜᵀ₀₁₂₃₄₅₆₇₈₉₊₋₌₍₎⁴")
         self.assertFalse(unsupported.intersection(rendered_copy))
 
+    def test_public_scripts_are_concise_and_avoid_internal_shorthand(self) -> None:
+        public_copy = " ".join(
+            f"{shot.title} {shot.narration} {shot.caption}"
+            for episode in EPISODES
+            for shot in episode.shots
+        )
+        for shorthand in ("JRGB", "NLL", "KNN", "arg top"):
+            self.assertNotIn(shorthand, public_copy)
+        for episode in EPISODES:
+            for shot in episode.shots:
+                with self.subTest(episode=episode.number, shot=shot.title):
+                    self.assertLessEqual(len(shot.narration.split()), 80)
+                    self.assertLessEqual(len(shot.caption.split()), 18)
+
     def test_every_shot_draws_a_complete_rgb_frame(self) -> None:
         for episode in EPISODES:
             for shot in episode.shots:
@@ -47,6 +76,18 @@ class JewelExplainerTests(unittest.TestCase):
                     image = draw_shot(episode, shot, 0.57, 0.5, {})
                     self.assertEqual(image.size, (WIDTH, HEIGHT))
                     self.assertEqual(image.mode, "RGB")
+
+    def test_diagrams_cannot_overpaint_the_header_safe_zone(self) -> None:
+        episode = EPISODES[1]
+        shot = episode.shots[0]
+        expected = JewelCanvas()
+        expected.header(episode.number, episode.title, shot.title)
+        rendered = draw_shot(episode, shot, 1.0, 0.5, {})
+        safe_zone = (0, 0, WIDTH, CONTENT_TOP)
+        self.assertEqual(
+            rendered.crop(safe_zone).tobytes(),
+            expected.image.crop(safe_zone).tobytes(),
+        )
 
     def test_subtitle_timing_is_ordered_and_respects_shot_durations(self) -> None:
         episode = EPISODES[0]
@@ -63,6 +104,44 @@ class JewelExplainerTests(unittest.TestCase):
     def test_srt_time_rounding(self) -> None:
         self.assertEqual(format_srt_time(0), "00:00:00,000")
         self.assertEqual(format_srt_time(3661.2345), "01:01:01,234")
+
+    def test_partial_render_replaces_only_selected_inventory_records(self) -> None:
+        previous = [
+            {"episode": 1, "version": "keep"},
+            {"episode": 2, "version": "old"},
+        ]
+        rendered = [{"episode": 2, "version": "new"}]
+        self.assertEqual(
+            merge_episode_records(previous, rendered),
+            [
+                {"episode": 1, "version": "keep"},
+                {"episode": 2, "version": "new"},
+            ],
+        )
+
+    def test_tall_evidence_sheets_are_reflowed_for_video(self) -> None:
+        coherent = focus_evidence_asset(
+            "coherent", Image.new("RGB", (330, 1482), "white")
+        )
+        proof = focus_evidence_asset(
+            "proof-sheet", Image.new("RGB", (614, 1102), "white")
+        )
+        unchanged = focus_evidence_asset(
+            "evidence", Image.new("RGB", (2340, 1440), "white")
+        )
+        self.assertEqual(coherent.size, (990, 198))
+        self.assertEqual(proof.size, (1332, 170))
+        self.assertEqual(unchanged.size, (2340, 1440))
+
+    def test_qwen_duration_guard_caps_runaway_audio_tokens(self) -> None:
+        text = " ".join(["Jewel"] * 77)
+        expected, minimum, maximum = narration_duration_bounds(text)
+        self.assertAlmostEqual(expected, 77 * 60 / 145)
+        self.assertLess(minimum, expected)
+        self.assertLess(expected, maximum)
+        self.assertLess(maximum, 55)
+        self.assertEqual(qwen_token_ceiling(text, 900), math.ceil(maximum * 12.5))
+        self.assertLess(qwen_token_ceiling(text, 900), 700)
 
 
 if __name__ == "__main__":

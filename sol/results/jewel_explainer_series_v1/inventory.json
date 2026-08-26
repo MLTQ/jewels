@@ -4,20 +4,132 @@
     {
       "episode": 1,
       "slug": "prompt-to-program",
-      "title": "From words to a spacetime program",
+      "title": "How a prompt becomes a video",
       "video": "episode_01_prompt-to-program.mp4",
       "poster": "episode_01_prompt-to-program_poster.png",
       "subtitles": "episode_01_prompt-to-program.srt",
       "script": "episode_01_prompt-to-program_script.md",
-      "duration_seconds": 226.128,
-      "frames": 2722,
+      "duration_seconds": 155.56,
+      "frames": 1876,
       "fps": 12,
       "resolution": [
         1280,
         720
       ],
-      "voice": "Daniel",
-      "speech_rate": 175,
+      "voice": "original-warm-american-first-officer",
+      "speech_rate": null,
+      "narration": {
+        "backend": "pharaoh-qwen3-tts-clone",
+        "service_url": "http://192.168.0.202:18001",
+        "service_model": "Qwen3-TTS (base)",
+        "speaker": "original-warm-american-first-officer",
+        "language": "en",
+        "instruct": null,
+        "seed_rule": "20261001 + episode * 100 + shot_index + retry * 10000",
+        "temperature": 0.45,
+        "top_p": 0.8,
+        "hard_max_new_tokens": 900,
+        "max_attempts": 3,
+        "loudness_target_lufs": -18,
+        "duration_guard": "145 WPM estimate; accept 0.60x to 1.50x+4s; reject cap hits",
+        "shot_generation": [
+          {
+            "shot": 1,
+            "expected_seconds": 23.586206896551722,
+            "minimum_seconds": 14.151724137931033,
+            "maximum_seconds": 39.37931034482759,
+            "token_ceiling": 493,
+            "accepted": {
+              "attempt": 1,
+              "seed": 20261101,
+              "duration_seconds": 19.44
+            },
+            "rejected": []
+          },
+          {
+            "shot": 2,
+            "expected_seconds": 28.96551724137931,
+            "minimum_seconds": 17.379310344827584,
+            "maximum_seconds": 47.44827586206897,
+            "token_ceiling": 594,
+            "accepted": {
+              "attempt": 1,
+              "seed": 20261102,
+              "duration_seconds": 23.68
+            },
+            "rejected": []
+          },
+          {
+            "shot": 3,
+            "expected_seconds": 24.82758620689655,
+            "minimum_seconds": 14.89655172413793,
+            "maximum_seconds": 41.241379310344826,
+            "token_ceiling": 516,
+            "accepted": {
+              "attempt": 1,
+              "seed": 20261103,
+              "duration_seconds": 20.72
+            },
+            "rejected": []
+          },
+          {
+            "shot": 4,
+            "expected_seconds": 24.0,
+            "minimum_seconds": 14.399999999999999,
+            "maximum_seconds": 40.0,
+            "token_ceiling": 500,
+            "accepted": {
+              "attempt": 1,
+              "seed": 20261104,
+              "duration_seconds": 21.12
+            },
+            "rejected": []
+          },
+          {
+            "shot": 5,
+            "expected_seconds": 25.24137931034483,
+            "minimum_seconds": 15.144827586206898,
+            "maximum_seconds": 41.862068965517246,
+            "token_ceiling": 524,
+            "accepted": {
+              "attempt": 1,
+              "seed": 20261105,
+              "duration_seconds": 20.72
+            },
+            "rejected": []
+          },
+          {
+            "shot": 6,
+            "expected_seconds": 24.82758620689655,
+            "minimum_seconds": 14.89655172413793,
+            "maximum_seconds": 41.241379310344826,
+            "token_ceiling": 516,
+            "accepted": {
+              "attempt": 1,
+              "seed": 20261106,
+              "duration_seconds": 21.68
+            },
+            "rejected": []
+          },
+          {
+            "shot": 7,
+            "expected_seconds": 27.724137931034484,
+            "minimum_seconds": 16.63448275862069,
+            "maximum_seconds": 45.58620689655173,
+            "token_ceiling": 570,
+            "accepted": {
+              "attempt": 1,
+              "seed": 20261107,
+              "duration_seconds": 24.0
+            },
+            "rejected": []
+          }
+        ],
+        "reference_audio": "officer_voice_reference.wav",
+        "reference_sha256": "7dd69dce6bc0e2da0d996ad7b3c0de057548fad167eb1ea114579cde7c4a2a86",
+        "reference_transcript": "The current result is a bounded existence proof, not a general text-to-video model. The important point is causal direction: text becomes a program, the program becomes a continuous spacetime field, and the field becomes pixels.",
+        "icl_mode": true
+      },
       "sources": [
         "sol/prompt_trajectory_speaker.py",
         "sol/semantic_trajectory_realizer.py",
@@ -28,20 +140,132 @@
     {
       "episode": 2,
       "slug": "jewel-geometry",
-      "title": "A Jewel is a Gaussian in spacetime",
+      "title": "What is a spacetime Gaussian Jewel?",
       "video": "episode_02_jewel-geometry.mp4",
       "poster": "episode_02_jewel-geometry_poster.png",
       "subtitles": "episode_02_jewel-geometry.srt",
       "script": "episode_02_jewel-geometry_script.md",
-      "duration_seconds": 201.488,
-      "frames": 2428,
+      "duration_seconds": 158.76,
+      "frames": 1912,
       "fps": 12,
       "resolution": [
         1280,
         720
       ],
-      "voice": "Daniel",
-      "speech_rate": 175,
+      "voice": "original-warm-american-first-officer",
+      "speech_rate": null,
+      "narration": {
+        "backend": "pharaoh-qwen3-tts-clone",
+        "service_url": "http://192.168.0.202:18001",
+        "service_model": "Qwen3-TTS (base)",
+        "speaker": "original-warm-american-first-officer",
+        "language": "en",
+        "instruct": null,
+        "seed_rule": "20261001 + episode * 100 + shot_index + retry * 10000",
+        "temperature": 0.45,
+        "top_p": 0.8,
+        "hard_max_new_tokens": 900,
+        "max_attempts": 3,
+        "loudness_target_lufs": -18,
+        "duration_guard": "145 WPM estimate; accept 0.60x to 1.50x+4s; reject cap hits",
+        "shot_generation": [
+          {
+            "shot": 1,
+            "expected_seconds": 24.82758620689655,
+            "minimum_seconds": 14.89655172413793,
+            "maximum_seconds": 41.241379310344826,
+            "token_ceiling": 516,
+            "accepted": {
+              "attempt": 1,
+              "seed": 20261201,
+              "duration_seconds": 22.48
+            },
+            "rejected": []
+          },
+          {
+            "shot": 2,
+            "expected_seconds": 28.137931034482758,
+            "minimum_seconds": 16.882758620689653,
+            "maximum_seconds": 46.206896551724135,
+            "token_ceiling": 578,
+            "accepted": {
+              "attempt": 1,
+              "seed": 20261202,
+              "duration_seconds": 21.92
+            },
+            "rejected": []
+          },
+          {
+            "shot": 3,
+            "expected_seconds": 28.137931034482758,
+            "minimum_seconds": 16.882758620689653,
+            "maximum_seconds": 46.206896551724135,
+            "token_ceiling": 578,
+            "accepted": {
+              "attempt": 1,
+              "seed": 20261203,
+              "duration_seconds": 23.36
+            },
+            "rejected": []
+          },
+          {
+            "shot": 4,
+            "expected_seconds": 25.655172413793103,
+            "minimum_seconds": 15.39310344827586,
+            "maximum_seconds": 42.48275862068965,
+            "token_ceiling": 532,
+            "accepted": {
+              "attempt": 1,
+              "seed": 20261204,
+              "duration_seconds": 22.64
+            },
+            "rejected": []
+          },
+          {
+            "shot": 5,
+            "expected_seconds": 23.586206896551722,
+            "minimum_seconds": 14.151724137931033,
+            "maximum_seconds": 39.37931034482759,
+            "token_ceiling": 493,
+            "accepted": {
+              "attempt": 1,
+              "seed": 20261205,
+              "duration_seconds": 20.08
+            },
+            "rejected": []
+          },
+          {
+            "shot": 6,
+            "expected_seconds": 24.0,
+            "minimum_seconds": 14.399999999999999,
+            "maximum_seconds": 40.0,
+            "token_ceiling": 500,
+            "accepted": {
+              "attempt": 1,
+              "seed": 20261206,
+              "duration_seconds": 21.92
+            },
+            "rejected": []
+          },
+          {
+            "shot": 7,
+            "expected_seconds": 28.137931034482758,
+            "minimum_seconds": 16.882758620689653,
+            "maximum_seconds": 46.206896551724135,
+            "token_ceiling": 578,
+            "accepted": {
+              "attempt": 1,
+              "seed": 20261207,
+              "duration_seconds": 22.16
+            },
+            "rejected": []
+          }
+        ],
+        "reference_audio": "officer_voice_reference.wav",
+        "reference_sha256": "7dd69dce6bc0e2da0d996ad7b3c0de057548fad167eb1ea114579cde7c4a2a86",
+        "reference_transcript": "The current result is a bounded existence proof, not a general text-to-video model. The important point is causal direction: text becomes a program, the program becomes a continuous spacetime field, and the field becomes pixels.",
+        "icl_mode": true
+      },
       "sources": [
         "stprim/core/params.py",
         "stprim/prior/featurize.py",
@@ -52,20 +276,132 @@
     {
       "episode": 3,
       "slug": "native-vocabulary",
-      "title": "Turning Jewels into a native language",
+      "title": "Giving the model a Jewel vocabulary",
       "video": "episode_03_native-vocabulary.mp4",
       "poster": "episode_03_native-vocabulary_poster.png",
       "subtitles": "episode_03_native-vocabulary.srt",
       "script": "episode_03_native-vocabulary_script.md",
-      "duration_seconds": 200.203,
-      "frames": 2411,
+      "duration_seconds": 161.16,
+      "frames": 1943,
       "fps": 12,
       "resolution": [
         1280,
         720
       ],
-      "voice": "Daniel",
-      "speech_rate": 175,
+      "voice": "original-warm-american-first-officer",
+      "speech_rate": null,
+      "narration": {
+        "backend": "pharaoh-qwen3-tts-clone",
+        "service_url": "http://192.168.0.202:18001",
+        "service_model": "Qwen3-TTS (base)",
+        "speaker": "original-warm-american-first-officer",
+        "language": "en",
+        "instruct": null,
+        "seed_rule": "20261001 + episode * 100 + shot_index + retry * 10000",
+        "temperature": 0.45,
+        "top_p": 0.8,
+        "hard_max_new_tokens": 900,
+        "max_attempts": 3,
+        "loudness_target_lufs": -18,
+        "duration_guard": "145 WPM estimate; accept 0.60x to 1.50x+4s; reject cap hits",
+        "shot_generation": [
+          {
+            "shot": 1,
+            "expected_seconds": 26.482758620689655,
+            "minimum_seconds": 15.889655172413793,
+            "maximum_seconds": 43.724137931034484,
+            "token_ceiling": 547,
+            "accepted": {
+              "attempt": 1,
+              "seed": 20261301,
+              "duration_seconds": 19.76
+            },
+            "rejected": []
+          },
+          {
+            "shot": 2,
+            "expected_seconds": 24.82758620689655,
+            "minimum_seconds": 14.89655172413793,
+            "maximum_seconds": 41.241379310344826,
+            "token_ceiling": 516,
+            "accepted": {
+              "attempt": 1,
+              "seed": 20261302,
+              "duration_seconds": 22.8
+            },
+            "rejected": []
+          },
+          {
+            "shot": 3,
+            "expected_seconds": 24.0,
+            "minimum_seconds": 14.399999999999999,
+            "maximum_seconds": 40.0,
+            "token_ceiling": 500,
+            "accepted": {
+              "attempt": 1,
+              "seed": 20261303,
+              "duration_seconds": 21.68
+            },
+            "rejected": []
+          },
+          {
+            "shot": 4,
+            "expected_seconds": 26.06896551724138,
+            "minimum_seconds": 15.641379310344828,
+            "maximum_seconds": 43.10344827586207,
+            "token_ceiling": 539,
+            "accepted": {
+              "attempt": 1,
+              "seed": 20261304,
+              "duration_seconds": 22.96
+            },
+            "rejected": []
+          },
+          {
+            "shot": 5,
+            "expected_seconds": 27.724137931034484,
+            "minimum_seconds": 16.63448275862069,
+            "maximum_seconds": 45.58620689655173,
+            "token_ceiling": 570,
+            "accepted": {
+              "attempt": 1,
+              "seed": 20261305,
+              "duration_seconds": 22.88
+            },
+            "rejected": []
+          },
+          {
+            "shot": 6,
+            "expected_seconds": 25.655172413793103,
+            "minimum_seconds": 15.39310344827586,
+            "maximum_seconds": 42.48275862068965,
+            "token_ceiling": 532,
+            "accepted": {
+              "attempt": 1,
+              "seed": 20261306,
+              "duration_seconds": 22.4
+            },
+            "rejected": []
+          },
+          {
+            "shot": 7,
+            "expected_seconds": 26.06896551724138,
+            "minimum_seconds": 15.641379310344828,
+            "maximum_seconds": 43.10344827586207,
+            "token_ceiling": 539,
+            "accepted": {
+              "attempt": 1,
+              "seed": 20261307,
+              "duration_seconds": 24.48
+            },
+            "rejected": []
+          }
+        ],
+        "reference_audio": "officer_voice_reference.wav",
+        "reference_sha256": "7dd69dce6bc0e2da0d996ad7b3c0de057548fad167eb1ea114579cde7c4a2a86",
+        "reference_transcript": "The current result is a bounded existence proof, not a general text-to-video model. The important point is causal direction: text becomes a program, the program becomes a continuous spacetime field, and the field becomes pixels.",
+        "icl_mode": true
+      },
       "sources": [
         "stprim/prior/featurize.py",
         "sol/factorized_jewel_casting_language.py",
@@ -76,20 +412,132 @@
     {
       "episode": 4,
       "slug": "coherence-trajectories",
-      "title": "Why coherence needs persistent ownership",
+      "title": "Why motion needs a persistent owner",
       "video": "episode_04_coherence-trajectories.mp4",
       "poster": "episode_04_coherence-trajectories_poster.png",
       "subtitles": "episode_04_coherence-trajectories.srt",
       "script": "episode_04_coherence-trajectories_script.md",
-      "duration_seconds": 197.599,
-      "frames": 2380,
+      "duration_seconds": 150.28,
+      "frames": 1812,
       "fps": 12,
       "resolution": [
         1280,
         720
       ],
-      "voice": "Daniel",
-      "speech_rate": 175,
+      "voice": "original-warm-american-first-officer",
+      "speech_rate": null,
+      "narration": {
+        "backend": "pharaoh-qwen3-tts-clone",
+        "service_url": "http://192.168.0.202:18001",
+        "service_model": "Qwen3-TTS (base)",
+        "speaker": "original-warm-american-first-officer",
+        "language": "en",
+        "instruct": null,
+        "seed_rule": "20261001 + episode * 100 + shot_index + retry * 10000",
+        "temperature": 0.45,
+        "top_p": 0.8,
+        "hard_max_new_tokens": 900,
+        "max_attempts": 3,
+        "loudness_target_lufs": -18,
+        "duration_guard": "145 WPM estimate; accept 0.60x to 1.50x+4s; reject cap hits",
+        "shot_generation": [
+          {
+            "shot": 1,
+            "expected_seconds": 24.413793103448278,
+            "minimum_seconds": 14.648275862068965,
+            "maximum_seconds": 40.62068965517241,
+            "token_ceiling": 508,
+            "accepted": {
+              "attempt": 1,
+              "seed": 20261401,
+              "duration_seconds": 21.44
+            },
+            "rejected": []
+          },
+          {
+            "shot": 2,
+            "expected_seconds": 24.82758620689655,
+            "minimum_seconds": 14.89655172413793,
+            "maximum_seconds": 41.241379310344826,
+            "token_ceiling": 516,
+            "accepted": {
+              "attempt": 1,
+              "seed": 20261402,
+              "duration_seconds": 21.12
+            },
+            "rejected": []
+          },
+          {
+            "shot": 3,
+            "expected_seconds": 22.75862068965517,
+            "minimum_seconds": 13.655172413793101,
+            "maximum_seconds": 38.137931034482754,
+            "token_ceiling": 477,
+            "accepted": {
+              "attempt": 1,
+              "seed": 20261403,
+              "duration_seconds": 20.88
+            },
+            "rejected": []
+          },
+          {
+            "shot": 4,
+            "expected_seconds": 26.482758620689655,
+            "minimum_seconds": 15.889655172413793,
+            "maximum_seconds": 43.724137931034484,
+            "token_ceiling": 547,
+            "accepted": {
+              "attempt": 1,
+              "seed": 20261404,
+              "duration_seconds": 21.28
+            },
+            "rejected": []
+          },
+          {
+            "shot": 5,
+            "expected_seconds": 25.655172413793103,
+            "minimum_seconds": 15.39310344827586,
+            "maximum_seconds": 42.48275862068965,
+            "token_ceiling": 532,
+            "accepted": {
+              "attempt": 1,
+              "seed": 20261405,
+              "duration_seconds": 20.24
+            },
+            "rejected": []
+          },
+          {
+            "shot": 6,
+            "expected_seconds": 23.586206896551722,
+            "minimum_seconds": 14.151724137931033,
+            "maximum_seconds": 39.37931034482759,
+            "token_ceiling": 493,
+            "accepted": {
+              "attempt": 1,
+              "seed": 20261406,
+              "duration_seconds": 18.8
+            },
+            "rejected": []
+          },
+          {
+            "shot": 7,
+            "expected_seconds": 27.310344827586206,
+            "minimum_seconds": 16.386206896551723,
+            "maximum_seconds": 44.96551724137931,
+            "token_ceiling": 563,
+            "accepted": {
+              "attempt": 1,
+              "seed": 20261407,
+              "duration_seconds": 22.32
+            },
+            "rejected": []
+          }
+        ],
+        "reference_audio": "officer_voice_reference.wav",
+        "reference_sha256": "7dd69dce6bc0e2da0d996ad7b3c0de057548fad167eb1ea114579cde7c4a2a86",
+        "reference_transcript": "The current result is a bounded existence proof, not a general text-to-video model. The important point is causal direction: text becomes a program, the program becomes a continuous spacetime field, and the field becomes pixels.",
+        "icl_mode": true
+      },
       "sources": [
         "sol/block_token_jewel_speaker.py",
         "sol/coherent_source_realizer.py",
@@ -100,20 +548,132 @@
     {
       "episode": 5,
       "slug": "evidence-gates",
-      "title": "What the experiments actually prove",
+      "title": "How we decide whether it really works",
       "video": "episode_05_evidence-gates.mp4",
       "poster": "episode_05_evidence-gates_poster.png",
       "subtitles": "episode_05_evidence-gates.srt",
       "script": "episode_05_evidence-gates_script.md",
-      "duration_seconds": 224.825,
-      "frames": 2707,
+      "duration_seconds": 157.16,
+      "frames": 1895,
       "fps": 12,
       "resolution": [
         1280,
         720
       ],
-      "voice": "Daniel",
-      "speech_rate": 175,
+      "voice": "original-warm-american-first-officer",
+      "speech_rate": null,
+      "narration": {
+        "backend": "pharaoh-qwen3-tts-clone",
+        "service_url": "http://192.168.0.202:18001",
+        "service_model": "Qwen3-TTS (base)",
+        "speaker": "original-warm-american-first-officer",
+        "language": "en",
+        "instruct": null,
+        "seed_rule": "20261001 + episode * 100 + shot_index + retry * 10000",
+        "temperature": 0.45,
+        "top_p": 0.8,
+        "hard_max_new_tokens": 900,
+        "max_attempts": 3,
+        "loudness_target_lufs": -18,
+        "duration_guard": "145 WPM estimate; accept 0.60x to 1.50x+4s; reject cap hits",
+        "shot_generation": [
+          {
+            "shot": 1,
+            "expected_seconds": 22.75862068965517,
+            "minimum_seconds": 13.655172413793101,
+            "maximum_seconds": 38.137931034482754,
+            "token_ceiling": 477,
+            "accepted": {
+              "attempt": 1,
+              "seed": 20261501,
+              "duration_seconds": 21.6
+            },
+            "rejected": []
+          },
+          {
+            "shot": 2,
+            "expected_seconds": 26.482758620689655,
+            "minimum_seconds": 15.889655172413793,
+            "maximum_seconds": 43.724137931034484,
+            "token_ceiling": 547,
+            "accepted": {
+              "attempt": 1,
+              "seed": 20261502,
+              "duration_seconds": 22.24
+            },
+            "rejected": []
+          },
+          {
+            "shot": 3,
+            "expected_seconds": 21.103448275862068,
+            "minimum_seconds": 12.662068965517241,
+            "maximum_seconds": 35.6551724137931,
+            "token_ceiling": 446,
+            "accepted": {
+              "attempt": 1,
+              "seed": 20261503,
+              "duration_seconds": 19.52
+            },
+            "rejected": []
+          },
+          {
+            "shot": 4,
+            "expected_seconds": 27.310344827586206,
+            "minimum_seconds": 16.386206896551723,
+            "maximum_seconds": 44.96551724137931,
+            "token_ceiling": 563,
+            "accepted": {
+              "attempt": 1,
+              "seed": 20261504,
+              "duration_seconds": 25.44
+            },
+            "rejected": []
+          },
+          {
+            "shot": 5,
+            "expected_seconds": 25.655172413793103,
+            "minimum_seconds": 15.39310344827586,
+            "maximum_seconds": 42.48275862068965,
+            "token_ceiling": 532,
+            "accepted": {
+              "attempt": 1,
+              "seed": 20261505,
+              "duration_seconds": 20.32
+            },
+            "rejected": []
+          },
+          {
+            "shot": 6,
+            "expected_seconds": 26.896551724137932,
+            "minimum_seconds": 16.137931034482758,
+            "maximum_seconds": 44.3448275862069,
+            "token_ceiling": 555,
+            "accepted": {
+              "attempt": 1,
+              "seed": 20261506,
+              "duration_seconds": 21.2
+            },
+            "rejected": []
+          },
+          {
+            "shot": 7,
+            "expected_seconds": 28.137931034482758,
+            "minimum_seconds": 16.882758620689653,
+            "maximum_seconds": 46.206896551724135,
+            "token_ceiling": 578,
+            "accepted": {
+              "attempt": 1,
+              "seed": 20261507,
+              "duration_seconds": 22.64
+            },
+            "rejected": []
+          }
+        ],
+        "reference_audio": "officer_voice_reference.wav",
+        "reference_sha256": "7dd69dce6bc0e2da0d996ad7b3c0de057548fad167eb1ea114579cde7c4a2a86",
+        "reference_transcript": "The current result is a bounded existence proof, not a general text-to-video model. The important point is causal direction: text becomes a program, the program becomes a continuous spacetime field, and the field becomes pixels.",
+        "icl_mode": true
+      },
       "sources": [
         "sol/audit_prompt_trajectory_speaker.py",
         "sol/train_learned_trajectory_speaker.py",
@@ -124,20 +684,132 @@
     {
       "episode": 6,
       "slug": "scaling-to-t2v",
-      "title": "From bounded proof to full text-to-video",
+      "title": "What would turn this into text-to-video?",
       "video": "episode_06_scaling-to-t2v.mp4",
       "poster": "episode_06_scaling-to-t2v_poster.png",
       "subtitles": "episode_06_scaling-to-t2v.srt",
       "script": "episode_06_scaling-to-t2v_script.md",
-      "duration_seconds": 234.553,
-      "frames": 2823,
+      "duration_seconds": 181.16,
+      "frames": 2182,
       "fps": 12,
       "resolution": [
         1280,
         720
       ],
-      "voice": "Daniel",
-      "speech_rate": 175,
+      "voice": "original-warm-american-first-officer",
+      "speech_rate": null,
+      "narration": {
+        "backend": "pharaoh-qwen3-tts-clone",
+        "service_url": "http://192.168.0.202:18001",
+        "service_model": "Qwen3-TTS (base)",
+        "speaker": "original-warm-american-first-officer",
+        "language": "en",
+        "instruct": null,
+        "seed_rule": "20261001 + episode * 100 + shot_index + retry * 10000",
+        "temperature": 0.45,
+        "top_p": 0.8,
+        "hard_max_new_tokens": 900,
+        "max_attempts": 3,
+        "loudness_target_lufs": -18,
+        "duration_guard": "145 WPM estimate; accept 0.60x to 1.50x+4s; reject cap hits",
+        "shot_generation": [
+          {
+            "shot": 1,
+            "expected_seconds": 29.79310344827586,
+            "minimum_seconds": 17.875862068965517,
+            "maximum_seconds": 48.689655172413794,
+            "token_ceiling": 609,
+            "accepted": {
+              "attempt": 1,
+              "seed": 20261601,
+              "duration_seconds": 26.4
+            },
+            "rejected": []
+          },
+          {
+            "shot": 2,
+            "expected_seconds": 25.655172413793103,
+            "minimum_seconds": 15.39310344827586,
+            "maximum_seconds": 42.48275862068965,
+            "token_ceiling": 532,
+            "accepted": {
+              "attempt": 1,
+              "seed": 20261602,
+              "duration_seconds": 20.88
+            },
+            "rejected": []
+          },
+          {
+            "shot": 3,
+            "expected_seconds": 27.724137931034484,
+            "minimum_seconds": 16.63448275862069,
+            "maximum_seconds": 45.58620689655173,
+            "token_ceiling": 570,
+            "accepted": {
+              "attempt": 1,
+              "seed": 20261603,
+              "duration_seconds": 23.84
+            },
+            "rejected": []
+          },
+          {
+            "shot": 4,
+            "expected_seconds": 28.137931034482758,
+            "minimum_seconds": 16.882758620689653,
+            "maximum_seconds": 46.206896551724135,
+            "token_ceiling": 578,
+            "accepted": {
+              "attempt": 1,
+              "seed": 20261604,
+              "duration_seconds": 27.04
+            },
+            "rejected": []
+          },
+          {
+            "shot": 5,
+            "expected_seconds": 27.724137931034484,
+            "minimum_seconds": 16.63448275862069,
+            "maximum_seconds": 45.58620689655173,
+            "token_ceiling": 570,
+            "accepted": {
+              "attempt": 1,
+              "seed": 20261605,
+              "duration_seconds": 26.0
+            },
+            "rejected": []
+          },
+          {
+            "shot": 6,
+            "expected_seconds": 25.655172413793103,
+            "minimum_seconds": 15.39310344827586,
+            "maximum_seconds": 42.48275862068965,
+            "token_ceiling": 532,
+            "accepted": {
+              "attempt": 1,
+              "seed": 20261606,
+              "duration_seconds": 25.12
+            },
+            "rejected": []
+          },
+          {
+            "shot": 7,
+            "expected_seconds": 32.689655172413794,
+            "minimum_seconds": 19.613793103448277,
+            "maximum_seconds": 53.03448275862069,
+            "token_ceiling": 663,
+            "accepted": {
+              "attempt": 1,
+              "seed": 20261607,
+              "duration_seconds": 27.68
+            },
+            "rejected": []
+          }
+        ],
+        "reference_audio": "officer_voice_reference.wav",
+        "reference_sha256": "7dd69dce6bc0e2da0d996ad7b3c0de057548fad167eb1ea114579cde7c4a2a86",
+        "reference_transcript": "The current result is a bounded existence proof, not a general text-to-video model. The important point is causal direction: text becomes a program, the program becomes a continuous spacetime field, and the field becomes pixels.",
+        "icl_mode": true
+      },
       "sources": [
         "sol/results/jewel_casting_language_v0/TRAJECTORY_SPEAKER_REPORT.md",
         "sol/results/jewel_casting_language_v0/PROTOCOL_PROMPT_TRAJECTORY_SPEAKER_V1.md",
@@ -152,8 +824,9 @@
     ],
     "fps": 12,
     "codec": "H.264 yuv420p + AAC + mov_text subtitles",
-    "voice": "Daniel",
-    "speech_rate": 175,
+    "narration_backend": "qwen-clone",
+    "voice": "original-warm-american-first-officer",
+    "speech_rate": null,
     "style": "original dark mathematical vector animation"
   }
 }

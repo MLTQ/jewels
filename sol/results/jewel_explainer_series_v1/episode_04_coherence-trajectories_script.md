@@ -1,6 +1,6 @@
-# Episode 4: Why coherence needs persistent ownership
+# Episode 4: Why motion needs a persistent owner
 
-The failure ladder that led to trajectory programs
+The experiments that turned texture into subjects
 
 ## Claim sources
 
@@ -9,44 +9,44 @@ The failure ladder that led to trajectory programs
 - `sol/semantic_trajectory_realizer.py`
 - `sol/results/jewel_casting_language_v0/TRAJECTORY_SPEAKER_REPORT.md`
 
-## 1. Independent Jewels make texture
+## 1. Good pieces can make a bad whole
 
-The naïve generator predicts each Jewel mark from global text and local coordinates. It can learn marginal colors, covariance frequencies, and density. What it does not own is a persistent object. Independent local choices are statistically plausible but mutually inconsistent: one region votes for fur, another for metal, and successive time slabs disagree about identity. The result is structured texture rather than a recognizable actor performing an action.
+Our first generator chose each local Jewel from the prompt and its nearby position. Individual patches often had plausible colors and textures, yet the whole video had no recognizable subject. It was the visual version of assembling a jigsaw from individually convincing pieces taken from different boxes. Local correctness does not automatically create one object that survives across time.
 
-**On screen:** Correct local marginals do not imply a coherent global subject.
+**On screen:** Plausible local pieces do not guarantee one coherent subject.
 
-## 2. Local block phrases were better—but insufficient
+## 2. Larger patches still lacked identity
 
-Addressing a sixteen-by-sixteen-by-eight spacetime grid and predicting one of one-thousand-and-twenty-four local block phrases lowers direct token negative log likelihood to five-point-one-six-eight, fifteen-point-six percent better than the global posterior. Yet qualitative renders remain texture. That experiment is vital because it separates two hypotheses. Local statistical modeling works. Recognizable composition still fails because no variable binds those local phrases into one object trajectory.
+We next predicted small blocks of Jewels instead of single ones. The model became better at predicting which block belonged in each neighborhood, but the rendered result was still texture. That was useful evidence: the local statistics were improving, while identity was still missing. Something had to tell distant regions and later frames that they belonged to the same subject.
 
-**On screen:** Addressed phrases: NLL 5.168, 15.60% better—still no subject.
+**On screen:** Better local prediction still did not create a persistent subject.
 
-## 3. One coherent owner restores the subject
+## 3. One owner brought subjects back
 
-The next oracle chooses one complete training-owned program for the entire spacetime window. Nothing about the physical vocabulary changes. The same continuous centroids and one-thousand-and-twenty-four-way active tokens suddenly render recognizable ballerina, dog, and welder examples. This is retrieval-only and therefore not the final generator. But causally, it identifies persistent cross-block ownership as the missing variable.
+As a diagnostic test, we assigned one complete training-owned program to the entire spacetime window. The physical Jewel vocabulary did not change, but ballerina, dog, and welder subjects became recognizable again. This test was retrieval, not new generation. Its value was causal: it showed that persistent ownership across blocks and frames was the missing ingredient.
 
-**On screen:** Same physical Jewels + one persistent owner → all three subjects return.
+**On screen:** Same Jewels, one persistent owner: recognizable subjects return.
 
-## 4. Two donors rule out whole-video retrieval
+## 4. Mix two sources to test composition
 
-A complete-source owner could be dismissed as nearest-neighbor playback. So the next experiment composes two distinct training programs. A moving foreground tube selects material from one donor; everything outside is supplied by another. Wrong-object controls deliberately take the foreground donor from a different semantic scene while preserving the path. The visible subject swaps. The field is therefore a new composition, and the tube has causal semantic ownership.
+A complete training program could merely replay one example. To test that, we built a new field from two different programs. One supplied Jewels near the moving subject tube; the other supplied the surroundings. When we deliberately swapped in a wrong subject source, the visible subject changed. The result was not a replay of either complete source, and the tube truly controlled subject identity.
 
-**On screen:** Distinct foreground and background donors form a new field.
+**On screen:** A moving subject and a separate setting form a new field.
 
-## 5. The semantic path comes from training-only saliency
+## 5. Find where the subject differs
 
-For each addressed block, the realizer compares the scene's mean normalized descriptor with the mean of all other scenes and squares the difference. A centered spatial prior suppresses unstable borders. Summing saliency over u and v yields one center per time slab, then a one-two-one temporal filter smooths the path. The path therefore follows where a class differs from alternatives, not where two arbitrary source fields happen to disagree.
+The subject path comes from a saliency map. Saliency simply means a map of what stands out. For each time step, we compare the chosen scene with the other scenes and find the region where their learned descriptions differ most. A small smoothing pass prevents the path from jumping. This gives us a class-related trajectory without looking at the target test video.
 
-**On screen:** path(t) = center of scene-vs-other descriptor saliency, smoothed [1,2,1]
+**On screen:** A difference map finds the subject region, then smoothing connects the path.
 
-## 6. Rank balance fixes density mismatch
+## 6. Choose by rank, not radius
 
-A single geometric radius can select unequal totals because different valid fields have different local densities. Instead, Gate two-b-zero sorts foreground Jewels by increasing squared tube distance and takes the closest half-budget. It sorts background Jewels in the opposite direction and takes the farthest half-budget. Top-k selection makes the emitted count exact, forces fifty-fifty ownership, and requires no adjustment duplicates or target-derived threshold.
+Different fields can pack Jewels at different densities. A fixed tube width might collect too many from one source and too few from another. Instead, we sort by distance from the path. We take the closest thirty-six thousand subject Jewels and the farthest thirty-six thousand setting Jewels. Ranking guarantees the requested count without duplicates or target-specific tuning.
 
-**On screen:** top-k nearest foreground + top-k farthest background; no density assumption.
+**On screen:** Sort by tube distance to get an exact, balanced field.
 
-## 7. Causal controls, not one pretty sample
+## 7. Change the cause, not just the label
 
-Every intended prompt is rendered under three seeds. Under the same declared seed, a cyclic-shuffled prompt compiles the next semantic scene, while a null prompt derives scene from seed alone. Correct programs must beat those generated controls, not merely score against alternative text on an unchanged render. This distinction matters: it tests whether changing text causes the generated field to change in the intended direction.
+A pretty sample is not enough. For every prompt and seed, we generate three fields: one from the correct prompt, one from a deliberately wrong prompt, and one with no prompt meaning at all. These are causal controls: we change the input that should cause the result, then check whether the generated field changes in the intended direction. The video itself is regenerated for every condition.
 
-**On screen:** Correct, cyclic-shuffled, and null prompts generate matched causal controls.
+**On screen:** Correct, wrong, and empty prompts each generate their own matched video.

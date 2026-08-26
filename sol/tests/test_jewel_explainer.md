@@ -10,8 +10,18 @@ full media render in the ordinary test suite.
 - Verifies quintic easing bounds, monotonicity, endpoints, and invalid reveal intervals.
 - Validates all six episodes, forty-two shots, registered scene types, and evidence-source paths.
 - Rejects Unicode modifier glyphs that the local Pillow/font stack would render as tofu boxes.
+- Enforces the audience contract: narration is at most eighty words per shot, captions are at most
+  eighteen words, and public copy does not expose internal abbreviations such as `JRGB` or `NLL`.
 - Smoke-renders every shot type to a 1280×720 RGB frame, including graceful missing-asset states.
+- Compares the rendered header with clean episode chrome to prove animated diagrams cannot enter
+  the protected 170-pixel title zone.
 - Checks proportional subtitle timing and exact SRT timestamp formatting.
+- Checks that a selected-episode rerender replaces only that inventory record and preserves the
+  other completed episodes.
+- Checks that tall audit sheets are reflowed to the exact horizontal montage dimensions expected by
+  the evidence scenes while already-wide evidence remains unchanged.
+- Verifies prose-length duration bounds and the derived Qwen token ceiling prevent multi-minute
+  runaway takes for ordinary seventy-seven-word shots.
 
 ## Rationale
 
