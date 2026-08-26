@@ -1,0 +1,147 @@
+1
+00:00:00,000 --> 00:00:09,059
+The exact audit freezes prompts, seeds, field size, renderer, frame indices, semantic evaluator, and pass thresholds before execution.
+
+2
+00:00:09,059 --> 00:00:14,873
+It renders frames zero, twenty-four, and forty-eight at one-forty-four by two-sixteen.
+
+3
+00:00:14,873 --> 00:00:26,027
+OpenCLIP ViT-B thirty-two embeds each frame, normalized frame embeddings are mean-pooled, and the resulting video vector is compared against the three exact prompts.
+
+4
+00:00:26,027 --> 00:00:31,368
+The preregistration prevents a visually appealing seed from redefining success.
+
+5
+00:00:32,068 --> 00:00:38,589
+Top-one retrieval asks whether a correct generated field is closest to its intended prompt among three choices.
+
+6
+00:00:38,589 --> 00:00:48,166
+The shuffled generation margin instead holds the intended text fixed and compares a correctly conditioned field against a field actually generated from wrong text.
+
+7
+00:00:48,166 --> 00:00:51,103
+Null margin does the same with no semantic prompt.
+
+8
+00:00:51,103 --> 00:00:55,392
+Pairwise win counts retain seed-level information that a mean could hide.
+
+9
+00:00:55,392 --> 00:01:01,091
+All are needed because any one semantic score can be fooled by class imbalance or evaluator bias.
+
+10
+00:01:01,791 --> 00:01:06,788
+Across nine exact prompt programs, intended retrieval succeeds eight times.
+
+11
+00:01:06,788 --> 00:01:09,587
+Every prompt class has majority retrieval.
+
+12
+00:01:09,587 --> 00:01:19,381
+Mean correct-minus-shuffled generation similarity is plus zero-point-zero-five-six-four-eight, above the frozen plus zero-point-zero-two threshold.
+
+13
+00:01:19,381 --> 00:01:25,911
+Correct-minus-null is plus zero-point-zero-three-three-four-eight, above plus zero-point-zero-one.
+
+14
+00:01:25,911 --> 00:01:29,576
+Correct wins all nine shuffled and all nine null pairs.
+
+15
+00:01:29,576 --> 00:01:35,173
+Counts, donor distinction, finite rendering, and continuous-center checks also pass.
+
+16
+00:01:35,873 --> 00:01:44,183
+Gate two-b-one replaces exact lookup with a five-hundred-forty-one-thousand-two-hundred-twenty-three-parameter autoregressive network.
+
+17
+00:01:44,183 --> 00:01:47,408
+Frozen text embeddings enter a two-layer projection.
+
+18
+00:01:47,408 --> 00:01:50,570
+A scene head predicts one of three semantic tokens.
+
+19
+00:01:50,570 --> 00:01:53,485
+Scene embedding conditions the foreground head.
+
+20
+00:01:53,485 --> 00:01:57,578
+Text, scene, and sampled foreground condition the background head.
+
+21
+00:01:57,578 --> 00:02:03,531
+Source logits are not masked by scene; only exact foreground-background repetition is forbidden.
+
+22
+00:02:03,531 --> 00:02:07,872
+Scene-consistent donors must therefore be learned rather than imposed.
+
+23
+00:02:08,572 --> 00:02:17,950
+Training uses two authored paraphrases plus the exact prompt for each class and enumerates ordered donor pairs, while reserving cyclic pairs for evaluation.
+
+24
+00:02:17,950 --> 00:02:22,518
+The held-out set changes both wording and foreground-background combination.
+
+25
+00:02:22,518 --> 00:02:25,884
+Ten percent empty-text dropout teaches a null condition.
+
+26
+00:02:25,884 --> 00:02:37,967
+Correct, cyclic-shuffled, and empty embeddings score the identical target programs, which makes token negative log likelihood a clean conditional test before any renderer or CLIP model enters the loop.
+
+27
+00:02:38,667 --> 00:02:43,385
+The best correct-condition negative log likelihood occurs at step one hundred.
+
+28
+00:02:43,385 --> 00:02:46,227
+Evaluation continues every one hundred updates.
+
+29
+00:02:46,227 --> 00:02:52,941
+Ten consecutive evaluations through step eleven hundred fail to improve it, satisfying the frozen plateau rule.
+
+30
+00:02:52,941 --> 00:03:03,224
+Correct held-out NLL is two-point-two-zero-zero-five, compared with four-point-three-eight-seven under cyclic-shuffled wording and two-point-five-three-nine-one for null.
+
+31
+00:03:03,224 --> 00:03:07,397
+Scene accuracy is one hundred percent for correct unseen paraphrases.
+
+32
+00:03:07,397 --> 00:03:12,357
+This is evidence of early overfit, not evidence that the run was simply too short.
+
+33
+00:03:13,057 --> 00:03:19,225
+All nine correct-text samples predict the right scene and emit both unmasked donors from that scene.
+
+34
+00:03:19,225 --> 00:03:26,196
+Rendered correct-minus-shuffled and correct-minus-null margins pass, and correct beats shuffled in seven of nine.
+
+35
+00:03:26,196 --> 00:03:33,783
+But raw three-way OpenCLIP top-one is only four of nine, below the required six, with majority retrieval in only one class.
+
+36
+00:03:33,783 --> 00:03:35,202
+We retain that failure.
+
+37
+00:03:35,202 --> 00:03:44,825
+The learned network understands the tiny program syntax and causal scene conditioning; it does not yet establish robust open-vocabulary semantic generation.

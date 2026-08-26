@@ -1,0 +1,139 @@
+1
+00:00:00,000 --> 00:00:05,210
+The current result is a bounded existence proof, not a general text-to-video model.
+
+2
+00:00:05,210 --> 00:00:18,393
+Given one of three registered prompts and an integer seed, the system emits a finite native program, expands that program into exactly seventy-two thousand irregular Jewels, and renders forty-nine video frames.
+
+3
+00:00:18,393 --> 00:00:20,904
+The important point is causal direction.
+
+4
+00:00:20,904 --> 00:00:26,867
+At inference, information flows from text to program to a continuous spacetime field to pixels.
+
+5
+00:00:26,867 --> 00:00:30,822
+It does not flow from a target video backward into an encoding.
+
+6
+00:00:31,522 --> 00:00:37,090
+A reconstruction system can look generative while secretly receiving most of the answer.
+
+7
+00:00:37,090 --> 00:00:46,519
+So Gate two-b-zero explicitly removes four channels: no input video, no fitted target field, no target-derived block program, and no held-out latent.
+
+8
+00:00:46,519 --> 00:00:49,746
+The only semantic input is the exact prompt string.
+
+9
+00:00:49,746 --> 00:00:53,226
+The only stochastic input is the declared integer seed.
+
+10
+00:00:53,226 --> 00:01:02,907
+Training-owned source tokens remain in the vocabulary; that is a limitation we will return to, but no test target participates in compilation or casting.
+
+11
+00:01:03,607 --> 00:01:15,347
+The exact speaker normalizes whitespace, looks up the prompt's dense scene index, and then creates a deterministic random generator from the declared seed plus one-thousand-and-nine times the scene.
+
+12
+00:01:15,347 --> 00:01:20,980
+A seeded permutation of the six source tokens owned by that scene chooses two distinct entries.
+
+13
+00:01:20,980 --> 00:01:26,376
+The first becomes the foreground trajectory token; the second becomes the background token.
+
+14
+00:01:26,376 --> 00:01:34,499
+Therefore prompt plus seed uniquely determines the program, while changing the seed changes the donor pair without consulting any pixels.
+
+15
+00:01:35,199 --> 00:01:43,291
+A compiled utterance contains a semantic scene token, a foreground token, a background token, the seed, and an audit condition.
+
+16
+00:01:43,291 --> 00:01:45,011
+Scene is not a pixel class.
+
+17
+00:01:45,011 --> 00:01:49,726
+It selects a persistent semantic path through the entire spacetime window.
+
+18
+00:01:49,726 --> 00:01:53,676
+Foreground and background are not individual Gaussians either.
+
+19
+00:01:53,676 --> 00:02:00,239
+They name coherent, source-backed macro programs containing tens of thousands of physical Jewel tokens.
+
+20
+00:02:00,239 --> 00:02:08,012
+This hierarchy is the central design decision: the small program owns global coherence; local Jewels own rendering detail.
+
+21
+00:02:08,712 --> 00:02:13,108
+For every time slab, the realizer stores a two-dimensional semantic path.
+
+22
+00:02:13,108 --> 00:02:16,902
+It computes each donor Jewel's squared distance from that path.
+
+23
+00:02:16,902 --> 00:02:22,683
+The foreground contribution is the thirty-six thousand closest Jewels from the foreground donor.
+
+24
+00:02:22,683 --> 00:02:28,525
+The background contribution is the thirty-six thousand farthest Jewels from the background donor.
+
+25
+00:02:28,525 --> 00:02:32,138
+This rank-balanced construction is deliberately count-exact.
+
+26
+00:02:32,138 --> 00:02:41,352
+It avoids assuming that two valid fields have the same density inside one fixed radius, while forcing both donors to own exactly half of the final field.
+
+27
+00:02:42,052 --> 00:02:50,710
+Each selected row carries a continuous centroid and three active physical token identifiers: covariance, surface color, and color gradient.
+
+28
+00:02:50,710 --> 00:02:55,257
+Every active vocabulary contains one-thousand-and-twenty-four prototypes.
+
+29
+00:02:55,257 --> 00:03:04,351
+Decoding substitutes the selected prototype values into the canonical twenty-two-dimensional feature layout while leaving the centroid continuous.
+
+30
+00:03:04,351 --> 00:03:09,833
+A small Gaussian jitter is applied and clamped strictly inside normalized volume bounds.
+
+31
+00:03:09,833 --> 00:03:13,570
+The result is an irregular set, not a Cartesian output grid.
+
+32
+00:03:14,270 --> 00:03:22,042
+The support-correct renderer evaluates that field on every requested frame grid and encodes the result as an H.264 video.
+
+33
+00:03:22,042 --> 00:03:37,842
+The proof passes because text controls which coherent programs are cast: across nine exact programs, intended prompt retrieval is eight of nine, and correct prompt programs beat both cyclic-shuffled and null generations in all nine matched cases.
+
+34
+00:03:37,842 --> 00:03:43,109
+But the vocabulary is still three prompts and eighteen source-backed macro tokens.
+
+35
+00:03:43,109 --> 00:03:46,128
+This proves the mechanism, not the final scale.

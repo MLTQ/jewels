@@ -1,0 +1,159 @@
+{
+  "schema": "jewel-technical-explainer-series-v1",
+  "episodes": [
+    {
+      "episode": 1,
+      "slug": "prompt-to-program",
+      "title": "From words to a spacetime program",
+      "video": "episode_01_prompt-to-program.mp4",
+      "poster": "episode_01_prompt-to-program_poster.png",
+      "subtitles": "episode_01_prompt-to-program.srt",
+      "script": "episode_01_prompt-to-program_script.md",
+      "duration_seconds": 226.128,
+      "frames": 2722,
+      "fps": 12,
+      "resolution": [
+        1280,
+        720
+      ],
+      "voice": "Daniel",
+      "speech_rate": 175,
+      "sources": [
+        "sol/prompt_trajectory_speaker.py",
+        "sol/semantic_trajectory_realizer.py",
+        "sol/prompt_video_runtime.py",
+        "sol/results/jewel_casting_language_v0/PROTOCOL_PROMPT_TRAJECTORY_SPEAKER_V1.md"
+      ]
+    },
+    {
+      "episode": 2,
+      "slug": "jewel-geometry",
+      "title": "A Jewel is a Gaussian in spacetime",
+      "video": "episode_02_jewel-geometry.mp4",
+      "poster": "episode_02_jewel-geometry_poster.png",
+      "subtitles": "episode_02_jewel-geometry.srt",
+      "script": "episode_02_jewel-geometry_script.md",
+      "duration_seconds": 201.488,
+      "frames": 2428,
+      "fps": 12,
+      "resolution": [
+        1280,
+        720
+      ],
+      "voice": "Daniel",
+      "speech_rate": 175,
+      "sources": [
+        "stprim/core/params.py",
+        "stprim/prior/featurize.py",
+        "stprim/models/render.py",
+        "stprim/models/tiled_support.py"
+      ]
+    },
+    {
+      "episode": 3,
+      "slug": "native-vocabulary",
+      "title": "Turning Jewels into a native language",
+      "video": "episode_03_native-vocabulary.mp4",
+      "poster": "episode_03_native-vocabulary_poster.png",
+      "subtitles": "episode_03_native-vocabulary.srt",
+      "script": "episode_03_native-vocabulary_script.md",
+      "duration_seconds": 200.203,
+      "frames": 2411,
+      "fps": 12,
+      "resolution": [
+        1280,
+        720
+      ],
+      "voice": "Daniel",
+      "speech_rate": 175,
+      "sources": [
+        "stprim/prior/featurize.py",
+        "sol/factorized_jewel_casting_language.py",
+        "sol/prompt_jewel_caster.py",
+        "sol/results/jewel_casting_language_v0/hierarchical_v1/gate0f_individual/report.json"
+      ]
+    },
+    {
+      "episode": 4,
+      "slug": "coherence-trajectories",
+      "title": "Why coherence needs persistent ownership",
+      "video": "episode_04_coherence-trajectories.mp4",
+      "poster": "episode_04_coherence-trajectories_poster.png",
+      "subtitles": "episode_04_coherence-trajectories.srt",
+      "script": "episode_04_coherence-trajectories_script.md",
+      "duration_seconds": 197.599,
+      "frames": 2380,
+      "fps": 12,
+      "resolution": [
+        1280,
+        720
+      ],
+      "voice": "Daniel",
+      "speech_rate": 175,
+      "sources": [
+        "sol/block_token_jewel_speaker.py",
+        "sol/coherent_source_realizer.py",
+        "sol/semantic_trajectory_realizer.py",
+        "sol/results/jewel_casting_language_v0/TRAJECTORY_SPEAKER_REPORT.md"
+      ]
+    },
+    {
+      "episode": 5,
+      "slug": "evidence-gates",
+      "title": "What the experiments actually prove",
+      "video": "episode_05_evidence-gates.mp4",
+      "poster": "episode_05_evidence-gates_poster.png",
+      "subtitles": "episode_05_evidence-gates.srt",
+      "script": "episode_05_evidence-gates_script.md",
+      "duration_seconds": 224.825,
+      "frames": 2707,
+      "fps": 12,
+      "resolution": [
+        1280,
+        720
+      ],
+      "voice": "Daniel",
+      "speech_rate": 175,
+      "sources": [
+        "sol/audit_prompt_trajectory_speaker.py",
+        "sol/train_learned_trajectory_speaker.py",
+        "sol/audit_learned_trajectory_speaker.py",
+        "sol/results/jewel_casting_language_v0/TRAJECTORY_SPEAKER_REPORT.md"
+      ]
+    },
+    {
+      "episode": 6,
+      "slug": "scaling-to-t2v",
+      "title": "From bounded proof to full text-to-video",
+      "video": "episode_06_scaling-to-t2v.mp4",
+      "poster": "episode_06_scaling-to-t2v_poster.png",
+      "subtitles": "episode_06_scaling-to-t2v.srt",
+      "script": "episode_06_scaling-to-t2v_script.md",
+      "duration_seconds": 234.553,
+      "frames": 2823,
+      "fps": 12,
+      "resolution": [
+        1280,
+        720
+      ],
+      "voice": "Daniel",
+      "speech_rate": 175,
+      "sources": [
+        "sol/results/jewel_casting_language_v0/TRAJECTORY_SPEAKER_REPORT.md",
+        "sol/results/jewel_casting_language_v0/PROTOCOL_PROMPT_TRAJECTORY_SPEAKER_V1.md",
+        ".beads/issues.jsonl"
+      ]
+    }
+  ],
+  "render_contract": {
+    "resolution": [
+      1280,
+      720
+    ],
+    "fps": 12,
+    "codec": "H.264 yuv420p + AAC + mov_text subtitles",
+    "voice": "Daniel",
+    "speech_rate": 175,
+    "style": "original dark mathematical vector animation"
+  }
+}

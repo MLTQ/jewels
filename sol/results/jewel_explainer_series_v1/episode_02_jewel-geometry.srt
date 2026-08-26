@@ -1,0 +1,139 @@
+1
+00:00:00,000 --> 00:00:07,293
+A Jewel lives in normalized u, v, t coordinates: horizontal image position, vertical image position, and time.
+
+2
+00:00:07,293 --> 00:00:10,277
+This is a three-dimensional spacetime volume.
+
+3
+00:00:10,277 --> 00:00:13,924
+RGB is attached appearance, not a fourth Gaussian axis.
+
+4
+00:00:13,924 --> 00:00:21,814
+To render frame t-zero, we slice the volume with a plane at that time and evaluate every pixel coordinate on the plane.
+
+5
+00:00:21,814 --> 00:00:28,842
+Time distortion comes from an anisotropic covariance whose principal axes may tilt between space and time.
+
+6
+00:00:29,542 --> 00:00:33,807
+The generative boundary represents each Jewel as twenty-two numbers.
+
+7
+00:00:33,807 --> 00:00:36,065
+Three numbers store the centroid mu.
+
+8
+00:00:36,065 --> 00:00:39,891
+Six store the upper triangle of the symmetric log-covariance.
+
+9
+00:00:39,891 --> 00:00:41,459
+Three store constant RGB.
+
+10
+00:00:41,459 --> 00:00:45,348
+Nine store the full three-by-three world-frame color Jacobian.
+
+11
+00:00:45,348 --> 00:00:47,104
+One stores the weight logit.
+
+12
+00:00:47,104 --> 00:00:57,892
+This layout is gauge-free: appearance gradients are expressed in world coordinates, and covariance is stored as a unique symmetric matrix rather than a rotation convention.
+
+13
+00:00:58,592 --> 00:01:04,990
+Internally the renderer factorizes covariance into a proper rotation R and positive principal scales S.
+
+14
+00:01:04,990 --> 00:01:08,283
+A Jewel elongated along u paints a horizontal region.
+
+15
+00:01:08,283 --> 00:01:11,078
+One elongated along t persists across frames.
+
+16
+00:01:11,078 --> 00:01:16,545
+A principal axis tilted jointly through u and t moves across the image as time advances.
+
+17
+00:01:16,545 --> 00:01:24,311
+That mixed spacetime tilt is not post-hoc optical flow; it is literally encoded in the orientation of the Gaussian ellipsoid.
+
+18
+00:01:25,011 --> 00:01:28,686
+For a query point x, displacement d equals x minus mu.
+
+19
+00:01:28,686 --> 00:01:38,417
+The renderer rotates that displacement into the Jewel's principal frame with R-transpose, divides componentwise by scale, and sums the squares.
+
+20
+00:01:38,417 --> 00:01:41,683
+This yields q, the squared Mahalanobis distance.
+
+21
+00:01:41,683 --> 00:01:49,373
+Computing y equals S inverse R-transpose d avoids materializing an inverse covariance for every pixel-Jewel pair.
+
+22
+00:01:49,373 --> 00:01:53,796
+The Gaussian contribution decays as exponential minus one-half q.
+
+23
+00:01:54,496 --> 00:02:00,015
+A constant-color Gaussian would need many small primitives to express a smooth color ramp.
+
+24
+00:02:00,015 --> 00:02:04,736
+Instead, the default P-one appearance model stores a three-by-three Jacobian.
+
+25
+00:02:04,736 --> 00:02:09,765
+Local color is base color plus that Jacobian times displacement from the centroid.
+
+26
+00:02:09,765 --> 00:02:15,713
+One row describes how red changes with u, v, and t; the next rows do the same for green and blue.
+
+27
+00:02:15,713 --> 00:02:21,109
+Temporal entries can therefore change a Jewel's color as a frame slice moves through it.
+
+28
+00:02:21,809 --> 00:02:27,831
+The final pixel is the learned constant background plus a sum of every supported Jewel contribution.
+
+29
+00:02:27,831 --> 00:02:34,455
+Each weight is sigmoid of its stored logit, multiplied by the Gaussian exponential, multiplied by local color.
+
+30
+00:02:34,455 --> 00:02:38,911
+There is no softmax normalization forcing Jewels to compete for ownership.
+
+31
+00:02:38,911 --> 00:02:48,185
+An earlier soft-Voronoi model was implemented and steelmanned, but lost both reconstruction and canonicality, so the evidence path is explicitly additive.
+
+32
+00:02:48,885 --> 00:02:53,470
+Nearest-center culling is not mathematically safe for anisotropic splats.
+
+33
+00:02:53,470 --> 00:02:59,376
+A long tilted ellipsoid may cover a pixel even when many narrow Gaussians have closer centers.
+
+34
+00:02:59,376 --> 00:03:15,395
+The evidence renderer truncates at five standard deviations, builds an exact world-axis bounding box for each support ellipsoid, assigns every primitive to one multilevel tile, queries twenty-seven neighboring cells, and applies the true Mahalanobis test.
+
+35
+00:03:15,395 --> 00:03:21,488
+Beyond five sigma, boundary weight is approximately three-point-seven times ten to the minus six.

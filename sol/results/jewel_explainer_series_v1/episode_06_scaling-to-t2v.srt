@@ -1,0 +1,147 @@
+1
+00:00:00,000 --> 00:00:05,697
+The project now demonstrates every boundary of a hierarchical native speaker except one.
+
+2
+00:00:05,697 --> 00:00:08,416
+Text and seed can choose a finite program.
+
+3
+00:00:08,416 --> 00:00:11,524
+Persistent tokens can own a coherent trajectory.
+
+4
+00:00:11,524 --> 00:00:15,020
+A program can expand to exact-count continuous Jewels.
+
+5
+00:00:15,020 --> 00:00:19,746
+A factorized physical vocabulary can render an irregular spacetime field.
+
+6
+00:00:19,746 --> 00:00:23,372
+Causal text controls beat shuffled and null generations.
+
+7
+00:00:23,372 --> 00:00:31,205
+The missing step is replacing source-backed macro tokens with reusable learned object, motion, and background prototypes.
+
+8
+00:00:31,905 --> 00:00:38,085
+Today, foreground token seven ultimately expands to a constellation derived from one training field.
+
+9
+00:00:38,085 --> 00:00:46,057
+Composing it with a distinct background proves that the system is not retrieving one complete video, but it still limits novelty.
+
+10
+00:00:46,057 --> 00:00:52,916
+Scaling eighteen source identifiers to eighteen thousand would memorize more examples, not discover a language.
+
+11
+00:00:52,916 --> 00:01:01,444
+The next vocabulary must pool recurring connected spacetime tubes across many videos and assign prototypes independent of source identity.
+
+12
+00:01:02,144 --> 00:01:08,797
+The next experiment fits at least one hundred prompted fields spanning ten to twenty compositional prompts.
+
+13
+00:01:08,797 --> 00:01:14,642
+It learns sixty-four to two-hundred-fifty-six foreground and background trajectory prototypes.
+
+14
+00:01:14,642 --> 00:01:24,031
+Each prototype owns a connected tube, but decodes through the existing one-thousand-and-twenty-four-way covariance, surface, and gradient vocabularies.
+
+15
+00:01:24,031 --> 00:01:33,233
+A no-copy audit rejects any generated macro token that references a source identifier or inherits more than a preregistered fraction from one field.
+
+16
+00:01:33,933 --> 00:01:39,118
+The full speaker should not autoregress seventy-two thousand independent Jewels.
+
+17
+00:01:39,118 --> 00:01:53,766
+It should emit a typed hierarchy: scene, style, and camera; persistent object and background identities; trajectory anchors and derivatives; addressed local constellation phrases; then continuous centroids and physical tokens.
+
+18
+00:01:53,766 --> 00:01:57,071
+A small transformer can model the discrete program.
+
+19
+00:01:57,071 --> 00:02:03,553
+Specialized differentiable realizers can enforce geometry, exact counts, and support-safe rendering.
+
+20
+00:02:03,553 --> 00:02:10,293
+This division spends sequence-model capacity on semantic dependencies instead of raster-like repetition.
+
+21
+00:02:10,993 --> 00:02:14,071
+A class-level path is too rigid for a complete model.
+
+22
+00:02:14,071 --> 00:02:21,505
+Instead the speaker should emit trajectory anchors together with velocity, and eventually acceleration or spline control points.
+
+23
+00:02:21,505 --> 00:02:26,964
+Position in the next window is predicted from carried state rather than reset from a template.
+
+24
+00:02:26,964 --> 00:02:34,863
+Derivatives compactly express direction and continuity, while local Jewel phrases decorate the moving tube with appearance and geometry.
+
+25
+00:02:34,863 --> 00:02:43,516
+This is why the derivative method outperformed raw local coordinates in the earlier experiments: it assigns the model the temporally stable quantity.
+
+26
+00:02:44,216 --> 00:02:50,134
+Training and evaluation prompts must be split by object-action combination, not random video.
+
+27
+00:02:50,134 --> 00:02:55,161
+Correct text must beat cyclic object and action swaps on held-out compositions.
+
+28
+00:02:55,161 --> 00:03:00,188
+Every prompt needs at least two recognizable but structurally distinct samples.
+
+29
+00:03:00,188 --> 00:03:07,887
+A second window must continue identity and velocity from generated carry alone, with no target field or teacher scaffold.
+
+30
+00:03:07,887 --> 00:03:14,632
+These gates distinguish real language scaling from memorization, evaluator bias, and single-window tricks.
+
+31
+00:03:15,332 --> 00:03:20,290
+More compute is useful only after the representation assigns it the right job.
+
+32
+00:03:20,290 --> 00:03:25,058
+Data buys repeated examples of objects, actions, cameras, and trajectories.
+
+33
+00:03:25,058 --> 00:03:29,698
+Prototype learning converts those repetitions into reusable macro tokens.
+
+34
+00:03:29,698 --> 00:03:35,102
+Program-model compute learns prompt-to-token composition and long-range dependencies.
+
+35
+00:03:35,102 --> 00:03:39,678
+Rendering compute improves local Jewel realization and support indexing.
+
+36
+00:03:39,678 --> 00:03:44,637
+The pitch is therefore not that a larger model will rescue independent splats.
+
+37
+00:03:44,637 --> 00:03:54,553
+It is that every interface is now demonstrated, and scale targets the one unproven interface: reusable vocabulary breadth and cross-window program modeling.

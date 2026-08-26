@@ -1,0 +1,131 @@
+1
+00:00:00,000 --> 00:00:05,290
+The naïve generator predicts each Jewel mark from global text and local coordinates.
+
+2
+00:00:05,290 --> 00:00:09,446
+It can learn marginal colors, covariance frequencies, and density.
+
+3
+00:00:09,446 --> 00:00:12,217
+What it does not own is a persistent object.
+
+4
+00:00:12,217 --> 00:00:23,300
+Independent local choices are statistically plausible but mutually inconsistent: one region votes for fur, another for metal, and successive time slabs disagree about identity.
+
+5
+00:00:23,300 --> 00:00:28,779
+The result is structured texture rather than a recognizable actor performing an action.
+
+6
+00:00:29,479 --> 00:00:45,264
+Addressing a sixteen-by-sixteen-by-eight spacetime grid and predicting one of one-thousand-and-twenty-four local block phrases lowers direct token negative log likelihood to five-point-one-six-eight, fifteen-point-six percent better than the global posterior.
+
+7
+00:00:45,264 --> 00:00:47,641
+Yet qualitative renders remain texture.
+
+8
+00:00:47,641 --> 00:00:51,359
+That experiment is vital because it separates two hypotheses.
+
+9
+00:00:51,359 --> 00:00:53,370
+Local statistical modeling works.
+
+10
+00:00:53,370 --> 00:01:00,074
+Recognizable composition still fails because no variable binds those local phrases into one object trajectory.
+
+11
+00:01:00,774 --> 00:01:06,333
+The next oracle chooses one complete training-owned program for the entire spacetime window.
+
+12
+00:01:06,333 --> 00:01:09,112
+Nothing about the physical vocabulary changes.
+
+13
+00:01:09,112 --> 00:01:17,934
+The same continuous centroids and one-thousand-and-twenty-four-way active tokens suddenly render recognizable ballerina, dog, and welder examples.
+
+14
+00:01:17,934 --> 00:01:21,619
+This is retrieval-only and therefore not the final generator.
+
+15
+00:01:21,619 --> 00:01:26,755
+But causally, it identifies persistent cross-block ownership as the missing variable.
+
+16
+00:01:27,455 --> 00:01:31,709
+A complete-source owner could be dismissed as nearest-neighbor playback.
+
+17
+00:01:31,709 --> 00:01:35,431
+So the next experiment composes two distinct training programs.
+
+18
+00:01:35,431 --> 00:01:41,339
+A moving foreground tube selects material from one donor; everything outside is supplied by another.
+
+19
+00:01:41,339 --> 00:01:48,369
+Wrong-object controls deliberately take the foreground donor from a different semantic scene while preserving the path.
+
+20
+00:01:48,369 --> 00:01:49,906
+The visible subject swaps.
+
+21
+00:01:49,906 --> 00:01:54,927
+The field is therefore a new composition, and the tube has causal semantic ownership.
+
+22
+00:01:55,627 --> 00:02:04,267
+For each addressed block, the realizer compares the scene's mean normalized descriptor with the mean of all other scenes and squares the difference.
+
+23
+00:02:04,267 --> 00:02:07,361
+A centered spatial prior suppresses unstable borders.
+
+24
+00:02:07,361 --> 00:02:14,074
+Summing saliency over u and v yields one center per time slab, then a one-two-one temporal filter smooths the path.
+
+25
+00:02:14,074 --> 00:02:21,371
+The path therefore follows where a class differs from alternatives, not where two arbitrary source fields happen to disagree.
+
+26
+00:02:22,071 --> 00:02:29,063
+A single geometric radius can select unequal totals because different valid fields have different local densities.
+
+27
+00:02:29,063 --> 00:02:36,361
+Instead, Gate two-b-zero sorts foreground Jewels by increasing squared tube distance and takes the closest half-budget.
+
+28
+00:02:36,361 --> 00:02:41,759
+It sorts background Jewels in the opposite direction and takes the farthest half-budget.
+
+29
+00:02:41,759 --> 00:02:50,530
+Top-k selection makes the emitted count exact, forces fifty-fifty ownership, and requires no adjustment duplicates or target-derived threshold.
+
+30
+00:02:51,230 --> 00:02:54,426
+Every intended prompt is rendered under three seeds.
+
+31
+00:02:54,426 --> 00:03:02,970
+Under the same declared seed, a cyclic-shuffled prompt compiles the next semantic scene, while a null prompt derives scene from seed alone.
+
+32
+00:03:02,970 --> 00:03:10,223
+Correct programs must beat those generated controls, not merely score against alternative text on an unchanged render.
+
+33
+00:03:10,223 --> 00:03:17,599
+This distinction matters: it tests whether changing text causes the generated field to change in the intended direction.
