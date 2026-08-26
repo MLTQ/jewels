@@ -30,14 +30,21 @@ source-backed macro tokens.
 
 ## Demo deployment
 
-- GPU service: `jewels-prompt-demo.service` on `m@192.168.0.202`
-- GPU: physical GPU 0, RTX 2070 SUPER
+- GPU service: `jewels-prompt-demo.service` on `m@192.168.0.202`; disabled after the demo at the
+  user's request
+- Verified deployment GPU: PyTorch `cuda:0`, which maps to the physical RTX 4090 in the shared
+  environment
 - Host endpoint: `0.0.0.0:7860` (protected by the host firewall)
 - Local tunnel endpoint: `http://127.0.0.1:7860`
 - Output directory on GPU: `/home/m/jewels-codex-support/sol/results/jewel_prompt_demo_v1/generated`
 
 The interface provides exact proven and learned experimental modes, canonical prompt shortcuts,
 seed control, an in-page video player, MP4 download, and expandable program provenance.
+
+The process appeared as `/home/m/LTX-2/.venv/bin/python` in GPU monitors because that existing
+environment supplied PyTorch/OpenCLIP dependencies. Inspection found no LTX-2/diffusion imports or
+open LTX-2 weights. The service was nevertheless consuming the 4090 renderer workspace, so it is
+now stopped and disabled; a dedicated environment plus explicit 2070 validation is follow-up work.
 
 ## Verification
 
