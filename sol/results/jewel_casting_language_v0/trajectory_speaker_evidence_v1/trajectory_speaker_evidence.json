@@ -1,0 +1,560 @@
+{
+  "addressed_token_improvement_percent": 15.601953609855892,
+  "recognizable_prompts_visual_review": {
+    "global scene": 0,
+    "addressed blocks": 0,
+    "coherent source": 3,
+    "two-donor tube": 3,
+    "prompt-only program": 3,
+    "learned program": 3
+  },
+  "prompt_lookup": {
+    "programs": 9,
+    "correct_top1": 8,
+    "correct_top1_fraction": 0.8888888888888888,
+    "classes_with_majority_retrieval": 3,
+    "correct_similarity_mean": 0.18172748552428353,
+    "shuffled_generation_similarity_mean": 0.1252509243786335,
+    "null_generation_similarity_mean": 0.1482479390170839,
+    "correct_minus_shuffled_generation": 0.056476561145650014,
+    "correct_minus_null_generation": 0.03347954650719961,
+    "correct_beats_shuffled_generation": 9,
+    "correct_beats_null_generation": 9
+  },
+  "learned": {
+    "programs": 9,
+    "correct_top1": 4,
+    "correct_top1_fraction": 0.4444444444444444,
+    "classes_with_majority_retrieval": 1,
+    "correct_similarity_mean": 0.25056133998764885,
+    "shuffled_generation_similarity_mean": 0.2027416071958012,
+    "null_generation_similarity_mean": 0.2093899067905214,
+    "correct_minus_shuffled_generation": 0.047819732791847654,
+    "correct_minus_null_generation": 0.04117143319712745,
+    "correct_beats_shuffled_generation": 7,
+    "correct_beats_null_generation": 6,
+    "correct_scene_consistent_programs": 9
+  },
+  "learned_training": {
+    "schema": "learned-trajectory-speaker-training-v1",
+    "protocol": {
+      "exact_prompts": [
+        "a ballerina spinning a pirouette in a studio",
+        "a golden retriever catching a ball on grass",
+        "a welder joining steel with bright sparks"
+      ],
+      "prompt_paraphrases": {
+        "a ballerina spinning a pirouette in a studio": {
+          "train": [
+            "an anime ballerina performing a spinning pirouette in a dance studio",
+            "a ballet dancer spins gracefully in a studio"
+          ],
+          "evaluation": "an animated ballet performer twirling inside a rehearsal room"
+        },
+        "a golden retriever catching a ball on grass": {
+          "train": [
+            "a cartoon golden retriever leaps to catch a ball on grass",
+            "an animated dog chasing and catching a ball in a park"
+          ],
+          "evaluation": "a playful illustrated retriever catches a thrown ball outdoors"
+        },
+        "a welder joining steel with bright sparks": {
+          "train": [
+            "a 3D rendered welder joining metal while bright sparks fly",
+            "a worker welding steel in a workshop filled with sparks"
+          ],
+          "evaluation": "a digital workshop scene of someone fusing metal with a shower of sparks"
+        }
+      },
+      "scene_sources": [
+        [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        [
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        [
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ]
+      ],
+      "training_examples": 216,
+      "heldout_examples": 18,
+      "heldout_pair_rule": "cyclic_next_source_within_scene",
+      "text_dropout": 0.1,
+      "optimizer": "AdamW",
+      "learning_rate": 0.002,
+      "batch_size": 64,
+      "maximum_steps": 5000,
+      "minimum_steps": 1000,
+      "evaluation_interval": 100,
+      "plateau_evaluations": 10,
+      "plateau_minimum_delta": 0.0001,
+      "seed": 20260917
+    },
+    "model_args": {
+      "text_dimension": 512,
+      "hidden_dimension": 256,
+      "scene_tokens": 3,
+      "source_tokens": 18
+    },
+    "parameters": 541223,
+    "best_step": 100,
+    "completed_step": 1100,
+    "stop_reason": "heldout_correct_nll_plateau",
+    "best_conditions": {
+      "correct": {
+        "token_nll": {
+          "total": 6.601602077484131,
+          "scene": 0.010456944815814495,
+          "foreground": 1.8276429176330566,
+          "background": 4.76350212097168
+        },
+        "token_nll_macro": 2.2005340258280435,
+        "scene_accuracy": 1.0
+      },
+      "shuffled": {
+        "token_nll": {
+          "total": 13.161066055297852,
+          "scene": 6.472238540649414,
+          "foreground": 1.8478796482086182,
+          "background": 4.84094762802124
+        },
+        "token_nll_macro": 4.387022018432617,
+        "scene_accuracy": 0.0
+      },
+      "null": {
+        "token_nll": {
+          "total": 7.617246150970459,
+          "scene": 1.112377643585205,
+          "foreground": 1.8321914672851562,
+          "background": 4.672677040100098
+        },
+        "token_nll_macro": 2.5390820503234863,
+        "scene_accuracy": 0.3333333432674408
+      }
+    },
+    "gate": {
+      "checks": {
+        "correct_nll_at_least_20pct_below_shuffled": true,
+        "correct_nll_at_least_10pct_below_null": true,
+        "unseen_paraphrase_scene_top1_3of3": true,
+        "stopped_after_frozen_minimum": true,
+        "all_metrics_finite": true
+      },
+      "token_gate_passed": true
+    }
+  },
+  "progress": [
+    {
+      "step": 100,
+      "training_loss": 3.4854984283447266,
+      "conditions": {
+        "correct": {
+          "token_nll": {
+            "total": 6.601602077484131,
+            "scene": 0.010456944815814495,
+            "foreground": 1.8276429176330566,
+            "background": 4.76350212097168
+          },
+          "token_nll_macro": 2.2005340258280435,
+          "scene_accuracy": 1.0
+        },
+        "shuffled": {
+          "token_nll": {
+            "total": 13.161066055297852,
+            "scene": 6.472238540649414,
+            "foreground": 1.8478796482086182,
+            "background": 4.84094762802124
+          },
+          "token_nll_macro": 4.387022018432617,
+          "scene_accuracy": 0.0
+        },
+        "null": {
+          "token_nll": {
+            "total": 7.617246150970459,
+            "scene": 1.112377643585205,
+            "foreground": 1.8321914672851562,
+            "background": 4.672677040100098
+          },
+          "token_nll_macro": 2.5390820503234863,
+          "scene_accuracy": 0.3333333432674408
+        }
+      }
+    },
+    {
+      "step": 200,
+      "training_loss": 3.3838136196136475,
+      "conditions": {
+        "correct": {
+          "token_nll": {
+            "total": 7.202890396118164,
+            "scene": 0.010000212118029594,
+            "foreground": 1.8387227058410645,
+            "background": 5.354167461395264
+          },
+          "token_nll_macro": 2.400963465372721,
+          "scene_accuracy": 1.0
+        },
+        "shuffled": {
+          "token_nll": {
+            "total": 13.768271446228027,
+            "scene": 6.485902786254883,
+            "foreground": 1.84149169921875,
+            "background": 5.4408769607543945
+          },
+          "token_nll_macro": 4.589423815409343,
+          "scene_accuracy": 0.0
+        },
+        "null": {
+          "token_nll": {
+            "total": 8.228767395019531,
+            "scene": 1.1069293022155762,
+            "foreground": 1.8371518850326538,
+            "background": 5.284686088562012
+          },
+          "token_nll_macro": 2.7429224650065103,
+          "scene_accuracy": 0.3333333432674408
+        }
+      }
+    },
+    {
+      "step": 300,
+      "training_loss": 3.3291444778442383,
+      "conditions": {
+        "correct": {
+          "token_nll": {
+            "total": 7.233428001403809,
+            "scene": 0.011281784623861313,
+            "foreground": 1.8177520036697388,
+            "background": 5.404394149780273
+          },
+          "token_nll_macro": 2.411142667134603,
+          "scene_accuracy": 1.0
+        },
+        "shuffled": {
+          "token_nll": {
+            "total": 13.687979698181152,
+            "scene": 6.346729755401611,
+            "foreground": 1.8242418766021729,
+            "background": 5.517007827758789
+          },
+          "token_nll_macro": 4.562659899393718,
+          "scene_accuracy": 0.0
+        },
+        "null": {
+          "token_nll": {
+            "total": 8.301365852355957,
+            "scene": 1.115882396697998,
+            "foreground": 1.8188552856445312,
+            "background": 5.366628170013428
+          },
+          "token_nll_macro": 2.767121950785319,
+          "scene_accuracy": 0.3333333432674408
+        }
+      }
+    },
+    {
+      "step": 400,
+      "training_loss": 3.3784914016723633,
+      "conditions": {
+        "correct": {
+          "token_nll": {
+            "total": 7.389223575592041,
+            "scene": 0.006526888348162174,
+            "foreground": 1.810670018196106,
+            "background": 5.57202672958374
+          },
+          "token_nll_macro": 2.463074525197347,
+          "scene_accuracy": 1.0
+        },
+        "shuffled": {
+          "token_nll": {
+            "total": 14.087133407592773,
+            "scene": 6.47106409072876,
+            "foreground": 1.8173909187316895,
+            "background": 5.798678874969482
+          },
+          "token_nll_macro": 4.695711135864258,
+          "scene_accuracy": 0.0
+        },
+        "null": {
+          "token_nll": {
+            "total": 8.625591278076172,
+            "scene": 1.1674480438232422,
+            "foreground": 1.8154340982437134,
+            "background": 5.642709732055664
+          },
+          "token_nll_macro": 2.875197092692057,
+          "scene_accuracy": 0.3333333432674408
+        }
+      }
+    },
+    {
+      "step": 500,
+      "training_loss": 3.343609094619751,
+      "conditions": {
+        "correct": {
+          "token_nll": {
+            "total": 7.958194255828857,
+            "scene": 0.0049720280803740025,
+            "foreground": 1.81794273853302,
+            "background": 6.135279655456543
+          },
+          "token_nll_macro": 2.652731418609619,
+          "scene_accuracy": 1.0
+        },
+        "shuffled": {
+          "token_nll": {
+            "total": 14.7587890625,
+            "scene": 6.588897705078125,
+            "foreground": 1.8171831369400024,
+            "background": 6.352708339691162
+          },
+          "token_nll_macro": 4.919596354166667,
+          "scene_accuracy": 0.0
+        },
+        "null": {
+          "token_nll": {
+            "total": 9.351318359375,
+            "scene": 1.2164454460144043,
+            "foreground": 1.8157618045806885,
+            "background": 6.319110870361328
+          },
+          "token_nll_macro": 3.1171061197916665,
+          "scene_accuracy": 0.3333333432674408
+        }
+      }
+    },
+    {
+      "step": 600,
+      "training_loss": 3.396484375,
+      "conditions": {
+        "correct": {
+          "token_nll": {
+            "total": 7.729861736297607,
+            "scene": 0.0021840466652065516,
+            "foreground": 1.8032128810882568,
+            "background": 5.924464702606201
+          },
+          "token_nll_macro": 2.576620578765869,
+          "scene_accuracy": 1.0
+        },
+        "shuffled": {
+          "token_nll": {
+            "total": 15.319374084472656,
+            "scene": 7.31025505065918,
+            "foreground": 1.8061888217926025,
+            "background": 6.202930927276611
+          },
+          "token_nll_macro": 5.106458028157552,
+          "scene_accuracy": 0.0
+        },
+        "null": {
+          "token_nll": {
+            "total": 9.138545989990234,
+            "scene": 1.1162278652191162,
+            "foreground": 1.8008558750152588,
+            "background": 6.221462249755859
+          },
+          "token_nll_macro": 3.0461819966634116,
+          "scene_accuracy": 0.3333333432674408
+        }
+      }
+    },
+    {
+      "step": 700,
+      "training_loss": 3.346409320831299,
+      "conditions": {
+        "correct": {
+          "token_nll": {
+            "total": 8.019322395324707,
+            "scene": 0.0015977422008290887,
+            "foreground": 1.8014558553695679,
+            "background": 6.216268539428711
+          },
+          "token_nll_macro": 2.673107465108236,
+          "scene_accuracy": 1.0
+        },
+        "shuffled": {
+          "token_nll": {
+            "total": 16.276813507080078,
+            "scene": 7.95464563369751,
+            "foreground": 1.8096866607666016,
+            "background": 6.512480735778809
+          },
+          "token_nll_macro": 5.425604502360026,
+          "scene_accuracy": 0.0
+        },
+        "null": {
+          "token_nll": {
+            "total": 9.630531311035156,
+            "scene": 1.2729074954986572,
+            "foreground": 1.8008071184158325,
+            "background": 6.556816101074219
+          },
+          "token_nll_macro": 3.2101771036783853,
+          "scene_accuracy": 0.3333333432674408
+        }
+      }
+    },
+    {
+      "step": 800,
+      "training_loss": 3.2747392654418945,
+      "conditions": {
+        "correct": {
+          "token_nll": {
+            "total": 8.352296829223633,
+            "scene": 0.002895190380513668,
+            "foreground": 1.8030428886413574,
+            "background": 6.546358585357666
+          },
+          "token_nll_macro": 2.7840989430745444,
+          "scene_accuracy": 1.0
+        },
+        "shuffled": {
+          "token_nll": {
+            "total": 17.024999618530273,
+            "scene": 8.362838745117188,
+            "foreground": 1.8131929636001587,
+            "background": 6.848968029022217
+          },
+          "token_nll_macro": 5.674999872843425,
+          "scene_accuracy": 0.0
+        },
+        "null": {
+          "token_nll": {
+            "total": 9.977319717407227,
+            "scene": 1.1414344310760498,
+            "foreground": 1.8028043508529663,
+            "background": 7.033080577850342
+          },
+          "token_nll_macro": 3.325773239135742,
+          "scene_accuracy": 0.3333333432674408
+        }
+      }
+    },
+    {
+      "step": 900,
+      "training_loss": 3.3321585655212402,
+      "conditions": {
+        "correct": {
+          "token_nll": {
+            "total": 8.083794593811035,
+            "scene": 0.00348096014931798,
+            "foreground": 1.802825927734375,
+            "background": 6.277487754821777
+          },
+          "token_nll_macro": 2.6945981979370117,
+          "scene_accuracy": 1.0
+        },
+        "shuffled": {
+          "token_nll": {
+            "total": 15.319330215454102,
+            "scene": 6.973906993865967,
+            "foreground": 1.8074523210525513,
+            "background": 6.537970542907715
+          },
+          "token_nll_macro": 5.106443405151367,
+          "scene_accuracy": 0.0
+        },
+        "null": {
+          "token_nll": {
+            "total": 10.020746231079102,
+            "scene": 1.1191315650939941,
+            "foreground": 1.8017820119857788,
+            "background": 7.099832057952881
+          },
+          "token_nll_macro": 3.3402487436930337,
+          "scene_accuracy": 0.3333333432674408
+        }
+      }
+    },
+    {
+      "step": 1000,
+      "training_loss": 3.300070285797119,
+      "conditions": {
+        "correct": {
+          "token_nll": {
+            "total": 8.160905838012695,
+            "scene": 0.0035181534476578236,
+            "foreground": 1.7991567850112915,
+            "background": 6.3582305908203125
+          },
+          "token_nll_macro": 2.720301946004232,
+          "scene_accuracy": 1.0
+        },
+        "shuffled": {
+          "token_nll": {
+            "total": 15.418535232543945,
+            "scene": 7.06960916519165,
+            "foreground": 1.8076235055923462,
+            "background": 6.541302680969238
+          },
+          "token_nll_macro": 5.139511744181315,
+          "scene_accuracy": 0.0
+        },
+        "null": {
+          "token_nll": {
+            "total": 10.073413848876953,
+            "scene": 1.1201598644256592,
+            "foreground": 1.8003289699554443,
+            "background": 7.152925491333008
+          },
+          "token_nll_macro": 3.357804616292318,
+          "scene_accuracy": 0.3333333432674408
+        }
+      }
+    },
+    {
+      "step": 1100,
+      "training_loss": 3.2769031524658203,
+      "conditions": {
+        "correct": {
+          "token_nll": {
+            "total": 8.494451522827148,
+            "scene": 0.0018401292618364096,
+            "foreground": 1.799673318862915,
+            "background": 6.692937850952148
+          },
+          "token_nll_macro": 2.831483840942383,
+          "scene_accuracy": 1.0
+        },
+        "shuffled": {
+          "token_nll": {
+            "total": 16.511096954345703,
+            "scene": 7.844204425811768,
+            "foreground": 1.8095190525054932,
+            "background": 6.85737419128418
+          },
+          "token_nll_macro": 5.503698984781901,
+          "scene_accuracy": 0.0
+        },
+        "null": {
+          "token_nll": {
+            "total": 10.449031829833984,
+            "scene": 1.1194406747817993,
+            "foreground": 1.8021125793457031,
+            "background": 7.52747917175293
+          },
+          "token_nll_macro": 3.4830106099446616,
+          "scene_accuracy": 0.3333333432674408
+        }
+      }
+    }
+  ]
+}

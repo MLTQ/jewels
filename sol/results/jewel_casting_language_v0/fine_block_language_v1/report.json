@@ -1,0 +1,81 @@
+{
+  "schema": "fine-routing-block-token-language-v1",
+  "protocol": {
+    "split_report": "sol/results/jewel_casting_language_v0/prompt_shared_scene_scaling_v1/r6/report.json",
+    "training_sources": [
+      "anime_exact__00_ballet_train_00_seed71000",
+      "anime_exact__00_ballet_train_01_seed71001",
+      "anime_exact__00_ballet_train_02_seed71002",
+      "anime_exact__00_ballet_train_03_seed71003",
+      "anime_exact__00_ballet_train_04_seed71004",
+      "anime_exact__00_ballet_train_05_seed71005",
+      "cartoon_exact__00_dogpark_train_00_seed72000",
+      "cartoon_exact__00_dogpark_train_01_seed72001",
+      "cartoon_exact__00_dogpark_train_02_seed72002",
+      "cartoon_exact__00_dogpark_train_03_seed72003",
+      "cartoon_exact__00_dogpark_train_04_seed72004",
+      "cartoon_exact__00_dogpark_train_05_seed72005",
+      "render3d_exact__00_workshop_train_00_seed73000",
+      "render3d_exact__00_workshop_train_01_seed73001",
+      "render3d_exact__00_workshop_train_02_seed73002",
+      "render3d_exact__00_workshop_train_03_seed73003",
+      "render3d_exact__00_workshop_train_04_seed73004",
+      "render3d_exact__00_workshop_train_05_seed73005"
+    ],
+    "validation_sources": [
+      "anime__05_ballet_train_00_seed60500",
+      "cartoon__01_dogpark_train_00_seed61100",
+      "render3d__04_workshop_train_00_seed62400"
+    ],
+    "block_shape": [
+      16,
+      16,
+      8
+    ],
+    "blocks_per_program": 2048,
+    "block_vocabulary_size": 1024,
+    "iterations": 20,
+    "serialization": "time_major_xy_morton",
+    "decisions_per_49_frame_window": 2049,
+    "decisions_per_8_frames": 334.53061224489795,
+    "gate0f_active_role_decisions_per_49_frames": 216000,
+    "decision_reduction_fraction": 0.9905138888888889
+  },
+  "fit": {
+    "mean_squared_assignment_distance": 32.758544921875,
+    "utilized_fraction": 1.0,
+    "perplexity": 731.9384765625,
+    "training_fields": 18,
+    "training_blocks": 36864,
+    "descriptor_dim": 77,
+    "vocabulary_size": 1024
+  },
+  "assignment_distance": {
+    "per_training_source": [
+      30.722675323486328,
+      35.06265640258789,
+      38.96916198730469,
+      32.6104850769043,
+      33.19818878173828,
+      35.65966033935547,
+      24.887714385986328,
+      26.56670379638672,
+      25.38422203063965,
+      28.617313385009766,
+      30.517486572265625,
+      37.13678741455078,
+      25.378173828125,
+      36.99992370605469,
+      35.17681884765625,
+      42.84149169921875,
+      38.1257209777832,
+      31.798677444458008
+    ],
+    "mean": 32.75854788886176
+  },
+  "checks": {
+    "all_training_blocks_serialized": true,
+    "program_tokens_in_range": true,
+    "finite_assignment_distances": true
+  }
+}

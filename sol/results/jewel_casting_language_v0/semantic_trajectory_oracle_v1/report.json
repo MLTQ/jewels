@@ -1,0 +1,835 @@
+{
+  "schema": "semantic-density-balanced-trajectory-oracle-v1",
+  "protocol": {
+    "block_checkpoint": "sol/results/jewel_casting_language_v0/fine_block_language_v1/language.pt",
+    "split_report": "sol/results/jewel_casting_language_v0/prompt_shared_scene_scaling_v1/r6/report.json",
+    "scene_keys": [
+      [
+        "anime",
+        "a ballerina spinning a pirouette in a studio"
+      ],
+      [
+        "cartoon",
+        "a golden retriever catching a ball on grass"
+      ],
+      [
+        "render3d",
+        "a welder joining steel with bright sparks"
+      ]
+    ],
+    "training_sources": [
+      "anime_exact__00_ballet_train_00_seed71000",
+      "anime_exact__00_ballet_train_01_seed71001",
+      "anime_exact__00_ballet_train_02_seed71002",
+      "anime_exact__00_ballet_train_03_seed71003",
+      "anime_exact__00_ballet_train_04_seed71004",
+      "anime_exact__00_ballet_train_05_seed71005",
+      "cartoon_exact__00_dogpark_train_00_seed72000",
+      "cartoon_exact__00_dogpark_train_01_seed72001",
+      "cartoon_exact__00_dogpark_train_02_seed72002",
+      "cartoon_exact__00_dogpark_train_03_seed72003",
+      "cartoon_exact__00_dogpark_train_04_seed72004",
+      "cartoon_exact__00_dogpark_train_05_seed72005",
+      "render3d_exact__00_workshop_train_00_seed73000",
+      "render3d_exact__00_workshop_train_01_seed73001",
+      "render3d_exact__00_workshop_train_02_seed73002",
+      "render3d_exact__00_workshop_train_03_seed73003",
+      "render3d_exact__00_workshop_train_04_seed73004",
+      "render3d_exact__00_workshop_train_05_seed73005"
+    ],
+    "validation_sources": [
+      "anime__05_ballet_train_00_seed60500",
+      "cartoon__01_dogpark_train_00_seed61100",
+      "render3d__04_workshop_train_00_seed62400"
+    ],
+    "target_program_selects_training_donors": true,
+    "target_contributes_jewel_rows_or_path": false,
+    "scene_path_is_training_only": true,
+    "radius_uses_donor_density_only": true,
+    "two_distinct_training_programs_per_composite": true,
+    "oracle_is_not_prompt_inference": true,
+    "oracle_is_template_backed": true,
+    "emitted_centroids_are_continuous": true,
+    "generation_jewels": 72000
+  },
+  "fit": {
+    "training_fields": 18,
+    "jewels_per_field": 72000,
+    "semantic_scene_tokens": 3,
+    "same_scene_candidates": {
+      "0": 6,
+      "1": 6,
+      "2": 6
+    },
+    "one_source_choice_per_window": true,
+    "likelihood_neighbors": 4,
+    "smoothing": 0.1,
+    "jitter_std": 0.005,
+    "semantic_path": "scene_mean_vs_other_mean_descriptor_saliency_smoothed_121",
+    "radius_candidates": {
+      "minimum": 0.45,
+      "maximum": 1.1,
+      "count": 132
+    },
+    "minimum_donor_fraction": 0.2,
+    "preferred_tie_break_radius": 0.78,
+    "density_balanced_boundary": true
+  },
+  "macro": {
+    "tube composite": {
+      "target_histogram_cosine": 0.27515754103660583,
+      "voxel_psnr_diagnostic": 7.395878791809082,
+      "cell_center_lock_fraction": 0.0,
+      "foreground_fraction": 0.6857985327325259,
+      "background_fraction": 0.3142014672674741,
+      "adjustment_fraction": 0.07647222222222222
+    },
+    "coherent ceiling": {
+      "target_histogram_cosine": 0.30652562777201336,
+      "voxel_psnr_diagnostic": 7.754573822021484,
+      "cell_center_lock_fraction": 0.0
+    },
+    "wrong-object tube": {
+      "target_histogram_cosine": 0.28841233253479004,
+      "voxel_psnr_diagnostic": 8.026219844818115,
+      "cell_center_lock_fraction": 0.0
+    },
+    "pooled null": {
+      "target_histogram_cosine": 0.25236864387989044,
+      "voxel_psnr_diagnostic": 10.068387667338053,
+      "cell_center_lock_fraction": 0.0
+    }
+  },
+  "source_disjoint_records": [
+    {
+      "source_id": "anime__05_ballet_train_00_seed60500",
+      "fit_seed": 0,
+      "scene_token": 0,
+      "arms": {
+        "tube composite": {
+          "target_histogram_cosine": 0.3017265498638153,
+          "realization": {
+            "scene_token": 0,
+            "foreground_scene_token": 0,
+            "foreground_training_field": 0,
+            "background_training_field": 4,
+            "foreground_unadjusted_jewels": 51536,
+            "background_unadjusted_jewels": 12913,
+            "foreground_fraction": 0.799640025446477,
+            "background_fraction": 0.20035997455352295,
+            "unadjusted_jewels": 64449,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.104875,
+            "selected_radius": 0.9015267491340637,
+            "tube_centers": [
+              [
+                -0.032168518751859665,
+                -0.007117225788533688
+              ],
+              [
+                -0.03091856651008129,
+                -0.0076633645221591
+              ],
+              [
+                -0.016268258914351463,
+                -0.0070261103101074696
+              ],
+              [
+                0.004250365309417248,
+                0.002524262061342597
+              ],
+              [
+                0.023869529366493225,
+                0.017054125666618347
+              ],
+              [
+                0.03932908922433853,
+                0.0217034500092268
+              ],
+              [
+                0.036616988480091095,
+                0.017936788499355316
+              ],
+              [
+                0.021569758653640747,
+                0.023024048656225204
+              ]
+            ],
+            "foreground_training_field_source_id": "anime_exact__00_ballet_train_00_seed71000",
+            "background_training_field_source_id": "anime_exact__00_ballet_train_04_seed71004"
+          },
+          "audit": {
+            "voxel_psnr_to_continuous_source": 4.399776935577393,
+            "feature_marginal_mae": 0.06594287604093552,
+            "structure": {
+              "jewels_total": 72000,
+              "jewels_above_2pct_opacity": 72000,
+              "anisotropy_median": 1.9668484926223755,
+              "anisotropy_p90": 3.3673505783081055,
+              "temporal_tilt_median": 0.9515716433525085,
+              "mixed_spacetime_tilt_median": 0.5194538831710815,
+              "mixed_spacetime_tilt_p90": 0.9301767945289612,
+              "extent_median": 0.01212682668119669,
+              "extent_iqr_ratio": 2.7982068061828613,
+              "opacity_median": 0.3611317276954651,
+              "occupancy_entropy": 5.289093971252441,
+              "occupancy_entropy_max": 5.545177444479562,
+              "occupancy_uniformity": 0.9538187053902014
+            },
+            "mixed_tilt_retention": 1.0050753190353756,
+            "center_irregularity": {
+              "within_cell_fraction_std": 0.3069095015525818,
+              "cell_center_lock_fraction": 0.0,
+              "near_cell_center_fraction": 4.166666622040793e-05
+            }
+          }
+        },
+        "coherent ceiling": {
+          "target_histogram_cosine": 0.3763417601585388,
+          "realization": {
+            "scene_token": 0,
+            "selected_training_field": 0,
+            "mean_program_distance": 0.9763588905334473,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "selected_training_field_source_id": "anime_exact__00_ballet_train_00_seed71000"
+          },
+          "audit": {
+            "voxel_psnr_to_continuous_source": 8.681568145751953,
+            "feature_marginal_mae": 0.08186633884906769,
+            "structure": {
+              "jewels_total": 72000,
+              "jewels_above_2pct_opacity": 72000,
+              "anisotropy_median": 1.9968189001083374,
+              "anisotropy_p90": 3.3470778465270996,
+              "temporal_tilt_median": 0.9508492946624756,
+              "mixed_spacetime_tilt_median": 0.5194538831710815,
+              "mixed_spacetime_tilt_p90": 0.9292404055595398,
+              "extent_median": 0.01172108855098486,
+              "extent_iqr_ratio": 2.583883047103882,
+              "opacity_median": 0.3618412911891937,
+              "occupancy_entropy": 5.288791179656982,
+              "occupancy_entropy_max": 5.545177444479562,
+              "occupancy_uniformity": 0.9537641008985525
+            },
+            "mixed_tilt_retention": 1.0050753190353756,
+            "center_irregularity": {
+              "within_cell_fraction_std": 0.3094649612903595,
+              "cell_center_lock_fraction": 0.0,
+              "near_cell_center_fraction": 2.7777778086601757e-05
+            }
+          }
+        },
+        "wrong-object tube": {
+          "target_histogram_cosine": 0.32532933354377747,
+          "realization": {
+            "scene_token": 0,
+            "foreground_scene_token": 1,
+            "foreground_training_field": 6,
+            "background_training_field": 0,
+            "foreground_unadjusted_jewels": 54642,
+            "background_unadjusted_jewels": 17355,
+            "foreground_fraction": 0.7589482895120631,
+            "background_fraction": 0.241051710487937,
+            "unadjusted_jewels": 71997,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 4.1666666666666665e-05,
+            "selected_radius": 0.9561069011688232,
+            "tube_centers": [
+              [
+                -0.032168518751859665,
+                -0.007117225788533688
+              ],
+              [
+                -0.03091856651008129,
+                -0.0076633645221591
+              ],
+              [
+                -0.016268258914351463,
+                -0.0070261103101074696
+              ],
+              [
+                0.004250365309417248,
+                0.002524262061342597
+              ],
+              [
+                0.023869529366493225,
+                0.017054125666618347
+              ],
+              [
+                0.03932908922433853,
+                0.0217034500092268
+              ],
+              [
+                0.036616988480091095,
+                0.017936788499355316
+              ],
+              [
+                0.021569758653640747,
+                0.023024048656225204
+              ]
+            ],
+            "foreground_training_field_source_id": "cartoon_exact__00_dogpark_train_00_seed72000",
+            "background_training_field_source_id": "anime_exact__00_ballet_train_00_seed71000"
+          },
+          "audit": {
+            "voxel_psnr_to_continuous_source": 9.531927108764648,
+            "feature_marginal_mae": 0.07236851751804352,
+            "structure": {
+              "jewels_total": 72000,
+              "jewels_above_2pct_opacity": 72000,
+              "anisotropy_median": 1.9861674308776855,
+              "anisotropy_p90": 3.3114829063415527,
+              "temporal_tilt_median": 0.9502450823783875,
+              "mixed_spacetime_tilt_median": 0.5182769894599915,
+              "mixed_spacetime_tilt_p90": 0.9371445775032043,
+              "extent_median": 0.012101026251912117,
+              "extent_iqr_ratio": 2.644646406173706,
+              "opacity_median": 0.34079352021217346,
+              "occupancy_entropy": 5.413752555847168,
+              "occupancy_entropy_max": 5.545177444479562,
+              "occupancy_uniformity": 0.9762992456150825
+            },
+            "mixed_tilt_retention": 1.0027981836428677,
+            "center_irregularity": {
+              "within_cell_fraction_std": 0.31157374382019043,
+              "cell_center_lock_fraction": 0.0,
+              "near_cell_center_fraction": 1.3888889043300878e-05
+            }
+          }
+        },
+        "pooled null": {
+          "target_histogram_cosine": 0.26147976517677307,
+          "realization": {
+            "scene_token": 3,
+            "selected_training_field": 8,
+            "mean_program_distance": 2.3913638591766357,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "selected_training_field_source_id": "cartoon_exact__00_dogpark_train_02_seed72002"
+          },
+          "audit": {
+            "voxel_psnr_to_continuous_source": 11.004030227661133,
+            "feature_marginal_mae": 0.11114213615655899,
+            "structure": {
+              "jewels_total": 72000,
+              "jewels_above_2pct_opacity": 72000,
+              "anisotropy_median": 1.829702377319336,
+              "anisotropy_p90": 2.9973533153533936,
+              "temporal_tilt_median": 0.9639211297035217,
+              "mixed_spacetime_tilt_median": 0.452119916677475,
+              "mixed_spacetime_tilt_p90": 0.8840776085853577,
+              "extent_median": 0.014658153057098389,
+              "extent_iqr_ratio": 2.6384379863739014,
+              "opacity_median": 0.2975060045719147,
+              "occupancy_entropy": 5.345360279083252,
+              "occupancy_entropy_max": 5.545177444479562,
+              "occupancy_uniformity": 0.9639655957997817
+            },
+            "mixed_tilt_retention": 0.8747929011961967,
+            "center_irregularity": {
+              "within_cell_fraction_std": 0.31101420521736145,
+              "cell_center_lock_fraction": 0.0,
+              "near_cell_center_fraction": 6.944444612599909e-05
+            }
+          }
+        }
+      }
+    },
+    {
+      "source_id": "cartoon__01_dogpark_train_00_seed61100",
+      "fit_seed": 0,
+      "scene_token": 1,
+      "arms": {
+        "tube composite": {
+          "target_histogram_cosine": 0.28036704659461975,
+          "realization": {
+            "scene_token": 1,
+            "foreground_scene_token": 1,
+            "foreground_training_field": 6,
+            "background_training_field": 8,
+            "foreground_unadjusted_jewels": 34903,
+            "background_unadjusted_jewels": 37085,
+            "foreground_fraction": 0.4848446963382786,
+            "background_fraction": 0.5151553036617214,
+            "unadjusted_jewels": 71988,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.00016666666666666666,
+            "selected_radius": 0.6931297779083252,
+            "tube_centers": [
+              [
+                -0.019912350922822952,
+                0.04068196564912796
+              ],
+              [
+                -0.018172690644860268,
+                0.056938592344522476
+              ],
+              [
+                -0.009400025941431522,
+                0.0650179535150528
+              ],
+              [
+                0.004606728907674551,
+                0.06077824905514717
+              ],
+              [
+                0.015053502283990383,
+                0.05185198038816452
+              ],
+              [
+                0.018926233053207397,
+                0.0518035888671875
+              ],
+              [
+                0.013015484437346458,
+                0.05734258145093918
+              ],
+              [
+                0.0019339044811204076,
+                0.05641154199838638
+              ]
+            ],
+            "foreground_training_field_source_id": "cartoon_exact__00_dogpark_train_00_seed72000",
+            "background_training_field_source_id": "cartoon_exact__00_dogpark_train_02_seed72002"
+          },
+          "audit": {
+            "voxel_psnr_to_continuous_source": 10.359113693237305,
+            "feature_marginal_mae": 0.05429863929748535,
+            "structure": {
+              "jewels_total": 72000,
+              "jewels_above_2pct_opacity": 72000,
+              "anisotropy_median": 1.893776774406433,
+              "anisotropy_p90": 3.0887465476989746,
+              "temporal_tilt_median": 0.9570251703262329,
+              "mixed_spacetime_tilt_median": 0.47640982270240784,
+              "mixed_spacetime_tilt_p90": 0.9066535830497742,
+              "extent_median": 0.01407927181571722,
+              "extent_iqr_ratio": 2.5234079360961914,
+              "opacity_median": 0.31186535954475403,
+              "occupancy_entropy": 5.36279296875,
+              "occupancy_entropy_max": 5.545177444479562,
+              "occupancy_uniformity": 0.9671093526662283
+            },
+            "mixed_tilt_retention": 0.9776575498645892,
+            "center_irregularity": {
+              "within_cell_fraction_std": 0.30997660756111145,
+              "cell_center_lock_fraction": 0.0,
+              "near_cell_center_fraction": 2.7777778086601757e-05
+            }
+          }
+        },
+        "coherent ceiling": {
+          "target_histogram_cosine": 0.25131955742836,
+          "realization": {
+            "scene_token": 1,
+            "selected_training_field": 6,
+            "mean_program_distance": 0.6855600476264954,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "selected_training_field_source_id": "cartoon_exact__00_dogpark_train_00_seed72000"
+          },
+          "audit": {
+            "voxel_psnr_to_continuous_source": 8.323495864868164,
+            "feature_marginal_mae": 0.07261678576469421,
+            "structure": {
+              "jewels_total": 72000,
+              "jewels_above_2pct_opacity": 72000,
+              "anisotropy_median": 1.9280222654342651,
+              "anisotropy_p90": 3.1152217388153076,
+              "temporal_tilt_median": 0.9502677917480469,
+              "mixed_spacetime_tilt_median": 0.5201955437660217,
+              "mixed_spacetime_tilt_p90": 0.9353778958320618,
+              "extent_median": 0.011899980716407299,
+              "extent_iqr_ratio": 2.570437431335449,
+              "opacity_median": 0.33447375893592834,
+              "occupancy_entropy": 5.394382476806641,
+              "occupancy_entropy_max": 5.545177444479562,
+              "occupancy_uniformity": 0.972806105993408
+            },
+            "mixed_tilt_retention": 1.0675117861422636,
+            "center_irregularity": {
+              "within_cell_fraction_std": 0.3109019100666046,
+              "cell_center_lock_fraction": 0.0,
+              "near_cell_center_fraction": 8.333333244081587e-05
+            }
+          }
+        },
+        "wrong-object tube": {
+          "target_histogram_cosine": 0.24553728103637695,
+          "realization": {
+            "scene_token": 1,
+            "foreground_scene_token": 2,
+            "foreground_training_field": 12,
+            "background_training_field": 6,
+            "foreground_unadjusted_jewels": 58855,
+            "background_unadjusted_jewels": 14814,
+            "foreground_fraction": 0.7989113466994258,
+            "background_fraction": 0.20108865330057418,
+            "unadjusted_jewels": 73669,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.023180555555555555,
+            "selected_radius": 1.0206106901168823,
+            "tube_centers": [
+              [
+                -0.019912350922822952,
+                0.04068196564912796
+              ],
+              [
+                -0.018172690644860268,
+                0.056938592344522476
+              ],
+              [
+                -0.009400025941431522,
+                0.0650179535150528
+              ],
+              [
+                0.004606728907674551,
+                0.06077824905514717
+              ],
+              [
+                0.015053502283990383,
+                0.05185198038816452
+              ],
+              [
+                0.018926233053207397,
+                0.0518035888671875
+              ],
+              [
+                0.013015484437346458,
+                0.05734258145093918
+              ],
+              [
+                0.0019339044811204076,
+                0.05641154199838638
+              ]
+            ],
+            "foreground_training_field_source_id": "render3d_exact__00_workshop_train_00_seed73000",
+            "background_training_field_source_id": "cartoon_exact__00_dogpark_train_00_seed72000"
+          },
+          "audit": {
+            "voxel_psnr_to_continuous_source": 8.441755294799805,
+            "feature_marginal_mae": 0.07986818253993988,
+            "structure": {
+              "jewels_total": 72000,
+              "jewels_above_2pct_opacity": 72000,
+              "anisotropy_median": 2.058194398880005,
+              "anisotropy_p90": 3.1913444995880127,
+              "temporal_tilt_median": 0.9639673233032227,
+              "mixed_spacetime_tilt_median": 0.47900548577308655,
+              "mixed_spacetime_tilt_p90": 0.9031878113746643,
+              "extent_median": 0.013082592748105526,
+              "extent_iqr_ratio": 2.348064422607422,
+              "opacity_median": 0.3307610750198364,
+              "occupancy_entropy": 5.409099102020264,
+              "occupancy_entropy_max": 5.545177444479562,
+              "occupancy_uniformity": 0.9754600562701975
+            },
+            "mixed_tilt_retention": 0.9829842024167111,
+            "center_irregularity": {
+              "within_cell_fraction_std": 0.3103906810283661,
+              "cell_center_lock_fraction": 0.0,
+              "near_cell_center_fraction": 5.555555617320351e-05
+            }
+          }
+        },
+        "pooled null": {
+          "target_histogram_cosine": 0.2827518880367279,
+          "realization": {
+            "scene_token": 3,
+            "selected_training_field": 8,
+            "mean_program_distance": 2.3913638591766357,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "selected_training_field_source_id": "cartoon_exact__00_dogpark_train_02_seed72002"
+          },
+          "audit": {
+            "voxel_psnr_to_continuous_source": 10.872334480285645,
+            "feature_marginal_mae": 0.07162252068519592,
+            "structure": {
+              "jewels_total": 72000,
+              "jewels_above_2pct_opacity": 72000,
+              "anisotropy_median": 1.829702377319336,
+              "anisotropy_p90": 2.9973533153533936,
+              "temporal_tilt_median": 0.9639211297035217,
+              "mixed_spacetime_tilt_median": 0.452119916677475,
+              "mixed_spacetime_tilt_p90": 0.8840776085853577,
+              "extent_median": 0.014658153057098389,
+              "extent_iqr_ratio": 2.6384379863739014,
+              "opacity_median": 0.2975060045719147,
+              "occupancy_entropy": 5.343819618225098,
+              "occupancy_entropy_max": 5.545177444479562,
+              "occupancy_uniformity": 0.9636877578273128
+            },
+            "mixed_tilt_retention": 0.9278113693721881,
+            "center_irregularity": {
+              "within_cell_fraction_std": 0.31105467677116394,
+              "cell_center_lock_fraction": 0.0,
+              "near_cell_center_fraction": 6.944444612599909e-05
+            }
+          }
+        }
+      }
+    },
+    {
+      "source_id": "render3d__04_workshop_train_00_seed62400",
+      "fit_seed": 0,
+      "scene_token": 2,
+      "arms": {
+        "tube composite": {
+          "target_histogram_cosine": 0.24337902665138245,
+          "realization": {
+            "scene_token": 2,
+            "foreground_scene_token": 2,
+            "foreground_training_field": 12,
+            "background_training_field": 14,
+            "foreground_unadjusted_jewels": 62571,
+            "background_unadjusted_jewels": 18384,
+            "foreground_fraction": 0.772910876412822,
+            "background_fraction": 0.22708912358717806,
+            "unadjusted_jewels": 80955,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.124375,
+            "selected_radius": 1.100000023841858,
+            "tube_centers": [
+              [
+                -0.036942608654499054,
+                0.09120114892721176
+              ],
+              [
+                -0.039623063057661057,
+                0.09282240271568298
+              ],
+              [
+                -0.03297523781657219,
+                0.09208093583583832
+              ],
+              [
+                -0.0301324725151062,
+                0.08387837558984756
+              ],
+              [
+                -0.03274944797158241,
+                0.0768880844116211
+              ],
+              [
+                -0.03632115200161934,
+                0.07623156905174255
+              ],
+              [
+                -0.035581305623054504,
+                0.08106701076030731
+              ],
+              [
+                -0.026209864765405655,
+                0.08670469373464584
+              ]
+            ],
+            "foreground_training_field_source_id": "render3d_exact__00_workshop_train_00_seed73000",
+            "background_training_field_source_id": "render3d_exact__00_workshop_train_02_seed73002"
+          },
+          "audit": {
+            "voxel_psnr_to_continuous_source": 7.428745746612549,
+            "feature_marginal_mae": 0.109146848320961,
+            "structure": {
+              "jewels_total": 72000,
+              "jewels_above_2pct_opacity": 72000,
+              "anisotropy_median": 2.0743913650512695,
+              "anisotropy_p90": 3.2271406650543213,
+              "temporal_tilt_median": 0.9639673233032227,
+              "mixed_spacetime_tilt_median": 0.48248592019081116,
+              "mixed_spacetime_tilt_p90": 0.903039276599884,
+              "extent_median": 0.012456783093512058,
+              "extent_iqr_ratio": 2.2501044273376465,
+              "opacity_median": 0.3351878523826599,
+              "occupancy_entropy": 5.38468074798584,
+              "occupancy_entropy_max": 5.545177444479562,
+              "occupancy_uniformity": 0.9710565264861807
+            },
+            "mixed_tilt_retention": 1.0764192215227182,
+            "center_irregularity": {
+              "within_cell_fraction_std": 0.31185951828956604,
+              "cell_center_lock_fraction": 0.0,
+              "near_cell_center_fraction": 4.166666622040793e-05
+            }
+          }
+        },
+        "coherent ceiling": {
+          "target_histogram_cosine": 0.29191556572914124,
+          "realization": {
+            "scene_token": 2,
+            "selected_training_field": 12,
+            "mean_program_distance": 0.8040988445281982,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "selected_training_field_source_id": "render3d_exact__00_workshop_train_00_seed73000"
+          },
+          "audit": {
+            "voxel_psnr_to_continuous_source": 6.258657455444336,
+            "feature_marginal_mae": 0.09368603676557541,
+            "structure": {
+              "jewels_total": 72000,
+              "jewels_above_2pct_opacity": 72000,
+              "anisotropy_median": 2.0964787006378174,
+              "anisotropy_p90": 3.240133762359619,
+              "temporal_tilt_median": 0.9664487838745117,
+              "mixed_spacetime_tilt_median": 0.47021475434303284,
+              "mixed_spacetime_tilt_p90": 0.8940232992172241,
+              "extent_median": 0.013410150073468685,
+              "extent_iqr_ratio": 2.274409055709839,
+              "opacity_median": 0.3312876224517822,
+              "occupancy_entropy": 5.384063720703125,
+              "occupancy_entropy_max": 5.545177444479562,
+              "occupancy_uniformity": 0.9709452537110724
+            },
+            "mixed_tilt_retention": 1.0490424251515043,
+            "center_irregularity": {
+              "within_cell_fraction_std": 0.3090822994709015,
+              "cell_center_lock_fraction": 0.0,
+              "near_cell_center_fraction": 5.555555617320351e-05
+            }
+          }
+        },
+        "wrong-object tube": {
+          "target_histogram_cosine": 0.2943703830242157,
+          "realization": {
+            "scene_token": 2,
+            "foreground_scene_token": 0,
+            "foreground_training_field": 0,
+            "background_training_field": 12,
+            "foreground_unadjusted_jewels": 43249,
+            "background_unadjusted_jewels": 28724,
+            "foreground_fraction": 0.6009058952662805,
+            "background_fraction": 0.3990941047337196,
+            "unadjusted_jewels": 71973,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.000375,
+            "selected_radius": 0.7526717782020569,
+            "tube_centers": [
+              [
+                -0.036942608654499054,
+                0.09120114892721176
+              ],
+              [
+                -0.039623063057661057,
+                0.09282240271568298
+              ],
+              [
+                -0.03297523781657219,
+                0.09208093583583832
+              ],
+              [
+                -0.0301324725151062,
+                0.08387837558984756
+              ],
+              [
+                -0.03274944797158241,
+                0.0768880844116211
+              ],
+              [
+                -0.03632115200161934,
+                0.07623156905174255
+              ],
+              [
+                -0.035581305623054504,
+                0.08106701076030731
+              ],
+              [
+                -0.026209864765405655,
+                0.08670469373464584
+              ]
+            ],
+            "foreground_training_field_source_id": "anime_exact__00_ballet_train_00_seed71000",
+            "background_training_field_source_id": "render3d_exact__00_workshop_train_00_seed73000"
+          },
+          "audit": {
+            "voxel_psnr_to_continuous_source": 6.104977130889893,
+            "feature_marginal_mae": 0.09721735119819641,
+            "structure": {
+              "jewels_total": 72000,
+              "jewels_above_2pct_opacity": 72000,
+              "anisotropy_median": 1.978452205657959,
+              "anisotropy_p90": 3.1605849266052246,
+              "temporal_tilt_median": 0.9573339223861694,
+              "mixed_spacetime_tilt_median": 0.5011696815490723,
+              "mixed_spacetime_tilt_p90": 0.910718560218811,
+              "extent_median": 0.012288426980376244,
+              "extent_iqr_ratio": 2.47706937789917,
+              "opacity_median": 0.3551454544067383,
+              "occupancy_entropy": 5.329471588134766,
+              "occupancy_entropy_max": 5.545177444479562,
+              "occupancy_uniformity": 0.9611002788450819
+            },
+            "mixed_tilt_retention": 1.1181024272179685,
+            "center_irregularity": {
+              "within_cell_fraction_std": 0.3085721731185913,
+              "cell_center_lock_fraction": 0.0,
+              "near_cell_center_fraction": 4.166666622040793e-05
+            }
+          }
+        },
+        "pooled null": {
+          "target_histogram_cosine": 0.21287427842617035,
+          "realization": {
+            "scene_token": 3,
+            "selected_training_field": 8,
+            "mean_program_distance": 2.3913638591766357,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "selected_training_field_source_id": "cartoon_exact__00_dogpark_train_02_seed72002"
+          },
+          "audit": {
+            "voxel_psnr_to_continuous_source": 8.328798294067383,
+            "feature_marginal_mae": 0.13551455736160278,
+            "structure": {
+              "jewels_total": 72000,
+              "jewels_above_2pct_opacity": 72000,
+              "anisotropy_median": 1.829702377319336,
+              "anisotropy_p90": 2.9973533153533936,
+              "temporal_tilt_median": 0.9639211297035217,
+              "mixed_spacetime_tilt_median": 0.452119916677475,
+              "mixed_spacetime_tilt_p90": 0.8840776085853577,
+              "extent_median": 0.014658153057098389,
+              "extent_iqr_ratio": 2.6384379863739014,
+              "opacity_median": 0.2975060045719147,
+              "occupancy_entropy": 5.345317840576172,
+              "occupancy_entropy_max": 5.545177444479562,
+              "occupancy_uniformity": 0.9639579425718182
+            },
+            "mixed_tilt_retention": 1.0086730998334994,
+            "center_irregularity": {
+              "within_cell_fraction_std": 0.3110630512237549,
+              "cell_center_lock_fraction": 0.0,
+              "near_cell_center_fraction": 4.166666622040793e-05
+            }
+          }
+        }
+      }
+    }
+  ],
+  "gate": {
+    "checks": {
+      "distinct_foreground_background_donors": true,
+      "both_donors_contribute_at_least_20pct": true,
+      "count_adjustment_below_5pct": false,
+      "all_counts_exact": true,
+      "correct_histogram_beats_wrong_object_and_null": false,
+      "generated_centers_not_grid_locked": true,
+      "all_generated_renders_finite": true
+    },
+    "numeric_passed": false,
+    "qualitative_recognizability_and_wrong_object_review_required": true
+  }
+}

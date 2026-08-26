@@ -1,0 +1,2015 @@
+{
+  "schema": "learned-prompt-to-trajectory-speaker-audit-v1",
+  "protocol": {
+    "evaluation_prompts": [
+      "an animated ballet performer twirling inside a rehearsal room",
+      "a playful illustrated retriever catches a thrown ball outdoors",
+      "a digital workshop scene of someone fusing metal with a shower of sparks"
+    ],
+    "seeds": [
+      20260918,
+      20260919,
+      20260920
+    ],
+    "semantic_inputs": [
+      "unseen prompt paraphrase",
+      "declared integer seed"
+    ],
+    "target_video_input": false,
+    "target_field_input": false,
+    "target_block_program_input": false,
+    "heldout_latent_input": false,
+    "source_token_logits_masked_by_scene": false,
+    "repeated_background_token_masked": true,
+    "source_token_backed_vocabulary": true,
+    "open_vocabulary": false,
+    "learned_program_speaker": true,
+    "render_shape": [
+      49,
+      144,
+      216
+    ],
+    "rendered_frame_indices": [
+      0,
+      24,
+      48
+    ],
+    "semantic_evaluator": "OpenCLIP ViT-B-32 laion2b_s34b_b79k"
+  },
+  "speaker_checkpoint": "sol/results/jewel_casting_language_v0/learned_trajectory_speaker_v1/speaker.pt",
+  "speaker_best_step": 100,
+  "realizer_fit": {
+    "training_fields": 18,
+    "jewels_per_field": 72000,
+    "semantic_scene_tokens": 3,
+    "same_scene_candidates": {
+      "0": 6,
+      "1": 6,
+      "2": 6
+    },
+    "one_source_choice_per_window": true,
+    "likelihood_neighbors": 4,
+    "smoothing": 0.1,
+    "jitter_std": 0.005,
+    "semantic_path": "scene_mean_vs_other_mean_descriptor_saliency_smoothed_121",
+    "radius_candidates": {
+      "minimum": 0.45,
+      "maximum": 1.1,
+      "count": 132
+    },
+    "minimum_donor_fraction": 0.2,
+    "preferred_tie_break_radius": 0.78,
+    "density_balanced_boundary": true
+  },
+  "summary": {
+    "programs": 9,
+    "correct_top1": 4,
+    "correct_top1_fraction": 0.4444444444444444,
+    "classes_with_majority_retrieval": 1,
+    "correct_similarity_mean": 0.25056133998764885,
+    "shuffled_generation_similarity_mean": 0.2027416071958012,
+    "null_generation_similarity_mean": 0.2093899067905214,
+    "correct_minus_shuffled_generation": 0.047819732791847654,
+    "correct_minus_null_generation": 0.04117143319712745,
+    "correct_beats_shuffled_generation": 7,
+    "correct_beats_null_generation": 6,
+    "correct_scene_consistent_programs": 9
+  },
+  "records": [
+    {
+      "intended_prompt": "an animated ballet performer twirling inside a rehearsal room",
+      "scene_token": 0,
+      "seed": 20260918,
+      "correct_similarity": 0.2318999320268631,
+      "shuffled_generation_similarity": 0.22225043177604675,
+      "null_generation_similarity": 0.18353891372680664,
+      "correct_retrieved_scene": 2,
+      "correct_top1": false,
+      "arms": {
+        "correct text": {
+          "conditioning_text": "an animated ballet performer twirling inside a rehearsal room",
+          "program": {
+            "scene_token": 0,
+            "foreground_token": 0,
+            "background_token": 3
+          },
+          "realization": {
+            "scene_token": 0,
+            "foreground_scene_token": 0,
+            "foreground_training_field": 0,
+            "background_training_field": 3,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.6987119913101196,
+            "background_boundary_radius": 0.5739235281944275,
+            "tube_centers": [
+              [
+                -0.03216852247714996,
+                -0.007117229048162699
+              ],
+              [
+                -0.03091856837272644,
+                -0.007663368247449398
+              ],
+              [
+                -0.016268258914351463,
+                -0.0070261117070913315
+              ],
+              [
+                0.004250362515449524,
+                0.0025242643896490335
+              ],
+              [
+                0.023869529366493225,
+                0.017054129391908646
+              ],
+              [
+                0.03932908922433853,
+                0.021703451871871948
+              ],
+              [
+                0.036616988480091095,
+                0.017936784774065018
+              ],
+              [
+                0.021569764241576195,
+                0.023024044930934906
+              ]
+            ],
+            "foreground_source_id": "anime_exact__00_ballet_train_00_seed71000",
+            "background_source_id": "anime_exact__00_ballet_train_03_seed71003"
+          },
+          "donors_match_predicted_scene": true,
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.3062828481197357,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 2.7777778086601757e-05
+          }
+        },
+        "cyclic-shuffled text": {
+          "conditioning_text": "a playful illustrated retriever catches a thrown ball outdoors",
+          "program": {
+            "scene_token": 1,
+            "foreground_token": 7,
+            "background_token": 6
+          },
+          "realization": {
+            "scene_token": 1,
+            "foreground_scene_token": 1,
+            "foreground_training_field": 7,
+            "background_training_field": 6,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.6207919120788574,
+            "background_boundary_radius": 0.7079053521156311,
+            "tube_centers": [
+              [
+                -0.019912350922822952,
+                0.04068196564912796
+              ],
+              [
+                -0.01817268878221512,
+                0.056938596069812775
+              ],
+              [
+                -0.009400025941431522,
+                0.0650179535150528
+              ],
+              [
+                0.004606729373335838,
+                0.060778241604566574
+              ],
+              [
+                0.015053503215312958,
+                0.05185197293758392
+              ],
+              [
+                0.018926233053207397,
+                0.0518035814166069
+              ],
+              [
+                0.01301548257470131,
+                0.05734258145093918
+              ],
+              [
+                0.0019339026184752584,
+                0.056411538273096085
+              ]
+            ],
+            "foreground_source_id": "cartoon_exact__00_dogpark_train_01_seed72001",
+            "background_source_id": "cartoon_exact__00_dogpark_train_00_seed72000"
+          },
+          "donors_match_predicted_scene": true,
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.3111931085586548,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 4.166666622040793e-05
+          }
+        },
+        "null text": {
+          "conditioning_text": "",
+          "program": {
+            "scene_token": 0,
+            "foreground_token": 1,
+            "background_token": 0
+          },
+          "realization": {
+            "scene_token": 0,
+            "foreground_scene_token": 0,
+            "foreground_training_field": 1,
+            "background_training_field": 0,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.4688735604286194,
+            "background_boundary_radius": 0.6987130045890808,
+            "tube_centers": [
+              [
+                -0.03216852247714996,
+                -0.007117229048162699
+              ],
+              [
+                -0.03091856837272644,
+                -0.007663368247449398
+              ],
+              [
+                -0.016268258914351463,
+                -0.0070261117070913315
+              ],
+              [
+                0.004250362515449524,
+                0.0025242643896490335
+              ],
+              [
+                0.023869529366493225,
+                0.017054129391908646
+              ],
+              [
+                0.03932908922433853,
+                0.021703451871871948
+              ],
+              [
+                0.036616988480091095,
+                0.017936784774065018
+              ],
+              [
+                0.021569764241576195,
+                0.023024044930934906
+              ]
+            ],
+            "foreground_source_id": "anime_exact__00_ballet_train_01_seed71001",
+            "background_source_id": "anime_exact__00_ballet_train_00_seed71000"
+          },
+          "donors_match_predicted_scene": true,
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.3094206750392914,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 2.7777778086601757e-05
+          }
+        }
+      }
+    },
+    {
+      "intended_prompt": "an animated ballet performer twirling inside a rehearsal room",
+      "scene_token": 0,
+      "seed": 20260919,
+      "correct_similarity": 0.2391345053911209,
+      "shuffled_generation_similarity": 0.2152940034866333,
+      "null_generation_similarity": 0.2225615233182907,
+      "correct_retrieved_scene": 2,
+      "correct_top1": false,
+      "arms": {
+        "correct text": {
+          "conditioning_text": "an animated ballet performer twirling inside a rehearsal room",
+          "program": {
+            "scene_token": 0,
+            "foreground_token": 4,
+            "background_token": 3
+          },
+          "realization": {
+            "scene_token": 0,
+            "foreground_scene_token": 0,
+            "foreground_training_field": 4,
+            "background_training_field": 3,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.5290402173995972,
+            "background_boundary_radius": 0.5739235281944275,
+            "tube_centers": [
+              [
+                -0.03216852247714996,
+                -0.007117229048162699
+              ],
+              [
+                -0.03091856837272644,
+                -0.007663368247449398
+              ],
+              [
+                -0.016268258914351463,
+                -0.0070261117070913315
+              ],
+              [
+                0.004250362515449524,
+                0.0025242643896490335
+              ],
+              [
+                0.023869529366493225,
+                0.017054129391908646
+              ],
+              [
+                0.03932908922433853,
+                0.021703451871871948
+              ],
+              [
+                0.036616988480091095,
+                0.017936784774065018
+              ],
+              [
+                0.021569764241576195,
+                0.023024044930934906
+              ]
+            ],
+            "foreground_source_id": "anime_exact__00_ballet_train_04_seed71004",
+            "background_source_id": "anime_exact__00_ballet_train_03_seed71003"
+          },
+          "donors_match_predicted_scene": true,
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.3078470528125763,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 4.166666622040793e-05
+          }
+        },
+        "cyclic-shuffled text": {
+          "conditioning_text": "a playful illustrated retriever catches a thrown ball outdoors",
+          "program": {
+            "scene_token": 1,
+            "foreground_token": 6,
+            "background_token": 8
+          },
+          "realization": {
+            "scene_token": 1,
+            "foreground_scene_token": 1,
+            "foreground_training_field": 6,
+            "background_training_field": 8,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.7079012989997864,
+            "background_boundary_radius": 0.7105851769447327,
+            "tube_centers": [
+              [
+                -0.019912350922822952,
+                0.04068196564912796
+              ],
+              [
+                -0.01817268878221512,
+                0.056938596069812775
+              ],
+              [
+                -0.009400025941431522,
+                0.0650179535150528
+              ],
+              [
+                0.004606729373335838,
+                0.060778241604566574
+              ],
+              [
+                0.015053503215312958,
+                0.05185197293758392
+              ],
+              [
+                0.018926233053207397,
+                0.0518035814166069
+              ],
+              [
+                0.01301548257470131,
+                0.05734258145093918
+              ],
+              [
+                0.0019339026184752584,
+                0.056411538273096085
+              ]
+            ],
+            "foreground_source_id": "cartoon_exact__00_dogpark_train_00_seed72000",
+            "background_source_id": "cartoon_exact__00_dogpark_train_02_seed72002"
+          },
+          "donors_match_predicted_scene": true,
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.31003135442733765,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 6.944444612599909e-05
+          }
+        },
+        "null text": {
+          "conditioning_text": "",
+          "program": {
+            "scene_token": 0,
+            "foreground_token": 4,
+            "background_token": 0
+          },
+          "realization": {
+            "scene_token": 0,
+            "foreground_scene_token": 0,
+            "foreground_training_field": 4,
+            "background_training_field": 0,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.5290402173995972,
+            "background_boundary_radius": 0.6987130045890808,
+            "tube_centers": [
+              [
+                -0.03216852247714996,
+                -0.007117229048162699
+              ],
+              [
+                -0.03091856837272644,
+                -0.007663368247449398
+              ],
+              [
+                -0.016268258914351463,
+                -0.0070261117070913315
+              ],
+              [
+                0.004250362515449524,
+                0.0025242643896490335
+              ],
+              [
+                0.023869529366493225,
+                0.017054129391908646
+              ],
+              [
+                0.03932908922433853,
+                0.021703451871871948
+              ],
+              [
+                0.036616988480091095,
+                0.017936784774065018
+              ],
+              [
+                0.021569764241576195,
+                0.023024044930934906
+              ]
+            ],
+            "foreground_source_id": "anime_exact__00_ballet_train_04_seed71004",
+            "background_source_id": "anime_exact__00_ballet_train_00_seed71000"
+          },
+          "donors_match_predicted_scene": true,
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.31094393134117126,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 4.166666622040793e-05
+          }
+        }
+      }
+    },
+    {
+      "intended_prompt": "an animated ballet performer twirling inside a rehearsal room",
+      "scene_token": 0,
+      "seed": 20260920,
+      "correct_similarity": 0.26615992188453674,
+      "shuffled_generation_similarity": 0.18763528764247894,
+      "null_generation_similarity": 0.20988598465919495,
+      "correct_retrieved_scene": 2,
+      "correct_top1": false,
+      "arms": {
+        "correct text": {
+          "conditioning_text": "an animated ballet performer twirling inside a rehearsal room",
+          "program": {
+            "scene_token": 0,
+            "foreground_token": 3,
+            "background_token": 1
+          },
+          "realization": {
+            "scene_token": 0,
+            "foreground_scene_token": 0,
+            "foreground_training_field": 3,
+            "background_training_field": 1,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.5739225745201111,
+            "background_boundary_radius": 0.468879759311676,
+            "tube_centers": [
+              [
+                -0.03216852247714996,
+                -0.007117229048162699
+              ],
+              [
+                -0.03091856837272644,
+                -0.007663368247449398
+              ],
+              [
+                -0.016268258914351463,
+                -0.0070261117070913315
+              ],
+              [
+                0.004250362515449524,
+                0.0025242643896490335
+              ],
+              [
+                0.023869529366493225,
+                0.017054129391908646
+              ],
+              [
+                0.03932908922433853,
+                0.021703451871871948
+              ],
+              [
+                0.036616988480091095,
+                0.017936784774065018
+              ],
+              [
+                0.021569764241576195,
+                0.023024044930934906
+              ]
+            ],
+            "foreground_source_id": "anime_exact__00_ballet_train_03_seed71003",
+            "background_source_id": "anime_exact__00_ballet_train_01_seed71001"
+          },
+          "donors_match_predicted_scene": true,
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.3088299036026001,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 1.3888889043300878e-05
+          }
+        },
+        "cyclic-shuffled text": {
+          "conditioning_text": "a playful illustrated retriever catches a thrown ball outdoors",
+          "program": {
+            "scene_token": 1,
+            "foreground_token": 10,
+            "background_token": 9
+          },
+          "realization": {
+            "scene_token": 1,
+            "foreground_scene_token": 1,
+            "foreground_training_field": 10,
+            "background_training_field": 9,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.612122118473053,
+            "background_boundary_radius": 0.6062033772468567,
+            "tube_centers": [
+              [
+                -0.019912350922822952,
+                0.04068196564912796
+              ],
+              [
+                -0.01817268878221512,
+                0.056938596069812775
+              ],
+              [
+                -0.009400025941431522,
+                0.0650179535150528
+              ],
+              [
+                0.004606729373335838,
+                0.060778241604566574
+              ],
+              [
+                0.015053503215312958,
+                0.05185197293758392
+              ],
+              [
+                0.018926233053207397,
+                0.0518035814166069
+              ],
+              [
+                0.01301548257470131,
+                0.05734258145093918
+              ],
+              [
+                0.0019339026184752584,
+                0.056411538273096085
+              ]
+            ],
+            "foreground_source_id": "cartoon_exact__00_dogpark_train_04_seed72004",
+            "background_source_id": "cartoon_exact__00_dogpark_train_03_seed72003"
+          },
+          "donors_match_predicted_scene": true,
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.30788519978523254,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 5.555555617320351e-05
+          }
+        },
+        "null text": {
+          "conditioning_text": "",
+          "program": {
+            "scene_token": 0,
+            "foreground_token": 5,
+            "background_token": 4
+          },
+          "realization": {
+            "scene_token": 0,
+            "foreground_scene_token": 0,
+            "foreground_training_field": 5,
+            "background_training_field": 4,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.46780288219451904,
+            "background_boundary_radius": 0.5290611982345581,
+            "tube_centers": [
+              [
+                -0.03216852247714996,
+                -0.007117229048162699
+              ],
+              [
+                -0.03091856837272644,
+                -0.007663368247449398
+              ],
+              [
+                -0.016268258914351463,
+                -0.0070261117070913315
+              ],
+              [
+                0.004250362515449524,
+                0.0025242643896490335
+              ],
+              [
+                0.023869529366493225,
+                0.017054129391908646
+              ],
+              [
+                0.03932908922433853,
+                0.021703451871871948
+              ],
+              [
+                0.036616988480091095,
+                0.017936784774065018
+              ],
+              [
+                0.021569764241576195,
+                0.023024044930934906
+              ]
+            ],
+            "foreground_source_id": "anime_exact__00_ballet_train_05_seed71005",
+            "background_source_id": "anime_exact__00_ballet_train_04_seed71004"
+          },
+          "donors_match_predicted_scene": true,
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.30630865693092346,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 0.0
+          }
+        }
+      }
+    },
+    {
+      "intended_prompt": "a playful illustrated retriever catches a thrown ball outdoors",
+      "scene_token": 1,
+      "seed": 20260918,
+      "correct_similarity": 0.23120597004890442,
+      "shuffled_generation_similarity": 0.12745878100395203,
+      "null_generation_similarity": 0.16108061373233795,
+      "correct_retrieved_scene": 2,
+      "correct_top1": false,
+      "arms": {
+        "correct text": {
+          "conditioning_text": "a playful illustrated retriever catches a thrown ball outdoors",
+          "program": {
+            "scene_token": 1,
+            "foreground_token": 6,
+            "background_token": 8
+          },
+          "realization": {
+            "scene_token": 1,
+            "foreground_scene_token": 1,
+            "foreground_training_field": 6,
+            "background_training_field": 8,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.7079012989997864,
+            "background_boundary_radius": 0.7105851769447327,
+            "tube_centers": [
+              [
+                -0.019912350922822952,
+                0.04068196564912796
+              ],
+              [
+                -0.01817268878221512,
+                0.056938596069812775
+              ],
+              [
+                -0.009400025941431522,
+                0.0650179535150528
+              ],
+              [
+                0.004606729373335838,
+                0.060778241604566574
+              ],
+              [
+                0.015053503215312958,
+                0.05185197293758392
+              ],
+              [
+                0.018926233053207397,
+                0.0518035814166069
+              ],
+              [
+                0.01301548257470131,
+                0.05734258145093918
+              ],
+              [
+                0.0019339026184752584,
+                0.056411538273096085
+              ]
+            ],
+            "foreground_source_id": "cartoon_exact__00_dogpark_train_00_seed72000",
+            "background_source_id": "cartoon_exact__00_dogpark_train_02_seed72002"
+          },
+          "donors_match_predicted_scene": true,
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.3099800944328308,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 5.555555617320351e-05
+          }
+        },
+        "cyclic-shuffled text": {
+          "conditioning_text": "a digital workshop scene of someone fusing metal with a shower of sparks",
+          "program": {
+            "scene_token": 2,
+            "foreground_token": 14,
+            "background_token": 16
+          },
+          "realization": {
+            "scene_token": 2,
+            "foreground_scene_token": 2,
+            "foreground_training_field": 14,
+            "background_training_field": 16,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.8859493732452393,
+            "background_boundary_radius": 0.5787740349769592,
+            "tube_centers": [
+              [
+                -0.036942604929208755,
+                0.09120114147663116
+              ],
+              [
+                -0.039623063057661057,
+                0.09282239526510239
+              ],
+              [
+                -0.03297524154186249,
+                0.09208092838525772
+              ],
+              [
+                -0.0301324725151062,
+                0.08387837558984756
+              ],
+              [
+                -0.03274944797158241,
+                0.0768880844116211
+              ],
+              [
+                -0.03632115200161934,
+                0.07623156905174255
+              ],
+              [
+                -0.035581305623054504,
+                0.08106701821088791
+              ],
+              [
+                -0.026209868490695953,
+                0.08670471608638763
+              ]
+            ],
+            "foreground_source_id": "render3d_exact__00_workshop_train_02_seed73002",
+            "background_source_id": "render3d_exact__00_workshop_train_04_seed73004"
+          },
+          "donors_match_predicted_scene": true,
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.3095090687274933,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 5.555555617320351e-05
+          }
+        },
+        "null text": {
+          "conditioning_text": "",
+          "program": {
+            "scene_token": 0,
+            "foreground_token": 4,
+            "background_token": 0
+          },
+          "realization": {
+            "scene_token": 0,
+            "foreground_scene_token": 0,
+            "foreground_training_field": 4,
+            "background_training_field": 0,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.5290402173995972,
+            "background_boundary_radius": 0.6987130045890808,
+            "tube_centers": [
+              [
+                -0.03216852247714996,
+                -0.007117229048162699
+              ],
+              [
+                -0.03091856837272644,
+                -0.007663368247449398
+              ],
+              [
+                -0.016268258914351463,
+                -0.0070261117070913315
+              ],
+              [
+                0.004250362515449524,
+                0.0025242643896490335
+              ],
+              [
+                0.023869529366493225,
+                0.017054129391908646
+              ],
+              [
+                0.03932908922433853,
+                0.021703451871871948
+              ],
+              [
+                0.036616988480091095,
+                0.017936784774065018
+              ],
+              [
+                0.021569764241576195,
+                0.023024044930934906
+              ]
+            ],
+            "foreground_source_id": "anime_exact__00_ballet_train_04_seed71004",
+            "background_source_id": "anime_exact__00_ballet_train_00_seed71000"
+          },
+          "donors_match_predicted_scene": true,
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.31090012192726135,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 5.555555617320351e-05
+          }
+        }
+      }
+    },
+    {
+      "intended_prompt": "a playful illustrated retriever catches a thrown ball outdoors",
+      "scene_token": 1,
+      "seed": 20260919,
+      "correct_similarity": 0.22816795110702515,
+      "shuffled_generation_similarity": 0.14555442333221436,
+      "null_generation_similarity": 0.14148077368736267,
+      "correct_retrieved_scene": 2,
+      "correct_top1": false,
+      "arms": {
+        "correct text": {
+          "conditioning_text": "a playful illustrated retriever catches a thrown ball outdoors",
+          "program": {
+            "scene_token": 1,
+            "foreground_token": 8,
+            "background_token": 11
+          },
+          "realization": {
+            "scene_token": 1,
+            "foreground_scene_token": 1,
+            "foreground_training_field": 8,
+            "background_training_field": 11,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.7105463743209839,
+            "background_boundary_radius": 0.8914575576782227,
+            "tube_centers": [
+              [
+                -0.019912350922822952,
+                0.04068196564912796
+              ],
+              [
+                -0.01817268878221512,
+                0.056938596069812775
+              ],
+              [
+                -0.009400025941431522,
+                0.0650179535150528
+              ],
+              [
+                0.004606729373335838,
+                0.060778241604566574
+              ],
+              [
+                0.015053503215312958,
+                0.05185197293758392
+              ],
+              [
+                0.018926233053207397,
+                0.0518035814166069
+              ],
+              [
+                0.01301548257470131,
+                0.05734258145093918
+              ],
+              [
+                0.0019339026184752584,
+                0.056411538273096085
+              ]
+            ],
+            "foreground_source_id": "cartoon_exact__00_dogpark_train_02_seed72002",
+            "background_source_id": "cartoon_exact__00_dogpark_train_05_seed72005"
+          },
+          "donors_match_predicted_scene": true,
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.31588801741600037,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 5.555555617320351e-05
+          }
+        },
+        "cyclic-shuffled text": {
+          "conditioning_text": "a digital workshop scene of someone fusing metal with a shower of sparks",
+          "program": {
+            "scene_token": 2,
+            "foreground_token": 14,
+            "background_token": 12
+          },
+          "realization": {
+            "scene_token": 2,
+            "foreground_scene_token": 2,
+            "foreground_training_field": 14,
+            "background_training_field": 12,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.8859493732452393,
+            "background_boundary_radius": 0.6590604186058044,
+            "tube_centers": [
+              [
+                -0.036942604929208755,
+                0.09120114147663116
+              ],
+              [
+                -0.039623063057661057,
+                0.09282239526510239
+              ],
+              [
+                -0.03297524154186249,
+                0.09208092838525772
+              ],
+              [
+                -0.0301324725151062,
+                0.08387837558984756
+              ],
+              [
+                -0.03274944797158241,
+                0.0768880844116211
+              ],
+              [
+                -0.03632115200161934,
+                0.07623156905174255
+              ],
+              [
+                -0.035581305623054504,
+                0.08106701821088791
+              ],
+              [
+                -0.026209868490695953,
+                0.08670471608638763
+              ]
+            ],
+            "foreground_source_id": "render3d_exact__00_workshop_train_02_seed73002",
+            "background_source_id": "render3d_exact__00_workshop_train_00_seed73000"
+          },
+          "donors_match_predicted_scene": true,
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.3090226650238037,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 2.7777778086601757e-05
+          }
+        },
+        "null text": {
+          "conditioning_text": "",
+          "program": {
+            "scene_token": 0,
+            "foreground_token": 3,
+            "background_token": 0
+          },
+          "realization": {
+            "scene_token": 0,
+            "foreground_scene_token": 0,
+            "foreground_training_field": 3,
+            "background_training_field": 0,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.5739225745201111,
+            "background_boundary_radius": 0.6987130045890808,
+            "tube_centers": [
+              [
+                -0.03216852247714996,
+                -0.007117229048162699
+              ],
+              [
+                -0.03091856837272644,
+                -0.007663368247449398
+              ],
+              [
+                -0.016268258914351463,
+                -0.0070261117070913315
+              ],
+              [
+                0.004250362515449524,
+                0.0025242643896490335
+              ],
+              [
+                0.023869529366493225,
+                0.017054129391908646
+              ],
+              [
+                0.03932908922433853,
+                0.021703451871871948
+              ],
+              [
+                0.036616988480091095,
+                0.017936784774065018
+              ],
+              [
+                0.021569764241576195,
+                0.023024044930934906
+              ]
+            ],
+            "foreground_source_id": "anime_exact__00_ballet_train_03_seed71003",
+            "background_source_id": "anime_exact__00_ballet_train_00_seed71000"
+          },
+          "donors_match_predicted_scene": true,
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.3109327256679535,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 4.166666622040793e-05
+          }
+        }
+      }
+    },
+    {
+      "intended_prompt": "a playful illustrated retriever catches a thrown ball outdoors",
+      "scene_token": 1,
+      "seed": 20260920,
+      "correct_similarity": 0.2523662745952606,
+      "shuffled_generation_similarity": 0.11900380998849869,
+      "null_generation_similarity": 0.14651133120059967,
+      "correct_retrieved_scene": 1,
+      "correct_top1": true,
+      "arms": {
+        "correct text": {
+          "conditioning_text": "a playful illustrated retriever catches a thrown ball outdoors",
+          "program": {
+            "scene_token": 1,
+            "foreground_token": 10,
+            "background_token": 8
+          },
+          "realization": {
+            "scene_token": 1,
+            "foreground_scene_token": 1,
+            "foreground_training_field": 10,
+            "background_training_field": 8,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.612122118473053,
+            "background_boundary_radius": 0.7105851769447327,
+            "tube_centers": [
+              [
+                -0.019912350922822952,
+                0.04068196564912796
+              ],
+              [
+                -0.01817268878221512,
+                0.056938596069812775
+              ],
+              [
+                -0.009400025941431522,
+                0.0650179535150528
+              ],
+              [
+                0.004606729373335838,
+                0.060778241604566574
+              ],
+              [
+                0.015053503215312958,
+                0.05185197293758392
+              ],
+              [
+                0.018926233053207397,
+                0.0518035814166069
+              ],
+              [
+                0.01301548257470131,
+                0.05734258145093918
+              ],
+              [
+                0.0019339026184752584,
+                0.056411538273096085
+              ]
+            ],
+            "foreground_source_id": "cartoon_exact__00_dogpark_train_04_seed72004",
+            "background_source_id": "cartoon_exact__00_dogpark_train_02_seed72002"
+          },
+          "donors_match_predicted_scene": true,
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.31094226241111755,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 4.166666622040793e-05
+          }
+        },
+        "cyclic-shuffled text": {
+          "conditioning_text": "a digital workshop scene of someone fusing metal with a shower of sparks",
+          "program": {
+            "scene_token": 2,
+            "foreground_token": 16,
+            "background_token": 15
+          },
+          "realization": {
+            "scene_token": 2,
+            "foreground_scene_token": 2,
+            "foreground_training_field": 16,
+            "background_training_field": 15,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.5787582993507385,
+            "background_boundary_radius": 0.9139409065246582,
+            "tube_centers": [
+              [
+                -0.036942604929208755,
+                0.09120114147663116
+              ],
+              [
+                -0.039623063057661057,
+                0.09282239526510239
+              ],
+              [
+                -0.03297524154186249,
+                0.09208092838525772
+              ],
+              [
+                -0.0301324725151062,
+                0.08387837558984756
+              ],
+              [
+                -0.03274944797158241,
+                0.0768880844116211
+              ],
+              [
+                -0.03632115200161934,
+                0.07623156905174255
+              ],
+              [
+                -0.035581305623054504,
+                0.08106701821088791
+              ],
+              [
+                -0.026209868490695953,
+                0.08670471608638763
+              ]
+            ],
+            "foreground_source_id": "render3d_exact__00_workshop_train_04_seed73004",
+            "background_source_id": "render3d_exact__00_workshop_train_03_seed73003"
+          },
+          "donors_match_predicted_scene": true,
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.31945791840553284,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 0.0
+          }
+        },
+        "null text": {
+          "conditioning_text": "",
+          "program": {
+            "scene_token": 0,
+            "foreground_token": 5,
+            "background_token": 3
+          },
+          "realization": {
+            "scene_token": 0,
+            "foreground_scene_token": 0,
+            "foreground_training_field": 5,
+            "background_training_field": 3,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.46780288219451904,
+            "background_boundary_radius": 0.5739235281944275,
+            "tube_centers": [
+              [
+                -0.03216852247714996,
+                -0.007117229048162699
+              ],
+              [
+                -0.03091856837272644,
+                -0.007663368247449398
+              ],
+              [
+                -0.016268258914351463,
+                -0.0070261117070913315
+              ],
+              [
+                0.004250362515449524,
+                0.0025242643896490335
+              ],
+              [
+                0.023869529366493225,
+                0.017054129391908646
+              ],
+              [
+                0.03932908922433853,
+                0.021703451871871948
+              ],
+              [
+                0.036616988480091095,
+                0.017936784774065018
+              ],
+              [
+                0.021569764241576195,
+                0.023024044930934906
+              ]
+            ],
+            "foreground_source_id": "anime_exact__00_ballet_train_05_seed71005",
+            "background_source_id": "anime_exact__00_ballet_train_03_seed71003"
+          },
+          "donors_match_predicted_scene": true,
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.30641108751296997,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 4.166666622040793e-05
+          }
+        }
+      }
+    },
+    {
+      "intended_prompt": "a digital workshop scene of someone fusing metal with a shower of sparks",
+      "scene_token": 2,
+      "seed": 20260918,
+      "correct_similarity": 0.2713432013988495,
+      "shuffled_generation_similarity": 0.23708541691303253,
+      "null_generation_similarity": 0.2754186987876892,
+      "correct_retrieved_scene": 2,
+      "correct_top1": true,
+      "arms": {
+        "correct text": {
+          "conditioning_text": "a digital workshop scene of someone fusing metal with a shower of sparks",
+          "program": {
+            "scene_token": 2,
+            "foreground_token": 14,
+            "background_token": 12
+          },
+          "realization": {
+            "scene_token": 2,
+            "foreground_scene_token": 2,
+            "foreground_training_field": 14,
+            "background_training_field": 12,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.8859493732452393,
+            "background_boundary_radius": 0.6590604186058044,
+            "tube_centers": [
+              [
+                -0.036942604929208755,
+                0.09120114147663116
+              ],
+              [
+                -0.039623063057661057,
+                0.09282239526510239
+              ],
+              [
+                -0.03297524154186249,
+                0.09208092838525772
+              ],
+              [
+                -0.0301324725151062,
+                0.08387837558984756
+              ],
+              [
+                -0.03274944797158241,
+                0.0768880844116211
+              ],
+              [
+                -0.03632115200161934,
+                0.07623156905174255
+              ],
+              [
+                -0.035581305623054504,
+                0.08106701821088791
+              ],
+              [
+                -0.026209868490695953,
+                0.08670471608638763
+              ]
+            ],
+            "foreground_source_id": "render3d_exact__00_workshop_train_02_seed73002",
+            "background_source_id": "render3d_exact__00_workshop_train_00_seed73000"
+          },
+          "donors_match_predicted_scene": true,
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.3089613914489746,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 0.0
+          }
+        },
+        "cyclic-shuffled text": {
+          "conditioning_text": "an animated ballet performer twirling inside a rehearsal room",
+          "program": {
+            "scene_token": 0,
+            "foreground_token": 1,
+            "background_token": 5
+          },
+          "realization": {
+            "scene_token": 0,
+            "foreground_scene_token": 0,
+            "foreground_training_field": 1,
+            "background_training_field": 5,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.4688735604286194,
+            "background_boundary_radius": 0.467811644077301,
+            "tube_centers": [
+              [
+                -0.03216852247714996,
+                -0.007117229048162699
+              ],
+              [
+                -0.03091856837272644,
+                -0.007663368247449398
+              ],
+              [
+                -0.016268258914351463,
+                -0.0070261117070913315
+              ],
+              [
+                0.004250362515449524,
+                0.0025242643896490335
+              ],
+              [
+                0.023869529366493225,
+                0.017054129391908646
+              ],
+              [
+                0.03932908922433853,
+                0.021703451871871948
+              ],
+              [
+                0.036616988480091095,
+                0.017936784774065018
+              ],
+              [
+                0.021569764241576195,
+                0.023024044930934906
+              ]
+            ],
+            "foreground_source_id": "anime_exact__00_ballet_train_01_seed71001",
+            "background_source_id": "anime_exact__00_ballet_train_05_seed71005"
+          },
+          "donors_match_predicted_scene": true,
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.3056456446647644,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 2.7777778086601757e-05
+          }
+        },
+        "null text": {
+          "conditioning_text": "",
+          "program": {
+            "scene_token": 0,
+            "foreground_token": 3,
+            "background_token": 0
+          },
+          "realization": {
+            "scene_token": 0,
+            "foreground_scene_token": 0,
+            "foreground_training_field": 3,
+            "background_training_field": 0,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.5739225745201111,
+            "background_boundary_radius": 0.6987130045890808,
+            "tube_centers": [
+              [
+                -0.03216852247714996,
+                -0.007117229048162699
+              ],
+              [
+                -0.03091856837272644,
+                -0.007663368247449398
+              ],
+              [
+                -0.016268258914351463,
+                -0.0070261117070913315
+              ],
+              [
+                0.004250362515449524,
+                0.0025242643896490335
+              ],
+              [
+                0.023869529366493225,
+                0.017054129391908646
+              ],
+              [
+                0.03932908922433853,
+                0.021703451871871948
+              ],
+              [
+                0.036616988480091095,
+                0.017936784774065018
+              ],
+              [
+                0.021569764241576195,
+                0.023024044930934906
+              ]
+            ],
+            "foreground_source_id": "anime_exact__00_ballet_train_03_seed71003",
+            "background_source_id": "anime_exact__00_ballet_train_00_seed71000"
+          },
+          "donors_match_predicted_scene": true,
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.3110073208808899,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 2.7777778086601757e-05
+          }
+        }
+      }
+    },
+    {
+      "intended_prompt": "a digital workshop scene of someone fusing metal with a shower of sparks",
+      "scene_token": 2,
+      "seed": 20260919,
+      "correct_similarity": 0.2667035460472107,
+      "shuffled_generation_similarity": 0.28027355670928955,
+      "null_generation_similarity": 0.27223730087280273,
+      "correct_retrieved_scene": 2,
+      "correct_top1": true,
+      "arms": {
+        "correct text": {
+          "conditioning_text": "a digital workshop scene of someone fusing metal with a shower of sparks",
+          "program": {
+            "scene_token": 2,
+            "foreground_token": 17,
+            "background_token": 14
+          },
+          "realization": {
+            "scene_token": 2,
+            "foreground_scene_token": 2,
+            "foreground_training_field": 17,
+            "background_training_field": 14,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.7074849605560303,
+            "background_boundary_radius": 0.8859556317329407,
+            "tube_centers": [
+              [
+                -0.036942604929208755,
+                0.09120114147663116
+              ],
+              [
+                -0.039623063057661057,
+                0.09282239526510239
+              ],
+              [
+                -0.03297524154186249,
+                0.09208092838525772
+              ],
+              [
+                -0.0301324725151062,
+                0.08387837558984756
+              ],
+              [
+                -0.03274944797158241,
+                0.0768880844116211
+              ],
+              [
+                -0.03632115200161934,
+                0.07623156905174255
+              ],
+              [
+                -0.035581305623054504,
+                0.08106701821088791
+              ],
+              [
+                -0.026209868490695953,
+                0.08670471608638763
+              ]
+            ],
+            "foreground_source_id": "render3d_exact__00_workshop_train_05_seed73005",
+            "background_source_id": "render3d_exact__00_workshop_train_02_seed73002"
+          },
+          "donors_match_predicted_scene": true,
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.31452879309654236,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 5.555555617320351e-05
+          }
+        },
+        "cyclic-shuffled text": {
+          "conditioning_text": "an animated ballet performer twirling inside a rehearsal room",
+          "program": {
+            "scene_token": 0,
+            "foreground_token": 0,
+            "background_token": 4
+          },
+          "realization": {
+            "scene_token": 0,
+            "foreground_scene_token": 0,
+            "foreground_training_field": 0,
+            "background_training_field": 4,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.6987119913101196,
+            "background_boundary_radius": 0.5290611982345581,
+            "tube_centers": [
+              [
+                -0.03216852247714996,
+                -0.007117229048162699
+              ],
+              [
+                -0.03091856837272644,
+                -0.007663368247449398
+              ],
+              [
+                -0.016268258914351463,
+                -0.0070261117070913315
+              ],
+              [
+                0.004250362515449524,
+                0.0025242643896490335
+              ],
+              [
+                0.023869529366493225,
+                0.017054129391908646
+              ],
+              [
+                0.03932908922433853,
+                0.021703451871871948
+              ],
+              [
+                0.036616988480091095,
+                0.017936784774065018
+              ],
+              [
+                0.021569764241576195,
+                0.023024044930934906
+              ]
+            ],
+            "foreground_source_id": "anime_exact__00_ballet_train_00_seed71000",
+            "background_source_id": "anime_exact__00_ballet_train_04_seed71004"
+          },
+          "donors_match_predicted_scene": true,
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.3062870502471924,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 4.166666622040793e-05
+          }
+        },
+        "null text": {
+          "conditioning_text": "",
+          "program": {
+            "scene_token": 0,
+            "foreground_token": 1,
+            "background_token": 4
+          },
+          "realization": {
+            "scene_token": 0,
+            "foreground_scene_token": 0,
+            "foreground_training_field": 1,
+            "background_training_field": 4,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.4688735604286194,
+            "background_boundary_radius": 0.5290611982345581,
+            "tube_centers": [
+              [
+                -0.03216852247714996,
+                -0.007117229048162699
+              ],
+              [
+                -0.03091856837272644,
+                -0.007663368247449398
+              ],
+              [
+                -0.016268258914351463,
+                -0.0070261117070913315
+              ],
+              [
+                0.004250362515449524,
+                0.0025242643896490335
+              ],
+              [
+                0.023869529366493225,
+                0.017054129391908646
+              ],
+              [
+                0.03932908922433853,
+                0.021703451871871948
+              ],
+              [
+                0.036616988480091095,
+                0.017936784774065018
+              ],
+              [
+                0.021569764241576195,
+                0.023024044930934906
+              ]
+            ],
+            "foreground_source_id": "anime_exact__00_ballet_train_01_seed71001",
+            "background_source_id": "anime_exact__00_ballet_train_04_seed71004"
+          },
+          "donors_match_predicted_scene": true,
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.30621668696403503,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 2.7777778086601757e-05
+          }
+        }
+      }
+    },
+    {
+      "intended_prompt": "a digital workshop scene of someone fusing metal with a shower of sparks",
+      "scene_token": 2,
+      "seed": 20260920,
+      "correct_similarity": 0.2680707573890686,
+      "shuffled_generation_similarity": 0.2901187539100647,
+      "null_generation_similarity": 0.27179402112960815,
+      "correct_retrieved_scene": 2,
+      "correct_top1": true,
+      "arms": {
+        "correct text": {
+          "conditioning_text": "a digital workshop scene of someone fusing metal with a shower of sparks",
+          "program": {
+            "scene_token": 2,
+            "foreground_token": 15,
+            "background_token": 12
+          },
+          "realization": {
+            "scene_token": 2,
+            "foreground_scene_token": 2,
+            "foreground_training_field": 15,
+            "background_training_field": 12,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.9139156937599182,
+            "background_boundary_radius": 0.6590604186058044,
+            "tube_centers": [
+              [
+                -0.036942604929208755,
+                0.09120114147663116
+              ],
+              [
+                -0.039623063057661057,
+                0.09282239526510239
+              ],
+              [
+                -0.03297524154186249,
+                0.09208092838525772
+              ],
+              [
+                -0.0301324725151062,
+                0.08387837558984756
+              ],
+              [
+                -0.03274944797158241,
+                0.0768880844116211
+              ],
+              [
+                -0.03632115200161934,
+                0.07623156905174255
+              ],
+              [
+                -0.035581305623054504,
+                0.08106701821088791
+              ],
+              [
+                -0.026209868490695953,
+                0.08670471608638763
+              ]
+            ],
+            "foreground_source_id": "render3d_exact__00_workshop_train_03_seed73003",
+            "background_source_id": "render3d_exact__00_workshop_train_00_seed73000"
+          },
+          "donors_match_predicted_scene": true,
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.31078997254371643,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 1.3888889043300878e-05
+          }
+        },
+        "cyclic-shuffled text": {
+          "conditioning_text": "an animated ballet performer twirling inside a rehearsal room",
+          "program": {
+            "scene_token": 0,
+            "foreground_token": 2,
+            "background_token": 4
+          },
+          "realization": {
+            "scene_token": 0,
+            "foreground_scene_token": 0,
+            "foreground_training_field": 2,
+            "background_training_field": 4,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.6378079056739807,
+            "background_boundary_radius": 0.5290611982345581,
+            "tube_centers": [
+              [
+                -0.03216852247714996,
+                -0.007117229048162699
+              ],
+              [
+                -0.03091856837272644,
+                -0.007663368247449398
+              ],
+              [
+                -0.016268258914351463,
+                -0.0070261117070913315
+              ],
+              [
+                0.004250362515449524,
+                0.0025242643896490335
+              ],
+              [
+                0.023869529366493225,
+                0.017054129391908646
+              ],
+              [
+                0.03932908922433853,
+                0.021703451871871948
+              ],
+              [
+                0.036616988480091095,
+                0.017936784774065018
+              ],
+              [
+                0.021569764241576195,
+                0.023024044930934906
+              ]
+            ],
+            "foreground_source_id": "anime_exact__00_ballet_train_02_seed71002",
+            "background_source_id": "anime_exact__00_ballet_train_04_seed71004"
+          },
+          "donors_match_predicted_scene": true,
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.3084249198436737,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 6.944444612599909e-05
+          }
+        },
+        "null text": {
+          "conditioning_text": "",
+          "program": {
+            "scene_token": 0,
+            "foreground_token": 2,
+            "background_token": 0
+          },
+          "realization": {
+            "scene_token": 0,
+            "foreground_scene_token": 0,
+            "foreground_training_field": 2,
+            "background_training_field": 0,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.6378079056739807,
+            "background_boundary_radius": 0.6987130045890808,
+            "tube_centers": [
+              [
+                -0.03216852247714996,
+                -0.007117229048162699
+              ],
+              [
+                -0.03091856837272644,
+                -0.007663368247449398
+              ],
+              [
+                -0.016268258914351463,
+                -0.0070261117070913315
+              ],
+              [
+                0.004250362515449524,
+                0.0025242643896490335
+              ],
+              [
+                0.023869529366493225,
+                0.017054129391908646
+              ],
+              [
+                0.03932908922433853,
+                0.021703451871871948
+              ],
+              [
+                0.036616988480091095,
+                0.017936784774065018
+              ],
+              [
+                0.021569764241576195,
+                0.023024044930934906
+              ]
+            ],
+            "foreground_source_id": "anime_exact__00_ballet_train_02_seed71002",
+            "background_source_id": "anime_exact__00_ballet_train_00_seed71000"
+          },
+          "donors_match_predicted_scene": true,
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.31159305572509766,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 5.555555617320351e-05
+          }
+        }
+      }
+    }
+  ],
+  "gate": {
+    "checks": {
+      "training_token_gate_passed": true,
+      "correct_program_donors_match_scene_at_least_8of9": true,
+      "correct_top1_at_least_6of9": false,
+      "majority_retrieval_in_at_least_2of3_classes": false,
+      "correct_minus_shuffled_generation_at_least_002": true,
+      "correct_minus_null_generation_at_least_001": true,
+      "correct_beats_shuffled_at_least_7of9": true,
+      "all_donors_distinct": true,
+      "all_programs_exactly_half_owned": true,
+      "all_counts_exact_without_adjustment": true,
+      "all_renders_finite": true,
+      "generated_centers_not_grid_locked": true
+    },
+    "numeric_passed": false,
+    "qualitative_recognizability_review_required": true
+  }
+}

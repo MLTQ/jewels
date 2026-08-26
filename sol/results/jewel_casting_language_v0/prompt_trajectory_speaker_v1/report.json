@@ -1,0 +1,2298 @@
+{
+  "schema": "prompt-only-trajectory-token-speaker-v1",
+  "protocol": {
+    "prompts": [
+      "a ballerina spinning a pirouette in a studio",
+      "a golden retriever catching a ball on grass",
+      "a welder joining steel with bright sparks"
+    ],
+    "scene_keys": [
+      [
+        "anime",
+        "a ballerina spinning a pirouette in a studio"
+      ],
+      [
+        "cartoon",
+        "a golden retriever catching a ball on grass"
+      ],
+      [
+        "render3d",
+        "a welder joining steel with bright sparks"
+      ]
+    ],
+    "seeds": [
+      20260914,
+      20260915,
+      20260916
+    ],
+    "training_sources": [
+      "anime_exact__00_ballet_train_00_seed71000",
+      "anime_exact__00_ballet_train_01_seed71001",
+      "anime_exact__00_ballet_train_02_seed71002",
+      "anime_exact__00_ballet_train_03_seed71003",
+      "anime_exact__00_ballet_train_04_seed71004",
+      "anime_exact__00_ballet_train_05_seed71005",
+      "cartoon_exact__00_dogpark_train_00_seed72000",
+      "cartoon_exact__00_dogpark_train_01_seed72001",
+      "cartoon_exact__00_dogpark_train_02_seed72002",
+      "cartoon_exact__00_dogpark_train_03_seed72003",
+      "cartoon_exact__00_dogpark_train_04_seed72004",
+      "cartoon_exact__00_dogpark_train_05_seed72005",
+      "render3d_exact__00_workshop_train_00_seed73000",
+      "render3d_exact__00_workshop_train_01_seed73001",
+      "render3d_exact__00_workshop_train_02_seed73002",
+      "render3d_exact__00_workshop_train_03_seed73003",
+      "render3d_exact__00_workshop_train_04_seed73004",
+      "render3d_exact__00_workshop_train_05_seed73005"
+    ],
+    "semantic_inputs": [
+      "exact prompt text",
+      "declared integer seed"
+    ],
+    "target_video_input": false,
+    "target_field_input": false,
+    "target_block_program_input": false,
+    "heldout_latent_input": false,
+    "source_token_backed_vocabulary": true,
+    "complete_video_retrieval": false,
+    "open_vocabulary": false,
+    "learned_language_model": false,
+    "generation_jewels": 72000,
+    "render_shape": [
+      49,
+      144,
+      216
+    ],
+    "rendered_frame_indices": [
+      0,
+      24,
+      48
+    ],
+    "semantic_evaluator": "OpenCLIP ViT-B-32 laion2b_s34b_b79k"
+  },
+  "fit": {
+    "training_fields": 18,
+    "jewels_per_field": 72000,
+    "semantic_scene_tokens": 3,
+    "same_scene_candidates": {
+      "0": 6,
+      "1": 6,
+      "2": 6
+    },
+    "one_source_choice_per_window": true,
+    "likelihood_neighbors": 4,
+    "smoothing": 0.1,
+    "jitter_std": 0.005,
+    "semantic_path": "scene_mean_vs_other_mean_descriptor_saliency_smoothed_121",
+    "radius_candidates": {
+      "minimum": 0.45,
+      "maximum": 1.1,
+      "count": 132
+    },
+    "minimum_donor_fraction": 0.2,
+    "preferred_tie_break_radius": 0.78,
+    "density_balanced_boundary": true
+  },
+  "programs": [
+    {
+      "prompt": "a ballerina spinning a pirouette in a studio",
+      "scene_token": 0,
+      "foreground_token": 5,
+      "background_token": 0,
+      "seed": 20260914,
+      "condition": "correct prompt"
+    },
+    {
+      "prompt": "a golden retriever catching a ball on grass",
+      "scene_token": 1,
+      "foreground_token": 7,
+      "background_token": 11,
+      "seed": 20260914,
+      "condition": "cyclic-shuffled prompt"
+    },
+    {
+      "prompt": "",
+      "scene_token": 0,
+      "foreground_token": 5,
+      "background_token": 0,
+      "seed": 20260914,
+      "condition": "null prompt"
+    },
+    {
+      "prompt": "a ballerina spinning a pirouette in a studio",
+      "scene_token": 0,
+      "foreground_token": 0,
+      "background_token": 2,
+      "seed": 20260915,
+      "condition": "correct prompt"
+    },
+    {
+      "prompt": "a golden retriever catching a ball on grass",
+      "scene_token": 1,
+      "foreground_token": 11,
+      "background_token": 7,
+      "seed": 20260915,
+      "condition": "cyclic-shuffled prompt"
+    },
+    {
+      "prompt": "",
+      "scene_token": 1,
+      "foreground_token": 11,
+      "background_token": 7,
+      "seed": 20260915,
+      "condition": "null prompt"
+    },
+    {
+      "prompt": "a ballerina spinning a pirouette in a studio",
+      "scene_token": 0,
+      "foreground_token": 5,
+      "background_token": 3,
+      "seed": 20260916,
+      "condition": "correct prompt"
+    },
+    {
+      "prompt": "a golden retriever catching a ball on grass",
+      "scene_token": 1,
+      "foreground_token": 10,
+      "background_token": 7,
+      "seed": 20260916,
+      "condition": "cyclic-shuffled prompt"
+    },
+    {
+      "prompt": "",
+      "scene_token": 2,
+      "foreground_token": 12,
+      "background_token": 14,
+      "seed": 20260916,
+      "condition": "null prompt"
+    },
+    {
+      "prompt": "a golden retriever catching a ball on grass",
+      "scene_token": 1,
+      "foreground_token": 7,
+      "background_token": 11,
+      "seed": 20260914,
+      "condition": "correct prompt"
+    },
+    {
+      "prompt": "a welder joining steel with bright sparks",
+      "scene_token": 2,
+      "foreground_token": 13,
+      "background_token": 12,
+      "seed": 20260914,
+      "condition": "cyclic-shuffled prompt"
+    },
+    {
+      "prompt": "",
+      "scene_token": 0,
+      "foreground_token": 5,
+      "background_token": 0,
+      "seed": 20260914,
+      "condition": "null prompt"
+    },
+    {
+      "prompt": "a golden retriever catching a ball on grass",
+      "scene_token": 1,
+      "foreground_token": 11,
+      "background_token": 7,
+      "seed": 20260915,
+      "condition": "correct prompt"
+    },
+    {
+      "prompt": "a welder joining steel with bright sparks",
+      "scene_token": 2,
+      "foreground_token": 16,
+      "background_token": 12,
+      "seed": 20260915,
+      "condition": "cyclic-shuffled prompt"
+    },
+    {
+      "prompt": "",
+      "scene_token": 1,
+      "foreground_token": 11,
+      "background_token": 7,
+      "seed": 20260915,
+      "condition": "null prompt"
+    },
+    {
+      "prompt": "a golden retriever catching a ball on grass",
+      "scene_token": 1,
+      "foreground_token": 10,
+      "background_token": 7,
+      "seed": 20260916,
+      "condition": "correct prompt"
+    },
+    {
+      "prompt": "a welder joining steel with bright sparks",
+      "scene_token": 2,
+      "foreground_token": 12,
+      "background_token": 14,
+      "seed": 20260916,
+      "condition": "cyclic-shuffled prompt"
+    },
+    {
+      "prompt": "",
+      "scene_token": 2,
+      "foreground_token": 12,
+      "background_token": 14,
+      "seed": 20260916,
+      "condition": "null prompt"
+    },
+    {
+      "prompt": "a welder joining steel with bright sparks",
+      "scene_token": 2,
+      "foreground_token": 13,
+      "background_token": 12,
+      "seed": 20260914,
+      "condition": "correct prompt"
+    },
+    {
+      "prompt": "a ballerina spinning a pirouette in a studio",
+      "scene_token": 0,
+      "foreground_token": 5,
+      "background_token": 0,
+      "seed": 20260914,
+      "condition": "cyclic-shuffled prompt"
+    },
+    {
+      "prompt": "",
+      "scene_token": 0,
+      "foreground_token": 5,
+      "background_token": 0,
+      "seed": 20260914,
+      "condition": "null prompt"
+    },
+    {
+      "prompt": "a welder joining steel with bright sparks",
+      "scene_token": 2,
+      "foreground_token": 16,
+      "background_token": 12,
+      "seed": 20260915,
+      "condition": "correct prompt"
+    },
+    {
+      "prompt": "a ballerina spinning a pirouette in a studio",
+      "scene_token": 0,
+      "foreground_token": 0,
+      "background_token": 2,
+      "seed": 20260915,
+      "condition": "cyclic-shuffled prompt"
+    },
+    {
+      "prompt": "",
+      "scene_token": 1,
+      "foreground_token": 11,
+      "background_token": 7,
+      "seed": 20260915,
+      "condition": "null prompt"
+    },
+    {
+      "prompt": "a welder joining steel with bright sparks",
+      "scene_token": 2,
+      "foreground_token": 12,
+      "background_token": 14,
+      "seed": 20260916,
+      "condition": "correct prompt"
+    },
+    {
+      "prompt": "a ballerina spinning a pirouette in a studio",
+      "scene_token": 0,
+      "foreground_token": 5,
+      "background_token": 3,
+      "seed": 20260916,
+      "condition": "cyclic-shuffled prompt"
+    },
+    {
+      "prompt": "",
+      "scene_token": 2,
+      "foreground_token": 12,
+      "background_token": 14,
+      "seed": 20260916,
+      "condition": "null prompt"
+    }
+  ],
+  "summary": {
+    "programs": 9,
+    "correct_top1": 8,
+    "correct_top1_fraction": 0.8888888888888888,
+    "classes_with_majority_retrieval": 3,
+    "correct_similarity_mean": 0.18172748552428353,
+    "shuffled_generation_similarity_mean": 0.1252509243786335,
+    "null_generation_similarity_mean": 0.1482479390170839,
+    "correct_minus_shuffled_generation": 0.056476561145650014,
+    "correct_minus_null_generation": 0.03347954650719961,
+    "correct_beats_shuffled_generation": 9,
+    "correct_beats_null_generation": 9
+  },
+  "records": [
+    {
+      "intended_prompt": "a ballerina spinning a pirouette in a studio",
+      "scene_token": 0,
+      "seed": 20260914,
+      "correct_similarity": 0.19022773206233978,
+      "correct_same_render_shuffled_text_similarity": 0.10374042391777039,
+      "shuffled_generation_similarity": 0.14969788491725922,
+      "null_generation_similarity": 0.1902276873588562,
+      "correct_retrieved_scene": 0,
+      "correct_top1": true,
+      "arms": {
+        "correct prompt": {
+          "program": {
+            "prompt": "a ballerina spinning a pirouette in a studio",
+            "scene_token": 0,
+            "foreground_token": 5,
+            "background_token": 0,
+            "seed": 20260914,
+            "condition": "correct prompt"
+          },
+          "realization": {
+            "scene_token": 0,
+            "foreground_scene_token": 0,
+            "foreground_training_field": 5,
+            "background_training_field": 0,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.46780288219451904,
+            "background_boundary_radius": 0.6987130045890808,
+            "tube_centers": [
+              [
+                -0.03216852247714996,
+                -0.007117238827049732
+              ],
+              [
+                -0.03091856837272644,
+                -0.007663370110094547
+              ],
+              [
+                -0.016268258914351463,
+                -0.007026113104075193
+              ],
+              [
+                0.004250366240739822,
+                0.002524259267374873
+              ],
+              [
+                0.023869531229138374,
+                0.017054125666618347
+              ],
+              [
+                0.03932908922433853,
+                0.02170344814658165
+              ],
+              [
+                0.03661699220538139,
+                0.01793678104877472
+              ],
+              [
+                0.021569762378931046,
+                0.023024043068289757
+              ]
+            ],
+            "foreground_source_id": "anime_exact__00_ballet_train_05_seed71005",
+            "background_source_id": "anime_exact__00_ballet_train_00_seed71000"
+          },
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.3095156252384186,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 1.3888889043300878e-05
+          }
+        },
+        "cyclic-shuffled prompt": {
+          "program": {
+            "prompt": "a golden retriever catching a ball on grass",
+            "scene_token": 1,
+            "foreground_token": 7,
+            "background_token": 11,
+            "seed": 20260914,
+            "condition": "cyclic-shuffled prompt"
+          },
+          "realization": {
+            "scene_token": 1,
+            "foreground_scene_token": 1,
+            "foreground_training_field": 7,
+            "background_training_field": 11,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.6207919120788574,
+            "background_boundary_radius": 0.8914575576782227,
+            "tube_centers": [
+              [
+                -0.0199123527854681,
+                0.04068195819854736
+              ],
+              [
+                -0.018172690644860268,
+                0.05693858861923218
+              ],
+              [
+                -0.009400024078786373,
+                0.0650179535150528
+              ],
+              [
+                0.0046067307703197,
+                0.06077824905514717
+              ],
+              [
+                0.015053505077958107,
+                0.05185198038816452
+              ],
+              [
+                0.018926234915852547,
+                0.0518035925924778
+              ],
+              [
+                0.013015483506023884,
+                0.05734259635210037
+              ],
+              [
+                0.0019339043647050858,
+                0.05641155689954758
+              ]
+            ],
+            "foreground_source_id": "cartoon_exact__00_dogpark_train_01_seed72001",
+            "background_source_id": "cartoon_exact__00_dogpark_train_05_seed72005"
+          },
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.31502634286880493,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 9.722222603159025e-05
+          }
+        },
+        "null prompt": {
+          "program": {
+            "prompt": "",
+            "scene_token": 0,
+            "foreground_token": 5,
+            "background_token": 0,
+            "seed": 20260914,
+            "condition": "null prompt"
+          },
+          "realization": {
+            "scene_token": 0,
+            "foreground_scene_token": 0,
+            "foreground_training_field": 5,
+            "background_training_field": 0,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.46780288219451904,
+            "background_boundary_radius": 0.6987130045890808,
+            "tube_centers": [
+              [
+                -0.03216852247714996,
+                -0.007117238827049732
+              ],
+              [
+                -0.03091856837272644,
+                -0.007663370110094547
+              ],
+              [
+                -0.016268258914351463,
+                -0.007026113104075193
+              ],
+              [
+                0.004250366240739822,
+                0.002524259267374873
+              ],
+              [
+                0.023869531229138374,
+                0.017054125666618347
+              ],
+              [
+                0.03932908922433853,
+                0.02170344814658165
+              ],
+              [
+                0.03661699220538139,
+                0.01793678104877472
+              ],
+              [
+                0.021569762378931046,
+                0.023024043068289757
+              ]
+            ],
+            "foreground_source_id": "anime_exact__00_ballet_train_05_seed71005",
+            "background_source_id": "anime_exact__00_ballet_train_00_seed71000"
+          },
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.3095156252384186,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 1.3888889043300878e-05
+          }
+        }
+      }
+    },
+    {
+      "intended_prompt": "a ballerina spinning a pirouette in a studio",
+      "scene_token": 0,
+      "seed": 20260915,
+      "correct_similarity": 0.2092662751674652,
+      "correct_same_render_shuffled_text_similarity": 0.09754496812820435,
+      "shuffled_generation_similarity": 0.13192389905452728,
+      "null_generation_similarity": 0.1319238543510437,
+      "correct_retrieved_scene": 0,
+      "correct_top1": true,
+      "arms": {
+        "correct prompt": {
+          "program": {
+            "prompt": "a ballerina spinning a pirouette in a studio",
+            "scene_token": 0,
+            "foreground_token": 0,
+            "background_token": 2,
+            "seed": 20260915,
+            "condition": "correct prompt"
+          },
+          "realization": {
+            "scene_token": 0,
+            "foreground_scene_token": 0,
+            "foreground_training_field": 0,
+            "background_training_field": 2,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.6987119913101196,
+            "background_boundary_radius": 0.6378160119056702,
+            "tube_centers": [
+              [
+                -0.03216852247714996,
+                -0.007117238827049732
+              ],
+              [
+                -0.03091856837272644,
+                -0.007663370110094547
+              ],
+              [
+                -0.016268258914351463,
+                -0.007026113104075193
+              ],
+              [
+                0.004250366240739822,
+                0.002524259267374873
+              ],
+              [
+                0.023869531229138374,
+                0.017054125666618347
+              ],
+              [
+                0.03932908922433853,
+                0.02170344814658165
+              ],
+              [
+                0.03661699220538139,
+                0.01793678104877472
+              ],
+              [
+                0.021569762378931046,
+                0.023024043068289757
+              ]
+            ],
+            "foreground_source_id": "anime_exact__00_ballet_train_00_seed71000",
+            "background_source_id": "anime_exact__00_ballet_train_02_seed71002"
+          },
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.3047395646572113,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 0.0
+          }
+        },
+        "cyclic-shuffled prompt": {
+          "program": {
+            "prompt": "a golden retriever catching a ball on grass",
+            "scene_token": 1,
+            "foreground_token": 11,
+            "background_token": 7,
+            "seed": 20260915,
+            "condition": "cyclic-shuffled prompt"
+          },
+          "realization": {
+            "scene_token": 1,
+            "foreground_scene_token": 1,
+            "foreground_training_field": 11,
+            "background_training_field": 7,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.8914560079574585,
+            "background_boundary_radius": 0.6208128929138184,
+            "tube_centers": [
+              [
+                -0.0199123527854681,
+                0.04068195819854736
+              ],
+              [
+                -0.018172690644860268,
+                0.05693858861923218
+              ],
+              [
+                -0.009400024078786373,
+                0.0650179535150528
+              ],
+              [
+                0.0046067307703197,
+                0.06077824905514717
+              ],
+              [
+                0.015053505077958107,
+                0.05185198038816452
+              ],
+              [
+                0.018926234915852547,
+                0.0518035925924778
+              ],
+              [
+                0.013015483506023884,
+                0.05734259635210037
+              ],
+              [
+                0.0019339043647050858,
+                0.05641155689954758
+              ]
+            ],
+            "foreground_source_id": "cartoon_exact__00_dogpark_train_05_seed72005",
+            "background_source_id": "cartoon_exact__00_dogpark_train_01_seed72001"
+          },
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.3079981803894043,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 8.333333244081587e-05
+          }
+        },
+        "null prompt": {
+          "program": {
+            "prompt": "",
+            "scene_token": 1,
+            "foreground_token": 11,
+            "background_token": 7,
+            "seed": 20260915,
+            "condition": "null prompt"
+          },
+          "realization": {
+            "scene_token": 1,
+            "foreground_scene_token": 1,
+            "foreground_training_field": 11,
+            "background_training_field": 7,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.8914560079574585,
+            "background_boundary_radius": 0.6208128929138184,
+            "tube_centers": [
+              [
+                -0.0199123527854681,
+                0.04068195819854736
+              ],
+              [
+                -0.018172690644860268,
+                0.05693858861923218
+              ],
+              [
+                -0.009400024078786373,
+                0.0650179535150528
+              ],
+              [
+                0.0046067307703197,
+                0.06077824905514717
+              ],
+              [
+                0.015053505077958107,
+                0.05185198038816452
+              ],
+              [
+                0.018926234915852547,
+                0.0518035925924778
+              ],
+              [
+                0.013015483506023884,
+                0.05734259635210037
+              ],
+              [
+                0.0019339043647050858,
+                0.05641155689954758
+              ]
+            ],
+            "foreground_source_id": "cartoon_exact__00_dogpark_train_05_seed72005",
+            "background_source_id": "cartoon_exact__00_dogpark_train_01_seed72001"
+          },
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.3079981803894043,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 8.333333244081587e-05
+          }
+        }
+      }
+    },
+    {
+      "intended_prompt": "a ballerina spinning a pirouette in a studio",
+      "scene_token": 0,
+      "seed": 20260916,
+      "correct_similarity": 0.18762922286987305,
+      "correct_same_render_shuffled_text_similarity": 0.11033251881599426,
+      "shuffled_generation_similarity": 0.13664157688617706,
+      "null_generation_similarity": 0.17088869214057922,
+      "correct_retrieved_scene": 0,
+      "correct_top1": true,
+      "arms": {
+        "correct prompt": {
+          "program": {
+            "prompt": "a ballerina spinning a pirouette in a studio",
+            "scene_token": 0,
+            "foreground_token": 5,
+            "background_token": 3,
+            "seed": 20260916,
+            "condition": "correct prompt"
+          },
+          "realization": {
+            "scene_token": 0,
+            "foreground_scene_token": 0,
+            "foreground_training_field": 5,
+            "background_training_field": 3,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.46780288219451904,
+            "background_boundary_radius": 0.5739235281944275,
+            "tube_centers": [
+              [
+                -0.03216852247714996,
+                -0.007117238827049732
+              ],
+              [
+                -0.03091856837272644,
+                -0.007663370110094547
+              ],
+              [
+                -0.016268258914351463,
+                -0.007026113104075193
+              ],
+              [
+                0.004250366240739822,
+                0.002524259267374873
+              ],
+              [
+                0.023869531229138374,
+                0.017054125666618347
+              ],
+              [
+                0.03932908922433853,
+                0.02170344814658165
+              ],
+              [
+                0.03661699220538139,
+                0.01793678104877472
+              ],
+              [
+                0.021569762378931046,
+                0.023024043068289757
+              ]
+            ],
+            "foreground_source_id": "anime_exact__00_ballet_train_05_seed71005",
+            "background_source_id": "anime_exact__00_ballet_train_03_seed71003"
+          },
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.30634015798568726,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 1.3888889043300878e-05
+          }
+        },
+        "cyclic-shuffled prompt": {
+          "program": {
+            "prompt": "a golden retriever catching a ball on grass",
+            "scene_token": 1,
+            "foreground_token": 10,
+            "background_token": 7,
+            "seed": 20260916,
+            "condition": "cyclic-shuffled prompt"
+          },
+          "realization": {
+            "scene_token": 1,
+            "foreground_scene_token": 1,
+            "foreground_training_field": 10,
+            "background_training_field": 7,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.612122118473053,
+            "background_boundary_radius": 0.6208128929138184,
+            "tube_centers": [
+              [
+                -0.0199123527854681,
+                0.04068195819854736
+              ],
+              [
+                -0.018172690644860268,
+                0.05693858861923218
+              ],
+              [
+                -0.009400024078786373,
+                0.0650179535150528
+              ],
+              [
+                0.0046067307703197,
+                0.06077824905514717
+              ],
+              [
+                0.015053505077958107,
+                0.05185198038816452
+              ],
+              [
+                0.018926234915852547,
+                0.0518035925924778
+              ],
+              [
+                0.013015483506023884,
+                0.05734259635210037
+              ],
+              [
+                0.0019339043647050858,
+                0.05641155689954758
+              ]
+            ],
+            "foreground_source_id": "cartoon_exact__00_dogpark_train_04_seed72004",
+            "background_source_id": "cartoon_exact__00_dogpark_train_01_seed72001"
+          },
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.3089611530303955,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 8.333333244081587e-05
+          }
+        },
+        "null prompt": {
+          "program": {
+            "prompt": "",
+            "scene_token": 2,
+            "foreground_token": 12,
+            "background_token": 14,
+            "seed": 20260916,
+            "condition": "null prompt"
+          },
+          "realization": {
+            "scene_token": 2,
+            "foreground_scene_token": 2,
+            "foreground_training_field": 12,
+            "background_training_field": 14,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.6590586304664612,
+            "background_boundary_radius": 0.8859556317329407,
+            "tube_centers": [
+              [
+                -0.036942608654499054,
+                0.09120114147663116
+              ],
+              [
+                -0.03962305933237076,
+                0.09282238781452179
+              ],
+              [
+                -0.03297523781657219,
+                0.09208092093467712
+              ],
+              [
+                -0.0301324725151062,
+                0.08387836813926697
+              ],
+              [
+                -0.03274944797158241,
+                0.0768880844116211
+              ],
+              [
+                -0.03632115200161934,
+                0.07623156905174255
+              ],
+              [
+                -0.035581305623054504,
+                0.08106701076030731
+              ],
+              [
+                -0.026209862902760506,
+                0.08670469373464584
+              ]
+            ],
+            "foreground_source_id": "render3d_exact__00_workshop_train_00_seed73000",
+            "background_source_id": "render3d_exact__00_workshop_train_02_seed73002"
+          },
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.3139207363128662,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 2.7777778086601757e-05
+          }
+        }
+      }
+    },
+    {
+      "intended_prompt": "a golden retriever catching a ball on grass",
+      "scene_token": 1,
+      "seed": 20260914,
+      "correct_similarity": 0.15337856113910675,
+      "correct_same_render_shuffled_text_similarity": 0.13306951522827148,
+      "shuffled_generation_similarity": 0.05138656124472618,
+      "null_generation_similarity": 0.10933534801006317,
+      "correct_retrieved_scene": 1,
+      "correct_top1": true,
+      "arms": {
+        "correct prompt": {
+          "program": {
+            "prompt": "a golden retriever catching a ball on grass",
+            "scene_token": 1,
+            "foreground_token": 7,
+            "background_token": 11,
+            "seed": 20260914,
+            "condition": "correct prompt"
+          },
+          "realization": {
+            "scene_token": 1,
+            "foreground_scene_token": 1,
+            "foreground_training_field": 7,
+            "background_training_field": 11,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.6207919120788574,
+            "background_boundary_radius": 0.8914575576782227,
+            "tube_centers": [
+              [
+                -0.0199123527854681,
+                0.04068195819854736
+              ],
+              [
+                -0.018172690644860268,
+                0.05693858861923218
+              ],
+              [
+                -0.009400024078786373,
+                0.0650179535150528
+              ],
+              [
+                0.0046067307703197,
+                0.06077824905514717
+              ],
+              [
+                0.015053505077958107,
+                0.05185198038816452
+              ],
+              [
+                0.018926234915852547,
+                0.0518035925924778
+              ],
+              [
+                0.013015483506023884,
+                0.05734259635210037
+              ],
+              [
+                0.0019339043647050858,
+                0.05641155689954758
+              ]
+            ],
+            "foreground_source_id": "cartoon_exact__00_dogpark_train_01_seed72001",
+            "background_source_id": "cartoon_exact__00_dogpark_train_05_seed72005"
+          },
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.31501010060310364,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 5.555555617320351e-05
+          }
+        },
+        "cyclic-shuffled prompt": {
+          "program": {
+            "prompt": "a welder joining steel with bright sparks",
+            "scene_token": 2,
+            "foreground_token": 13,
+            "background_token": 12,
+            "seed": 20260914,
+            "condition": "cyclic-shuffled prompt"
+          },
+          "realization": {
+            "scene_token": 2,
+            "foreground_scene_token": 2,
+            "foreground_training_field": 13,
+            "background_training_field": 12,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.8589388728141785,
+            "background_boundary_radius": 0.6590604186058044,
+            "tube_centers": [
+              [
+                -0.036942608654499054,
+                0.09120114147663116
+              ],
+              [
+                -0.03962305933237076,
+                0.09282238781452179
+              ],
+              [
+                -0.03297523781657219,
+                0.09208092093467712
+              ],
+              [
+                -0.0301324725151062,
+                0.08387836813926697
+              ],
+              [
+                -0.03274944797158241,
+                0.0768880844116211
+              ],
+              [
+                -0.03632115200161934,
+                0.07623156905174255
+              ],
+              [
+                -0.035581305623054504,
+                0.08106701076030731
+              ],
+              [
+                -0.026209862902760506,
+                0.08670469373464584
+              ]
+            ],
+            "foreground_source_id": "render3d_exact__00_workshop_train_01_seed73001",
+            "background_source_id": "render3d_exact__00_workshop_train_00_seed73000"
+          },
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.31082284450531006,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 5.555555617320351e-05
+          }
+        },
+        "null prompt": {
+          "program": {
+            "prompt": "",
+            "scene_token": 0,
+            "foreground_token": 5,
+            "background_token": 0,
+            "seed": 20260914,
+            "condition": "null prompt"
+          },
+          "realization": {
+            "scene_token": 0,
+            "foreground_scene_token": 0,
+            "foreground_training_field": 5,
+            "background_training_field": 0,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.46780288219451904,
+            "background_boundary_radius": 0.6987130045890808,
+            "tube_centers": [
+              [
+                -0.03216852247714996,
+                -0.007117238827049732
+              ],
+              [
+                -0.03091856837272644,
+                -0.007663370110094547
+              ],
+              [
+                -0.016268258914351463,
+                -0.007026113104075193
+              ],
+              [
+                0.004250366240739822,
+                0.002524259267374873
+              ],
+              [
+                0.023869531229138374,
+                0.017054125666618347
+              ],
+              [
+                0.03932908922433853,
+                0.02170344814658165
+              ],
+              [
+                0.03661699220538139,
+                0.01793678104877472
+              ],
+              [
+                0.021569762378931046,
+                0.023024043068289757
+              ]
+            ],
+            "foreground_source_id": "anime_exact__00_ballet_train_05_seed71005",
+            "background_source_id": "anime_exact__00_ballet_train_00_seed71000"
+          },
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.3095562756061554,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 0.0
+          }
+        }
+      }
+    },
+    {
+      "intended_prompt": "a golden retriever catching a ball on grass",
+      "scene_token": 1,
+      "seed": 20260915,
+      "correct_similarity": 0.12537947297096252,
+      "correct_same_render_shuffled_text_similarity": 0.13215011358261108,
+      "shuffled_generation_similarity": 0.05639544129371643,
+      "null_generation_similarity": 0.12537944316864014,
+      "correct_retrieved_scene": 2,
+      "correct_top1": false,
+      "arms": {
+        "correct prompt": {
+          "program": {
+            "prompt": "a golden retriever catching a ball on grass",
+            "scene_token": 1,
+            "foreground_token": 11,
+            "background_token": 7,
+            "seed": 20260915,
+            "condition": "correct prompt"
+          },
+          "realization": {
+            "scene_token": 1,
+            "foreground_scene_token": 1,
+            "foreground_training_field": 11,
+            "background_training_field": 7,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.8914560079574585,
+            "background_boundary_radius": 0.6208128929138184,
+            "tube_centers": [
+              [
+                -0.0199123527854681,
+                0.04068195819854736
+              ],
+              [
+                -0.018172690644860268,
+                0.05693858861923218
+              ],
+              [
+                -0.009400024078786373,
+                0.0650179535150528
+              ],
+              [
+                0.0046067307703197,
+                0.06077824905514717
+              ],
+              [
+                0.015053505077958107,
+                0.05185198038816452
+              ],
+              [
+                0.018926234915852547,
+                0.0518035925924778
+              ],
+              [
+                0.013015483506023884,
+                0.05734259635210037
+              ],
+              [
+                0.0019339043647050858,
+                0.05641155689954758
+              ]
+            ],
+            "foreground_source_id": "cartoon_exact__00_dogpark_train_05_seed72005",
+            "background_source_id": "cartoon_exact__00_dogpark_train_01_seed72001"
+          },
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.30799955129623413,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 2.7777778086601757e-05
+          }
+        },
+        "cyclic-shuffled prompt": {
+          "program": {
+            "prompt": "a welder joining steel with bright sparks",
+            "scene_token": 2,
+            "foreground_token": 16,
+            "background_token": 12,
+            "seed": 20260915,
+            "condition": "cyclic-shuffled prompt"
+          },
+          "realization": {
+            "scene_token": 2,
+            "foreground_scene_token": 2,
+            "foreground_training_field": 16,
+            "background_training_field": 12,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.5787582993507385,
+            "background_boundary_radius": 0.6590604186058044,
+            "tube_centers": [
+              [
+                -0.036942608654499054,
+                0.09120114147663116
+              ],
+              [
+                -0.03962305933237076,
+                0.09282238781452179
+              ],
+              [
+                -0.03297523781657219,
+                0.09208092093467712
+              ],
+              [
+                -0.0301324725151062,
+                0.08387836813926697
+              ],
+              [
+                -0.03274944797158241,
+                0.0768880844116211
+              ],
+              [
+                -0.03632115200161934,
+                0.07623156905174255
+              ],
+              [
+                -0.035581305623054504,
+                0.08106701076030731
+              ],
+              [
+                -0.026209862902760506,
+                0.08670469373464584
+              ]
+            ],
+            "foreground_source_id": "render3d_exact__00_workshop_train_04_seed73004",
+            "background_source_id": "render3d_exact__00_workshop_train_00_seed73000"
+          },
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.31187355518341064,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 4.166666622040793e-05
+          }
+        },
+        "null prompt": {
+          "program": {
+            "prompt": "",
+            "scene_token": 1,
+            "foreground_token": 11,
+            "background_token": 7,
+            "seed": 20260915,
+            "condition": "null prompt"
+          },
+          "realization": {
+            "scene_token": 1,
+            "foreground_scene_token": 1,
+            "foreground_training_field": 11,
+            "background_training_field": 7,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.8914560079574585,
+            "background_boundary_radius": 0.6208128929138184,
+            "tube_centers": [
+              [
+                -0.0199123527854681,
+                0.04068195819854736
+              ],
+              [
+                -0.018172690644860268,
+                0.05693858861923218
+              ],
+              [
+                -0.009400024078786373,
+                0.0650179535150528
+              ],
+              [
+                0.0046067307703197,
+                0.06077824905514717
+              ],
+              [
+                0.015053505077958107,
+                0.05185198038816452
+              ],
+              [
+                0.018926234915852547,
+                0.0518035925924778
+              ],
+              [
+                0.013015483506023884,
+                0.05734259635210037
+              ],
+              [
+                0.0019339043647050858,
+                0.05641155689954758
+              ]
+            ],
+            "foreground_source_id": "cartoon_exact__00_dogpark_train_05_seed72005",
+            "background_source_id": "cartoon_exact__00_dogpark_train_01_seed72001"
+          },
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.30799955129623413,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 2.7777778086601757e-05
+          }
+        }
+      }
+    },
+    {
+      "intended_prompt": "a golden retriever catching a ball on grass",
+      "scene_token": 1,
+      "seed": 20260916,
+      "correct_similarity": 0.1962841898202896,
+      "correct_same_render_shuffled_text_similarity": 0.15290194749832153,
+      "shuffled_generation_similarity": 0.09158443659543991,
+      "null_generation_similarity": 0.0915844589471817,
+      "correct_retrieved_scene": 1,
+      "correct_top1": true,
+      "arms": {
+        "correct prompt": {
+          "program": {
+            "prompt": "a golden retriever catching a ball on grass",
+            "scene_token": 1,
+            "foreground_token": 10,
+            "background_token": 7,
+            "seed": 20260916,
+            "condition": "correct prompt"
+          },
+          "realization": {
+            "scene_token": 1,
+            "foreground_scene_token": 1,
+            "foreground_training_field": 10,
+            "background_training_field": 7,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.612122118473053,
+            "background_boundary_radius": 0.6208128929138184,
+            "tube_centers": [
+              [
+                -0.0199123527854681,
+                0.04068195819854736
+              ],
+              [
+                -0.018172690644860268,
+                0.05693858861923218
+              ],
+              [
+                -0.009400024078786373,
+                0.0650179535150528
+              ],
+              [
+                0.0046067307703197,
+                0.06077824905514717
+              ],
+              [
+                0.015053505077958107,
+                0.05185198038816452
+              ],
+              [
+                0.018926234915852547,
+                0.0518035925924778
+              ],
+              [
+                0.013015483506023884,
+                0.05734259635210037
+              ],
+              [
+                0.0019339043647050858,
+                0.05641155689954758
+              ]
+            ],
+            "foreground_source_id": "cartoon_exact__00_dogpark_train_04_seed72004",
+            "background_source_id": "cartoon_exact__00_dogpark_train_01_seed72001"
+          },
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.309004545211792,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 0.00011111111234640703
+          }
+        },
+        "cyclic-shuffled prompt": {
+          "program": {
+            "prompt": "a welder joining steel with bright sparks",
+            "scene_token": 2,
+            "foreground_token": 12,
+            "background_token": 14,
+            "seed": 20260916,
+            "condition": "cyclic-shuffled prompt"
+          },
+          "realization": {
+            "scene_token": 2,
+            "foreground_scene_token": 2,
+            "foreground_training_field": 12,
+            "background_training_field": 14,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.6590586304664612,
+            "background_boundary_radius": 0.8859556317329407,
+            "tube_centers": [
+              [
+                -0.036942608654499054,
+                0.09120114147663116
+              ],
+              [
+                -0.03962305933237076,
+                0.09282238781452179
+              ],
+              [
+                -0.03297523781657219,
+                0.09208092093467712
+              ],
+              [
+                -0.0301324725151062,
+                0.08387836813926697
+              ],
+              [
+                -0.03274944797158241,
+                0.0768880844116211
+              ],
+              [
+                -0.03632115200161934,
+                0.07623156905174255
+              ],
+              [
+                -0.035581305623054504,
+                0.08106701076030731
+              ],
+              [
+                -0.026209862902760506,
+                0.08670469373464584
+              ]
+            ],
+            "foreground_source_id": "render3d_exact__00_workshop_train_00_seed73000",
+            "background_source_id": "render3d_exact__00_workshop_train_02_seed73002"
+          },
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.313959002494812,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 5.555555617320351e-05
+          }
+        },
+        "null prompt": {
+          "program": {
+            "prompt": "",
+            "scene_token": 2,
+            "foreground_token": 12,
+            "background_token": 14,
+            "seed": 20260916,
+            "condition": "null prompt"
+          },
+          "realization": {
+            "scene_token": 2,
+            "foreground_scene_token": 2,
+            "foreground_training_field": 12,
+            "background_training_field": 14,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.6590586304664612,
+            "background_boundary_radius": 0.8859556317329407,
+            "tube_centers": [
+              [
+                -0.036942608654499054,
+                0.09120114147663116
+              ],
+              [
+                -0.03962305933237076,
+                0.09282238781452179
+              ],
+              [
+                -0.03297523781657219,
+                0.09208092093467712
+              ],
+              [
+                -0.0301324725151062,
+                0.08387836813926697
+              ],
+              [
+                -0.03274944797158241,
+                0.0768880844116211
+              ],
+              [
+                -0.03632115200161934,
+                0.07623156905174255
+              ],
+              [
+                -0.035581305623054504,
+                0.08106701076030731
+              ],
+              [
+                -0.026209862902760506,
+                0.08670469373464584
+              ]
+            ],
+            "foreground_source_id": "render3d_exact__00_workshop_train_00_seed73000",
+            "background_source_id": "render3d_exact__00_workshop_train_02_seed73002"
+          },
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.313959002494812,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 5.555555617320351e-05
+          }
+        }
+      }
+    },
+    {
+      "intended_prompt": "a welder joining steel with bright sparks",
+      "scene_token": 2,
+      "seed": 20260914,
+      "correct_similarity": 0.18967999517917633,
+      "correct_same_render_shuffled_text_similarity": 0.17451781034469604,
+      "shuffled_generation_similarity": 0.18592187762260437,
+      "null_generation_similarity": 0.18592187762260437,
+      "correct_retrieved_scene": 2,
+      "correct_top1": true,
+      "arms": {
+        "correct prompt": {
+          "program": {
+            "prompt": "a welder joining steel with bright sparks",
+            "scene_token": 2,
+            "foreground_token": 13,
+            "background_token": 12,
+            "seed": 20260914,
+            "condition": "correct prompt"
+          },
+          "realization": {
+            "scene_token": 2,
+            "foreground_scene_token": 2,
+            "foreground_training_field": 13,
+            "background_training_field": 12,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.8589388728141785,
+            "background_boundary_radius": 0.6590604186058044,
+            "tube_centers": [
+              [
+                -0.036942608654499054,
+                0.09120114147663116
+              ],
+              [
+                -0.03962305933237076,
+                0.09282238781452179
+              ],
+              [
+                -0.03297523781657219,
+                0.09208092093467712
+              ],
+              [
+                -0.0301324725151062,
+                0.08387836813926697
+              ],
+              [
+                -0.03274944797158241,
+                0.0768880844116211
+              ],
+              [
+                -0.03632115200161934,
+                0.07623156905174255
+              ],
+              [
+                -0.035581305623054504,
+                0.08106701076030731
+              ],
+              [
+                -0.026209862902760506,
+                0.08670469373464584
+              ]
+            ],
+            "foreground_source_id": "render3d_exact__00_workshop_train_01_seed73001",
+            "background_source_id": "render3d_exact__00_workshop_train_00_seed73000"
+          },
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.3108545243740082,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 2.7777778086601757e-05
+          }
+        },
+        "cyclic-shuffled prompt": {
+          "program": {
+            "prompt": "a ballerina spinning a pirouette in a studio",
+            "scene_token": 0,
+            "foreground_token": 5,
+            "background_token": 0,
+            "seed": 20260914,
+            "condition": "cyclic-shuffled prompt"
+          },
+          "realization": {
+            "scene_token": 0,
+            "foreground_scene_token": 0,
+            "foreground_training_field": 5,
+            "background_training_field": 0,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.46780288219451904,
+            "background_boundary_radius": 0.6987130045890808,
+            "tube_centers": [
+              [
+                -0.03216852247714996,
+                -0.007117238827049732
+              ],
+              [
+                -0.03091856837272644,
+                -0.007663370110094547
+              ],
+              [
+                -0.016268258914351463,
+                -0.007026113104075193
+              ],
+              [
+                0.004250366240739822,
+                0.002524259267374873
+              ],
+              [
+                0.023869531229138374,
+                0.017054125666618347
+              ],
+              [
+                0.03932908922433853,
+                0.02170344814658165
+              ],
+              [
+                0.03661699220538139,
+                0.01793678104877472
+              ],
+              [
+                0.021569762378931046,
+                0.023024043068289757
+              ]
+            ],
+            "foreground_source_id": "anime_exact__00_ballet_train_05_seed71005",
+            "background_source_id": "anime_exact__00_ballet_train_00_seed71000"
+          },
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.30949798226356506,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 0.0
+          }
+        },
+        "null prompt": {
+          "program": {
+            "prompt": "",
+            "scene_token": 0,
+            "foreground_token": 5,
+            "background_token": 0,
+            "seed": 20260914,
+            "condition": "null prompt"
+          },
+          "realization": {
+            "scene_token": 0,
+            "foreground_scene_token": 0,
+            "foreground_training_field": 5,
+            "background_training_field": 0,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.46780288219451904,
+            "background_boundary_radius": 0.6987130045890808,
+            "tube_centers": [
+              [
+                -0.03216852247714996,
+                -0.007117238827049732
+              ],
+              [
+                -0.03091856837272644,
+                -0.007663370110094547
+              ],
+              [
+                -0.016268258914351463,
+                -0.007026113104075193
+              ],
+              [
+                0.004250366240739822,
+                0.002524259267374873
+              ],
+              [
+                0.023869531229138374,
+                0.017054125666618347
+              ],
+              [
+                0.03932908922433853,
+                0.02170344814658165
+              ],
+              [
+                0.03661699220538139,
+                0.01793678104877472
+              ],
+              [
+                0.021569762378931046,
+                0.023024043068289757
+              ]
+            ],
+            "foreground_source_id": "anime_exact__00_ballet_train_05_seed71005",
+            "background_source_id": "anime_exact__00_ballet_train_00_seed71000"
+          },
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.30949798226356506,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 0.0
+          }
+        }
+      }
+    },
+    {
+      "intended_prompt": "a welder joining steel with bright sparks",
+      "scene_token": 2,
+      "seed": 20260915,
+      "correct_similarity": 0.19356781244277954,
+      "correct_same_render_shuffled_text_similarity": 0.18120290338993073,
+      "shuffled_generation_similarity": 0.17684438824653625,
+      "null_generation_similarity": 0.13883604109287262,
+      "correct_retrieved_scene": 2,
+      "correct_top1": true,
+      "arms": {
+        "correct prompt": {
+          "program": {
+            "prompt": "a welder joining steel with bright sparks",
+            "scene_token": 2,
+            "foreground_token": 16,
+            "background_token": 12,
+            "seed": 20260915,
+            "condition": "correct prompt"
+          },
+          "realization": {
+            "scene_token": 2,
+            "foreground_scene_token": 2,
+            "foreground_training_field": 16,
+            "background_training_field": 12,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.5787582993507385,
+            "background_boundary_radius": 0.6590604186058044,
+            "tube_centers": [
+              [
+                -0.036942608654499054,
+                0.09120114147663116
+              ],
+              [
+                -0.03962305933237076,
+                0.09282238781452179
+              ],
+              [
+                -0.03297523781657219,
+                0.09208092093467712
+              ],
+              [
+                -0.0301324725151062,
+                0.08387836813926697
+              ],
+              [
+                -0.03274944797158241,
+                0.0768880844116211
+              ],
+              [
+                -0.03632115200161934,
+                0.07623156905174255
+              ],
+              [
+                -0.035581305623054504,
+                0.08106701076030731
+              ],
+              [
+                -0.026209862902760506,
+                0.08670469373464584
+              ]
+            ],
+            "foreground_source_id": "render3d_exact__00_workshop_train_04_seed73004",
+            "background_source_id": "render3d_exact__00_workshop_train_00_seed73000"
+          },
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.3118543028831482,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 4.166666622040793e-05
+          }
+        },
+        "cyclic-shuffled prompt": {
+          "program": {
+            "prompt": "a ballerina spinning a pirouette in a studio",
+            "scene_token": 0,
+            "foreground_token": 0,
+            "background_token": 2,
+            "seed": 20260915,
+            "condition": "cyclic-shuffled prompt"
+          },
+          "realization": {
+            "scene_token": 0,
+            "foreground_scene_token": 0,
+            "foreground_training_field": 0,
+            "background_training_field": 2,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.6987119913101196,
+            "background_boundary_radius": 0.6378160119056702,
+            "tube_centers": [
+              [
+                -0.03216852247714996,
+                -0.007117238827049732
+              ],
+              [
+                -0.03091856837272644,
+                -0.007663370110094547
+              ],
+              [
+                -0.016268258914351463,
+                -0.007026113104075193
+              ],
+              [
+                0.004250366240739822,
+                0.002524259267374873
+              ],
+              [
+                0.023869531229138374,
+                0.017054125666618347
+              ],
+              [
+                0.03932908922433853,
+                0.02170344814658165
+              ],
+              [
+                0.03661699220538139,
+                0.01793678104877472
+              ],
+              [
+                0.021569762378931046,
+                0.023024043068289757
+              ]
+            ],
+            "foreground_source_id": "anime_exact__00_ballet_train_00_seed71000",
+            "background_source_id": "anime_exact__00_ballet_train_02_seed71002"
+          },
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.3048022389411926,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 6.944444612599909e-05
+          }
+        },
+        "null prompt": {
+          "program": {
+            "prompt": "",
+            "scene_token": 1,
+            "foreground_token": 11,
+            "background_token": 7,
+            "seed": 20260915,
+            "condition": "null prompt"
+          },
+          "realization": {
+            "scene_token": 1,
+            "foreground_scene_token": 1,
+            "foreground_training_field": 11,
+            "background_training_field": 7,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.8914560079574585,
+            "background_boundary_radius": 0.6208128929138184,
+            "tube_centers": [
+              [
+                -0.0199123527854681,
+                0.04068195819854736
+              ],
+              [
+                -0.018172690644860268,
+                0.05693858861923218
+              ],
+              [
+                -0.009400024078786373,
+                0.0650179535150528
+              ],
+              [
+                0.0046067307703197,
+                0.06077824905514717
+              ],
+              [
+                0.015053505077958107,
+                0.05185198038816452
+              ],
+              [
+                0.018926234915852547,
+                0.0518035925924778
+              ],
+              [
+                0.013015483506023884,
+                0.05734259635210037
+              ],
+              [
+                0.0019339043647050858,
+                0.05641155689954758
+              ]
+            ],
+            "foreground_source_id": "cartoon_exact__00_dogpark_train_05_seed72005",
+            "background_source_id": "cartoon_exact__00_dogpark_train_01_seed72001"
+          },
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.3080180287361145,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 4.166666622040793e-05
+          }
+        }
+      }
+    },
+    {
+      "intended_prompt": "a welder joining steel with bright sparks",
+      "scene_token": 2,
+      "seed": 20260916,
+      "correct_similarity": 0.19013410806655884,
+      "correct_same_render_shuffled_text_similarity": 0.17190730571746826,
+      "shuffled_generation_similarity": 0.14686225354671478,
+      "null_generation_similarity": 0.19013404846191406,
+      "correct_retrieved_scene": 2,
+      "correct_top1": true,
+      "arms": {
+        "correct prompt": {
+          "program": {
+            "prompt": "a welder joining steel with bright sparks",
+            "scene_token": 2,
+            "foreground_token": 12,
+            "background_token": 14,
+            "seed": 20260916,
+            "condition": "correct prompt"
+          },
+          "realization": {
+            "scene_token": 2,
+            "foreground_scene_token": 2,
+            "foreground_training_field": 12,
+            "background_training_field": 14,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.6590586304664612,
+            "background_boundary_radius": 0.8859556317329407,
+            "tube_centers": [
+              [
+                -0.036942608654499054,
+                0.09120114147663116
+              ],
+              [
+                -0.03962305933237076,
+                0.09282238781452179
+              ],
+              [
+                -0.03297523781657219,
+                0.09208092093467712
+              ],
+              [
+                -0.0301324725151062,
+                0.08387836813926697
+              ],
+              [
+                -0.03274944797158241,
+                0.0768880844116211
+              ],
+              [
+                -0.03632115200161934,
+                0.07623156905174255
+              ],
+              [
+                -0.035581305623054504,
+                0.08106701076030731
+              ],
+              [
+                -0.026209862902760506,
+                0.08670469373464584
+              ]
+            ],
+            "foreground_source_id": "render3d_exact__00_workshop_train_00_seed73000",
+            "background_source_id": "render3d_exact__00_workshop_train_02_seed73002"
+          },
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.31393328309059143,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 6.944444612599909e-05
+          }
+        },
+        "cyclic-shuffled prompt": {
+          "program": {
+            "prompt": "a ballerina spinning a pirouette in a studio",
+            "scene_token": 0,
+            "foreground_token": 5,
+            "background_token": 3,
+            "seed": 20260916,
+            "condition": "cyclic-shuffled prompt"
+          },
+          "realization": {
+            "scene_token": 0,
+            "foreground_scene_token": 0,
+            "foreground_training_field": 5,
+            "background_training_field": 3,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.46780288219451904,
+            "background_boundary_radius": 0.5739235281944275,
+            "tube_centers": [
+              [
+                -0.03216852247714996,
+                -0.007117238827049732
+              ],
+              [
+                -0.03091856837272644,
+                -0.007663370110094547
+              ],
+              [
+                -0.016268258914351463,
+                -0.007026113104075193
+              ],
+              [
+                0.004250366240739822,
+                0.002524259267374873
+              ],
+              [
+                0.023869531229138374,
+                0.017054125666618347
+              ],
+              [
+                0.03932908922433853,
+                0.02170344814658165
+              ],
+              [
+                0.03661699220538139,
+                0.01793678104877472
+              ],
+              [
+                0.021569762378931046,
+                0.023024043068289757
+              ]
+            ],
+            "foreground_source_id": "anime_exact__00_ballet_train_05_seed71005",
+            "background_source_id": "anime_exact__00_ballet_train_03_seed71003"
+          },
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.3064066171646118,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 1.3888889043300878e-05
+          }
+        },
+        "null prompt": {
+          "program": {
+            "prompt": "",
+            "scene_token": 2,
+            "foreground_token": 12,
+            "background_token": 14,
+            "seed": 20260916,
+            "condition": "null prompt"
+          },
+          "realization": {
+            "scene_token": 2,
+            "foreground_scene_token": 2,
+            "foreground_training_field": 12,
+            "background_training_field": 14,
+            "foreground_unadjusted_jewels": 36000,
+            "background_unadjusted_jewels": 36000,
+            "foreground_fraction": 0.5,
+            "background_fraction": 0.5,
+            "unadjusted_jewels": 72000,
+            "requested_jewels": 72000,
+            "emitted_jewels": 72000,
+            "adjustment_fraction": 0.0,
+            "foreground_boundary_radius": 0.6590586304664612,
+            "background_boundary_radius": 0.8859556317329407,
+            "tube_centers": [
+              [
+                -0.036942608654499054,
+                0.09120114147663116
+              ],
+              [
+                -0.03962305933237076,
+                0.09282238781452179
+              ],
+              [
+                -0.03297523781657219,
+                0.09208092093467712
+              ],
+              [
+                -0.0301324725151062,
+                0.08387836813926697
+              ],
+              [
+                -0.03274944797158241,
+                0.0768880844116211
+              ],
+              [
+                -0.03632115200161934,
+                0.07623156905174255
+              ],
+              [
+                -0.035581305623054504,
+                0.08106701076030731
+              ],
+              [
+                -0.026209862902760506,
+                0.08670469373464584
+              ]
+            ],
+            "foreground_source_id": "render3d_exact__00_workshop_train_00_seed73000",
+            "background_source_id": "render3d_exact__00_workshop_train_02_seed73002"
+          },
+          "finite_render": true,
+          "center_irregularity": {
+            "within_cell_fraction_std": 0.31393328309059143,
+            "cell_center_lock_fraction": 0.0,
+            "near_cell_center_fraction": 6.944444612599909e-05
+          }
+        }
+      }
+    }
+  ],
+  "gate": {
+    "checks": {
+      "correct_top1_at_least_6of9": true,
+      "majority_retrieval_in_at_least_2of3_classes": true,
+      "correct_minus_shuffled_generation_at_least_002": true,
+      "correct_minus_null_generation_at_least_001": true,
+      "correct_beats_shuffled_at_least_7of9": true,
+      "all_donors_distinct": true,
+      "all_programs_exactly_half_owned": true,
+      "all_counts_exact_without_adjustment": true,
+      "all_renders_finite": true,
+      "generated_centers_not_grid_locked": true
+    },
+    "numeric_passed": true,
+    "qualitative_recognizability_review_required": true
+  }
+}

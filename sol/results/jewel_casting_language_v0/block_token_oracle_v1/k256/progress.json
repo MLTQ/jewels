@@ -1,0 +1,474 @@
+{
+  "best_score": 6.791152816017469,
+  "best_step": 500,
+  "history": [
+    {
+      "step": 500,
+      "selection_score": 6.791152816017469,
+      "controls": {
+        "oracle block": {
+          "token_nll": {
+            "covariance": 6.6853485107421875,
+            "surface": 6.981717109680176,
+            "gradient": 6.526320934295654
+          },
+          "token_nll_macro": 6.731129169464111,
+          "density_nce": 0.6002364655335745
+        },
+        "shuffled block": {
+          "token_nll": {
+            "covariance": 7.008542537689209,
+            "surface": 7.23294734954834,
+            "gradient": 6.732906818389893
+          },
+          "token_nll_macro": 6.991465091705322,
+          "density_nce": 0.6823720551199384
+        },
+        "null block": {
+          "token_nll": {
+            "covariance": 6.753713130950928,
+            "surface": 6.995570659637451,
+            "gradient": 6.695898056030273
+          },
+          "token_nll_macro": 6.815060138702393,
+          "density_nce": 0.7038125693798065
+        }
+      },
+      "train_loss": 6.075021743774414,
+      "train_token_nll": 6.0198822021484375,
+      "train_density_nce": 0.5513961315155029
+    },
+    {
+      "step": 1000,
+      "selection_score": 6.956626119712989,
+      "controls": {
+        "oracle block": {
+          "token_nll": {
+            "covariance": 6.827731609344482,
+            "surface": 7.212653160095215,
+            "gradient": 6.6493239402771
+          },
+          "token_nll_macro": 6.896570205688477,
+          "density_nce": 0.6005591402451197
+        },
+        "shuffled block": {
+          "token_nll": {
+            "covariance": 7.169798851013184,
+            "surface": 7.519150733947754,
+            "gradient": 6.877086162567139
+          },
+          "token_nll_macro": 7.188679218292236,
+          "density_nce": 0.6768766277366214
+        },
+        "null block": {
+          "token_nll": {
+            "covariance": 6.832699775695801,
+            "surface": 7.1790642738342285,
+            "gradient": 6.808195114135742
+          },
+          "token_nll_macro": 6.939986705780029,
+          "density_nce": 0.6921463757753372
+        }
+      },
+      "train_loss": 5.923376560211182,
+      "train_token_nll": 5.871927261352539,
+      "train_density_nce": 0.5144915580749512
+    },
+    {
+      "step": 1500,
+      "selection_score": 7.111679855651325,
+      "controls": {
+        "oracle block": {
+          "token_nll": {
+            "covariance": 6.973217964172363,
+            "surface": 7.368541240692139,
+            "gradient": 6.8142876625061035
+          },
+          "token_nll_macro": 7.052015781402588,
+          "density_nce": 0.5966407424873776
+        },
+        "shuffled block": {
+          "token_nll": {
+            "covariance": 7.327581882476807,
+            "surface": 7.678511619567871,
+            "gradient": 7.056541919708252
+          },
+          "token_nll_macro": 7.354212284088135,
+          "density_nce": 0.6604086177216636
+        },
+        "null block": {
+          "token_nll": {
+            "covariance": 6.913905143737793,
+            "surface": 7.354264259338379,
+            "gradient": 6.948822021484375
+          },
+          "token_nll_macro": 7.072329998016357,
+          "density_nce": 0.6803860664367676
+        }
+      },
+      "train_loss": 5.775768756866455,
+      "train_token_nll": 5.7239861488342285,
+      "train_density_nce": 0.5178259611129761
+    },
+    {
+      "step": 2000,
+      "selection_score": 7.34071862515476,
+      "controls": {
+        "oracle block": {
+          "token_nll": {
+            "covariance": 7.157948017120361,
+            "surface": 7.671411991119385,
+            "gradient": 7.013671875
+          },
+          "token_nll_macro": 7.28101110458374,
+          "density_nce": 0.5970752057101991
+        },
+        "shuffled block": {
+          "token_nll": {
+            "covariance": 7.551655292510986,
+            "surface": 7.997720718383789,
+            "gradient": 7.287965774536133
+          },
+          "token_nll_macro": 7.612447261810303,
+          "density_nce": 0.6636050062047111
+        },
+        "null block": {
+          "token_nll": {
+            "covariance": 7.0503315925598145,
+            "surface": 7.577746868133545,
+            "gradient": 7.096848964691162
+          },
+          "token_nll_macro": 7.24164342880249,
+          "density_nce": 0.6817906349897385
+        }
+      },
+      "train_loss": 5.589101791381836,
+      "train_token_nll": 5.537802219390869,
+      "train_density_nce": 0.5129975080490112
+    },
+    {
+      "step": 2500,
+      "selection_score": 7.6335381521119015,
+      "controls": {
+        "oracle block": {
+          "token_nll": {
+            "covariance": 7.418174743652344,
+            "surface": 8.0149507522583,
+            "gradient": 7.2878241539001465
+          },
+          "token_nll_macro": 7.573649883270264,
+          "density_nce": 0.598882688416375
+        },
+        "shuffled block": {
+          "token_nll": {
+            "covariance": 7.843272686004639,
+            "surface": 8.380656242370605,
+            "gradient": 7.5928192138671875
+          },
+          "token_nll_macro": 7.9389166831970215,
+          "density_nce": 0.6661970449818505
+        },
+        "null block": {
+          "token_nll": {
+            "covariance": 7.226343154907227,
+            "surface": 7.841977596282959,
+            "gradient": 7.330976963043213
+          },
+          "token_nll_macro": 7.466432571411133,
+          "density_nce": 0.6847822782066133
+        }
+      },
+      "train_loss": 5.436835289001465,
+      "train_token_nll": 5.385450839996338,
+      "train_density_nce": 0.5138442516326904
+    },
+    {
+      "step": 3000,
+      "selection_score": 7.8696684011154705,
+      "controls": {
+        "oracle block": {
+          "token_nll": {
+            "covariance": 7.643881797790527,
+            "surface": 8.27212142944336,
+            "gradient": 7.513245582580566
+          },
+          "token_nll_macro": 7.809750080108643,
+          "density_nce": 0.5991832100682788
+        },
+        "shuffled block": {
+          "token_nll": {
+            "covariance": 8.134551048278809,
+            "surface": 8.72303295135498,
+            "gradient": 7.867428302764893
+          },
+          "token_nll_macro": 8.241671562194824,
+          "density_nce": 0.6654058016008801
+        },
+        "null block": {
+          "token_nll": {
+            "covariance": 7.388716220855713,
+            "surface": 8.091708183288574,
+            "gradient": 7.529386043548584
+          },
+          "token_nll_macro": 7.6699371337890625,
+          "density_nce": 0.6926421870787939
+        }
+      },
+      "train_loss": 5.317245960235596,
+      "train_token_nll": 5.265446186065674,
+      "train_density_nce": 0.5179987549781799
+    },
+    {
+      "step": 3500,
+      "selection_score": 8.146277580327459,
+      "controls": {
+        "oracle block": {
+          "token_nll": {
+            "covariance": 7.850119590759277,
+            "surface": 8.604460716247559,
+            "gradient": 7.805050373077393
+          },
+          "token_nll_macro": 8.086544036865234,
+          "density_nce": 0.5973354346222348
+        },
+        "shuffled block": {
+          "token_nll": {
+            "covariance": 8.344067573547363,
+            "surface": 9.091524124145508,
+            "gradient": 8.191301345825195
+          },
+          "token_nll_macro": 8.54229736328125,
+          "density_nce": 0.6662633766730627
+        },
+        "null block": {
+          "token_nll": {
+            "covariance": 7.554066181182861,
+            "surface": 8.395075798034668,
+            "gradient": 7.781486511230469
+          },
+          "token_nll_macro": 7.910209655761719,
+          "density_nce": 0.6931899355517493
+        }
+      },
+      "train_loss": 5.136062145233154,
+      "train_token_nll": 5.0847554206848145,
+      "train_density_nce": 0.5130677819252014
+    },
+    {
+      "step": 4000,
+      "selection_score": 8.417176497148143,
+      "controls": {
+        "oracle block": {
+          "token_nll": {
+            "covariance": 8.113858222961426,
+            "surface": 8.91185188293457,
+            "gradient": 8.046402931213379
+          },
+          "token_nll_macro": 8.35737133026123,
+          "density_nce": 0.5980516688691245
+        },
+        "shuffled block": {
+          "token_nll": {
+            "covariance": 8.674695014953613,
+            "surface": 9.44676685333252,
+            "gradient": 8.473420143127441
+          },
+          "token_nll_macro": 8.864961624145508,
+          "density_nce": 0.6710494971937604
+        },
+        "null block": {
+          "token_nll": {
+            "covariance": 7.688626766204834,
+            "surface": 8.52526569366455,
+            "gradient": 7.863039016723633
+          },
+          "token_nll_macro": 8.025644302368164,
+          "density_nce": 0.6738608115249209
+        }
+      },
+      "train_loss": 4.9972124099731445,
+      "train_token_nll": 4.945580959320068,
+      "train_density_nce": 0.516312837600708
+    },
+    {
+      "step": 4500,
+      "selection_score": 8.679438648124536,
+      "controls": {
+        "oracle block": {
+          "token_nll": {
+            "covariance": 8.325055122375488,
+            "surface": 9.220148086547852,
+            "gradient": 8.314372062683105
+          },
+          "token_nll_macro": 8.619858741760254,
+          "density_nce": 0.5957990636428198
+        },
+        "shuffled block": {
+          "token_nll": {
+            "covariance": 8.90648078918457,
+            "surface": 9.819129943847656,
+            "gradient": 8.77828311920166
+          },
+          "token_nll_macro": 9.167964935302734,
+          "density_nce": 0.6657784067922168
+        },
+        "null block": {
+          "token_nll": {
+            "covariance": 7.825253963470459,
+            "surface": 8.784659385681152,
+            "gradient": 8.096946716308594
+          },
+          "token_nll_macro": 8.235620498657227,
+          "density_nce": 0.6740190767579608
+        }
+      },
+      "train_loss": 4.94689416885376,
+      "train_token_nll": 4.895458698272705,
+      "train_density_nce": 0.5143529176712036
+    },
+    {
+      "step": 5000,
+      "selection_score": 8.910316632191341,
+      "controls": {
+        "oracle block": {
+          "token_nll": {
+            "covariance": 8.547307014465332,
+            "surface": 9.47077465057373,
+            "gradient": 8.533604621887207
+          },
+          "token_nll_macro": 8.85056209564209,
+          "density_nce": 0.5975453654925028
+        },
+        "shuffled block": {
+          "token_nll": {
+            "covariance": 9.170687675476074,
+            "surface": 10.122929573059082,
+            "gradient": 9.042436599731445
+          },
+          "token_nll_macro": 9.445351600646973,
+          "density_nce": 0.6691411799854703
+        },
+        "null block": {
+          "token_nll": {
+            "covariance": 8.013203620910645,
+            "surface": 8.991517066955566,
+            "gradient": 8.261961936950684
+          },
+          "token_nll_macro": 8.42222785949707,
+          "density_nce": 0.6811484959390428
+        }
+      },
+      "train_loss": 4.836890697479248,
+      "train_token_nll": 4.7851409912109375,
+      "train_density_nce": 0.5174984335899353
+    },
+    {
+      "step": 5500,
+      "selection_score": 9.162551131016679,
+      "controls": {
+        "oracle block": {
+          "token_nll": {
+            "covariance": 8.767865180969238,
+            "surface": 9.758459091186523,
+            "gradient": 8.78275203704834
+          },
+          "token_nll_macro": 9.103025436401367,
+          "density_nce": 0.595256946153111
+        },
+        "shuffled block": {
+          "token_nll": {
+            "covariance": 9.413653373718262,
+            "surface": 10.439679145812988,
+            "gradient": 9.316487312316895
+          },
+          "token_nll_macro": 9.723273277282715,
+          "density_nce": 0.6629528154929479
+        },
+        "null block": {
+          "token_nll": {
+            "covariance": 8.189399719238281,
+            "surface": 9.26750373840332,
+            "gradient": 8.496513366699219
+          },
+          "token_nll_macro": 8.651139259338379,
+          "density_nce": 0.6781094388829337
+        }
+      },
+      "train_loss": 4.772671222686768,
+      "train_token_nll": 4.720645427703857,
+      "train_density_nce": 0.5202574133872986
+    },
+    {
+      "step": 6000,
+      "selection_score": 9.376975211335553,
+      "controls": {
+        "oracle block": {
+          "token_nll": {
+            "covariance": 8.949872970581055,
+            "surface": 10.000155448913574,
+            "gradient": 9.001502990722656
+          },
+          "token_nll_macro": 9.317177772521973,
+          "density_nce": 0.5979743881358041
+        },
+        "shuffled block": {
+          "token_nll": {
+            "covariance": 9.628267288208008,
+            "surface": 10.735970497131348,
+            "gradient": 9.590846061706543
+          },
+          "token_nll_macro": 9.985028266906738,
+          "density_nce": 0.6642008423805237
+        },
+        "null block": {
+          "token_nll": {
+            "covariance": 8.363676071166992,
+            "surface": 9.465888023376465,
+            "gradient": 8.714083671569824
+          },
+          "token_nll_macro": 8.847882270812988,
+          "density_nce": 0.6895909193489287
+        }
+      },
+      "train_loss": 4.641197681427002,
+      "train_token_nll": 4.590260982513428,
+      "train_density_nce": 0.5093675851821899
+    },
+    {
+      "step": 6500,
+      "selection_score": 9.625251529945267,
+      "controls": {
+        "oracle block": {
+          "token_nll": {
+            "covariance": 9.16258716583252,
+            "surface": 10.292510032653809,
+            "gradient": 9.241021156311035
+          },
+          "token_nll_macro": 9.565373420715332,
+          "density_nce": 0.5987810922993554
+        },
+        "shuffled block": {
+          "token_nll": {
+            "covariance": 9.861138343811035,
+            "surface": 11.082274436950684,
+            "gradient": 9.850151062011719
+          },
+          "token_nll_macro": 10.264522552490234,
+          "density_nce": 0.6669165823194716
+        },
+        "null block": {
+          "token_nll": {
+            "covariance": 8.480125427246094,
+            "surface": 9.686630249023438,
+            "gradient": 8.88559341430664
+          },
+          "token_nll_macro": 9.017450332641602,
+          "density_nce": 0.6813848598135842
+        }
+      },
+      "train_loss": 4.594902992248535,
+      "train_token_nll": 4.543832778930664,
+      "train_density_nce": 0.5107031464576721
+    }
+  ]
+}

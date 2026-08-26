@@ -1,0 +1,124 @@
+{
+  "schema": "learned-trajectory-speaker-training-v1",
+  "protocol": {
+    "exact_prompts": [
+      "a ballerina spinning a pirouette in a studio",
+      "a golden retriever catching a ball on grass",
+      "a welder joining steel with bright sparks"
+    ],
+    "prompt_paraphrases": {
+      "a ballerina spinning a pirouette in a studio": {
+        "train": [
+          "an anime ballerina performing a spinning pirouette in a dance studio",
+          "a ballet dancer spins gracefully in a studio"
+        ],
+        "evaluation": "an animated ballet performer twirling inside a rehearsal room"
+      },
+      "a golden retriever catching a ball on grass": {
+        "train": [
+          "a cartoon golden retriever leaps to catch a ball on grass",
+          "an animated dog chasing and catching a ball in a park"
+        ],
+        "evaluation": "a playful illustrated retriever catches a thrown ball outdoors"
+      },
+      "a welder joining steel with bright sparks": {
+        "train": [
+          "a 3D rendered welder joining metal while bright sparks fly",
+          "a worker welding steel in a workshop filled with sparks"
+        ],
+        "evaluation": "a digital workshop scene of someone fusing metal with a shower of sparks"
+      }
+    },
+    "scene_sources": [
+      [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      [
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ]
+    ],
+    "training_examples": 216,
+    "heldout_examples": 18,
+    "heldout_pair_rule": "cyclic_next_source_within_scene",
+    "text_dropout": 0.1,
+    "optimizer": "AdamW",
+    "learning_rate": 0.002,
+    "batch_size": 64,
+    "maximum_steps": 5000,
+    "minimum_steps": 1000,
+    "evaluation_interval": 100,
+    "plateau_evaluations": 10,
+    "plateau_minimum_delta": 0.0001,
+    "seed": 20260917
+  },
+  "model_args": {
+    "text_dimension": 512,
+    "hidden_dimension": 256,
+    "scene_tokens": 3,
+    "source_tokens": 18
+  },
+  "parameters": 541223,
+  "best_step": 100,
+  "completed_step": 1100,
+  "stop_reason": "heldout_correct_nll_plateau",
+  "best_conditions": {
+    "correct": {
+      "token_nll": {
+        "total": 6.601602077484131,
+        "scene": 0.010456944815814495,
+        "foreground": 1.8276429176330566,
+        "background": 4.76350212097168
+      },
+      "token_nll_macro": 2.2005340258280435,
+      "scene_accuracy": 1.0
+    },
+    "shuffled": {
+      "token_nll": {
+        "total": 13.161066055297852,
+        "scene": 6.472238540649414,
+        "foreground": 1.8478796482086182,
+        "background": 4.84094762802124
+      },
+      "token_nll_macro": 4.387022018432617,
+      "scene_accuracy": 0.0
+    },
+    "null": {
+      "token_nll": {
+        "total": 7.617246150970459,
+        "scene": 1.112377643585205,
+        "foreground": 1.8321914672851562,
+        "background": 4.672677040100098
+      },
+      "token_nll_macro": 2.5390820503234863,
+      "scene_accuracy": 0.3333333432674408
+    }
+  },
+  "gate": {
+    "checks": {
+      "correct_nll_at_least_20pct_below_shuffled": true,
+      "correct_nll_at_least_10pct_below_null": true,
+      "unseen_paraphrase_scene_top1_3of3": true,
+      "stopped_after_frozen_minimum": true,
+      "all_metrics_finite": true
+    },
+    "token_gate_passed": true
+  }
+}

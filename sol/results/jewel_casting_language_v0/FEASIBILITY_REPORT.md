@@ -1,5 +1,14 @@
 # Native Jewel text-to-video feasibility report
 
+> **Trajectory-language update (2026-08-26):** This report predates Gates 2a7–2b1. The flat and
+> independent block failures below remain valid, but the next hierarchy has now produced a passing
+> bounded prompt-only result: exact prompt text plus seed emits a two-token persistent trajectory
+> program with 8/9 OpenCLIP retrieval, 9/9 correct-over-shuffled/null wins, recognizable
+> ballerina/dog/welder output, exact 72k count, and zero grid locking. A learned 541k-parameter
+> autoregressive speaker predicts 3/3 unseen-paraphrase scene tokens and 9/9 scene-consistent donor
+> programs, although its raw rendered top-1 gate remains 4/9. See
+> [`TRAJECTORY_SPEAKER_REPORT.md`](TRAJECTORY_SPEAKER_REPORT.md) for the current verdict and evidence.
+
 ## Executive verdict
 
 The project has now proved that a useful irregular Jewel output language exists, but it has **not
