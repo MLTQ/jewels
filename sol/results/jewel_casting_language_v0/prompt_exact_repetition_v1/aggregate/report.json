@@ -1,0 +1,67 @@
+{
+  "schema": "exact-prompt-source-repetition-v1",
+  "points": [
+    {
+      "repetitions_per_prompt": 1,
+      "report": "sol/results/jewel_casting_language_v0/prompt_exact_repetition_v1/r1/report.json",
+      "training_fields": 60,
+      "best_step": 500,
+      "density_nce": {
+        "correct": 0.5890442315075133,
+        "shuffled": 0.5948422484927707,
+        "null": 0.5904318690299988
+      },
+      "token_nll_macro": {
+        "correct": 6.610006809234619,
+        "shuffled": 6.9699296951293945,
+        "null": 6.5639495849609375
+      },
+      "density_margin_vs_shuffled": 0.005798016985257393,
+      "density_margin_vs_null": 0.0013876375224854964,
+      "token_margin_vs_shuffled": 0.3599228858947754,
+      "token_margin_vs_null": -0.04605722427368164,
+      "target_histogram_cosine": {
+        "correct": 0.19901292026042938,
+        "shuffled": 0.15596458812554678,
+        "null": 0.20734146237373352
+      },
+      "retrieval_accuracy": 0.3333333333333333,
+      "absolute_gate_passed": false
+    },
+    {
+      "repetitions_per_prompt": 2,
+      "report": "sol/results/jewel_casting_language_v0/prompt_exact_repetition_v1/r2/report.json",
+      "training_fields": 63,
+      "best_step": 500,
+      "density_nce": {
+        "correct": 0.6039546794361539,
+        "shuffled": 0.6200920840104421,
+        "null": 0.5881194604767693
+      },
+      "token_nll_macro": {
+        "correct": 6.6067633628845215,
+        "shuffled": 6.8997039794921875,
+        "null": 6.568449020385742
+      },
+      "density_margin_vs_shuffled": 0.01613740457428825,
+      "density_margin_vs_null": -0.015835218959384556,
+      "token_margin_vs_shuffled": 0.292940616607666,
+      "token_margin_vs_null": -0.0383143424987793,
+      "target_histogram_cosine": {
+        "correct": 0.18858580787976584,
+        "shuffled": 0.14881905168294907,
+        "null": 0.20713702340920767
+      },
+      "retrieval_accuracy": 0.6666666666666666,
+      "absolute_gate_passed": false
+    }
+  ],
+  "scaling_checks": {
+    "density_margin_vs_null_nondecreasing": false,
+    "token_margin_vs_null_nondecreasing": true,
+    "correct_histogram_cosine_nondecreasing": false,
+    "retrieval_accuracy_nondecreasing": true
+  },
+  "positive_repetition_scaling": false,
+  "final_absolute_gate_passed": false
+}

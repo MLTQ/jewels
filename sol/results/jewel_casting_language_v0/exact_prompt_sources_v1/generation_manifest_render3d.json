@@ -1,0 +1,122 @@
+{
+  "schema": "jewels-ltx-corpus-v1",
+  "updated_at": "2026-08-26T07:58:19.440563+00:00",
+  "source_manifest": "/home/m/jewels-codex-support/sol/results/jewel_casting_language_v0/exact_prompt_sources_v1/render3d_manifest.json",
+  "source_manifest_sha256": "4b1ffbc721a49b9452d6959998f5137e861c9e784bf5283afdab6a4f3520643f",
+  "runtime": {
+    "ltx_root": "/home/m/LTX-2",
+    "output_dir": "/home/m/LTX-2/corpora/jewels_prompt_exact_render3d_v1",
+    "cuda_visible_device": "GPU-21d45575-7ece-a97c-35a0-294f7bce9c39",
+    "height": 512,
+    "width": 768,
+    "num_frames": 49,
+    "frame_rate": 24.0,
+    "quantization": "fp8-cast",
+    "offload": "cpu",
+    "max_batch_size": 1
+  },
+  "summary": {
+    "total": 2,
+    "complete": 2,
+    "failed": 0,
+    "pending": 0
+  },
+  "examples": [
+    {
+      "class_id": 0,
+      "class_name": "Workshop",
+      "prompt_role": "train",
+      "prompt_index": 0,
+      "source_prompt": "a welder joining steel with bright sparks",
+      "generation_prompt": "a welder joining steel with bright sparks. 3D rendered CGI animation, soft global illumination, subtle depth of field, stylized character models, one continuous shot, stable camera, no cuts.",
+      "seed": 73000,
+      "stem": "00_workshop_train_00_seed73000",
+      "output": "/home/m/LTX-2/corpora/jewels_prompt_exact_render3d_v1/00_workshop_train_00_seed73000.mp4",
+      "receipt": "/home/m/LTX-2/corpora/jewels_prompt_exact_render3d_v1/00_workshop_train_00_seed73000.json",
+      "status": "complete",
+      "result": {
+        "elapsed_seconds": 172.394483785989,
+        "ltx_revision": "4f8905737aac86a554637cac86c178877a39c744",
+        "peak_memory_mib": 9930,
+        "peak_above_baseline_mib": 8565,
+        "maximum_utilization_percent": 100,
+        "video_probe": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "index": 0,
+              "codec_name": "h264",
+              "codec_type": "video",
+              "width": 768,
+              "height": 512,
+              "r_frame_rate": "24/1",
+              "nb_frames": "49"
+            },
+            {
+              "index": 1,
+              "codec_name": "aac",
+              "codec_type": "audio",
+              "sample_rate": "48000",
+              "channels": 2,
+              "r_frame_rate": "0/0",
+              "nb_frames": "96"
+            }
+          ],
+          "format": {
+            "duration": "2.041667",
+            "size": "248675"
+          }
+        }
+      }
+    },
+    {
+      "class_id": 0,
+      "class_name": "Workshop",
+      "prompt_role": "train",
+      "prompt_index": 1,
+      "source_prompt": "a welder joining steel with bright sparks",
+      "generation_prompt": "a welder joining steel with bright sparks. 3D rendered CGI animation, soft global illumination, subtle depth of field, stylized character models, one continuous shot, stable camera, no cuts.",
+      "seed": 73001,
+      "stem": "00_workshop_train_01_seed73001",
+      "output": "/home/m/LTX-2/corpora/jewels_prompt_exact_render3d_v1/00_workshop_train_01_seed73001.mp4",
+      "receipt": "/home/m/LTX-2/corpora/jewels_prompt_exact_render3d_v1/00_workshop_train_01_seed73001.json",
+      "status": "complete",
+      "result": {
+        "elapsed_seconds": 161.47713668100187,
+        "ltx_revision": "4f8905737aac86a554637cac86c178877a39c744",
+        "peak_memory_mib": 9924,
+        "peak_above_baseline_mib": 8566,
+        "maximum_utilization_percent": 100,
+        "video_probe": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "index": 0,
+              "codec_name": "h264",
+              "codec_type": "video",
+              "width": 768,
+              "height": 512,
+              "r_frame_rate": "24/1",
+              "nb_frames": "49"
+            },
+            {
+              "index": 1,
+              "codec_name": "aac",
+              "codec_type": "audio",
+              "sample_rate": "48000",
+              "channels": 2,
+              "r_frame_rate": "0/0",
+              "nb_frames": "96"
+            }
+          ],
+          "format": {
+            "duration": "2.041667",
+            "size": "245460"
+          }
+        }
+      }
+    }
+  ]
+}

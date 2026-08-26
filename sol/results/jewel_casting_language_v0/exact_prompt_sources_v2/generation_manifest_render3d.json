@@ -1,0 +1,218 @@
+{
+  "schema": "jewels-ltx-corpus-v1",
+  "updated_at": "2026-08-26T09:13:51.701771+00:00",
+  "source_manifest": "/home/m/jewels-codex-support/sol/results/jewel_casting_language_v0/exact_prompt_sources_v2/render3d_manifest.json",
+  "source_manifest_sha256": "6d217d81fe0e3685cecd849163bcdd9263f8964b6018456955192498d8d3784e",
+  "runtime": {
+    "ltx_root": "/home/m/LTX-2",
+    "output_dir": "/home/m/LTX-2/corpora/jewels_prompt_exact_render3d_v2",
+    "cuda_visible_device": "GPU-21d45575-7ece-a97c-35a0-294f7bce9c39",
+    "height": 512,
+    "width": 768,
+    "num_frames": 49,
+    "frame_rate": 24.0,
+    "quantization": "fp8-cast",
+    "offload": "cpu",
+    "max_batch_size": 1
+  },
+  "summary": {
+    "total": 4,
+    "complete": 4,
+    "failed": 0,
+    "pending": 0
+  },
+  "examples": [
+    {
+      "class_id": 0,
+      "class_name": "Workshop",
+      "prompt_role": "train",
+      "prompt_index": 0,
+      "source_prompt": "a welder joining steel with bright sparks",
+      "generation_prompt": "a welder joining steel with bright sparks. 3D rendered CGI animation, soft global illumination, subtle depth of field, stylized character models, one continuous shot, stable camera, no cuts.",
+      "seed": 73002,
+      "stem": "00_workshop_train_00_seed73002",
+      "output": "/home/m/LTX-2/corpora/jewels_prompt_exact_render3d_v2/00_workshop_train_00_seed73002.mp4",
+      "receipt": "/home/m/LTX-2/corpora/jewels_prompt_exact_render3d_v2/00_workshop_train_00_seed73002.json",
+      "status": "complete",
+      "result": {
+        "elapsed_seconds": 171.48078970599454,
+        "ltx_revision": "4f8905737aac86a554637cac86c178877a39c744",
+        "peak_memory_mib": 9924,
+        "peak_above_baseline_mib": 8566,
+        "maximum_utilization_percent": 100,
+        "video_probe": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "index": 0,
+              "codec_name": "h264",
+              "codec_type": "video",
+              "width": 768,
+              "height": 512,
+              "r_frame_rate": "24/1",
+              "nb_frames": "49"
+            },
+            {
+              "index": 1,
+              "codec_name": "aac",
+              "codec_type": "audio",
+              "sample_rate": "48000",
+              "channels": 2,
+              "r_frame_rate": "0/0",
+              "nb_frames": "96"
+            }
+          ],
+          "format": {
+            "duration": "2.041667",
+            "size": "272031"
+          }
+        }
+      }
+    },
+    {
+      "class_id": 0,
+      "class_name": "Workshop",
+      "prompt_role": "train",
+      "prompt_index": 1,
+      "source_prompt": "a welder joining steel with bright sparks",
+      "generation_prompt": "a welder joining steel with bright sparks. 3D rendered CGI animation, soft global illumination, subtle depth of field, stylized character models, one continuous shot, stable camera, no cuts.",
+      "seed": 73003,
+      "stem": "00_workshop_train_01_seed73003",
+      "output": "/home/m/LTX-2/corpora/jewels_prompt_exact_render3d_v2/00_workshop_train_01_seed73003.mp4",
+      "receipt": "/home/m/LTX-2/corpora/jewels_prompt_exact_render3d_v2/00_workshop_train_01_seed73003.json",
+      "status": "complete",
+      "result": {
+        "elapsed_seconds": 156.41169631498633,
+        "ltx_revision": "4f8905737aac86a554637cac86c178877a39c744",
+        "peak_memory_mib": 9924,
+        "peak_above_baseline_mib": 8566,
+        "maximum_utilization_percent": 100,
+        "video_probe": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "index": 0,
+              "codec_name": "h264",
+              "codec_type": "video",
+              "width": 768,
+              "height": 512,
+              "r_frame_rate": "24/1",
+              "nb_frames": "49"
+            },
+            {
+              "index": 1,
+              "codec_name": "aac",
+              "codec_type": "audio",
+              "sample_rate": "48000",
+              "channels": 2,
+              "r_frame_rate": "0/0",
+              "nb_frames": "96"
+            }
+          ],
+          "format": {
+            "duration": "2.041667",
+            "size": "573004"
+          }
+        }
+      }
+    },
+    {
+      "class_id": 0,
+      "class_name": "Workshop",
+      "prompt_role": "train",
+      "prompt_index": 2,
+      "source_prompt": "a welder joining steel with bright sparks",
+      "generation_prompt": "a welder joining steel with bright sparks. 3D rendered CGI animation, soft global illumination, subtle depth of field, stylized character models, one continuous shot, stable camera, no cuts.",
+      "seed": 73004,
+      "stem": "00_workshop_train_02_seed73004",
+      "output": "/home/m/LTX-2/corpora/jewels_prompt_exact_render3d_v2/00_workshop_train_02_seed73004.mp4",
+      "receipt": "/home/m/LTX-2/corpora/jewels_prompt_exact_render3d_v2/00_workshop_train_02_seed73004.json",
+      "status": "complete",
+      "result": {
+        "elapsed_seconds": 159.51206462501432,
+        "ltx_revision": "4f8905737aac86a554637cac86c178877a39c744",
+        "peak_memory_mib": 9924,
+        "peak_above_baseline_mib": 8566,
+        "maximum_utilization_percent": 100,
+        "video_probe": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "index": 0,
+              "codec_name": "h264",
+              "codec_type": "video",
+              "width": 768,
+              "height": 512,
+              "r_frame_rate": "24/1",
+              "nb_frames": "49"
+            },
+            {
+              "index": 1,
+              "codec_name": "aac",
+              "codec_type": "audio",
+              "sample_rate": "48000",
+              "channels": 2,
+              "r_frame_rate": "0/0",
+              "nb_frames": "96"
+            }
+          ],
+          "format": {
+            "duration": "2.041667",
+            "size": "330265"
+          }
+        }
+      }
+    },
+    {
+      "class_id": 0,
+      "class_name": "Workshop",
+      "prompt_role": "train",
+      "prompt_index": 3,
+      "source_prompt": "a welder joining steel with bright sparks",
+      "generation_prompt": "a welder joining steel with bright sparks. 3D rendered CGI animation, soft global illumination, subtle depth of field, stylized character models, one continuous shot, stable camera, no cuts.",
+      "seed": 73005,
+      "stem": "00_workshop_train_03_seed73005",
+      "output": "/home/m/LTX-2/corpora/jewels_prompt_exact_render3d_v2/00_workshop_train_03_seed73005.mp4",
+      "receipt": "/home/m/LTX-2/corpora/jewels_prompt_exact_render3d_v2/00_workshop_train_03_seed73005.json",
+      "status": "complete",
+      "result": {
+        "elapsed_seconds": 161.377190203988,
+        "ltx_revision": "4f8905737aac86a554637cac86c178877a39c744",
+        "peak_memory_mib": 9924,
+        "peak_above_baseline_mib": 8566,
+        "maximum_utilization_percent": 100,
+        "video_probe": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "index": 0,
+              "codec_name": "h264",
+              "codec_type": "video",
+              "width": 768,
+              "height": 512,
+              "r_frame_rate": "24/1",
+              "nb_frames": "49"
+            },
+            {
+              "index": 1,
+              "codec_name": "aac",
+              "codec_type": "audio",
+              "sample_rate": "48000",
+              "channels": 2,
+              "r_frame_rate": "0/0",
+              "nb_frames": "96"
+            }
+          ],
+          "format": {
+            "duration": "2.041667",
+            "size": "420514"
+          }
+        }
+      }
+    }
+  ]
+}

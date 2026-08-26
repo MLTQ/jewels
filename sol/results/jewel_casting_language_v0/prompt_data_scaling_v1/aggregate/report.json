@@ -1,0 +1,91 @@
+{
+  "schema": "prompt-to-jewel-data-scaling-v1",
+  "points": [
+    {
+      "label": "n9",
+      "report": "sol/results/jewel_casting_language_v0/prompt_data_scaling_v1/n9/report.json",
+      "training_fields": 9,
+      "cell_nll": {
+        "correct": 5.629048771328396,
+        "shuffled": 5.595398426055908,
+        "null": 5.549208641052246
+      },
+      "token_nll_macro": {
+        "correct": 7.304759290483264,
+        "shuffled": 7.3354906152795865,
+        "null": 6.9026083593015315
+      },
+      "cell_margin_vs_shuffled": -0.03365034527248767,
+      "cell_margin_vs_null": -0.07984013027614978,
+      "token_margin_vs_shuffled": 0.030731324796322568,
+      "token_margin_vs_null": -0.4021509311817324,
+      "target_histogram_cosine": {
+        "correct": 0.17077037692070007,
+        "shuffled": 0.16213276982307434,
+        "null": 0.18029745916525522
+      },
+      "retrieval_accuracy": 0.3333333333333333,
+      "absolute_gate_passed": false
+    },
+    {
+      "label": "n33",
+      "report": "sol/results/jewel_casting_language_v0/prompt_caster_additive_v1/seed20260902/report.json",
+      "training_fields": 33,
+      "cell_nll": {
+        "correct": 5.666188663906521,
+        "shuffled": 5.752162986331516,
+        "null": 5.519427352481419
+      },
+      "token_nll_macro": {
+        "correct": 7.922190948768898,
+        "shuffled": 7.9476104489079225,
+        "null": 6.850101400304723
+      },
+      "cell_margin_vs_shuffled": 0.08597432242499536,
+      "cell_margin_vs_null": -0.1467613114251023,
+      "token_margin_vs_shuffled": 0.02541950013902472,
+      "token_margin_vs_null": -1.0720895484641746,
+      "target_histogram_cosine": {
+        "correct": 0.20253434777259827,
+        "shuffled": 0.1897977888584137,
+        "null": 0.2316423455874125
+      },
+      "retrieval_accuracy": 0.3333333333333333,
+      "absolute_gate_passed": false
+    },
+    {
+      "label": "n57",
+      "report": "sol/results/jewel_casting_language_v0/prompt_data_scaling_v1/n57/report.json",
+      "training_fields": 57,
+      "cell_nll": {
+        "correct": 5.631779140896267,
+        "shuffled": 5.65920517179701,
+        "null": 5.514500617980957
+      },
+      "token_nll_macro": {
+        "correct": 8.138528488300464,
+        "shuffled": 8.243557135264078,
+        "null": 6.831515064945928
+      },
+      "cell_margin_vs_shuffled": 0.02742603090074347,
+      "cell_margin_vs_null": -0.11727852291530994,
+      "token_margin_vs_shuffled": 0.10502864696361414,
+      "token_margin_vs_null": -1.3070134233545359,
+      "target_histogram_cosine": {
+        "correct": 0.22744673490524292,
+        "shuffled": 0.21145887672901154,
+        "null": 0.2522544910510381
+      },
+      "retrieval_accuracy": 0.3333333333333333,
+      "absolute_gate_passed": false
+    }
+  ],
+  "scaling_checks": {
+    "cell_margin_vs_shuffled_nondecreasing": false,
+    "token_margin_vs_shuffled_nondecreasing": false,
+    "correct_histogram_cosine_nondecreasing": true,
+    "retrieval_accuracy_nondecreasing": true
+  },
+  "positive_data_scaling": false,
+  "final_absolute_gate_passed": false
+}

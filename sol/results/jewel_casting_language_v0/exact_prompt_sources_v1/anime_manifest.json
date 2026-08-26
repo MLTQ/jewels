@@ -1,0 +1,16 @@
+{
+  "schema": "ucf-prompt-streaming-v1",
+  "classes": [
+    {
+      "class_name": "Ballet",
+      "label": "anime pirouette",
+      "train_prompts": [
+        "a ballerina spinning a pirouette in a studio",
+        "a ballerina spinning a pirouette in a studio"
+      ],
+      "evaluation_prompts": [
+        "a ballerina spinning a pirouette in a studio"
+      ]
+    }
+  ]
+}

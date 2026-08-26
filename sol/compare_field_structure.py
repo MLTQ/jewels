@@ -21,10 +21,14 @@ from sol.token_grid import GridSpec
 from stprim.data.video_io import load_video
 
 
-def structure_report(features: torch.Tensor, *, sample: int = 20000) -> dict:
+def structure_report(
+    features: torch.Tensor, *, sample: int = 20000, eigen_chunk: int = 4096
+) -> dict:
     """Summarize anisotropy, temporal tilt, size, and spatial clustering."""
     if features.ndim != 2 or features.shape[1] < 22:
         raise ValueError("features must have shape (N,22+)")
+    if sample <= 0 or eigen_chunk <= 0:
+        raise ValueError("structure sample and eigen chunk must be positive")
     weight = torch.sigmoid(features[:, 21])
     keep = weight > 0.02
     kept = features[keep]
@@ -34,7 +38,19 @@ def structure_report(features: torch.Tensor, *, sample: int = 20000) -> dict:
         index = torch.randperm(len(kept))[:sample]
         kept = kept[index]
     covariance, _ = covariance_terms(kept)
-    eigenvalues, eigenvectors = torch.linalg.eigh(covariance.double())
+    # CUDA's batched double-precision solver may reserve workspace proportional
+    # to the full batch (over 10 GiB for 20k tiny matrices on an RTX 2070).
+    # These covariances originate in float32, so solve them in bounded float32
+    # chunks and concatenate the same 3x3 eigensystems.
+    eigenvalues, eigenvectors = [], []
+    for start in range(0, len(covariance), eigen_chunk):
+        values, vectors = torch.linalg.eigh(
+            covariance[start : start + eigen_chunk].float()
+        )
+        eigenvalues.append(values)
+        eigenvectors.append(vectors)
+    eigenvalues = torch.cat(eigenvalues)
+    eigenvectors = torch.cat(eigenvectors)
     eigenvalues = eigenvalues.clamp_min(1e-12)
     principal = eigenvectors[:, :, -1]
     anisotropy = (eigenvalues[:, -1] / eigenvalues[:, 0]).sqrt()

@@ -1,0 +1,218 @@
+{
+  "schema": "jewels-ltx-corpus-v1",
+  "updated_at": "2026-08-26T08:50:50.425542+00:00",
+  "source_manifest": "/home/m/jewels-codex-support/sol/results/jewel_casting_language_v0/exact_prompt_sources_v2/anime_manifest.json",
+  "source_manifest_sha256": "aa6037df13374735007fdbdfd2e9917dcb7a790713889ee27fdad238e56f58b0",
+  "runtime": {
+    "ltx_root": "/home/m/LTX-2",
+    "output_dir": "/home/m/LTX-2/corpora/jewels_prompt_exact_anime_v2",
+    "cuda_visible_device": "GPU-21d45575-7ece-a97c-35a0-294f7bce9c39",
+    "height": 512,
+    "width": 768,
+    "num_frames": 49,
+    "frame_rate": 24.0,
+    "quantization": "fp8-cast",
+    "offload": "cpu",
+    "max_batch_size": 1
+  },
+  "summary": {
+    "total": 4,
+    "complete": 4,
+    "failed": 0,
+    "pending": 0
+  },
+  "examples": [
+    {
+      "class_id": 0,
+      "class_name": "Ballet",
+      "prompt_role": "train",
+      "prompt_index": 0,
+      "source_prompt": "a ballerina spinning a pirouette in a studio",
+      "generation_prompt": "a ballerina spinning a pirouette in a studio. Anime style, hand-drawn cel animation, bold ink outlines, flat saturated colors, one continuous shot, stable camera, no cuts.",
+      "seed": 71002,
+      "stem": "00_ballet_train_00_seed71002",
+      "output": "/home/m/LTX-2/corpora/jewels_prompt_exact_anime_v2/00_ballet_train_00_seed71002.mp4",
+      "receipt": "/home/m/LTX-2/corpora/jewels_prompt_exact_anime_v2/00_ballet_train_00_seed71002.json",
+      "status": "complete",
+      "result": {
+        "elapsed_seconds": 147.15862947600544,
+        "ltx_revision": "4f8905737aac86a554637cac86c178877a39c744",
+        "peak_memory_mib": 9930,
+        "peak_above_baseline_mib": 8566,
+        "maximum_utilization_percent": 100,
+        "video_probe": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "index": 0,
+              "codec_name": "h264",
+              "codec_type": "video",
+              "width": 768,
+              "height": 512,
+              "r_frame_rate": "24/1",
+              "nb_frames": "49"
+            },
+            {
+              "index": 1,
+              "codec_name": "aac",
+              "codec_type": "audio",
+              "sample_rate": "48000",
+              "channels": 2,
+              "r_frame_rate": "0/0",
+              "nb_frames": "96"
+            }
+          ],
+          "format": {
+            "duration": "2.041667",
+            "size": "358350"
+          }
+        }
+      }
+    },
+    {
+      "class_id": 0,
+      "class_name": "Ballet",
+      "prompt_role": "train",
+      "prompt_index": 1,
+      "source_prompt": "a ballerina spinning a pirouette in a studio",
+      "generation_prompt": "a ballerina spinning a pirouette in a studio. Anime style, hand-drawn cel animation, bold ink outlines, flat saturated colors, one continuous shot, stable camera, no cuts.",
+      "seed": 71003,
+      "stem": "00_ballet_train_01_seed71003",
+      "output": "/home/m/LTX-2/corpora/jewels_prompt_exact_anime_v2/00_ballet_train_01_seed71003.mp4",
+      "receipt": "/home/m/LTX-2/corpora/jewels_prompt_exact_anime_v2/00_ballet_train_01_seed71003.json",
+      "status": "complete",
+      "result": {
+        "elapsed_seconds": 148.4992279150174,
+        "ltx_revision": "4f8905737aac86a554637cac86c178877a39c744",
+        "peak_memory_mib": 9924,
+        "peak_above_baseline_mib": 8566,
+        "maximum_utilization_percent": 100,
+        "video_probe": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "index": 0,
+              "codec_name": "h264",
+              "codec_type": "video",
+              "width": 768,
+              "height": 512,
+              "r_frame_rate": "24/1",
+              "nb_frames": "49"
+            },
+            {
+              "index": 1,
+              "codec_name": "aac",
+              "codec_type": "audio",
+              "sample_rate": "48000",
+              "channels": 2,
+              "r_frame_rate": "0/0",
+              "nb_frames": "96"
+            }
+          ],
+          "format": {
+            "duration": "2.041667",
+            "size": "281788"
+          }
+        }
+      }
+    },
+    {
+      "class_id": 0,
+      "class_name": "Ballet",
+      "prompt_role": "train",
+      "prompt_index": 2,
+      "source_prompt": "a ballerina spinning a pirouette in a studio",
+      "generation_prompt": "a ballerina spinning a pirouette in a studio. Anime style, hand-drawn cel animation, bold ink outlines, flat saturated colors, one continuous shot, stable camera, no cuts.",
+      "seed": 71004,
+      "stem": "00_ballet_train_02_seed71004",
+      "output": "/home/m/LTX-2/corpora/jewels_prompt_exact_anime_v2/00_ballet_train_02_seed71004.mp4",
+      "receipt": "/home/m/LTX-2/corpora/jewels_prompt_exact_anime_v2/00_ballet_train_02_seed71004.json",
+      "status": "complete",
+      "result": {
+        "elapsed_seconds": 155.5131696370081,
+        "ltx_revision": "4f8905737aac86a554637cac86c178877a39c744",
+        "peak_memory_mib": 9924,
+        "peak_above_baseline_mib": 8566,
+        "maximum_utilization_percent": 100,
+        "video_probe": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "index": 0,
+              "codec_name": "h264",
+              "codec_type": "video",
+              "width": 768,
+              "height": 512,
+              "r_frame_rate": "24/1",
+              "nb_frames": "49"
+            },
+            {
+              "index": 1,
+              "codec_name": "aac",
+              "codec_type": "audio",
+              "sample_rate": "48000",
+              "channels": 2,
+              "r_frame_rate": "0/0",
+              "nb_frames": "96"
+            }
+          ],
+          "format": {
+            "duration": "2.041667",
+            "size": "351030"
+          }
+        }
+      }
+    },
+    {
+      "class_id": 0,
+      "class_name": "Ballet",
+      "prompt_role": "train",
+      "prompt_index": 3,
+      "source_prompt": "a ballerina spinning a pirouette in a studio",
+      "generation_prompt": "a ballerina spinning a pirouette in a studio. Anime style, hand-drawn cel animation, bold ink outlines, flat saturated colors, one continuous shot, stable camera, no cuts.",
+      "seed": 71005,
+      "stem": "00_ballet_train_03_seed71005",
+      "output": "/home/m/LTX-2/corpora/jewels_prompt_exact_anime_v2/00_ballet_train_03_seed71005.mp4",
+      "receipt": "/home/m/LTX-2/corpora/jewels_prompt_exact_anime_v2/00_ballet_train_03_seed71005.json",
+      "status": "complete",
+      "result": {
+        "elapsed_seconds": 152.01202498999191,
+        "ltx_revision": "4f8905737aac86a554637cac86c178877a39c744",
+        "peak_memory_mib": 9924,
+        "peak_above_baseline_mib": 8566,
+        "maximum_utilization_percent": 100,
+        "video_probe": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "index": 0,
+              "codec_name": "h264",
+              "codec_type": "video",
+              "width": 768,
+              "height": 512,
+              "r_frame_rate": "24/1",
+              "nb_frames": "49"
+            },
+            {
+              "index": 1,
+              "codec_name": "aac",
+              "codec_type": "audio",
+              "sample_rate": "48000",
+              "channels": 2,
+              "r_frame_rate": "0/0",
+              "nb_frames": "96"
+            }
+          ],
+          "format": {
+            "duration": "2.041667",
+            "size": "385030"
+          }
+        }
+      }
+    }
+  ]
+}

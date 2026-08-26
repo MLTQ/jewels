@@ -1,0 +1,618 @@
+{
+  "schema": "hierarchical-jewel-phrase-decoder-gate-v1",
+  "protocol": {
+    "roots": [
+      "sol/results/irregular_teacher_train_v1",
+      "sol/results/irregular_teacher_train_extra24_v1",
+      "sol/results/jewel_casting_language_v0/hierarchical_v1/equivalent_seed1",
+      "sol/results/jewel_casting_language_v0/hierarchical_v1/equivalent_seed2"
+    ],
+    "training_fields": 33,
+    "validation_fields": 9,
+    "validation_sources": [
+      "anime__05_ballet_train_00_seed60500",
+      "cartoon__01_dogpark_train_00_seed61100",
+      "render3d__04_workshop_train_00_seed62400"
+    ],
+    "train_pairs_per_source": 4096,
+    "steps_max": 15000,
+    "steps_completed": 5500,
+    "batch_size": 2048,
+    "eval_every": 500,
+    "patience": 10,
+    "learning_rate": 0.0003,
+    "seed": 20260830,
+    "voxel_points": 4096,
+    "parameter_count": 766108
+  },
+  "input_audit": {
+    "forward_inputs": [
+      "pair_layout_token",
+      "pair_covariance_token",
+      "individual_surface_tokens",
+      "individual_gradient_tokens",
+      "cell",
+      "pair_anchor",
+      "count",
+      "frozen_base_prototypes"
+    ],
+    "target_values_forward_input": false,
+    "exact_residual_forward_input": false,
+    "source_pixels_forward_input": false
+  },
+  "history": [
+    {
+      "step": 500,
+      "train_normalized_mse": 0.984526700468971,
+      "validation_normalized_mse": 0.9648354364307942
+    },
+    {
+      "step": 1000,
+      "train_normalized_mse": 0.9737458803718543,
+      "validation_normalized_mse": 0.9689990660616277
+    },
+    {
+      "step": 1500,
+      "train_normalized_mse": 0.9584720039064797,
+      "validation_normalized_mse": 0.9770521295458814
+    },
+    {
+      "step": 2000,
+      "train_normalized_mse": 0.937242231803396,
+      "validation_normalized_mse": 0.9879909587381982
+    },
+    {
+      "step": 2500,
+      "train_normalized_mse": 0.9198717910646877,
+      "validation_normalized_mse": 0.9991371991956307
+    },
+    {
+      "step": 3000,
+      "train_normalized_mse": 0.9049416171331209,
+      "validation_normalized_mse": 1.0105119270993235
+    },
+    {
+      "step": 3500,
+      "train_normalized_mse": 0.8903135238770545,
+      "validation_normalized_mse": 1.0202038856908495
+    },
+    {
+      "step": 4000,
+      "train_normalized_mse": 0.8755726313290862,
+      "validation_normalized_mse": 1.0304559978983467
+    },
+    {
+      "step": 4500,
+      "train_normalized_mse": 0.8613914624309638,
+      "validation_normalized_mse": 1.0410423559299038
+    },
+    {
+      "step": 5000,
+      "train_normalized_mse": 0.8469510227725074,
+      "validation_normalized_mse": 1.0523431103157777
+    },
+    {
+      "step": 5500,
+      "train_normalized_mse": 0.8325629569213067,
+      "validation_normalized_mse": 1.0637570224605777
+    }
+  ],
+  "best_step": 500,
+  "macro": {
+    "raw_product_voxel_psnr": 19.06005965338813,
+    "learned_voxel_psnr": 19.189078013102215,
+    "learned_mixed_tilt_retention": 0.7832137655509359,
+    "learned_cell_center_lock_fraction": 0.0,
+    "baseline_validation_normalized_mse": 0.9715235233306885,
+    "best_validation_normalized_mse": 0.9648354364307942,
+    "validation_mse_improvement_fraction": 0.006884122452295749
+  },
+  "records": [
+    {
+      "source_id": "anime__05_ballet_train_00_seed60500",
+      "style": "anime",
+      "fit_seed": 0,
+      "raw_product": {
+        "voxel_psnr_to_continuous_source": 20.616661071777344,
+        "feature_marginal_mae": 0.026950933039188385,
+        "structure": {
+          "jewels_total": 72000,
+          "jewels_above_2pct_opacity": 72000,
+          "anisotropy_median": 1.3804732138676836,
+          "anisotropy_p90": 2.101171364954232,
+          "temporal_tilt_median": 0.9856084689027196,
+          "mixed_spacetime_tilt_median": 0.33025170297750456,
+          "mixed_spacetime_tilt_p90": 0.8183250826523147,
+          "extent_median": 0.012334728386434325,
+          "extent_iqr_ratio": 2.7699329868640485,
+          "opacity_median": 0.34846171736717224,
+          "occupancy_entropy": 5.277090072631836,
+          "occupancy_entropy_max": 5.545177444479562,
+          "occupancy_uniformity": 0.9516539597637912
+        },
+        "mixed_tilt_retention": 0.6389943194384433,
+        "center_irregularity": {
+          "within_cell_fraction_std": 0.2881005108356476,
+          "cell_center_lock_fraction": 0.0,
+          "near_cell_center_fraction": 5.555555617320351e-05
+        }
+      },
+      "learned_decoder": {
+        "voxel_psnr_to_continuous_source": 20.718311309814453,
+        "feature_marginal_mae": 0.02323097735643387,
+        "structure": {
+          "jewels_total": 72000,
+          "jewels_above_2pct_opacity": 72000,
+          "anisotropy_median": 1.3800032157660462,
+          "anisotropy_p90": 2.1004500856256088,
+          "temporal_tilt_median": 0.9765627832308539,
+          "mixed_spacetime_tilt_median": 0.4010540388098153,
+          "mixed_spacetime_tilt_p90": 0.8746336488742564,
+          "extent_median": 0.012285984688843407,
+          "extent_iqr_ratio": 2.8264895986639957,
+          "opacity_median": 0.3484225571155548,
+          "occupancy_entropy": 5.276962757110596,
+          "occupancy_entropy_max": 5.545177444479562,
+          "occupancy_uniformity": 0.951631000079901
+        },
+        "mixed_tilt_retention": 0.7759876793270409,
+        "center_irregularity": {
+          "within_cell_fraction_std": 0.2881142199039459,
+          "cell_center_lock_fraction": 0.0,
+          "near_cell_center_fraction": 4.166666622040793e-05
+        }
+      }
+    },
+    {
+      "source_id": "cartoon__01_dogpark_train_00_seed61100",
+      "style": "cartoon",
+      "fit_seed": 0,
+      "raw_product": {
+        "voxel_psnr_to_continuous_source": 20.16708755493164,
+        "feature_marginal_mae": 0.03892124816775322,
+        "structure": {
+          "jewels_total": 72000,
+          "jewels_above_2pct_opacity": 72000,
+          "anisotropy_median": 1.4702300845725604,
+          "anisotropy_p90": 2.3026602012428468,
+          "temporal_tilt_median": 0.9844543375234346,
+          "mixed_spacetime_tilt_median": 0.344564670686509,
+          "mixed_spacetime_tilt_p90": 0.823405735261087,
+          "extent_median": 0.01438876016013639,
+          "extent_iqr_ratio": 2.434204942952034,
+          "opacity_median": 0.3253844976425171,
+          "occupancy_entropy": 5.369227409362793,
+          "occupancy_entropy_max": 5.545177444479562,
+          "occupancy_uniformity": 0.9682697196115997
+        },
+        "mixed_tilt_retention": 0.7070930663344829,
+        "center_irregularity": {
+          "within_cell_fraction_std": 0.2889375686645508,
+          "cell_center_lock_fraction": 0.0,
+          "near_cell_center_fraction": 0.00011111111234640703
+        }
+      },
+      "learned_decoder": {
+        "voxel_psnr_to_continuous_source": 20.295238494873047,
+        "feature_marginal_mae": 0.03660052269697189,
+        "structure": {
+          "jewels_total": 72000,
+          "jewels_above_2pct_opacity": 72000,
+          "anisotropy_median": 1.4718125078454591,
+          "anisotropy_p90": 2.318374781950144,
+          "temporal_tilt_median": 0.979149833347778,
+          "mixed_spacetime_tilt_median": 0.3812629751884966,
+          "mixed_spacetime_tilt_p90": 0.8750506758832851,
+          "extent_median": 0.014381415497443099,
+          "extent_iqr_ratio": 2.4576814440881827,
+          "opacity_median": 0.3253207802772522,
+          "occupancy_entropy": 5.369372844696045,
+          "occupancy_entropy_max": 5.545177444479562,
+          "occupancy_uniformity": 0.9682959469658563
+        },
+        "mixed_tilt_retention": 0.7824029250262811,
+        "center_irregularity": {
+          "within_cell_fraction_std": 0.28895118832588196,
+          "cell_center_lock_fraction": 0.0,
+          "near_cell_center_fraction": 0.00011111111234640703
+        }
+      }
+    },
+    {
+      "source_id": "render3d__04_workshop_train_00_seed62400",
+      "style": "render3d",
+      "fit_seed": 0,
+      "raw_product": {
+        "voxel_psnr_to_continuous_source": 16.83924674987793,
+        "feature_marginal_mae": 0.036778029054403305,
+        "structure": {
+          "jewels_total": 72000,
+          "jewels_above_2pct_opacity": 72000,
+          "anisotropy_median": 1.381077741656625,
+          "anisotropy_p90": 2.2533619407969674,
+          "temporal_tilt_median": 0.9875916800266301,
+          "mixed_spacetime_tilt_median": 0.310189787555491,
+          "mixed_spacetime_tilt_p90": 0.79808592560051,
+          "extent_median": 0.014099235828892158,
+          "extent_iqr_ratio": 2.5522773786830313,
+          "opacity_median": 0.3308175206184387,
+          "occupancy_entropy": 5.1106414794921875,
+          "occupancy_entropy_max": 5.545177444479562,
+          "occupancy_uniformity": 0.9216371397781018
+        },
+        "mixed_tilt_retention": 0.692029812807595,
+        "center_irregularity": {
+          "within_cell_fraction_std": 0.2879195213317871,
+          "cell_center_lock_fraction": 0.0,
+          "near_cell_center_fraction": 5.555555617320351e-05
+        }
+      },
+      "learned_decoder": {
+        "voxel_psnr_to_continuous_source": 16.982606887817383,
+        "feature_marginal_mae": 0.03174243122339249,
+        "structure": {
+          "jewels_total": 72000,
+          "jewels_above_2pct_opacity": 72000,
+          "anisotropy_median": 1.4019574236692984,
+          "anisotropy_p90": 2.28253159328749,
+          "temporal_tilt_median": 0.9820650116791735,
+          "mixed_spacetime_tilt_median": 0.3564361552990915,
+          "mixed_spacetime_tilt_p90": 0.8367170694925657,
+          "extent_median": 0.014018825147383195,
+          "extent_iqr_ratio": 2.573397103284818,
+          "opacity_median": 0.3304891884326935,
+          "occupancy_entropy": 5.110988140106201,
+          "occupancy_entropy_max": 5.545177444479562,
+          "occupancy_uniformity": 0.9216996554716904
+        },
+        "mixed_tilt_retention": 0.7952049220361984,
+        "center_irregularity": {
+          "within_cell_fraction_std": 0.28793245553970337,
+          "cell_center_lock_fraction": 0.0,
+          "near_cell_center_fraction": 5.555555617320351e-05
+        }
+      }
+    },
+    {
+      "source_id": "anime__05_ballet_train_00_seed60500",
+      "style": "anime",
+      "fit_seed": 1,
+      "raw_product": {
+        "voxel_psnr_to_continuous_source": 20.138216018676758,
+        "feature_marginal_mae": 0.027759093791246414,
+        "structure": {
+          "jewels_total": 72000,
+          "jewels_above_2pct_opacity": 72000,
+          "anisotropy_median": 1.3731782077775176,
+          "anisotropy_p90": 2.0994823872928525,
+          "temporal_tilt_median": 0.9856084689027196,
+          "mixed_spacetime_tilt_median": 0.3294290637644633,
+          "mixed_spacetime_tilt_p90": 0.8072523613230143,
+          "extent_median": 0.012005590528559415,
+          "extent_iqr_ratio": 2.8926181502950707,
+          "opacity_median": 0.35202381014823914,
+          "occupancy_entropy": 5.278409957885742,
+          "occupancy_entropy_max": 5.545177444479562,
+          "occupancy_uniformity": 0.9518919837525853
+        },
+        "mixed_tilt_retention": 0.6298592512743606,
+        "center_irregularity": {
+          "within_cell_fraction_std": 0.28856244683265686,
+          "cell_center_lock_fraction": 0.0,
+          "near_cell_center_fraction": 1.3888889043300878e-05
+        }
+      },
+      "learned_decoder": {
+        "voxel_psnr_to_continuous_source": 20.242502212524414,
+        "feature_marginal_mae": 0.023920394480228424,
+        "structure": {
+          "jewels_total": 72000,
+          "jewels_above_2pct_opacity": 72000,
+          "anisotropy_median": 1.372471313457421,
+          "anisotropy_p90": 2.0968891775472716,
+          "temporal_tilt_median": 0.9773373688331894,
+          "mixed_spacetime_tilt_median": 0.39348865053049226,
+          "mixed_spacetime_tilt_p90": 0.872567597031306,
+          "extent_median": 0.011944560100112358,
+          "extent_iqr_ratio": 2.9413452992805076,
+          "opacity_median": 0.35168391466140747,
+          "occupancy_entropy": 5.2784528732299805,
+          "occupancy_entropy_max": 5.545177444479562,
+          "occupancy_uniformity": 0.9518997229718742
+        },
+        "mixed_tilt_retention": 0.7523394079925442,
+        "center_irregularity": {
+          "within_cell_fraction_std": 0.2885792851448059,
+          "cell_center_lock_fraction": 0.0,
+          "near_cell_center_fraction": 1.3888889043300878e-05
+        }
+      }
+    },
+    {
+      "source_id": "cartoon__01_dogpark_train_00_seed61100",
+      "style": "cartoon",
+      "fit_seed": 1,
+      "raw_product": {
+        "voxel_psnr_to_continuous_source": 19.816614151000977,
+        "feature_marginal_mae": 0.03756638243794441,
+        "structure": {
+          "jewels_total": 72000,
+          "jewels_above_2pct_opacity": 72000,
+          "anisotropy_median": 1.4629084260370784,
+          "anisotropy_p90": 2.286384399928222,
+          "temporal_tilt_median": 0.9844044610835487,
+          "mixed_spacetime_tilt_median": 0.344564670686509,
+          "mixed_spacetime_tilt_p90": 0.8222881151664075,
+          "extent_median": 0.014429059460152943,
+          "extent_iqr_ratio": 2.4791416935766786,
+          "opacity_median": 0.32433557510375977,
+          "occupancy_entropy": 5.370965003967285,
+          "occupancy_entropy_max": 5.545177444479562,
+          "occupancy_uniformity": 0.9685830720014718
+        },
+        "mixed_tilt_retention": 0.7100114643851223,
+        "center_irregularity": {
+          "within_cell_fraction_std": 0.28942611813545227,
+          "cell_center_lock_fraction": 0.0,
+          "near_cell_center_fraction": 6.944444612599909e-05
+        }
+      },
+      "learned_decoder": {
+        "voxel_psnr_to_continuous_source": 19.917224884033203,
+        "feature_marginal_mae": 0.035267677158117294,
+        "structure": {
+          "jewels_total": 72000,
+          "jewels_above_2pct_opacity": 72000,
+          "anisotropy_median": 1.4653797695019668,
+          "anisotropy_p90": 2.302615096704933,
+          "temporal_tilt_median": 0.9795498685049226,
+          "mixed_spacetime_tilt_median": 0.3803813187267135,
+          "mixed_spacetime_tilt_p90": 0.866087388906084,
+          "extent_median": 0.01446505913794256,
+          "extent_iqr_ratio": 2.4820218627876662,
+          "opacity_median": 0.324379026889801,
+          "occupancy_entropy": 5.371060371398926,
+          "occupancy_entropy_max": 5.545177444479562,
+          "occupancy_uniformity": 0.968600270266558
+        },
+        "mixed_tilt_retention": 0.7838154056705857,
+        "center_irregularity": {
+          "within_cell_fraction_std": 0.28943967819213867,
+          "cell_center_lock_fraction": 0.0,
+          "near_cell_center_fraction": 6.944444612599909e-05
+        }
+      }
+    },
+    {
+      "source_id": "render3d__04_workshop_train_00_seed62400",
+      "style": "render3d",
+      "fit_seed": 1,
+      "raw_product": {
+        "voxel_psnr_to_continuous_source": 16.555465698242188,
+        "feature_marginal_mae": 0.035852640867233276,
+        "structure": {
+          "jewels_total": 72000,
+          "jewels_above_2pct_opacity": 72000,
+          "anisotropy_median": 1.3804732138676836,
+          "anisotropy_p90": 2.2514896205950654,
+          "temporal_tilt_median": 0.9878564141174421,
+          "mixed_spacetime_tilt_median": 0.30570069420136486,
+          "mixed_spacetime_tilt_p90": 0.8022799812914846,
+          "extent_median": 0.014198645790735449,
+          "extent_iqr_ratio": 2.5850373065695798,
+          "opacity_median": 0.32760605216026306,
+          "occupancy_entropy": 5.111176490783691,
+          "occupancy_entropy_max": 5.545177444479562,
+          "occupancy_uniformity": 0.9217336220452358
+        },
+        "mixed_tilt_retention": 0.6784367663428672,
+        "center_irregularity": {
+          "within_cell_fraction_std": 0.2875516414642334,
+          "cell_center_lock_fraction": 0.0,
+          "near_cell_center_fraction": 5.555555617320351e-05
+        }
+      },
+      "learned_decoder": {
+        "voxel_psnr_to_continuous_source": 16.730093002319336,
+        "feature_marginal_mae": 0.03097129985690117,
+        "structure": {
+          "jewels_total": 72000,
+          "jewels_above_2pct_opacity": 72000,
+          "anisotropy_median": 1.4007686646486435,
+          "anisotropy_p90": 2.2855689831481354,
+          "temporal_tilt_median": 0.9819455781856151,
+          "mixed_spacetime_tilt_median": 0.353183164024393,
+          "mixed_spacetime_tilt_p90": 0.8382481841887478,
+          "extent_median": 0.014203426787288032,
+          "extent_iqr_ratio": 2.5945171036983217,
+          "opacity_median": 0.3271709680557251,
+          "occupancy_entropy": 5.11131477355957,
+          "occupancy_entropy_max": 5.545177444479562,
+          "occupancy_uniformity": 0.9217585595296109
+        },
+        "mixed_tilt_retention": 0.7838138685076687,
+        "center_irregularity": {
+          "within_cell_fraction_std": 0.2875678241252899,
+          "cell_center_lock_fraction": 0.0,
+          "near_cell_center_fraction": 4.166666622040793e-05
+        }
+      }
+    },
+    {
+      "source_id": "anime__05_ballet_train_00_seed60500",
+      "style": "anime",
+      "fit_seed": 2,
+      "raw_product": {
+        "voxel_psnr_to_continuous_source": 20.410140991210938,
+        "feature_marginal_mae": 0.027068452909588814,
+        "structure": {
+          "jewels_total": 72000,
+          "jewels_above_2pct_opacity": 72000,
+          "anisotropy_median": 1.3822720305936012,
+          "anisotropy_p90": 2.103838185800713,
+          "temporal_tilt_median": 0.9850365398977216,
+          "mixed_spacetime_tilt_median": 0.33553370411446115,
+          "mixed_spacetime_tilt_p90": 0.8190295435343303,
+          "extent_median": 0.012194681067397574,
+          "extent_iqr_ratio": 2.828885201510819,
+          "opacity_median": 0.34985092282295227,
+          "occupancy_entropy": 5.282187461853027,
+          "occupancy_entropy_max": 5.545177444479562,
+          "occupancy_uniformity": 0.9525732070326529
+        },
+        "mixed_tilt_retention": 0.6531789620028644,
+        "center_irregularity": {
+          "within_cell_fraction_std": 0.2880672514438629,
+          "cell_center_lock_fraction": 0.0,
+          "near_cell_center_fraction": 8.333333244081587e-05
+        }
+      },
+      "learned_decoder": {
+        "voxel_psnr_to_continuous_source": 20.5562801361084,
+        "feature_marginal_mae": 0.023294519633054733,
+        "structure": {
+          "jewels_total": 72000,
+          "jewels_above_2pct_opacity": 72000,
+          "anisotropy_median": 1.3808544693160076,
+          "anisotropy_p90": 2.099651872594111,
+          "temporal_tilt_median": 0.9770457011023735,
+          "mixed_spacetime_tilt_median": 0.3975674971053193,
+          "mixed_spacetime_tilt_p90": 0.8804746540410283,
+          "extent_median": 0.012166212160002526,
+          "extent_iqr_ratio": 2.8864826259764365,
+          "opacity_median": 0.3493427336215973,
+          "occupancy_entropy": 5.282241344451904,
+          "occupancy_entropy_max": 5.545177444479562,
+          "occupancy_uniformity": 0.9525829240524266
+        },
+        "mixed_tilt_retention": 0.7739393148914282,
+        "center_irregularity": {
+          "within_cell_fraction_std": 0.2880794107913971,
+          "cell_center_lock_fraction": 0.0,
+          "near_cell_center_fraction": 8.333333244081587e-05
+        }
+      }
+    },
+    {
+      "source_id": "cartoon__01_dogpark_train_00_seed61100",
+      "style": "cartoon",
+      "fit_seed": 2,
+      "raw_product": {
+        "voxel_psnr_to_continuous_source": 20.030967712402344,
+        "feature_marginal_mae": 0.037617139518260956,
+        "structure": {
+          "jewels_total": 72000,
+          "jewels_above_2pct_opacity": 72000,
+          "anisotropy_median": 1.4613654274376806,
+          "anisotropy_p90": 2.3076141691340952,
+          "temporal_tilt_median": 0.9844476738551718,
+          "mixed_spacetime_tilt_median": 0.344564670686509,
+          "mixed_spacetime_tilt_p90": 0.8236711953457133,
+          "extent_median": 0.014113626462224122,
+          "extent_iqr_ratio": 2.3826304274040604,
+          "opacity_median": 0.3253844976425171,
+          "occupancy_entropy": 5.36713981628418,
+          "occupancy_entropy_max": 5.545177444479562,
+          "occupancy_uniformity": 0.967893249588861
+        },
+        "mixed_tilt_retention": 0.7128644588944422,
+        "center_irregularity": {
+          "within_cell_fraction_std": 0.28905385732650757,
+          "cell_center_lock_fraction": 0.0,
+          "near_cell_center_fraction": 5.555555617320351e-05
+        }
+      },
+      "learned_decoder": {
+        "voxel_psnr_to_continuous_source": 20.13229751586914,
+        "feature_marginal_mae": 0.035302601754665375,
+        "structure": {
+          "jewels_total": 72000,
+          "jewels_above_2pct_opacity": 72000,
+          "anisotropy_median": 1.4631656495740448,
+          "anisotropy_p90": 2.3258190759461557,
+          "temporal_tilt_median": 0.9788491544183485,
+          "mixed_spacetime_tilt_median": 0.38517517579278293,
+          "mixed_spacetime_tilt_p90": 0.8692705504715239,
+          "extent_median": 0.014209933694433428,
+          "extent_iqr_ratio": 2.396233407418407,
+          "opacity_median": 0.32506582140922546,
+          "occupancy_entropy": 5.367215156555176,
+          "occupancy_entropy_max": 5.545177444479562,
+          "occupancy_uniformity": 0.9679068362182792
+        },
+        "mixed_tilt_retention": 0.796882897843318,
+        "center_irregularity": {
+          "within_cell_fraction_std": 0.2890647351741791,
+          "cell_center_lock_fraction": 0.0,
+          "near_cell_center_fraction": 5.555555617320351e-05
+        }
+      }
+    },
+    {
+      "source_id": "render3d__04_workshop_train_00_seed62400",
+      "style": "render3d",
+      "fit_seed": 2,
+      "raw_product": {
+        "voxel_psnr_to_continuous_source": 16.966136932373047,
+        "feature_marginal_mae": 0.036837656050920486,
+        "structure": {
+          "jewels_total": 72000,
+          "jewels_above_2pct_opacity": 72000,
+          "anisotropy_median": 1.3933642032627662,
+          "anisotropy_p90": 2.2716857425086863,
+          "temporal_tilt_median": 0.9872856306518325,
+          "mixed_spacetime_tilt_median": 0.31145450596526353,
+          "mixed_spacetime_tilt_p90": 0.8029512489393076,
+          "extent_median": 0.01429626667874605,
+          "extent_iqr_ratio": 2.5502043220485837,
+          "opacity_median": 0.32643812894821167,
+          "occupancy_entropy": 5.1145830154418945,
+          "occupancy_entropy_max": 5.545177444479562,
+          "occupancy_uniformity": 0.9223479440741178
+        },
+        "mixed_tilt_retention": 0.6899525120122102,
+        "center_irregularity": {
+          "within_cell_fraction_std": 0.28739920258522034,
+          "cell_center_lock_fraction": 0.0,
+          "near_cell_center_fraction": 5.555555617320351e-05
+        }
+      },
+      "learned_decoder": {
+        "voxel_psnr_to_continuous_source": 17.127147674560547,
+        "feature_marginal_mae": 0.03210713341832161,
+        "structure": {
+          "jewels_total": 72000,
+          "jewels_above_2pct_opacity": 72000,
+          "anisotropy_median": 1.4186559190829575,
+          "anisotropy_p90": 2.302933364688014,
+          "temporal_tilt_median": 0.9811028679502655,
+          "mixed_spacetime_tilt_median": 0.36317980653812765,
+          "mixed_spacetime_tilt_p90": 0.8400876607543831,
+          "extent_median": 0.014339117425536353,
+          "extent_iqr_ratio": 2.5470893613034833,
+          "opacity_median": 0.32653215527534485,
+          "occupancy_entropy": 5.114706039428711,
+          "occupancy_entropy_max": 5.545177444479562,
+          "occupancy_uniformity": 0.922370129836079
+        },
+        "mixed_tilt_retention": 0.8045374686633575,
+        "center_irregularity": {
+          "within_cell_fraction_std": 0.28741320967674255,
+          "cell_center_lock_fraction": 0.0,
+          "near_cell_center_fraction": 6.944444612599909e-05
+        }
+      }
+    }
+  ],
+  "gate": {
+    "checks": {
+      "validation_mse_improves_at_least_10pct": false,
+      "learned_render_at_least_20db": false,
+      "learned_improves_raw_by_1db": false,
+      "learned_tilt_within_15pct": false,
+      "learned_centers_not_grid_locked": true,
+      "no_target_residual_forward_input": true
+    },
+    "passed": false
+  }
+}

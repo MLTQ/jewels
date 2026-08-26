@@ -1,0 +1,791 @@
+{
+  "schema": "prompt-native-jewel-caster-gate-v1",
+  "protocol": {
+    "roots": [
+      "sol/results/irregular_teacher_train_v1",
+      "sol/results/irregular_teacher_train_extra24_v1",
+      "sol/results/jewel_casting_language_v0/hierarchical_v1/equivalent_seed1",
+      "sol/results/jewel_casting_language_v0/hierarchical_v1/equivalent_seed2"
+    ],
+    "training_fields": 33,
+    "validation_fields": 9,
+    "validation_sources": [
+      "anime__05_ballet_train_00_seed60500",
+      "cartoon__01_dogpark_train_00_seed61100",
+      "render3d__04_workshop_train_00_seed62400"
+    ],
+    "train_jewels_per_source": 8192,
+    "validation_jewels_per_field": 16384,
+    "generation_jewels": 72000,
+    "steps_max": 15000,
+    "steps_completed": 5500,
+    "batch_size": 4096,
+    "eval_every": 500,
+    "patience": 10,
+    "learning_rate": 0.0003,
+    "seed": 20260831,
+    "parameter_count": 2854336,
+    "text_model": "BAAI/bge-small-en-v1.5"
+  },
+  "prompt_labels": {
+    "training": [
+      "anime video. a surfer riding a breaking wave",
+      "anime video. a welder joining steel with bright sparks",
+      "anime video. cars streaming through a busy intersection",
+      "anime video. a waterfall cascading into a green pool",
+      "cartoon video. a chef chopping vegetables on a wooden board",
+      "cartoon video. a welder joining steel with bright sparks",
+      "cartoon video. a ballerina spinning a pirouette in a studio",
+      "cartoon video. a waterfall cascading into a green pool",
+      "cartoon video. an artist brushing color onto a canvas",
+      "clay video. a chef chopping vegetables on a wooden board",
+      "clay video. a golden retriever catching a ball on grass",
+      "clay video. a ballerina spinning a pirouette in a studio",
+      "clay video. a player dribbling up an outdoor court",
+      "clay video. an artist brushing color onto a canvas",
+      "clay video. a gymnast tumbling across a floor mat",
+      "photoreal video. a golden retriever catching a ball on grass",
+      "photoreal video. a vendor arranging fruit at a market stall",
+      "photoreal video. a player dribbling up an outdoor court",
+      "photoreal video. friends roasting marshmallows over a campfire",
+      "photoreal video. a gymnast tumbling across a floor mat",
+      "render3d video. a vendor arranging fruit at a market stall",
+      "render3d video. a surfer riding a breaking wave",
+      "render3d video. friends roasting marshmallows over a campfire",
+      "render3d video. cars streaming through a busy intersection",
+      "anime video. a chef chopping vegetables on a wooden board",
+      "anime video. an artist brushing color onto a canvas",
+      "cartoon video. a player dribbling up an outdoor court",
+      "cartoon video. a gymnast tumbling across a floor mat",
+      "clay video. a vendor arranging fruit at a market stall",
+      "clay video. friends roasting marshmallows over a campfire",
+      "photoreal video. a surfer riding a breaking wave",
+      "photoreal video. cars streaming through a busy intersection",
+      "render3d video. a waterfall cascading into a green pool"
+    ],
+    "validation": [
+      "anime video. a ballerina spinning a pirouette in a studio",
+      "cartoon video. a golden retriever catching a ball on grass",
+      "render3d video. a welder joining steel with bright sparks"
+    ]
+  },
+  "history": [
+    {
+      "step": 500,
+      "selection_score": 6.82901345623864,
+      "controls": {
+        "correct": {
+          "centroid_nll": 2.569919718636407,
+          "token_nll": {
+            "covariance": 6.521927833557129,
+            "surface": 6.829834461212158,
+            "gradient": 6.364302158355713
+          },
+          "token_nll_macro": 6.572021484375
+        },
+        "shuffled": {
+          "centroid_nll": 2.5707398454348245,
+          "token_nll": {
+            "covariance": 6.540724277496338,
+            "surface": 6.990228652954102,
+            "gradient": 6.471092224121094
+          },
+          "token_nll_macro": 6.667348384857178
+        },
+        "null": {
+          "centroid_nll": 2.5634708404541016,
+          "token_nll": {
+            "covariance": 6.492372512817383,
+            "surface": 6.8136467933654785,
+            "gradient": 6.323301792144775
+          },
+          "token_nll_macro": 6.543107032775879
+        }
+      }
+    },
+    {
+      "step": 1000,
+      "selection_score": 6.871957343154484,
+      "controls": {
+        "correct": {
+          "centroid_nll": 2.615824156337314,
+          "token_nll": {
+            "covariance": 6.515195846557617,
+            "surface": 6.899105548858643,
+            "gradient": 6.416823387145996
+          },
+          "token_nll_macro": 6.610374927520752
+        },
+        "shuffled": {
+          "centroid_nll": 2.687378532356686,
+          "token_nll": {
+            "covariance": 6.563190937042236,
+            "surface": 7.093333721160889,
+            "gradient": 6.539304256439209
+          },
+          "token_nll_macro": 6.731943130493164
+        },
+        "null": {
+          "centroid_nll": 2.567047576109568,
+          "token_nll": {
+            "covariance": 6.482370853424072,
+            "surface": 6.8345561027526855,
+            "gradient": 6.334125518798828
+          },
+          "token_nll_macro": 6.550350666046143
+        }
+      }
+    },
+    {
+      "step": 1500,
+      "selection_score": 7.0019935654269325,
+      "controls": {
+        "correct": {
+          "centroid_nll": 2.6797476278411017,
+          "token_nll": {
+            "covariance": 6.634119987487793,
+            "surface": 7.014669895172119,
+            "gradient": 6.553267478942871
+          },
+          "token_nll_macro": 6.734018802642822
+        },
+        "shuffled": {
+          "centroid_nll": 2.806013365586599,
+          "token_nll": {
+            "covariance": 6.6548309326171875,
+            "surface": 7.259910583496094,
+            "gradient": 6.672588348388672
+          },
+          "token_nll_macro": 6.862443923950195
+        },
+        "null": {
+          "centroid_nll": 2.5719588465160794,
+          "token_nll": {
+            "covariance": 6.4866108894348145,
+            "surface": 6.848849296569824,
+            "gradient": 6.350474834442139
+          },
+          "token_nll_macro": 6.561978816986084
+        }
+      }
+    },
+    {
+      "step": 2000,
+      "selection_score": 7.217674118280411,
+      "controls": {
+        "correct": {
+          "centroid_nll": 2.693751871585846,
+          "token_nll": {
+            "covariance": 6.808176517486572,
+            "surface": 7.286766052246094,
+            "gradient": 6.749953746795654
+          },
+          "token_nll_macro": 6.948298931121826
+        },
+        "shuffled": {
+          "centroid_nll": 2.8433631658554077,
+          "token_nll": {
+            "covariance": 6.841874122619629,
+            "surface": 7.5042290687561035,
+            "gradient": 6.839099407196045
+          },
+          "token_nll_macro": 7.061734676361084
+        },
+        "null": {
+          "centroid_nll": 2.5612729920281305,
+          "token_nll": {
+            "covariance": 6.499841213226318,
+            "surface": 6.879027843475342,
+            "gradient": 6.389273166656494
+          },
+          "token_nll_macro": 6.589380741119385
+        }
+      }
+    },
+    {
+      "step": 2500,
+      "selection_score": 7.435892556773291,
+      "controls": {
+        "correct": {
+          "centroid_nll": 2.729301200972663,
+          "token_nll": {
+            "covariance": 6.968575477600098,
+            "surface": 7.565794944763184,
+            "gradient": 6.95451545715332
+          },
+          "token_nll_macro": 7.162962436676025
+        },
+        "shuffled": {
+          "centroid_nll": 2.8959636423322888,
+          "token_nll": {
+            "covariance": 7.091799259185791,
+            "surface": 7.783227920532227,
+            "gradient": 7.080432415008545
+          },
+          "token_nll_macro": 7.31848669052124
+        },
+        "null": {
+          "centroid_nll": 2.5610250433286033,
+          "token_nll": {
+            "covariance": 6.519429683685303,
+            "surface": 6.920286655426025,
+            "gradient": 6.424102783203125
+          },
+          "token_nll_macro": 6.621273040771484
+        }
+      }
+    },
+    {
+      "step": 3000,
+      "selection_score": 7.639992672204971,
+      "controls": {
+        "correct": {
+          "centroid_nll": 2.7410359978675842,
+          "token_nll": {
+            "covariance": 7.149542331695557,
+            "surface": 7.803735733032227,
+            "gradient": 7.14439058303833
+          },
+          "token_nll_macro": 7.365889072418213
+        },
+        "shuffled": {
+          "centroid_nll": 2.896183285448286,
+          "token_nll": {
+            "covariance": 7.331667423248291,
+            "surface": 8.064407348632812,
+            "gradient": 7.305672645568848
+          },
+          "token_nll_macro": 7.567248821258545
+        },
+        "null": {
+          "centroid_nll": 2.565335644616021,
+          "token_nll": {
+            "covariance": 6.541530132293701,
+            "surface": 6.948948860168457,
+            "gradient": 6.462985038757324
+          },
+          "token_nll_macro": 6.6511549949646
+        }
+      }
+    },
+    {
+      "step": 3500,
+      "selection_score": 7.864205710755455,
+      "controls": {
+        "correct": {
+          "centroid_nll": 2.773407624827491,
+          "token_nll": {
+            "covariance": 7.319832801818848,
+            "surface": 8.08984375,
+            "gradient": 7.350915908813477
+          },
+          "token_nll_macro": 7.586864948272705
+        },
+        "shuffled": {
+          "centroid_nll": 2.9210143950250416,
+          "token_nll": {
+            "covariance": 7.533486366271973,
+            "surface": 8.337785720825195,
+            "gradient": 7.5395636558532715
+          },
+          "token_nll_macro": 7.803611755371094
+        },
+        "null": {
+          "centroid_nll": 2.5653373267915516,
+          "token_nll": {
+            "covariance": 6.553444862365723,
+            "surface": 6.980391979217529,
+            "gradient": 6.485833168029785
+          },
+          "token_nll_macro": 6.673223972320557
+        }
+      }
+    },
+    {
+      "step": 4000,
+      "selection_score": 8.028424924612045,
+      "controls": {
+        "correct": {
+          "centroid_nll": 2.7797240614891052,
+          "token_nll": {
+            "covariance": 7.484494686126709,
+            "surface": 8.246281623840332,
+            "gradient": 7.520582675933838
+          },
+          "token_nll_macro": 7.750452518463135
+        },
+        "shuffled": {
+          "centroid_nll": 2.9510527518060474,
+          "token_nll": {
+            "covariance": 7.747578144073486,
+            "surface": 8.540329933166504,
+            "gradient": 7.70158576965332
+          },
+          "token_nll_macro": 7.996499061584473
+        },
+        "null": {
+          "centroid_nll": 2.5556585457589893,
+          "token_nll": {
+            "covariance": 6.574958801269531,
+            "surface": 7.003439426422119,
+            "gradient": 6.509280681610107
+          },
+          "token_nll_macro": 6.695893287658691
+        }
+      }
+    },
+    {
+      "step": 4500,
+      "selection_score": 8.262516644265917,
+      "controls": {
+        "correct": {
+          "centroid_nll": 2.8020062711503773,
+          "token_nll": {
+            "covariance": 7.657667636871338,
+            "surface": 8.553314208984375,
+            "gradient": 7.735966205596924
+          },
+          "token_nll_macro": 7.982316017150879
+        },
+        "shuffled": {
+          "centroid_nll": 2.9647488395373025,
+          "token_nll": {
+            "covariance": 7.950708866119385,
+            "surface": 8.800455093383789,
+            "gradient": 7.90346097946167
+          },
+          "token_nll_macro": 8.218209266662598
+        },
+        "null": {
+          "centroid_nll": 2.560260103808509,
+          "token_nll": {
+            "covariance": 6.5868988037109375,
+            "surface": 7.022722244262695,
+            "gradient": 6.529539585113525
+          },
+          "token_nll_macro": 6.713053226470947
+        }
+      }
+    },
+    {
+      "step": 5000,
+      "selection_score": 8.396927930911382,
+      "controls": {
+        "correct": {
+          "centroid_nll": 2.8086576660474143,
+          "token_nll": {
+            "covariance": 7.79941463470459,
+            "surface": 8.681401252746582,
+            "gradient": 7.86737060546875
+          },
+          "token_nll_macro": 8.11606216430664
+        },
+        "shuffled": {
+          "centroid_nll": 2.9774362444877625,
+          "token_nll": {
+            "covariance": 8.11385440826416,
+            "surface": 8.953763008117676,
+            "gradient": 8.069783210754395
+          },
+          "token_nll_macro": 8.379133224487305
+        },
+        "null": {
+          "centroid_nll": 2.562900867727068,
+          "token_nll": {
+            "covariance": 6.600270748138428,
+            "surface": 7.033225059509277,
+            "gradient": 6.5415825843811035
+          },
+          "token_nll_macro": 6.7250261306762695
+        }
+      }
+    },
+    {
+      "step": 5500,
+      "selection_score": 8.577763481934864,
+      "controls": {
+        "correct": {
+          "centroid_nll": 2.8094093402226767,
+          "token_nll": {
+            "covariance": 7.957203388214111,
+            "surface": 8.882619857788086,
+            "gradient": 8.050643920898438
+          },
+          "token_nll_macro": 8.296822547912598
+        },
+        "shuffled": {
+          "centroid_nll": 2.9517893857426114,
+          "token_nll": {
+            "covariance": 8.278348922729492,
+            "surface": 9.16906452178955,
+            "gradient": 8.257508277893066
+          },
+          "token_nll_macro": 8.568307876586914
+        },
+        "null": {
+          "centroid_nll": 2.5588636530770197,
+          "token_nll": {
+            "covariance": 6.608404159545898,
+            "surface": 7.033635139465332,
+            "gradient": 6.549157619476318
+          },
+          "token_nll_macro": 6.730398654937744
+        }
+      }
+    }
+  ],
+  "best_step": 500,
+  "teacher_forced_controls": {
+    "correct": {
+      "centroid_nll": 2.569919718636407,
+      "token_nll": {
+        "covariance": 6.521927833557129,
+        "surface": 6.829834461212158,
+        "gradient": 6.364302158355713
+      },
+      "token_nll_macro": 6.572021484375
+    },
+    "shuffled": {
+      "centroid_nll": 2.5707398454348245,
+      "token_nll": {
+        "covariance": 6.540724277496338,
+        "surface": 6.990228652954102,
+        "gradient": 6.471092224121094
+      },
+      "token_nll_macro": 6.667348384857178
+    },
+    "null": {
+      "centroid_nll": 2.5634708404541016,
+      "token_nll": {
+        "covariance": 6.492372512817383,
+        "surface": 6.8136467933654785,
+        "gradient": 6.323301792144775
+      },
+      "token_nll_macro": 6.543107032775879
+    }
+  },
+  "token_nll_improvement_fraction": -0.004419070550776897,
+  "generation_macro": {
+    "correct": {
+      "target_histogram_cosine": 0.21380590895811716,
+      "voxel_psnr": 12.125489393870035,
+      "cell_center_lock_fraction": 0.0
+    },
+    "shuffled": {
+      "target_histogram_cosine": 0.21721465388933817,
+      "voxel_psnr": 12.14972178141276,
+      "cell_center_lock_fraction": 0.0
+    },
+    "null": {
+      "target_histogram_cosine": 0.23629765709241232,
+      "voxel_psnr": 13.877046267191568,
+      "cell_center_lock_fraction": 0.0
+    }
+  },
+  "generation_records": [
+    {
+      "source_id": "anime__05_ballet_train_00_seed60500",
+      "target_prompt": "anime video. a ballerina spinning a pirouette in a studio",
+      "arms": {
+        "correct": {
+          "prompt": "anime video. a ballerina spinning a pirouette in a studio",
+          "target_histogram_cosine": 0.2901679575443268,
+          "audit": {
+            "voxel_psnr_to_continuous_source": 13.354433059692383,
+            "feature_marginal_mae": 0.15914824604988098,
+            "structure": {
+              "jewels_total": 72000,
+              "jewels_above_2pct_opacity": 72000,
+              "anisotropy_median": 1.2405002792616668,
+              "anisotropy_p90": 1.6186257721232644,
+              "temporal_tilt_median": 0.9693823049099266,
+              "mixed_spacetime_tilt_median": 0.3871422420409495,
+              "mixed_spacetime_tilt_p90": 0.784903331776141,
+              "extent_median": 0.011452954219484708,
+              "extent_iqr_ratio": 3.2531922132943047,
+              "opacity_median": 0.4028439521789551,
+              "occupancy_entropy": 5.513798713684082,
+              "occupancy_entropy_max": 5.545177444479562,
+              "occupancy_uniformity": 0.9943412575864964
+            },
+            "mixed_tilt_retention": 0.7490701523973073,
+            "center_irregularity": {
+              "within_cell_fraction_std": 0.3098796010017395,
+              "cell_center_lock_fraction": 0.0,
+              "near_cell_center_fraction": 0.00016666666488163173
+            }
+          }
+        },
+        "shuffled": {
+          "prompt": "cartoon video. a golden retriever catching a ball on grass",
+          "target_histogram_cosine": 0.2841711938381195,
+          "audit": {
+            "voxel_psnr_to_continuous_source": 14.641140937805176,
+            "feature_marginal_mae": 0.1648188978433609,
+            "structure": {
+              "jewels_total": 72000,
+              "jewels_above_2pct_opacity": 72000,
+              "anisotropy_median": 1.1837198835234326,
+              "anisotropy_p90": 1.7494591370243728,
+              "temporal_tilt_median": 0.931576792194469,
+              "mixed_spacetime_tilt_median": 0.4025515656442362,
+              "mixed_spacetime_tilt_p90": 0.8505748003230109,
+              "extent_median": 0.013753935910853188,
+              "extent_iqr_ratio": 1.7942842450425711,
+              "opacity_median": 0.29358941316604614,
+              "occupancy_entropy": 5.515643119812012,
+              "occupancy_entropy_max": 5.545177444479562,
+              "occupancy_uniformity": 0.9946738720332651
+            },
+            "mixed_tilt_retention": 0.7788852000113378,
+            "center_irregularity": {
+              "within_cell_fraction_std": 0.3124374747276306,
+              "cell_center_lock_fraction": 0.0,
+              "near_cell_center_fraction": 5.555555617320351e-05
+            }
+          }
+        },
+        "null": {
+          "prompt": "",
+          "target_histogram_cosine": 0.3114595115184784,
+          "audit": {
+            "voxel_psnr_to_continuous_source": 14.731301307678223,
+            "feature_marginal_mae": 0.16127274930477142,
+            "structure": {
+              "jewels_total": 72000,
+              "jewels_above_2pct_opacity": 72000,
+              "anisotropy_median": 1.1837198835234326,
+              "anisotropy_p90": 1.6065726680581294,
+              "temporal_tilt_median": 0.9431556982741371,
+              "mixed_spacetime_tilt_median": 0.4025515656442362,
+              "mixed_spacetime_tilt_p90": 0.8301708460722698,
+              "extent_median": 0.013641078974938357,
+              "extent_iqr_ratio": 1.8759985667272074,
+              "opacity_median": 0.29358941316604614,
+              "occupancy_entropy": 5.513885498046875,
+              "occupancy_entropy_max": 5.545177444479562,
+              "occupancy_uniformity": 0.9943569080077249
+            },
+            "mixed_tilt_retention": 0.7788852000113378,
+            "center_irregularity": {
+              "within_cell_fraction_std": 0.3098944127559662,
+              "cell_center_lock_fraction": 0.0,
+              "near_cell_center_fraction": 0.00013888889225199819
+            }
+          }
+        }
+      }
+    },
+    {
+      "source_id": "cartoon__01_dogpark_train_00_seed61100",
+      "target_prompt": "cartoon video. a golden retriever catching a ball on grass",
+      "arms": {
+        "correct": {
+          "prompt": "cartoon video. a golden retriever catching a ball on grass",
+          "target_histogram_cosine": 0.18903054296970367,
+          "audit": {
+            "voxel_psnr_to_continuous_source": 15.152731895446777,
+            "feature_marginal_mae": 0.15170659124851227,
+            "structure": {
+              "jewels_total": 72000,
+              "jewels_above_2pct_opacity": 72000,
+              "anisotropy_median": 1.1837198835234326,
+              "anisotropy_p90": 1.7773988896560011,
+              "temporal_tilt_median": 0.931576792194469,
+              "mixed_spacetime_tilt_median": 0.4025515656442362,
+              "mixed_spacetime_tilt_p90": 0.8468045475736032,
+              "extent_median": 0.013753935910853188,
+              "extent_iqr_ratio": 1.8138859277820747,
+              "opacity_median": 0.29358941316604614,
+              "occupancy_entropy": 5.515920162200928,
+              "occupancy_entropy_max": 5.545177444479562,
+              "occupancy_uniformity": 0.9947238329933407
+            },
+            "mixed_tilt_retention": 0.8260899770774864,
+            "center_irregularity": {
+              "within_cell_fraction_std": 0.3128695487976074,
+              "cell_center_lock_fraction": 0.0,
+              "near_cell_center_fraction": 4.166666622040793e-05
+            }
+          }
+        },
+        "shuffled": {
+          "prompt": "render3d video. a welder joining steel with bright sparks",
+          "target_histogram_cosine": 0.20423848927021027,
+          "audit": {
+            "voxel_psnr_to_continuous_source": 10.338883399963379,
+            "feature_marginal_mae": 0.11386600136756897,
+            "structure": {
+              "jewels_total": 72000,
+              "jewels_above_2pct_opacity": 72000,
+              "anisotropy_median": 1.230972439748115,
+              "anisotropy_p90": 2.090217920068461,
+              "temporal_tilt_median": 0.9192466013508488,
+              "mixed_spacetime_tilt_median": 0.4309843577796468,
+              "mixed_spacetime_tilt_p90": 0.8650283771405548,
+              "extent_median": 0.015053132268346182,
+              "extent_iqr_ratio": 1.9036193665059178,
+              "opacity_median": 0.3044792413711548,
+              "occupancy_entropy": 5.501220703125,
+              "occupancy_entropy_max": 5.545177444479562,
+              "occupancy_uniformity": 0.9920729784042668
+            },
+            "mixed_tilt_retention": 0.8844378922465664,
+            "center_irregularity": {
+              "within_cell_fraction_std": 0.3056749999523163,
+              "cell_center_lock_fraction": 0.0,
+              "near_cell_center_fraction": 4.166666622040793e-05
+            }
+          }
+        },
+        "null": {
+          "prompt": "",
+          "target_histogram_cosine": 0.17847247421741486,
+          "audit": {
+            "voxel_psnr_to_continuous_source": 15.036842346191406,
+            "feature_marginal_mae": 0.15265890955924988,
+            "structure": {
+              "jewels_total": 72000,
+              "jewels_above_2pct_opacity": 72000,
+              "anisotropy_median": 1.2001985544224538,
+              "anisotropy_p90": 1.6065726680581294,
+              "temporal_tilt_median": 0.9431556982741371,
+              "mixed_spacetime_tilt_median": 0.4025515656442362,
+              "mixed_spacetime_tilt_p90": 0.8301708460722698,
+              "extent_median": 0.013410151820689676,
+              "extent_iqr_ratio": 1.9086353767019981,
+              "opacity_median": 0.29209983348846436,
+              "occupancy_entropy": 5.51328182220459,
+              "occupancy_entropy_max": 5.545177444479562,
+              "occupancy_uniformity": 0.9942480429897287
+            },
+            "mixed_tilt_retention": 0.8260899770774864,
+            "center_irregularity": {
+              "within_cell_fraction_std": 0.31006863713264465,
+              "cell_center_lock_fraction": 0.0,
+              "near_cell_center_fraction": 4.166666622040793e-05
+            }
+          }
+        }
+      }
+    },
+    {
+      "source_id": "render3d__04_workshop_train_00_seed62400",
+      "target_prompt": "render3d video. a welder joining steel with bright sparks",
+      "arms": {
+        "correct": {
+          "prompt": "render3d video. a welder joining steel with bright sparks",
+          "target_histogram_cosine": 0.16221922636032104,
+          "audit": {
+            "voxel_psnr_to_continuous_source": 7.869303226470947,
+            "feature_marginal_mae": 0.1452299952507019,
+            "structure": {
+              "jewels_total": 72000,
+              "jewels_above_2pct_opacity": 72000,
+              "anisotropy_median": 1.2305687062640878,
+              "anisotropy_p90": 2.090217920068461,
+              "temporal_tilt_median": 0.9139577070350744,
+              "mixed_spacetime_tilt_median": 0.4025515656442362,
+              "mixed_spacetime_tilt_p90": 0.861416868782854,
+              "extent_median": 0.015053132268346182,
+              "extent_iqr_ratio": 1.8904390374289017,
+              "opacity_median": 0.3044792413711548,
+              "occupancy_entropy": 5.500460147857666,
+              "occupancy_entropy_max": 5.545177444479562,
+              "occupancy_uniformity": 0.9919358222402037
+            },
+            "mixed_tilt_retention": 0.8980878668300751,
+            "center_irregularity": {
+              "within_cell_fraction_std": 0.3057444989681244,
+              "cell_center_lock_fraction": 0.0,
+              "near_cell_center_fraction": 1.3888889043300878e-05
+            }
+          }
+        },
+        "shuffled": {
+          "prompt": "anime video. a ballerina spinning a pirouette in a studio",
+          "target_histogram_cosine": 0.16323427855968475,
+          "audit": {
+            "voxel_psnr_to_continuous_source": 11.469141006469727,
+            "feature_marginal_mae": 0.22170545160770416,
+            "structure": {
+              "jewels_total": 72000,
+              "jewels_above_2pct_opacity": 72000,
+              "anisotropy_median": 1.2486535180361493,
+              "anisotropy_p90": 1.6186257721232644,
+              "temporal_tilt_median": 0.9699784225829535,
+              "mixed_spacetime_tilt_median": 0.3871422420409495,
+              "mixed_spacetime_tilt_p90": 0.784903331776141,
+              "extent_median": 0.011452954219484708,
+              "extent_iqr_ratio": 3.2006660232669817,
+              "opacity_median": 0.4028439521789551,
+              "occupancy_entropy": 5.511744022369385,
+              "occupancy_entropy_max": 5.545177444479562,
+              "occupancy_uniformity": 0.9939707209652124
+            },
+            "mixed_tilt_retention": 0.8637098448690314,
+            "center_irregularity": {
+              "within_cell_fraction_std": 0.3098851144313812,
+              "cell_center_lock_fraction": 0.0,
+              "near_cell_center_fraction": 4.166666622040793e-05
+            }
+          }
+        },
+        "null": {
+          "prompt": "",
+          "target_histogram_cosine": 0.2189609855413437,
+          "audit": {
+            "voxel_psnr_to_continuous_source": 11.862995147705078,
+            "feature_marginal_mae": 0.17962141335010529,
+            "structure": {
+              "jewels_total": 72000,
+              "jewels_above_2pct_opacity": 72000,
+              "anisotropy_median": 1.2001985544224538,
+              "anisotropy_p90": 1.674814915456074,
+              "temporal_tilt_median": 0.9431556982741371,
+              "mixed_spacetime_tilt_median": 0.4025515656442362,
+              "mixed_spacetime_tilt_p90": 0.8301708460722698,
+              "extent_median": 0.013641078974938357,
+              "extent_iqr_ratio": 1.9328757195756316,
+              "opacity_median": 0.29209983348846436,
+              "occupancy_entropy": 5.512209415435791,
+              "occupancy_entropy_max": 5.545177444479562,
+              "occupancy_uniformity": 0.9940546484988335
+            },
+            "mixed_tilt_retention": 0.8980878668300751,
+            "center_irregularity": {
+              "within_cell_fraction_std": 0.30981558561325073,
+              "cell_center_lock_fraction": 0.0,
+              "near_cell_center_fraction": 6.944444612599909e-05
+            }
+          }
+        }
+      }
+    }
+  ],
+  "inference_audit": {
+    "inputs": [
+      "frozen_text_embedding",
+      "declared_random_seed"
+    ],
+    "target_field": false,
+    "target_centroids": false,
+    "target_tokens": false,
+    "source_pixels": false,
+    "video_latent": false,
+    "class_id": false,
+    "source_identity": false
+  },
+  "gate": {
+    "checks": {
+      "correct_centroid_nll_beats_controls": false,
+      "correct_token_nll_beats_controls_all_roles": false,
+      "correct_token_nll_improves_at_least_2pct": false,
+      "free_run_histogram_margin_at_least_002": false,
+      "free_run_render_margin_at_least_025db": false,
+      "generated_centers_not_grid_locked": true,
+      "prompt_only_inference": true
+    },
+    "passed": false
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "schema": "jewel-encoder-corpus-v1",
+  "frames": 49,
+  "styles": ["anime", "cartoon", "render3d"],
+  "examples": [
+    {
+      "class_id": 5,
+      "class_name": "Ballet",
+      "style": "anime",
+      "source_id": "anime_exact__00_ballet_train_00_seed71000",
+      "split": "train",
+      "video": "/home/m/LTX-2/corpora/jewels_prompt_exact_anime_v1/00_ballet_train_00_seed71000.mp4",
+      "frames": 49,
+      "start_frame": 0,
+      "source_prompt": "a ballerina spinning a pirouette in a studio"
+    },
+    {
+      "class_id": 1,
+      "class_name": "DogPark",
+      "style": "cartoon",
+      "source_id": "cartoon_exact__00_dogpark_train_00_seed72000",
+      "split": "train",
+      "video": "/home/m/LTX-2/corpora/jewels_prompt_exact_cartoon_v1/00_dogpark_train_00_seed72000.mp4",
+      "frames": 49,
+      "start_frame": 0,
+      "source_prompt": "a golden retriever catching a ball on grass"
+    },
+    {
+      "class_id": 4,
+      "class_name": "Workshop",
+      "style": "render3d",
+      "source_id": "render3d_exact__00_workshop_train_00_seed73000",
+      "split": "train",
+      "video": "/home/m/LTX-2/corpora/jewels_prompt_exact_render3d_v1/00_workshop_train_00_seed73000.mp4",
+      "frames": 49,
+      "start_frame": 0,
+      "source_prompt": "a welder joining steel with bright sparks"
+    },
+    {
+      "class_id": 5,
+      "class_name": "Ballet",
+      "style": "anime",
+      "source_id": "anime_exact__00_ballet_train_01_seed71001",
+      "split": "train",
+      "video": "/home/m/LTX-2/corpora/jewels_prompt_exact_anime_v1/00_ballet_train_01_seed71001.mp4",
+      "frames": 49,
+      "start_frame": 0,
+      "source_prompt": "a ballerina spinning a pirouette in a studio"
+    },
+    {
+      "class_id": 1,
+      "class_name": "DogPark",
+      "style": "cartoon",
+      "source_id": "cartoon_exact__00_dogpark_train_01_seed72001",
+      "split": "train",
+      "video": "/home/m/LTX-2/corpora/jewels_prompt_exact_cartoon_v1/00_dogpark_train_01_seed72001.mp4",
+      "frames": 49,
+      "start_frame": 0,
+      "source_prompt": "a golden retriever catching a ball on grass"
+    },
+    {
+      "class_id": 4,
+      "class_name": "Workshop",
+      "style": "render3d",
+      "source_id": "render3d_exact__00_workshop_train_01_seed73001",
+      "split": "train",
+      "video": "/home/m/LTX-2/corpora/jewels_prompt_exact_render3d_v1/00_workshop_train_01_seed73001.mp4",
+      "frames": 49,
+      "start_frame": 0,
+      "source_prompt": "a welder joining steel with bright sparks"
+    }
+  ]
+}

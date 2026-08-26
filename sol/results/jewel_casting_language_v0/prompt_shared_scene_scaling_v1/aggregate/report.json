@@ -1,0 +1,84 @@
+{
+  "schema": "shared-scene-exact-prompt-data-scaling-v1",
+  "points": [
+    {
+      "videos_per_prompt": 2,
+      "training_fields": 6,
+      "best_step": 500,
+      "token_nll": {
+        "correct": 7.734954833984375,
+        "shuffled": 8.205249786376953,
+        "null": 7.58250093460083
+      },
+      "density_nce": {
+        "correct": 0.6429137720002068,
+        "shuffled": 0.6787140038278368,
+        "null": 0.6421401550372442
+      },
+      "histogram": {
+        "correct": 0.1519910991191864,
+        "shuffled": 0.1132443572084109,
+        "null": 0.1454291269183159
+      },
+      "token_margin_vs_null": -0.15245389938354492,
+      "histogram_margin_vs_null": 0.006561972200870514,
+      "retrieval_accuracy": 0.6666666666666666,
+      "absolute_gate_passed": false
+    },
+    {
+      "videos_per_prompt": 4,
+      "training_fields": 12,
+      "best_step": 500,
+      "token_nll": {
+        "correct": 6.916207313537598,
+        "shuffled": 7.289915561676025,
+        "null": 6.880714416503906
+      },
+      "density_nce": {
+        "correct": 0.6206971688403023,
+        "shuffled": 0.6383321666055255,
+        "null": 0.6271943317519294
+      },
+      "histogram": {
+        "correct": 0.1854190230369568,
+        "shuffled": 0.14372595647970834,
+        "null": 0.1728563904762268
+      },
+      "token_margin_vs_null": -0.035492897033691406,
+      "histogram_margin_vs_null": 0.01256263256072998,
+      "retrieval_accuracy": 0.6666666666666666,
+      "absolute_gate_passed": false
+    },
+    {
+      "videos_per_prompt": 6,
+      "training_fields": 18,
+      "best_step": 500,
+      "token_nll": {
+        "correct": 6.764151573181152,
+        "shuffled": 7.170962810516357,
+        "null": 6.798135757446289
+      },
+      "density_nce": {
+        "correct": 0.6201955642965105,
+        "shuffled": 0.6339436372121176,
+        "null": 0.6150538656446669
+      },
+      "histogram": {
+        "correct": 0.18463069200515747,
+        "shuffled": 0.1410877207914988,
+        "null": 0.1686697651942571
+      },
+      "token_margin_vs_null": 0.03398418426513672,
+      "histogram_margin_vs_null": 0.01596092681090036,
+      "retrieval_accuracy": 0.3333333333333333,
+      "absolute_gate_passed": false
+    }
+  ],
+  "scaling_checks": {
+    "token_margin_vs_null_nondecreasing": true,
+    "histogram_margin_vs_null_nondecreasing": true,
+    "retrieval_accuracy_nondecreasing": false
+  },
+  "positive_data_scaling": false,
+  "final_absolute_gate_passed": false
+}

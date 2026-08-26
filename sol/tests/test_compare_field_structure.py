@@ -32,6 +32,30 @@ class FieldStructureTests(unittest.TestCase):
         report = structure_report(features)
         self.assertGreater(report["mixed_spacetime_tilt_median"], 0.99)
 
+    def test_eigensystems_can_be_processed_in_bounded_chunks(self) -> None:
+        features = torch.zeros(257, 22)
+        features[:, :3] = torch.rand(257, 3) * 2 - 1
+        features[:, 3] = torch.linspace(-2.0, 1.0, 257)
+        features[:, 6] = -1.0
+        features[:, 8] = -1.5
+        features[:, 21] = 0.0
+        full = structure_report(features, eigen_chunk=4096)
+        chunked = structure_report(features, eigen_chunk=17)
+        for key in (
+            "anisotropy_median",
+            "anisotropy_p90",
+            "mixed_spacetime_tilt_median",
+            "extent_median",
+        ):
+            self.assertAlmostEqual(full[key], chunked[key], places=6)
+
+    def test_structure_work_budgets_must_be_positive(self) -> None:
+        features = torch.zeros(1, 22)
+        with self.assertRaisesRegex(ValueError, "positive"):
+            structure_report(features, sample=0)
+        with self.assertRaisesRegex(ValueError, "positive"):
+            structure_report(features, eigen_chunk=0)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,0 +1,49 @@
+{
+  "schema": "prompt-shared-scene-ablation-v1",
+  "rows": [
+    {
+      "label": "independent Jewels",
+      "token_nll": {
+        "correct": 8.114483833312988,
+        "shuffled": 8.554300308227539,
+        "null": 7.633073806762695
+      },
+      "density_nce": {
+        "correct": 0.6410794572697746,
+        "shuffled": 0.6646064238415824,
+        "null": 0.6295486754841275
+      },
+      "histogram": {
+        "correct": 0.1443856159845988,
+        "shuffled": 0.1130188728372256,
+        "null": 0.15404550979534784
+      },
+      "histogram_margin_vs_null": -0.009659893810749054,
+      "retrieval_accuracy": 0.6666666666666666,
+      "gate_passed": false
+    },
+    {
+      "label": "shared scene",
+      "token_nll": {
+        "correct": 7.734954833984375,
+        "shuffled": 8.205249786376953,
+        "null": 7.58250093460083
+      },
+      "density_nce": {
+        "correct": 0.6429137720002068,
+        "shuffled": 0.6787140038278368,
+        "null": 0.6421401550372442
+      },
+      "histogram": {
+        "correct": 0.1519910991191864,
+        "shuffled": 0.1132443572084109,
+        "null": 0.1454291269183159
+      },
+      "histogram_margin_vs_null": 0.006561972200870514,
+      "retrieval_accuracy": 0.6666666666666666,
+      "gate_passed": false
+    }
+  ],
+  "shared_scene_improved_histogram_margin": true,
+  "final_gate_passed": false
+}

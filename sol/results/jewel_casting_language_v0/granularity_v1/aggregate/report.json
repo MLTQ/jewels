@@ -1,0 +1,117 @@
+{
+  "schema": "jewel-casting-granularity-gate-v1",
+  "curve": [
+    {
+      "bundle_size": 8,
+      "serialized": true,
+      "casts": 9115.333333333334,
+      "discrete_decisions": 36461.333333333336,
+      "jewels_per_cast": 7.89878058041749,
+      "motif_explained_fraction": 0.41206148597929215,
+      "factor_explained_fraction": {
+        "layout": 0.5685643884870741,
+        "covariance": 0.3978130883640713,
+        "surface": 0.576144622431861,
+        "gradient": 0.35624952448738945
+      },
+      "token_only_voxel_psnr": 14.253514077928331,
+      "half_residual_voxel_psnr": 16.516444630093044,
+      "full_residual_voxel_psnr": 120.0,
+      "token_only_mixed_tilt_retention": 0.364361680448017,
+      "half_residual_mixed_tilt_retention": 0.8082817281168004,
+      "token_only_cell_center_lock_fraction": 0.0,
+      "grid_control_voxel_psnr": 6.618615097469753,
+      "grid_control_cell_center_lock_fraction": 1.0,
+      "canonical_margin": 0.11695919365242674,
+      "eight_frame_discrete_decisions": 5952.87074829932
+    },
+    {
+      "bundle_size": 4,
+      "serialized": true,
+      "casts": 18096.88888888889,
+      "discrete_decisions": 72387.55555555556,
+      "jewels_per_cast": 3.9785845109348688,
+      "motif_explained_fraction": 0.5845139159096612,
+      "factor_explained_fraction": {
+        "layout": 0.8554560542106628,
+        "covariance": 0.5755869746208191,
+        "surface": 0.7671594354841444,
+        "gradient": 0.5171281695365906
+      },
+      "token_only_voxel_psnr": 15.418928146362305,
+      "half_residual_voxel_psnr": 18.37750901116265,
+      "full_residual_voxel_psnr": 120.0,
+      "token_only_mixed_tilt_retention": 0.43958529917575423,
+      "half_residual_mixed_tilt_retention": 0.8760500738720032,
+      "token_only_cell_center_lock_fraction": 0.0,
+      "grid_control_voxel_psnr": 6.61861530939738,
+      "grid_control_cell_center_lock_fraction": 1.0,
+      "canonical_margin": 0.13230863158349637,
+      "eight_frame_discrete_decisions": 11818.376417233561
+    },
+    {
+      "bundle_size": 2,
+      "serialized": true,
+      "casts": 36063.0,
+      "discrete_decisions": 144252.0,
+      "jewels_per_cast": 1.9965061525039824,
+      "motif_explained_fraction": 0.760480178727044,
+      "factor_explained_fraction": {
+        "layout": 0.9962450795703464,
+        "covariance": 0.7725537419319153,
+        "surface": 0.9012163413895501,
+        "gradient": 0.6990996797879537
+      },
+      "token_only_voxel_psnr": 17.952370749579536,
+      "half_residual_voxel_psnr": 21.759187274509006,
+      "full_residual_voxel_psnr": 120.0,
+      "token_only_mixed_tilt_retention": 0.6776267310951034,
+      "half_residual_mixed_tilt_retention": 1.0126568009795278,
+      "token_only_cell_center_lock_fraction": 0.0,
+      "grid_control_voxel_psnr": 6.618615044487847,
+      "grid_control_cell_center_lock_fraction": 1.0,
+      "canonical_margin": 0.1801224814520942,
+      "eight_frame_discrete_decisions": 23551.34693877551
+    },
+    {
+      "bundle_size": 1,
+      "serialized": true,
+      "casts": 72000.0,
+      "discrete_decisions": 288000.0,
+      "jewels_per_cast": 1.0,
+      "motif_explained_fraction": 0.892593092388577,
+      "factor_explained_fraction": {
+        "layout": 1.0,
+        "covariance": 0.9198997418085734,
+        "surface": 0.9760664171642728,
+        "gradient": 0.8467584451039633
+      },
+      "token_only_voxel_psnr": 23.149375491672092,
+      "half_residual_voxel_psnr": 27.982527414957683,
+      "full_residual_voxel_psnr": 120.0,
+      "token_only_mixed_tilt_retention": 1.1568779455887594,
+      "half_residual_mixed_tilt_retention": 1.1347323998953374,
+      "token_only_cell_center_lock_fraction": 0.0,
+      "grid_control_voxel_psnr": 6.618615256415473,
+      "grid_control_cell_center_lock_fraction": 1.0,
+      "canonical_margin": 0.008533087041642906,
+      "eight_frame_discrete_decisions": 47020.4081632653
+    }
+  ],
+  "gate": {
+    "checks": {
+      "all_jewels_serialized": true,
+      "full_residual_numerically_exact": true,
+      "token_centers_not_grid_locked": true,
+      "token_only_at_least_20db": true,
+      "token_only_improves_bundle8_by_3db": true,
+      "half_residual_at_least_25db": true,
+      "half_residual_tilt_within_10pct": false,
+      "same_source_margin_at_least_002": false,
+      "eight_frame_decisions_at_most_50000": true,
+      "token_psnr_monotonic": true,
+      "half_residual_psnr_monotonic": true
+    },
+    "passed": false
+  }
+}
