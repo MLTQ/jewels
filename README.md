@@ -1,174 +1,364 @@
-# jewels
+# Jewels
 
-**Video as a set of spacetime primitives — persistent, editable, and generated through a
-dense intermediate.**
+**A promptable video model that speaks persistent Gaussian programs directly into spacetime.**
 
-A video is treated as a 3D volume in (u, v, t), not a frame sequence. It is represented by
-N anisotropic Gaussian primitives ("jewels") whose orientation tilted into the time axis
-encodes velocity — a moving object is one sheared spacetime tube, not a new blob per frame.
-Rendering a jewel set into frames is deterministic and nearly free, and optimized fits prove
-the representation's ceiling is near-photoreal (28–35 dB, 0.098 LPIPS on generated video).
+A video is treated as a continuous volume in $(u,v,t)$, not as a stack of unrelated frames. It is
+rendered from irregular anisotropic Gaussian primitives called **Jewels**. A Jewel tilted into the
+time axis behaves like a moving colored tube: motion is part of its geometry, and temporal
+coherence comes from the representation itself.
 
-## Current architecture (2026-08-17)
+## The headline result: a native promptable model exists
 
-Direct generative emission of jewel sets was measured to a wall and retired as the primary
-path: every mark-space sampler rendered *worse macro-structure than trilinear upsampling of
-its own conditioning signal*, across every corpus size and domain — a joint-composition
-failure, not a data shortage (full post-mortem in `sol/results/`). The working system inverts
-the architecture:
+This project now has a bounded but genuine prompt-to-video path:
 
-```text
-text prompt ─> pretrained video teacher (LTX-2.3) ─> video window
-           ─> feed-forward video-to-jewel encoder (one pass, ~5M params)
-           ─> persistent editable jewel field ─> additive renderer
-```
+~~~text
+prompt + integer seed
+  -> exact compiler or 541k-parameter learned speaker
+  -> scene + persistent foreground/background trajectory tokens
+  -> addressed local phrases
+  -> K=1024 covariance, surface-color, and color-gradient tokens
+  -> exact continuous centroids
+  -> irregular 72,000-Jewel spacetime field
+  -> support-complete additive renderer
+  -> 49-frame video
+~~~
 
-The encoder is amortized fitting: slots are seeded from the video on a stratified lattice at
-calibrated unity coverage, and a 3D-conv trunk predicts refinements, trained with the fitter's
-own stochastic-voxel render loss on teacher-generated (video, fitted-field) pairs — a
-supervised regression with unlimited manufacturable data. First gate, one-shot on held-out
-clips at native resolution: **23.4 dB / 0.944 SSIM / 0.405 LPIPS with macro-layout at the
-fitted ceiling** — beating the blur baseline on every metric (the first arm to do so) and the
-best set-generative arm by 8.7 dB, from twelve training windows
-(`sol/results/amortized_encoder_v0/`). Jewels remain the persistent state: stable identity
-across windows, bit-exact carry, and object-level editability all ride on the field, not the
-pixels. Set-space emission continues as a research lane in latent-set form.
+The passing exact system receives **only prompt text and a declared seed**. At inference it receives
+no target video, target Jewel field, block program, held-out latent, Cartesian output grid, or
+pretrained-video scaffold. It does not retrieve a complete fitted video. It chooses two distinct
+trajectory programs, gives foreground and background persistent ownership, casts their physical
+tokens at continuous centroids, and renders the resulting field.
 
-Why bother, when latent-pixel diffusion works? Because this representation gets structurally
-what frame-based models pay for continuously:
+That is already remarkable given the training inventory:
 
-- **Temporal coherence by construction** — there are no frames to flicker between; every
-  primitive is a smooth spacetime object.
-- **Unbounded length** — video continues as long as the model keeps emitting jewels; there is
-  no fixed canvas. (Windowed autoregression along t; window length and time units are frozen
-  corpus-wide constants.)
-- **Compute scales with content, not pixels × frames** — and a 64-frame, 6,471-primitive
-  window is a ~600 KB file that decodes in real time.
-- **Editability** — move, recolor, or delete an object by editing its primitives; no
-  inpainting model in the loop.
+- **3 prompt classes:** ballerina, golden retriever, and welder.
+- **18 fitted training fields:** only six per class.
+- **9 evaluated prompt/seed programs:** three prompts by three seeds.
+- **72,000 Jewels per generated field.**
+- **49 frames at 144×216** per rendered video.
 
-Per-clip *fitting* of such representations is established art (GSVC, VeGaS, GaussianVideo).
-The bet here is the generative stage on top of fitted corpora — which, as of this writing,
-appears to be an open lane (closest relatives: L3DG and GaussianCube diffuse over *3D object*
-Gaussians; the 2025–26 "generative splatting" wave runs the opposite direction, using pixel
-video diffusion as a prior for 3D).
+Across all nine exact prompt-only programs:
 
-## What works today (earlier eras retained as history)
+| Test | Result |
+|---|---:|
+| Correct text beats cyclic-shuffled generation | **9/9** |
+| Correct text beats null-text generation | **9/9** |
+| Strict three-way OpenCLIP top-1 | **8/9** |
+| Prompt classes with majority retrieval | **3/3** |
+| Mean correct similarity | **0.18173** |
+| Mean cyclic-shuffled similarity | 0.12525 |
+| Mean null-text similarity | 0.14825 |
+| Correct-minus-shuffled margin | **+0.05648** |
+| Correct-minus-null margin | **+0.03348** |
+| Grid-center locking | **0** |
 
-### 1. The falsification test
-A moving blob is literally a sheared tube in (u,v,t). If a handful of anisotropic primitives
-couldn't fit this near-perfectly, the whole premise would be dead. (Panel shows the early
-additive-vs-Voronoi A/B; the Voronoi arm lost every measured axis even after a steelman round
-and was removed — see `PROJECT.md`'s decision log for the full burial.)
+All programs use two distinct source-backed macro tokens at exact 50/50 ownership. The subject
+changes when the prompt is cyclically shuffled, which is the causal result that matters: prompt
+text is selecting the generated native Jewel program rather than merely labeling a fixed render.
 
-![synthetic tube: GT | additive | voronoi (removed)](assets/synthetic_tube_ab.gif)
+![Exact and learned prompt-to-Jewel proof sheet](sol/results/jewel_casting_language_v0/trajectory_speaker_evidence_v1/trajectory_speaker_proof_sheet.png)
 
-### 2. Real-footage fitting at corpus scale
-One 64-frame window of CUHK Avenue (fixed street camera), fit with ≤10k primitives in ~2.3
-minutes: **[ground truth | fit]**. A 231-window corpus fit overnight on one RTX 4090; fits on
-real footage are strongly anisotropic (median ~3), i.e. the motion-in-orientation premise is
-doing real work.
+## The tiny learned speaker is also real
 
-![avenue fit: GT | reconstruction](assets/avenue_fit.gif)
+The exact compiler proves the full prompt-to-program-to-render path. A separate learned experiment
+asks whether that program syntax can be learned instead of hand dispatched.
 
-### 3. Generated video — sampled from noise, decoded, rendered
-A 5.8M-parameter set-flow transformer (no positional encodings — the distribution is
-permutation-invariant), trained 37 minutes on the 231-window corpus, CLIP-conditioned with
-classifier-free guidance. Each pair: **[real fitted window | generated sample]**.
+The speaker is a **541,223-parameter autoregressive network**:
 
-![prior sample](assets/prior_sample_0.gif)
-![prior sample](assets/prior_sample_2.gif)
+~~~text
+text -> scene token -> foreground owner -> background owner
+~~~
 
-Scene layout, palette, and per-dimension feature marginals match the corpus within a few
-percent; fine detail is v0-grade fever dream. Note what is *already* free: the samples are
-temporally stable — no flicker — because coherence lives in the representation, not the model.
+It trains on only **216 program examples** derived from the same 18 fitted fields. Training language
+contains each exact prompt plus two paraphrases per class; evaluation uses a fourth paraphrase that
+the model never saw.
 
-![four samples, frames 0/21/42/63](assets/prior_samples_sheet.png)
+| Held-out text condition | Token NLL | Scene accuracy |
+|---|---:|---:|
+| Correct unseen paraphrase | **2.2005** | **100%** |
+| Cyclic-shuffled paraphrase | 4.3870 | 0% |
+| Null text | 2.5391 | 33.3% |
 
-**v1** (58M params, 50k steps / 2.7 h, EMA, bf16, mirror-augmented corpus) sharpens the story
-considerably — pillars, notice board, ceiling beams, floor geometry, and pedestrian figures
-all present and temporally stable:
+Every one of the nine correct-text samples emits a scene-consistent program. In rendered space,
+correct text beats shuffled text in **7/9**, with mean margins of **+0.04782** over shuffled and
+**+0.04117** over null.
 
-![v1 prior sample: real fit | generated](assets/prior_sample_v1.gif)
+The stricter rendered top-1 gate remains failed at **4/9**, and the README does not hide that. The
+important low-data result is that a half-million-parameter model learned the coarse native program
+language and generalized scene selection to unseen wording at all. Its best held-out checkpoint
+occurred at step 100; training continued through step 1,100 without improvement, so the next move is
+a better reusable vocabulary and rendered supervision, not simply more steps on the same target.
 
-### 4. The scaling curve — three models, one frozen protocol
+![Causal and quantitative prompt-language evidence](sol/results/jewel_casting_language_v0/trajectory_speaker_evidence_v1/trajectory_speaker_evidence.png)
 
-v0 (5.8M) → v1 (58M) → v2 (173M), identical corpus and recipe, scored by CLIP-Fréchet
-distance between generated renders and fitted renders under a fixed sampling protocol:
+## Why the data efficiency is encouraging
 
-![scaling curve](assets/scaling_curve.png)
+Three independent results say that more data and compute have a plausible mechanism to improve this
+system rather than merely making the current demo larger.
 
-![v0/v1/v2 sample progression vs real fit](assets/v012_triptych.png)
+### 1. The representation really uses time distortion
 
-Monotone on both metrics (CFD 0.31 → 0.20 → 0.16; loss 1.148 → 1.066 → 0.993), with a
-visibly flattening slope — **model scaling saturates against a 231-window single-scene
-corpus**, which makes data the measured next axis (a 2,392-scene Sky Timelapse corpus is
-fitting now). A second measured constraint: current fits carry ~1.3k active splats per frame
-(~2.2k parameters/frame) — the "low splat count" regime of the image-splatting literature,
-which is exactly the softness visible above. Raising fit density toward 5–10k active
-splats/frame (24k–45k per window) is the current stage-1 priority; the prior-side cost of
-those larger sets is what the jewel tokenizer exists to absorb.
+Full spacetime covariance was compared with a matched control whose space/time terms were projected
+to zero after every update. Primitive counts, parameter bytes, and optimization budgets were
+matched across three sources and three seeds.
 
-### Numbers so far
+- Free time tilt won **9/9** paired fits.
+- Mean improvement was **+0.772 dB**.
+- The paired 95% interval was **[+0.573, +0.971] dB**.
+- The effect was stronger on higher-motion sources.
 
-| measurement | result |
-|---|---|
-| synthetic tube fit | ~55 dB PSNR |
-| real busy scene fit (160px, ≤10k prims) | ~30 dB PSNR |
-| optimized 72k fit of teacher video (the ceiling) | 27.5 dB / 0.098 LPIPS / 30.5 layout |
-| **one-shot encoder on held-out clips (2026-08-17)** | **23.4 dB / 0.944 SSIM / 0.405 LPIPS / layout at ceiling** |
-| best mark-space generative arm (retired path) | 14.5 dB / 0.603 SSIM / 0.691 LPIPS |
-| cross-seed canonicality (chamfer ratio vs random baseline) | 0.62 — weakly canonical: set priors viable, autoregression over the set ruled out |
-| featurization round-trip (log-covariance coords) | 1e-6 max error |
+Time-tilted Jewels are therefore doing causal representational work; they are not decorative
+metadata attached to a conventional frame model.
 
-## Roadmap: the staged route to prompt-only text-to-video
+### 2. The encoder improves monotonically with tiny datasets
 
-Text-to-video is real today as teacher-carried generation (`text -> LTX -> encoder -> jewels`);
-the roadmap pulls generation progressively into this stack. Each stage has falsifiable gates
-(full detail in `sol/PROMPTABLE_ROADMAP.md`):
+A 5.26M-parameter amortized video-to-Jewel encoder was trained on exact nested subsets of 12, 60,
+and 120 videos. Every budget used three independent seeds and the same frozen 60-video validation
+inventory.
 
-- **Stage 0 — industrialize the encoder** *(current GPUs; in progress)*: diverse teacher
-  corpus (240 clips across five visual domains — photoreal, anime, 2D cartoon, 3D render,
-  claymation — generating now), encoder data curve, refinement passes.
-  **G1** ≥26 dB / ≤0.25 LPIPS one-shot. Carry-conditioned windows: **G2** seamless two-window
-  encode with exact stable IDs. The encoder is self-supervised — any real video is training
-  data, and the fixed-camera constraint is gone.
-- **Stage 1 — text moves into our latent** *(first donated compute)*: harvest 10k–50k
-  (prompt, video, latent) triples; train a small text-conditioned generator over the encoder's
-  cell-latent volume — structured-latent generation with a proven decoder, so joint
-  composition is the decoder's job, not the sampler's. **G3**: correct-vs-shuffled *text*
-  finally separates at the rendered level.
-- **Stage 2 — remove the teacher from inference** *(scaled compute)*: **G4** prompt-only
-  generation beating the trivial-decode baseline on every metric; multi-teacher + real-video
-  supervision; windowed autoregression over carried jewels. **G5**: 30+ second generations
-  with stable identity throughout.
-- **Stage 3 — the differentiated product**: unbounded, streaming, object-persistent,
-  *editable* text-to-video; drag-and-heal as masked generation in our own latent; VQ latent as
-  the LLM-modality entry point.
+| Training videos | Held-out PSNR | 95% interval | LPIPS | Layout PSNR | Median mixed tilt |
+|---:|---:|---:|---:|---:|---:|
+| 12 | 21.876 dB | [21.751, 22.000] | 0.4728 | 29.812 dB | 0.0479 |
+| 60 | 22.399 dB | [22.344, 22.453] | 0.4651 | 30.726 dB | 0.0725 |
+| 120 | **22.628 dB** | **[22.459, 22.797]** | **0.3916** | **31.533 dB** | **0.1875** |
 
-## Quickstart
+Every 120-video seed beats every 60-video seed. From 60 to 120 examples, LPIPS falls **15.8%** and
+mixed space/time tilt grows **2.58×** instead of collapsing toward axis-aligned grid dots. The
+per-video teacher remains far ahead at 27.699 dB and 0.1720 LPIPS, leaving visible headroom.
 
-```bash
-pip install torch numpy av pillow          # + open-clip-torch for labeling
+The same encoder preserves prompt information through a deliberately conservative
+text-to-video-to-encoder control: correct text beats shuffled text in **12/12** held-out actions and
+retains **91.4%** of the source video's text alignment. This is semantic-preservation evidence, not
+part of the native prompt-only generation claim.
 
-cd stprim
-python cli/fit_video.py --synthetic                          # falsification test
-python cli/fit_video.py --video clip.mp4 --frames 64 --size 160
-python cli/render_recon.py --video clip.mp4                  # fit + GIF/contact sheet
-python experiments/canonicalization.py --video clip.mp4      # two-seed gauge check
+![Support-correct encoder data scaling](sol/results/encoder_convergence_v2_continued/aggregate/convergence.png)
 
-python cli/fit_corpus.py --videos 'data/*.avi' --out corpus/mine
-python cli/label_corpus.py --corpus corpus/mine
-python cli/train_prior.py --corpus corpus/mine --out prior/v1 --flip-u
-python cli/sample_prior.py --ckpt prior/v1/prior.pt --corpus corpus/mine --out samples
-```
+### 3. A compact physical language preserves irregular Jewel fields
 
-Fixed camera, no cuts, for now — global camera motion shears every primitive at once and is
-future work (camera tokens), not a supported input.
+The active physical vocabulary uses three independent books of 1,024 entries:
+
+- covariance and spacetime orientation;
+- base or surface color; and
+- the local RGB color Jacobian.
+
+Centroids remain continuous rather than being quantized into a visible lattice. On the active
+Gate 0f audit:
+
+| Physical-language measurement | Result |
+|---|---:|
+| Token-only reconstruction | **22.8657 dB** |
+| Teacher mixed-tilt retention | **1.0415×** |
+| Grid-center locking | **0** |
+| Decisions for an eight-frame field | **35,265** |
+| Same-source vs different-source canonicality margin | **+0.2243** |
+
+This matters because the speaker need not emit 72,000 unrelated 22-float records. It can speak a
+hierarchical program that expands into a continuous irregular field.
+
+### 4. Appearance learning improves quickly and repeats across seeds
+
+With geometry frozen bit-for-bit, the derivative appearance head continues to improve well beyond
+the original 400-update screen:
+
+| Updates | Derivative LPIPS, seed 0 | Derivative LPIPS, seed 1 |
+|---:|---:|---:|
+| 400 | 0.71745 | -- |
+| 4,000 | 0.67037 | 0.66898 |
+| 8,000 | 0.65967 | 0.66054 |
+| 12,000 | **0.65895** | **0.65953** |
+
+At 12k updates the two seeds differ by only **0.00058 LPIPS** and **0.00041 dB PSNR**. Both end near
+20.835 dB, all five audited visual styles improve, and the Jewel geometry remains bit-identical.
+The curve shows real compute scaling followed by a clear plateau around 8k–12k updates. That is a
+much stronger conclusion than the original extremely short run.
+
+![Frozen-geometry appearance convergence](sol/results/local_adapter_convergence_v1/convergence_curves.png)
+
+### 5. The correct renderer is already practical at proof scale
+
+The support-complete tiled renderer checks every Jewel whose exact Mahalanobis support reaches a
+query tile instead of silently keeping only a fixed number of nearby centers. At 10k, 45k, and 72k
+Jewels it remains within roughly **2×** the old nearest-neighbor renderer. The 72k case uses 8.01 GB
+peak allocation on an RTX 4090, and pixels and gradients agree with dense evaluation up to the
+declared five-sigma truncation. This removes renderer approximation as an explanation for the
+prompt-language result.
+
+## What made promptability work
+
+The decisive discovery was not a bigger model. It was **persistent semantic ownership**.
+
+| Architecture | Token result | Recognizable classes |
+|---|---:|---:|
+| Independent global scene decoder | NLL 6.1234 | 0/3 |
+| Addressed 16×16×8 local phrases | NLL 5.1680, 15.6% better | 0/3 |
+| One coherent source owner through spacetime | source-disjoint controls pass | **3/3** |
+| Two-donor foreground/background trajectory tube | new composition | **3/3** |
+| Exact prompt trajectory compiler | 8/9 retrieval; all causal gates pass | **3/3** |
+| Learned unseen-paraphrase speaker | 3/3 scene prediction; top-1 gate 4/9 | **3/3 visually** |
+
+Local phrases learned better statistics but produced texture without a subject. Once one owner
+persisted along a spacetime trajectory, recognizable subjects returned. A later two-donor system
+combined foreground from one field with background from another, showing that complete-field
+retrieval is not the only coherent mode.
+
+The intended full model should therefore speak typed scene, object, background, and trajectory
+operations. It should not autoregress thousands of independent low-level Jewels.
+
+## What a spacetime Gaussian Jewel is
+
+For query $\mathbf{x}=(u,v,t)$, Jewel $i$ contributes
+
+$$
+a_i(\mathbf{x})=\sigma(\ell_i)
+\exp\left[-\frac{1}{2}(\mathbf{x}-\boldsymbol\mu_i)^\top
+\boldsymbol\Sigma_i^{-1}(\mathbf{x}-\boldsymbol\mu_i)\right]
+$$
+
+with local color
+
+$$
+\mathbf{c}_i+\mathbf{J}_i(\mathbf{x}-\boldsymbol\mu_i).
+$$
+
+One Jewel has 22 continuous parameters: 3 center coordinates, 6 covariance coordinates, 1 opacity,
+3 base-color values, and a 3×3 color Jacobian. Rendering is additive and deterministic. A fixed-time
+slice through all Jewels produces one frame.
+
+The covariance can tilt through time, so a single primitive can trace coherent motion across many
+frames. There is no need to rediscover the same point independently in every frame.
+
+## Why use Jewels?
+
+Jewels are **not** being proposed as a codec, and this project does not claim an inherent compression
+advantage. The opportunity is executable persistent state:
+
+- **Temporal coherence by construction:** the video is one continuous spacetime object.
+- **Irregular continuous geometry:** centroids are not locked to a pixel or voxel lattice.
+- **Persistent ownership and identity:** state can carry from one temporal window to the next.
+- **Local editability:** a future system can move, recolor, replace, or delete bounded regions of
+  explicit state.
+- **Content-dependent computation:** the representation can eventually allocate primitives where
+  change and detail require them.
+- **A native multimodal language target:** a transformer can emit structured visual operations
+  rather than only dense raster latents.
+
+Per-video Gaussian fitting is established work. The research bet is that a model can generate and
+edit these persistent operations natively.
+
+## Honest boundary of the current proof
+
+The result is a **bounded promptable model**, not a production or open-vocabulary text-to-video
+system.
+
+- The semantic domain contains only three prompt families.
+- The macro vocabulary contains 18 source-backed trajectory programs.
+- Foreground and background are newly composed, but their macro tokens still expand from fitted
+  training fields.
+- The trajectory path is class-level rather than freely generated object motion.
+- Local appearance remains soft and sparkly.
+- Long-window identity carry, camera control, multiple objects, counting, and relationships remain
+  untested.
+- The learned speaker passes scene and causal-margin tests but fails the strict rendered top-1 gate.
+
+These limitations define the next experiment; they do not erase the surprising fact that native
+prompt-to-program-to-Jewel-to-video execution works at all with this little data.
+
+## Next conclusive experiment
+
+Replace source IDs with **64–256 reusable foreground/background trajectory prototypes** learned
+across at least 100 fitted fields and 10–20 compositional prompts. A small program transformer then
+emits scene, object, path derivative, background, and local residual tokens.
+
+The next gate should be frozen before generating the corpus:
+
+1. hold out complete object/action combinations rather than only paraphrases;
+2. require correct text to beat cyclic object and action swaps in rendered metrics and blinded
+   recognition;
+3. forbid emitted macro tokens from referencing a source ID or copying more than a registered
+   fraction of any one field;
+4. require multiple recognizable but structurally different samples per prompt;
+5. continue a second temporal window using only carried program and Jewel state; and
+6. compare against parameter-matched direct-continuous and dense-latent baselines.
+
+Passing that gate would support the pitch claim: prompt breadth and visual quality improve as
+reusable trajectory vocabulary, paired data, and program-model compute scale.
+
+## Paper and evidence
+
+- [NeurIPS 2026 concept-and-feasibility paper](output/pdf/jewels_neurips2026_concept_feasibility.pdf)
+- [Editable paper source](paper/neurips2026/main.tex)
+- [Promptable trajectory-language proof report](sol/results/jewel_casting_language_v0/TRAJECTORY_SPEAKER_REPORT.md)
+- [Support-correct encoder scaling report](sol/results/encoder_convergence_v2_continued/README.md)
+- [Full technical progress report](output/pdf/jewels_progress_report.pdf)
+
+The paper uses the official anonymous NeurIPS 2026 style. Its main claim is intentionally narrow:
+prompt and seed can select a hierarchical source-backed native Jewel program and render a
+prompt-selective video without a target video or field at inference.
+
+## Run the prompt demo
+
+The browser demo loads only the frozen Jewel language, speaker, and renderer. It may reuse an
+environment that also contains LTX dependencies, but it does not import LTX or load diffusion
+weights.
+
+~~~bash
+python -m sol.prompt_video_demo --host 127.0.0.1 --port 7860 --device cuda:0
+~~~
+
+Then open http://127.0.0.1:7860. The interface exposes exact and learned experimental modes, seed
+control, a video player, MP4 download, and the emitted program provenance.
+
+To export videos without the browser:
+
+~~~bash
+python -m sol.render_prompt_video \
+  --output-dir sol/results/jewel_prompt_demo_v1/generated \
+  --mode exact \
+  --seed 20260914 \
+  --prompt "a golden retriever catching a ball on grass"
+~~~
+
+The demo is experimental and requires the frozen model artifacts documented in
+[the demo report](sol/results/jewel_prompt_demo_v1/README.md).
+
+## Earlier experimental history
+
+The repository retains earlier eras because failed configurations are useful evidence when their
+scope is stated correctly.
+
+### Representation falsification test
+
+A moving blob is literally a sheared tube in $(u,v,t)$. The additive representation fits the
+synthetic target near perfectly; a steelmanned Voronoi alternative lost every measured axis and was
+removed.
+
+![Synthetic tube: ground truth, additive, and removed Voronoi control](assets/synthetic_tube_ab.gif)
+
+### Real-footage fitting
+
+One 64-frame CUHK Avenue window was fit with at most 10k primitives in roughly 2.3 minutes. A
+231-window corpus was fitted overnight on one RTX 4090. Real-footage Jewels are strongly
+anisotropic, consistent with motion being carried by orientation.
+
+![Avenue ground truth and reconstruction](assets/avenue_fit.gif)
+
+### Early set-flow generation
+
+A 5.8M-parameter permutation-invariant set-flow model trained for 37 minutes on the 231-window
+single-scene corpus. Larger 58M and 173M versions improved monotonically, then flattened against the
+small single-scene dataset. These experiments established data as the next axis but did not provide
+the semantic ownership needed for the current promptable model.
+
+![Early fitted and generated samples](assets/prior_sample_v1.gif)
+
+![Early model scaling curve](assets/scaling_curve.png)
+
+Negative experiments in this repository localize a tested architecture and training regime. A
+single failed experiment is never treated as an objective law about Gaussian video generation.
 
 ## Design record
 
-Every module has a companion `.md` documenting intent, contracts, and rationale; the project
-log with all decisions (including the full Voronoi post-mortem) lives in
-[PROJECT.md](PROJECT.md). The pre-removal tree with the Voronoi implementation is archived in
-this repo as `stprim-final-with-voronoi-20260731.tar.gz`.
+Every maintained code module has a companion Markdown document describing intent, contracts, and
+rationale. The project decision log, including removed approaches and their evidence, lives in
+[PROJECT.md](PROJECT.md). The pre-removal Voronoi implementation remains archived as
+stprim-final-with-voronoi-20260731.tar.gz.
