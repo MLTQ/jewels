@@ -2,15 +2,18 @@
 
 ## Intent
 
-The main LaTeX source is the concise, reviewer-facing paper for the project's strongest current
+The main LaTeX source is the concise, reviewer-facing paper for the project's current prompt-only
 claim. It is separate from the exhaustive experiment report in the parent paper directory.
 
-The argument is intentionally asymmetric:
+The argument follows four rules:
 
 1. It trusts replicated positive evidence and states the exact population tested.
 2. It reports failed gates as limits on a configuration, not universal impossibility claims.
-3. It exposes the source-backed macro vocabulary as the central unresolved dependency.
+3. It identifies the source-backed macro vocabulary as an unresolved dependency.
 4. It rejects codec or compression framing; Jewels are an executable native output space.
+
+Measurements, controls, and scope should be stated directly. Avoid promotional or self-validating
+adjectives.
 
 ## Scientific claim
 

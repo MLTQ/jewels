@@ -53,9 +53,8 @@ to $22.628$ dB as training data grows from 12 to 120 videos; and a prompt-and-se
 compiler generates nine 72k-Jewel programs with correct prompt similarity above shuffled and null
 controls in 9/9 cases and OpenCLIP top-1 in 8/9. A 0.54M-parameter autoregressive speaker learns the
 program syntax and recognizes all three held-out paraphrase classes, but fails the stricter rendered
-retrieval gate. The remaining bottleneck is explicit: current trajectory macros are source-backed.
-The next conclusive experiment is to learn reusable, source-independent trajectory prototypes at
-larger data and compute scale.
+retrieval gate. Current trajectory macros are source-backed. The next experiment is to learn
+reusable, source-independent trajectory prototypes at larger data and compute scale.
 \end{abstract}
 
 \section{Introduction}
@@ -75,27 +74,28 @@ different: can text select and compose persistent Gaussian operations as the \em
 of a generative model? Such a model would speak into a continuous volume, keep explicit state across
 temporal windows, and eventually permit local edits by modifying a bounded set of primitives.
 
-The hypothesis is attractive but easy to overstate. Reconstructing an existing video proves that
-the representation can hold video, not that language can generate it. A prompt-conditioned
-scaffold followed by an encoder proves semantic preservation, not native prompt-to-Jewel
-generation. Retrieval of a whole fitted source field is also not generation. We therefore use
-input-ownership audits and shuffled/null controls to isolate a narrower feasibility statement.
+The experiments separate representation capacity, semantic preservation, and native generation.
+Reconstructing an existing video shows that the representation can hold video, not that language
+can generate it. A prompt-conditioned scaffold followed by an encoder tests semantic preservation,
+not native prompt-to-Jewel generation. Retrieval of a whole fitted source field is also not
+generation. We use input-ownership audits and shuffled/null controls to isolate the prompt-only
+claim.
 
 Figure~\ref{fig:architecture} shows both the demonstrated path and its missing component. At
 inference, the demonstrated prompt-only path receives exactly a prompt and integer seed, produces a
 typed plan, composes distinct foreground and background trajectory donors, expands local physical
 tokens at continuous centroids, and renders an irregular 72k-Jewel field. However, its macro
 dictionary is built from 18 fitted training fields. It does not retrieve a complete video, but it
-does reuse source-backed trajectory programs. Replacing those macros with reusable,
-source-independent prototypes is the central next gate.
+does reuse source-backed trajectory programs. The next gate replaces those macros with reusable,
+source-independent prototypes.
 
 \begin{figure*}[t]
   \centering
   \resizebox{0.96\textwidth}{!}{\input{figures/architecture_overview.tex}}
   \caption{The proposed native text-to-video language. Solid boxes are demonstrated in this work;
   the dashed box is not. The exact compiler and learned speaker select a semantic plan, persistent
-  foreground/background ownership, addressed phrases, and physical tokens. The crucial limitation
-  is visible in the architecture: current macro tokens are backed by 18 fitted sources.}
+  foreground/background ownership, addressed phrases, and physical tokens. Current macro tokens
+  are backed by 18 fitted sources.}
   \label{fig:architecture}
 \end{figure*}
 
@@ -103,8 +103,8 @@ Our contributions are:
 \begin{itemize}
   \item a 22-parameter additive spacetime Gaussian primitive and a support-complete renderer that
   preserve continuous, irregular, time-tilted structure;
-  \item causal and scaling evidence that temporal tilt is useful and that amortized video-to-Jewel
-  prediction improves with data rather than collapsing to a coordinate grid;
+  \item causal and scaling evidence that temporal tilt improves reconstruction and that amortized
+  video-to-Jewel prediction improves with data rather than collapsing to a coordinate grid;
   \item a hierarchical physical vocabulary with exact continuous centroids, three factorized
   $K=1024$ token books, and measurable same-source canonicality;
   \item a bounded prompt-and-seed-only test of this pipeline, including exact and learned
@@ -129,10 +129,9 @@ Autoregressive multimodal models show that a language-modeling interface can emi
 \cite{chameleon2024,wang2024emu3}, while Transfusion combines discrete language modeling with
 continuous visual generation \cite{zhou2025transfusion}. Gaussian generation has been explored for
 3D and dynamic scenes \cite{zhang2024gaussiancube,roessle2024l3dg,lin2025diffsplat,pan2026diff4splat}.
-Our proposal is complementary: the output tokens expand into persistent local operations in
-displayed spacetime. The contribution is not next-token prediction for media, but an empirical
-test of whether a hierarchical, executable Gaussian language has the required representational and
-semantic properties.
+Here, output tokens expand into persistent local operations in displayed spacetime. We test whether
+a hierarchical, executable Gaussian language has the required representational and semantic
+properties.
 
 \section{Method}
 
@@ -179,9 +178,9 @@ contributors when capacity is exceeded. At 10k, 45k, and 72k primitives it runs 
 $2\times$ the k-nearest renderer; at 72k its measured peak allocation is 8.01 GB on an RTX 4090.
 Pixels and gradients agree with dense evaluation up to the declared support truncation.
 
-Irregularity is equally important. Centroids are continuous and jittered; local phrases do not
-place one primitive on each fixed cell. We report the fraction of centers locked to the implied grid
-and require zero. This separates a useful structured address from visible coordinate quantization.
+Centroid placement is audited separately. Centroids are continuous and jittered; local phrases do
+not place one primitive on each fixed cell. We report the fraction of centers locked to the implied
+grid and require zero. This permits structured addressing without visible coordinate quantization.
 
 \subsection{A hierarchical executable language}
 
@@ -202,9 +201,10 @@ budget, and expands deterministically into an irregular field. The active repres
 space--time tilt, and has zero grid locking. Same-source physical token overlap is 0.452 versus
 0.228 for different sources, a 0.224 canonicality margin.
 
-Persistent ownership emerged as the load-bearing abstraction. A global scene decoder and a purely
-addressed $16\times16\times8$ local phrase model each produced zero recognizable classes, although
-the local model improved token NLL from 6.123 to 5.168. Holding one coherent source through the
+In the tested prompt-only systems, trajectory-level ownership carried semantic structure. A global
+scene decoder and a purely addressed $16\times16\times8$ local phrase model each produced zero
+recognizable classes, although the local model improved token NLL from 6.123 to 5.168. Holding one
+coherent source through the
 volume recovered 3/3 classes. Assigning one foreground donor and a different background donor along
 a smoothed saliency trajectory preserved 3/3 and created a composition absent from any single
 source. Thus locality improves syntax, but trajectory-level ownership carries semantics.
@@ -268,7 +268,7 @@ Question & Control & Result & Gate & What it establishes \\
 \midrule
 Does time tilt help? & Full covariance vs. zeroed space--time terms; matched resources &
 Free wins 9/9; $+0.772$ dB, 95\% CI $[0.573,0.971]$ & \good &
-Space--time covariance is causally useful on the tested reconstructions. \\
+Space--time covariance improves the tested reconstructions. \\
 Does the encoder scale? & Nested 12/60/120 sets, 3 seeds, fixed 60-video validation &
 $21.876\rightarrow22.399\rightarrow22.628$ dB; LPIPS $0.473\rightarrow0.465\rightarrow0.392$ & \good &
 More data improves held-out prediction under matched protocol. \\
@@ -285,7 +285,7 @@ Program syntax is learnable; rendered open-ended generalization is not establish
 \end{tabularx}
 \end{table*}
 
-\subsection{Temporal tilt is useful, not decorative}
+\subsection{Temporal tilt improves reconstruction}
 
 The free model beats the projected control in all nine paired fits. The mean paired PSNR gain is
 0.77197 dB (sample standard deviation 0.25858 dB; 95\% CI $[0.57321,0.97072]$). Median mixed
@@ -301,23 +301,23 @@ budget increases: 21.876 dB (95\% CI $[21.751,22.000]$), 22.399 dB
 ($[22.344,22.453]$), and 22.628 dB ($[22.459,22.797]$). Every 120-example seed beats every
 60-example seed. From 60 to 120 examples, LPIPS falls 15.8\%, layout PSNR rises from 30.726 to
 31.533 dB, and median mixed tilt grows $2.58\times$ from 0.0725 to 0.1875. The fitted teacher ceiling
-is 27.699 dB, LPIPS 0.1720, and median tilt 0.3966, leaving substantial headroom.
+is 27.699 dB, LPIPS 0.1720, and median tilt 0.3966. Relative to the 120-example encoder, the measured
+gaps are 5.071 dB, 0.2196 LPIPS, and 0.2091 median tilt.
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{../../sol/results/encoder_convergence_v2_continued/aggregate/convergence.png}
   \caption{Support-correct encoder scaling. Left: held-out PSNR against training-set size, mean and
-  95\% $t$ interval over three seeds. Right: convergence against matched corpus exposure. The trend
-  supports a data-and-compute scaling hypothesis but remains a small-data study.}
+  95\% $t$ interval over three seeds. Right: convergence against matched corpus exposure. The
+  result is monotonic across these three small training sets.}
   \label{fig:scaling}
 \end{figure}
 
 The same encoder preserves prompt information through a conservative
 text-to-pretrained-video-to-encoder route: correct prompt similarity is 0.3339 versus 0.1427
 shuffled and 0.2096 null on 12 held-out actions. Correct beats shuffled in 12/12 cases and retains
-91.4\% of the source video's prompt alignment. This is useful evidence that the representation does
-not erase semantics, but it is deliberately excluded from the native-generation claim because a
-pretrained video model supplies the source video.
+91.4\% of the source video's prompt alignment. We exclude this result from the native-generation
+claim because a pretrained video model supplies the source video.
 
 \subsection{The exact prompt-only compiler passes its bounded gate}
 
@@ -345,14 +345,14 @@ semantic selection, not novel open-vocabulary motion.
     \textbf{Learned unseen paraphrase}\\[-2pt]
     \includegraphics[width=\linewidth,trim={145bp 0bp 8bp 575bp},clip]{../../sol/results/jewel_casting_language_v0/trajectory_speaker_evidence_v1/trajectory_speaker_proof_sheet.png}
   \end{minipage}
-  \caption{Prompt-only proof sheet reflowed from one audited image. Each half shows correct-prompt
+  \caption{Prompt-only evidence sheet reflowed from one audited image. Each half shows correct-prompt
   and cyclic-shuffled generation for ballerina, dog, and welder classes. All evaluated samples are
   shown. These are 72k-Jewel renders, not source frames; their trajectory macro tokens are
   nevertheless backed by fitted training fields.}
   \label{fig:qualitative}
 \end{figure}
 
-\subsection{The learned speaker exposes the next bottleneck}
+\subsection{Learned speaker results}
 
 The learned speaker reaches its best held-out correct-text NLL at step 100 and continues to step
 1100 before the declared plateau rule stops training. On unseen paraphrases, macro token NLL is
@@ -361,43 +361,42 @@ for correct text, 0\% shuffled, and 33\% null; all nine correct-text samples are
 In rendered space, correct similarity exceeds shuffled by 0.04782 on average and null by 0.04117,
 with 7/9 correct-over-shuffled pairs.
 
-The strict rendered top-1 test nevertheless passes only 4/9, below the declared 6/9 threshold, and
-only one of three class majorities passes. This failure is informative but not an impossibility
-result. The network learned the coarse scene syntax under unseen wording; it did not reliably
-choose fine donor combinations whose low-fidelity renders win a frozen semantic retrieval test.
-More steps alone are not the leading intervention because held-out correct NLL plateaued early. The
-next experiment should change the vocabulary and supervision: learn reusable trajectory prototypes
+The strict rendered top-1 test passes only 4/9, below the declared 6/9 threshold, and only one of
+three class majorities passes. The network learned the coarse scene syntax under unseen wording but
+did not reliably choose donor combinations whose low-fidelity renders win a frozen semantic
+retrieval test. Held-out correct NLL plateaued early, so the next experiment changes the vocabulary
+and supervision rather than extending the same training run: learn reusable trajectory prototypes
 from many sources, train the speaker against rendered semantic and temporal objectives, and compare
 against a parameter-matched direct continuous head.
 
-\section{What should scale next?}
+\section{Scaling priorities}
 \label{sec:scaling}
 
 The experiments isolate three different scaling questions.
 
 \paragraph{Representation compute.}
-Longer local appearance optimization materially improves the frozen-geometry derivative head. For
+Longer local appearance optimization improves the frozen-geometry derivative head. For
 one seed, LPIPS falls from 0.717 at 400 updates to 0.670 at 4k and 0.659 at 12k; a second seed reaches
 0.660 at 12k. The final seeds differ by only 0.00058 LPIPS and 0.00041 dB PSNR, and geometry remains
-bit-identical. This supports additional compute for appearance refinement, but diminishing returns
-after roughly 8--12k updates argue against presenting optimization duration as the main missing
-idea.
+bit-identical. The plateau after roughly 8--12k updates limits the expected gain from extending the
+same optimization run.
 
 \paragraph{Encoder data.}
-The monotone held-out curve and remaining teacher gap support a larger paired video/Jewel corpus.
-The current 120-example maximum is far too small for a foundation model claim. A useful next scale
-study should fix architecture and corpus passes, increase data by at least another order of
-magnitude, and measure perceptual fidelity, layout, mixed tilt, and prompt retention jointly.
+Held-out PSNR rises at each data scale and remains below the fitted teacher. The current 120-example
+maximum is far too small for a foundation model claim. A follow-up study should fix architecture
+and corpus passes, increase data by at least another order of magnitude, and measure perceptual
+fidelity, layout, mixed tilt, and prompt retention jointly.
 
 \paragraph{Generative vocabulary.}
-This is the decisive axis. We propose segmenting many fitted fields into persistent trajectory tubes
-using motion and semantic features, learning a dictionary whose entries aggregate across source
-videos, and holding out entire motions, appearances, and compositions. A speaker should emit
+We propose segmenting many fitted fields into persistent trajectory tubes using motion and semantic
+features, learning a dictionary whose
+entries aggregate across source videos, and holding out entire motions, appearances, and
+compositions. A speaker should emit
 prototype identities plus continuous transforms and residuals; a local flow or diffusion head can
-model residual 22-D marks \cite{lipman2023flow,ludke2024pointset,hui2025notsoptimal}. The conclusive
-pitch experiment is not merely prettier reconstruction. It is a prompt-only render whose every
-macro token is source-independent, whose prompt and motion are held out compositionally, and whose
-correct/shuffled/null margins persist over many classes and seeds.
+model residual 22-D marks \cite{lipman2023flow,ludke2024pointset,hui2025notsoptimal}. The proposed
+gate requires prompt-only renders whose macro tokens are source-independent, whose prompts and
+motions are held out compositionally, and whose correct/shuffled/null margins persist over many
+classes and seeds.
 
 \section{Limitations}
 \label{sec:limitations}
@@ -407,7 +406,7 @@ does not measure open vocabulary, long-form prompting, camera control, or physic
 
 \textbf{Source-backed macro vocabulary.} Foreground and background trajectories reuse programs
 derived from fitted sources. Although no whole video is retrieved and two donors are composed, the
-system has not learned source-independent motion concepts. This is the principal limitation.
+system has not learned source-independent motion concepts. This prevents an open-vocabulary claim.
 
 \textbf{Small, synthetic evaluation.} OpenCLIP retrieval is noisy at the current visual quality and
 does not replace human judgment, FVD \cite{unterthiner2018fvd}, or a broad action benchmark. The
@@ -440,14 +439,14 @@ should be based on measured end-to-end quality-matched compute, not primitive co
 
 \section{Conclusion}
 
-The evidence supports a specific proposition: persistent time-tilted Gaussian Jewels form a useful
-video basis, their amortized prediction improves with data, their physical parameters admit an
-irregular hierarchical tokenization, and prompt plus seed can drive a bounded native program with
-controlled semantic selectivity. It does not yet support the claim that we have a general
-text-to-video model. The gap is sharply defined rather than mysterious: replace source-backed
-trajectory macros with reusable learned prototypes, then demonstrate compositional prompt-only
-generation on held-out motions and appearances. That experiment is the shortest path from a
-convincing feasibility result to a compute-and-data scaling proposal.
+The measurements support a specific proposition: persistent time-tilted Gaussian Jewels improve
+reconstruction under matched resources, their amortized prediction improves with data, their
+physical parameters admit an irregular hierarchical tokenization, and prompt plus seed can drive a
+bounded native program with controlled semantic selectivity. They do not support the claim that we
+have a general text-to-video model. The next step is to replace source-backed trajectory macros with
+reusable learned prototypes and test compositional prompt-only generation on held-out motions and
+appearances. That experiment tests whether the current result scales with additional data and
+compute.
 
 \bibliographystyle{plainnat}
 \bibliography{../references}

@@ -44,3 +44,5 @@ The reviewed deliverable is copied to
 - Failure of the learned speaker's strict rendered OpenCLIP top-1 gate is reported explicitly.
 - Negative experiments localize unproven configurations; they are not treated as impossibility
   results.
+- Manuscript prose states measurements and scope directly; official checklist guidance remains
+  unmodified.

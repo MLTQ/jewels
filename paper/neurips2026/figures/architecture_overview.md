@@ -12,7 +12,7 @@ an open-vocabulary generative prior.
 - The figure is included from `main.tex` inside a `\resizebox{\linewidth}{!}{...}` wrapper.
 - Solid teal boxes mean implemented and experimentally tested.
 - The macro dictionary must remain labeled as source-backed until reusable source-independent
-  trajectory prototypes are actually demonstrated.
+  trajectory prototypes are demonstrated.
 - Dashed amber means proposed next work, never a completed contribution.
 
 ## Maintenance

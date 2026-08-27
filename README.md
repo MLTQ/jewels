@@ -7,9 +7,9 @@ rendered from irregular anisotropic Gaussian primitives called **Jewels**. A Jew
 time axis behaves like a moving colored tube: motion is part of its geometry, and temporal
 coherence comes from the representation itself.
 
-## The headline result: a native promptable model exists
+## Native prompt-to-video result
 
-This project now has a bounded but genuine prompt-to-video path:
+The project now has a bounded prompt-to-video path:
 
 ~~~text
 prompt + integer seed
@@ -29,7 +29,7 @@ pretrained-video scaffold. It does not retrieve a complete fitted video. It choo
 trajectory programs, gives foreground and background persistent ownership, casts their physical
 tokens at continuous centroids, and renders the resulting field.
 
-That is already remarkable given the training inventory:
+Training and evaluation used the following inventory:
 
 - **3 prompt classes:** ballerina, golden retriever, and welder.
 - **18 fitted training fields:** only six per class.
@@ -53,8 +53,8 @@ Across all nine exact prompt-only programs:
 | Grid-center locking | **0** |
 
 All programs use two distinct source-backed macro tokens at exact 50/50 ownership. The subject
-changes when the prompt is cyclically shuffled, which is the causal result that matters: prompt
-text is selecting the generated native Jewel program rather than merely labeling a fixed render.
+changes when the prompt is cyclically shuffled, showing that prompt text selects the generated
+native Jewel program rather than labeling a fixed render.
 
 ### Three prompts, three native Jewel programs
 
@@ -67,11 +67,11 @@ support-complete renderer produced the 49-frame result. Click any GIF for the or
 | [![A ballerina spinning a pirouette](sol/results/jewel_prompt_demo_v1/generated/README_ballerina_exact.gif)](sol/results/jewel_prompt_demo_v1/generated/a-ballerina-spinning-a-pirouette-in-seed20260914-exact-940a8520810e.mp4) | [![A golden retriever catching a ball](sol/results/jewel_prompt_demo_v1/generated/README_retriever_exact.gif)](sol/results/jewel_prompt_demo_v1/generated/a-golden-retriever-catching-a-ball-seed20260914-exact-5e3ffe08b31a.mp4) | [![A welder joining steel with bright sparks](sol/results/jewel_prompt_demo_v1/generated/README_welder_exact.gif)](sol/results/jewel_prompt_demo_v1/generated/a-welder-joining-steel-with-bright-seed20260914-exact-c4522ccdb03d.mp4) |
 | “A ballerina spinning a pirouette” | “A golden retriever catching a ball” | “A welder joining steel with bright sparks” |
 
-![Exact and learned prompt-to-Jewel proof sheet](sol/results/jewel_casting_language_v0/trajectory_speaker_evidence_v1/trajectory_speaker_proof_sheet.png)
+![Exact and learned prompt-to-Jewel evidence sheet](sol/results/jewel_casting_language_v0/trajectory_speaker_evidence_v1/trajectory_speaker_proof_sheet.png)
 
-## The tiny learned speaker is also real
+## A 541k-parameter learned speaker
 
-The exact compiler proves the full prompt-to-program-to-render path. A separate learned experiment
+The exact compiler executes the full prompt-to-program-to-render path. A separate learned experiment
 asks whether that program syntax can be learned instead of hand dispatched.
 
 The speaker is a **541,223-parameter autoregressive network**:
@@ -94,20 +94,19 @@ Every one of the nine correct-text samples emits a scene-consistent program. In 
 correct text beats shuffled text in **7/9**, with mean margins of **+0.04782** over shuffled and
 **+0.04117** over null.
 
-The stricter rendered top-1 gate remains failed at **4/9**, and the README does not hide that. The
-important low-data result is that a half-million-parameter model learned the coarse native program
-language and generalized scene selection to unseen wording at all. Its best held-out checkpoint
+The stricter rendered top-1 gate remains failed at **4/9**. A half-million-parameter model learned
+the coarse native program language and generalized scene selection to unseen wording from this
+small training set. Its best held-out checkpoint
 occurred at step 100; training continued through step 1,100 without improvement, so the next move is
 a better reusable vocabulary and rendered supervision, not simply more steps on the same target.
 
 ![Causal and quantitative prompt-language evidence](sol/results/jewel_casting_language_v0/trajectory_speaker_evidence_v1/trajectory_speaker_evidence.png)
 
-## Why the data efficiency is encouraging
+## Results that motivate scaling
 
-Three independent results say that more data and compute have a plausible mechanism to improve this
-system rather than merely making the current demo larger.
+Three independent results identify specific ways that more data and compute can improve the system.
 
-### 1. The representation really uses time distortion
+### 1. The representation uses time distortion
 
 Full spacetime covariance was compared with a matched control whose space/time terms were projected
 to zero after every update. Primitive counts, parameter bytes, and optimization budgets were
@@ -163,8 +162,8 @@ Gate 0f audit:
 | Decisions for an eight-frame field | **35,265** |
 | Same-source vs different-source canonicality margin | **+0.2243** |
 
-This matters because the speaker need not emit 72,000 unrelated 22-float records. It can speak a
-hierarchical program that expands into a continuous irregular field.
+The speaker can therefore emit a hierarchical program that expands into a continuous irregular
+field instead of 72,000 unrelated 22-float records.
 
 ### 4. Appearance learning improves quickly and repeats across seeds
 
@@ -180,12 +179,11 @@ the original 400-update screen:
 
 At 12k updates the two seeds differ by only **0.00058 LPIPS** and **0.00041 dB PSNR**. Both end near
 20.835 dB, all five audited visual styles improve, and the Jewel geometry remains bit-identical.
-The curve shows real compute scaling followed by a clear plateau around 8k–12k updates. That is a
-much stronger conclusion than the original extremely short run.
+The 8k–12k measurements establish a plateau that was not visible in the original 400-update screen.
 
 ![Frozen-geometry appearance convergence](sol/results/local_adapter_convergence_v1/convergence_curves.png)
 
-### 5. The correct renderer is already practical at proof scale
+### 5. Support-complete rendering is practical at the current scale
 
 The support-complete tiled renderer checks every Jewel whose exact Mahalanobis support reaches a
 query tile instead of silently keeping only a fixed number of nearby centers. At 10k, 45k, and 72k
@@ -196,7 +194,7 @@ prompt-language result.
 
 ## What made promptability work
 
-The decisive discovery was not a bigger model. It was **persistent semantic ownership**.
+Promptability depended on **persistent semantic ownership**, not a larger model.
 
 | Architecture | Token result | Recognizable classes |
 |---|---:|---:|
@@ -256,7 +254,7 @@ advantage. The opportunity is executable persistent state:
 Per-video Gaussian fitting is established work. The research bet is that a model can generate and
 edit these persistent operations natively.
 
-## Honest boundary of the current proof
+## Current scope and limitations
 
 The result is a **bounded promptable model**, not a production or open-vocabulary text-to-video
 system.
@@ -271,10 +269,10 @@ system.
   untested.
 - The learned speaker passes scene and causal-margin tests but fails the strict rendered top-1 gate.
 
-These limitations define the next experiment; they do not erase the surprising fact that native
-prompt-to-program-to-Jewel-to-video execution works at all with this little data.
+These limitations define the next experiment. The current system nevertheless executes the full
+prompt-to-program-to-Jewel-to-video path from a small dataset.
 
-## Next conclusive experiment
+## Next experiment
 
 Replace source IDs with **64–256 reusable foreground/background trajectory prototypes** learned
 across at least 100 fitted fields and 10–20 compositional prompts. A small program transformer then
@@ -298,11 +296,11 @@ reusable trajectory vocabulary, paired data, and program-model compute scale.
 
 - [NeurIPS 2026 concept-and-feasibility paper](output/pdf/jewels_neurips2026_concept_feasibility.pdf)
 - [Editable paper source](paper/neurips2026/main.tex)
-- [Promptable trajectory-language proof report](sol/results/jewel_casting_language_v0/TRAJECTORY_SPEAKER_REPORT.md)
+- [Promptable trajectory-language report](sol/results/jewel_casting_language_v0/TRAJECTORY_SPEAKER_REPORT.md)
 - [Support-correct encoder scaling report](sol/results/encoder_convergence_v2_continued/README.md)
 - [Full technical progress report](output/pdf/jewels_progress_report.pdf)
 
-The paper uses the official anonymous NeurIPS 2026 style. Its main claim is intentionally narrow:
+The paper uses the official anonymous NeurIPS 2026 style. Its claim is restricted to this result:
 prompt and seed can select a hierarchical source-backed native Jewel program and render a
 prompt-selective video without a target video or field at inference.
 
@@ -334,14 +332,12 @@ The demo is experimental and requires the frozen model artifacts documented in
 
 ## Earlier experimental history
 
-The repository retains earlier eras because failed configurations are useful evidence when their
-scope is stated correctly.
+The repository retains earlier experiments with their tested scope.
 
 ### Representation falsification test
 
-A moving blob is literally a sheared tube in $(u,v,t)$. The additive representation fits the
-synthetic target near perfectly; a steelmanned Voronoi alternative lost every measured axis and was
-removed.
+A moving blob is a sheared tube in $(u,v,t)$. The additive representation fits the synthetic target
+at high fidelity; a matched Voronoi alternative lost every measured axis and was removed.
 
 ![Synthetic tube: ground truth, additive, and removed Voronoi control](assets/synthetic_tube_ab.gif)
 
@@ -356,9 +352,9 @@ anisotropic, consistent with motion being carried by orientation.
 ### Early set-flow generation
 
 A 5.8M-parameter permutation-invariant set-flow model trained for 37 minutes on the 231-window
-single-scene corpus. Larger 58M and 173M versions improved monotonically, then flattened against the
-small single-scene dataset. These experiments established data as the next axis but did not provide
-the semantic ownership needed for the current promptable model.
+single-scene corpus. Larger 58M and 173M versions improved monotonically, then flattened on the
+small single-scene dataset. These experiments did not provide the semantic ownership used by the
+current promptable model.
 
 ![Early fitted and generated samples](assets/prior_sample_v1.gif)
 
