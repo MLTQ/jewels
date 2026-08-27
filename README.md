@@ -56,6 +56,17 @@ All programs use two distinct source-backed macro tokens at exact 50/50 ownershi
 changes when the prompt is cyclically shuffled, which is the causal result that matters: prompt
 text is selecting the generated native Jewel program rather than merely labeling a fixed render.
 
+### Three prompts, three native Jewel programs
+
+These are prompt-only renders from the same declared seed. They are not source-video
+reconstructions: the exact speaker compiled each prompt into a native Jewel program and the
+support-complete renderer produced the 49-frame result. Click any GIF for the original MP4.
+
+| Ballerina | Golden retriever | Welder |
+|:---:|:---:|:---:|
+| [![A ballerina spinning a pirouette](sol/results/jewel_prompt_demo_v1/generated/README_ballerina_exact.gif)](sol/results/jewel_prompt_demo_v1/generated/a-ballerina-spinning-a-pirouette-in-seed20260914-exact-940a8520810e.mp4) | [![A golden retriever catching a ball](sol/results/jewel_prompt_demo_v1/generated/README_retriever_exact.gif)](sol/results/jewel_prompt_demo_v1/generated/a-golden-retriever-catching-a-ball-seed20260914-exact-5e3ffe08b31a.mp4) | [![A welder joining steel with bright sparks](sol/results/jewel_prompt_demo_v1/generated/README_welder_exact.gif)](sol/results/jewel_prompt_demo_v1/generated/a-welder-joining-steel-with-bright-seed20260914-exact-c4522ccdb03d.mp4) |
+| “A ballerina spinning a pirouette” | “A golden retriever catching a ball” | “A welder joining steel with bright sparks” |
+
 ![Exact and learned prompt-to-Jewel proof sheet](sol/results/jewel_casting_language_v0/trajectory_speaker_evidence_v1/trajectory_speaker_proof_sheet.png)
 
 ## The tiny learned speaker is also real
