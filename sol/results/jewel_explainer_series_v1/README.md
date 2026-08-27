@@ -28,9 +28,11 @@ The [six-episode contact sheet](series_contact_sheet.png),
 [media/provenance inventory](inventory.json) support visual and technical review.
 
 Episode 2 deliberately switches to an eggshell background with black copy. Its opening frame sheet
-moves along the drawn diagonal time axis. The next shot starts with a recognizable fitted singer
-video, identifies four actual checkpoint rows, fades every other contribution away, follows the
-selected Gaussian cross-sections through all 64 source frames, and restores the complete render.
+starts behind the black spatial frame, moves along the drawn diagonal time axis, and reveals each
+irregular sample only after crossing that sample's time coordinate. The next shot starts with a
+recognizable fitted singer video, identifies four actual checkpoint rows, fades every other
+contribution away, follows the selected Gaussian cross-sections through all 64 source frames, and
+restores the complete render.
 The isolated view's declared exposure gain makes small contributions legible without changing their
 fitted centers, shapes, color directions, or time evolution. See the
 [isolation contact sheet](assets/actual_jewel_isolation_contact.png) and

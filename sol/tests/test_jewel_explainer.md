@@ -12,6 +12,10 @@ full media render in the ordinary test suite.
 - Confirms episode 2 alone selects the eggshell palette and maps ordinary foreground copy to black.
 - Proves the four video-frame corners advance together by the drawn diagonal time vector, rather
   than sliding a sheet along the screen's horizontal axis.
+- Proves spacetime samples remain hidden before the moving frame crosses their time coordinate,
+  reveal monotonically behind it, and reject invalid reveal feather widths.
+- Samples the near-frame edge during the sweep to ensure the black frame is composited over the
+  teal slice rather than hidden underneath it.
 - Rejects Unicode modifier glyphs that the local Pillow/font stack would render as tofu boxes.
 - Enforces the audience contract: narration is at most eighty words per shot, captions are at most
   eighteen words, and public copy does not expose internal abbreviations such as `JRGB` or `NLL`.

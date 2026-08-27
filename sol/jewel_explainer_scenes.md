@@ -27,6 +27,27 @@ keep six long episodes visually consistent while allowing their data, equations,
 - **Rationale**: Advancing every corner by the same diagonal time vector prevents the old error in
   which a vertical sheet slid along screen x while being described as movement through time.
 
+### `time_slice_dot_alpha`
+
+- **Does**: Reveals a sampled point only after the moving video-frame slice crosses that point's
+  time coordinate, with a short eased feather rather than a hard pop.
+- **Rationale**: The slice is an actual depth sweep, not decoration driven by a timer unrelated to
+  the spacetime samples.
+
+### `_draw_cube_rear` / `_draw_cube_front`
+
+- **Does**: Separates the far cube face and depth rails from the near `(u,v)` frame so content can
+  be drawn at the correct visual depth.
+- **Rationale**: In the Jewel-definition shot the teal slice is drawn behind the black front frame,
+  while already-crossed dots are drawn in front of the slice.
+
+### `_slice_dot_specs`
+
+- **Does**: Places a deterministic irregular cloud inside a tilted spacetime blob and assigns each
+  point an explicit time depth.
+- **Rationale**: The point cloud explains a soft Jewel without the unrelated brown trajectory curve
+  used by later subject-tube diagrams.
+
 ### `_draw_jewel_isolation`
 
 - **Does**: Plays the committed fitted-field evidence clip, announces full/fading/isolated/restored

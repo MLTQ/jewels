@@ -27,6 +27,7 @@ from sol.jewel_explainer_style import (
     evenly_spaced,
     lerp,
     reveal,
+    smooth,
 )
 
 
@@ -51,6 +52,18 @@ def time_slice_polygon(amount: float) -> tuple[tuple[float, float], ...]:
         )
         for x, y in _CUBE_FRONT
     )
+
+
+def time_slice_dot_alpha(
+    point_time: float,
+    slice_time: float,
+    *,
+    feather: float = 0.055,
+) -> float:
+    """Reveal a spacetime sample only after the moving frame has passed it."""
+    if not 0.0 < feather <= 1.0:
+        raise ValueError("slice reveal feather must be in (0, 1]")
+    return smooth((clamp(slice_time) - clamp(point_time)) / feather)
 
 
 def _node(
@@ -154,58 +167,132 @@ def _draw_program(canvas: JewelCanvas, shot: Shot, progress: float, assets: dict
             canvas.line(((295, y + 34), (985, y + 34)), color=GRID, width=1, alpha=amount)
 
 
-def _cube(canvas: JewelCanvas, amount: float) -> tuple[list[tuple[float, float]], list[tuple[float, float]]]:
+def _cube_geometry() -> tuple[list[tuple[float, float]], list[tuple[float, float]]]:
     front = list(_CUBE_FRONT) + [_CUBE_FRONT[0]]
     back = [
         (x + _CUBE_TIME_OFFSET[0], y + _CUBE_TIME_OFFSET[1]) for x, y in front
     ]
-    canvas.polyline_partial(front, amount, color=MUTED, width=3)
-    canvas.polyline_partial(back, amount, color=BLUE, width=3)
-    for index in range(4):
-        canvas.line((front[index], back[index]), color=GRID, width=2, alpha=amount)
     return front, back
 
 
-def _draw_spacetime(canvas: JewelCanvas, shot: Shot, progress: float, assets: dict[str, Any]) -> None:
+def _draw_cube_rear(
+    canvas: JewelCanvas,
+    front: list[tuple[float, float]],
+    back: list[tuple[float, float]],
+    amount: float,
+) -> None:
+    """Draw the far face and depth rails before content inside the volume."""
+    canvas.polyline_partial(back, amount, color=BLUE, width=3)
+    for index in range(4):
+        canvas.line((front[index], back[index]), color=GRID, width=2, alpha=amount)
+
+
+def _draw_cube_front(
+    canvas: JewelCanvas,
+    front: list[tuple[float, float]],
+    amount: float,
+    *,
+    color: str = MUTED,
+) -> None:
+    """Draw the near face last when it must occlude content inside the volume."""
+    canvas.polyline_partial(front, amount, color=color, width=3)
+
+
+def _cube(
+    canvas: JewelCanvas,
+    amount: float,
+) -> tuple[list[tuple[float, float]], list[tuple[float, float]]]:
+    front, back = _cube_geometry()
+    _draw_cube_rear(canvas, front, back, amount)
+    _draw_cube_front(canvas, front, amount)
+    return front, back
+
+
+def _slice_dot_specs() -> tuple[tuple[float, float, float, str, float], ...]:
+    """Return deterministic irregular samples inside one tilted spacetime blob."""
+    dots = []
+    golden_angle = math.pi * (3.0 - math.sqrt(5.0))
+    for index in range(72):
+        time_depth = (((index * 37) % 72) + 0.5) / 72
+        radial = math.sqrt((((index * 29) % 71) + 0.5) / 71)
+        angle = index * golden_angle
+        center_u = 0.47 + 0.13 * math.sin(time_depth * math.pi * 1.35)
+        center_v = 0.52 - 0.08 * math.cos(time_depth * math.pi * 1.55)
+        u = center_u + 0.18 * radial * math.cos(angle)
+        v = center_v + 0.25 * radial * math.sin(angle)
+        x = lerp(_CUBE_FRONT[0][0], _CUBE_FRONT[1][0], u)
+        y = lerp(_CUBE_FRONT[0][1], _CUBE_FRONT[3][1], v)
+        x += _CUBE_TIME_OFFSET[0] * time_depth
+        y += _CUBE_TIME_OFFSET[1] * time_depth
+        dots.append(
+            (
+                x,
+                y,
+                time_depth,
+                TEAL if index % 3 else BLUE,
+                3.2 + 1.2 * (1 - radial),
+            )
+        )
+    return tuple(dots)
+
+
+def _draw_spacetime(
+    canvas: JewelCanvas,
+    shot: Shot,
+    progress: float,
+    assets: dict[str, Any],
+) -> None:
     del assets
     mode = shot.payload.get("mode", "slice")
     cube_amount = reveal(progress, 0.02, 0.22)
-    _cube(canvas, cube_amount)
+    if mode == "slice":
+        front, back = _cube_geometry()
+        _draw_cube_rear(canvas, front, back, cube_amount)
+        slice_amount = reveal(progress, 0.24, 0.84)
+        polygon = time_slice_polygon(slice_amount)
+        plane_alpha = reveal(progress, 0.16, 0.26)
+        if plane_alpha > 0:
+            canvas.draw.polygon(
+                polygon,
+                fill=canvas.blend(TEAL, 0.18 * plane_alpha),
+                outline=canvas.blend(TEAL, plane_alpha),
+            )
+        for px, py, point_time, color, radius in _slice_dot_specs():
+            amount = time_slice_dot_alpha(point_time, slice_amount)
+            if amount > 0:
+                canvas.glow_dot((px, py), radius, color=color, alpha=amount)
+        _draw_cube_front(canvas, front, cube_amount, color=FOREGROUND)
+        canvas.text((1045, 300), "one video frame", size=28, color=TEAL, anchor="ma")
+        canvas.arrow((1005, 325), polygon[1], color=TEAL, width=4)
+    else:
+        _cube(canvas, cube_amount)
     path = []
     for index in range(13):
         t = index / 12
         path.append((385 + 475 * t, 405 - 66 * math.sin(t * math.pi * 1.45)))
-    path_amount = reveal(progress, 0.18, 0.52)
-    canvas.polyline_partial(path, path_amount, color=YELLOW, width=7)
-    for index in range(72):
-        phase = ((index * 37) % 101) / 100
-        t = ((index * 19) % 73) / 72
-        px = 360 + 520 * t
-        center_y = 405 - 66 * math.sin(t * math.pi * 1.45)
-        spread = 38 + 92 * (((index * 11) % 17) / 16)
-        py = center_y + spread * math.sin(index * 2.17)
-        distance = abs(py - center_y)
-        if mode in {"rank-balanced", "donors"}:
-            foreground = distance < 65
-            color = PINK if foreground else BLUE
-        else:
-            color = TEAL if index % 3 else BLUE
-        amount = reveal(progress, 0.28 + phase * 0.32, 0.50 + phase * 0.32)
-        canvas.glow_dot((px, py), 3.5, color=color, alpha=amount)
-    if mode == "slice":
-        polygon = time_slice_polygon(reveal(progress, 0.48, 0.92))
-        canvas.draw.polygon(
-            polygon,
-            fill=canvas.blend(TEAL, 0.18),
-            outline=canvas.color(TEAL),
-        )
-        canvas.text((1045, 300), "one video frame", size=28, color=TEAL, anchor="ma")
-        canvas.arrow((1005, 325), polygon[1], color=TEAL, width=4)
-    elif mode == "continuous":
+    if mode != "slice":
+        path_amount = reveal(progress, 0.18, 0.52)
+        canvas.polyline_partial(path, path_amount, color=YELLOW, width=7)
+        for index in range(72):
+            phase = ((index * 37) % 101) / 100
+            t = ((index * 19) % 73) / 72
+            px = 360 + 520 * t
+            center_y = 405 - 66 * math.sin(t * math.pi * 1.45)
+            spread = 38 + 92 * (((index * 11) % 17) / 16)
+            py = center_y + spread * math.sin(index * 2.17)
+            distance = abs(py - center_y)
+            if mode in {"rank-balanced", "donors"}:
+                foreground = distance < 65
+                color = PINK if foreground else BLUE
+            else:
+                color = TEAL if index % 3 else BLUE
+            amount = reveal(progress, 0.28 + phase * 0.32, 0.50 + phase * 0.32)
+            canvas.glow_dot((px, py), 3.5, color=color, alpha=amount)
+    if mode == "continuous":
         canvas.text((1015, 265), "routing cells", size=25, color=MUTED, anchor="ma")
         canvas.text((1015, 325), "continuous μ", size=30, color=TEAL, anchor="ma")
         canvas.text((1015, 380), "≠ cell centers", size=26, color=YELLOW, anchor="ma")
-    else:
+    elif mode != "slice":
         canvas.text((1045, 270), "foreground", size=25, color=PINK, anchor="ma")
         canvas.text((1045, 325), "36,000", size=36, color=PINK, anchor="ma")
         canvas.text((1045, 415), "background", size=25, color=BLUE, anchor="ma")

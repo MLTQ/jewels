@@ -8,13 +8,14 @@ import math
 from pathlib import Path
 import unittest
 
-from PIL import Image
+from PIL import Image, ImageColor
 
 from sol.jewel_explainer_episodes import EPISODES
 from sol.jewel_explainer_scenes import (
     CONTENT_TOP,
     SCENE_RENDERERS,
     draw_shot,
+    time_slice_dot_alpha,
     time_slice_polygon,
 )
 from sol.jewel_explainer_style import (
@@ -83,6 +84,31 @@ class JewelExplainerTests(unittest.TestCase):
                 (finish[0] - start[0], finish[1] - start[1]),
                 (135, -85),
             )
+
+    def test_video_slice_reveals_dots_only_after_crossing_their_time(self) -> None:
+        point_times = (0.2, 0.5, 0.8)
+        self.assertEqual(
+            [time_slice_dot_alpha(point_time, 0.0) for point_time in point_times],
+            [0.0, 0.0, 0.0],
+        )
+        halfway = [time_slice_dot_alpha(point_time, 0.5) for point_time in point_times]
+        self.assertEqual(halfway[0], 1.0)
+        self.assertEqual(halfway[1:], [0.0, 0.0])
+        self.assertEqual(
+            [time_slice_dot_alpha(point_time, 1.0) for point_time in point_times],
+            [1.0, 1.0, 1.0],
+        )
+        sweep = [time_slice_dot_alpha(0.5, step / 20) for step in range(21)]
+        self.assertTrue(all(first <= second for first, second in zip(sweep, sweep[1:])))
+        with self.assertRaisesRegex(ValueError, "feather"):
+            time_slice_dot_alpha(0.2, 0.5, feather=0.0)
+
+    def test_video_slice_stays_behind_the_black_front_frame(self) -> None:
+        image = draw_shot(EPISODES[1], EPISODES[1].shots[0], 0.3, 0.1, {})
+        self.assertEqual(
+            image.getpixel((400, 260)),
+            ImageColor.getrgb(LIGHT_THEME.foreground),
+        )
 
     def test_on_screen_copy_avoids_tofu_prone_modifier_glyphs(self) -> None:
         rendered_copy = repr(EPISODES)
