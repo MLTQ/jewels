@@ -1,0 +1,39 @@
+\begin{tikzpicture}[font=\sffamily\scriptsize, >=Latex, line cap=round, line join=round]
+  % Spacetime volume.
+  \coordinate (o) at (0,0);
+  \coordinate (u) at (4.15,0);
+  \coordinate (v) at (0,2.35);
+  \coordinate (t) at (1.38,1.05);
+  \draw[black!65] (o)--(u)--($(u)+(v)$)--(v)--cycle;
+  \draw[black!45] (o)--(t) (u)--($(u)+(t)$) (v)--($(v)+(t)$) ($(u)+(v)$)--($(u)+(v)+(t)$);
+  \draw[black!45] (t)--($(u)+(t)$)--($(u)+(v)+(t)$)--($(v)+(t)$)--cycle;
+  \draw[->, black!80] (o) -- ++(4.65,0) node[right] {$u$};
+  \draw[->, black!80] (o) -- ++(0,2.78) node[above] {$v$};
+  \draw[->, black!80] (o) -- ++(1.72,1.31) node[above right] {$t$};
+
+  % A tilted spacetime Jewel and three temporal cross-sections.
+  \draw[teal!70!black, line width=5.5pt, opacity=.22] (1.03,.52) .. controls (1.82,1.02) and (2.58,1.48) .. (3.48,2.08);
+  \draw[teal!72!black, line width=1.15pt, ->] (1.03,.52) .. controls (1.82,1.02) and (2.58,1.48) .. (3.48,2.08);
+  \fill[teal!80!black] (2.25,1.30) circle (1.8pt);
+  \node[anchor=south east, text=teal!65!black] at (2.16,1.39) {centroid $\boldsymbol\mu$};
+
+  \foreach \x/\y/\r in {1.22/.64/.17,2.24/1.30/.25,3.22/1.91/.18}{
+    \fill[cyan!18, opacity=.78] (\x,\y) ellipse (\r cm and .10cm);
+    \draw[cyan!70!black, line width=.55pt] (\x,\y) ellipse (\r cm and .10cm);
+  }
+  \node[align=left, anchor=west] at (4.88,2.25) {off-diagonal terms in $\boldsymbol\Sigma$\\tilt support through space and time};
+  \draw[->, black!60] (4.86,2.03) -- (3.28,1.92);
+
+  % Parameter card.
+  \node[draw=black!55, rounded corners=2pt, fill=white, align=left,
+    text width=4.45cm, inner sep=5pt, anchor=north west] (card) at (5.05,1.62) {
+      \textbf{One spacetime Gaussian Jewel}\par\smallskip
+      position $\boldsymbol\mu\in\mathbb{R}^3$\hfill 3\\
+      covariance $\boldsymbol\Sigma\in\mathbb{S}_{++}^3$\hfill 6\\
+      base color $\mathbf c\in\mathbb{R}^3$\hfill 3\\
+      color Jacobian $\mathbf J\in\mathbb{R}^{3\times3}$\hfill 9\\
+      opacity $\alpha\in\mathbb{R}$\hfill 1\\[-1pt]
+      \rule{\linewidth}{.35pt}\\[-4pt]
+      \textbf{22 continuous parameters}
+    };
+\end{tikzpicture}

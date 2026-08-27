@@ -1,3 +1,6 @@
 
 # Use bd merge for beads JSONL files
 .beads/issues.jsonl merge=beads
+
+# Preserve the byte-identical official NeurIPS 2026 vendor style, including its one upstream space.
+paper/neurips2026/neurips_2026.sty whitespace=-trailing-space

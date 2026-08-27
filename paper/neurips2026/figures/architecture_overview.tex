@@ -1,0 +1,37 @@
+\begin{tikzpicture}[
+  font=\sffamily\scriptsize,
+  >=Latex,
+  box/.style={draw=black!65, rounded corners=2pt, minimum height=0.78cm,
+    text width=2.15cm, align=center, fill=white, line width=0.55pt},
+  demonstrated/.style={box, fill=teal!7, draw=teal!75!black},
+  speaker/.style={box, fill=blue!7, draw=blue!65!black},
+  caution/.style={box, fill=orange!13, draw=orange!80!black, dashed},
+  arrow/.style={->, line width=0.65pt, draw=black!70},
+  next/.style={->, dashed, line width=0.75pt, draw=orange!85!black}
+]
+  \node[demonstrated, text width=1.65cm] (prompt) at (0,0) {prompt + seed};
+  \node[speaker] (speaker) at (2.65,0) {exact compiler or\\0.54M-parameter\\autoregressive speaker};
+  \node[demonstrated] (plan) at (5.45,0) {typed plan\\scene, foreground,\\background, path};
+  \node[demonstrated] (macro) at (8.25,0) {macro dictionary\\18 source-backed\\trajectory programs};
+  \node[demonstrated] (phrases) at (11.05,0) {addressed local phrases\\with persistent\\semantic ownership};
+  \node[demonstrated, text width=2.35cm] (physical) at (11.05,-1.72) {physical vocabulary\\$K=1024$ covariance,\\surface, gradient tokens\\+ continuous centroids};
+  \node[demonstrated, text width=2.05cm] (field) at (8.25,-1.72) {irregular field\\72k spacetime\\Gaussian Jewels};
+  \node[demonstrated, text width=1.85cm] (render) at (5.45,-1.72) {support-complete\\additive renderer};
+  \node[demonstrated, text width=1.35cm] (video) at (2.65,-1.72) {video\\frames};
+  \node[caution, text width=3.05cm] (future) at (8.25,-3.2) {next gate: reusable, source-independent\\trajectory prototypes learned at scale};
+
+  \draw[arrow] (prompt) -- (speaker);
+  \draw[arrow] (speaker) -- (plan);
+  \draw[arrow] (plan) -- (macro);
+  \draw[arrow] (macro) -- (phrases);
+  \draw[arrow] (phrases) -- (physical);
+  \draw[arrow] (physical) -- (field);
+  \draw[arrow] (field) -- (render);
+  \draw[arrow] (render) -- (video);
+  \draw[next] (future) -- (macro);
+
+  \node[anchor=west, font=\sffamily\tiny, text=teal!70!black] at (0,-3.15)
+    {solid teal: demonstrated end-to-end};
+  \node[anchor=west, font=\sffamily\tiny, text=orange!85!black] at (0,-3.48)
+    {dashed amber: required before an open-vocabulary text-to-video claim};
+\end{tikzpicture}
