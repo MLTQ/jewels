@@ -9,6 +9,9 @@ full media render in the ordinary test suite.
 
 - Verifies quintic easing bounds, monotonicity, endpoints, and invalid reveal intervals.
 - Validates all six episodes, forty-two shots, registered scene types, and evidence-source paths.
+- Confirms episode 2 alone selects the eggshell palette and maps ordinary foreground copy to black.
+- Proves the four video-frame corners advance together by the drawn diagonal time vector, rather
+  than sliding a sheet along the screen's horizontal axis.
 - Rejects Unicode modifier glyphs that the local Pillow/font stack would render as tofu boxes.
 - Enforces the audience contract: narration is at most eighty words per shot, captions are at most
   eighteen words, and public copy does not expose internal abbreviations such as `JRGB` or `NLL`.
@@ -22,6 +25,9 @@ full media render in the ordinary test suite.
   the evidence scenes while already-wide evidence remains unchanged.
 - Verifies prose-length duration bounds and the derived Qwen token ceiling prevent multi-minute
   runaway takes for ordinary seventy-seven-word shots.
+- Hashes the committed singer checkpoint and checks that the real-Jewel asset names four unique
+  field rows, carries 3×3 covariances, spans the declared 64-frame source, and exports 108
+  explanatory frames.
 
 ## Rationale
 

@@ -23,7 +23,6 @@ from sol.jewel_explainer_style import (
     WIDTH,
     YELLOW,
     JewelCanvas,
-    blend_hex,
     clamp,
     evenly_spaced,
     lerp,
@@ -37,6 +36,21 @@ PALETTE = (BLUE, TEAL, YELLOW, PINK, ORANGE, PURPLE, RED)
 # deliberately outside it so an animated shape can never cover explanatory copy.
 CONTENT_TOP = 170
 CONTENT_BOTTOM = 630
+
+_CUBE_FRONT = ((310, 260), (760, 260), (760, 535), (310, 535))
+_CUBE_TIME_OFFSET = (135, -85)
+
+
+def time_slice_polygon(amount: float) -> tuple[tuple[float, float], ...]:
+    """Return a full video-frame slice advanced along the drawn time axis."""
+    fraction = clamp(amount)
+    return tuple(
+        (
+            lerp(x, x + _CUBE_TIME_OFFSET[0], fraction),
+            lerp(y, y + _CUBE_TIME_OFFSET[1], fraction),
+        )
+        for x, y in _CUBE_FRONT
+    )
 
 
 def _node(
@@ -141,9 +155,10 @@ def _draw_program(canvas: JewelCanvas, shot: Shot, progress: float, assets: dict
 
 
 def _cube(canvas: JewelCanvas, amount: float) -> tuple[list[tuple[float, float]], list[tuple[float, float]]]:
-    front = [(310, 260), (760, 260), (760, 535), (310, 535), (310, 260)]
-    offset = (135, -85)
-    back = [(x + offset[0], y + offset[1]) for x, y in front]
+    front = list(_CUBE_FRONT) + [_CUBE_FRONT[0]]
+    back = [
+        (x + _CUBE_TIME_OFFSET[0], y + _CUBE_TIME_OFFSET[1]) for x, y in front
+    ]
     canvas.polyline_partial(front, amount, color=MUTED, width=3)
     canvas.polyline_partial(back, amount, color=BLUE, width=3)
     for index in range(4):
@@ -178,14 +193,14 @@ def _draw_spacetime(canvas: JewelCanvas, shot: Shot, progress: float, assets: di
         amount = reveal(progress, 0.28 + phase * 0.32, 0.50 + phase * 0.32)
         canvas.glow_dot((px, py), 3.5, color=color, alpha=amount)
     if mode == "slice":
-        x = lerp(385, 860, reveal(progress, 0.48, 0.92))
+        polygon = time_slice_polygon(reveal(progress, 0.48, 0.92))
         canvas.draw.polygon(
-            ((x, 190), (x + 135, 105), (x + 135, 380), (x, 465)),
-            fill=blend_hex(BACKGROUND, TEAL, 0.18),
-            outline=TEAL,
+            polygon,
+            fill=canvas.blend(TEAL, 0.18),
+            outline=canvas.color(TEAL),
         )
-        canvas.text((1045, 300), "frame t", size=30, color=TEAL, anchor="ma")
-        canvas.arrow((1005, 325), (885, 360), color=TEAL, width=4)
+        canvas.text((1045, 300), "one video frame", size=28, color=TEAL, anchor="ma")
+        canvas.arrow((1005, 325), polygon[1], color=TEAL, width=4)
     elif mode == "continuous":
         canvas.text((1015, 265), "routing cells", size=25, color=MUTED, anchor="ma")
         canvas.text((1015, 325), "continuous μ", size=30, color=TEAL, anchor="ma")
@@ -195,9 +210,65 @@ def _draw_spacetime(canvas: JewelCanvas, shot: Shot, progress: float, assets: di
         canvas.text((1045, 325), "36,000", size=36, color=PINK, anchor="ma")
         canvas.text((1045, 415), "background", size=25, color=BLUE, anchor="ma")
         canvas.text((1045, 470), "36,000", size=36, color=BLUE, anchor="ma")
-    canvas.text((280, 556), "u", size=24, color=MUTED)
-    canvas.text((785, 557), "t", size=24, color=MUTED)
-    canvas.text((885, 164), "v", size=24, color=MUTED)
+    canvas.text((785, 555), "left-right (u)", size=22, color=MUTED)
+    canvas.text((260, 245), "up-down (v)", size=22, color=MUTED, anchor="ra")
+    canvas.text((905, 472), "time (t)", size=22, color=MUTED)
+
+
+def _draw_jewel_isolation(
+    canvas: JewelCanvas,
+    shot: Shot,
+    progress: float,
+    assets: dict[str, Any],
+) -> None:
+    frames = assets.get(f"clip:{shot.payload['clip']}", [])
+    canvas.rounded_rect(
+        (55, 180, 980, 585), fill=BACKGROUND_2, outline=TEAL, width=3, radius=18
+    )
+    if frames:
+        index = min(len(frames) - 1, int(clamp(progress) * len(frames)))
+        canvas.paste_contained(
+            frames[index],
+            (75, 195, 960, 570),
+            alpha=reveal(progress, 0.01, 0.12),
+        )
+    else:
+        canvas.text(
+            (518, 375),
+            "actual fitted-Jewel footage unavailable",
+            size=28,
+            color=RED,
+            anchor="mm",
+        )
+
+    if progress < 0.19:
+        stage, stage_color = "ALL 6,471 JEWELS", BLUE
+    elif progress < 0.30:
+        stage, stage_color = "FADING THE REST", ORANGE
+    elif progress < 0.89:
+        stage, stage_color = "4 ACTUAL JEWELS", TEAL
+    else:
+        stage, stage_color = "FULL FIELD AGAIN", BLUE
+    canvas.text((1090, 215), stage, size=21, color=stage_color, family="mono", anchor="ma")
+    canvas.wrapped_text(
+        (1010, 260),
+        "The same four fitted contributions are tracked through every frame.",
+        max_width=205,
+        size=22,
+        color=FOREGROUND,
+        line_gap=5,
+    )
+    for index, color in enumerate((TEAL, PINK, ORANGE, BLUE), start=1):
+        y = 430 + (index - 1) * 38
+        canvas.circle((1025, y), 8, fill=color, outline=color, width=2)
+        canvas.text((1050, y), f"Jewel {index}", size=21, color=color, anchor="lm")
+    canvas.text(
+        (1090, 570),
+        "isolated view brightened",
+        size=18,
+        color=MUTED,
+        anchor="ma",
+    )
 
 
 def _draw_factorization(canvas: JewelCanvas, shot: Shot, progress: float, assets: dict[str, Any]) -> None:
@@ -286,7 +357,7 @@ def _draw_support(canvas: JewelCanvas, shot: Shot, progress: float, assets: dict
     canvas.rounded_rect((245, 295, 775, 455), fill=BACKGROUND, outline=YELLOW, width=3, radius=2, alpha=reveal(progress, 0.38, 0.65))
     point = (710, 375)
     canvas.glow_dot(point, 8, color=TEAL, alpha=reveal(progress, 0.52, 0.72))
-    canvas.text((1010, 245), f"support = {shot.payload['sigma']}σ", size=30, color=YELLOW, anchor="ma")
+    canvas.text((1010, 245), "support = 5 widths", size=30, color=YELLOW, anchor="ma")
     canvas.text((1010, 325), f"{shot.payload['neighbors']} neighbor cells", size=27, color=FOREGROUND, anchor="ma")
     canvas.text((1010, 405), f"boundary weight\n{shot.payload['boundary']}", size=27, color=MUTED, family="mono", anchor="ma")
     canvas.text((1010, 510), "true q test", size=27, color=TEAL, anchor="ma")
@@ -404,6 +475,7 @@ SCENE_RENDERERS: dict[str, Callable[[JewelCanvas, Shot, float, dict[str, Any]], 
     "tokens": _draw_tokens,
     "program": _draw_program,
     "spacetime": _draw_spacetime,
+    "jewel-isolation": _draw_jewel_isolation,
     "factorization": _draw_factorization,
     "feature-vector": _draw_feature_vector,
     "equation": _draw_equation,
@@ -427,9 +499,9 @@ def draw_shot(
     """Draw one complete video frame for a shot specification."""
     if shot.visual not in SCENE_RENDERERS:
         raise ValueError(f"unknown explainer visual {shot.visual!r}")
-    canvas = JewelCanvas()
+    canvas = JewelCanvas(theme=episode.theme)
     canvas.header(episode.number, episode.title, shot.title)
-    diagram = JewelCanvas()
+    diagram = JewelCanvas(theme=episode.theme)
     SCENE_RENDERERS[shot.visual](diagram, shot, clamp(shot_progress), assets)
     canvas.image.paste(
         diagram.image.crop((0, CONTENT_TOP, WIDTH, CONTENT_BOTTOM)),

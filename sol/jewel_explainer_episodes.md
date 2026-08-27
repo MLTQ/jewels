@@ -15,7 +15,7 @@ claim sources. It is the editorial source of truth for narration, subtitles, and
 ### `Episode`
 
 - **Does**: Names and orders one seven-shot chapter and records the code/report files supporting its
-  claims.
+  claims, plus its presentation theme.
 
 ### `EPISODES`
 
@@ -40,10 +40,13 @@ claim sources. It is the editorial source of truth for narration, subtitles, and
 
 ## Notes
 
-- Episode 2 defines a Gaussian as a soft bell-shaped fade, spacetime as left-right/up-down/time,
-  covariance as the shape-and-tilt table, Mahalanobis distance as shape-aware distance, the color
+- Episode 2 uses an eggshell background and black copy. It defines a Gaussian as a soft bell-shaped
+  fade, spacetime as left-right/up-down/time, covariance as the shape-and-tilt table, the color
   Jacobian as a local color-change table, additive rendering as overlapping light, and support as
   the region where a Jewel can matter.
+- Its second shot identifies four actual rows from a 6,471-Jewel fitted singer field, fades away all
+  other rendered contributions, follows those rows through 64 frames, and discloses the uniform
+  visibility gain used in the isolated view.
 - `JRGB` is intentionally absent from public labels. The earlier shorthand meant the three-by-three
   color Jacobian, but the full term or the plain phrase “color-change table” is clearer.
 - “Three-dimensional spacetime Gaussian” remains precise: `(u,v,t)` is the Gaussian domain; RGB is

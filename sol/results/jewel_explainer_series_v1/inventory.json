@@ -145,8 +145,8 @@
       "poster": "episode_02_jewel-geometry_poster.png",
       "subtitles": "episode_02_jewel-geometry.srt",
       "script": "episode_02_jewel-geometry_script.md",
-      "duration_seconds": 158.76,
-      "frames": 1912,
+      "duration_seconds": 161.64,
+      "frames": 1946,
       "fps": 12,
       "resolution": [
         1280,
@@ -184,14 +184,14 @@
           },
           {
             "shot": 2,
-            "expected_seconds": 28.137931034482758,
-            "minimum_seconds": 16.882758620689653,
-            "maximum_seconds": 46.206896551724135,
-            "token_ceiling": 578,
+            "expected_seconds": 30.20689655172414,
+            "minimum_seconds": 18.124137931034483,
+            "maximum_seconds": 49.310344827586206,
+            "token_ceiling": 617,
             "accepted": {
               "attempt": 1,
               "seed": 20261202,
-              "duration_seconds": 21.92
+              "duration_seconds": 26.16
             },
             "rejected": []
           },
@@ -204,20 +204,20 @@
             "accepted": {
               "attempt": 1,
               "seed": 20261203,
-              "duration_seconds": 23.36
+              "duration_seconds": 22.4
             },
             "rejected": []
           },
           {
             "shot": 4,
-            "expected_seconds": 25.655172413793103,
-            "minimum_seconds": 15.39310344827586,
-            "maximum_seconds": 42.48275862068965,
-            "token_ceiling": 532,
+            "expected_seconds": 28.137931034482758,
+            "minimum_seconds": 16.882758620689653,
+            "maximum_seconds": 46.206896551724135,
+            "token_ceiling": 578,
             "accepted": {
               "attempt": 1,
               "seed": 20261204,
-              "duration_seconds": 22.64
+              "duration_seconds": 22.24
             },
             "rejected": []
           },
@@ -270,7 +270,9 @@
         "stprim/core/params.py",
         "stprim/prior/featurize.py",
         "stprim/models/render.py",
-        "stprim/models/tiled_support.py"
+        "stprim/models/tiled_support.py",
+        "sol/generate_jewel_isolation_asset.py",
+        "sol/results/jewel_explainer_series_v1/assets/actual_jewel_isolation.json"
       ]
     },
     {
@@ -827,6 +829,6 @@
     "narration_backend": "qwen-clone",
     "voice": "original-warm-american-first-officer",
     "speech_rate": null,
-    "style": "original dark mathematical vector animation"
+    "style": "original mathematical vector animation; episode 2 uses an eggshell light palette"
   }
 }

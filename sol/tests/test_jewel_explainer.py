@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import hashlib
+import json
 import math
 from pathlib import Path
 import unittest
@@ -13,8 +15,17 @@ from sol.jewel_explainer_scenes import (
     CONTENT_TOP,
     SCENE_RENDERERS,
     draw_shot,
+    time_slice_polygon,
 )
-from sol.jewel_explainer_style import HEIGHT, WIDTH, JewelCanvas, reveal, smooth
+from sol.jewel_explainer_style import (
+    FOREGROUND,
+    HEIGHT,
+    LIGHT_THEME,
+    WIDTH,
+    JewelCanvas,
+    reveal,
+    smooth,
+)
 from sol.render_jewel_explainer import (
     format_srt_time,
     focus_evidence_asset,
@@ -50,6 +61,29 @@ class JewelExplainerTests(unittest.TestCase):
             set(SCENE_RENDERERS),
         )
 
+    def test_only_jewel_geometry_episode_uses_eggshell_theme(self) -> None:
+        self.assertEqual(EPISODES[1].theme, "light")
+        self.assertTrue(
+            all(episode.theme == "dark" for episode in EPISODES if episode.number != 2)
+        )
+        canvas = JewelCanvas(theme=EPISODES[1].theme)
+        self.assertEqual(canvas.theme.background, LIGHT_THEME.background)
+        self.assertEqual(canvas.color(FOREGROUND), LIGHT_THEME.foreground)
+
+    def test_video_slice_advances_only_along_drawn_time_axis(self) -> None:
+        front = time_slice_polygon(0.0)
+        middle = time_slice_polygon(0.5)
+        back = time_slice_polygon(1.0)
+        for start, halfway, finish in zip(front, middle, back):
+            self.assertEqual(
+                halfway,
+                ((start[0] + finish[0]) / 2, (start[1] + finish[1]) / 2),
+            )
+            self.assertEqual(
+                (finish[0] - start[0], finish[1] - start[1]),
+                (135, -85),
+            )
+
     def test_on_screen_copy_avoids_tofu_prone_modifier_glyphs(self) -> None:
         rendered_copy = repr(EPISODES)
         unsupported = set("ᵢₖₜᵀ₀₁₂₃₄₅₆₇₈₉₊₋₌₍₎⁴")
@@ -80,7 +114,7 @@ class JewelExplainerTests(unittest.TestCase):
     def test_diagrams_cannot_overpaint_the_header_safe_zone(self) -> None:
         episode = EPISODES[1]
         shot = episode.shots[0]
-        expected = JewelCanvas()
+        expected = JewelCanvas(theme=episode.theme)
         expected.header(episode.number, episode.title, shot.title)
         rendered = draw_shot(episode, shot, 1.0, 0.5, {})
         safe_zone = (0, 0, WIDTH, CONTENT_TOP)
@@ -142,6 +176,27 @@ class JewelExplainerTests(unittest.TestCase):
         self.assertLess(maximum, 55)
         self.assertEqual(qwen_token_ceiling(text, 900), math.ceil(maximum * 12.5))
         self.assertLess(qwen_token_ceiling(text, 900), 700)
+
+    def test_actual_jewel_asset_is_traceable_to_four_checkpoint_rows(self) -> None:
+        assets = PROJECT_ROOT / "sol" / "results" / "jewel_explainer_series_v1" / "assets"
+        metadata = json.loads((assets / "actual_jewel_isolation.json").read_text())
+        checkpoint = assets / metadata["checkpoint"]
+        digest = hashlib.sha256(checkpoint.read_bytes()).hexdigest()
+        self.assertEqual(metadata["schema"], "jewel-isolation-explainer-v1")
+        self.assertEqual(metadata["field_jewels"], 6471)
+        self.assertEqual(metadata["field_shape"], [64, 160, 306])
+        self.assertEqual(metadata["checkpoint_sha256"], digest)
+        self.assertEqual(metadata["output_frames"], 108)
+        selected = metadata["selected_jewels"]
+        self.assertEqual(len(selected), 4)
+        self.assertEqual(len({row["field_index"] for row in selected}), 4)
+        self.assertTrue(
+            all(
+                len(row["covariance"]) == 3
+                and all(len(values) == 3 for values in row["covariance"])
+                for row in selected
+            )
+        )
 
 
 if __name__ == "__main__":

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import math
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable, Sequence
 
@@ -24,6 +25,66 @@ PINK = "#ff70a6"
 ORANGE = "#ff9f43"
 RED = "#ff6b6b"
 PURPLE = "#b794f4"
+
+
+@dataclass(frozen=True)
+class CanvasTheme:
+    """Neutral and semantic colors for one explainer presentation theme."""
+
+    name: str
+    background: str
+    background_2: str
+    foreground: str
+    muted: str
+    grid: str
+    blue: str
+    teal: str
+    yellow: str
+    pink: str
+    orange: str
+    red: str
+    purple: str
+
+
+DARK_THEME = CanvasTheme(
+    "dark",
+    BACKGROUND,
+    BACKGROUND_2,
+    FOREGROUND,
+    MUTED,
+    GRID,
+    BLUE,
+    TEAL,
+    YELLOW,
+    PINK,
+    ORANGE,
+    RED,
+    PURPLE,
+)
+LIGHT_THEME = CanvasTheme(
+    "light",
+    "#f4f0e6",
+    "#ebe4d6",
+    "#171717",
+    "#5e625f",
+    "#d6cebf",
+    "#2463a7",
+    "#087f6d",
+    "#946200",
+    "#b52d68",
+    "#ae4f0b",
+    "#ad2e24",
+    "#6b4bb4",
+)
+
+
+def theme_by_name(name: str) -> CanvasTheme:
+    """Resolve a serialized theme name to its complete palette."""
+    themes = {theme.name: theme for theme in (DARK_THEME, LIGHT_THEME)}
+    try:
+        return themes[name]
+    except KeyError as error:
+        raise ValueError(f"unknown explainer theme {name!r}") from error
 
 BODY_FONT = Path("/System/Library/Fonts/Avenir.ttc")
 MONO_FONT = Path("/System/Library/Fonts/SFNSMono.ttf")
@@ -64,17 +125,64 @@ def blend_hex(first: str, second: str, amount: float) -> str:
 class JewelCanvas:
     """Pillow-backed antialiased diagram canvas with a stable series palette."""
 
-    def __init__(self, width: int = WIDTH, height: int = HEIGHT) -> None:
+    def __init__(
+        self,
+        width: int = WIDTH,
+        height: int = HEIGHT,
+        *,
+        theme: CanvasTheme | str = DARK_THEME,
+    ) -> None:
         self.width = width
         self.height = height
-        self.image = Image.new("RGB", (width, height), BACKGROUND)
+        self.theme = theme_by_name(theme) if isinstance(theme, str) else theme
+        self.image = Image.new("RGB", (width, height), self.theme.background)
         self.draw = ImageDraw.Draw(self.image)
         self._background_grid()
 
+    def color(self, color: str) -> str:
+        """Map a series color constant into this canvas's active palette."""
+        dark = (
+            BACKGROUND,
+            BACKGROUND_2,
+            FOREGROUND,
+            MUTED,
+            GRID,
+            BLUE,
+            TEAL,
+            YELLOW,
+            PINK,
+            ORANGE,
+            RED,
+            PURPLE,
+        )
+        active = (
+            self.theme.background,
+            self.theme.background_2,
+            self.theme.foreground,
+            self.theme.muted,
+            self.theme.grid,
+            self.theme.blue,
+            self.theme.teal,
+            self.theme.yellow,
+            self.theme.pink,
+            self.theme.orange,
+            self.theme.red,
+            self.theme.purple,
+        )
+        return dict(zip(dark, active)).get(color, color)
+
+    def blend(self, color: str, amount: float) -> str:
+        """Blend one resolved palette color over this canvas's background."""
+        return blend_hex(self.theme.background, self.color(color), amount)
+
     def _background_grid(self) -> None:
         for x in range(-self.height, self.width + self.height, 64):
-            self.draw.line((x, 0, x - self.height, self.height), fill=GRID, width=1)
-        self.draw.rectangle((0, 0, self.width, 86), fill=BACKGROUND_2)
+            self.draw.line(
+                (x, 0, x - self.height, self.height), fill=self.theme.grid, width=1
+            )
+        self.draw.rectangle(
+            (0, 0, self.width, 86), fill=self.theme.background_2
+        )
 
     def font(self, size: int, *, family: str = "body") -> ImageFont.FreeTypeFont:
         key = (family, size)
@@ -98,7 +206,7 @@ class JewelCanvas:
             xy,
             value,
             font=self.font(size, family=family),
-            fill=blend_hex(BACKGROUND, color, alpha),
+            fill=self.blend(color, alpha),
             anchor=anchor,
         )
 
@@ -143,7 +251,7 @@ class JewelCanvas:
         width: int = 3,
         alpha: float = 1.0,
     ) -> None:
-        self.draw.line(points, fill=blend_hex(BACKGROUND, color, alpha), width=width, joint="curve")
+        self.draw.line(points, fill=self.blend(color, alpha), width=width, joint="curve")
 
     def arrow(
         self,
@@ -163,7 +271,7 @@ class JewelCanvas:
             (end[0] - length * math.cos(angle - wing), end[1] - length * math.sin(angle - wing)),
             (end[0] - length * math.cos(angle + wing), end[1] - length * math.sin(angle + wing)),
         ]
-        self.draw.polygon(head, fill=blend_hex(BACKGROUND, color, alpha))
+        self.draw.polygon(head, fill=self.blend(color, alpha))
 
     def rounded_rect(
         self,
@@ -178,8 +286,8 @@ class JewelCanvas:
         self.draw.rounded_rectangle(
             box,
             radius=radius,
-            fill=blend_hex(BACKGROUND, fill, alpha),
-            outline=blend_hex(BACKGROUND, outline, alpha),
+            fill=self.blend(fill, alpha),
+            outline=self.blend(outline, alpha),
             width=width,
         )
 
@@ -201,8 +309,8 @@ class JewelCanvas:
         )
         self.draw.ellipse(
             box,
-            fill=None if fill is None else blend_hex(BACKGROUND, fill, alpha),
-            outline=blend_hex(BACKGROUND, outline, alpha),
+            fill=None if fill is None else self.blend(fill, alpha),
+            outline=self.blend(outline, alpha),
             width=width,
         )
 
@@ -217,8 +325,8 @@ class JewelCanvas:
     ) -> None:
         self.draw.ellipse(
             box,
-            fill=None if fill is None else blend_hex(BACKGROUND, fill, alpha),
-            outline=blend_hex(BACKGROUND, outline, alpha),
+            fill=None if fill is None else self.blend(fill, alpha),
+            outline=self.blend(outline, alpha),
             width=width,
         )
 
@@ -234,8 +342,8 @@ class JewelCanvas:
         x, y = center
         self.draw.polygon(
             ((x, y - radius), (x + radius, y), (x, y + radius), (x - radius, y)),
-            fill=blend_hex(BACKGROUND, fill, alpha * 0.62),
-            outline=blend_hex(BACKGROUND, outline, alpha),
+            fill=self.blend(fill, alpha * 0.62),
+            outline=self.blend(outline, alpha),
         )
 
     def glow_dot(
@@ -249,15 +357,15 @@ class JewelCanvas:
         x, y = center
         self.draw.ellipse(
             (x - radius * 3, y - radius * 3, x + radius * 3, y + radius * 3),
-            fill=blend_hex(BACKGROUND, color, alpha * 0.12),
+            fill=self.blend(color, alpha * 0.12),
         )
         self.draw.ellipse(
             (x - radius * 1.8, y - radius * 1.8, x + radius * 1.8, y + radius * 1.8),
-            fill=blend_hex(BACKGROUND, color, alpha * 0.28),
+            fill=self.blend(color, alpha * 0.28),
         )
         self.draw.ellipse(
             (x - radius, y - radius, x + radius, y + radius),
-            fill=blend_hex(BACKGROUND, color, alpha),
+            fill=self.blend(color, alpha),
         )
 
     def polyline_partial(
@@ -308,7 +416,11 @@ class JewelCanvas:
         x = x0 + (x1 - x0 - candidate.width) // 2
         y = y0 + (y1 - y0 - candidate.height) // 2
         if alpha < 1:
-            candidate = Image.blend(Image.new("RGB", candidate.size, BACKGROUND), candidate, alpha)
+            candidate = Image.blend(
+                Image.new("RGB", candidate.size, self.theme.background),
+                candidate,
+                alpha,
+            )
         self.image.paste(candidate, (x, y))
         self.draw = ImageDraw.Draw(self.image)
 
@@ -318,12 +430,19 @@ class JewelCanvas:
         self.text((38, 116), shot_title, size=46, color=FOREGROUND)
 
     def footer(self, caption: str, progress: float) -> None:
-        self.draw.rectangle((0, 630, self.width, self.height), fill=BACKGROUND_2)
+        self.draw.rectangle(
+            (0, 630, self.width, self.height), fill=self.theme.background_2
+        )
         self.wrapped_text(
             (42, 650), caption, max_width=1140, size=23, color=FOREGROUND, line_gap=4
         )
-        self.draw.rectangle((0, self.height - 5, self.width, self.height), fill=GRID)
-        self.draw.rectangle((0, self.height - 5, round(self.width * clamp(progress)), self.height), fill=TEAL)
+        self.draw.rectangle(
+            (0, self.height - 5, self.width, self.height), fill=self.theme.grid
+        )
+        self.draw.rectangle(
+            (0, self.height - 5, round(self.width * clamp(progress)), self.height),
+            fill=self.theme.teal,
+        )
 
 
 def evenly_spaced(count: int, start: float, end: float) -> Iterable[float]:

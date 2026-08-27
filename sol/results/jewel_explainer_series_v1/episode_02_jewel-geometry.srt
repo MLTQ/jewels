@@ -19,133 +19,129 @@ Mathematicians call its smooth bell-shaped fade a Gaussian: it is strongest at t
 A visible frame is simply one slice through the blob.
 
 6
-00:00:23,180 --> 00:00:24,746
-A Jewel stores five things.
+00:00:23,180 --> 00:00:29,634
+This is a real fitted video of a singer at a microphone, built from six thousand four hundred seventy-one Jewels.
 
 7
-00:00:24,746 --> 00:00:27,065
-Its center says where and when it lives.
+00:00:29,634 --> 00:00:37,003
+We mark four strong, moving Jewels, fade away every other contribution, and follow those same four through all sixty-four frames.
 
 8
-00:00:27,065 --> 00:00:33,212
-A shape table says how wide it is and which way it tilts; the technical name for that table is covariance.
+00:00:37,003 --> 00:00:41,229
+Their centers move and their visible cross-sections change as time passes.
 
 9
-00:00:33,212 --> 00:00:36,054
-Base color says what it looks like at the center.
+00:00:41,229 --> 00:00:49,340
+We brighten the isolated view equally so the small contributions remain easy to see; their fitted positions, shapes, and colors are unchanged.
 
 10
-00:00:36,054 --> 00:00:39,243
-A color-change table says how that color varies nearby.
+00:00:50,040 --> 00:00:51,657
+A Jewel stores five things.
 
 11
-00:00:39,243 --> 00:00:42,896
-Finally, a strength value says how much this Jewel contributes.
+00:00:51,657 --> 00:00:54,053
+Its center says where and when it lives.
 
 12
-00:00:42,896 --> 00:00:45,100
-Together these use twenty-two numbers.
+00:00:54,053 --> 00:00:57,227
+Its shape says how wide it is and which way it tilts.
 
 13
-00:00:45,800 --> 00:00:50,290
-Imagine pushing a cucumber through that stack of frame sheets at an angle.
+00:00:57,227 --> 00:01:00,401
+Its base color says what it looks like at the center.
 
 14
-00:00:50,290 --> 00:00:56,540
-Each sheet cuts the cucumber at a slightly different horizontal position, so the slice appears to move.
+00:01:00,401 --> 00:01:03,696
+A color-change table says how that color varies nearby.
 
 15
-00:00:56,540 --> 00:00:58,602
-A tilted Jewel works the same way.
+00:01:03,696 --> 00:01:06,990
+Finally, a strength value says how much it contributes.
 
 16
-00:00:58,602 --> 00:01:01,576
-If it stretches mostly through time, it persists.
+00:01:06,990 --> 00:01:10,164
+The technical name for the shape table is covariance.
 
 17
-00:01:01,576 --> 00:01:06,854
-If it tilts across both space and time, its visible position moves from frame to frame.
+00:01:10,164 --> 00:01:12,440
+Together these use twenty-two numbers.
 
 18
-00:01:06,854 --> 00:01:09,160
-Motion is built into the shape itself.
+00:01:13,140 --> 00:01:17,415
+Imagine pushing a cucumber through that stack of frame sheets at an angle.
 
 19
-00:01:09,860 --> 00:01:12,506
-A round blob measures distance the usual way.
+00:01:17,415 --> 00:01:23,365
+Each sheet cuts the cucumber at a slightly different horizontal position, so the slice appears to move.
 
 20
-00:01:12,506 --> 00:01:14,270
-A long tilted blob should not.
+00:01:23,365 --> 00:01:25,329
+A tilted Jewel works the same way.
 
 21
-00:01:14,270 --> 00:01:18,975
-A point far along its long direction may still be close in the blob's own terms.
+00:01:25,329 --> 00:01:28,159
+If it stretches mostly through time, it persists.
 
 22
-00:01:18,975 --> 00:01:24,444
-The renderer therefore stretches and rotates the coordinate system before measuring distance.
+00:01:28,159 --> 00:01:33,185
+If it tilts across both space and time, its visible position moves from frame to frame.
 
 23
-00:01:24,444 --> 00:01:29,501
-The technical name is Mahalanobis distance; here it simply means shape-aware distance.
+00:01:33,185 --> 00:01:35,380
+Motion is built into the shape itself.
 
 24
-00:01:29,501 --> 00:01:32,500
-That distance controls how quickly the Jewel fades.
-
-25
-00:01:33,200 --> 00:01:35,811
+00:01:36,080 --> 00:01:38,691
 The base color describes the exact center.
 
-26
-00:01:35,811 --> 00:01:42,836
+25
+00:01:38,691 --> 00:01:45,716
 A small three-by-three table describes how red, green, and blue change when we move left, up, or forward in time.
 
-27
-00:01:42,836 --> 00:01:45,198
+26
+00:01:45,716 --> 00:01:48,078
 That table is called a color Jacobian.
 
-28
-00:01:45,198 --> 00:01:48,866
+27
+00:01:48,078 --> 00:01:51,746
 We will use the full name instead of unexplained shorthand.
 
-29
-00:01:48,866 --> 00:01:53,280
+28
+00:01:51,746 --> 00:01:56,160
 Think of it as three tiny color slopes, including a slope through time.
 
-30
-00:01:53,980 --> 00:01:57,916
+29
+00:01:56,860 --> 00:02:00,796
 At each pixel, every nearby Jewel paints a small amount of color.
 
-31
-00:01:57,916 --> 00:02:02,578
+30
+00:02:00,796 --> 00:02:05,458
 Strong, close Jewels contribute more; weak or distant Jewels contribute less.
 
-32
-00:02:02,578 --> 00:02:06,454
+31
+00:02:05,458 --> 00:02:09,334
 We simply add those contributions to a learned background color.
 
-33
-00:02:06,454 --> 00:02:12,812
+32
+00:02:09,334 --> 00:02:15,692
 This is called an additive renderer because the contributions are added, like overlapping pools of light.
 
-34
-00:02:12,812 --> 00:02:15,900
+33
+00:02:15,692 --> 00:02:18,780
 No Jewel must win exclusive ownership of the pixel.
 
-35
-00:02:16,600 --> 00:02:22,082
+34
+00:02:19,480 --> 00:02:24,962
 A Jewel fades forever in theory, but after five of its own widths the remaining effect is tiny.
 
-36
-00:02:22,082 --> 00:02:25,025
+35
+00:02:24,962 --> 00:02:27,905
 We call the region where it can matter its support.
 
-37
-00:02:25,025 --> 00:02:31,258
+36
+00:02:27,905 --> 00:02:34,138
 The renderer divides the volume into boxes so it can quickly find every Jewel whose support reaches a pixel.
 
-38
-00:02:31,258 --> 00:02:38,760
+37
+00:02:34,138 --> 00:02:41,640
 This is a filing system, not a placement grid: Jewel centers remain irregular, and long tilted shapes are not accidentally missed.

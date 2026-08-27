@@ -36,7 +36,7 @@ real speech, embeds exact proof assets, exports subtitles and scripts, and muxes
 ### `load_assets`
 
 - **Does**: Loads committed causal evidence images and decodes actual generated Jewel MP4 frames for
-  animation inserts.
+  animation inserts, including the fitted-field Jewel-isolation clip for episode 2.
 
 ### `focus_evidence_asset`
 
@@ -65,7 +65,8 @@ real speech, embeds exact proof assets, exports subtitles and scripts, and muxes
 ### `validate_specs` / `main`
 
 - **Does**: Enforces six numbered seven-shot episodes, registered visuals, existing claim sources,
-  valid timing, episode selection, inventory JSON, and six-poster contact sheet.
+  declared dark/light themes, valid timing, episode selection, inventory JSON, and six-poster
+  contact sheet.
 
 ## Contracts
 

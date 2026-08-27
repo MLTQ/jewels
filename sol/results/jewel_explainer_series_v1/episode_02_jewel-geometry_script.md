@@ -8,6 +8,8 @@ A soft shape that exists across position and time
 - `stprim/prior/featurize.py`
 - `stprim/models/render.py`
 - `stprim/models/tiled_support.py`
+- `sol/generate_jewel_isolation_asset.py`
+- `sol/results/jewel_explainer_series_v1/assets/actual_jewel_isolation.json`
 
 ## 1. A soft blob through time
 
@@ -15,23 +17,23 @@ Picture a video as a stack of transparent sheets, one sheet per frame. A Jewel i
 
 **On screen:** A Jewel is a soft Gaussian blob in left-right, up-down, and time.
 
-## 2. Five kinds of information
+## 2. Meet four actual Jewels
 
-A Jewel stores five things. Its center says where and when it lives. A shape table says how wide it is and which way it tilts; the technical name for that table is covariance. Base color says what it looks like at the center. A color-change table says how that color varies nearby. Finally, a strength value says how much this Jewel contributes. Together these use twenty-two numbers.
+This is a real fitted video of a singer at a microphone, built from six thousand four hundred seventy-one Jewels. We mark four strong, moving Jewels, fade away every other contribution, and follow those same four through all sixty-four frames. Their centers move and their visible cross-sections change as time passes. We brighten the isolated view equally so the small contributions remain easy to see; their fitted positions, shapes, and colors are unchanged.
 
-**On screen:** center(3) | shape(6) | base color(3) | color change(9) | strength(1)
+**On screen:** Full fitted video, then four actual Jewels, then full fitted video.
 
-## 3. Tilt creates motion
+## 3. Five kinds of information
+
+A Jewel stores five things. Its center says where and when it lives. Its shape says how wide it is and which way it tilts. Its base color says what it looks like at the center. A color-change table says how that color varies nearby. Finally, a strength value says how much it contributes. The technical name for the shape table is covariance. Together these use twenty-two numbers.
+
+**On screen:** center | shape | base color | nearby color change | strength
+
+## 4. Tilt creates motion
 
 Imagine pushing a cucumber through that stack of frame sheets at an angle. Each sheet cuts the cucumber at a slightly different horizontal position, so the slice appears to move. A tilted Jewel works the same way. If it stretches mostly through time, it persists. If it tilts across both space and time, its visible position moves from frame to frame. Motion is built into the shape itself.
 
 **On screen:** A tilted spacetime shape becomes motion when sliced into frames.
-
-## 4. Distance measured by the blob
-
-A round blob measures distance the usual way. A long tilted blob should not. A point far along its long direction may still be close in the blob's own terms. The renderer therefore stretches and rotates the coordinate system before measuring distance. The technical name is Mahalanobis distance; here it simply means shape-aware distance. That distance controls how quickly the Jewel fades.
-
-**On screen:** Shape-aware distance asks: how far is this point in the Jewel's own frame?
 
 ## 5. Color can vary nearby
 

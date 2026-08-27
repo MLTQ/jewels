@@ -13,19 +13,28 @@ the spoken explanation.
 ## Watch in order
 
 1. [How a prompt becomes a video](episode_01_prompt-to-program.mp4) — 2:36
-2. [What is a spacetime Gaussian Jewel?](episode_02_jewel-geometry.mp4) — 2:39
+2. [What is a spacetime Gaussian Jewel?](episode_02_jewel-geometry.mp4) — 2:42
 3. [Giving the model a Jewel vocabulary](episode_03_native-vocabulary.mp4) — 2:41
 4. [Why motion needs a persistent owner](episode_04_coherence-trajectories.mp4) — 2:30
 5. [How we decide whether it really works](episode_05_evidence-gates.mp4) — 2:37
 6. [What would turn this into text-to-video?](episode_06_scaling-to-t2v.mp4) — 3:01
 
-Total runtime: 16 minutes 4 seconds.
+Total runtime: 16 minutes 7 seconds.
 
 Each MP4 is 1280×720 H.264 with mono AAC narration and embedded English subtitles. Matching
 sidecar `.srt` files, verbatim narration scripts, and posters are included for editing and review.
 The [six-episode contact sheet](series_contact_sheet.png),
 [42-shot QA sheet](all_shots_contact_sheet.png), and complete
 [media/provenance inventory](inventory.json) support visual and technical review.
+
+Episode 2 deliberately switches to an eggshell background with black copy. Its opening frame sheet
+moves along the drawn diagonal time axis. The next shot starts with a recognizable fitted singer
+video, identifies four actual checkpoint rows, fades every other contribution away, follows the
+selected Gaussian cross-sections through all 64 source frames, and restores the complete render.
+The isolated view's declared exposure gain makes small contributions legible without changing their
+fitted centers, shapes, color directions, or time evolution. See the
+[isolation contact sheet](assets/actual_jewel_isolation_contact.png) and
+[row-level provenance](assets/actual_jewel_isolation.json).
 
 ## What JRGB meant
 
@@ -61,6 +70,20 @@ the committed original officer-style reference audio:
 Every shot records its deterministic seed, timing bound, audio-token ceiling, accepted attempt,
 reference hash, and synthesis settings in `inventory.json`. The renderer rejects abnormally short,
 long, or token-cap-hitting takes. A macOS `say` backend remains available only as a local fallback.
+
+The actual-Jewel insert is separately reproducible on a CUDA PyTorch host from the committed 586 KB
+checkpoint:
+
+```bash
+python sol/generate_jewel_isolation_asset.py \
+  --checkpoint sol/results/jewel_explainer_series_v1/assets/singer_field_additive_seed0.pt \
+  --out sol/results/jewel_explainer_series_v1/assets/actual_jewel_isolation.mp4 \
+  --device cuda:0 --fps 12 --upscale 2 --display-gain 8
+```
+
+Its JSON freezes the checkpoint SHA-256, four selected field indices, covariance matrices,
+conditional screen velocities, selection scores, full/isolated render policies, and all 108 output
+timeline frames.
 
 ## Narration identity
 

@@ -23,6 +23,7 @@ class Episode:
     subtitle: str
     sources: tuple[str, ...]
     shots: tuple[Shot, ...]
+    theme: str = "dark"
 
 
 EPISODES = (
@@ -99,6 +100,8 @@ EPISODES = (
             "stprim/prior/featurize.py",
             "stprim/models/render.py",
             "stprim/models/tiled_support.py",
+            "sol/generate_jewel_isolation_asset.py",
+            "sol/results/jewel_explainer_series_v1/assets/actual_jewel_isolation.json",
         ),
         (
             Shot(
@@ -109,9 +112,16 @@ EPISODES = (
                 {"mode": "slice", "foreground": 0, "background": 0},
             ),
             Shot(
+                "Meet four actual Jewels",
+                "This is a real fitted video of a singer at a microphone, built from six thousand four hundred seventy-one Jewels. We mark four strong, moving Jewels, fade away every other contribution, and follow those same four through all sixty-four frames. Their centers move and their visible cross-sections change as time passes. We brighten the isolated view equally so the small contributions remain easy to see; their fitted positions, shapes, and colors are unchanged.",
+                "Full fitted video, then four actual Jewels, then full fitted video.",
+                "jewel-isolation",
+                {"clip": "actual-jewels", "count": 4},
+            ),
+            Shot(
                 "Five kinds of information",
-                "A Jewel stores five things. Its center says where and when it lives. A shape table says how wide it is and which way it tilts; the technical name for that table is covariance. Base color says what it looks like at the center. A color-change table says how that color varies nearby. Finally, a strength value says how much this Jewel contributes. Together these use twenty-two numbers.",
-                "center(3) | shape(6) | base color(3) | color change(9) | strength(1)",
+                "A Jewel stores five things. Its center says where and when it lives. Its shape says how wide it is and which way it tilts. Its base color says what it looks like at the center. A color-change table says how that color varies nearby. Finally, a strength value says how much it contributes. The technical name for the shape table is covariance. Together these use twenty-two numbers.",
+                "center | shape | base color | nearby color change | strength",
                 "feature-vector",
                 {"segments": [("center", 3, 0), ("shape", 6, 1), ("color", 3, 2), ("color change", 9, 3), ("strength", 1, 4)]},
             ),
@@ -121,13 +131,6 @@ EPISODES = (
                 "A tilted spacetime shape becomes motion when sliced into frames.",
                 "equation",
                 {"equation": "shape = widths + tilt through (u, v, time)", "diagram": "ellipsoid"},
-            ),
-            Shot(
-                "Distance measured by the blob",
-                "A round blob measures distance the usual way. A long tilted blob should not. A point far along its long direction may still be close in the blob's own terms. The renderer therefore stretches and rotates the coordinate system before measuring distance. The technical name is Mahalanobis distance; here it simply means shape-aware distance. That distance controls how quickly the Jewel fades.",
-                "Shape-aware distance asks: how far is this point in the Jewel's own frame?",
-                "equation",
-                {"equation": "fade = exp(-0.5 × shape-aware distance²)", "diagram": "distance"},
             ),
             Shot(
                 "Color can vary nearby",
@@ -151,6 +154,7 @@ EPISODES = (
                 {"sigma": 5.0, "boundary": "0.0000037", "neighbors": 27},
             ),
         ),
+        theme="light",
     ),
     Episode(
         3,

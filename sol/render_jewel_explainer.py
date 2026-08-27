@@ -477,6 +477,16 @@ def load_assets(project_root: Path) -> dict[str, Any]:
     for name, path in clip_paths.items():
         if path is not None:
             assets[f"clip:{name}"] = decode_video_frames(path)
+    isolation_path = (
+        project_root
+        / "sol"
+        / "results"
+        / "jewel_explainer_series_v1"
+        / "assets"
+        / "actual_jewel_isolation.mp4"
+    )
+    if isolation_path.exists():
+        assets["clip:actual-jewels"] = decode_video_frames(isolation_path)
     return assets
 
 
@@ -690,6 +700,10 @@ def validate_specs(project_root: Path) -> None:
     for episode in EPISODES:
         if len(episode.shots) != 7:
             raise ValueError(f"episode {episode.number} must contain seven shots")
+        if episode.theme not in {"dark", "light"}:
+            raise ValueError(
+                f"episode {episode.number} has unknown theme {episode.theme!r}"
+            )
         for source in episode.sources:
             if not (project_root / source).exists():
                 raise FileNotFoundError(f"episode source does not exist: {source}")
@@ -810,7 +824,7 @@ def main() -> None:
             "speech_rate": (
                 narration_config.say_rate if narration_config.backend == "say" else None
             ),
-            "style": "original dark mathematical vector animation",
+            "style": "original mathematical vector animation; episode 2 uses an eggshell light palette",
         },
     }
     inventory_path.write_text(json.dumps(inventory, indent=2) + "\n")
