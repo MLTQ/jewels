@@ -1,0 +1,16 @@
+{
+  "name": "jewel-spacetime-viewer",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "three": "0.179.1"
+  },
+  "devDependencies": {
+    "vite": "7.3.6"
+  }
+}

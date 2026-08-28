@@ -1,0 +1,257 @@
+:root {
+  color: #161817;
+  background: #f4f0e6;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-synthesis: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background:
+    linear-gradient(135deg, rgba(8, 127, 109, 0.055) 0, rgba(8, 127, 109, 0.055) 1px, transparent 1px, transparent 28px),
+    #f4f0e6;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.viewer-shell {
+  width: min(1500px, 100%);
+  min-height: 680px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-rows: auto auto auto;
+  padding: 28px clamp(18px, 3vw, 48px) 30px;
+  gap: 18px;
+}
+
+.viewer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 24px;
+}
+
+.eyebrow,
+.interaction-hint,
+.viewer-note {
+  margin: 0;
+  color: #5b605d;
+}
+
+.eyebrow {
+  margin-bottom: 8px;
+  color: #087f6d;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  max-width: 900px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2rem, 4vw, 4.2rem);
+  font-weight: 400;
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+}
+
+.interaction-hint {
+  padding-bottom: 6px;
+  white-space: nowrap;
+}
+
+.stage-wrap {
+  position: relative;
+  height: clamp(400px, 56vh, 520px);
+  min-height: 400px;
+  overflow: hidden;
+  border: 1px solid rgba(22, 24, 23, 0.16);
+  border-radius: 4px;
+  background: rgba(244, 240, 230, 0.68);
+}
+
+#volume-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+  touch-action: none;
+}
+
+.loading-state,
+.error-state {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  transform: translate(-50%, -50%);
+  padding: 12px 16px;
+  background: rgba(244, 240, 230, 0.92);
+}
+
+.error-state {
+  max-width: 520px;
+  color: #a1252c;
+}
+
+.axis-label {
+  position: absolute;
+  pointer-events: none;
+  color: #555b58;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.76rem;
+  letter-spacing: 0.04em;
+}
+
+.axis-space {
+  left: 18px;
+  top: 16px;
+}
+
+.axis-time {
+  right: 18px;
+  top: 16px;
+  color: #087f6d;
+}
+
+.legend {
+  position: absolute;
+  left: 18px;
+  bottom: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 20px;
+  padding: 9px 12px;
+  background: rgba(244, 240, 230, 0.88);
+  color: #343836;
+  font-size: 0.76rem;
+}
+
+.legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.legend i {
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+}
+
+.legend-dot {
+  border-radius: 50%;
+  background: #b52d68;
+}
+
+.legend-shell {
+  border: 1px solid #2463a7;
+  border-radius: 50%;
+}
+
+.legend-slice {
+  background: rgba(8, 127, 109, 0.24);
+  border: 2px solid #087f6d;
+}
+
+.transport {
+  display: grid;
+  grid-template-columns: auto minmax(160px, 1fr);
+  gap: 10px 18px;
+  align-items: center;
+}
+
+#play-button {
+  grid-row: 1 / 3;
+  min-width: 112px;
+  align-self: stretch;
+  border: 0;
+  border-radius: 3px;
+  padding: 12px 18px;
+  color: #f8f4ea;
+  background: #087f6d;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+#play-button:disabled {
+  cursor: wait;
+  opacity: 0.48;
+}
+
+#play-button:focus-visible,
+#frame-slider:focus-visible {
+  outline: 3px solid rgba(36, 99, 167, 0.42);
+  outline-offset: 3px;
+}
+
+.play-icon {
+  display: inline-block;
+  width: 1.4em;
+}
+
+.scrubber-label {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  font-size: 0.82rem;
+  font-weight: 650;
+}
+
+#frame-readout {
+  color: #087f6d;
+  font-variant-numeric: tabular-nums;
+}
+
+#frame-slider {
+  width: 100%;
+  accent-color: #087f6d;
+}
+
+.viewer-note {
+  grid-column: 2;
+  font-size: 0.8rem;
+}
+
+@media (max-width: 720px) {
+  .viewer-shell {
+    grid-template-rows: auto auto auto;
+  }
+
+  .viewer-header {
+    align-items: start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .stage-wrap,
+  #volume-canvas {
+    height: clamp(380px, 54vh, 460px);
+    min-height: 400px;
+  }
+
+  .legend {
+    right: 18px;
+  }
+
+  .transport {
+    grid-template-columns: 1fr;
+  }
+
+  #play-button {
+    grid-row: auto;
+  }
+
+  .viewer-note {
+    grid-column: 1;
+  }
+}

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Interactive Three.js cross-section of a fitted spacetime Gaussian Jewel video.">
+  <title>Jewel spacetime viewer</title>
+</head>
+<body>
+<div id="jewel-viewer" class="viewer-shell">
+  <header class="viewer-header">
+    <div>
+      <p class="eyebrow">One fitted video · 6,471 spacetime Gaussians</p>
+      <h1>A video is a slice through a Jewel field</h1>
+    </div>
+    <p class="interaction-hint">Drag to orbit · scroll to zoom</p>
+  </header>
+
+  <main class="stage-wrap">
+    <canvas id="volume-canvas" aria-label="Orbitable spacetime Jewel volume with a moving video-frame cross-section"></canvas>
+    <div id="loading-state" class="loading-state" role="status">Loading fitted Jewel field…</div>
+    <div id="error-state" class="error-state" role="alert" hidden></div>
+    <div class="axis-label axis-space">space (u, v)</div>
+    <div class="axis-label axis-time">time (t) →</div>
+    <div class="legend" aria-label="Viewer legend">
+      <span><i class="legend-dot"></i> all fitted centroids</span>
+      <span><i class="legend-shell"></i> strongest covariance shells</span>
+      <span><i class="legend-slice"></i> current video frame</span>
+    </div>
+  </main>
+
+  <section class="transport" aria-label="Playback controls">
+    <button id="play-button" type="button" disabled aria-pressed="false">
+      <span class="play-icon" aria-hidden="true">▶</span>
+      <span class="play-label">Play</span>
+    </button>
+    <label class="scrubber-label" for="frame-slider">
+      <span>Cross-section</span>
+      <span id="frame-readout">frame 1 / 64</span>
+    </label>
+    <input id="frame-slider" type="range" min="0" max="63" value="0" step="1" disabled>
+    <p class="viewer-note">
+      The teal playhead moves only along time. Its image is rendered live from all Jewels intersecting that instant.
+    </p>
+  </section>
+</div>
+
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>

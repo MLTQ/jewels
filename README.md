@@ -330,6 +330,25 @@ python -m sol.render_prompt_video \
 The demo is experimental and requires the frozen model artifacts documented in
 [the demo report](sol/results/jewel_prompt_demo_v1/README.md).
 
+## Explore a fitted video as spacetime
+
+The [Three.js spacetime viewer](sol/spacetime_viewer/README.md) loads an actual 6,471-Jewel fitted
+video as an orbitable `(u,v,t)` volume. Every centroid is visible, representative covariance shells
+show how individual Jewels tilt through time, and a teal frame plane renders the live Gaussian
+cross-section while it moves along `t`.
+
+![Three.js Jewel spacetime viewer](sol/spacetime_viewer/preview.png)
+
+~~~bash
+python -m sol.export_spacetime_viewer
+cd sol/spacetime_viewer
+npm install
+npm run dev
+~~~
+
+The frame plane is not a pre-rendered movie pasted into a scene: the browser recomputes the current
+slice from all 6,471 fitted Jewels as the playhead advances.
+
 ## Earlier experimental history
 
 The repository retains earlier experiments with their tested scope.

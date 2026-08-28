@@ -8,3 +8,5 @@ jewels.tar.gz
 
 # Reproducible local experiment weights; metrics and visual artifacts are tracked.
 sol/results/streaming_continuation_*/continuation.pt
+sol/spacetime_viewer/node_modules/
+sol/spacetime_viewer/dist/
